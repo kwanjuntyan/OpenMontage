@@ -1,0 +1,92 @@
+identity:
+  name: "Vox Explainer"
+  category: "motion-graphics"
+  mood: "investigative, authoritative, sharp, intellectual"
+  pace: "moderate"
+  best_for: "Journalistic explainers, policy breakdown, deep-dive courses, ESG analysis, PDCA quality control"
+
+visual_language:
+  color_palette:
+    primary: ["#111111", "#1E1E24"]
+    accent: ["#FFE600", "#FF4444"]
+    background: "#F5F4EF"
+    text: "#121212"
+    muted: "#666666"
+  composition: "editorial, asymmetric collage, golden-ratio split frames"
+  texture: "subtle newspaper grain, high-contrast monochrome photo collage"
+
+typography:
+  headings:
+    font: "Futura, 'Inter Black', sans-serif"
+    weight: 800
+    tracking: "-0.03em"
+  body:
+    font: "Georgia, 'Times New Roman', serif"
+    weight: 400
+    line_height: 1.65
+  stat_card:
+    font: "Futura, sans-serif"
+    weight: 900
+    size_multiplier: 3.2
+
+motion:
+  transitions: ["fade", "dissolve"]
+  animation_style: "crisp, mechanical, high-friction ease"
+  pacing_rules:
+    min_scene_hold_seconds: 2.0
+    max_scene_hold_seconds: 10.0
+    text_card_hold_seconds: 3.0
+    stat_card_hold_seconds: 3.0
+    transition_duration_seconds: 0.3
+  entrance: "slide-up with snap"
+  exit: "fade-out"
+
+audio:
+  voice_style: "investigative documentary, calm, articulate, analytical, slight gravitas"
+  music_mood: "minimalist investigative pulse, subtle synth beats, neutral piano"
+  music_volume: 0.08
+  sfx_style: "typewriter keystrokes, camera shutter, paper rustle, cassette clicks, subtle bass hit"
+  ducking_threshold_db: -3
+
+asset_generation:
+  image_prompt_prefix: "Vox style documentary visual, high-contrast archival photo collage, editorial newspaper background, subtle grain, "
+  image_negative_prompt: "cartoon, 3d glossy render, anime, vibrant rainbow colors, soft blurred dreamy"
+  diagram_style: "bold geometry, high contrast, clean vector arrows"
+  consistency_anchors:
+    - "Newspaper paper-white background (#F5F4EF) and bold black (#111111)"
+    - "Bright Vox yellow highlight (#FFE600) on key focus elements"
+    - "Archival documentary texture with subtle grain"
+
+overlays:
+  stat_card:
+    bg: "#111111"
+    border: "#FFE600"
+    radius: 4
+    shadow: "0 4px 12px rgba(0,0,0,0.15)"
+  key_term:
+    bg: "#FFE600"
+    text: "#111111"
+    radius: 2
+  code_block:
+    bg: "#1E1E24"
+    text: "#F5F4EF"
+    highlight: "#FFE600"
+
+quality_rules:
+  - "Minimum contrast ratio 4.5:1 for all text"
+  - "Highlight key concepts with yellow marker accent"
+  - "No decorative gradients; use high-contrast editorial hierarchy"
+  - "Hold focal moments 2.0s minimum"
+
+chart_palette:
+  - "#FFE600"
+  - "#111111"
+  - "#FF4444"
+  - "#2563EB"
+  - "#10B981"
+  - "#8B5CF6"
+
+color_rules:
+  harmony_type: "complementary"
+  contrast_validation: true
+  colorblind_safe: true

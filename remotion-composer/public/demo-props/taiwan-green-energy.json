@@ -1,0 +1,86 @@
+{
+  "theme": "flat-motion-graphics",
+  "cuts": [
+    {
+      "id": "energy-title",
+      "source": "",
+      "type": "hero_title",
+      "in_seconds": 0,
+      "out_seconds": 6.0,
+      "text": "台灣能源轉型關鍵數字",
+      "subtitle": "Taiwan Green Energy Transformation",
+      "accentColor": "#10B981",
+      "textColor": "#F8FAFC",
+      "subtitleColor": "#6EE7B7",
+      "backgroundColor": "#0B132B"
+    },
+    {
+      "id": "energy-stat",
+      "source": "",
+      "type": "stat_card",
+      "in_seconds": 6.0,
+      "out_seconds": 13.0,
+      "stat": "300 億度",
+      "subtitle": "再生能源年度發電量突破歷史新高",
+      "statFontSize": 100,
+      "subtitleFontSize": 32,
+      "accentColor": "#10B981",
+      "color": "#F8FAFC",
+      "backgroundColor": "#0B132B"
+    },
+    {
+      "id": "energy-bars",
+      "source": "",
+      "type": "bar_chart",
+      "in_seconds": 13.0,
+      "out_seconds": 22.0,
+      "title": "主要綠能發電結構佔比",
+      "chartData": [
+        { "label": "太陽光電 (Solar)", "value": 55 },
+        { "label": "風力發電 (Wind)", "value": 32 },
+        { "label": "水力發電 (Hydro)", "value": 13 }
+      ],
+      "chartColors": ["#10B981", "#34D399", "#059669"],
+      "showGrid": true,
+      "showValues": true,
+      "backgroundColor": "#0B132B"
+    },
+    {
+      "id": "energy-close",
+      "source": "",
+      "type": "text_card",
+      "in_seconds": 22.0,
+      "out_seconds": 30.0,
+      "text": "邁向 2050 淨零碳排 ── 打造永續潔淨島嶼",
+      "fontSize": 48,
+      "color": "#10B981",
+      "backgroundColor": "#0B132B"
+    }
+  ],
+  "overlays": [
+    {
+      "type": "section_title",
+      "in_seconds": 6.5,
+      "out_seconds": 10.5,
+      "text": "發電里程碑",
+      "accentColor": "#10B981",
+      "position": "top-left"
+    },
+    {
+      "type": "section_title",
+      "in_seconds": 13.5,
+      "out_seconds": 18.0,
+      "text": "結構分佈",
+      "accentColor": "#10B981",
+      "position": "top-left"
+    },
+    {
+      "type": "section_title",
+      "in_seconds": 22.5,
+      "out_seconds": 27.0,
+      "text": "永續願景",
+      "accentColor": "#10B981",
+      "position": "top-left"
+    }
+  ]
+}

@@ -1,0 +1,95 @@
+identity:
+  name: "Vox Paper Collage"
+  category: "motion-graphics"
+  mood: "investigative, tactile, craft-documentary, analytical, engaging"
+  pace: "moderate"
+  best_for: "Stop-motion paper collage explainers, Vox-style historical & business case studies, PDCA quality control"
+
+visual_language:
+  color_palette:
+    primary: ["#111111", "#1E1E24"]
+    accent: ["#FFE600", "#FF4444"]
+    background: "#F5F4EF"
+    text: "#121212"
+    muted: "#666666"
+  composition: "editorial tabletop collage, tactile paper layers, physical drop shadows, self-assembling frames"
+  texture: "aged newsprint, grid-paper backdrop, halftone dot cut-outs, crisp paper edges, visible drop shadows"
+
+typography:
+  headings:
+    font: "Futura, 'Inter Black', sans-serif"
+    weight: 800
+    tracking: "-0.03em"
+  body:
+    font: "Georgia, 'Times New Roman', serif"
+    weight: 400
+    line_height: 1.65
+  stat_card:
+    font: "Futura, sans-serif"
+    weight: 900
+    size_multiplier: 3.2
+
+motion:
+  transitions: ["fade", "dissolve", "fadewhite"]
+  animation_style: "snappy 12 FPS stop-motion paper movement, zero motion blur, self-assembling cut-outs sliding and snapping into place every 1.5-2s"
+  pacing_rules:
+    min_scene_hold_seconds: 2.0
+    max_scene_hold_seconds: 8.0
+    text_card_hold_seconds: 2.5
+    stat_card_hold_seconds: 3.0
+    transition_duration_seconds: 0.25
+  entrance: "slide-in with snap"
+  exit: "quick cut or fold-out"
+
+audio:
+  voice_style: "investigative documentary, articulate, deliberate pacing, slight gravitas"
+  music_mood: "minimalist investigative pulse, subtle analog tape texture, syncopated clockwork beat"
+  music_volume: 0.10
+  sfx_style: "typewriter keystrokes, camera shutter click, paper rustle, cassette clicks, subtle paper stamp thud"
+  ducking_threshold_db: -4
+
+asset_generation:
+  image_prompt_prefix: "Vox paper-collage documentary visual, tactile paper cut-outs, aged newsprint backdrop, halftone photo engravings, physical drop shadows, 12 FPS stop-motion aesthetic, "
+  image_negative_prompt: "smooth 3D render, glossy plastic, motion blur, smooth digital CGI, anime, vibrant rainbow gradient, low contrast blurry"
+  diagram_style: "bold geometry, high contrast, clean vector arrows, hand-drawn circle marks"
+  consistency_anchors:
+    - "Aged newsprint / grid-paper backdrop (#F5F4EF) with physical paper cut-out drop shadows"
+    - "Halftone black-and-white or duotone cut-outs with crisp scissors-cut edges"
+    - "Highlighter accents in Vox yellow (#FFE600) and alert red (#FF4444)"
+    - "Hand-drawn scribbled arrows, circles, and paper labels"
+    - "12 FPS stop-motion cadence with zero motion blur"
+
+overlays:
+  stat_card:
+    bg: "#111111"
+    border: "#FFE600"
+    radius: 4
+    shadow: "0 4px 12px rgba(0,0,0,0.15)"
+  key_term:
+    bg: "#FFE600"
+    text: "#111111"
+    radius: 2
+  code_block:
+    bg: "#1E1E24"
+    text: "#F5F4EF"
+    highlight: "#FFE600"
+
+quality_rules:
+  - "Minimum contrast ratio 4.5:1 for all text"
+  - "Highlight key concepts with yellow highlighter box or red underline"
+  - "No decorative gradients; use high-contrast editorial hierarchy"
+  - "Hold focal moments 2.0s minimum"
+  - "Every scene must construct itself or advance visually every 1.5-2.0 seconds"
+
+chart_palette:
+  - "#FFE600"
+  - "#111111"
+  - "#FF4444"
+  - "#2563EB"
+  - "#10B981"
+  - "#8B5CF6"
+
+color_rules:
+  harmony_type: "complementary"
+  contrast_validation: true
+  colorblind_safe: true

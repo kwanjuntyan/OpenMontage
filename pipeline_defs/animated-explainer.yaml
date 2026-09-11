@@ -54,8 +54,10 @@ compatible_playbooks:
   recommended:
     - clean-professional
     - flat-motion-graphics
+    - vox-paper-collage
   also_works:
     - minimalist-diagram
+    - vox-explainer
   custom_allowed: true
 
 stages:
