@@ -9,10 +9,16 @@ from __future__ import annotations
 
 import asyncio
 import json
+import mimetypes
 import time
 from contextlib import asynccontextmanager, suppress
 from pathlib import Path
 from typing import Optional
+
+# Ensure standard MIME types on Windows (where .js is often mapped to text/plain)
+mimetypes.add_type("application/javascript", ".js")
+mimetypes.add_type("text/javascript", ".js")
+mimetypes.add_type("text/css", ".css")
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, HTMLResponse, StreamingResponse
@@ -273,7 +279,7 @@ def create_app() -> FastAPI:
             raise HTTPException(status_code=403, detail="path escapes project")
         if not target.is_file():
             raise HTTPException(status_code=404, detail="media not found")
-        return FileResponse(target)
+        return FileResponse(target, headers={"Cache-Control": "no-cache, must-revalidate"})
 
     # ---- UI ------------------------------------------------------------
 

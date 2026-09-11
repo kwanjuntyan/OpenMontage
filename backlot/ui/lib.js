@@ -53,8 +53,9 @@ export function fmtClock(iso) {
   }
 }
 
-export function mediaURL(projectId, relPath) {
-  return `/media/${encodeURIComponent(projectId)}/${relPath.split("/").map(encodeURIComponent).join("/")}`;
+export function mediaURL(projectId, relPath, v = null) {
+  const base = `/media/${encodeURIComponent(projectId)}/${relPath.split("/").map(encodeURIComponent).join("/")}`;
+  return v ? `${base}?v=${v}` : base;
 }
 
 // Downscaled cached JPEG for images (full media only in players/lightbox).
