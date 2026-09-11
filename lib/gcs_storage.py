@@ -40,8 +40,31 @@ class GCSStorage:
         if not self._checked:
             try:
                 from google.cloud import storage
-                self._client = storage.Client()
-                self._bucket = self._client.bucket(self.bucket_name)
+                gcs_key = os.environ.get("GCS_APPLICATION_CREDENTIALS", "").strip()
+                gcs_proj = os.environ.get("GCS_PROJECT_ID", "").strip() or None
+
+                if gcs_key and Path(gcs_key).is_file():
+                    self._client = storage.Client.from_service_account_json(gcs_key, project=gcs_proj)
+                    self._bucket = self._client.bucket(self.bucket_name)
+                else:
+                    # Try standard client; if 403 occurs (e.g. GOOGLE_APPLICATION_CREDENTIALS is a Vertex-only key),
+                    # fallback to Application Default Credentials (ADC).
+                    try:
+                        self._client = storage.Client(project=gcs_proj)
+                        self._bucket = self._client.bucket(self.bucket_name)
+                        # Quick probe
+                        self._bucket.exists()
+                    except Exception:
+                        from google.auth import default
+                        orig_key = os.environ.pop("GOOGLE_APPLICATION_CREDENTIALS", None)
+                        try:
+                            creds, proj = default()
+                            self._client = storage.Client(credentials=creds, project=gcs_proj or proj)
+                            self._bucket = self._client.bucket(self.bucket_name)
+                        finally:
+                            if orig_key:
+                                os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = orig_key
+
                 self._checked = True
             except Exception as e:
                 print(f"[GCS] Initialization notice: {e}")
