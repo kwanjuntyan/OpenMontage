@@ -210,14 +210,45 @@ def _instrument_execute(fn: Callable) -> Callable:
             project_dir = infer_project_dir(inputs)
         if project_dir is not None:
             cost = getattr(result, "cost_usd", None)
+            is_success = getattr(result, "success", None)
             emit_event(project_dir, {
                 **base, "event": "finish",
                 "output_path": str(output_path) if output_path else None,
-                "success": getattr(result, "success", None),
+                "success": is_success,
                 # NOTE: 0.0 is meaningful (ran for free) — only None is dropped.
                 "cost_usd": cost if isinstance(cost, (int, float)) else None,
                 "duration_s": round(time.monotonic() - started, 2),
             })
+
+            # Auto-upload newly generated media asset to GCS in background (non-blocking)
+            if is_success:
+                try:
+                    candidates = []
+                    if output_path:
+                        candidates.append(output_path)
+                    if hasattr(result, "artifacts") and isinstance(result.artifacts, list):
+                        candidates.extend(result.artifacts)
+                    if hasattr(result, "data") and isinstance(result.data, dict):
+                        for k in ("output_path", "video_path", "audio_path", "image_path"):
+                            val = result.data.get(k)
+                            if val:
+                                candidates.append(val)
+
+                    from lib.gcs_storage import gcs_storage
+                    if gcs_storage.is_auto_sync_enabled():
+                        media_exts = {".mp4", ".webm", ".mov", ".mp3", ".wav", ".png", ".jpg", ".jpeg", ".webp"}
+                        proj_id = project_dir.name
+                        for c in candidates:
+                            p = Path(c)
+                            if p.is_file() and p.suffix.lower() in media_exts:
+                                try:
+                                    rel = p.resolve().relative_to(project_dir.resolve())
+                                    gcs_storage.async_upload_single_asset(proj_id, p, rel_path=str(rel))
+                                except Exception:
+                                    pass
+                except Exception:
+                    pass
+
         return result
 
     wrapper._backlot_instrumented = True  # type: ignore[attr-defined]

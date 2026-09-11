@@ -14,8 +14,9 @@ from __future__ import annotations
 
 import os
 import mimetypes
+import threading
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Callable
 
 try:
     from dotenv import load_dotenv
@@ -313,6 +314,81 @@ class GCSStorage:
     def get_public_url(self, blob_name: str) -> str:
         """Returns standard public storage URL for a given blob name."""
         return f"https://storage.googleapis.com/{self.bucket_name}/{blob_name}"
+
+    def is_auto_sync_enabled(self) -> bool:
+        """Checks if GCS auto-sync is enabled (default: true if bucket is configured)."""
+        val = os.environ.get("GCS_AUTO_SYNC", "true").strip().lower()
+        if val in ("0", "false", "no", "off"):
+            return False
+        return self.is_configured()
+
+    def async_sync_project_assets(
+        self,
+        project_dir: str | Path,
+        on_complete: Optional[Callable[[dict[str, str]], None]] = None,
+    ) -> Optional[threading.Thread]:
+        """Executes sync_project_assets in a background daemon thread."""
+        if not self.is_auto_sync_enabled():
+            return None
+
+        p_dir = Path(project_dir)
+
+        def _worker():
+            try:
+                results = self.sync_project_assets(p_dir)
+                if on_complete and callable(on_complete):
+                    on_complete(results)
+            except Exception as e:
+                print(f"[GCS Auto-Sync] Background sync error for {p_dir.name}: {e}")
+
+        t = threading.Thread(target=_worker, name=f"gcs-sync-{p_dir.name}", daemon=True)
+        t.start()
+        return t
+
+    def async_upload_single_asset(
+        self,
+        project_id: str,
+        local_path: str | Path,
+        rel_path: Optional[str] = None,
+    ) -> Optional[threading.Thread]:
+        """Uploads a single asset asynchronously in a daemon thread and updates manifest."""
+        if not self.is_auto_sync_enabled():
+            return None
+
+        local_file = Path(local_path)
+        if not local_file.is_file():
+            return None
+
+        def _worker():
+            try:
+                url = self.upload_asset(project_id, local_file, rel_path=rel_path)
+                if not url:
+                    return
+                # Update manifest if project dir can be resolved
+                from lib.paths import PROJECTS_DIR
+                p_dir = PROJECTS_DIR / project_id
+                manifest_path = p_dir / "artifacts" / "asset_manifest.json"
+                if manifest_path.is_file():
+                    import json
+                    filename = local_file.name
+                    with open(manifest_path, "r", encoding="utf-8") as f:
+                        manifest = json.load(f)
+                    changed = False
+                    for asset in manifest.get("assets", []):
+                        ap = asset.get("path", "").replace("\\", "/")
+                        if ap.endswith(f"/{filename}") or ap == filename or (rel_path and ap == rel_path):
+                            if asset.get("gcs_url") != url:
+                                asset["gcs_url"] = url
+                                changed = True
+                    if changed:
+                        with open(manifest_path, "w", encoding="utf-8") as f:
+                            json.dump(manifest, f, indent=2, ensure_ascii=False)
+            except Exception as e:
+                print(f"[GCS Auto-Sync] Single asset background upload notice: {e}")
+
+        t = threading.Thread(target=_worker, name=f"gcs-upload-{local_file.name}", daemon=True)
+        t.start()
+        return t
 
 
 # Singleton instance for import throughout OpenMontage

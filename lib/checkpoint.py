@@ -561,6 +561,16 @@ def write_checkpoint(
     import os
     os.replace(tmp_path, path)
 
+    # Automatic non-blocking GCS sync for media stages (shot videos, audio, images, renders)
+    if stage in {"assets", "edit", "compose"} and status in {"completed", "awaiting_human"}:
+        try:
+            from lib.gcs_storage import gcs_storage
+            if gcs_storage.is_auto_sync_enabled():
+                gcs_storage.async_sync_project_assets(pipeline_dir / project_id)
+        except Exception as e:
+            import logging
+            logging.getLogger(__name__).debug("GCS auto-sync skip: %s", e)
+
     return path
 
 

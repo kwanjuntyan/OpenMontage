@@ -186,6 +186,15 @@ def create_app() -> FastAPI:
         project_dir = _safe_project_dir(project_id)
         return await asyncio.to_thread(load_board_state, project_dir)
 
+    @app.post("/api/project/{project_id}/sync_gcs")
+    async def sync_project_gcs(project_id: str) -> dict:
+        project_dir = _safe_project_dir(project_id)
+        from lib.gcs_storage import gcs_storage
+        if not gcs_storage.is_configured():
+            return {"ok": False, "error": "GCS not configured"}
+        gcs_storage.async_sync_project_assets(project_dir)
+        return {"ok": True, "project_id": project_id, "status": "sync_started"}
+
     @app.get("/api/project/{project_id}/events")
     async def project_events(project_id: str, request: Request) -> StreamingResponse:
         _safe_project_dir(project_id)  # 404 early for unknown projects
