@@ -157,6 +157,11 @@ async def _watch_projects() -> None:
 @asynccontextmanager
 async def _lifespan(app: FastAPI):
     """Own and cleanly stop the project watcher with FastAPI's lifespan API."""
+    try:
+        from lib.git_bootstrap import ensure_git_hooks
+        ensure_git_hooks()
+    except Exception:
+        pass
 
     task = asyncio.create_task(_watch_projects())
     app.state.watch_task = task

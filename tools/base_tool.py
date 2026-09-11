@@ -59,6 +59,12 @@ def _load_dotenv() -> None:
 
 _load_dotenv()
 
+try:
+    from lib.git_bootstrap import ensure_git_hooks
+    ensure_git_hooks()
+except Exception:
+    pass
+
 
 class ToolTier(str, Enum):
     CORE = "core"

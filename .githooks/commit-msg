@@ -1,0 +1,71 @@
+#!/bin/sh
+# OpenMontage Commit-Msg Gatekeeper
+# Validates commits against Category A (Code) and Category B (Course Content) standards.
+
+if command -v python3 >/dev/null 2>&1; then
+    PY_BIN=python3
+elif command -v python >/dev/null 2>&1; then
+    PY_BIN=python
+elif command -v py >/dev/null 2>&1; then
+    PY_BIN=py
+else
+    # Fallback if Python is not in PATH
+    exit 0
+fi
+
+$PY_BIN - "$1" << 'EOF'
+import sys
+import re
+import os
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+
+commit_msg_file = sys.argv[1]
+try:
+    with open(commit_msg_file, "r", encoding="utf-8", errors="ignore") as f:
+        lines = [line.strip() for line in f.readlines() if line.strip() and not line.startswith("#")]
+except Exception:
+    sys.exit(0)
+
+if not lines:
+    sys.exit(0)
+
+msg = lines[0]
+
+# Allow special Git commits
+if msg.startswith("Merge ") or msg.startswith("Revert ") or msg.startswith("Initial commit"):
+    sys.exit(0)
+
+# Category A: Code & Infrastructure
+# e.g., feat(cloud): message, fix(backlot): message, docs: message
+pattern_cat_a = r"^(feat|fix|docs|test|refactor|chore|perf|ci|style|build)(\([a-zA-Z0-9_\-./]+\))?:\s+.{3,}"
+
+# Category B: Course Content & Recipes
+# e.g., content(course-31): message, data(esg): message
+pattern_cat_b = r"^(content|data)\([a-zA-Z0-9_\-./]+\):\s+.{3,}"
+
+if re.match(pattern_cat_a, msg, re.IGNORECASE) or re.match(pattern_cat_b, msg, re.IGNORECASE):
+    sys.exit(0)
+
+# Rejection output
+print("\n" + "=" * 70)
+print("[X] [OpenMontage 規範守門員] Commit 訊息不符合團隊規範！")
+print("=" * 70)
+print(f"您的輸入:\n  \"{msg}\"\n")
+print("請遵循以下兩種標準格式之一：\n")
+print("【類別 A - 系統程式碼 (Code/Tools/Engine)】:")
+print("  * feat(模組): 說明    (例: feat(cloud): add background gcs auto-sync)")
+print("  * fix(模組): 說明     (例: fix(backlot): fix player layout)")
+print("  * docs: 說明          (例: docs: update setup guide)")
+print("  * test(模組): 說明    (例: test(gcs): add auto sync tests)")
+print("\n【類別 B - 課程與配方資料 (Course Content/Projects)】:")
+print("  * content(課程名): 說明 (例: content(course-31): update sequence 5 script)")
+print("  * data(課程名): 說明    (例: data(esg): approve episode 1 pilot checkpoints)")
+print("\n[!] 提示：您完全不需要手動記格式！")
+print("   請直接執行以下指令，系統會自動辨識並幫您提交：")
+print("   -> python scripts/om_commit.py")
+print("=" * 70 + "\n")
+
+sys.exit(1)
+EOF
