@@ -1,0 +1,1166 @@
+{
+  "version": "1.0",
+  "project_id": "course-31-sequence3-vox",
+  "total_assets": 122,
+  "assets": [
+    {
+      "id": "sc3.1_01_video",
+      "type": "video",
+      "path": "assets/video/sc3.1_01_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 7.85,
+      "scene_id": "sc3.1_01",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.1_01_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.1_01_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.1_line_01.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.1_01",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.1_line_01.mp3"
+    },
+    {
+      "id": "sc3.1_02_video",
+      "type": "video",
+      "path": "assets/video/sc3.1_02_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 8.33,
+      "scene_id": "sc3.1_02",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.1_02_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.1_02_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.1_line_02.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.1_02",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.1_line_02.mp3"
+    },
+    {
+      "id": "sc3.2_01_video",
+      "type": "video",
+      "path": "assets/video/sc3.2_01_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 4.8,
+      "scene_id": "sc3.2_01",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.2_01_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.2_01_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.2_line_01.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.2_01",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.2_line_01.mp3"
+    },
+    {
+      "id": "sc3.2_02_video",
+      "type": "video",
+      "path": "assets/video/sc3.2_02_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 8.5,
+      "scene_id": "sc3.2_02",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.2_02_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.2_02_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.2_line_02.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.2_02",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.2_line_02.mp3"
+    },
+    {
+      "id": "sc3.2_03_video",
+      "type": "video",
+      "path": "assets/video/sc3.2_03_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 5.59,
+      "scene_id": "sc3.2_03",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.2_03_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.2_03_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.2_line_03.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.2_03",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.2_line_03.mp3"
+    },
+    {
+      "id": "sc3.2_04_video",
+      "type": "video",
+      "path": "assets/video/sc3.2_04_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 7.75,
+      "scene_id": "sc3.2_04",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.2_04_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.2_04_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.2_line_04.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.2_04",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.2_line_04.mp3"
+    },
+    {
+      "id": "sc3.2_05_video",
+      "type": "video",
+      "path": "assets/video/sc3.2_05_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 6.17,
+      "scene_id": "sc3.2_05",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.2_05_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.2_05_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.2_line_05.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.2_05",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.2_line_05.mp3"
+    },
+    {
+      "id": "sc3.2_06_video",
+      "type": "video",
+      "path": "assets/video/sc3.2_06_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 7.85,
+      "scene_id": "sc3.2_06",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.2_06_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.2_06_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.2_line_06.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.2_06",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.2_line_06.mp3"
+    },
+    {
+      "id": "sc3.2_07_video",
+      "type": "video",
+      "path": "assets/video/sc3.2_07_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 5.64,
+      "scene_id": "sc3.2_07",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.2_07_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.2_07_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.2_line_07.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.2_07",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.2_line_07.mp3"
+    },
+    {
+      "id": "sc3.2_08_video",
+      "type": "video",
+      "path": "assets/video/sc3.2_08_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 6.77,
+      "scene_id": "sc3.2_08",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.2_08_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.2_08_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.2_line_08.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.2_08",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.2_line_08.mp3"
+    },
+    {
+      "id": "sc3.2_09_video",
+      "type": "video",
+      "path": "assets/video/sc3.2_09_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 7.94,
+      "scene_id": "sc3.2_09",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.2_09_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.2_09_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.2_line_09.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.2_09",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.2_line_09.mp3"
+    },
+    {
+      "id": "sc3.2_10_video",
+      "type": "video",
+      "path": "assets/video/sc3.2_10_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 9.14,
+      "scene_id": "sc3.2_10",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.2_10_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.2_10_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.2_line_10.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.2_10",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.2_line_10.mp3"
+    },
+    {
+      "id": "sc3.3_01_video",
+      "type": "video",
+      "path": "assets/video/sc3.3_01_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 5.54,
+      "scene_id": "sc3.3_01",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.3_01_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.3_01_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.3_line_01.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.3_01",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.3_line_01.mp3"
+    },
+    {
+      "id": "sc3.3_02_video",
+      "type": "video",
+      "path": "assets/video/sc3.3_02_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 9.43,
+      "scene_id": "sc3.3_02",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.3_02_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.3_02_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.3_line_02.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.3_02",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.3_line_02.mp3"
+    },
+    {
+      "id": "sc3.3_03_video",
+      "type": "video",
+      "path": "assets/video/sc3.3_03_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 9.5,
+      "scene_id": "sc3.3_03",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.3_03_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.3_03_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.3_line_03.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.3_03",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.3_line_03.mp3"
+    },
+    {
+      "id": "sc3.3_04_video",
+      "type": "video",
+      "path": "assets/video/sc3.3_04_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 7.82,
+      "scene_id": "sc3.3_04",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.3_04_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.3_04_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.3_line_04.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.3_04",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.3_line_04.mp3"
+    },
+    {
+      "id": "sc3.3_05_video",
+      "type": "video",
+      "path": "assets/video/sc3.3_05_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 2.78,
+      "scene_id": "sc3.3_05",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.3_05_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.3_05_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.3_line_05.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.3_05",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.3_line_05.mp3"
+    },
+    {
+      "id": "sc3.3_06_video",
+      "type": "video",
+      "path": "assets/video/sc3.3_06_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 8.09,
+      "scene_id": "sc3.3_06",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.3_06_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.3_06_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.3_line_06.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.3_06",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.3_line_06.mp3"
+    },
+    {
+      "id": "sc3.3_07_video",
+      "type": "video",
+      "path": "assets/video/sc3.3_07_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 3.74,
+      "scene_id": "sc3.3_07",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.3_07_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.3_07_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.3_line_07.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.3_07",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.3_line_07.mp3"
+    },
+    {
+      "id": "sc3.3_08_video",
+      "type": "video",
+      "path": "assets/video/sc3.3_08_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 7.94,
+      "scene_id": "sc3.3_08",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.3_08_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.3_08_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.3_line_08.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.3_08",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.3_line_08.mp3"
+    },
+    {
+      "id": "sc3.3_09_video",
+      "type": "video",
+      "path": "assets/video/sc3.3_09_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 3.82,
+      "scene_id": "sc3.3_09",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.3_09_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.3_09_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.3_line_09.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.3_09",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.3_line_09.mp3"
+    },
+    {
+      "id": "sc3.3_10_video",
+      "type": "video",
+      "path": "assets/video/sc3.3_10_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 7.06,
+      "scene_id": "sc3.3_10",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.3_10_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.3_10_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.3_line_10.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.3_10",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.3_line_10.mp3"
+    },
+    {
+      "id": "sc3.3_11_video",
+      "type": "video",
+      "path": "assets/video/sc3.3_11_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 6.36,
+      "scene_id": "sc3.3_11",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.3_11_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.3_11_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.3_line_11.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.3_11",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.3_line_11.mp3"
+    },
+    {
+      "id": "sc3.4_01_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_01_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 7.15,
+      "scene_id": "sc3.4_01",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_01_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_01_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_01.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_01",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_01.mp3"
+    },
+    {
+      "id": "sc3.4_02_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_02_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 9.5,
+      "scene_id": "sc3.4_02",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_02_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_02_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_02.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_02",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_02.mp3"
+    },
+    {
+      "id": "sc3.4_03_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_03_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 8.5,
+      "scene_id": "sc3.4_03",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_03_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_03_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_03.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_03",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_03.mp3"
+    },
+    {
+      "id": "sc3.4_04_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_04_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 10.25,
+      "scene_id": "sc3.4_04",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_04_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_04_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_04.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_04",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_04.mp3"
+    },
+    {
+      "id": "sc3.4_05_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_05_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 2.3,
+      "scene_id": "sc3.4_05",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_05_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_05_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_05.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_05",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_05.mp3"
+    },
+    {
+      "id": "sc3.4_06_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_06_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 8.23,
+      "scene_id": "sc3.4_06",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_06_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_06_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_06.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_06",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_06.mp3"
+    },
+    {
+      "id": "sc3.4_07_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_07_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 4.08,
+      "scene_id": "sc3.4_07",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_07_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_07_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_07.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_07",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_07.mp3"
+    },
+    {
+      "id": "sc3.4_08_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_08_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 6.5,
+      "scene_id": "sc3.4_08",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_08_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_08_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_08.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_08",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_08.mp3"
+    },
+    {
+      "id": "sc3.4_09_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_09_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 6.38,
+      "scene_id": "sc3.4_09",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_09_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_09_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_09.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_09",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_09.mp3"
+    },
+    {
+      "id": "sc3.4_10_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_10_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 6.94,
+      "scene_id": "sc3.4_10",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_10_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_10_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_10.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_10",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_10.mp3"
+    },
+    {
+      "id": "sc3.4_11_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_11_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 9.89,
+      "scene_id": "sc3.4_11",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_11_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_11_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_11.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_11",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_11.mp3"
+    },
+    {
+      "id": "sc3.4_12_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_12_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 7.06,
+      "scene_id": "sc3.4_12",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_12_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_12_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_12.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_12",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_12.mp3"
+    },
+    {
+      "id": "sc3.4_13_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_13_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 8.33,
+      "scene_id": "sc3.4_13",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_13_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_13_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_13.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_13",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_13.mp3"
+    },
+    {
+      "id": "sc3.4_14_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_14_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 9.62,
+      "scene_id": "sc3.4_14",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_14_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_14_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_14.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_14",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_14.mp3"
+    },
+    {
+      "id": "sc3.4_15_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_15_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 8.16,
+      "scene_id": "sc3.4_15",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_15_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_15_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_15.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_15",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_15.mp3"
+    },
+    {
+      "id": "sc3.4_16_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_16_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 8.81,
+      "scene_id": "sc3.4_16",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_16_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_16_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_16.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_16",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_16.mp3"
+    },
+    {
+      "id": "sc3.4_17_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_17_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 5.64,
+      "scene_id": "sc3.4_17",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_17_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_17_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_17.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_17",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_17.mp3"
+    },
+    {
+      "id": "sc3.4_18_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_18_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 7.61,
+      "scene_id": "sc3.4_18",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_18_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_18_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_18.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_18",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_18.mp3"
+    },
+    {
+      "id": "sc3.4_19_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_19_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 4.37,
+      "scene_id": "sc3.4_19",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_19_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_19_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_19.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_19",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_19.mp3"
+    },
+    {
+      "id": "sc3.4_20_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_20_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 8.33,
+      "scene_id": "sc3.4_20",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_20_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_20_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_20.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_20",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_20.mp3"
+    },
+    {
+      "id": "sc3.4_21_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_21_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 6.0,
+      "scene_id": "sc3.4_21",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_21_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_21_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_21.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_21",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_21.mp3"
+    },
+    {
+      "id": "sc3.4_22_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_22_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 6.58,
+      "scene_id": "sc3.4_22",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_22_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_22_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_22.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_22",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_22.mp3"
+    },
+    {
+      "id": "sc3.4_23_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_23_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 5.21,
+      "scene_id": "sc3.4_23",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_23_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_23_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_23.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_23",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_23.mp3"
+    },
+    {
+      "id": "sc3.4_24_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_24_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 7.75,
+      "scene_id": "sc3.4_24",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_24_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_24_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_24.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_24",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_24.mp3"
+    },
+    {
+      "id": "sc3.4_25_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_25_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 7.15,
+      "scene_id": "sc3.4_25",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_25_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_25_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_25.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_25",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_25.mp3"
+    },
+    {
+      "id": "sc3.4_26_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_26_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 9.94,
+      "scene_id": "sc3.4_26",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_26_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_26_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_26.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_26",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_26.mp3"
+    },
+    {
+      "id": "sc3.4_27_video",
+      "type": "video",
+      "path": "assets/video/sc3.4_27_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 7.66,
+      "scene_id": "sc3.4_27",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.4_27_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.4_27_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.4_line_27.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.4_27",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.4_line_27.mp3"
+    },
+    {
+      "id": "sc3.5_01_video",
+      "type": "video",
+      "path": "assets/video/sc3.5_01_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 9.41,
+      "scene_id": "sc3.5_01",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.5_01_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.5_01_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.5_line_01.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.5_01",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.5_line_01.mp3"
+    },
+    {
+      "id": "sc3.5_02_video",
+      "type": "video",
+      "path": "assets/video/sc3.5_02_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 7.66,
+      "scene_id": "sc3.5_02",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.5_02_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.5_02_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.5_line_02.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.5_02",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.5_line_02.mp3"
+    },
+    {
+      "id": "sc3.5_03_video",
+      "type": "video",
+      "path": "assets/video/sc3.5_03_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 9.14,
+      "scene_id": "sc3.5_03",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.5_03_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.5_03_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.5_line_03.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.5_03",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.5_line_03.mp3"
+    },
+    {
+      "id": "sc3.5_04_video",
+      "type": "video",
+      "path": "assets/video/sc3.5_04_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 8.98,
+      "scene_id": "sc3.5_04",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.5_04_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.5_04_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.5_line_04.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.5_04",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.5_line_04.mp3"
+    },
+    {
+      "id": "sc3.5_05_video",
+      "type": "video",
+      "path": "assets/video/sc3.5_05_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 3.74,
+      "scene_id": "sc3.5_05",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.5_05_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.5_05_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.5_line_05.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.5_05",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.5_line_05.mp3"
+    },
+    {
+      "id": "sc3.5_06_video",
+      "type": "video",
+      "path": "assets/video/sc3.5_06_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 6.29,
+      "scene_id": "sc3.5_06",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.5_06_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.5_06_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.5_line_06.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.5_06",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.5_line_06.mp3"
+    },
+    {
+      "id": "sc3.5_07_video",
+      "type": "video",
+      "path": "assets/video/sc3.5_07_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 3.7,
+      "scene_id": "sc3.5_07",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.5_07_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.5_07_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.5_line_07.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.5_07",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.5_line_07.mp3"
+    },
+    {
+      "id": "sc3.5_08_video",
+      "type": "video",
+      "path": "assets/video/sc3.5_08_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 7.99,
+      "scene_id": "sc3.5_08",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.5_08_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.5_08_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.5_line_08.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.5_08",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.5_line_08.mp3"
+    },
+    {
+      "id": "sc3.5_09_video",
+      "type": "video",
+      "path": "assets/video/sc3.5_09_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 4.85,
+      "scene_id": "sc3.5_09",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.5_09_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.5_09_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.5_line_09.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.5_09",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.5_line_09.mp3"
+    },
+    {
+      "id": "sc3.5_10_video",
+      "type": "video",
+      "path": "assets/video/sc3.5_10_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 9.24,
+      "scene_id": "sc3.5_10",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.5_10_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.5_10_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.5_line_10.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.5_10",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.5_line_10.mp3"
+    },
+    {
+      "id": "sc3.5_11_video",
+      "type": "video",
+      "path": "assets/video/sc3.5_11_vox_papercut.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-flash-preview",
+      "duration": 6.48,
+      "scene_id": "sc3.5_11",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/video/sc3.5_11_vox_papercut.mp4"
+    },
+    {
+      "id": "sc3.5_11_audio",
+      "type": "audio",
+      "path": "assets/audio/sc3.5_line_11.mp3",
+      "provider": "edge_tts",
+      "voice": "zh-TW-YunJheNeural",
+      "scene_id": "sc3.5_11",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/assets/audio/sc3.5_line_11.mp3"
+    }
+  ]
+}

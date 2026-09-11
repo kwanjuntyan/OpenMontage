@@ -1,0 +1,71 @@
+{
+  "version": "1.0",
+  "title": "《老闆，ESG不是一種新咖啡！》第一幕樣片",
+  "total_duration_seconds": 60.0,
+  "sections": [
+    {
+      "id": "sec_01",
+      "label": "Shot 1 · 倫敦金融區雨景",
+      "text": "【陰雨滂沱，倫敦金融城高空俯瞰，冷峻肅穆，無室內對話】",
+      "start_seconds": 0.0,
+      "end_seconds": 8.0,
+      "speaker_directions": "環境音：大雨滂沱與遠處雷聲"
+    },
+    {
+      "id": "sec_02",
+      "label": "Shot 2 · 董事會議室簡報",
+      "text": "Analyst 1: Mr. Harrison, here is the investment report. Financials and gross margins look solid.",
+      "start_seconds": 8.0,
+      "end_seconds": 16.0,
+      "speaker_directions": "冷靜專業但略顯緊繃"
+    },
+    {
+      "id": "sec_03",
+      "label": "Shot 3 · Harrison 關鍵裁決",
+      "text": "Mr. Harrison: Without verified ESG data, risk is unacceptable. Freeze the funding, put it on hold.",
+      "start_seconds": 16.0,
+      "end_seconds": 24.0,
+      "speaker_directions": "威嚴冷靜，一錘定音"
+    },
+    {
+      "id": "sec_04",
+      "label": "Shot 4 · ON HOLD 印章重擊",
+      "text": "【鮮紅 ON HOLD 印章重重砸下，劇院震撼重低音衝擊】",
+      "start_seconds": 24.0,
+      "end_seconds": 30.0,
+      "speaker_directions": "重低音撞擊音效"
+    },
+    {
+      "id": "sec_05",
+      "label": "Shot 5 · 跨時區聲音橋接",
+      "text": "【辦公桌手機劇烈震動發光，急促刺耳鈴聲響起，無縫切換至台北危機】",
+      "start_seconds": 30.0,
+      "end_seconds": 36.0,
+      "speaker_directions": "急促鈴聲與高頻震動"
+    },
+    {
+      "id": "sec_06",
+      "label": "Shot 6 · 協理焦躁咆哮",
+      "text": "協理：Amy！大事不好了！增資案被卡住了！下週必須搞定ESG，這關係到大家飯碗！",
+      "start_seconds": 36.0,
+      "end_seconds": 44.0,
+      "speaker_directions": "走廊踱步，極度急促催逼"
+    },
+    {
+      "id": "sec_07",
+      "label": "Shot 7 · Amy 錯愕接招",
+      "text": "Amy：這麼嚴重？可是協理，我們一直很守規矩啊...報告協理，ESG我真的不懂啊！",
+      "start_seconds": 44.0,
+      "end_seconds": 52.0,
+      "speaker_directions": "Veo 3.1 原生中文對嘴，滿臉錯愕無辜"
+    },
+    {
+      "id": "sec_08",
+      "label": "Shot 8 · Amy 沉思收尾",
+      "text": "Amy：E...S...G...這到底是什麼救命仙丹？能幫公司募資，還能救我的年終嗎？",
+      "start_seconds": 52.0,
+      "end_seconds": 60.0,
+      "speaker_directions": "Veo 3.1 原生中文喃喃自語，苦笑懸念收尾"
+    }
+  ]
+}

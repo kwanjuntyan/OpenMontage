@@ -1,0 +1,1166 @@
+{
+  "version": "1.0",
+  "style_playbook": "vox-paper-collage",
+  "total_shots": 61,
+  "scenes": [
+    {
+      "id": "sc3.1_01",
+      "scene_num": "3.1",
+      "type": "animation",
+      "description": "Scene 3.1 Shot 01",
+      "start_seconds": 0.0,
+      "end_seconds": 7.85,
+      "script_section_id": "sc3.1_01",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "所謂Plan，就是規劃，那規劃什麼呢？規劃出一個你認為能夠提昇品質的方案！",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Blueprint drafting desk.\nACTION: A heavy green kraft paper card stamped '1. PLAN' drops onto center desk; a brass compass and ruler slide into frame as a title banner unrolls reading 'PLAN: THE QUALITY BLUEPRINT'.\nTEXT: '1. PLAN', 'QUALITY BLUEPRINT'\nAUDIO: Cardboard drop thud, ruler slide click, rhythmic bass pulse, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.1_02",
+      "scene_num": "3.1",
+      "type": "animation",
+      "description": "Scene 3.1 Shot 02",
+      "start_seconds": 7.85,
+      "end_seconds": 16.18,
+      "script_section_id": "sc3.1_02",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "因此，這個步驟的工作項目將包括：觀察與記錄、界定目標範圍、分析原因、設計對策。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Planning workshop table.\nACTION: Four colored paper tabs snap down sequentially forming a step-by-step ladder: '1. OBSERVE & RECORD', '2. DEFINE SCOPE', '3. ANALYZE CAUSES', '4. DESIGN COUNTERMEASURES'.\nTEXT: '1. OBSERVE', '2. SCOPE', '3. CAUSES', '4. COUNTERMEASURES'\nAUDIO: Four snappy card snaps in stop-motion, marimba cadence, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.2_01",
+      "scene_num": "3.2",
+      "type": "animation",
+      "description": "Scene 3.2 Shot 01",
+      "start_seconds": 16.18,
+      "end_seconds": 20.98,
+      "script_section_id": "sc3.2_01",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "戴明認為，組織是一個由人和機器所組成的系統。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Railway control room paper set.\nACTION: Vintage paper cutouts of a green train locomotive and railway tracks; handwritten delay logbooks stamped 'DELAY LOGBOOK' unroll showing columns: 'TRAIN #', 'TIME', 'STATION', 'IMPACT'; paper clock needle ticks in stop-motion.\nTEXT: 'SYSTEM: MAN & MACHINE', 'DELAY LOG', 'RECORD EVENT'\nAUDIO: Paper train wheel click-clack, mechanical clock tick, pencil writing scratching sound, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.2_02",
+      "scene_num": "3.2",
+      "type": "animation",
+      "description": "Scene 3.2 Shot 02",
+      "start_seconds": 20.98,
+      "end_seconds": 29.48,
+      "script_section_id": "sc3.2_02",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "那這個系統會持續地產出我們所需要的產品或服務，但是在運行過程中，也難免會出現品質不良的情形。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Railway control room paper set.\nACTION: Vintage paper cutouts of a green train locomotive and railway tracks; handwritten delay logbooks stamped 'DELAY LOGBOOK' unroll showing columns: 'TRAIN #', 'TIME', 'STATION', 'IMPACT'; paper clock needle ticks in stop-motion.\nTEXT: 'SYSTEM: MAN & MACHINE', 'DELAY LOG', 'RECORD EVENT'\nAUDIO: Paper train wheel click-clack, mechanical clock tick, pencil writing scratching sound, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.2_03",
+      "scene_num": "3.2",
+      "type": "animation",
+      "description": "Scene 3.2 Shot 03",
+      "start_seconds": 29.48,
+      "end_seconds": 35.07,
+      "script_section_id": "sc3.2_03",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "這些品質不良事件，可能只是偶然發生，也可能會反覆出現。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Railway control room paper set.\nACTION: Vintage paper cutouts of a green train locomotive and railway tracks; handwritten delay logbooks stamped 'DELAY LOGBOOK' unroll showing columns: 'TRAIN #', 'TIME', 'STATION', 'IMPACT'; paper clock needle ticks in stop-motion.\nTEXT: 'SYSTEM: MAN & MACHINE', 'DELAY LOG', 'RECORD EVENT'\nAUDIO: Paper train wheel click-clack, mechanical clock tick, pencil writing scratching sound, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.2_04",
+      "scene_num": "3.2",
+      "type": "animation",
+      "description": "Scene 3.2 Shot 04",
+      "start_seconds": 35.07,
+      "end_seconds": 42.82,
+      "script_section_id": "sc3.2_04",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "所以，你如果想提高品質，就是讓這些不良事件消失，或者把它發生的頻率降到最低。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Railway control room paper set.\nACTION: Vintage paper cutouts of a green train locomotive and railway tracks; handwritten delay logbooks stamped 'DELAY LOGBOOK' unroll showing columns: 'TRAIN #', 'TIME', 'STATION', 'IMPACT'; paper clock needle ticks in stop-motion.\nTEXT: 'SYSTEM: MAN & MACHINE', 'DELAY LOG', 'RECORD EVENT'\nAUDIO: Paper train wheel click-clack, mechanical clock tick, pencil writing scratching sound, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.2_05",
+      "scene_num": "3.2",
+      "type": "animation",
+      "description": "Scene 3.2 Shot 05",
+      "start_seconds": 42.82,
+      "end_seconds": 48.99,
+      "script_section_id": "sc3.2_05",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "而為了要消除這些不良事件，我們就必須先知道，究竟有哪些不良事件！",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Railway control room paper set.\nACTION: Vintage paper cutouts of a green train locomotive and railway tracks; handwritten delay logbooks stamped 'DELAY LOGBOOK' unroll showing columns: 'TRAIN #', 'TIME', 'STATION', 'IMPACT'; paper clock needle ticks in stop-motion.\nTEXT: 'SYSTEM: MAN & MACHINE', 'DELAY LOG', 'RECORD EVENT'\nAUDIO: Paper train wheel click-clack, mechanical clock tick, pencil writing scratching sound, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.2_06",
+      "scene_num": "3.2",
+      "type": "animation",
+      "description": "Scene 3.2 Shot 06",
+      "start_seconds": 48.99,
+      "end_seconds": 56.84,
+      "script_section_id": "sc3.2_06",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "因此，在規劃步驟的第一個工作，就是要持續地觀察系統，並把所有的不良事件都記錄下來，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Railway control room paper set.\nACTION: Vintage paper cutouts of a green train locomotive and railway tracks; handwritten delay logbooks stamped 'DELAY LOGBOOK' unroll showing columns: 'TRAIN #', 'TIME', 'STATION', 'IMPACT'; paper clock needle ticks in stop-motion.\nTEXT: 'SYSTEM: MAN & MACHINE', 'DELAY LOG', 'RECORD EVENT'\nAUDIO: Paper train wheel click-clack, mechanical clock tick, pencil writing scratching sound, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.2_07",
+      "scene_num": "3.2",
+      "type": "animation",
+      "description": "Scene 3.2 Shot 07",
+      "start_seconds": 56.84,
+      "end_seconds": 62.48,
+      "script_section_id": "sc3.2_07",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "記載事項要包括發生的時間，地點、所造成的影響等等。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Railway control room paper set.\nACTION: Vintage paper cutouts of a green train locomotive and railway tracks; handwritten delay logbooks stamped 'DELAY LOGBOOK' unroll showing columns: 'TRAIN #', 'TIME', 'STATION', 'IMPACT'; paper clock needle ticks in stop-motion.\nTEXT: 'SYSTEM: MAN & MACHINE', 'DELAY LOG', 'RECORD EVENT'\nAUDIO: Paper train wheel click-clack, mechanical clock tick, pencil writing scratching sound, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.2_08",
+      "scene_num": "3.2",
+      "type": "animation",
+      "description": "Scene 3.2 Shot 08",
+      "start_seconds": 62.48,
+      "end_seconds": 69.25,
+      "script_section_id": "sc3.2_08",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "留下這些紀錄之後，才可以讓我們在將來做出正確的分析，並設計出有效的對策。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Railway control room paper set.\nACTION: Vintage paper cutouts of a green train locomotive and railway tracks; handwritten delay logbooks stamped 'DELAY LOGBOOK' unroll showing columns: 'TRAIN #', 'TIME', 'STATION', 'IMPACT'; paper clock needle ticks in stop-motion.\nTEXT: 'SYSTEM: MAN & MACHINE', 'DELAY LOG', 'RECORD EVENT'\nAUDIO: Paper train wheel click-clack, mechanical clock tick, pencil writing scratching sound, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.2_09",
+      "scene_num": "3.2",
+      "type": "animation",
+      "description": "Scene 3.2 Shot 09",
+      "start_seconds": 69.25,
+      "end_seconds": 77.19,
+      "script_section_id": "sc3.2_09",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "舉例而言，如果台鐵想要改善火車誤點問題，首先要做的，就是把所有誤點事件都記錄下來，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Railway control room paper set.\nACTION: Vintage paper cutouts of a green train locomotive and railway tracks; handwritten delay logbooks stamped 'DELAY LOGBOOK' unroll showing columns: 'TRAIN #', 'TIME', 'STATION', 'IMPACT'; paper clock needle ticks in stop-motion.\nTEXT: 'SYSTEM: MAN & MACHINE', 'DELAY LOG', 'RECORD EVENT'\nAUDIO: Paper train wheel click-clack, mechanical clock tick, pencil writing scratching sound, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.2_10",
+      "scene_num": "3.2",
+      "type": "animation",
+      "description": "Scene 3.2 Shot 10",
+      "start_seconds": 77.19,
+      "end_seconds": 86.33,
+      "script_section_id": "sc3.2_10",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "內容可能要包括每次誤點的車次、時間、地點、載客人數等。以協助後續的分析與設計。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Railway control room paper set.\nACTION: Vintage paper cutouts of a green train locomotive and railway tracks; handwritten delay logbooks stamped 'DELAY LOGBOOK' unroll showing columns: 'TRAIN #', 'TIME', 'STATION', 'IMPACT'; paper clock needle ticks in stop-motion.\nTEXT: 'SYSTEM: MAN & MACHINE', 'DELAY LOG', 'RECORD EVENT'\nAUDIO: Paper train wheel click-clack, mechanical clock tick, pencil writing scratching sound, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.3_01",
+      "scene_num": "3.3",
+      "type": "animation",
+      "description": "Scene 3.3 Shot 01",
+      "start_seconds": 86.33,
+      "end_seconds": 91.87,
+      "script_section_id": "sc3.3_01",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "當你對系統做完「觀察與記錄」之後，接著就要「界定目標範圍」。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical analysis desk.\nACTION: A bold rubber stamp slams down reading 'PARETO PRINCIPLE: 80/20 RULE'; paper bar chart cutouts pop up with red bars showing stations A, B, C accumulating 81% of delays; magnifying glass highlights critical 20% sector.\nTEXT: '80/20 RULE', '81% DELAYS', 'CRITICAL 20%', 'STATION A, B, C'\nAUDIO: Heavy wooden stamp thud, paper bar popping clicks, bell chime, analytical synth pulse, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.3_02",
+      "scene_num": "3.3",
+      "type": "animation",
+      "description": "Scene 3.3 Shot 02",
+      "start_seconds": 91.87,
+      "end_seconds": 101.3,
+      "script_section_id": "sc3.3_02",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "也就是說，要找出系統中，問題最嚴重的某些項目，當作你的改善目標，才能夠以最低的成本，獲得最高的成效！",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical analysis desk.\nACTION: A bold rubber stamp slams down reading 'PARETO PRINCIPLE: 80/20 RULE'; paper bar chart cutouts pop up with red bars showing stations A, B, C accumulating 81% of delays; magnifying glass highlights critical 20% sector.\nTEXT: '80/20 RULE', '81% DELAYS', 'CRITICAL 20%', 'STATION A, B, C'\nAUDIO: Heavy wooden stamp thud, paper bar popping clicks, bell chime, analytical synth pulse, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.3_03",
+      "scene_num": "3.3",
+      "type": "animation",
+      "description": "Scene 3.3 Shot 03",
+      "start_seconds": 101.3,
+      "end_seconds": 110.8,
+      "script_section_id": "sc3.3_03",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "這時候，建議你要參考「80/20」定律，意思是：80%的不良事件，是由20%的項目所造成的。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical analysis desk.\nACTION: A bold rubber stamp slams down reading 'PARETO PRINCIPLE: 80/20 RULE'; paper bar chart cutouts pop up with red bars showing stations A, B, C accumulating 81% of delays; magnifying glass highlights critical 20% sector.\nTEXT: '80/20 RULE', '81% DELAYS', 'CRITICAL 20%', 'STATION A, B, C'\nAUDIO: Heavy wooden stamp thud, paper bar popping clicks, bell chime, analytical synth pulse, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.3_04",
+      "scene_num": "3.3",
+      "type": "animation",
+      "description": "Scene 3.3 Shot 04",
+      "start_seconds": 110.8,
+      "end_seconds": 118.62,
+      "script_section_id": "sc3.3_04",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "所以，你如果能找到這關鍵的20%項目，加以解決，就可以獲得80%的效益！",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical analysis desk.\nACTION: A bold rubber stamp slams down reading 'PARETO PRINCIPLE: 80/20 RULE'; paper bar chart cutouts pop up with red bars showing stations A, B, C accumulating 81% of delays; magnifying glass highlights critical 20% sector.\nTEXT: '80/20 RULE', '81% DELAYS', 'CRITICAL 20%', 'STATION A, B, C'\nAUDIO: Heavy wooden stamp thud, paper bar popping clicks, bell chime, analytical synth pulse, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.3_05",
+      "scene_num": "3.3",
+      "type": "animation",
+      "description": "Scene 3.3 Shot 05",
+      "start_seconds": 118.62,
+      "end_seconds": 121.4,
+      "script_section_id": "sc3.3_05",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "以火車誤點事件為例，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical analysis desk.\nACTION: A bold rubber stamp slams down reading 'PARETO PRINCIPLE: 80/20 RULE'; paper bar chart cutouts pop up with red bars showing stations A, B, C accumulating 81% of delays; magnifying glass highlights critical 20% sector.\nTEXT: '80/20 RULE', '81% DELAYS', 'CRITICAL 20%', 'STATION A, B, C'\nAUDIO: Heavy wooden stamp thud, paper bar popping clicks, bell chime, analytical synth pulse, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.3_06",
+      "scene_num": "3.3",
+      "type": "animation",
+      "description": "Scene 3.3 Shot 06",
+      "start_seconds": 121.4,
+      "end_seconds": 129.49,
+      "script_section_id": "sc3.3_06",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "如果以「地點」為分類，以「誤點次數」當作影響指標，會發現，ABC三個地點所累計的誤點次數，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical analysis desk.\nACTION: A bold rubber stamp slams down reading 'PARETO PRINCIPLE: 80/20 RULE'; paper bar chart cutouts pop up with red bars showing stations A, B, C accumulating 81% of delays; magnifying glass highlights critical 20% sector.\nTEXT: '80/20 RULE', '81% DELAYS', 'CRITICAL 20%', 'STATION A, B, C'\nAUDIO: Heavy wooden stamp thud, paper bar popping clicks, bell chime, analytical synth pulse, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.3_07",
+      "scene_num": "3.3",
+      "type": "animation",
+      "description": "Scene 3.3 Shot 07",
+      "start_seconds": 129.49,
+      "end_seconds": 133.23,
+      "script_section_id": "sc3.3_07",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "就佔了所有誤點次數的81%了。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical analysis desk.\nACTION: A bold rubber stamp slams down reading 'PARETO PRINCIPLE: 80/20 RULE'; paper bar chart cutouts pop up with red bars showing stations A, B, C accumulating 81% of delays; magnifying glass highlights critical 20% sector.\nTEXT: '80/20 RULE', '81% DELAYS', 'CRITICAL 20%', 'STATION A, B, C'\nAUDIO: Heavy wooden stamp thud, paper bar popping clicks, bell chime, analytical synth pulse, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.3_08",
+      "scene_num": "3.3",
+      "type": "animation",
+      "description": "Scene 3.3 Shot 08",
+      "start_seconds": 133.23,
+      "end_seconds": 141.17,
+      "script_section_id": "sc3.3_08",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "如果改以「時段」做分類，以「載客人數」當作影響指標，會發現，HG二個時段所累計的載客人數，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical analysis desk.\nACTION: A bold rubber stamp slams down reading 'PARETO PRINCIPLE: 80/20 RULE'; paper bar chart cutouts pop up with red bars showing stations A, B, C accumulating 81% of delays; magnifying glass highlights critical 20% sector.\nTEXT: '80/20 RULE', '81% DELAYS', 'CRITICAL 20%', 'STATION A, B, C'\nAUDIO: Heavy wooden stamp thud, paper bar popping clicks, bell chime, analytical synth pulse, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.3_09",
+      "scene_num": "3.3",
+      "type": "animation",
+      "description": "Scene 3.3 Shot 09",
+      "start_seconds": 141.17,
+      "end_seconds": 144.99,
+      "script_section_id": "sc3.3_09",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "就佔了所有載客人數的78%了",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical analysis desk.\nACTION: A bold rubber stamp slams down reading 'PARETO PRINCIPLE: 80/20 RULE'; paper bar chart cutouts pop up with red bars showing stations A, B, C accumulating 81% of delays; magnifying glass highlights critical 20% sector.\nTEXT: '80/20 RULE', '81% DELAYS', 'CRITICAL 20%', 'STATION A, B, C'\nAUDIO: Heavy wooden stamp thud, paper bar popping clicks, bell chime, analytical synth pulse, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.3_10",
+      "scene_num": "3.3",
+      "type": "animation",
+      "description": "Scene 3.3 Shot 10",
+      "start_seconds": 144.99,
+      "end_seconds": 152.05,
+      "script_section_id": "sc3.3_10",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "當然，不良事件的「分類方式」以及「影響指標」的選擇，都是你可以自行變換調整的，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical analysis desk.\nACTION: A bold rubber stamp slams down reading 'PARETO PRINCIPLE: 80/20 RULE'; paper bar chart cutouts pop up with red bars showing stations A, B, C accumulating 81% of delays; magnifying glass highlights critical 20% sector.\nTEXT: '80/20 RULE', '81% DELAYS', 'CRITICAL 20%', 'STATION A, B, C'\nAUDIO: Heavy wooden stamp thud, paper bar popping clicks, bell chime, analytical synth pulse, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.3_11",
+      "scene_num": "3.3",
+      "type": "animation",
+      "description": "Scene 3.3 Shot 11",
+      "start_seconds": 152.05,
+      "end_seconds": 158.41,
+      "script_section_id": "sc3.3_11",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "就看你怎麼樣運用你的洞察力，找到「項目最少，影響力最大」的關鍵項目囉。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical analysis desk.\nACTION: A bold rubber stamp slams down reading 'PARETO PRINCIPLE: 80/20 RULE'; paper bar chart cutouts pop up with red bars showing stations A, B, C accumulating 81% of delays; magnifying glass highlights critical 20% sector.\nTEXT: '80/20 RULE', '81% DELAYS', 'CRITICAL 20%', 'STATION A, B, C'\nAUDIO: Heavy wooden stamp thud, paper bar popping clicks, bell chime, analytical synth pulse, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_01",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 01",
+      "start_seconds": 158.41,
+      "end_seconds": 165.56,
+      "script_section_id": "sc3.4_01",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "一旦你選定了特定的範圍，接著就要把範圍內的所有不良事件都撈出來，分析他们的原因。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Root-cause investigation drafting board.\nACTION: A classic paper Fishbone Diagram (Ishikawa) unfolds in stop-motion; six main diagonal ribs branch out labeled: 'MAN', 'METHOD', 'MACHINE', 'MANAGEMENT', 'ENVIRONMENT', 'MATERIAL'; red arrows point to specific root causes.\nTEXT: 'FISHBONE DIAGRAM', 'MAN', 'MACHINE', 'METHOD', 'ENVIRONMENT'\nAUDIO: Paper folding rustle, six sharp bone placement clicks, low mysterious bass drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_02",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 02",
+      "start_seconds": 165.56,
+      "end_seconds": 175.06,
+      "script_section_id": "sc3.4_02",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "注意，每個不良事件都要分析喔！因為，不良事件的外表雖然都很相似，但他们的起因往往是不同。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Root-cause investigation drafting board.\nACTION: A classic paper Fishbone Diagram (Ishikawa) unfolds in stop-motion; six main diagonal ribs branch out labeled: 'MAN', 'METHOD', 'MACHINE', 'MANAGEMENT', 'ENVIRONMENT', 'MATERIAL'; red arrows point to specific root causes.\nTEXT: 'FISHBONE DIAGRAM', 'MAN', 'MACHINE', 'METHOD', 'ENVIRONMENT'\nAUDIO: Paper folding rustle, six sharp bone placement clicks, low mysterious bass drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_03",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 03",
+      "start_seconds": 175.06,
+      "end_seconds": 183.56,
+      "script_section_id": "sc3.4_03",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "同樣是火車誤點，某一次可能是單純的「高壓電線斷裂」所造成，另一次可能是複雜的營運管理問題所造成。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Root-cause investigation drafting board.\nACTION: A classic paper Fishbone Diagram (Ishikawa) unfolds in stop-motion; six main diagonal ribs branch out labeled: 'MAN', 'METHOD', 'MACHINE', 'MANAGEMENT', 'ENVIRONMENT', 'MATERIAL'; red arrows point to specific root causes.\nTEXT: 'FISHBONE DIAGRAM', 'MAN', 'MACHINE', 'METHOD', 'ENVIRONMENT'\nAUDIO: Paper folding rustle, six sharp bone placement clicks, low mysterious bass drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_04",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 04",
+      "start_seconds": 183.56,
+      "end_seconds": 193.81,
+      "script_section_id": "sc3.4_04",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "不過，不良事件這麼多，要全部分析太花時間啦。所以，你必須要學會「抓大放小」，才能獲得最高效益。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Root-cause investigation drafting board.\nACTION: A classic paper Fishbone Diagram (Ishikawa) unfolds in stop-motion; six main diagonal ribs branch out labeled: 'MAN', 'METHOD', 'MACHINE', 'MANAGEMENT', 'ENVIRONMENT', 'MATERIAL'; red arrows point to specific root causes.\nTEXT: 'FISHBONE DIAGRAM', 'MAN', 'MACHINE', 'METHOD', 'ENVIRONMENT'\nAUDIO: Paper folding rustle, six sharp bone placement clicks, low mysterious bass drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_05",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 05",
+      "start_seconds": 193.81,
+      "end_seconds": 196.11,
+      "script_section_id": "sc3.4_05",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "要怎麼抓大放小呢？",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical quality control board.\nACTION: Statistical control chart unrolls with Upper and Lower Control Limits (UCL / LCL); red paper dots outside the band get stamped 'SPECIAL EVENT: HIGH IMPACT'; yellow dots inside get labeled 'COMMON NOISE: SYSTEM ISSUE'.\nTEXT: 'CONTROL CHART', 'UCL', 'LCL', 'SPECIAL CAUSE', 'SYSTEMIC COMMON'\nAUDIO: Chart unroll flutter, red stamp impact, rapid dot placement clicks, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_06",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 06",
+      "start_seconds": 196.11,
+      "end_seconds": 204.34,
+      "script_section_id": "sc3.4_06",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "戴明建議我們，先把所有的不良事件，根據他们發生的時間以及影響程度，畫出一份「控制圖」。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical quality control board.\nACTION: Statistical control chart unrolls with Upper and Lower Control Limits (UCL / LCL); red paper dots outside the band get stamped 'SPECIAL EVENT: HIGH IMPACT'; yellow dots inside get labeled 'COMMON NOISE: SYSTEM ISSUE'.\nTEXT: 'CONTROL CHART', 'UCL', 'LCL', 'SPECIAL CAUSE', 'SYSTEMIC COMMON'\nAUDIO: Chart unroll flutter, red stamp impact, rapid dot placement clicks, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_07",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 07",
+      "start_seconds": 204.34,
+      "end_seconds": 208.42,
+      "script_section_id": "sc3.4_07",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "然後再根據他们的落點，分成兩大類。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical quality control board.\nACTION: Statistical control chart unrolls with Upper and Lower Control Limits (UCL / LCL); red paper dots outside the band get stamped 'SPECIAL EVENT: HIGH IMPACT'; yellow dots inside get labeled 'COMMON NOISE: SYSTEM ISSUE'.\nTEXT: 'CONTROL CHART', 'UCL', 'LCL', 'SPECIAL CAUSE', 'SYSTEMIC COMMON'\nAUDIO: Chart unroll flutter, red stamp impact, rapid dot placement clicks, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_08",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 08",
+      "start_seconds": 208.42,
+      "end_seconds": 214.92,
+      "script_section_id": "sc3.4_08",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "第一類稱為「特殊事件」，也就是那些零零星星，散落在區間外的不良事件。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical quality control board.\nACTION: Statistical control chart unrolls with Upper and Lower Control Limits (UCL / LCL); red paper dots outside the band get stamped 'SPECIAL EVENT: HIGH IMPACT'; yellow dots inside get labeled 'COMMON NOISE: SYSTEM ISSUE'.\nTEXT: 'CONTROL CHART', 'UCL', 'LCL', 'SPECIAL CAUSE', 'SYSTEMIC COMMON'\nAUDIO: Chart unroll flutter, red stamp impact, rapid dot placement clicks, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_09",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 09",
+      "start_seconds": 214.92,
+      "end_seconds": 221.3,
+      "script_section_id": "sc3.4_09",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "第二類則稱為「常態事件」，也就是那些數量龐大，聚集在區間內的事件。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical quality control board.\nACTION: Statistical control chart unrolls with Upper and Lower Control Limits (UCL / LCL); red paper dots outside the band get stamped 'SPECIAL EVENT: HIGH IMPACT'; yellow dots inside get labeled 'COMMON NOISE: SYSTEM ISSUE'.\nTEXT: 'CONTROL CHART', 'UCL', 'LCL', 'SPECIAL CAUSE', 'SYSTEMIC COMMON'\nAUDIO: Chart unroll flutter, red stamp impact, rapid dot placement clicks, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_10",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 10",
+      "start_seconds": 221.3,
+      "end_seconds": 228.24,
+      "script_section_id": "sc3.4_10",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "當你的資源有限時，應該優先處理「特殊事件」，而把「常態事件」留到以後再處理。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical quality control board.\nACTION: Statistical control chart unrolls with Upper and Lower Control Limits (UCL / LCL); red paper dots outside the band get stamped 'SPECIAL EVENT: HIGH IMPACT'; yellow dots inside get labeled 'COMMON NOISE: SYSTEM ISSUE'.\nTEXT: 'CONTROL CHART', 'UCL', 'LCL', 'SPECIAL CAUSE', 'SYSTEMIC COMMON'\nAUDIO: Chart unroll flutter, red stamp impact, rapid dot placement clicks, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_11",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 11",
+      "start_seconds": 228.24,
+      "end_seconds": 238.13,
+      "script_section_id": "sc3.4_11",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "為什麼呢？因為，特殊事件的數量通常很少，危害卻很大，而且，因果關係比較清楚，容易診斷。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical quality control board.\nACTION: Statistical control chart unrolls with Upper and Lower Control Limits (UCL / LCL); red paper dots outside the band get stamped 'SPECIAL EVENT: HIGH IMPACT'; yellow dots inside get labeled 'COMMON NOISE: SYSTEM ISSUE'.\nTEXT: 'CONTROL CHART', 'UCL', 'LCL', 'SPECIAL CAUSE', 'SYSTEMIC COMMON'\nAUDIO: Chart unroll flutter, red stamp impact, rapid dot placement clicks, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_12",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 12",
+      "start_seconds": 238.13,
+      "end_seconds": 245.19,
+      "script_section_id": "sc3.4_12",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "畢竟，每個特殊事件都可以找到一個對應的「特殊原因」來解釋，你只要消滅這個原因，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical quality control board.\nACTION: Statistical control chart unrolls with Upper and Lower Control Limits (UCL / LCL); red paper dots outside the band get stamped 'SPECIAL EVENT: HIGH IMPACT'; yellow dots inside get labeled 'COMMON NOISE: SYSTEM ISSUE'.\nTEXT: 'CONTROL CHART', 'UCL', 'LCL', 'SPECIAL CAUSE', 'SYSTEMIC COMMON'\nAUDIO: Chart unroll flutter, red stamp impact, rapid dot placement clicks, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_13",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 13",
+      "start_seconds": 245.19,
+      "end_seconds": 253.52,
+      "script_section_id": "sc3.4_13",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "特殊事件就不會再發生了，問題也就解決了。所以，你應該優先處理特殊事件。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical quality control board.\nACTION: Statistical control chart unrolls with Upper and Lower Control Limits (UCL / LCL); red paper dots outside the band get stamped 'SPECIAL EVENT: HIGH IMPACT'; yellow dots inside get labeled 'COMMON NOISE: SYSTEM ISSUE'.\nTEXT: 'CONTROL CHART', 'UCL', 'LCL', 'SPECIAL CAUSE', 'SYSTEMIC COMMON'\nAUDIO: Chart unroll flutter, red stamp impact, rapid dot placement clicks, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_14",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 14",
+      "start_seconds": 253.52,
+      "end_seconds": 263.14,
+      "script_section_id": "sc3.4_14",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "例如，某些誤點是由「高壓電線斷裂、駕駛員疏忽、平交道車禍」所造成的，這就是特殊事件，應該要優先處理。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Statistical quality control board.\nACTION: Statistical control chart unrolls with Upper and Lower Control Limits (UCL / LCL); red paper dots outside the band get stamped 'SPECIAL EVENT: HIGH IMPACT'; yellow dots inside get labeled 'COMMON NOISE: SYSTEM ISSUE'.\nTEXT: 'CONTROL CHART', 'UCL', 'LCL', 'SPECIAL CAUSE', 'SYSTEMIC COMMON'\nAUDIO: Chart unroll flutter, red stamp impact, rapid dot placement clicks, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_15",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 15",
+      "start_seconds": 263.14,
+      "end_seconds": 271.3,
+      "script_section_id": "sc3.4_15",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "至於「常態事件」啊，通常數量龐大，為害卻不明顯，而且，往往也找不到明確的原因來解釋。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Root-cause investigation drafting board.\nACTION: A classic paper Fishbone Diagram (Ishikawa) unfolds in stop-motion; six main diagonal ribs branch out labeled: 'MAN', 'METHOD', 'MACHINE', 'MANAGEMENT', 'ENVIRONMENT', 'MATERIAL'; red arrows point to specific root causes.\nTEXT: 'FISHBONE DIAGRAM', 'MAN', 'MACHINE', 'METHOD', 'ENVIRONMENT'\nAUDIO: Paper folding rustle, six sharp bone placement clicks, low mysterious bass drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_16",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 16",
+      "start_seconds": 271.3,
+      "end_seconds": 280.11,
+      "script_section_id": "sc3.4_16",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "以台鐵誤點問題為例，最常見的，就是那些慢個三分鐘，五分鐘的誤點，你很難指出是那個原因要負責，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Root-cause investigation drafting board.\nACTION: A classic paper Fishbone Diagram (Ishikawa) unfolds in stop-motion; six main diagonal ribs branch out labeled: 'MAN', 'METHOD', 'MACHINE', 'MANAGEMENT', 'ENVIRONMENT', 'MATERIAL'; red arrows point to specific root causes.\nTEXT: 'FISHBONE DIAGRAM', 'MAN', 'MACHINE', 'METHOD', 'ENVIRONMENT'\nAUDIO: Paper folding rustle, six sharp bone placement clicks, low mysterious bass drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_17",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 17",
+      "start_seconds": 280.11,
+      "end_seconds": 285.75,
+      "script_section_id": "sc3.4_17",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "只能說是「整體環境所造成」。你真要檢討，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Root-cause investigation drafting board.\nACTION: A classic paper Fishbone Diagram (Ishikawa) unfolds in stop-motion; six main diagonal ribs branch out labeled: 'MAN', 'METHOD', 'MACHINE', 'MANAGEMENT', 'ENVIRONMENT', 'MATERIAL'; red arrows point to specific root causes.\nTEXT: 'FISHBONE DIAGRAM', 'MAN', 'MACHINE', 'METHOD', 'ENVIRONMENT'\nAUDIO: Paper folding rustle, six sharp bone placement clicks, low mysterious bass drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_18",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 18",
+      "start_seconds": 285.75,
+      "end_seconds": 293.36,
+      "script_section_id": "sc3.4_18",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "可能可以講成是「時刻表設計不良+月台動線規劃不當+票務系統有問題+駕駛員訓練不足",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Root-cause investigation drafting board.\nACTION: A classic paper Fishbone Diagram (Ishikawa) unfolds in stop-motion; six main diagonal ribs branch out labeled: 'MAN', 'METHOD', 'MACHINE', 'MANAGEMENT', 'ENVIRONMENT', 'MATERIAL'; red arrows point to specific root causes.\nTEXT: 'FISHBONE DIAGRAM', 'MAN', 'MACHINE', 'METHOD', 'ENVIRONMENT'\nAUDIO: Paper folding rustle, six sharp bone placement clicks, low mysterious bass drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_19",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 19",
+      "start_seconds": 293.36,
+      "end_seconds": 297.73,
+      "script_section_id": "sc3.4_19",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "+維修調度不配合...」是這些「共業」一起造成的。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Root-cause investigation drafting board.\nACTION: A classic paper Fishbone Diagram (Ishikawa) unfolds in stop-motion; six main diagonal ribs branch out labeled: 'MAN', 'METHOD', 'MACHINE', 'MANAGEMENT', 'ENVIRONMENT', 'MATERIAL'; red arrows point to specific root causes.\nTEXT: 'FISHBONE DIAGRAM', 'MAN', 'MACHINE', 'METHOD', 'ENVIRONMENT'\nAUDIO: Paper folding rustle, six sharp bone placement clicks, low mysterious bass drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_20",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 20",
+      "start_seconds": 297.73,
+      "end_seconds": 306.06,
+      "script_section_id": "sc3.4_20",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "要想解決這類誤點啊，就非常麻煩，必須提昇整體營運系統，才有可能，所以我們通常先不處理。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Root-cause investigation drafting board.\nACTION: A classic paper Fishbone Diagram (Ishikawa) unfolds in stop-motion; six main diagonal ribs branch out labeled: 'MAN', 'METHOD', 'MACHINE', 'MANAGEMENT', 'ENVIRONMENT', 'MATERIAL'; red arrows point to specific root causes.\nTEXT: 'FISHBONE DIAGRAM', 'MAN', 'MACHINE', 'METHOD', 'ENVIRONMENT'\nAUDIO: Paper folding rustle, six sharp bone placement clicks, low mysterious bass drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_21",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 21",
+      "start_seconds": 306.06,
+      "end_seconds": 312.06,
+      "script_section_id": "sc3.4_21",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "列出所有的「特殊事件」之後啊，接著就要一一分析出每個特殊事件的原因。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Root-cause investigation drafting board.\nACTION: A classic paper Fishbone Diagram (Ishikawa) unfolds in stop-motion; six main diagonal ribs branch out labeled: 'MAN', 'METHOD', 'MACHINE', 'MANAGEMENT', 'ENVIRONMENT', 'MATERIAL'; red arrows point to specific root causes.\nTEXT: 'FISHBONE DIAGRAM', 'MAN', 'MACHINE', 'METHOD', 'ENVIRONMENT'\nAUDIO: Paper folding rustle, six sharp bone placement clicks, low mysterious bass drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_22",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 22",
+      "start_seconds": 312.06,
+      "end_seconds": 318.64,
+      "script_section_id": "sc3.4_22",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "那分析的時候，建議你可以採用心智圖法，靠著自由聯想來擴大思考空間。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Root-cause investigation drafting board.\nACTION: A classic paper Fishbone Diagram (Ishikawa) unfolds in stop-motion; six main diagonal ribs branch out labeled: 'MAN', 'METHOD', 'MACHINE', 'MANAGEMENT', 'ENVIRONMENT', 'MATERIAL'; red arrows point to specific root causes.\nTEXT: 'FISHBONE DIAGRAM', 'MAN', 'MACHINE', 'METHOD', 'ENVIRONMENT'\nAUDIO: Paper folding rustle, six sharp bone placement clicks, low mysterious bass drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_23",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 23",
+      "start_seconds": 318.64,
+      "end_seconds": 323.85,
+      "script_section_id": "sc3.4_23",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "或者採用腦力激盪法，透過小組會議來擴大靈感來源。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Root-cause investigation drafting board.\nACTION: A classic paper Fishbone Diagram (Ishikawa) unfolds in stop-motion; six main diagonal ribs branch out labeled: 'MAN', 'METHOD', 'MACHINE', 'MANAGEMENT', 'ENVIRONMENT', 'MATERIAL'; red arrows point to specific root causes.\nTEXT: 'FISHBONE DIAGRAM', 'MAN', 'MACHINE', 'METHOD', 'ENVIRONMENT'\nAUDIO: Paper folding rustle, six sharp bone placement clicks, low mysterious bass drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_24",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 24",
+      "start_seconds": 323.85,
+      "end_seconds": 331.6,
+      "script_section_id": "sc3.4_24",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "那最常用的，則是「魚骨圖法」，讓你可以進行地毯式搜索，將各種面向的原因都一網打盡。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Root-cause investigation drafting board.\nACTION: A classic paper Fishbone Diagram (Ishikawa) unfolds in stop-motion; six main diagonal ribs branch out labeled: 'MAN', 'METHOD', 'MACHINE', 'MANAGEMENT', 'ENVIRONMENT', 'MATERIAL'; red arrows point to specific root causes.\nTEXT: 'FISHBONE DIAGRAM', 'MAN', 'MACHINE', 'METHOD', 'ENVIRONMENT'\nAUDIO: Paper folding rustle, six sharp bone placement clicks, low mysterious bass drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_25",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 25",
+      "start_seconds": 331.6,
+      "end_seconds": 338.75,
+      "script_section_id": "sc3.4_25",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "舉例而言，台鐵為了找出特殊事件的誤點原因，可以針對每次誤點，都透過魚骨圖法，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Root-cause investigation drafting board.\nACTION: A classic paper Fishbone Diagram (Ishikawa) unfolds in stop-motion; six main diagonal ribs branch out labeled: 'MAN', 'METHOD', 'MACHINE', 'MANAGEMENT', 'ENVIRONMENT', 'MATERIAL'; red arrows point to specific root causes.\nTEXT: 'FISHBONE DIAGRAM', 'MAN', 'MACHINE', 'METHOD', 'ENVIRONMENT'\nAUDIO: Paper folding rustle, six sharp bone placement clicks, low mysterious bass drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_26",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 26",
+      "start_seconds": 338.75,
+      "end_seconds": 348.69,
+      "script_section_id": "sc3.4_26",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "從「個人、流程、設備、管理、環境、材料」六個面向，執行全方位的地毯式探索，就一定可以找到原因。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Root-cause investigation drafting board.\nACTION: A classic paper Fishbone Diagram (Ishikawa) unfolds in stop-motion; six main diagonal ribs branch out labeled: 'MAN', 'METHOD', 'MACHINE', 'MANAGEMENT', 'ENVIRONMENT', 'MATERIAL'; red arrows point to specific root causes.\nTEXT: 'FISHBONE DIAGRAM', 'MAN', 'MACHINE', 'METHOD', 'ENVIRONMENT'\nAUDIO: Paper folding rustle, six sharp bone placement clicks, low mysterious bass drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.4_27",
+      "scene_num": "3.4",
+      "type": "animation",
+      "description": "Scene 3.4 Shot 27",
+      "start_seconds": 348.69,
+      "end_seconds": 356.35,
+      "script_section_id": "sc3.4_27",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "不過要注意，每個特殊事件，都要執行一次，才可以把所有的誤點原因，都一網打盡。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Root-cause investigation drafting board.\nACTION: A classic paper Fishbone Diagram (Ishikawa) unfolds in stop-motion; six main diagonal ribs branch out labeled: 'MAN', 'METHOD', 'MACHINE', 'MANAGEMENT', 'ENVIRONMENT', 'MATERIAL'; red arrows point to specific root causes.\nTEXT: 'FISHBONE DIAGRAM', 'MAN', 'MACHINE', 'METHOD', 'ENVIRONMENT'\nAUDIO: Paper folding rustle, six sharp bone placement clicks, low mysterious bass drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.5_01",
+      "scene_num": "3.5",
+      "type": "animation",
+      "description": "Scene 3.5 Shot 01",
+      "start_seconds": 356.35,
+      "end_seconds": 365.76,
+      "script_section_id": "sc3.5_01",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "找到原因之後，接著就要設計對策。建議你可以採用反魚骨圖法，針對每個原因，設計一套對策。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Solutions and executive SOP desk.\nACTION: Reverse fishbone diagram branches transform into green checkmarks; paper high-voltage wire repair cutout and railway barrier gate cutouts appear; a formal brown kraft folder stamped 'SOP: STANDARD OPERATING PROCEDURE' closes firmly with gold seal.\nTEXT: 'COUNTERMEASURES', 'ELIMINATE ROOT CAUSE', 'SOP APPROVED'\nAUDIO: Green stamp snap, binder click, wax seal stamp thud, triumphant brass fanfare, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.5_02",
+      "scene_num": "3.5",
+      "type": "animation",
+      "description": "Scene 3.5 Shot 02",
+      "start_seconds": 365.76,
+      "end_seconds": 373.42,
+      "script_section_id": "sc3.5_02",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "剛剛有提到。「特殊事件」的對策很簡單，只要想辦法把對應的「特殊原因」消滅就好了。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Solutions and executive SOP desk.\nACTION: Reverse fishbone diagram branches transform into green checkmarks; paper high-voltage wire repair cutout and railway barrier gate cutouts appear; a formal brown kraft folder stamped 'SOP: STANDARD OPERATING PROCEDURE' closes firmly with gold seal.\nTEXT: 'COUNTERMEASURES', 'ELIMINATE ROOT CAUSE', 'SOP APPROVED'\nAUDIO: Green stamp snap, binder click, wax seal stamp thud, triumphant brass fanfare, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.5_03",
+      "scene_num": "3.5",
+      "type": "animation",
+      "description": "Scene 3.5 Shot 03",
+      "start_seconds": 373.42,
+      "end_seconds": 382.56,
+      "script_section_id": "sc3.5_03",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "舉例而言，「高壓電線斷裂」就是一個特殊原因，消滅這個原因的對策可以是：改用更好的材質、做好保養工作、",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Solutions and executive SOP desk.\nACTION: Reverse fishbone diagram branches transform into green checkmarks; paper high-voltage wire repair cutout and railway barrier gate cutouts appear; a formal brown kraft folder stamped 'SOP: STANDARD OPERATING PROCEDURE' closes firmly with gold seal.\nTEXT: 'COUNTERMEASURES', 'ELIMINATE ROOT CAUSE', 'SOP APPROVED'\nAUDIO: Green stamp snap, binder click, wax seal stamp thud, triumphant brass fanfare, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.5_04",
+      "scene_num": "3.5",
+      "type": "animation",
+      "description": "Scene 3.5 Shot 04",
+      "start_seconds": 382.56,
+      "end_seconds": 391.54,
+      "script_section_id": "sc3.5_04",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "平衡電力負載...等。那「平交道車禍」則是另一個特殊原因，消滅這個原因的對策可能是「檢修交通號誌、",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Solutions and executive SOP desk.\nACTION: Reverse fishbone diagram branches transform into green checkmarks; paper high-voltage wire repair cutout and railway barrier gate cutouts appear; a formal brown kraft folder stamped 'SOP: STANDARD OPERATING PROCEDURE' closes firmly with gold seal.\nTEXT: 'COUNTERMEASURES', 'ELIMINATE ROOT CAUSE', 'SOP APPROVED'\nAUDIO: Green stamp snap, binder click, wax seal stamp thud, triumphant brass fanfare, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.5_05",
+      "scene_num": "3.5",
+      "type": "animation",
+      "description": "Scene 3.5 Shot 05",
+      "start_seconds": 391.54,
+      "end_seconds": 395.28,
+      "script_section_id": "sc3.5_05",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "加強護欄設備、鐵路地下化」等",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Solutions and executive SOP desk.\nACTION: Reverse fishbone diagram branches transform into green checkmarks; paper high-voltage wire repair cutout and railway barrier gate cutouts appear; a formal brown kraft folder stamped 'SOP: STANDARD OPERATING PROCEDURE' closes firmly with gold seal.\nTEXT: 'COUNTERMEASURES', 'ELIMINATE ROOT CAUSE', 'SOP APPROVED'\nAUDIO: Green stamp snap, binder click, wax seal stamp thud, triumphant brass fanfare, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.5_06",
+      "scene_num": "3.5",
+      "type": "animation",
+      "description": "Scene 3.5 Shot 06",
+      "start_seconds": 395.28,
+      "end_seconds": 401.57,
+      "script_section_id": "sc3.5_06",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "「常態事件」的對策就比較複雜了，因為他必須要能夠「提昇整體的營運效能」，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Solutions and executive SOP desk.\nACTION: Reverse fishbone diagram branches transform into green checkmarks; paper high-voltage wire repair cutout and railway barrier gate cutouts appear; a formal brown kraft folder stamped 'SOP: STANDARD OPERATING PROCEDURE' closes firmly with gold seal.\nTEXT: 'COUNTERMEASURES', 'ELIMINATE ROOT CAUSE', 'SOP APPROVED'\nAUDIO: Green stamp snap, binder click, wax seal stamp thud, triumphant brass fanfare, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.5_07",
+      "scene_num": "3.5",
+      "type": "animation",
+      "description": "Scene 3.5 Shot 07",
+      "start_seconds": 401.57,
+      "end_seconds": 405.27,
+      "script_section_id": "sc3.5_07",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "所以內容通常是一整組的配套方案，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Solutions and executive SOP desk.\nACTION: Reverse fishbone diagram branches transform into green checkmarks; paper high-voltage wire repair cutout and railway barrier gate cutouts appear; a formal brown kraft folder stamped 'SOP: STANDARD OPERATING PROCEDURE' closes firmly with gold seal.\nTEXT: 'COUNTERMEASURES', 'ELIMINATE ROOT CAUSE', 'SOP APPROVED'\nAUDIO: Green stamp snap, binder click, wax seal stamp thud, triumphant brass fanfare, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.5_08",
+      "scene_num": "3.5",
+      "type": "animation",
+      "description": "Scene 3.5 Shot 08",
+      "start_seconds": 405.27,
+      "end_seconds": 413.26,
+      "script_section_id": "sc3.5_08",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "項目可能包括「調整時刻表+調整月台動線+調整票務系統+調整訓練課程+調整調度方式...」，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Solutions and executive SOP desk.\nACTION: Reverse fishbone diagram branches transform into green checkmarks; paper high-voltage wire repair cutout and railway barrier gate cutouts appear; a formal brown kraft folder stamped 'SOP: STANDARD OPERATING PROCEDURE' closes firmly with gold seal.\nTEXT: 'COUNTERMEASURES', 'ELIMINATE ROOT CAUSE', 'SOP APPROVED'\nAUDIO: Green stamp snap, binder click, wax seal stamp thud, triumphant brass fanfare, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.5_09",
+      "scene_num": "3.5",
+      "type": "animation",
+      "description": "Scene 3.5 Shot 09",
+      "start_seconds": 413.26,
+      "end_seconds": 418.11,
+      "script_section_id": "sc3.5_09",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "而且這些項目要一起實施，才有可能改善這類的誤點。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Solutions and executive SOP desk.\nACTION: Reverse fishbone diagram branches transform into green checkmarks; paper high-voltage wire repair cutout and railway barrier gate cutouts appear; a formal brown kraft folder stamped 'SOP: STANDARD OPERATING PROCEDURE' closes firmly with gold seal.\nTEXT: 'COUNTERMEASURES', 'ELIMINATE ROOT CAUSE', 'SOP APPROVED'\nAUDIO: Green stamp snap, binder click, wax seal stamp thud, triumphant brass fanfare, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.5_10",
+      "scene_num": "3.5",
+      "type": "animation",
+      "description": "Scene 3.5 Shot 10",
+      "start_seconds": 418.11,
+      "end_seconds": 427.35,
+      "script_section_id": "sc3.5_10",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "對策設計完成之後，請以專案管理員的角度，把實施步驟訂定出來，內容應包括：工作項目，工作進度，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Solutions and executive SOP desk.\nACTION: Reverse fishbone diagram branches transform into green checkmarks; paper high-voltage wire repair cutout and railway barrier gate cutouts appear; a formal brown kraft folder stamped 'SOP: STANDARD OPERATING PROCEDURE' closes firmly with gold seal.\nTEXT: 'COUNTERMEASURES', 'ELIMINATE ROOT CAUSE', 'SOP APPROVED'\nAUDIO: Green stamp snap, binder click, wax seal stamp thud, triumphant brass fanfare, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc3.5_11",
+      "scene_num": "3.5",
+      "type": "animation",
+      "description": "Scene 3.5 Shot 11",
+      "start_seconds": 427.35,
+      "end_seconds": 433.83,
+      "script_section_id": "sc3.5_11",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "負責人員，使用器材，以及，最重要的一點，測量成果的方式。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Solutions and executive SOP desk.\nACTION: Reverse fishbone diagram branches transform into green checkmarks; paper high-voltage wire repair cutout and railway barrier gate cutouts appear; a formal brown kraft folder stamped 'SOP: STANDARD OPERATING PROCEDURE' closes firmly with gold seal.\nTEXT: 'COUNTERMEASURES', 'ELIMINATE ROOT CAUSE', 'SOP APPROVED'\nAUDIO: Green stamp snap, binder click, wax seal stamp thud, triumphant brass fanfare, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    }
+  ]
+}

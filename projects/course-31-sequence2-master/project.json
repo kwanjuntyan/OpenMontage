@@ -1,0 +1,20 @@
+{
+  "version": "1.0",
+  "created_at": "2026-09-10T15:12:00.000000+00:00",
+  "project_id": "course-31-sequence2-master",
+  "title": "《Sequence 2: 簡介PDCA》全單元大片 (Scene 2.1 + 2.2 + 2.3 合體版)",
+  "pipeline_type": "animated-explainer",
+  "style_playbook": "vox-paper-collage",
+  "metadata": {
+    "target_duration": 266.0,
+    "aspect_ratio": "16:9",
+    "fps": 24,
+    "actual_duration": 266.13,
+    "total_scenes": 42
+  },
+  "status": "completed",
+  "current_stage": "compose",
+  "deliverable": "sequence_2_intro_pdca_master.mp4",
+  "thumbnail": "assets/images/thumb_seq2.jpg",
+  "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence2-master/renders/final.mp4"
+}

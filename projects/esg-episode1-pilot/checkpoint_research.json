@@ -1,0 +1,12 @@
+{
+  "version": "1.0",
+  "project_id": "esg-episode1-pilot",
+  "pipeline_type": "cinematic",
+  "stage": "research",
+  "status": "completed",
+  "timestamp": "2026-09-10T04:47:04.339147+00:00",
+  "human_approved": true,
+  "review": {
+    "passed": true
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "version": "1.0",
+  "title": "課程 31：PDCA 循環的誕生與持續改善",
+  "sections": [
+    {
+      "id": "line_01",
+      "label": "SC01",
+      "text": "首先，讓我來講個故事…二次大戰之後，日本戰敗。",
+      "start_seconds": 0.0,
+      "end_seconds": 5.4
+    },
+    {
+      "id": "line_02",
+      "label": "SC02",
+      "text": "為了協助日本重建，盟軍主帥麥克阿瑟將軍，",
+      "start_seconds": 5.4,
+      "end_seconds": 9.84
+    },
+    {
+      "id": "line_03",
+      "label": "SC03",
+      "text": "就從美國組了一群顧問團來幫忙。",
+      "start_seconds": 9.84,
+      "end_seconds": 13.37
+    },
+    {
+      "id": "line_04",
+      "label": "SC04",
+      "text": "這顧問團裡面有一位戴明博士，原本是個統計學家，是要來幫日本進行人口普查的，",
+      "start_seconds": 13.37,
+      "end_seconds": 20.67
+    },
+    {
+      "id": "line_05",
+      "label": "SC05",
+      "text": "但看到日本產業殘破不堪，品質低劣，",
+      "start_seconds": 20.67,
+      "end_seconds": 24.65
+    },
+    {
+      "id": "line_06",
+      "label": "SC06",
+      "text": "所以，他也開始傳授日本企業品質管理技巧，希望能幫忙提昇他们的產品品質，",
+      "start_seconds": 24.65,
+      "end_seconds": 31.78
+    },
+    {
+      "id": "line_07",
+      "label": "SC07",
+      "text": "以擴大市場，促進就業！",
+      "start_seconds": 31.78,
+      "end_seconds": 35.0
+    },
+    {
+      "id": "line_08",
+      "label": "SC08",
+      "text": "那戴明的這套品質管理技術，其實起源自美國，強調要觀察事實，還有統計分析。",
+      "start_seconds": 35.0,
+      "end_seconds": 42.15
+    },
+    {
+      "id": "line_09",
+      "label": "SC09",
+      "text": "但這套技術因為緩慢費時，在美國並不受重視。",
+      "start_seconds": 42.15,
+      "end_seconds": 47.0
+    },
+    {
+      "id": "line_10",
+      "label": "SC10",
+      "text": "沒想到，日本正好是個注重細節的民族，",
+      "start_seconds": 47.0,
+      "end_seconds": 51.46
+    },
+    {
+      "id": "line_11",
+      "label": "SC11",
+      "text": "連倒一杯茶，都可以分解成幾十個動作。",
+      "start_seconds": 51.46,
+      "end_seconds": 55.59
+    },
+    {
+      "id": "line_12",
+      "label": "SC12",
+      "text": "所以，戴明的理論，很快就引起日本人的重視。",
+      "start_seconds": 55.59,
+      "end_seconds": 60.56
+    },
+    {
+      "id": "line_13",
+      "label": "SC13",
+      "text": "全日本的知名企業，包括豐田汽車，松下電器，三菱重工等等，",
+      "start_seconds": 60.56,
+      "end_seconds": 66.94
+    },
+    {
+      "id": "line_14",
+      "label": "SC14",
+      "text": "都派出高階主管來接受訓練，而且把學習的成果帶回公司，深入應用到每個部門。",
+      "start_seconds": 66.94,
+      "end_seconds": 73.95
+    },
+    {
+      "id": "line_15",
+      "label": "SC15",
+      "text": "戴明因此受到全日本的敬重，連天皇都頒贈勳章給他。",
+      "start_seconds": 73.95,
+      "end_seconds": 79.09
+    }
+  ]
+}

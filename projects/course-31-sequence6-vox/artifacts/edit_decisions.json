@@ -1,0 +1,93 @@
+{
+  "version": "1.0",
+  "project_id": "course-31-sequence6-vox",
+  "total_shots": 14,
+  "total_duration": 99.83,
+  "render_runtime": "ffmpeg",
+  "cuts": [
+    {
+      "id": "sc6.1_01",
+      "video_file": "assets/video/sc6.1_01_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc6.1_line_01.mp3",
+      "duration": 9.98
+    },
+    {
+      "id": "sc6.1_02",
+      "video_file": "assets/video/sc6.1_02_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc6.1_line_02.mp3",
+      "duration": 6.24
+    },
+    {
+      "id": "sc6.2_01",
+      "video_file": "assets/video/sc6.2_01_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc6.2_line_01.mp3",
+      "duration": 4.34
+    },
+    {
+      "id": "sc6.2_02",
+      "video_file": "assets/video/sc6.2_02_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc6.2_line_02.mp3",
+      "duration": 5.14
+    },
+    {
+      "id": "sc6.2_03",
+      "video_file": "assets/video/sc6.2_03_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc6.2_line_03.mp3",
+      "duration": 8.47
+    },
+    {
+      "id": "sc6.2_04",
+      "video_file": "assets/video/sc6.2_04_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc6.2_line_04.mp3",
+      "duration": 3.02
+    },
+    {
+      "id": "sc6.2_05",
+      "video_file": "assets/video/sc6.2_05_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc6.2_line_05.mp3",
+      "duration": 8.86
+    },
+    {
+      "id": "sc6.2_06",
+      "video_file": "assets/video/sc6.2_06_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc6.2_line_06.mp3",
+      "duration": 10.51
+    },
+    {
+      "id": "sc6.2_07",
+      "video_file": "assets/video/sc6.2_07_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc6.2_line_07.mp3",
+      "duration": 5.09
+    },
+    {
+      "id": "sc6.3_01",
+      "video_file": "assets/video/sc6.3_01_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc6.3_line_01.mp3",
+      "duration": 4.32
+    },
+    {
+      "id": "sc6.3_02",
+      "video_file": "assets/video/sc6.3_02_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc6.3_line_02.mp3",
+      "duration": 7.9
+    },
+    {
+      "id": "sc6.3_03",
+      "video_file": "assets/video/sc6.3_03_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc6.3_line_03.mp3",
+      "duration": 8.09
+    },
+    {
+      "id": "sc6.3_04",
+      "video_file": "assets/video/sc6.3_04_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc6.3_line_04.mp3",
+      "duration": 8.23
+    },
+    {
+      "id": "sc6.3_05",
+      "video_file": "assets/video/sc6.3_05_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc6.3_line_05.mp3",
+      "duration": 9.58
+    }
+  ]
+}

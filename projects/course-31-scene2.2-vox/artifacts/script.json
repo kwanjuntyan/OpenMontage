@@ -1,0 +1,62 @@
+{
+  "version": "1.0",
+  "title": "《何謂PDCA循環》Scene 2.2",
+  "sections": [
+    {
+      "id": "line_01",
+      "title": "Shot 01: 戴明理論核心與PDCA引題",
+      "text": "其實啊，戴明博士的理論核心，說穿了非常簡單，就是一個「PDCA循環」，意思是：當你想要改善一個流程，",
+      "duration": 9.26,
+      "audio_file": "assets/audio/line_01.mp3"
+    },
+    {
+      "id": "line_02",
+      "title": "Shot 02: 流程斷裂與問題浮現",
+      "text": "或者解決一個問題時，你應該按照「Plan, Do, Check,",
+      "duration": 5.02,
+      "audio_file": "assets/audio/line_02.mp3"
+    },
+    {
+      "id": "line_03",
+      "title": "Shot 03: 四大步驟閉環拼貼",
+      "text": "Act，也就是規劃，執行，稽核，行動」這四個步驟，來尋找改進方法！",
+      "duration": 7.15,
+      "audio_file": "assets/audio/line_03.mp3"
+    },
+    {
+      "id": "line_04",
+      "title": "Shot 04: 四步未解與紅叉重啟",
+      "text": "如果這四個步驟走完之後，問題還沒有解決，代表你的方法還不夠好，這時候你就應該再一次地執行這四個步驟，",
+      "duration": 8.78,
+      "audio_file": "assets/audio/line_04.mp3"
+    },
+    {
+      "id": "line_05",
+      "title": "Shot 05: 迴圈堅持與綠標解決",
+      "text": "這樣堅持下去，最後一定可以把問題解決！",
+      "duration": 4.39,
+      "audio_file": "assets/audio/line_05.mp3"
+    },
+    {
+      "id": "line_06",
+      "title": "Shot 06: 品質改善永無止境",
+      "text": "而由於品質的改善是沒有止境的。",
+      "duration": 3.53,
+      "audio_file": "assets/audio/line_06.mp3"
+    },
+    {
+      "id": "line_07",
+      "title": "Shot 07: 提高標準與螺旋上升",
+      "text": "所以，即使先前的問題，解決了，你也可以提高標準，找到新的問題，然後啟動新一輪的PDCA來解決。",
+      "duration": 9.46,
+      "audio_file": "assets/audio/line_07.mp3"
+    },
+    {
+      "id": "line_08",
+      "title": "Shot 08: 卓越殿堂與金箔徽章",
+      "text": "就這樣，透過不斷地提高標準，不斷地改善流程，就可以把產品或服務的品質，提昇到卓越的地步！",
+      "duration": 8.64,
+      "audio_file": "assets/audio/line_08.mp3"
+    }
+  ]
+}

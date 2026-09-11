@@ -1,0 +1,62 @@
+{
+  "version": "1.0",
+  "style": {},
+  "characters": [
+    {
+      "id": "wooden-master",
+      "display_name": "\u6728\u4eba\u5c0f\u5e2b\u5085 (Master Mu)",
+      "role": "\u60c5\u5883\u5be6\u6230\u7e3d\u6559\u982d",
+      "body_type": "\u529f\u592b\u6b66\u8853\u6728\u4eba\u5076",
+      "style": "cartoon",
+      "silhouette_notes": "",
+      "required_emotions": [
+        "neutral",
+        "happy",
+        "surprised",
+        "focused"
+      ],
+      "required_actions": [
+        "idle",
+        "blink",
+        "gesture",
+        "strike",
+        "nod"
+      ],
+      "required_views": [
+        "front",
+        "side"
+      ],
+      "props": [],
+      "constraints": []
+    },
+    {
+      "id": "ai-bot",
+      "display_name": "AI \u667a\u591a\u661f (AI Buddy)",
+      "role": "\u667a\u6167\u5b78\u7fd2\u5c0e\u5e2b",
+      "body_type": "\u79d1\u6280\u61f8\u6d6e\u5713\u7403\u5c0f\u7cbe\u9748",
+      "style": "cartoon",
+      "silhouette_notes": "",
+      "required_emotions": [
+        "neutral",
+        "happy",
+        "curious"
+      ],
+      "required_actions": [
+        "idle",
+        "blink",
+        "wave",
+        "spark"
+      ],
+      "required_views": [
+        "front",
+        "side"
+      ],
+      "props": [],
+      "constraints": []
+    }
+  ],
+  "metadata": {
+    "source": "character_spec_generator",
+    "brief": "\u6728\u4eba\u5df7\u5c08\u5c6c 2D \u5361\u901a\u89d2\u8272\uff1a\u6728\u4eba\u5c0f\u5e2b\u5085\u8207 AI \u667a\u591a\u661f"
+  }
+}

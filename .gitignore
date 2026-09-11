@@ -30,7 +30,6 @@ projects/*
 !projects/*/
 projects/*/*
 !projects/*/artifacts/
-!projects/*/clp/
 !projects/*/project.json
 !projects/*/checkpoint_*.json
 projects/*/renders/*.mp4

@@ -1,0 +1,12 @@
+{
+  "project_id": "course-31-scene2.2-vox",
+  "status": "completed",
+  "deliverable": "renders/final.mp4",
+  "duration": 56.44,
+  "resolution": "1280x720",
+  "fps": 24,
+  "codec": "h264 / aac",
+  "filesize_bytes": 19592828,
+  "notes": "Full 8-Shot Vox Paper-Collage 12 FPS Stop-Motion Master for Scene 2.2: 何謂PDCA循環.",
+  "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-scene2.2-vox/renders/final.mp4"
+}

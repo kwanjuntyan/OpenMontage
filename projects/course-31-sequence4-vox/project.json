@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "project_id": "course-31-sequence4-vox",
+  "title": "《Sequence 4: Do / 執行篇》",
+  "pipeline_type": "animated-explainer",
+  "style_playbook": "vox-paper-collage",
+  "metadata": {
+    "target_duration": 74.4,
+    "total_shots": 11,
+    "actual_duration": 74.5
+  },
+  "status": "completed",
+  "current_stage": "compose",
+  "deliverable": "renders/final.mp4",
+  "thumbnail": "assets/images/sc4.1_01_thumb.jpg",
+  "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence4-vox/renders/final.mp4"
+}

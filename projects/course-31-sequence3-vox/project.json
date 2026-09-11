@@ -1,0 +1,21 @@
+{
+  "version": "1.0",
+  "created_at": "2026-09-11T00:12:00.000000+00:00",
+  "project_id": "course-31-sequence3-vox",
+  "title": "《Sequence 3: Plan 規劃篇》全單元大片 (Scene 3.1 ~ 3.5)",
+  "pipeline_type": "animated-explainer",
+  "style_playbook": "vox-paper-collage",
+  "metadata": {
+    "target_duration": 433.83,
+    "aspect_ratio": "16:9",
+    "fps": 24,
+    "total_scenes": 5,
+    "total_shots": 61,
+    "actual_duration": 433.92
+  },
+  "status": "completed",
+  "current_stage": "compose",
+  "deliverable": "renders/final.mp4",
+  "thumbnail": "assets/images/sc3.1_01_thumb.jpg",
+  "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence3-vox/renders/final.mp4"
+}

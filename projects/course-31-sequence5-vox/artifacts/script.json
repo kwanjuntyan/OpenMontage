@@ -1,0 +1,173 @@
+{
+  "version": "1.0",
+  "title": "《Sequence 5: Check / 稽核篇》逐字稿與結構大綱",
+  "total_duration_seconds": 112.48,
+  "total_shots": 15,
+  "sections": [
+    {
+      "id": "sc5.1_01",
+      "scene_num": "5.1",
+      "shot_idx": 1,
+      "title": "Scene 5.1 Shot 01",
+      "text": "一旦你完成Do步驟，代表實驗結束了，這個時候，就要進入Check步驟，目的是要檢驗你所蒐集的數據，",
+      "duration": 8.38,
+      "start_seconds": 0.0,
+      "end_seconds": 8.38,
+      "audio_file": "assets/audio/sc5.1_line_01.mp3"
+    },
+    {
+      "id": "sc5.1_02",
+      "scene_num": "5.1",
+      "shot_idx": 2,
+      "title": "Scene 5.1 Shot 02",
+      "text": "並判定你的對策是否有效！也因此，這個步驟的工作項目將包括：檢討成果、以及，做出決策",
+      "duration": 9.77,
+      "start_seconds": 8.38,
+      "end_seconds": 18.15,
+      "audio_file": "assets/audio/sc5.1_line_02.mp3"
+    },
+    {
+      "id": "sc5.2_01",
+      "scene_num": "5.2",
+      "shot_idx": 1,
+      "title": "Scene 5.2 Shot 01",
+      "text": "檢討成果時，建議你先把所蒐集的資料繪製成控制圖，然後把它和實驗前的控制圖進行比較，",
+      "duration": 7.7,
+      "start_seconds": 18.15,
+      "end_seconds": 25.85,
+      "audio_file": "assets/audio/sc5.2_line_01.mp3"
+    },
+    {
+      "id": "sc5.2_02",
+      "scene_num": "5.2",
+      "shot_idx": 2,
+      "title": "Scene 5.2 Shot 02",
+      "text": "就可以協助判定成敗。而判定的標準，則會根據你的目標是處理「特殊事件」或者「常態事件」而有所不同。",
+      "duration": 9.7,
+      "start_seconds": 25.85,
+      "end_seconds": 35.55,
+      "audio_file": "assets/audio/sc5.2_line_02.mp3"
+    },
+    {
+      "id": "sc5.2_03",
+      "scene_num": "5.2",
+      "shot_idx": 3,
+      "title": "Scene 5.2 Shot 03",
+      "text": "如果你的目標是消除「特殊事件」，就看看實驗後的控制圖，是否所有的特殊事件都消失了，也就是說，",
+      "duration": 8.5,
+      "start_seconds": 35.55,
+      "end_seconds": 44.05,
+      "audio_file": "assets/audio/sc5.2_line_03.mp3"
+    },
+    {
+      "id": "sc5.2_04",
+      "scene_num": "5.2",
+      "shot_idx": 4,
+      "title": "Scene 5.2 Shot 04",
+      "text": "所有誤點，都已經落在固定區間內，沒有落在區間外了。",
+      "duration": 5.21,
+      "start_seconds": 44.05,
+      "end_seconds": 49.26,
+      "audio_file": "assets/audio/sc5.2_line_04.mp3"
+    },
+    {
+      "id": "sc5.2_05",
+      "scene_num": "5.2",
+      "shot_idx": 5,
+      "title": "Scene 5.2 Shot 05",
+      "text": "而如果你的目標是減少「常態事件」，那就看看實驗後誤點的平均值，或者所謂的變異程度，",
+      "duration": 7.49,
+      "start_seconds": 49.26,
+      "end_seconds": 56.75,
+      "audio_file": "assets/audio/sc5.2_line_05.mp3"
+    },
+    {
+      "id": "sc5.2_06",
+      "scene_num": "5.2",
+      "shot_idx": 6,
+      "title": "Scene 5.2 Shot 06",
+      "text": "有沒有比實驗前還低。以下圖為例，實驗後的誤點平均3分鐘，實驗前則是五分鐘，雖然誤點仍然有，",
+      "duration": 9.53,
+      "start_seconds": 56.75,
+      "end_seconds": 66.28,
+      "audio_file": "assets/audio/sc5.2_line_06.mp3"
+    },
+    {
+      "id": "sc5.2_07",
+      "scene_num": "5.2",
+      "shot_idx": 7,
+      "title": "Scene 5.2 Shot 07",
+      "text": "但平均的誤點分鐘數已經大幅降低，代表你的對策是有效的。",
+      "duration": 5.4,
+      "start_seconds": 66.28,
+      "end_seconds": 71.68,
+      "audio_file": "assets/audio/sc5.2_line_07.mp3"
+    },
+    {
+      "id": "sc5.2_08",
+      "scene_num": "5.2",
+      "shot_idx": 8,
+      "title": "Scene 5.2 Shot 08",
+      "text": "戴明認為，檢討這個過程是常重要的，因為他讓你可以找出自己知識不足的地方，可說是一種成長學習的機會。",
+      "duration": 8.86,
+      "start_seconds": 71.68,
+      "end_seconds": 80.54,
+      "audio_file": "assets/audio/sc5.2_line_08.mp3"
+    },
+    {
+      "id": "sc5.2_09",
+      "scene_num": "5.2",
+      "shot_idx": 9,
+      "title": "Scene 5.2 Shot 09",
+      "text": "也因此，戴明後來把PDCA的Check改成Study，變成PDSA，",
+      "duration": 5.4,
+      "start_seconds": 80.54,
+      "end_seconds": 85.94,
+      "audio_file": "assets/audio/sc5.2_line_09.mp3"
+    },
+    {
+      "id": "sc5.2_10",
+      "scene_num": "5.2",
+      "shot_idx": 10,
+      "title": "Scene 5.2 Shot 10",
+      "text": "就是為了強調這個步驟中的研究探索精神。",
+      "duration": 4.08,
+      "start_seconds": 85.94,
+      "end_seconds": 90.02,
+      "audio_file": "assets/audio/sc5.2_line_10.mp3"
+    },
+    {
+      "id": "sc5.3_01",
+      "scene_num": "5.3",
+      "shot_idx": 1,
+      "title": "Scene 5.3 Shot 01",
+      "text": "檢討完畢之後，接著就要回答一個關鍵問題，這個對策究竟有沒有效？這是一個二擇一的決定，沒有灰色地帶。",
+      "duration": 9.86,
+      "start_seconds": 90.02,
+      "end_seconds": 99.88,
+      "audio_file": "assets/audio/sc5.3_line_01.mp3"
+    },
+    {
+      "id": "sc5.3_02",
+      "scene_num": "5.3",
+      "shot_idx": 2,
+      "title": "Scene 5.3 Shot 02",
+      "text": "就像太空梭發射前，指揮官所做的決策一樣，要嘛就是發射，要嘛就是不發射。",
+      "duration": 7.18,
+      "start_seconds": 99.88,
+      "end_seconds": 107.06,
+      "audio_file": "assets/audio/sc5.3_line_02.mp3"
+    },
+    {
+      "id": "sc5.3_03",
+      "scene_num": "5.3",
+      "shot_idx": 3,
+      "title": "Scene 5.3 Shot 03",
+      "text": "而這個決策，對下個步驟的工作內容，將有關鍵性的影響！",
+      "duration": 5.42,
+      "start_seconds": 107.06,
+      "end_seconds": 112.48,
+      "audio_file": "assets/audio/sc5.3_line_03.mp3"
+    }
+  ]
+}

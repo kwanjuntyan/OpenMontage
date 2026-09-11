@@ -1,0 +1,38 @@
+{
+  "project_id": "course-31-pdca-vox",
+  "render_runtime": "ffmpeg",
+  "timeline": [
+    {
+      "scene_id": "sc01",
+      "start": 0.0,
+      "duration": 7.0,
+      "video": "temp_render/sc01_rendered.mp4",
+      "narration": "assets/audio/narration_sc01.mp3"
+    },
+    {
+      "scene_id": "sc02",
+      "start": 7.0,
+      "duration": 7.0,
+      "video": "temp_render/sc02_rendered.mp4",
+      "narration": "assets/audio/narration_sc02.mp3"
+    },
+    {
+      "scene_id": "sc03",
+      "start": 14.0,
+      "duration": 7.0,
+      "video": "temp_render/sc03_rendered.mp4",
+      "narration": "assets/audio/narration_sc03.mp3"
+    },
+    {
+      "scene_id": "sc04",
+      "start": 21.0,
+      "duration": 7.5,
+      "video": "temp_render/sc04_rendered.mp4",
+      "narration": "assets/audio/narration_sc04.mp3"
+    }
+  ],
+  "total_duration": 28.5,
+  "aspect_ratio": "16:9",
+  "resolution": "1280x720",
+  "fps": 24
+}

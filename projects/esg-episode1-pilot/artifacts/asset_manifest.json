@@ -1,0 +1,70 @@
+{
+  "version": "1.0",
+  "project_id": "esg-episode1-pilot",
+  "assets": [
+    {
+      "id": "video_shot1",
+      "scene_id": "scene_01",
+      "type": "video",
+      "path": "visuals/shot1_london_rain.mp4",
+      "exists": true,
+      "renderable": true
+    },
+    {
+      "id": "video_shot2",
+      "scene_id": "scene_02",
+      "type": "video",
+      "path": "visuals/shot2_boardroom_meeting.mp4",
+      "exists": true,
+      "renderable": true
+    },
+    {
+      "id": "video_shot3",
+      "scene_id": "scene_03",
+      "type": "video",
+      "path": "visuals/shot3_harrison_verdict.mp4",
+      "exists": true,
+      "renderable": true
+    },
+    {
+      "id": "video_shot4",
+      "scene_id": "scene_04",
+      "type": "video",
+      "path": "visuals/shot4_on_hold_stamp.mp4",
+      "exists": true,
+      "renderable": true
+    },
+    {
+      "id": "video_shot5",
+      "scene_id": "scene_05",
+      "type": "video",
+      "path": "visuals/shot5_phone_ringing.mp4",
+      "exists": true,
+      "renderable": true
+    },
+    {
+      "id": "video_shot6",
+      "scene_id": "scene_06",
+      "type": "video",
+      "path": "visuals/shot6_supervisor_panic.mp4",
+      "exists": true,
+      "renderable": true
+    },
+    {
+      "id": "video_shot7",
+      "scene_id": "scene_07",
+      "type": "video",
+      "path": "visuals/shot7_amy_shocked_mandarin.mp4",
+      "exists": true,
+      "renderable": true
+    },
+    {
+      "id": "video_shot8",
+      "scene_id": "scene_08",
+      "type": "video",
+      "path": "visuals/shot8_amy_contemplating_mandarin.mp4",
+      "exists": true,
+      "renderable": true
+    }
+  ]
+}

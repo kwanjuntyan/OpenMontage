@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "created_at": "2026-09-10T14:11:00.000000+00:00",
+  "project_id": "course-31-scene2.2-vox",
+  "title": "《何謂PDCA循環》Scene 2.2 VOX說明片",
+  "pipeline_type": "animated-explainer",
+  "style_playbook": "vox-paper-collage",
+  "metadata": {
+    "target_duration": 56.23,
+    "aspect_ratio": "16:9",
+    "fps": 24,
+    "actual_duration": 56.44
+  },
+  "status": "completed",
+  "current_stage": "compose",
+  "deliverable": "renders/final.mp4",
+  "thumbnail": "assets/images/thumb_sc01.jpg",
+  "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-scene2.2-vox/renders/final.mp4"
+}

@@ -1,0 +1,19 @@
+{
+  "version": "1.0",
+  "output_path": "renders/final.mp4",
+  "duration_seconds": 74.5,
+  "file_size_bytes": 32012742,
+  "video_codec": "h264",
+  "audio_codec": "aac",
+  "resolution": "1280x720",
+  "fps": 24,
+  "total_scenes": 3,
+  "total_shots": 11,
+  "individual_renders": [
+    "scene_4.1_intro.mp4",
+    "scene_4.2_execution.mp4",
+    "scene_4.3_feedback.mp4"
+  ],
+  "status": "success",
+  "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence4-vox/renders/final.mp4"
+}

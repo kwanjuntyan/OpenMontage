@@ -1,0 +1,12 @@
+{
+  "project_id": "course-31-pdca-vox",
+  "status": "completed",
+  "deliverable": "renders/final.mp4",
+  "duration": 79.18,
+  "resolution": "1280x720",
+  "fps": 24,
+  "codec": "h264 / aac",
+  "filesize_bytes": 27654864,
+  "notes": "Full 15-Shot Vox Paper-Collage 12 FPS Stop-Motion Master (Gemini Omni 1.1 Flash) aligned with complete Scene 2.1 Taiwanese Mandarin voiceover.",
+  "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-pdca-vox/renders/final.mp4"
+}

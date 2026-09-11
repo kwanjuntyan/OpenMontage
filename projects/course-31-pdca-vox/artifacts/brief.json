@@ -1,0 +1,21 @@
+{
+  "version": "1.0",
+  "title": "《PDCA循環：扭轉命運的品質思維》VOX說明片",
+  "hook": "二戰後日本百廢待興，三十年後卻靠著極致品質橫掃全球，連美國汽車巨頭都被打得措手不及...",
+  "key_points": [
+    "二戰後日本產業品質低劣，盟軍顧問團統計學家戴明博士赴日傳授品管思維",
+    "美日三十年競賽：日本堅持統計改善，1980年NBC專題揭密戴明震撼全美",
+    "核心方法論：PDCA循環（Plan規劃、Do執行、Check稽核、Act行動）",
+    "持續改善（Kaizen）的力量：一次沒解決就再轉一圈，形成無可超越的護城河"
+  ],
+  "core_message": "PDCA循環不是複雜的技術，而是日積月累、不斷提高標準的持續改善力量。",
+  "cta": "深入探索更多企業品質管理與持續改善架構。",
+  "tone": "investigative, sharp, authoritative, inspiring",
+  "style": "vox-explainer",
+  "target_audience": "企業主管、企劃專員、商業決策者、品質管理學員",
+  "target_platform": "generic",
+  "target_duration_seconds": 30.0,
+  "reference_material": [
+    "d:/kj-vox-pdca/scripts/course_31_PDCA_clean_structure.md"
+  ]
+}

@@ -1,0 +1,195 @@
+{
+  "version": "1.0",
+  "fps": 30,
+  "scenes": [
+    {
+      "scene_id": "scene-intro",
+      "start_seconds": 0,
+      "end_seconds": 4,
+      "camera": {
+        "framing": "wide"
+      },
+      "background": "\u6728\u4eba\u5c0f\u5e2b\u5085\u8207 AI \u667a\u591a\u661f\u96d9\u96d9\u767b\u5834\uff0c\u5411\u5b78\u54e1\u97a0\u8eac\u81f4\u610f",
+      "effects": [],
+      "actions": [
+        {
+          "at_seconds": 0.0,
+          "duration_seconds": 0.5,
+          "character_id": "wooden_master",
+          "action": "anticipate",
+          "pose": "idle",
+          "easing": "power2.out"
+        },
+        {
+          "at_seconds": 1.0,
+          "duration_seconds": 1.4,
+          "character_id": "wooden_master",
+          "action": "perform",
+          "pose": "look_right",
+          "easing": "back.out",
+          "notes": "\u6728\u4eba\u5c0f\u5e2b\u5085\u8207 AI \u667a\u591a\u661f\u96d9\u96d9\u767b\u5834\uff0c\u5411\u5b78\u54e1\u97a0\u8eac\u81f4\u610f"
+        },
+        {
+          "at_seconds": 2.8,
+          "duration_seconds": 1.0,
+          "character_id": "wooden_master",
+          "action": "settle",
+          "pose": "idle",
+          "easing": "power2.inOut"
+        },
+        {
+          "at_seconds": 0.32,
+          "duration_seconds": 0.5,
+          "character_id": "ai_bot",
+          "action": "react",
+          "pose": "idle",
+          "easing": "power2.out"
+        },
+        {
+          "at_seconds": 1.32,
+          "duration_seconds": 1.4,
+          "character_id": "ai_bot",
+          "action": "follow",
+          "pose": "surprised",
+          "easing": "back.out",
+          "notes": "\u6728\u4eba\u5c0f\u5e2b\u5085\u8207 AI \u667a\u591a\u661f\u96d9\u96d9\u767b\u5834\uff0c\u5411\u5b78\u54e1\u97a0\u8eac\u81f4\u610f"
+        },
+        {
+          "at_seconds": 3.1199999999999997,
+          "duration_seconds": 1.0,
+          "character_id": "ai_bot",
+          "action": "settle",
+          "pose": "idle",
+          "easing": "power2.inOut"
+        }
+      ]
+    },
+    {
+      "scene_id": "scene-simulation",
+      "start_seconds": 4,
+      "end_seconds": 9,
+      "camera": {
+        "framing": "medium"
+      },
+      "background": "\u5c0f\u5e2b\u5085\u64fa\u51fa\u6728\u4eba\u62f3\u5be6\u6230\u67b6\u52e2\uff0cAI \u667a\u591a\u661f\u767c\u52d5\u6578\u64da\u5206\u6790\u5f15\u5c0e",
+      "effects": [],
+      "actions": [
+        {
+          "at_seconds": 4.0,
+          "duration_seconds": 0.5,
+          "character_id": "wooden_master",
+          "action": "anticipate",
+          "pose": "idle",
+          "easing": "power2.out"
+        },
+        {
+          "at_seconds": 5.25,
+          "duration_seconds": 1.75,
+          "character_id": "wooden_master",
+          "action": "perform",
+          "pose": "surprised",
+          "easing": "back.out",
+          "notes": "\u5c0f\u5e2b\u5085\u64fa\u51fa\u6728\u4eba\u62f3\u5be6\u6230\u67b6\u52e2\uff0cAI \u667a\u591a\u661f\u767c\u52d5\u6578\u64da\u5206\u6790\u5f15\u5c0e"
+        },
+        {
+          "at_seconds": 7.5,
+          "duration_seconds": 1.25,
+          "character_id": "wooden_master",
+          "action": "settle",
+          "pose": "idle",
+          "easing": "power2.inOut"
+        },
+        {
+          "at_seconds": 4.4,
+          "duration_seconds": 0.5,
+          "character_id": "ai_bot",
+          "action": "react",
+          "pose": "idle",
+          "easing": "power2.out"
+        },
+        {
+          "at_seconds": 5.65,
+          "duration_seconds": 1.75,
+          "character_id": "ai_bot",
+          "action": "follow",
+          "pose": "surprised",
+          "easing": "back.out",
+          "notes": "\u5c0f\u5e2b\u5085\u64fa\u51fa\u6728\u4eba\u62f3\u5be6\u6230\u67b6\u52e2\uff0cAI \u667a\u591a\u661f\u767c\u52d5\u6578\u64da\u5206\u6790\u5f15\u5c0e"
+        },
+        {
+          "at_seconds": 7.9,
+          "duration_seconds": 1.25,
+          "character_id": "ai_bot",
+          "action": "settle",
+          "pose": "idle",
+          "easing": "power2.inOut"
+        }
+      ]
+    },
+    {
+      "scene_id": "scene-outro",
+      "start_seconds": 9,
+      "end_seconds": 12,
+      "camera": {
+        "framing": "wide"
+      },
+      "background": "\u96d9\u65b9\u4e00\u540c\u63ee\u624b\uff0c\u9080\u8acb\u5b78\u54e1\u9032\u5165\u5be6\u6230\u8a66\u7149",
+      "effects": [],
+      "actions": [
+        {
+          "at_seconds": 9.0,
+          "duration_seconds": 0.5,
+          "character_id": "wooden_master",
+          "action": "anticipate",
+          "pose": "idle",
+          "easing": "power2.out"
+        },
+        {
+          "at_seconds": 9.75,
+          "duration_seconds": 1.0499999999999998,
+          "character_id": "wooden_master",
+          "action": "perform",
+          "pose": "look_right",
+          "easing": "back.out",
+          "notes": "\u96d9\u65b9\u4e00\u540c\u63ee\u624b\uff0c\u9080\u8acb\u5b78\u54e1\u9032\u5165\u5be6\u6230\u8a66\u7149"
+        },
+        {
+          "at_seconds": 11.1,
+          "duration_seconds": 0.75,
+          "character_id": "wooden_master",
+          "action": "settle",
+          "pose": "idle",
+          "easing": "power2.inOut"
+        },
+        {
+          "at_seconds": 9.24,
+          "duration_seconds": 0.5,
+          "character_id": "ai_bot",
+          "action": "react",
+          "pose": "idle",
+          "easing": "power2.out"
+        },
+        {
+          "at_seconds": 9.99,
+          "duration_seconds": 1.0499999999999998,
+          "character_id": "ai_bot",
+          "action": "follow",
+          "pose": "surprised",
+          "easing": "back.out",
+          "notes": "\u96d9\u65b9\u4e00\u540c\u63ee\u624b\uff0c\u9080\u8acb\u5b78\u54e1\u9032\u5165\u5be6\u6230\u8a66\u7149"
+        },
+        {
+          "at_seconds": 11.34,
+          "duration_seconds": 0.75,
+          "character_id": "ai_bot",
+          "action": "settle",
+          "pose": "idle",
+          "easing": "power2.inOut"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "source": "action_timeline_compiler"
+  }
+}

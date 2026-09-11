@@ -1,0 +1,17 @@
+{
+  "version": "1.0",
+  "project_id": "course-31-sequence6-vox",
+  "title": "《Sequence 6: Act / 行動篇》",
+  "pipeline_type": "animated-explainer",
+  "style_playbook": "vox-paper-collage",
+  "metadata": {
+    "target_duration": 99.77,
+    "total_shots": 14,
+    "actual_duration": 99.83
+  },
+  "status": "completed",
+  "current_stage": "compose",
+  "deliverable": "renders/final.mp4",
+  "thumbnail": "assets/images/sc6.1_01_thumb.jpg",
+  "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-sequence6-vox/renders/final.mp4"
+}

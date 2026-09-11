@@ -1,0 +1,75 @@
+{
+  "version": "1.0",
+  "project_id": "course-31-sequence4-vox",
+  "total_shots": 11,
+  "total_duration": 74.5,
+  "render_runtime": "ffmpeg",
+  "cuts": [
+    {
+      "id": "sc4.1_01",
+      "video_file": "assets/video/sc4.1_01_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc4.1_line_01.mp3",
+      "duration": 6.86
+    },
+    {
+      "id": "sc4.1_02",
+      "video_file": "assets/video/sc4.1_02_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc4.1_line_02.mp3",
+      "duration": 7.15
+    },
+    {
+      "id": "sc4.1_03",
+      "video_file": "assets/video/sc4.1_03_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc4.1_line_03.mp3",
+      "duration": 6.94
+    },
+    {
+      "id": "sc4.2_01",
+      "video_file": "assets/video/sc4.2_01_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc4.2_line_01.mp3",
+      "duration": 8.04
+    },
+    {
+      "id": "sc4.2_02",
+      "video_file": "assets/video/sc4.2_02_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc4.2_line_02.mp3",
+      "duration": 5.21
+    },
+    {
+      "id": "sc4.2_03",
+      "video_file": "assets/video/sc4.2_03_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc4.2_line_03.mp3",
+      "duration": 9.24
+    },
+    {
+      "id": "sc4.3_01",
+      "video_file": "assets/video/sc4.3_01_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc4.3_line_01.mp3",
+      "duration": 6.0
+    },
+    {
+      "id": "sc4.3_02",
+      "video_file": "assets/video/sc4.3_02_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc4.3_line_02.mp3",
+      "duration": 4.7
+    },
+    {
+      "id": "sc4.3_03",
+      "video_file": "assets/video/sc4.3_03_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc4.3_line_03.mp3",
+      "duration": 7.08
+    },
+    {
+      "id": "sc4.3_04",
+      "video_file": "assets/video/sc4.3_04_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc4.3_line_04.mp3",
+      "duration": 5.45
+    },
+    {
+      "id": "sc4.3_05",
+      "video_file": "assets/video/sc4.3_05_vox_papercut.mp4",
+      "audio_file": "assets/audio/sc4.3_line_05.mp3",
+      "duration": 7.73
+    }
+  ]
+}

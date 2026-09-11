@@ -1,0 +1,178 @@
+{
+  "version": "1.0",
+  "title": "《生活範例說明 - 王經理減重PDCA》Scene 2.3",
+  "total_duration_seconds": 130.49,
+  "sections": [
+    {
+      "id": "line_01",
+      "title": "Shot 01: 生活範例引言與案例解密",
+      "text": "現在，就讓我用一個簡單的故事，來解釋PDCA循環的應用方式。",
+      "start_seconds": 0.0,
+      "end_seconds": 6.02,
+      "duration": 6.02,
+      "audio_file": "assets/audio/line_01.mp3"
+    },
+    {
+      "id": "line_02",
+      "title": "Shot 02: 王經理健檢紅字超標",
+      "text": "話說王經理去年做完健康檢查之後，發現自己一堆指數都超標了，所以想要減重，可是，",
+      "start_seconds": 6.02,
+      "end_seconds": 13.72,
+      "duration": 7.7,
+      "audio_file": "assets/audio/line_02.mp3"
+    },
+    {
+      "id": "line_03",
+      "title": "Shot 03: 健身俱樂部太貴與困境",
+      "text": "參加什麼亞歷山大又太貴了，怎麼辦呢？",
+      "start_seconds": 13.72,
+      "end_seconds": 17.63,
+      "duration": 3.91,
+      "audio_file": "assets/audio/line_03.mp3"
+    },
+    {
+      "id": "line_04",
+      "title": "Shot 04: 靈機一動與PDCA牛刀小試",
+      "text": "他想起剛學的「PDCA循環」，就拿來牛刀小試一下，結果就順利達成目標了！那他是怎麼做到的呢？",
+      "start_seconds": 17.63,
+      "end_seconds": 26.56,
+      "duration": 8.93,
+      "audio_file": "assets/audio/line_04.mp3"
+    },
+    {
+      "id": "line_05",
+      "title": "Shot 05: 展開王經理PDCA減重手冊",
+      "text": "讓我們一起來看看：",
+      "start_seconds": 26.56,
+      "end_seconds": 29.03,
+      "duration": 2.47,
+      "audio_file": "assets/audio/line_05.mp3"
+    },
+    {
+      "id": "line_06",
+      "title": "Shot 06: 【Plan】閱讀健康書籍與醫病討論",
+      "text": "Plan規劃：首先在Plan步驟，他閱讀了許多健康書籍，也和醫生討論了檢驗報告，",
+      "start_seconds": 29.03,
+      "end_seconds": 36.16,
+      "duration": 7.13,
+      "audio_file": "assets/audio/line_06.mp3"
+    },
+    {
+      "id": "line_07",
+      "title": "Shot 07: 【Plan】設定三個月減五公斤具體目標",
+      "text": "最後訂出了一個改善目標：「要在三個月內減輕五公斤」。",
+      "start_seconds": 36.16,
+      "end_seconds": 41.2,
+      "duration": 5.04,
+      "audio_file": "assets/audio/line_07.mp3"
+    },
+    {
+      "id": "line_08",
+      "title": "Shot 08: 【Plan】對策定案：每日慢跑30分與量體重",
+      "text": "他想出的方法則是「每天慢跑30分鐘」，那稽核的方式則是「每天量體重」。",
+      "start_seconds": 41.2,
+      "end_seconds": 47.9,
+      "duration": 6.7,
+      "audio_file": "assets/audio/line_08.mp3"
+    },
+    {
+      "id": "line_09",
+      "title": "Shot 09: 【Do】每日按表操課跑步與睡前測量",
+      "text": "Do執行：然後在Do步驟，他就真的按照計畫，每天慢跑30分鐘，並在臨睡前量體重。",
+      "start_seconds": 47.9,
+      "end_seconds": 55.7,
+      "duration": 7.8,
+      "audio_file": "assets/audio/line_09.mp3"
+    },
+    {
+      "id": "line_10",
+      "title": "Shot 10: 【Check】三個月成果初現與真偽思索",
+      "text": "Check稽核：三個月之後，他的體重果然減輕了，但為了確認這個成果是「每天慢跑30分鐘」所造成的，",
+      "start_seconds": 55.7,
+      "end_seconds": 64.15,
+      "duration": 8.45,
+      "audio_file": "assets/audio/line_10.mp3"
+    },
+    {
+      "id": "line_11",
+      "title": "Shot 11: 【Check】排除雜訊與繪製統計控制圖",
+      "text": "而不是感冒拉肚子或其他阿裡不答的原因所造成，他就把三個月來的體重紀錄彙整起來，畫出一張控制圖。",
+      "start_seconds": 64.15,
+      "end_seconds": 72.55,
+      "duration": 8.4,
+      "audio_file": "assets/audio/line_11.mp3"
+    },
+    {
+      "id": "line_12",
+      "title": "Shot 12: 【Check】數據趨勢收斂判定對策有效",
+      "text": "然後從圖中觀察體重變化的趨勢及幅度，最後判定，這個「每天慢跑30分鐘」的方法，的確有效！",
+      "start_seconds": 72.55,
+      "end_seconds": 80.81,
+      "duration": 8.26,
+      "audio_file": "assets/audio/line_12.mp3"
+    },
+    {
+      "id": "line_13",
+      "title": "Shot 13: 【Act】建立每天慢跑標準化SOP",
+      "text": "Act行動：最後，在Act步驟中，王經理就把「每天跑步30分鐘」定成SOP，每天執行，從此之後，",
+      "start_seconds": 80.81,
+      "end_seconds": 89.47,
+      "duration": 8.66,
+      "audio_file": "assets/audio/line_13.mp3"
+    },
+    {
+      "id": "line_14",
+      "title": "Shot 14: 【Act】標準維持與假設無效質疑",
+      "text": "他的體重果然維持在標準值。那你也許會問：那如果在Check步驟中，王經理發現他的方法無效怎麼辦呢？",
+      "start_seconds": 89.47,
+      "end_seconds": 99.17,
+      "duration": 9.7,
+      "audio_file": "assets/audio/line_14.mp3"
+    },
+    {
+      "id": "line_15",
+      "title": "Shot 15: 【Act】無效重啟新一輪PDCA大迴圈",
+      "text": "答案很簡單：就再來一次PDCA，重新分析原因、重新設計對策、重新執行、重新檢驗。",
+      "start_seconds": 99.17,
+      "end_seconds": 107.38,
+      "duration": 8.21,
+      "audio_file": "assets/audio/line_15.mp3"
+    },
+    {
+      "id": "line_16",
+      "title": "Shot 16: 【Act】毅力堅持與理想體重達標",
+      "text": "只要王經理能夠有決心，有毅力地持續改善下去，最後一定可以達到他的理想體重！",
+      "start_seconds": 107.38,
+      "end_seconds": 114.36,
+      "duration": 6.98,
+      "audio_file": "assets/audio/line_16.mp3"
+    },
+    {
+      "id": "line_17",
+      "title": "Shot 17: 單元總結：PDCA生活化架構",
+      "text": "好，聽完這個例子，你對「PDCA循環」的整體架構應該有初步認識了。",
+      "start_seconds": 114.36,
+      "end_seconds": 120.5,
+      "duration": 6.14,
+      "audio_file": "assets/audio/line_17.mp3"
+    },
+    {
+      "id": "line_18",
+      "title": "Shot 18: 下單元引言：四大步驟拆解透視",
+      "text": "接下來，我將要把PDCA拆開來仔細講解，讓你對Plan,Do,Check,",
+      "start_seconds": 120.5,
+      "end_seconds": 126.72,
+      "duration": 6.22,
+      "audio_file": "assets/audio/line_18.mp3"
+    },
+    {
+      "id": "line_19",
+      "title": "Shot 19: 展望Sequence 3：深入規劃核心",
+      "text": "Act這四個步驟，有更深入的瞭解！",
+      "start_seconds": 126.72,
+      "end_seconds": 130.49,
+      "duration": 3.77,
+      "audio_file": "assets/audio/line_19.mp3"
+    }
+  ]
+}

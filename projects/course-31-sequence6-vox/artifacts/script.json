@@ -1,0 +1,162 @@
+{
+  "version": "1.0",
+  "title": "《Sequence 6: Act / 行動篇》逐字稿與結構大綱",
+  "total_duration_seconds": 99.77,
+  "total_shots": 14,
+  "sections": [
+    {
+      "id": "sc6.1_01",
+      "scene_num": "6.1",
+      "shot_idx": 1,
+      "title": "Scene 6.1 Shot 01",
+      "text": "第四個步驟，叫做行動，也就是說，你要根據上個步驟的決策，採取適當的後續行動。什麼後續行動呢？",
+      "duration": 9.98,
+      "start_seconds": 0.0,
+      "end_seconds": 9.98,
+      "audio_file": "assets/audio/sc6.1_line_01.mp3"
+    },
+    {
+      "id": "sc6.1_02",
+      "scene_num": "6.1",
+      "shot_idx": 2,
+      "title": "Scene 6.1 Shot 02",
+      "text": "有兩種可能，一種是「標準化並推廣」，另一種則是「重來一次PDCA」。",
+      "duration": 6.24,
+      "start_seconds": 9.98,
+      "end_seconds": 16.22,
+      "audio_file": "assets/audio/sc6.1_line_02.mp3"
+    },
+    {
+      "id": "sc6.2_01",
+      "scene_num": "6.2",
+      "shot_idx": 1,
+      "title": "Scene 6.2 Shot 01",
+      "text": "如果你在Check步驟中，判定你的對策是有效的！",
+      "duration": 4.34,
+      "start_seconds": 16.22,
+      "end_seconds": 20.56,
+      "audio_file": "assets/audio/sc6.2_line_01.mp3"
+    },
+    {
+      "id": "sc6.2_02",
+      "scene_num": "6.2",
+      "shot_idx": 2,
+      "title": "Scene 6.2 Shot 02",
+      "text": "那就應該把你的對策，制訂成SOP，或者融入現有的SOP。",
+      "duration": 5.14,
+      "start_seconds": 20.56,
+      "end_seconds": 25.7,
+      "audio_file": "assets/audio/sc6.2_line_02.mp3"
+    },
+    {
+      "id": "sc6.2_03",
+      "scene_num": "6.2",
+      "shot_idx": 3,
+      "title": "Scene 6.2 Shot 03",
+      "text": "以台鐵為例，相關工作可能包括：修改績效考核標準，修訂物料採購程序、提高工程規格、",
+      "duration": 8.47,
+      "start_seconds": 25.7,
+      "end_seconds": 34.17,
+      "audio_file": "assets/audio/sc6.2_line_03.mp3"
+    },
+    {
+      "id": "sc6.2_04",
+      "scene_num": "6.2",
+      "shot_idx": 4,
+      "title": "Scene 6.2 Shot 04",
+      "text": "建立緊急應變程序等等。",
+      "duration": 3.02,
+      "start_seconds": 34.17,
+      "end_seconds": 37.19,
+      "audio_file": "assets/audio/sc6.2_line_04.mp3"
+    },
+    {
+      "id": "sc6.2_05",
+      "scene_num": "6.2",
+      "shot_idx": 5,
+      "title": "Scene 6.2 Shot 05",
+      "text": "建立SOP有兩個優點：第一個優點是：提昇效率：如果將來問題再出現時，你不用實驗就可以直接引用，",
+      "duration": 8.86,
+      "start_seconds": 37.19,
+      "end_seconds": 46.05,
+      "audio_file": "assets/audio/sc6.2_line_05.mp3"
+    },
+    {
+      "id": "sc6.2_06",
+      "scene_num": "6.2",
+      "shot_idx": 6,
+      "title": "Scene 6.2 Shot 06",
+      "text": "讓你可以在最短的時間內，以最有效的方法解決問題！第二個優點是：擴大應用：如果將來要進行大規模的推廣，",
+      "duration": 10.51,
+      "start_seconds": 46.05,
+      "end_seconds": 56.56,
+      "audio_file": "assets/audio/sc6.2_line_06.mp3"
+    },
+    {
+      "id": "sc6.2_07",
+      "scene_num": "6.2",
+      "shot_idx": 7,
+      "title": "Scene 6.2 Shot 07",
+      "text": "就可以直接應用先前所建立的SOP，確保達到同樣品質！",
+      "duration": 5.09,
+      "start_seconds": 56.56,
+      "end_seconds": 61.65,
+      "audio_file": "assets/audio/sc6.2_line_07.mp3"
+    },
+    {
+      "id": "sc6.3_01",
+      "scene_num": "6.3",
+      "shot_idx": 1,
+      "title": "Scene 6.3 Shot 01",
+      "text": "如果你在Check步驟中，判定你的對策是無效的。",
+      "duration": 4.32,
+      "start_seconds": 61.65,
+      "end_seconds": 65.97,
+      "audio_file": "assets/audio/sc6.3_line_01.mp3"
+    },
+    {
+      "id": "sc6.3_02",
+      "scene_num": "6.3",
+      "shot_idx": 2,
+      "title": "Scene 6.3 Shot 02",
+      "text": "那就要執行新一輪的PDCA，重新分析原因，重新設計對策，然後再看看新的對策有沒有效！",
+      "duration": 7.9,
+      "start_seconds": 65.97,
+      "end_seconds": 73.87,
+      "audio_file": "assets/audio/sc6.3_line_02.mp3"
+    },
+    {
+      "id": "sc6.3_03",
+      "scene_num": "6.3",
+      "shot_idx": 3,
+      "title": "Scene 6.3 Shot 03",
+      "text": "你可能會覺得，挖，還要再來一次喔，不就前功盡棄，浪費時間？其實並不會。",
+      "duration": 8.09,
+      "start_seconds": 73.87,
+      "end_seconds": 81.96,
+      "audio_file": "assets/audio/sc6.3_line_03.mp3"
+    },
+    {
+      "id": "sc6.3_04",
+      "scene_num": "6.3",
+      "shot_idx": 4,
+      "title": "Scene 6.3 Shot 04",
+      "text": "因為即使這次PDCA沒有成功，我們也從實驗過程中獲得許多寶貴的知識與經驗，所以在新一輪的PDCA中，",
+      "duration": 8.23,
+      "start_seconds": 81.96,
+      "end_seconds": 90.19,
+      "audio_file": "assets/audio/sc6.3_line_04.mp3"
+    },
+    {
+      "id": "sc6.3_05",
+      "scene_num": "6.3",
+      "shot_idx": 5,
+      "title": "Scene 6.3 Shot 05",
+      "text": "我們就有更充分的知識與經驗，可以作更精確的分析，並設計出更好的對策。距離成功，也就更進了一歨！",
+      "duration": 9.58,
+      "start_seconds": 90.19,
+      "end_seconds": 99.77,
+      "audio_file": "assets/audio/sc6.3_line_05.mp3"
+    }
+  ]
+}

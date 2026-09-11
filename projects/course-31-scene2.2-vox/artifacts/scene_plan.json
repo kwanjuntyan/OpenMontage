@@ -1,0 +1,153 @@
+{
+  "version": "1.0",
+  "style_playbook": "vox-paper-collage",
+  "scenes": [
+    {
+      "id": "sc01",
+      "type": "animation",
+      "description": "Shot 01: 戴明理論核心與PDCA引題",
+      "start_seconds": 0.0,
+      "end_seconds": 9.26,
+      "script_section_id": "line_01",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "其實啊，戴明博士的理論核心，說穿了非常簡單，就是一個「PDCA循環」，意思是：當你想要改善一個流程，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Wide tabletop overhead flat-lay view, slow 5% push-in from 00:05.0 to 00:09.2.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper surface with subtle light blue millimeter grid lines, halftone textured paper cutouts with clean drop-shadowed edges, physical paper tactile feel.\nLIGHTING: Even studio tabletop illumination, warm 3400K, soft physical paper drop shadows.\nLOCATION: Archival industrial engineering desk.\nACTION:\n- 00:00.0-00:03.0: A vintage halftone cutout silhouette of a 1940s professor with round spectacles and a bow tie slides in from left; a distressed paper label stamped \"CORE THEORY\" snaps into top left with a layered drop shadow.\n- 00:03.0-00:06.0: A bold circular paper dial divided into four colored quadrants drops heavily onto center desk; four craft-paper letter blocks slam into the quadrants in rapid stop-motion: \"P\", \"D\", \"C\", \"A\".\n- 00:06.0-00:09.2: A large hand-drawn red circle scribbles around the dial; paper arrows appear between each quadrant pointing clockwise; a paper label slams down reading \"IMPROVE PROCESS\".\nTEXT: \"P\", \"D\", \"C\", \"A\", \"CORE THEORY\", \"IMPROVE PROCESS\"\nAUDIO: Paper slide whoosh at 00:01.0, four snappy mechanical clicks as P-D-C-A blocks land, pencil scribble at 00:06.5, low documentary pulse, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc02",
+      "type": "animation",
+      "description": "Shot 02: 流程斷裂與問題浮現",
+      "start_seconds": 9.26,
+      "end_seconds": 14.28,
+      "script_section_id": "line_02",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "或者解決一個問題時，你應該按照「Plan, Do, Check,",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead close-up on blueprint desk, quick whip-pan to center-right at 00:02.0.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Dark blue blueprint paper background with white grid lines, mechanical paper gears and cardboard levers.\nLIGHTING: Cool directional desk lamp, 4500K, crisp paper edge shadows.\nLOCATION: Blueprint drafting table with paper drafting tools.\nACTION:\n- 00:00.0-00:02.2: An industrial blueprint schematic unfurls; two kraft-paper cut gears try to mesh but a gear tooth breaks off with a paper flutter; a paper exclamation point pops up with a vibrating red drop shadow.\n- 00:02.2-00:05.0: The scene whip-pans right; three bold kraft-paper card tabs snap down sequentially from top edge in snappy stop-motion beats: green card stamped \"1. PLAN\", blue card stamped \"2. DO\", yellow card stamped \"3. CHECK\".\nTEXT: \"PROBLEM!\", \"1. PLAN\", \"2. DO\", \"3. CHECK\"\nAUDIO: Blueprint paper flutter at 00:00.5, dull mechanical snap of broken gear, three sharp paper stamp thuds at 00:02.8, 00:03.5, 00:04.2, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc03",
+      "type": "animation",
+      "description": "Shot 03: 四大步驟閉環拼貼",
+      "start_seconds": 14.28,
+      "end_seconds": 21.43,
+      "script_section_id": "line_03",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "Act，也就是規劃，執行，稽核，行動」這四個步驟，來尋找改進方法！",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Medium overhead shot looking down at four-quadrant paper wheel, slow 8% rotation-tracking camera.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Off-white grid paper base, multi-colored textured cardstock cutouts (green, blue, yellow, orange), tactile layered cardboard.\nLIGHTING: Warm overhead studio lights, 3200K, defined physical drop shadows under paper layers.\nLOCATION: Creative design workshop desk.\nACTION:\n- 00:00.0-00:02.5: The fourth orange card snaps into position stamped \"4. ACT\"; the four cards lock together forming a complete circular puzzle wheel on the desk.\n- 00:02.5-00:05.0: A vintage brass paper pointer at the wheel center begins rotating in snappy 12 FPS stop-motion steps, pointing to PLAN, then DO, then CHECK, then ACT, each quadrant lighting up with a white paper outline.\n- 00:05.0-00:07.1: A bold banner stamped \"THE 4 STEPS\" slams down diagonally across the lower third with a thick cardboard drop shadow.\nTEXT: \"4. ACT\", \"PLAN\", \"DO\", \"CHECK\", \"ACT\", \"THE 4 STEPS\"\nAUDIO: Heavy rubber-stamp thud at 00:01.0, rapid mechanical typewriter clicks for dial rotation, heavy paper thud at 00:05.5, rhythmic bassline, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc04",
+      "type": "animation",
+      "description": "Shot 04: 四步未解與紅叉重啟",
+      "start_seconds": 21.43,
+      "end_seconds": 30.21,
+      "script_section_id": "line_04",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "如果這四個步驟走完之後，問題還沒有解決，代表你的方法還不夠好，這時候你就應該再一次地執行這四個步驟，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Tight overhead locked-off shot on the circular paper wheel, sudden vibration shake at 00:03.0.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged paper texture, distressed red and black rubber stamp elements, cut paper scraps.\nLIGHTING: Moody studio lighting, dramatic directional cast shadows across layered paper.\nLOCATION: Analytical problem-solving workspace.\nACTION:\n- 00:00.0-00:03.0: The paper pointer finishes a full 360-degree rotation and points back to ACT, but the pointer jams against a paper obstacle; red paper flashes in stop-motion; a jagged red paper cutout \"X\" slams onto the center with heavy drop shadow.\n- 00:03.0-00:06.0: A distressed rubber stamp reading \"UNRESOLVED: TRY AGAIN\" stamps heavily next to the X; small paper question marks shake around the perimeter.\n- 00:06.0-00:08.7: A mechanical paper arm sweeps in, pulls the pointer back to the \"PLAN\" start position; paper arrows light up clockwise indicating a fresh restart.\nTEXT: \"X\", \"UNRESOLVED\", \"RESTART: PLAN\"\nAUDIO: Dial jam click at 00:02.8, loud rubber stamp thud at 00:03.5, paper spring ratchet noise at 00:06.5, low tense drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc05",
+      "type": "animation",
+      "description": "Shot 05: 迴圈堅持與綠標解決",
+      "start_seconds": 30.21,
+      "end_seconds": 34.6,
+      "script_section_id": "line_05",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "這樣堅持下去，最後一定可以把問題解決！",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Low-angle dynamic tabletop view looking slightly across the desk surface, snap push-in at 00:02.5.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Craft paper layers, bold green and white paper labels, clean geometric cutouts.\nLIGHTING: Crisp bright studio key light, 4000K, sharp paper relief shadows.\nLOCATION: Problem resolution workbench.\nACTION:\n- 00:00.0-00:02.2: The paper dial spins rapidly in choppy stop-motion; a bold curved black dashed line loops continuously around the perimeter; paper obstacle blocks fly off the frame like paper chips.\n- 00:02.2-00:04.3: The dial snaps to a dead halt; a vibrant emerald green craft-paper circle drops from above, stamped with a crisp white checkmark and the bold word \"RESOLVED!\".\nTEXT: \"LOOP\", \"RESOLVED!\"\nAUDIO: Fast fluttering paper spin sound, snappy impact thud as emerald green badge hits desk at 00:02.5, triumphant percussive hit, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc06",
+      "type": "animation",
+      "description": "Shot 06: 品質改善永無止境",
+      "start_seconds": 34.6,
+      "end_seconds": 38.13,
+      "script_section_id": "line_06",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "而由於品質的改善是沒有止境的。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: High wide overhead angle pulling up and backward, revealing an expansive paper horizon.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Endless grid paper landscape, origami-like folded paper layers, architectural perspective lines.\nLIGHTING: Expansive even studio wash, soft paper drop shadows extending toward horizon.\nLOCATION: Abstract conceptual landscape of continuous quality.\nACTION:\n- 00:00.0-00:01.8: The single flat paper dial begins lifting upward into 3D space, revealing that beneath it lies a continuous folded paper staircase leading infinitely forward into the distance.\n- 00:01.8-00:03.5: An infinity symbol (\"∞\") made of braided yellow string/paper tape uncoils and hovers above the staircase; a small stamped label reads \"NO FINISH LINE\".\nTEXT: \"∞\", \"NO FINISH LINE\"\nAUDIO: Gentle paper accordion unfolding flutter at 00:01.0, subtle wind chime paper rustle, deep sustained ambient chord, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc07",
+      "type": "animation",
+      "description": "Shot 07: 提高標準與螺旋上升",
+      "start_seconds": 38.13,
+      "end_seconds": 47.59,
+      "script_section_id": "line_07",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "所以，即使先前的問題，解決了，你也可以提高標準，找到新的問題，然後啟動新一輪的PDCA來解決。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Side 45-degree angle looking at a multi-tiered paper riser structure, camera tilts upward smoothly in 12 FPS steps from bottom to top.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Layered cardboard pedestals, vertical measuring tape cutouts, halftone machinery cutouts.\nLIGHTING: Warm directional rim lighting accentuating the edges of each ascending cardboard tier.\nLOCATION: Quality engineering testing laboratory desk.\nACTION:\n- 00:00.0-00:03.5: On the first paper platform, a small paper trophy sits stamped \"LEVEL 1: DONE\". A vertical kraft paper ruler slides upward beside it, an animated pencil marks a higher target line labeled \"NEW STANDARD +20%\".\n- 00:03.5-00:06.5: A second, larger circular PDCA paper dial slides onto a higher elevated platform directly above the first; a bold red paper tag snaps in labeled \"NEW CHALLENGE\".\n- 00:06.5-00:09.4: The second dial's pointer begins rotating with brisk stop-motion precision; gears underneath interlock and turn, driving the entire structure higher.\nTEXT: \"LEVEL 1: DONE\", \"NEW STANDARD\", \"CYCLE 2\", \"CHALLENGE\"\nAUDIO: Ruler slide swoosh, pencil scribble tick, heavy cardboard drop at 00:04.0, rhythmic clockwork gear clicks, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc08",
+      "type": "animation",
+      "description": "Shot 08: 卓越殿堂與金箔徽章",
+      "start_seconds": 47.59,
+      "end_seconds": 56.23,
+      "script_section_id": "line_08",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "就這樣，透過不斷地提高標準，不斷地改善流程，就可以把產品或服務的品質，提昇到卓越的地步！",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Epic low-angle shot looking up a towering spiral staircase made of stacked circular paper dials, majestic upward tilt.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Gold foil paper accents, ivory textured cardstock, intricate paper-cut architectural spiral.\nLIGHTING: Dramatic top-down golden spotlight, warm 3000K, luminous paper edge highlights and deep tactile drop shadows.\nLOCATION: Hall of excellence conceptual monument.\nACTION:\n- 00:00.0-00:03.5: Multiple concentric circular paper dials stack vertically in an elegant ascending spiral helix; as each level completes, golden paper ribbons unfurl outward.\n- 00:03.5-00:06.0: The camera reaches the summit; a monumental gold-foil paper badge unfolds like an origami seal; a massive rubber stamp thuds down reading \"EXCELLENCE\".\n- 00:06.0-00:08.6: Golden craft-paper confetti flakes drift downward in choppy 12 FPS stop-motion; the letters \"P - D - C - A\" lock into a golden crest at top center.\nTEXT: \"EXCELLENCE\", \"P - D - C - A\", \"CONTINUOUS IMPROVEMENT\"\nAUDIO: Ascending xylophone/chime paper flutter sequence, monumental deep timpani/rubber-stamp thud at 00:04.2, triumphant documentary crescendo, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "total_duration_seconds": 56.23
+  }
+}

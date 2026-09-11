@@ -1,0 +1,14 @@
+{
+  "version": "1.0",
+  "project_id": "esg-episode1-pilot",
+  "title": "《老闆，ESG不是一種新咖啡！》第一幕樣片",
+  "pipeline_type": "cinematic",
+  "style_playbook": "premium-minimalist",
+  "created_at": "2026-09-10T04:47:04.338067+00:00",
+  "metadata": {
+    "aspect_ratio": "16:9",
+    "fps": 24,
+    "target_duration": 60.0
+  },
+  "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/esg-episode1-pilot/renders/final.mp4"
+}

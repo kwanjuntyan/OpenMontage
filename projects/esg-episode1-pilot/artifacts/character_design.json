@@ -1,0 +1,75 @@
+{
+  "version": "1.0",
+  "project_id": "esg-episode1-pilot",
+  "characters": [
+    {
+      "id": "amy",
+      "display_name": "林艾美 (Amy Lin)",
+      "role": "女主角 · 大成企業 永續/企劃專員",
+      "age": 28,
+      "style": "面容親切溫暖、聰慧敬業。俐落深色低馬尾，米白商務西裝外套搭純白襯衫。",
+      "props": [
+        "永續專員藍色識別證吊帶",
+        "智慧型手機",
+        "商務筆記型電腦"
+      ],
+      "binding": [
+        "Shot 7 (00:44-00:52)",
+        "Shot 8 (00:52-01:00)"
+      ],
+      "image": "clp/clp_amy.jpg",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/esg-episode1-pilot/clp/clp_amy.jpg"
+    },
+    {
+      "id": "supervisor",
+      "display_name": "業務協理 (Supervisor)",
+      "role": "Amy 直屬主管 · 業績高壓中階主管",
+      "age": 50,
+      "style": "髮際線略微後退、細金屬框眼鏡、眼神急迫焦慮。淺藍細條紋襯衫挽起袖口、深藍領帶。",
+      "props": [
+        "智慧型手機急促通話",
+        "細金絲眼鏡",
+        "條紋商務襯衫"
+      ],
+      "binding": [
+        "Shot 6 (00:36-00:44) 走廊焦躁踱步施壓通話"
+      ],
+      "image": "clp/clp_supervisor.jpg",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/esg-episode1-pilot/clp/clp_supervisor.jpg"
+    },
+    {
+      "id": "harrison",
+      "display_name": "Mr. Harrison",
+      "role": "倫敦私募機構 資深審查合夥人",
+      "age": 55,
+      "style": "修整整齊的銀灰髮與鬢角、冷酷深邃的藍眼。頂級薩佛街定制深藍西裝，威嚴冷靜，不怒自威。",
+      "props": [
+        "萬寶龍鋼筆",
+        "皮質會議資料冊",
+        "薩佛街定制深藍西服"
+      ],
+      "binding": [
+        "Shot 3 (00:16-00:24) 倫敦會議室一錘定音凍結"
+      ],
+      "image": "clp/clp_harrison.jpg",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/esg-episode1-pilot/clp/clp_harrison.jpg"
+    },
+    {
+      "id": "analyst1",
+      "display_name": "Analyst 1 (分析師一號)",
+      "role": "倫敦外商機構 投資分析師",
+      "age": 30,
+      "style": "深色俐落短髮、英挺幹練。炭灰三件式西裝搭配深色領帶，手持商務平板操作大螢幕簡報。",
+      "props": [
+        "商務簡報平板",
+        "身後大螢幕圖表",
+        "炭灰三件式西裝"
+      ],
+      "binding": [
+        "Shot 2 (00:08-00:16) 增資審查簡報"
+      ],
+      "image": "clp/clp_analyst1.jpg",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/esg-episode1-pilot/clp/clp_analyst1.jpg"
+    }
+  ]
+}

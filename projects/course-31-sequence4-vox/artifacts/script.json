@@ -1,0 +1,129 @@
+{
+  "version": "1.0",
+  "title": "《Sequence 4: Do / 執行篇》逐字稿與結構大綱",
+  "total_duration_seconds": 74.4,
+  "total_shots": 11,
+  "sections": [
+    {
+      "id": "sc4.1_01",
+      "scene_num": "4.1",
+      "shot_idx": 1,
+      "title": "Scene 4.1 Shot 01",
+      "text": "一旦你在Plan步驟，規劃好對策之後，接下來就要進入Do步驟，來測試你的對策。",
+      "duration": 6.86,
+      "start_seconds": 0.0,
+      "end_seconds": 6.86,
+      "audio_file": "assets/audio/sc4.1_line_01.mp3"
+    },
+    {
+      "id": "sc4.1_02",
+      "scene_num": "4.1",
+      "shot_idx": 2,
+      "title": "Scene 4.1 Shot 02",
+      "text": "而因為這個時候你還不知道對策是否有效，所以必須要採取實驗精神，小規模地試做。",
+      "duration": 7.15,
+      "start_seconds": 6.86,
+      "end_seconds": 14.01,
+      "audio_file": "assets/audio/sc4.1_line_02.mp3"
+    },
+    {
+      "id": "sc4.1_03",
+      "scene_num": "4.1",
+      "shot_idx": 3,
+      "title": "Scene 4.1 Shot 03",
+      "text": "也因此，這個步驟的工作項目將包括：逐項執行對策，以及蒐集回饋資料。",
+      "duration": 6.94,
+      "start_seconds": 14.01,
+      "end_seconds": 20.95,
+      "audio_file": "assets/audio/sc4.1_line_03.mp3"
+    },
+    {
+      "id": "sc4.2_01",
+      "scene_num": "4.2",
+      "shot_idx": 1,
+      "title": "Scene 4.2 Shot 01",
+      "text": "所謂「逐項執行對策」啊，就是要把「效果會互相干擾」的項目分開來執行，才能看出每個項目的效果。",
+      "duration": 8.04,
+      "start_seconds": 20.95,
+      "end_seconds": 28.99,
+      "audio_file": "assets/audio/sc4.2_line_01.mp3"
+    },
+    {
+      "id": "sc4.2_02",
+      "scene_num": "4.2",
+      "shot_idx": 2,
+      "title": "Scene 4.2 Shot 02",
+      "text": "否則，即使有效果啊，你也不知道是那個項目造成的！",
+      "duration": 5.21,
+      "start_seconds": 28.99,
+      "end_seconds": 34.2,
+      "audio_file": "assets/audio/sc4.2_line_02.mp3"
+    },
+    {
+      "id": "sc4.2_03",
+      "scene_num": "4.2",
+      "shot_idx": 3,
+      "title": "Scene 4.2 Shot 03",
+      "text": "而且，更糟糕的是，有些項目，還會造成反效果勒，一起實施會交互抵銷，有效的項目反而變成無效了！",
+      "duration": 9.24,
+      "start_seconds": 34.2,
+      "end_seconds": 43.44,
+      "audio_file": "assets/audio/sc4.2_line_03.mp3"
+    },
+    {
+      "id": "sc4.3_01",
+      "scene_num": "4.3",
+      "shot_idx": 1,
+      "title": "Scene 4.3 Shot 01",
+      "text": "在執行對策的同時，你也要蒐集回饋資料，才能方便後續的檢討。",
+      "duration": 6.0,
+      "start_seconds": 43.44,
+      "end_seconds": 49.44,
+      "audio_file": "assets/audio/sc4.3_line_01.mp3"
+    },
+    {
+      "id": "sc4.3_02",
+      "scene_num": "4.3",
+      "shot_idx": 2,
+      "title": "Scene 4.3 Shot 02",
+      "text": "至於要蒐集哪些資料，則必須在Plan步驟就規劃好。",
+      "duration": 4.7,
+      "start_seconds": 49.44,
+      "end_seconds": 54.14,
+      "audio_file": "assets/audio/sc4.3_line_02.mp3"
+    },
+    {
+      "id": "sc4.3_03",
+      "scene_num": "4.3",
+      "shot_idx": 3,
+      "title": "Scene 4.3 Shot 03",
+      "text": "然後在這個步驟中，就按照規劃，有恒心，有毅力，不帶偏見地執行下去。",
+      "duration": 7.08,
+      "start_seconds": 54.14,
+      "end_seconds": 61.22,
+      "audio_file": "assets/audio/sc4.3_line_03.mp3"
+    },
+    {
+      "id": "sc4.3_04",
+      "scene_num": "4.3",
+      "shot_idx": 4,
+      "title": "Scene 4.3 Shot 04",
+      "text": "那如果在過程中，發現到一些異常徵兆，也應該即時蒐集。",
+      "duration": 5.45,
+      "start_seconds": 61.22,
+      "end_seconds": 66.67,
+      "audio_file": "assets/audio/sc4.3_line_04.mp3"
+    },
+    {
+      "id": "sc4.3_05",
+      "scene_num": "4.3",
+      "shot_idx": 5,
+      "title": "Scene 4.3 Shot 05",
+      "text": "以台鐵而言啊，要蒐集什麼回饋資料呢？就是繼續蒐集那些誤點事件的相關資料啦。",
+      "duration": 7.73,
+      "start_seconds": 66.67,
+      "end_seconds": 74.4,
+      "audio_file": "assets/audio/sc4.3_line_05.mp3"
+    }
+  ]
+}

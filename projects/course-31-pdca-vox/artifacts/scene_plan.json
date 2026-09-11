@@ -1,0 +1,281 @@
+{
+  "version": "1.0",
+  "style_playbook": "vox-paper-collage",
+  "scenes": [
+    {
+      "id": "sc01",
+      "type": "animation",
+      "description": "Clip 01: 戰後日本戰敗與1945歷史開場",
+      "start_seconds": 0.0,
+      "end_seconds": 5.4,
+      "script_section_id": "line_01",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "首先，讓我來講個故事…二次大戰之後，日本戰敗。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Static wide overhead shot looking down at archival paper desk, slow 8% punch-in sustained from 00:03.0 to 00:05.4.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Off-white aged newsprint background with faint grid lines, halftone black-and-white cutouts with clean drop-shadowed edges, physical paper tactile feel.\nLIGHTING: Flat even studio tabletop illumination, warm 3400K, soft ambient paper shadows.\nLOCATION: Archival historical document workspace from 1945.\nACTION:\n- 00:00.0-00:01.8: Frame starts empty on aged paper. A bold distressed paper label stamped \"A TRUE STORY: 1945\" slams into top center with a crisp drop shadow.\n- 00:01.8-00:03.6: A halftone cutout silhouette of post-war destroyed Tokyo city ruins slides in rapidly from the right and locks into position; paper smoke puffs animate upward in stop-motion.\n- 00:03.6-00:05.4: An archival vintage paper map of Japan drops flat onto the desk; a jagged red rubber stamp slams down across the map reading \"DEFEAT\".\nTEXT: \"1945\", \"DEFEAT\"\nAUDIO: Paper slap impact at 00:00.8, paper slide flutter at 00:02.0, heavy dull rubber-stamp thud at 00:04.0, subtle low ambient documentary drone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc02",
+      "type": "animation",
+      "description": "Clip 02: 麥克阿瑟將軍與五星司令部SCAP",
+      "start_seconds": 5.4,
+      "end_seconds": 9.84,
+      "script_section_id": "line_02",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "為了協助日本重建，盟軍主帥麥克阿瑟將軍，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Locked-off medium shot on center-left, snap punch-in on the portrait at 00:02.5.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint, halftone photo cutouts, prominent drop shadows, hand-drawn vector elements.\nLIGHTING: Directional top-down warm key light, soft physical drop shadows beneath layered paper edges.\nLOCATION: Post-war Tokyo reconstruction war room desk with faded map sheets.\nACTION:\n- 00:00.0-00:02.2: The war ruins slide left. A prominent vintage halftone cutout silhouette of a 1940s five-star Allied Supreme Commander officer (wearing an officer peaked service cap, aviator sunglasses, and vintage corncob pipe) slides up from the bottom edge with a layered drop shadow.\n- 00:02.2-00:04.4: Five golden craft-paper cut stars pop into existence above the commander's shoulder one by one in snappy stop-motion timing; a bold paper cutout tag \"SCAP\" snaps in below.\nTEXT: \"COMMANDER\", \"SCAP\"\nAUDIO: Fast paper slide whoosh at 00:00.5, snappy mechanical clicks for star placements, chalk circle scribble swoosh, low rhythmic pulse, no dialogue.\nNEGATIVE: smooth digital CGI, 3D render, motion blur, character lip sync, full-sentence subtitles.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc03",
+      "type": "animation",
+      "description": "Clip 03: 太平洋越洋航線與美國專家顧問團",
+      "start_seconds": 9.84,
+      "end_seconds": 13.37,
+      "script_section_id": "line_03",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "就從美國組了一群顧問團來幫忙。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead flat-lay view of a Pacific Ocean map chart, fast whip-pan from left (USA) to right (Japan).\nSTYLE: Vox paper collage explainer, 12 FPS, no motion blur, tactile paper cutouts, vintage aeronautical chart styling.\nLIGHTING: Neutral studio lighting, 4000K, minimal specular reflection on paper.\nLOCATION: Vintage Pacific aeronautical paper navigation map.\nACTION:\n- 00:00.0-00:01.8: A vintage parchment chart of the Pacific Ocean unfurls. An animated black dotted flight line draws itself from Washington D.C. across the ocean toward Tokyo.\n- 00:01.8-00:03.5: Three halftone cutouts of American technical advisors in 1940s fedoras and trench coats holding leather briefcases slide into frame; a red paper pointer snaps down labeled \"ADVISORS\".\nTEXT: \"USA -> JAPAN\", \"ADVISORS\"\nAUDIO: Map unrolling flutter at 00:00.5, rapid telegraph ticker clicks at 00:01.2, crisp briefcase latch snap, ticking clockwork percussion, no dialogue.\nNEGATIVE: smooth digital CGI, modern planes, digital flight paths, motion blur, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc04",
+      "type": "animation",
+      "description": "Clip 04: 統計學大師登場、黑板常態分佈與普查文卷",
+      "start_seconds": 13.37,
+      "end_seconds": 20.67,
+      "script_section_id": "line_04",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "這顧問團裡面有一位戴明博士，原本是個統計學家，是要來幫日本進行人口普查的，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Medium shot on graph paper desk, snapping rightward to census documents at 00:04.5.\nSTYLE: Vox paper collage stop-motion, 12 FPS, archival research aesthetic, blackboard textures, halftone photography.\nLIGHTING: Warm 3200K top-left key spotlight casting defined paper drop shadows to the right.\nLOCATION: 1946 statistical analysis bureau desk with census ledgers.\nACTION:\n- 00:00.0-00:02.5: The advisors slide out. A sharp, dignified halftone portrait cutout of a 1940s American statistical scholar and professor (round spectacles, bow tie, tweed suit) slides in and locks at center-left.\n- 00:02.5-00:04.8: A dark chalkboard cutout slams behind the professor, instantly displaying hand-drawn chalk normal distribution bell curves and variance formulas; a yellow highlighter block sweeps over \"STATISTICS\".\n- 00:04.8-00:07.3: A vintage 1946 Japanese census document drops onto the desk; tiny paper silhouette figures stamp onto data rows in rapid succession while a brass magnifying glass cutout slides over data columns.\nTEXT: \"PROFESSOR\", \"CENSUS 1946\"\nAUDIO: Chalk writing squeak on board at 00:02.8, marker highlighter squeak at 00:04.0, rapid mechanical tally clicker sounds, intellectual light strings with clockwork rhythm, no dialogue.\nNEGATIVE: mouth movements on portrait, animated blinking, warped face features, full-sentence subtitles, CGI.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc05",
+      "type": "animation",
+      "description": "Clip 05: 戰後日本產業殘破與DEFECTIVE紅印章",
+      "start_seconds": 20.67,
+      "end_seconds": 24.65,
+      "script_section_id": "line_05",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "但看到日本產業殘破不堪，品質低劣，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Fast crash-zoom into center frame at 00:00.8, holding locked-off as elements crash down.\nSTYLE: Vox-style stop-motion collage, 12 FPS, harsh contrast, torn cardboard edges, distressed dark textures, jarring physical movements.\nLIGHTING: High-contrast harsh sidelight, cold 4500K mixed with dim ambient gloom.\nLOCATION: Post-war ruined industrial workshop floor.\nACTION:\n- 00:00.0-00:01.8: The census sheet violently rips down the middle and drops away. A dark, jagged-torn red craft paper backdrop crashes in.\n- 00:01.8-00:04.0: Halftone cutouts of broken factory cogs, cracked vacuum tubes, and bent bicycle frames tumble down; a heavy red rubber stamp violently drops: \"DEFECTIVE\".\nTEXT: \"CRACKED\", \"DEFECTIVE\"\nAUDIO: Harsh paper tearing rip at 00:00.6, metallic clattering and paper impact sounds at 00:02.0, heavy violent stamp slam at 00:03.2, dissonant low industrial bass, no dialogue.\nNEGATIVE: polished 3D metal, smooth CGI smoke, full-sentence subtitles, spoken voice.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc06",
+      "type": "animation",
+      "description": "Clip 06: 開班傳授品質管理、PDCA四象限旋轉與提昇",
+      "start_seconds": 24.65,
+      "end_seconds": 31.78,
+      "script_section_id": "line_06",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "所以，他也開始傳授日本企業品質管理技巧，希望能幫忙提昇他们的產品品質，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Locked-off medium shot, transitioning smoothly to a wide graph board framing at 00:04.5.\nSTYLE: Vox paper collage motion design, 12 FPS, educational infographic aesthetic, chalkboard texture, crisp vector chalk lines.\nLIGHTING: Bright, clean studio lighting, 3500K, optimistic contrast.\nLOCATION: Clean lecture chalkboard on aged graph-paper backdrop.\nACTION:\n- 00:00.0-00:02.4: The red scrap paper sweeps off screen to the right. The statistical professor cutout slides back in from the left; a clean dark-green chalkboard cutout snaps down at center.\n- 00:02.4-00:04.8: A hand-drawn circular 4-stage arrow diagram (PDCA: Plan-Do-Check-Act) animates onto the chalkboard in crisp white chalk lines with rotating arrowheads.\n- 00:04.8-00:07.1: A bright green paper upward trendline tears across the blackboard, accompanied by miniature factory silhouettes stamping into alignment.\nTEXT: \"PDCA\", \"QUALITY UP\"\nAUDIO: Paper sweep whoosh at 00:00.8, crisp chalk drawing screech and click at 00:02.8, upward paper tearing sound at 00:05.2, upbeat rhythmic pulse with progressive momentum, no dialogue.\nNEGATIVE: 3D animated gears, computer graphics UI, full subtitles, spoken speech.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc07",
+      "type": "animation",
+      "description": "Clip 07: 擴大市場與促進就業",
+      "start_seconds": 31.78,
+      "end_seconds": 35.0,
+      "script_section_id": "line_07",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "以擴大市場，促進就業！",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Wide shot on an economic atlas, continuous snappy pull-back revealing global export network.\nSTYLE: Vox-style paper collage, 12 FPS, vibrant infographic styling, vintage world map texture, bold physical trendlines.\nLIGHTING: Vibrant warm studio lighting, 3600K, crisp multi-layered paper drop shadows.\nLOCATION: Global trade parchment map surface.\nACTION:\n- 00:00.0-00:01.6: The chalkboard flips into a vintage world map; bright red cutout shipping route arrows shoot outward from Japan to major world ports labeled \"EXPORT\".\n- 00:01.6-00:03.2: Halftone paper cutouts of bustling factory workers slide across the lower third; a bright yellow starburst badge pops onto the corner stamped: \"JOBS\".\nTEXT: \"EXPORT\", \"JOBS\"\nAUDIO: Map unrolling whoosh at 00:00.5, distant factory whistle at 00:01.5, heavy rubber stamp thud at 00:02.5.\nNEGATIVE: modern cargo container ships, 3D globe animation, subtitles.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc08",
+      "type": "animation",
+      "description": "Clip 08: 貝爾實驗室、管制圖與事實統計",
+      "start_seconds": 35.0,
+      "end_seconds": 42.15,
+      "script_section_id": "line_08",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "那戴明的這套品質管理技術，其實起源自美國，強調要觀察事實，還有統計分析。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Top-down medium shot on cyan blueprints, sliding horizontally across data tables.\nSTYLE: Vox paper collage explainer, 12 FPS, technical blueprint aesthetic, archival patent documents, typewriter typography.\nLIGHTING: Cool 4000K fluorescent drafting lamp light with defined paper edge shadows.\nLOCATION: 1930s engineering drafting board with cyan blueprint grids.\nACTION:\n- 00:00.0-00:02.4: An authentic 1930s Bell Telephone Laboratories patent document cutout drops onto the cyan blueprint table with an American flag paper ribbon across the top.\n- 00:02.4-00:04.8: A statistical process control chart cutout with Upper and Lower Control Limits (UCL / LCL) snaps onto the center; a brass magnifying glass slides over data rows.\n- 00:04.8-00:07.2: A rough yellow highlighter block draws over \"FACTS\"; beside it, a 4-bar paper histogram self-assembles bar-by-bar in snappy 12 FPS clicks.\nTEXT: \"BELL LABS\", \"FACTS ONLY\"\nAUDIO: Blueprint unrolling rustle at 00:00.8, typewriter bell at 00:02.5, marker highlighter squeak and 4 rapid click-pops at 00:05.2.\nNEGATIVE: modern lab computers, high-tech glow, subtitles.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc09",
+      "type": "animation",
+      "description": "Clip 09: 美國忽視與TOO SLOW紅色印章",
+      "start_seconds": 42.15,
+      "end_seconds": 47.0,
+      "script_section_id": "line_09",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "但這套技術因為緩慢費時，在美國並不受重視。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Static medium shot, fast crash zoom-in to an hourglass at 00:02.5.\nSTYLE: Vox-style paper collage stop-motion, 12 FPS, satirical editorial cartoon tone, halftone corporate figures, dull drab color palette.\nLIGHTING: Moody overhead office lamp, 3000K, cast shadows elongating across the desk.\nLOCATION: 1950s American executive boardroom desk covered in untouched manuals.\nACTION:\n- 00:00.0-00:02.4: A vintage hourglass paper cutout drops onto the desk; sand trickles down inside in stepped stop-motion. A halftone cutout of an impatient American corporate executive checks his pocket watch.\n- 00:02.4-00:04.9: The statistical report on the desk is shoved aside by a heavy rubber stamp slamming down with red ink: \"TOO SLOW\"; the report slides into a paper wastebasket with a grey paper dust puff.\nTEXT: \"TIME COST\", \"TOO SLOW\"\nAUDIO: Heavy hourglass thud at 00:00.8, pocket watch ticking, aggressive rubber stamp thud at 00:02.8, paper bin clatter at 00:04.2.\nNEGATIVE: smooth 3D hourglass fluid, talking mouths, subtitles.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc10",
+      "type": "animation",
+      "description": "Clip 10: 日本注重細節與改善KAIZEN",
+      "start_seconds": 47.0,
+      "end_seconds": 51.46,
+      "script_section_id": "line_10",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "沒想到，日本正好是個注重細節的民族，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Snap whip-pan transition into an overhead flat-lay of a fine tatami mat paper texture.\nSTYLE: Vox paper collage stop-motion, 12 FPS, elegant minimalist Japanese aesthetic, washi paper textures, geometric grid precision.\nLIGHTING: Soft diffused morning daylight, 5000K, clean minimal shadows.\nLOCATION: Traditional Japanese workshop surface with natural fibers and calligraphic grid rules.\nACTION:\n- 00:00.0-00:02.2: The wastebasket snaps away with a paper flip. The background transforms into a clean off-white washi paper grid with subtle woodblock print motifs.\n- 00:02.2-00:04.5: Halftone cutouts of traditional Japanese artisans measuring delicate items with brass calipers slide in from opposite sides; a hand-drawn red calligraphic circle animates, stamping: \"KAIZEN\".\nTEXT: \"DETAILS\", \"PRECISION\"\nAUDIO: Paper flip snap at 00:00.6, traditional hyoshigi wooden clapper click at 00:02.0, delicate metal caliper slide at 00:03.5.\nNEGATIVE: stereotypical anime imagery, 3D models, subtitles.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc11",
+      "type": "animation",
+      "description": "Clip 11: 倒茶三十道工序分解圖",
+      "start_seconds": 51.46,
+      "end_seconds": 55.59,
+      "script_section_id": "line_11",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "連倒一杯茶，都可以分解成幾十個動作。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Static close-up on center tabletop, multi-frame stop-motion explosion outward at 00:01.8.\nSTYLE: Vox-style anatomical breakdown animation, 12 FPS, stop-motion photo tiles, technical sequence arrows.\nLIGHTING: High-clarity museum display lighting, 3800K, even illumination across all tiles.\nLOCATION: Minimalist tea ceremony staging paper mat.\nACTION:\n- 00:00.0-00:01.8: An antique Japanese ceramic tea bowl cutout sits at center; a paper teapot tilts, freezing a single cutout water droplet mid-air.\n- 00:01.8-00:04.1: The scene bursts outward into 6 numbered stop-motion photo tiles arranged in a grid showing micro-movements, connected by hand-drawn black vector arrows and numbering sequence \"01... 30\".\nTEXT: \"TEA POUR\", \"30 STEPS\"\nAUDIO: Water droplet click at 00:00.8, 6 rapid camera shutter click sounds as tiles pop out, chalk line drawing whoosh at 00:03.8.\nNEGATIVE: real liquid physics simulation, motion blur on pour, subtitles.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc12",
+      "type": "animation",
+      "description": "Clip 12: 引起日本重視與思考突破",
+      "start_seconds": 55.59,
+      "end_seconds": 60.56,
+      "script_section_id": "line_12",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "所以，戴明的理論，很快就引起日本人的重視。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Fast snap zoom-out to medium wide shot, high kinetic energy.\nSTYLE: Vox paper collage explainer, 12 FPS, dynamic synergy, vibrant paper overlays, radiating lightbulb scribbles.\nLIGHTING: Bright dynamic studio lighting, 3600K, highlighting clean layered paper drops.\nLOCATION: Collaborative study room paper desk.\nACTION:\n- 00:00.0-00:02.4: The tea tiles rapidly fold together and morph into the circular PDCA wheel cutout at center. A crowd of halftone Japanese engineer silhouettes slides in from both edges, leaning in.\n- 00:02.4-00:05.0: A bright yellow highlighter rectangular frame snaps around the statistical handbook; yellow paper-cutout lightbulb icons with hand-drawn radiating rays pop on above every engineer's silhouette.\nTEXT: \"PDCA\", \"BREAKTHROUGH\"\nAUDIO: Paper tile folding clatter at 00:00.6, marker highlighter squeak at 00:02.8, synchronous electric pop and camera flash at 00:04.2.\nNEGATIVE: speech bubbles with gibberish text, morphed faces, subtitles.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc13",
+      "type": "animation",
+      "description": "Clip 13: 豐田、松下、三菱三大企業重鎮",
+      "start_seconds": 60.56,
+      "end_seconds": 66.94,
+      "script_section_id": "line_13",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "全日本的知名企業，包括豐田汽車，松下電器，三菱重工等等，",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Medium wide shot, three dramatic rhythmic slams matching the corporate name drops.\nSTYLE: Vox-style industrial documentary collage, 12 FPS, corporate brand history, heavy industrial stamp aesthetic.\nLIGHTING: Industrial workshop lighting with warm overhead tungsten bulbs, 3200K.\nLOCATION: Heavy industrial blueprint board from 1950.\nACTION:\n- 00:00.0-00:02.1: The screen clears with an upward paper roll. The vintage circular TOYOTA logo cutout slams down hard on the left with a massive drop shadow.\n- 00:02.1-00:04.2: The vintage NATIONAL / PANASONIC square badge slams down at center frame with identical physical weight.\n- 00:04.2-00:06.4: The three-diamond MITSUBISHI Heavy Industries logo slams down on the right; bold red brackets snap around all three logos with a master header: \"JAPAN INC.\".\nTEXT: \"TOYOTA\", \"PANASONIC\", \"MITSUBISHI\"\nAUDIO: 3 heavy mechanical press stamp thuds in sequence at 00:01.0, 00:02.8, and 00:04.8; metal bracket click at 00:05.8.\nNEGATIVE: modern 2020s logos, subtitles.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc14",
+      "type": "animation",
+      "description": "Clip 14: JUSE東京大禮堂與深入各部門應用",
+      "start_seconds": 66.94,
+      "end_seconds": 73.95,
+      "script_section_id": "line_14",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "都派出高階主管來接受訓練，而且把學習的成果帶回公司，深入應用到每個部門。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Locked-off wide shot of auditorium, zooming smoothly toward an expanding corporate hierarchy chart at 00:03.5.\nSTYLE: Vox paper collage stop-motion, 12 FPS, historical auditorium panorama transitioning to organizational workflow diagrams.\nLIGHTING: Classroom projector beam atmosphere shifting to clean 3500K office desk illumination.\nLOCATION: 1950 JUSE Tokyo lecture hall transitioning to corporate executive headquarters.\nACTION:\n- 00:00.0-00:02.3: The company logos slide upward. A grand halftone panoramic cutout of a crowded 1950s Tokyo lecture hall slides in from the bottom; Japanese executives in dark suits open lecture manuals in unison.\n- 00:02.3-00:04.6: The statistical professor lectures at the podium; an executive's leather briefcase snaps open, releasing rolled blueprint charts labeled \"PDCA\".\n- 00:04.6-00:07.0: A corporate organizational tree unrolls across graph paper into 4 departments (\"R&D\", \"FACTORY\", \"QC\", \"SALES\"), each stamped with a vibrant green rubber checkmark.\nTEXT: \"JUSE 1950\", \"ALL DEPARTMENTS\"\nAUDIO: Auditorium murmur fading at 00:00.8, collective paper notebook opening flutter at 00:01.8, briefcase snap at 00:03.5, 4 rapid rubber checkmark stamps at 00:05.8.\nNEGATIVE: anachronistic technology, animated talking faces, subtitles.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc15",
+      "type": "animation",
+      "description": "Clip 15: 天皇頒贈勳章與大師歷史榮耀",
+      "start_seconds": 73.95,
+      "end_seconds": 79.09,
+      "script_section_id": "line_15",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "戴明因此受到全日本的敬重，連天皇都頒贈勳章給他。",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Static medium portrait shot, majestic and climactic slow push-in over the full 5.1 seconds.\nSTYLE: Vox commemorative documentary paper collage, 12 FPS, golden textured craft paper, ceremonial royal stamps, celebratory paper confetti.\nLIGHTING: Warm golden hour ceremonial lighting, 3000K, gentle sparkling paper reflections.\nLOCATION: Archival Imperial ceremonial parchment backdrop.\nACTION:\n- 00:00.0-00:02.0: The organizational chart folds away. An honorable, smiling halftone portrait cutout of the distinguished elder statistical scholar slides into center with a deep drop shadow.\n- 00:02.0-00:03.8: A gleaming hand-cut golden medal cutout (The Order of the Sacred Treasure, Second Class) drops onto his suit lapel with a realistic paper shadow.\n- 00:03.8-00:05.1: An Emperor's imperial chrysanthemum crest seal stamps down in rich vermilion red ink at top right; gold and white paper confetti drifts gracefully down in stop-motion.\nTEXT: \"HONOR\", \"IMPERIAL MEDAL\"\nAUDIO: Gentle royal trumpet chime in distance at 00:00.8, golden medal clink at 00:02.8, heavy imperial wax seal thump at 00:04.2, soft paper confetti flutter.\nNEGATIVE: caricatures of the Emperor, modern fireworks, subtitles.",
+          "source": "generate"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "total_duration_seconds": 79.18,
+    "clip_count": 15,
+    "target_model": "gemini-omni-1.1-flash-preview"
+  }
+}

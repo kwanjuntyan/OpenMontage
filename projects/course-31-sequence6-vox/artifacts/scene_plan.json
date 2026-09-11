@@ -1,0 +1,345 @@
+{
+  "version": "1.0",
+  "project_id": "course-31-sequence6-vox",
+  "style_playbook": "vox-paper-collage",
+  "total_shots": 14,
+  "total_duration_seconds": 99.77,
+  "scenes": [
+    {
+      "id": "sc6.1_01",
+      "scene_num": "6.1",
+      "shot_idx": 1,
+      "type": "animation",
+      "title": "Scene 6.1 Shot 01",
+      "description": "Scene 6.1 Shot 01: 第四個步驟，叫做行動，也就是說，你要根據上個",
+      "start_seconds": 0.0,
+      "end_seconds": 9.98,
+      "duration": 9.98,
+      "script_section_id": "sc6.1_01",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "第四個步驟，叫做行動，也就是說，你要根據上個步驟的決策，採取適當的後續行動。什麼後續行動呢？",
+      "audio_file": "assets/audio/sc6.1_line_01.mp3",
+      "intent_concept": "Executive mobilization hall.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Executive mobilization hall.\nACTION: The three previous artifacts ('PLAN BLUEPRINT', 'DO TEST LOG', 'CHECK VERDICT') snap together like interlocking puzzle pieces into a mechanical baseplate; a bold golden gear labeled '4. ACT: TRANSFORM' drops in from above, completing the power transmission and locking the system into motion.\nTEXT: '4. ACT', 'CLOSING THE VALUE LOOP'\nAUDIO: Three puzzle pieces snap, giant gear drop thud, industrial power hum, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc6.1_02",
+      "scene_num": "6.1",
+      "shot_idx": 2,
+      "type": "animation",
+      "title": "Scene 6.1 Shot 02",
+      "description": "Scene 6.1 Shot 02: 有兩種可能，一種是「標準化並推廣」，另一種則",
+      "start_seconds": 9.98,
+      "end_seconds": 16.22,
+      "duration": 6.24,
+      "script_section_id": "sc6.1_02",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "有兩種可能，一種是「標準化並推廣」，另一種則是「重來一次PDCA」。",
+      "audio_file": "assets/audio/sc6.1_line_02.mp3",
+      "intent_concept": "Dual evolutionary pathways.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Dual evolutionary pathways.\nACTION: Two distinct industrial mechanisms: Path A shows a heavy steel stamping press preparing to emboss 'STANDARD SOP' across thousands of sheets; Path B shows a mechanical spiral spring compressing, storing coiled potential energy to launch a higher-order investigative cycle.\nTEXT: 'PATH A: INSTITUTIONAL LOCK-IN', 'PATH B: COILED RE-LAUNCH'\nAUDIO: Press hydraulic hiss, heavy spring coil compression creak, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc6.2_01",
+      "scene_num": "6.2",
+      "shot_idx": 1,
+      "type": "animation",
+      "title": "Scene 6.2 Shot 01",
+      "description": "Scene 6.2 Shot 01: 如果你在Check步驟中，判定你的對策是有效",
+      "start_seconds": 16.22,
+      "end_seconds": 20.56,
+      "duration": 4.34,
+      "script_section_id": "sc6.2_01",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "如果你在Check步驟中，判定你的對策是有效的！",
+      "audio_file": "assets/audio/sc6.2_line_01.mp3",
+      "intent_concept": "Hall of institutional triumph.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Hall of institutional triumph.\nACTION: A gold-embossed certificate of empirical validation descends onto the table; a deep green official seal bearing the motto 'VERIFIED BY EMPIRICAL DATA' stamps down, surrounded by glowing golden architectural drafting lines.\nTEXT: 'EMPIRICAL TRIUMPH', 'EVIDENCE VERIFIED'\nAUDIO: Certificate scroll unroll, heavy official stamp thud, celebratory fanfare, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc6.2_02",
+      "scene_num": "6.2",
+      "shot_idx": 2,
+      "type": "animation",
+      "title": "Scene 6.2 Shot 02",
+      "description": "Scene 6.2 Shot 02: 那就應該把你的對策，制訂成SOP，或者融入現",
+      "start_seconds": 20.56,
+      "end_seconds": 25.7,
+      "duration": 5.14,
+      "script_section_id": "sc6.2_02",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "那就應該把你的對策，制訂成SOP，或者融入現有的SOP。",
+      "audio_file": "assets/audio/sc6.2_line_02.mp3",
+      "intent_concept": "The anti-regression engineering desk.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: The anti-regression engineering desk.\nACTION: A heavy wooden wheel labeled 'QUALITY GAINS' is pushing up an inclined plane; a triangular oak block stamped 'SOP / STANDARD' jams tightly beneath the wheel in 12 FPS stop-motion, permanently preventing it from rolling backward down the hill (the Deming Quality Wedge).\nTEXT: 'PREVENT REGRESSION', 'SOP: THE ANTI-SLIP WEDGE'\nAUDIO: Heavy stone wedge slide, solid lock thud, ratchet click, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc6.2_03",
+      "scene_num": "6.2",
+      "shot_idx": 3,
+      "type": "animation",
+      "title": "Scene 6.2 Shot 03",
+      "description": "Scene 6.2 Shot 03: 以台鐵為例，相關工作可能包括：修改績效考核標",
+      "start_seconds": 25.7,
+      "end_seconds": 34.17,
+      "duration": 8.47,
+      "script_section_id": "sc6.2_03",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "以台鐵為例，相關工作可能包括：修改績效考核標準，修訂物料採購程序、提高工程規格、",
+      "audio_file": "assets/audio/sc6.2_line_03.mp3",
+      "intent_concept": "Institutional machinery command center.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Institutional machinery command center.\nACTION: Three synchronized institutional adjustments: 1. A balance scale recalibrates under 'HR: REWARD SAFETY OVER RAW SPEED'; 2. A paper caliper sets stricter boundaries on 'PROCUREMENT: HIGH-SPEC CABLES'; 3. Blueprint specifications update to 'ENGINEERING: ZERO-TOLERANCE CODE'.\nTEXT: 'HR INCENTIVES', 'SUPPLY CHAIN SPECS', 'ENGINEERING RIGOR'\nAUDIO: Scale re-balance clink, caliper ratchet, blueprint stamping snaps, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc6.2_04",
+      "scene_num": "6.2",
+      "shot_idx": 4,
+      "type": "animation",
+      "title": "Scene 6.2 Shot 04",
+      "description": "Scene 6.2 Shot 04: 建立緊急應變程序等等。",
+      "start_seconds": 34.17,
+      "end_seconds": 37.19,
+      "duration": 3.02,
+      "script_section_id": "sc6.2_04",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "建立緊急應變程序等等。",
+      "audio_file": "assets/audio/sc6.2_line_04.mp3",
+      "intent_concept": "High-reliability resilience terminal.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: High-reliability resilience terminal.\nACTION: A red emergency dispatch flow-chart card snaps down onto the wall; miniature paper cutouts of backup power generators and automated signal bypass lines instantly plug in without human hesitation, demonstrating automated organizational reflex.\nTEXT: 'ORGANIZATIONAL REFLEX', 'RESILIENCE BY DESIGN'\nAUDIO: Emergency relay click, power backup switch thud, steady clean hum, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc6.2_05",
+      "scene_num": "6.2",
+      "shot_idx": 5,
+      "type": "animation",
+      "title": "Scene 6.2 Shot 05",
+      "description": "Scene 6.2 Shot 05: 建立SOP有兩個優點：第一個優點是：提昇效率",
+      "start_seconds": 37.19,
+      "end_seconds": 46.05,
+      "duration": 8.86,
+      "script_section_id": "sc6.2_05",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "建立SOP有兩個優點：第一個優點是：提昇效率：如果將來問題再出現時，你不用實驗就可以直接引用，",
+      "audio_file": "assets/audio/sc6.2_line_05.mp3",
+      "intent_concept": "Accelerated operational archive.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Accelerated operational archive.\nACTION: A sudden crisis card marked 'ALARM: TRACK OVERHEATING' slams down; instead of panicking or starting from scratch, a robotic paper arm instantly slides open the SOP index and retrieves the validated solution dossier in 1 second flat, snapping the alarm off.\nTEXT: 'ZERO RE-INVENTING WHEEL', 'INSTANT VALIDATED RETRIEVAL'\nAUDIO: Alarm bell, drawer fast-slide, solution dossier snap, silence falls, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc6.2_06",
+      "scene_num": "6.2",
+      "shot_idx": 6,
+      "type": "animation",
+      "title": "Scene 6.2 Shot 06",
+      "description": "Scene 6.2 Shot 06: 讓你可以在最短的時間內，以最有效的方法解決問",
+      "start_seconds": 46.05,
+      "end_seconds": 56.56,
+      "duration": 10.51,
+      "script_section_id": "sc6.2_06",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "讓你可以在最短的時間內，以最有效的方法解決問題！第二個優點是：擴大應用：如果將來要進行大規模的推廣，",
+      "audio_file": "assets/audio/sc6.2_line_06.mp3",
+      "intent_concept": "Geometric scale propagation grid.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Geometric scale propagation grid.\nACTION: A single shining prototype paper station labeled 'STATION #1 (TESTED)' pulses with green light; optical grid lines expand in four directions across the country map, instantly replicating identical operational perfection to 50 regional stations in stop-motion.\nTEXT: 'GEOMETRIC SCALABILITY', 'CROSS-NETWORK REPLICATION'\nAUDIO: Pulsing beacon hum, expanding grid ray whoosh, cascading chime, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc6.2_07",
+      "scene_num": "6.2",
+      "shot_idx": 7,
+      "type": "animation",
+      "title": "Scene 6.2 Shot 07",
+      "description": "Scene 6.2 Shot 07: 就可以直接應用先前所建立的SOP，確保達到同",
+      "start_seconds": 56.56,
+      "end_seconds": 61.65,
+      "duration": 5.09,
+      "script_section_id": "sc6.2_07",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "就可以直接應用先前所建立的SOP，確保達到同樣品質！",
+      "audio_file": "assets/audio/sc6.2_line_07.mp3",
+      "intent_concept": "Uniform excellence inspection yard.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Uniform excellence inspection yard.\nACTION: An open golden-stamped SOP master codex sits at center; around it, four parallel express train cutouts move in flawless, synchronized harmony across railway tracks; quality verification gauges across all four lines hold steady at a perfect 100%.\nTEXT: 'ZERO QUALITY DRIFT', 'UNIFORM EXCELLENCE'\nAUDIO: Synchronous train rolling rhythm, master codex snap, triumphant bell chord, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc6.3_01",
+      "scene_num": "6.3",
+      "shot_idx": 1,
+      "type": "animation",
+      "title": "Scene 6.3 Shot 01",
+      "description": "Scene 6.3 Shot 01: 如果你在Check步驟中，判定你的對策是無效",
+      "start_seconds": 61.65,
+      "end_seconds": 65.97,
+      "duration": 4.32,
+      "script_section_id": "sc6.3_01",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "如果你在Check步驟中，判定你的對策是無效的。",
+      "audio_file": "assets/audio/sc6.3_line_01.mp3",
+      "intent_concept": "Scientific autopsy workbench.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Scientific autopsy workbench.\nACTION: A paper laboratory test slide marked 'HYPOTHESIS A: DISPROVEN BY DATA' is treated with scientific reverence; an analytical caliper measures the exact delta between prediction and reality; no shame, only dispassionate scientific observation.\nTEXT: 'HONORING NEGATIVE RESULTS', 'DISPASSIONATE AUDIT'\nAUDIO: Caliper tap on glass slide, soft pencil calculation sound, calm steady hum, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc6.3_02",
+      "scene_num": "6.3",
+      "shot_idx": 2,
+      "type": "animation",
+      "title": "Scene 6.3 Shot 02",
+      "description": "Scene 6.3 Shot 02: 那就要執行新一輪的PDCA，重新分析原因，重",
+      "start_seconds": 65.97,
+      "end_seconds": 73.87,
+      "duration": 7.9,
+      "script_section_id": "sc6.3_02",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "那就要執行新一輪的PDCA，重新分析原因，重新設計對策，然後再看看新的對策有沒有效！",
+      "audio_file": "assets/audio/sc6.3_line_02.mp3",
+      "intent_concept": "High-resolution re-calibration bench.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: High-resolution re-calibration bench.\nACTION: The mechanical PDCA dial rotates forward; this time, a higher-magnification microscope paper cutout slides over the root cause section; new, finer cause-and-effect threads are drawn with precision drafting pens, targeting deeper systemic layers.\nTEXT: 'HIGHER-RESOLUTION INQUIRY', 'DEEPER ROOT CAUSES'\nAUDIO: Microscope lens turret click, precision pen drawing glide, purposeful tone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc6.3_03",
+      "scene_num": "6.3",
+      "shot_idx": 3,
+      "type": "animation",
+      "title": "Scene 6.3 Shot 03",
+      "description": "Scene 6.3 Shot 03: 你可能會覺得，挖，還要再來一次喔，不就前功盡",
+      "start_seconds": 73.87,
+      "end_seconds": 81.96,
+      "duration": 8.09,
+      "script_section_id": "sc6.3_03",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "你可能會覺得，挖，還要再來一次喔，不就前功盡棄，浪費時間？其實並不會。",
+      "audio_file": "assets/audio/sc6.3_line_03.mp3",
+      "intent_concept": "The crucible of iteration.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: The crucible of iteration.\nACTION: A transparent blueprint marked 'ATTEMPT #1: MAPPED DEAD-END' is laid flat on the table; it is NOT discarded; instead, a new translucent blueprint 'ATTEMPT #2' overlays on top of it, directly seeing the blocked dead-end so the new path effortlessly bypasses the trap.\nTEXT: 'NOT A WASTED EFFORT', 'MAPPING THE TERRAIN'\nAUDIO: Tracing paper overlay slide, compass needle tap, reassuring acoustic chord, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc6.3_04",
+      "scene_num": "6.3",
+      "shot_idx": 4,
+      "type": "animation",
+      "title": "Scene 6.3 Shot 04",
+      "description": "Scene 6.3 Shot 04: 因為即使這次PDCA沒有成功，我們也從實驗過",
+      "start_seconds": 81.96,
+      "end_seconds": 90.19,
+      "duration": 8.23,
+      "script_section_id": "sc6.3_04",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "因為即使這次PDCA沒有成功，我們也從實驗過程中獲得許多寶貴的知識與經驗，所以在新一輪的PDCA中，",
+      "audio_file": "assets/audio/sc6.3_line_04.mp3",
+      "intent_concept": "Enterprise empirical asset vault.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Enterprise empirical asset vault.\nACTION: A heavy vault drawer slides open labeled 'ORGANIZATIONAL WISDOM'; inside, layered geological strata of paper sediment represent previous experiments, each layer labeled with critical discoveries: 'VOLTAGE TOLERANCE LIMITS', 'CREW SHIFT DYNAMICS'; an architectural foundation rises from this solid bedrock.\nTEXT: 'THE BEDROCK OF EXPERIENCE', 'EMPIRICAL CAPITAL'\nAUDIO: Heavy vault slide, bedrock stone lock thud, deep organ foundation resonance, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc6.3_05",
+      "scene_num": "6.3",
+      "shot_idx": 5,
+      "type": "animation",
+      "title": "Scene 6.3 Shot 05",
+      "description": "Scene 6.3 Shot 05: 我們就有更充分的知識與經驗，可以作更精確的分",
+      "start_seconds": 90.19,
+      "end_seconds": 99.77,
+      "duration": 9.58,
+      "script_section_id": "sc6.3_05",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "我們就有更充分的知識與經驗，可以作更精確的分析，並設計出更好的對策。距離成功，也就更進了一歨！",
+      "audio_file": "assets/audio/sc6.3_line_05.mp3",
+      "intent_concept": "The ascending helix of continuous improvement.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: The ascending helix of continuous improvement.\nACTION: A 3D paper spiral staircase (the PDCA Helix) ascends through layers of cloud toward the morning sun; each loop of Plan-Do-Study-Act raises the organization onto a higher altitude of capability; a golden surveyor's flag planted at the next summit reads 'KAIZEN: THE PURSUIT OF EXCELLENCE'.\nTEXT: 'THE ASCENDING HELIX', 'EVER CLOSER TO EXCELLENCE', 'KAIZEN'\nAUDIO: Ascending piano arpeggio, footsteps on firm paper steps, triumphant orchestral crescendo, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    }
+  ]
+}

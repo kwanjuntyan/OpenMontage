@@ -1,0 +1,7 @@
+{
+  "stage": "scene_plan",
+  "status": "completed",
+  "human_approved": true,
+  "canonical_artifact": "scene_plan.json",
+  "review_verdict": "PASS"
+}

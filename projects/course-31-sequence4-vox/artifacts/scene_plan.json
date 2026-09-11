@@ -1,0 +1,273 @@
+{
+  "version": "1.0",
+  "project_id": "course-31-sequence4-vox",
+  "style_playbook": "vox-paper-collage",
+  "total_shots": 11,
+  "total_duration_seconds": 74.4,
+  "scenes": [
+    {
+      "id": "sc4.1_01",
+      "scene_num": "4.1",
+      "shot_idx": 1,
+      "type": "animation",
+      "title": "Scene 4.1 Shot 01",
+      "description": "Scene 4.1 Shot 01: 一旦你在Plan步驟，規劃好對策之後，接下來",
+      "start_seconds": 0.0,
+      "end_seconds": 6.86,
+      "duration": 6.86,
+      "script_section_id": "sc4.1_01",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "一旦你在Plan步驟，規劃好對策之後，接下來就要進入Do步驟，來測試你的對策。",
+      "audio_file": "assets/audio/sc4.1_line_01.mp3",
+      "intent_concept": "Engineering test bench transition.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Engineering test bench transition.\nACTION: An elegant architectural blueprint of railway tracks stamped 'THEORETICAL PLAN' is pushed forward across a cream cutting mat; a tactile physical testing jig slides into place with brass toggle switches labeled 'FIELD TRIAL / DO'; miniature mechanical calipers and tension gauges lock onto the paper tracks to begin empirical testing.\nTEXT: 'THEORY TO FIELD TRIAL', 'DO: TEST THE HYPOTHESIS'\nAUDIO: Blueprint paper slide, heavy rubber cutting mat thud, snappy toggle switch click, tension gauge ratchet, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc4.1_02",
+      "scene_num": "4.1",
+      "shot_idx": 2,
+      "type": "animation",
+      "title": "Scene 4.1 Shot 02",
+      "description": "Scene 4.1 Shot 02: 而因為這個時候你還不知道對策是否有效，所以必",
+      "start_seconds": 6.86,
+      "end_seconds": 14.01,
+      "duration": 7.15,
+      "script_section_id": "sc4.1_02",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "而因為這個時候你還不知道對策是否有效，所以必須要採取實驗精神，小規模地試做。",
+      "audio_file": "assets/audio/sc4.1_line_02.mp3",
+      "intent_concept": "Railway network sandtable.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Railway network sandtable.\nACTION: A giant paper map of the full national railway network rests in background; a single isolated red circular magnifying zone highlights only 'PILOT SECTION: 10 KM'; a laser-cut yellow safety fence drops around this pilot sandbox, keeping main trunk lines green and safe while testing occurs strictly within the contained boundary.\nTEXT: 'SANDBOX ISOLATION', 'CONTAINED EXPERIMENTAL RISK'\nAUDIO: Miniature fence drop clatter, perimeter lock click, gentle background train hum, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc4.1_03",
+      "scene_num": "4.1",
+      "shot_idx": 3,
+      "type": "animation",
+      "title": "Scene 4.1 Shot 03",
+      "description": "Scene 4.1 Shot 03: 也因此，這個步驟的工作項目將包括：逐項執行對",
+      "start_seconds": 14.01,
+      "end_seconds": 20.95,
+      "duration": 6.94,
+      "script_section_id": "sc4.1_03",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "也因此，這個步驟的工作項目將包括：逐項執行對策，以及蒐集回饋資料。",
+      "audio_file": "assets/audio/sc4.1_line_03.mp3",
+      "intent_concept": "Scientific dual-engine console.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Scientific dual-engine console.\nACTION: Two interlocking paper mechanisms slide into place on a workbench: Left side is a mechanical actuator arm labeled '1. CONTROLLED INTERVENTION'; Right side is an optical sensor lens array labeled '2. EMPIRICAL SENSOR / FEEDBACK'; an oscilloscope paper strip connects them in a dynamic synchronized loop.\nTEXT: 'ACTUATOR: INTERVENE', 'SENSOR: MEASURE FEEDBACK'\nAUDIO: Actuator arm ratchet, sensor lens shutter click, synchronized electronic pulse tone, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc4.2_01",
+      "scene_num": "4.2",
+      "shot_idx": 1,
+      "type": "animation",
+      "title": "Scene 4.2 Shot 01",
+      "description": "Scene 4.2 Shot 01: 所謂「逐項執行對策」啊，就是要把「效果會互相",
+      "start_seconds": 20.95,
+      "end_seconds": 28.99,
+      "duration": 8.04,
+      "script_section_id": "sc4.2_01",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "所謂「逐項執行對策」啊，就是要把「效果會互相干擾」的項目分開來執行，才能看出每個項目的效果。",
+      "audio_file": "assets/audio/sc4.2_line_01.mp3",
+      "intent_concept": "Experimental isolation chamber.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Experimental isolation chamber.\nACTION: Two interlocked paper gear trains spinning together creating chaotic friction sparks; a crisp razor-cut partition wall drops firmly between them, splitting the mechanism into 'LANE A: MECHANICAL FACTOR' and 'LANE B: HUMAN FACTOR', allowing each lane to rotate cleanly in complete isolation.\nTEXT: 'DECOUPLE VARIABLES', 'CAUSAL CLARITY'\nAUDIO: Friction gear groan, clean guillotine paper chop thud, smooth rhythmic gear turn, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc4.2_02",
+      "scene_num": "4.2",
+      "shot_idx": 2,
+      "type": "animation",
+      "title": "Scene 4.2 Shot 02",
+      "description": "Scene 4.2 Shot 02: 否則，即使有效果啊，你也不知道是那個項目造成",
+      "start_seconds": 28.99,
+      "end_seconds": 34.2,
+      "duration": 5.21,
+      "script_section_id": "sc4.2_02",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "否則，即使有效果啊，你也不知道是那個項目造成的！",
+      "audio_file": "assets/audio/sc4.2_line_02.mp3",
+      "intent_concept": "Black-box attribution testing desk.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Black-box attribution testing desk.\nACTION: A black cardboard box labeled 'MULTI-VARIABLE BLACK BOX' has two inputs and one green light; three paper question-mark tags pop out from the light because nobody knows which wire powered it; an engineer's magnifying glass cuts an inspection window into the box to trace the exact single circuit.\nTEXT: 'ATTRIBUTION BLINDSPOT', 'WHICH FACTOR WORKED?'\nAUDIO: Cardboard box rattle, spring pop, magnifying glass tap on paper, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc4.2_03",
+      "scene_num": "4.2",
+      "shot_idx": 3,
+      "type": "animation",
+      "title": "Scene 4.2 Shot 03",
+      "description": "Scene 4.2 Shot 03: 而且，更糟糕的是，有些項目，還會造成反效果勒",
+      "start_seconds": 34.2,
+      "end_seconds": 43.44,
+      "duration": 9.24,
+      "script_section_id": "sc4.2_03",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "而且，更糟糕的是，有些項目，還會造成反效果勒，一起實施會交互抵銷，有效的項目反而變成無效了！",
+      "audio_file": "assets/audio/sc4.2_line_03.mp3",
+      "intent_concept": "Systemic vector collision board.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Systemic vector collision board.\nACTION: Two green paper directional arrows labeled 'SPEED ACCELERATION' and 'STRICT SAFETY BRAKE' drive directly toward each other; their heads collide, crumpling paper fibers in 12 FPS stop-motion and locking into a stalemate deadlock; a central efficiency dial needle collapses to ZERO.\nTEXT: 'DESTRUCTIVE INTERFERENCE', 'MUTUAL CANCELLATION'\nAUDIO: Opposing motor whine, paper crumple impact, needle drop click, low groan, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc4.3_01",
+      "scene_num": "4.3",
+      "shot_idx": 1,
+      "type": "animation",
+      "title": "Scene 4.3 Shot 01",
+      "description": "Scene 4.3 Shot 01: 在執行對策的同時，你也要蒐集回饋資料，才能方",
+      "start_seconds": 43.44,
+      "end_seconds": 49.44,
+      "duration": 6.0,
+      "script_section_id": "sc4.3_01",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "在執行對策的同時，你也要蒐集回饋資料，才能方便後續的檢討。",
+      "audio_file": "assets/audio/sc4.3_line_01.mp3",
+      "intent_concept": "Empirical recording desk.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Empirical recording desk.\nACTION: A vintage seismograph-style paper drum rotates steadily; a brass ink stylus needle traces real-time operational fluctuations onto calibrated millimeter grid paper, leaving an unalterable permanent factual line of actual delays.\nTEXT: 'FACTUAL BASELINE', 'UNALTERABLE TRUTH'\nAUDIO: Rotating drum purr, stylus needle scratching on paper, steady mechanical clockwork, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc4.3_02",
+      "scene_num": "4.3",
+      "shot_idx": 2,
+      "type": "animation",
+      "title": "Scene 4.3 Shot 02",
+      "description": "Scene 4.3 Shot 02: 至於要蒐集哪些資料，則必須在Plan步驟就規",
+      "start_seconds": 49.44,
+      "end_seconds": 54.14,
+      "duration": 4.7,
+      "script_section_id": "sc4.3_02",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "至於要蒐集哪些資料，則必須在Plan步驟就規劃好。",
+      "audio_file": "assets/audio/sc4.3_line_02.mp3",
+      "intent_concept": "Pre-registration blueprint desk.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Pre-registration blueprint desk.\nACTION: An unalterable wax-sealed document titled 'PRE-REGISTERED METRICS SPECIFICATION' is stamped 'LOCKED AT PLAN'; a brass template stencil overlays the incoming data stream, filtering out subjective excuses and capturing strictly pre-defined scientific variables.\nTEXT: 'PRE-REGISTERED METRICS', 'PREVENT MOVING GOALPOSTS'\nAUDIO: Heavy wax seal thud, brass stencil slide, clean mechanical filter snap, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc4.3_03",
+      "scene_num": "4.3",
+      "shot_idx": 3,
+      "type": "animation",
+      "title": "Scene 4.3 Shot 03",
+      "description": "Scene 4.3 Shot 03: 然後在這個步驟中，就按照規劃，有恒心，有毅力",
+      "start_seconds": 54.14,
+      "end_seconds": 61.22,
+      "duration": 7.08,
+      "script_section_id": "sc4.3_03",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "然後在這個步驟中，就按照規劃，有恒心，有毅力，不帶偏見地執行下去。",
+      "audio_file": "assets/audio/sc4.3_line_03.mp3",
+      "intent_concept": "Rigorous calibration workbench.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Rigorous calibration workbench.\nACTION: A balanced brass spirit level with centered bubble rests beside an unbending steel ruler enforcing straight trajectory; a mechanical clockwork escapement paces the calendar flips steadily; an emblem stamped 'WITHOUT BIAS: RESIST TAMPERING' shields the data dials from impatient human hands.\nTEXT: 'EMPIRICAL DISCIPLINE', 'RESIST TAMPERING', 'STAY THE COURSE'\nAUDIO: Fluid bubble settle, steel ruler tap, steady clockwork tick-tock, calendar page flip, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc4.3_04",
+      "scene_num": "4.3",
+      "shot_idx": 4,
+      "type": "animation",
+      "title": "Scene 4.3 Shot 04",
+      "description": "Scene 4.3 Shot 04: 那如果在過程中，發現到一些異常徵兆，也應該即",
+      "start_seconds": 61.22,
+      "end_seconds": 66.67,
+      "duration": 5.45,
+      "script_section_id": "sc4.3_04",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "那如果在過程中，發現到一些異常徵兆，也應該即時蒐集。",
+      "audio_file": "assets/audio/sc4.3_line_04.mp3",
+      "intent_concept": "Weak-signal diagnostic monitor.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Weak-signal diagnostic monitor.\nACTION: A rhythmic paper pulse wave ripples across a grid; suddenly a sharp red micro-spike cutout breaks through the upper tolerance threshold; an amber alert perimeter expands around it labeled 'WEAK SIGNAL: UNEXPECTED ANOMALY'; a glass specimen paper slide captures it immediately for investigation.\nTEXT: 'WEAK SIGNAL CAPTURE', 'ANOMALY AS CLUE'\nAUDIO: Radar sweep whirr, pop-up flag spring snap, sharp warning ping, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "sc4.3_05",
+      "scene_num": "4.3",
+      "shot_idx": 5,
+      "type": "animation",
+      "title": "Scene 4.3 Shot 05",
+      "description": "Scene 4.3 Shot 05: 以台鐵而言啊，要蒐集什麼回饋資料呢？就是繼續",
+      "start_seconds": 66.67,
+      "end_seconds": 74.4,
+      "duration": 7.73,
+      "script_section_id": "sc4.3_05",
+      "framing": "vox stop-motion collage",
+      "movement": "12 FPS paper stop-motion",
+      "narration": "以台鐵而言啊，要蒐集什麼回饋資料呢？就是繼續蒐集那些誤點事件的相關資料啦。",
+      "audio_file": "assets/audio/sc4.3_line_05.mp3",
+      "intent_concept": "Railway operational telemetry room.",
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "SHOT: Overhead tabletop flat-lay view, 12 FPS stop-motion, slow subtle camera push-in.\nSTYLE: Vox-style paper collage stop-motion animation, 12 FPS, zero motion blur. Aged off-white newsprint paper base with millimeter grid lines, tactile layered cardboard and textured cardstock cutouts, sharp knife-cut drop shadows, rich physical paper grain.\nLIGHTING: Studio tungsten overhead lighting, warm 3400K, defined physical drop shadows under paper edges.\nLOCATION: Railway operational telemetry room.\nACTION: A longitudinal timeline ribbon of railway operations unrolls across the drafting table; miniature green train cutouts travel across timecodes; every single delay event is tagged with its duration (+4m, +2m) and categorized by platform, building a continuous tracking database.\nTEXT: 'LONGITUDINAL TELEMETRY', 'SYSTEMIC DELAY LEDGER'\nAUDIO: Ribbon unroll flutter, miniature train roll, punch card stamp click, no dialogue.\nNEGATIVE: smooth digital CGI, glossy 3D render, cartoon characters, motion blur, full-sentence subtitles, spoken dialogue.",
+          "source": "generate"
+        }
+      ]
+    }
+  ]
+}

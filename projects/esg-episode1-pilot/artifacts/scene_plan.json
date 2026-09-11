@@ -1,0 +1,124 @@
+{
+  "version": "1.0",
+  "project_id": "esg-episode1-pilot",
+  "metadata": {
+    "total_duration_seconds": 60.0
+  },
+  "style_playbook": "premium-minimalist",
+  "scenes": [
+    {
+      "id": "scene_01",
+      "type": "video",
+      "description": "倫敦金融城高空俯瞰陰雨天",
+      "start_seconds": 0.0,
+      "end_seconds": 8.0,
+      "framing": "extreme_wide",
+      "movement": "slow_push_in",
+      "shot_language": "cinematic_gloomy",
+      "shot_intent": "建立冷酷氛圍與海外金融背景",
+      "required_assets": [
+        "video_shot1"
+      ]
+    },
+    {
+      "id": "scene_02",
+      "type": "video",
+      "description": "董事會議室增資簡報",
+      "start_seconds": 8.0,
+      "end_seconds": 16.0,
+      "framing": "medium",
+      "movement": "static",
+      "shot_language": "boardroom_corporate",
+      "shot_intent": "分析師專業報告但隱含危機",
+      "required_assets": [
+        "video_shot2"
+      ]
+    },
+    {
+      "id": "scene_03",
+      "type": "video",
+      "description": "Mr. Harrison 關鍵裁決",
+      "start_seconds": 16.0,
+      "end_seconds": 24.0,
+      "framing": "close_up",
+      "movement": "slow_zoom",
+      "shot_language": "authoritative",
+      "shot_intent": "不怒自威宣布凍結資金",
+      "required_assets": [
+        "video_shot3"
+      ]
+    },
+    {
+      "id": "scene_04",
+      "type": "video",
+      "description": "ON HOLD 印章重擊",
+      "start_seconds": 24.0,
+      "end_seconds": 30.0,
+      "framing": "macro_close_up",
+      "movement": "impact_cut",
+      "shot_language": "dramatic_impact",
+      "shot_intent": "鮮紅印章重重砸下",
+      "required_assets": [
+        "video_shot4"
+      ]
+    },
+    {
+      "id": "scene_05",
+      "type": "video",
+      "description": "聲音橋接：來電劇烈震動",
+      "start_seconds": 30.0,
+      "end_seconds": 36.0,
+      "framing": "close_up",
+      "movement": "shaking",
+      "shot_language": "urgent_bridge",
+      "shot_intent": "跨越時區從倫敦接回台北",
+      "required_assets": [
+        "video_shot5"
+      ]
+    },
+    {
+      "id": "scene_06",
+      "type": "video",
+      "description": "主管焦慮連環 Call",
+      "start_seconds": 36.0,
+      "end_seconds": 44.0,
+      "framing": "medium_tracking",
+      "movement": "pacing",
+      "shot_language": "tense_panicked",
+      "shot_intent": "協理焦躁踱步通話施壓",
+      "required_assets": [
+        "video_shot6"
+      ]
+    },
+    {
+      "id": "scene_07",
+      "type": "video",
+      "description": "Amy 錯愕接招特寫",
+      "start_seconds": 44.0,
+      "end_seconds": 52.0,
+      "framing": "portrait_close_up",
+      "movement": "handheld_subtle",
+      "shot_language": "expressive_acting",
+      "hero_moment": true,
+      "shot_intent": "Veo 3.1 原生中文說話口型，錯愕接招",
+      "required_assets": [
+        "video_shot7"
+      ]
+    },
+    {
+      "id": "scene_08",
+      "type": "video",
+      "description": "Amy 沉思點題收尾",
+      "start_seconds": 52.0,
+      "end_seconds": 60.0,
+      "framing": "medium_close_up",
+      "movement": "slow_pull_back",
+      "shot_language": "contemplative_closing",
+      "hero_moment": true,
+      "shot_intent": "放下手機注視螢幕，苦笑呢喃收尾",
+      "required_assets": [
+        "video_shot8"
+      ]
+    }
+  ]
+}

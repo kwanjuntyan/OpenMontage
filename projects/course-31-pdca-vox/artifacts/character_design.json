@@ -1,0 +1,25 @@
+{
+  "version": "1.0",
+  "project_id": "course-31-pdca-vox",
+  "characters": [
+    {
+      "id": "deming",
+      "display_name": "戴明博士 (Dr. W. Edwards Deming)",
+      "role": "品質管理大師 · 統計學家 · PDCA理論推手",
+      "age": 80,
+      "style": "白髮梳理整齊、銀色金屬細框眼鏡、身著深灰復古西裝搭配酒紅領帶。目光睿智深邃，舉手投足散發學者與大師的權威冷靜氣場。",
+      "props": [
+        "NBC專題採訪麥克風",
+        "黑板粉筆控制圖",
+        "統計分析筆記本"
+      ],
+      "binding": [
+        "Shot 2 (00:08-00:15) 紀錄片揭密歷史專題"
+      ],
+      "image": "clp/clp_deming.jpg",
+      "prompt": "Cinematic archival portrait of Dr. W. Edwards Deming in 1980, 80-year-old distinguished American statistician, wearing silver-rimmed spectacles, dark vintage suit, white shirt, thoughtful authoritative expression, vintage NBC documentary broadcast lighting, 35mm photograph, subtle film grain, Vox journalism style --ar 1:1 --v 6.1",
+      "midjourney_prompt": "Cinematic archival portrait of Dr. W. Edwards Deming in 1980, 80-year-old distinguished American statistician, wearing silver-rimmed spectacles, dark vintage suit, white shirt, thoughtful authoritative expression, vintage NBC documentary broadcast lighting, 35mm photograph, subtle film grain, Vox journalism style --ar 1:1 --v 6.1 --stylize 250",
+      "gcs_url": "https://storage.googleapis.com/prj-vertex-staging-assets/projects/course-31-pdca-vox/clp/clp_deming.jpg"
+    }
+  ]
+}
