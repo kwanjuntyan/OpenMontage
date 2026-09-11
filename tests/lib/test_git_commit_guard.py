@@ -109,3 +109,87 @@ def test_om_commit_generators():
     code_msg = generate_code_commit_msg(code_files)
     assert code_msg.startswith("feat(")
     assert is_valid_commit_msg(code_msg) is True
+
+
+def validate_commit(msg: str, staged_files: list[str]) -> tuple[bool, str]:
+    """Mirrors the full logic of .githooks/commit-msg (syntax + content awareness)."""
+    if msg.startswith("Merge ") or msg.startswith("Revert ") or msg.startswith("Initial commit"):
+        return True, "ok"
+
+    is_cat_a = bool(re.match(PATTERN_CAT_A, msg, re.IGNORECASE))
+    is_cat_b = bool(re.match(PATTERN_CAT_B, msg, re.IGNORECASE))
+
+    if not is_cat_a and not is_cat_b:
+        return False, "invalid_syntax"
+
+    if staged_files:
+        BINARY_EXTS = {
+            ".mp4", ".mov", ".webm", ".avi", ".mkv",
+            ".mp3", ".wav", ".m4a", ".aac", ".flac", ".ogg",
+            ".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp", ".ico",
+            ".onnx", ".pth", ".pt", ".bin"
+        }
+        if any(any(f.lower().endswith(ext) for ext in BINARY_EXTS) for f in staged_files):
+            return False, "binary_file_rejected"
+
+        course_files = [f for f in staged_files if f.startswith("projects/")]
+        code_files = [f for f in staged_files if not f.startswith("projects/")]
+
+        if course_files and code_files:
+            return False, "mixed_commit_rejected"
+
+        if is_cat_b and code_files and not course_files:
+            return False, "mismatch_content_with_code"
+
+        if is_cat_a and course_files and not code_files:
+            return False, "mismatch_code_with_course"
+
+    return True, "ok"
+
+
+def test_content_aware_binary_shield():
+    """Verifies binary media files are strictly rejected even with valid message."""
+    ok, reason = validate_commit("content(course-31): add video", ["projects/course-31/assets/video/sc01.mp4"])
+    assert ok is False
+    assert reason == "binary_file_rejected"
+
+    ok, reason = validate_commit("feat(ui): add logo", ["assets/logo.png"])
+    assert ok is False
+    assert reason == "binary_file_rejected"
+
+
+def test_content_aware_mixed_commits_rejected():
+    """Verifies mixing code and course files in one commit is blocked."""
+    mixed_files = [
+        "lib/gcs_storage.py",
+        "projects/course-31-sequence5-vox/artifacts/script.json",
+    ]
+    ok, reason = validate_commit("feat(cloud): update gcs and course", mixed_files)
+    assert ok is False
+    assert reason == "mixed_commit_rejected"
+
+
+def test_content_aware_semantic_mismatch_rejected():
+    """Verifies semantic mismatch (calling code changes 'content' or vice-versa) is blocked."""
+    # Used content(...) but only modified Python code
+    ok, reason = validate_commit("content(course-31): update script", ["lib/gcs_storage.py"])
+    assert ok is False
+    assert reason == "mismatch_content_with_code"
+
+    # Used feat(...) but only modified course JSON
+    ok, reason = validate_commit("feat(pipeline): update script", ["projects/course-31/artifacts/script.json"])
+    assert ok is False
+    assert reason == "mismatch_code_with_course"
+
+
+def test_content_aware_valid_cases_pass():
+    """Verifies properly classified commits pass both syntax and content checks."""
+    # Pure course commit
+    ok, reason = validate_commit("content(course-31): update script", ["projects/course-31/artifacts/script.json"])
+    assert ok is True
+    assert reason == "ok"
+
+    # Pure code commit
+    ok, reason = validate_commit("feat(cloud): add background sync", ["lib/gcs_storage.py", "tools/base_tool.py"])
+    assert ok is True
+    assert reason == "ok"
