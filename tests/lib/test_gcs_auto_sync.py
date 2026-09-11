@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Unit tests for automated non-blocking GCS sync capabilities."""
+"""Unit tests for automated non-blocking GCS sync capabilities, thread safety, and URL encoding."""
 
+import concurrent.futures
 import json
 import os
 import threading
@@ -12,7 +13,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from lib.checkpoint import write_checkpoint, init_project
-from lib.gcs_storage import GCSStorage, gcs_storage
+from lib.gcs_storage import GCSStorage, gcs_storage, atomic_update_json, flush_background_sync
 from backlot.server import create_app
 
 
@@ -38,8 +39,48 @@ def test_is_auto_sync_enabled_respects_env(monkeypatch):
     assert storage.is_auto_sync_enabled() is True
 
 
-def test_async_sync_project_assets_non_blocking(tmp_path, monkeypatch):
-    """Verifies that async_sync_project_assets executes in a daemon thread and notifies on_complete."""
+def test_public_url_percent_encoding():
+    """Verifies that public URLs encode special characters, spaces, and Unicode safely."""
+    storage = GCSStorage(bucket_name="my-bucket")
+    raw_path = "projects/course-31/assets/video/第 1 講 #intro.mp4"
+    url = storage.get_public_url(raw_path)
+    assert " " not in url
+    assert "#" not in url
+    assert "%20" in url
+    assert "%23" in url
+    assert "https://storage.googleapis.com/my-bucket/projects/course-31/assets/video/" in url
+
+
+def test_atomic_update_json_concurrent_writes(tmp_path):
+    """Verifies atomic_update_json prevents race conditions and corrupted JSON during parallel writes."""
+    test_file = tmp_path / "manifest.json"
+    initial_data = {
+        "version": "1.0",
+        "assets": [
+            {"id": f"asset_{i}", "gcs_url": None} for i in range(20)
+        ]
+    }
+    test_file.write_text(json.dumps(initial_data, indent=2), encoding="utf-8")
+
+    def _worker(asset_idx: int):
+        def _updater(data: dict) -> bool:
+            data["assets"][asset_idx]["gcs_url"] = f"https://gcs.com/url_{asset_idx}.mp4"
+            return True
+        atomic_update_json(test_file, _updater)
+
+    # Launch 20 concurrent threads attempting to update different assets in the same file
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as ex:
+        futures = [ex.submit(_worker, i) for i in range(20)]
+        concurrent.futures.wait(futures)
+
+    # Verify JSON is valid and all 20 updates survived
+    result = json.loads(test_file.read_text(encoding="utf-8"))
+    for i in range(20):
+        assert result["assets"][i]["gcs_url"] == f"https://gcs.com/url_{i}.mp4"
+
+
+def test_async_sync_project_assets_bounded_executor(tmp_path, monkeypatch):
+    """Verifies that async_sync_project_assets executes in worker pool and invokes callback."""
     proj_dir = tmp_path / "test_proj"
     proj_dir.mkdir()
 
@@ -56,13 +97,15 @@ def test_async_sync_project_assets_non_blocking(tmp_path, monkeypatch):
         received_results = res
         completed_event.set()
 
-    thread = storage.async_sync_project_assets(proj_dir, on_complete=_callback)
-    assert thread is not None
-    assert thread.daemon is True
+    fut = storage.async_sync_project_assets(proj_dir, on_complete=_callback)
+    assert fut is not None
 
-    # Wait for thread to finish
+    # Wait for completion
     assert completed_event.wait(timeout=2.0) is True
     assert received_results == {"mock/path.mp4": "https://gcs.com/mock.mp4"}
+
+    # Test flush_background_sync
+    flush_background_sync(timeout=2.0)
 
 
 def test_async_upload_single_asset_updates_manifest(tmp_path, monkeypatch):
@@ -98,12 +141,12 @@ def test_async_upload_single_asset_updates_manifest(tmp_path, monkeypatch):
     storage._bucket = MagicMock()
     monkeypatch.setattr(storage, "upload_asset", lambda pid, lp, rel_path=None: "https://gcs.com/test_video.mp4")
 
-    thread = storage.async_upload_single_asset("my_proj", test_video, rel_path="assets/video/sc01.mp4")
-    assert thread is not None
-    thread.join(timeout=2.0)
+    fut = storage.async_upload_single_asset("my_proj", test_video, rel_path="assets/video/sc01.mp4")
+    assert fut is not None
+    fut.result(timeout=2.0)
 
     # Verify manifest was updated
-    updated = json.loads(manifest_path.read_text())
+    updated = json.loads(manifest_path.read_text(encoding="utf-8"))
     assert updated["assets"][0]["gcs_url"] == "https://gcs.com/test_video.mp4"
 
 

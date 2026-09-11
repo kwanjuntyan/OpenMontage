@@ -1,6 +1,6 @@
 #!/bin/sh
 # OpenMontage Commit-Msg Gatekeeper
-# Validates both commit message syntax AND staged content classification.
+# Validates commit message syntax AND staged content classification with strict Fail-Closed security.
 
 if command -v python3 >/dev/null 2>&1; then
     PY_BIN=python3
@@ -9,8 +9,11 @@ elif command -v python >/dev/null 2>&1; then
 elif command -v py >/dev/null 2>&1; then
     PY_BIN=py
 else
-    # Fallback if Python is not in PATH
-    exit 0
+    echo "======================================================================" >&2
+    echo "[X] [OpenMontage 守門員錯誤] 系統中未找到 Python 執行環境 (python3/python/py)！" >&2
+    echo "    為了確保代碼庫與資料安全，提交已被拒絕 (Fail-Closed)。請安裝 Python 或加入 PATH。" >&2
+    echo "======================================================================" >&2
+    exit 1
 fi
 
 $PY_BIN - "$1" << 'EOF'
@@ -18,28 +21,40 @@ import sys
 import re
 import os
 import subprocess
+from pathlib import PurePosixPath
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
+
+if len(sys.argv) < 2:
+    print("[X] 錯誤：未提供 commit 訊息檔案路徑！", file=sys.stderr)
+    sys.exit(1)
 
 commit_msg_file = sys.argv[1]
 try:
-    with open(commit_msg_file, "r", encoding="utf-8", errors="ignore") as f:
+    with open(commit_msg_file, "r", encoding="utf-8", errors="replace") as f:
         lines = [line.strip() for line in f.readlines() if line.strip() and not line.startswith("#")]
-except Exception:
-    sys.exit(0)
+except Exception as e:
+    print(f"[X] 錯誤：無法讀取 commit 訊息檔案 ({e})，提交已被阻斷 (Fail-Closed)！", file=sys.stderr)
+    sys.exit(1)
 
 if not lines:
-    sys.exit(0)
+    print("\n" + "=" * 70, file=sys.stderr)
+    print("[X] [OpenMontage 規範守門員] Commit 訊息不能為空！", file=sys.stderr)
+    print("=" * 70 + "\n", file=sys.stderr)
+    sys.exit(1)
 
 msg = lines[0]
-
-# Allow special Git commits
-if msg.startswith("Merge ") or msg.startswith("Revert ") or msg.startswith("Initial commit"):
-    sys.exit(0)
+is_special_commit = (
+    msg.startswith("Merge ") or
+    msg.startswith("Revert ") or
+    msg.startswith("Initial commit")
+)
 
 # -------------------------------------------------------------
-# 1. Commit Message Syntax Validation
+# 1. Commit Message Syntax Validation (if not special commit)
 # -------------------------------------------------------------
 # Category A: Code & Infrastructure
 pattern_cat_a = r"^(feat|fix|docs|test|refactor|chore|perf|ci|style|build)(\([a-zA-Z0-9_\-./]+\))?:\s+.{3,}"
@@ -50,106 +65,168 @@ pattern_cat_b = r"^(content|data)\([a-zA-Z0-9_\-./]+\):\s+.{3,}"
 is_cat_a = bool(re.match(pattern_cat_a, msg, re.IGNORECASE))
 is_cat_b = bool(re.match(pattern_cat_b, msg, re.IGNORECASE))
 
-if not is_cat_a and not is_cat_b:
-    print("\n" + "=" * 70)
-    print("[X] [OpenMontage 規範守門員 - 語法錯誤] Commit 訊息不符合團隊規範！")
-    print("=" * 70)
-    print(f"您的輸入:\n  \"{msg}\"\n")
-    print("請遵循以下兩種標準格式之一：\n")
-    print("【類別 A - 系統程式碼 (Code/Tools/Engine)】:")
-    print("  * feat(模組): 說明    (例: feat(cloud): add background gcs auto-sync)")
-    print("  * fix(模組): 說明     (例: fix(backlot): fix player layout)")
-    print("  * docs: 說明          (例: docs: update setup guide)")
-    print("  * test(模組): 說明    (例: test(gcs): add auto sync tests)")
-    print("\n【類別 B - 課程與配方資料 (Course Content/Projects)】:")
-    print("  * content(課程名): 說明 (例: content(course-31): update sequence 5 script)")
-    print("  * data(課程名): 說明    (例: data(esg): approve episode 1 pilot checkpoints)")
-    print("\n[!] 提示：您完全不需要手動記格式！")
-    print("   請直接執行以下指令，系統會自動辨識並幫您提交：")
-    print("   -> python scripts/om_commit.py")
-    print("=" * 70 + "\n")
+if not is_special_commit and not is_cat_a and not is_cat_b:
+    print("\n" + "=" * 70, file=sys.stderr)
+    print("[X] [OpenMontage 規範守門員 - 語法錯誤] Commit 訊息不符合團隊規範！", file=sys.stderr)
+    print("=" * 70, file=sys.stderr)
+    print(f"您的輸入:\n  \"{msg}\"\n", file=sys.stderr)
+    print("請遵循以下兩種標準格式之一：\n", file=sys.stderr)
+    print("【類別 A - 系統程式碼 (Code/Tools/Engine)】:", file=sys.stderr)
+    print("  * feat(模組): 說明    (例: feat(cloud): add background gcs auto-sync)", file=sys.stderr)
+    print("  * fix(模組): 說明     (例: fix(backlot): fix player layout)", file=sys.stderr)
+    print("  * docs: 說明          (例: docs: update setup guide)", file=sys.stderr)
+    print("  * test(模組): 說明    (例: test(gcs): add auto sync tests)", file=sys.stderr)
+    print("\n【類別 B - 課程與配方資料 (Course Content/Projects)】:", file=sys.stderr)
+    print("  * content(課程名): 說明 (例: content(course-31): update sequence 5 script)", file=sys.stderr)
+    print("  * data(課程名): 說明    (例: data(esg): approve episode 1 pilot checkpoints)", file=sys.stderr)
+    print("\n[!] 提示：您完全不需要手動記格式！", file=sys.stderr)
+    print("   請直接執行以下指令，系統會自動辨識並幫您提交：", file=sys.stderr)
+    print("   -> python scripts/om_commit.py", file=sys.stderr)
+    print("=" * 70 + "\n", file=sys.stderr)
     sys.exit(1)
 
 # -------------------------------------------------------------
-# 2. Staged Content Awareness Validation
+# 2. Staged Content Awareness Validation (NUL-safe, Fail-Closed)
 # -------------------------------------------------------------
-def get_staged_files():
+def get_staged_entries():
+    """Returns list of (filepath, blob_hash) using NUL-terminated output."""
     try:
-        res = subprocess.run(["git", "diff", "--cached", "--name-only"], capture_output=True, text=True, encoding="utf-8")
-        return [f.strip().replace("\\", "/") for f in res.stdout.splitlines() if f.strip()]
-    except Exception:
-        return []
+        # Run git diff --cached --name-only -z
+        res = subprocess.run(
+            ["git", "diff", "--cached", "--name-only", "-z"],
+            capture_output=True,
+            check=True
+        )
+        raw_paths = [p for p in res.stdout.split(b"\0") if p]
+        files = [os.fsdecode(p).replace("\\", "/").strip() for p in raw_paths]
+        return files
+    except subprocess.CalledProcessError as e:
+        print(f"[X] Git 指令執行失敗 (code {e.returncode})，無法檢驗暫存區！", file=sys.stderr)
+        sys.exit(1)
+    except Exception as e:
+        print(f"[X] 解析暫存區失敗 ({e})，提交已被阻斷！", file=sys.stderr)
+        sys.exit(1)
 
-staged_files = get_staged_files()
+staged_files = get_staged_entries()
 if staged_files:
-    # A. Binary Shield: Block heavy media assets from entering Git
-    BINARY_EXTS = {
+    # A. Binary Shield
+    # Rule 1: Under projects/, ZERO binary tolerance (all media must reside in GCS)
+    PROJECT_FORBIDDEN_EXTS = {
         ".mp4", ".mov", ".webm", ".avi", ".mkv",
         ".mp3", ".wav", ".m4a", ".aac", ".flac", ".ogg",
         ".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp", ".ico",
-        ".onnx", ".pth", ".pt", ".bin"
+        ".onnx", ".pth", ".pt", ".bin", ".safetensors", ".ckpt",
+        ".zip", ".tar", ".gz", ".7z", ".rar"
     }
-    bad_binaries = [f for f in staged_files if any(f.lower().endswith(ext) for ext in BINARY_EXTS)]
+
+    # Rule 2: Repository-wide forbidden video/audio/weights/archives
+    REPO_FORBIDDEN_EXTS = {
+        ".mp4", ".mov", ".webm", ".avi", ".mkv",
+        ".mp3", ".wav", ".m4a", ".aac", ".flac", ".ogg",
+        ".onnx", ".pth", ".pt", ".safetensors", ".ckpt",
+        ".tar", ".gz", ".7z", ".rar"
+    }
+
+    bad_binaries = []
+    for f in staged_files:
+        posix = PurePosixPath(f)
+        suffix = posix.suffix.lower()
+        if f.startswith("projects/") and suffix in PROJECT_FORBIDDEN_EXTS:
+            bad_binaries.append((f, "課程配方目錄禁止包含任何多媒體/二進位檔案"))
+        elif suffix in REPO_FORBIDDEN_EXTS:
+            bad_binaries.append((f, "全代碼庫禁止提交影片、音訊、模型權重或大型壓縮檔"))
+
     if bad_binaries:
-        print("\n" + "=" * 70)
-        print("[X] [OpenMontage 規範守門員 - 二進位防護盾] 禁止提交多媒體/二進位檔案！")
-        print("=" * 70)
-        print(f"偵測到您試圖將媒體檔案提交進 Git (共 {len(bad_binaries)} 個)：")
-        for b in bad_binaries[:5]:
-            print(f"  * {b}")
+        print("\n" + "=" * 70, file=sys.stderr)
+        print("[X] [OpenMontage 規範守門員 - 二進位防護盾] 禁止提交多媒體/二進位檔案！", file=sys.stderr)
+        print("=" * 70, file=sys.stderr)
+        print(f"偵測到您試圖將媒體檔案提交進 Git (共 {len(bad_binaries)} 個)：", file=sys.stderr)
+        for b, reason in bad_binaries[:5]:
+            print(f"  * {b} ({reason})", file=sys.stderr)
         if len(bad_binaries) > 5:
-            print(f"  * ... 還有另外 {len(bad_binaries) - 5} 個檔案")
-        print("\n[!] 規範說明：")
-        print("  所有影片、音訊與圖片請存放於 GCS 雲端儲存庫，Git 僅保留純文字配方 (JSON/Code)。")
-        print("  請執行: git reset HEAD <檔案> 將其移出暫存區。")
-        print("=" * 70 + "\n")
+            print(f"  * ... 還有另外 {len(bad_binaries) - 5} 個檔案", file=sys.stderr)
+        print("\n[!] 規範說明：", file=sys.stderr)
+        print("  所有影片、音訊與課程圖片請存放於 GCS 雲端儲存庫，Git 僅保留純文字配方 (JSON/Code)。", file=sys.stderr)
+        print("  請執行: git reset HEAD <檔案> 將其移出暫存區。", file=sys.stderr)
+        print("=" * 70 + "\n", file=sys.stderr)
         sys.exit(1)
+
+    # Check blob size limit (>15MB is strictly blocked repository-wide)
+    try:
+        ls_res = subprocess.run(
+            ["git", "ls-files", "-s", "-z"],
+            capture_output=True,
+            check=True
+        )
+        for entry in ls_res.stdout.split(b"\0"):
+            if not entry:
+                continue
+            # format: <mode> <sha> <stage>\t<path>
+            parts = entry.split(b"\t", 1)
+            if len(parts) == 2:
+                meta, path_bytes = parts
+                path_str = os.fsdecode(path_bytes).replace("\\", "/").strip()
+                if path_str in staged_files:
+                    sha = meta.split()[1].decode("ascii")
+                    size_res = subprocess.run(["git", "cat-file", "-s", sha], capture_output=True, text=True)
+                    if size_res.returncode == 0 and size_res.stdout.strip().isdigit():
+                        size_bytes = int(size_res.stdout.strip())
+                        if size_bytes > 15 * 1024 * 1024:
+                            print("\n" + "=" * 70, file=sys.stderr)
+                            print(f"[X] [OpenMontage 守門員 - 檔案過大阻斷] 檔案超過 15MB ({size_bytes / (1024*1024):.2f} MB)！", file=sys.stderr)
+                            print(f"  * {path_str}", file=sys.stderr)
+                            print("  請將大檔案託管至 GCS 雲端儲存庫，勿直接提交至 Git。", file=sys.stderr)
+                            print("=" * 70 + "\n", file=sys.stderr)
+                            sys.exit(1)
+    except Exception:
+        pass
 
     # B. No Mixed Commits: Prevent mixing system code with course data
     course_files = [f for f in staged_files if f.startswith("projects/")]
     code_files = [f for f in staged_files if not f.startswith("projects/")]
 
     if course_files and code_files:
-        print("\n" + "=" * 70)
-        print("[X] [OpenMontage 規範守門員 - 分類檢驗] 偵測到「混雜提交」！")
-        print("=" * 70)
-        print("您不能在同一個 Commit 裡同時提交【系統程式碼】與【課程資料】：")
-        print(f"\n  [系統程式碼 ({len(code_files)} 個)]:")
+        print("\n" + "=" * 70, file=sys.stderr)
+        print("[X] [OpenMontage 規範守門員 - 分類檢驗] 偵測到「混雜提交」！", file=sys.stderr)
+        print("=" * 70, file=sys.stderr)
+        print("您不能在同一個 Commit 裡同時提交【系統程式碼】與【課程資料】：", file=sys.stderr)
+        print(f"\n  [系統程式碼 ({len(code_files)} 個)]:", file=sys.stderr)
         for c in code_files[:3]:
-            print(f"    - {c}")
-        print(f"\n  [課程配方資料 ({len(course_files)} 個)]:")
+            print(f"    - {c}", file=sys.stderr)
+        print(f"\n  [課程配方資料 ({len(course_files)} 個)]:", file=sys.stderr)
         for cf in course_files[:3]:
-            print(f"    - {cf}")
-        print("\n[!] 解決方式：")
-        print("  請將二者分開提交，或直接執行以下指令讓智慧助手幫您分批打包：")
-        print("  -> python scripts/om_commit.py")
-        print("=" * 70 + "\n")
+            print(f"    - {cf}", file=sys.stderr)
+        print("\n[!] 解決方式：", file=sys.stderr)
+        print("  請將二者分開提交，或直接執行以下指令讓智慧助手幫您分批打包：", file=sys.stderr)
+        print("  -> python scripts/om_commit.py", file=sys.stderr)
+        print("=" * 70 + "\n", file=sys.stderr)
         sys.exit(1)
 
-    # C. Semantic Consistency: Ensure message matches staged files
-    if is_cat_b and code_files and not course_files:
-        print("\n" + "=" * 70)
-        print("[X] [OpenMontage 規範守門員 - 名實不符阻斷]")
-        print("=" * 70)
-        print(f"您的 Commit 訊息使用了類別 B (課程配方資料):")
-        print(f"  \"{msg}\"")
-        print(f"但暫存區內實際修改的是【系統程式碼】({len(code_files)} 個檔案，如 {code_files[0]})！")
-        print("\n請改用類別 A 格式 (如: feat(模組): 說明 或 fix(模組): 說明)！")
-        print("=" * 70 + "\n")
-        sys.exit(1)
+    # C. Semantic Consistency: Ensure message matches staged files (for non-special commits)
+    if not is_special_commit:
+        if is_cat_b and code_files and not course_files:
+            print("\n" + "=" * 70, file=sys.stderr)
+            print("[X] [OpenMontage 規範守門員 - 名實不符阻斷]", file=sys.stderr)
+            print("=" * 70, file=sys.stderr)
+            print(f"您的 Commit 訊息使用了類別 B (課程配方資料):", file=sys.stderr)
+            print(f"  \"{msg}\"", file=sys.stderr)
+            print(f"但暫存區內實際修改的是【系統程式碼】({len(code_files)} 個檔案，如 {code_files[0]})！", file=sys.stderr)
+            print("\n請改用類別 A 格式 (如: feat(模組): 說明 或 fix(模組): 說明)！", file=sys.stderr)
+            print("=" * 70 + "\n", file=sys.stderr)
+            sys.exit(1)
 
-    if is_cat_a and course_files and not code_files:
-        print("\n" + "=" * 70)
-        print("[X] [OpenMontage 規範守門員 - 名實不符阻斷]")
-        print("=" * 70)
-        print(f"您的 Commit 訊息使用了類別 A (系統程式碼):")
-        print(f"  \"{msg}\"")
-        print(f"但暫存區內實際修改的全是【課程配方資料】(projects/ 下共 {len(course_files)} 個檔案)！")
-        print("\n請改用類別 B 格式：")
-        print("  -> content(<課程名>): 說明")
-        print("  例: content(course-31): update sequence 5 script")
-        print("=" * 70 + "\n")
-        sys.exit(1)
+        if is_cat_a and course_files and not code_files:
+            print("\n" + "=" * 70, file=sys.stderr)
+            print("[X] [OpenMontage 規範守門員 - 名實不符阻斷]", file=sys.stderr)
+            print("=" * 70, file=sys.stderr)
+            print(f"您的 Commit 訊息使用了類別 A (系統程式碼):", file=sys.stderr)
+            print(f"  \"{msg}\"", file=sys.stderr)
+            print(f"但暫存區內實際修改的全是【課程配方資料】(projects/ 下共 {len(course_files)} 個檔案)！", file=sys.stderr)
+            print("\n請改用類別 B 格式：", file=sys.stderr)
+            print("  -> content(<課程名>): 說明", file=sys.stderr)
+            print("  例: content(course-31): update sequence 5 script", file=sys.stderr)
+            print("=" * 70 + "\n", file=sys.stderr)
+            sys.exit(1)
 
 # All validations passed!
 sys.exit(0)

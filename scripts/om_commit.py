@@ -4,7 +4,7 @@
 Automatically detects staged and unstaged changes, categorizes them into:
   - Category A (Code / Tools / Engine): feat(...), fix(...), docs, test
   - Category B (Course Content / Recipes): content(<course-id>): ...
-Generates compliant commit messages and commits with zero manual memorization.
+Ensures strict category isolation, NUL-safe status parsing, and zero mixed commits.
 """
 
 from __future__ import annotations
@@ -14,37 +14,56 @@ import os
 import re
 import subprocess
 import sys
-from pathlib import Path
+from pathlib import PurePosixPath
 
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+if hasattr(sys.stderr, "reconfigure"):
+    sys.stderr.reconfigure(encoding="utf-8", errors="replace")
 
 
-def run_cmd(cmd: list[str]) -> str:
-    res = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8")
-    return res.stdout.strip()
+def get_git_status() -> list[tuple[str, str, str]]:
+    """Returns list of (index_status, worktree_status, filepath).
 
-
-def get_git_status() -> list[tuple[str, str]]:
-    """Returns list of (status_code, filepath)."""
-    res = subprocess.run(["git", "status", "--porcelain"], capture_output=True, text=True, encoding="utf-8")
+    Uses `git status --porcelain=v1 -z --untracked-files=all` for NUL-safe path decoding.
+    """
+    res = subprocess.run(
+        ["git", "status", "--porcelain=v1", "-z", "--untracked-files=all"],
+        capture_output=True,
+        check=True
+    )
     if not res.stdout:
         return []
-    items = []
-    for line in res.stdout.splitlines():
-        if len(line) >= 4:
-            code = line[:2]
-            path = line[3:].strip()
-            # Handle quoted paths
-            if path.startswith('"') and path.endswith('"'):
-                path = path[1:-1]
-            items.append((code.strip(), path.replace("\\", "/")))
+
+    items: list[tuple[str, str, str]] = []
+    tokens = res.stdout.split(b"\0")
+    i = 0
+    while i < len(tokens):
+        token = tokens[i]
+        if not token:
+            i += 1
+            continue
+
+        if len(token) >= 3 and token[2:3] == b" ":
+            idx_status = chr(token[0])
+            work_status = chr(token[1])
+            path_bytes = token[3:]
+            path_str = os.fsdecode(path_bytes).replace("\\", "/").strip()
+
+            # Handle rename/copy which provides a second path token
+            if idx_status in ("R", "C") or work_status in ("R", "C"):
+                i += 1
+                if i < len(tokens):
+                    orig_path = os.fsdecode(tokens[i]).replace("\\", "/").strip()
+                    # We track current path
+            items.append((idx_status, work_status, path_str))
+        i += 1
+
     return items
 
 
 def generate_course_commit_msg(project_files: list[str]) -> str:
     """Generates a Category B commit message from a list of project files."""
-    # Find all affected project IDs under projects/<project_id>/
     project_ids = set()
     file_types = set()
 
@@ -74,7 +93,6 @@ def generate_course_commit_msg(project_files: list[str]) -> str:
         scope = "content"
     elif len(project_ids) == 1:
         pid = list(project_ids)[0]
-        # Shorten course-31-sequence5-vox -> course-31
         if pid.startswith("course-31"):
             scope = "course-31"
         elif pid.startswith("esg"):
@@ -104,6 +122,8 @@ def generate_code_commit_msg(code_files: list[str]) -> str:
             scopes.add("test")
         elif f.startswith("docs/") or f.endswith(".md"):
             scopes.add("docs")
+        elif f.startswith(".githooks/"):
+            scopes.add("git")
         else:
             scopes.add("core")
 
@@ -119,56 +139,66 @@ def main():
     parser.add_argument("-p", "--push", action="store_true", help="Push to remote after committing")
     args = parser.parse_args()
 
-    status_items = get_git_status()
+    try:
+        status_items = get_git_status()
+    except subprocess.CalledProcessError as e:
+        print(f"[X] 無法讀取 git status (code {e.returncode})", file=sys.stderr)
+        sys.exit(e.returncode)
+
     if not status_items:
         print("[OpenMontage] 乾淨的工作目錄，沒有任何需要提交的改動。 (Working tree clean)")
         return
 
-    course_files = [path for _, path in status_items if path.startswith("projects/")]
-    code_files = [path for _, path in status_items if not path.startswith("projects/")]
+    # Check for already staged files in index
+    staged_course = [p for idx, _, p in status_items if idx not in (" ", "?") and p.startswith("projects/")]
+    staged_code = [p for idx, _, p in status_items if idx not in (" ", "?") and not p.startswith("projects/")]
+
+    all_course = [p for _, _, p in status_items if p.startswith("projects/")]
+    all_code = [p for _, _, p in status_items if not p.startswith("projects/")]
 
     print("\n" + "=" * 60)
     print("[OpenMontage 智慧提交助手]")
     print("=" * 60)
     print(f"偵測到變更檔案: 共 {len(status_items)} 個")
-    if course_files:
-        print(f"  * 類別 B (課程配方資料): {len(course_files)} 個檔案")
-    if code_files:
-        print(f"  * 類別 A (系統程式碼):   {len(code_files)} 個檔案")
+    if all_course:
+        print(f"  * 類別 B (課程配方資料): {len(all_course)} 個檔案 (已暫存: {len(staged_course)})")
+    if all_code:
+        print(f"  * 類別 A (系統程式碼):   {len(all_code)} 個檔案 (已暫存: {len(staged_code)})")
     print("-" * 60)
 
-    # Determine recommended target & message
-    files_to_add: list[str] = []
-    suggested_msg = ""
-
-    if course_files and not code_files:
-        files_to_add = ["projects/"]
-        suggested_msg = generate_course_commit_msg(course_files)
-    elif code_files and not course_files:
-        files_to_add = code_files
-        suggested_msg = generate_code_commit_msg(code_files)
+    # Determine target category
+    target_category = ""
+    if all_course and not all_code:
+        target_category = "course"
+    elif all_code and not all_course:
+        target_category = "code"
     else:
-        # Mixed changes: recommend committing course first or code first
+        # Both exist: user must choose which one to commit first
         print("[!] 提示：您同時修改了【系統程式碼】與【課程資料】。")
-        print("   為了保持乾淨的歷史紀錄，建議將兩者分開提交。")
-        print("   1) 先提交 課程資料 (Category B: content)")
-        print("   2) 先提交 系統程式碼 (Category A: feat/fix)")
-        print("   3) 一併提交所有改動")
+        print("   根據團隊規範，禁止混雜提交，必須分開打包：")
+        print("   1) 先提交【課程配方資料】(Category B: content)")
+        print("   2) 先提交【系統程式碼】(Category A: feat/fix)")
         choice = "1"
         if not args.yes:
             choice = input("\n請選擇 [預設 1]: ").strip() or "1"
-        if choice == "1":
-            files_to_add = ["projects/"]
-            suggested_msg = generate_course_commit_msg(course_files)
-        elif choice == "2":
-            files_to_add = code_files
-            suggested_msg = generate_code_commit_msg(code_files)
-        else:
-            files_to_add = [path for _, path in status_items]
-            suggested_msg = generate_code_commit_msg(code_files)
+        target_category = "course" if choice == "1" else "code"
+
+    files_to_stage: list[str] = []
+    files_to_unstage: list[str] = []
+    suggested_msg = ""
+
+    if target_category == "course":
+        files_to_stage = all_course
+        # If code was already staged in index, unstage it to prevent mixed commit
+        files_to_unstage = staged_code
+        suggested_msg = generate_course_commit_msg(all_course)
+    else:
+        files_to_stage = all_code
+        # If course was already staged in index, unstage it to prevent mixed commit
+        files_to_unstage = staged_course
+        suggested_msg = generate_code_commit_msg(all_code)
 
     final_msg = args.message.strip() if args.message.strip() else suggested_msg
-
     print(f"\n推薦 Commit 訊息: \n  ->  {final_msg}\n")
 
     if not args.yes and not args.message:
@@ -179,22 +209,40 @@ def main():
         if user_input:
             final_msg = user_input
 
-    # Execute git add & git commit
-    print(f"\n[Git] 正在暫存檔案...")
-    for f in files_to_add:
-        subprocess.run(["git", "add", f], check=True)
+    # Step 1: Unstage conflicting files from index if any
+    if files_to_unstage:
+        print(f"[Git] 正在自暫存區移出另類別檔案 ({len(files_to_unstage)} 個)，以確保不混雜...")
+        # Use git reset HEAD -- <files>
+        for batch in [files_to_unstage[i:i+50] for i in range(0, len(files_to_unstage), 50)]:
+            subprocess.run(["git", "reset", "HEAD", "--"] + batch, check=True, stdout=subprocess.DEVNULL)
 
+    # Step 2: Stage target files
+    print(f"[Git] 正在暫存目標檔案 ({len(files_to_stage)} 個)...")
+    for batch in [files_to_stage[i:i+50] for i in range(0, len(files_to_stage), 50)]:
+        subprocess.run(["git", "add", "--"] + batch, check=True)
+
+    # Step 3: Execute commit
     print(f"[Git] 正在執行提交...")
-    commit_res = subprocess.run(["git", "commit", "-m", final_msg], capture_output=True, text=True, encoding="utf-8")
+    commit_res = subprocess.run(
+        ["git", "commit", "-m", final_msg],
+        capture_output=True,
+        text=True,
+        encoding="utf-8"
+    )
+
     if commit_res.returncode == 0:
         print(f"[V] 提交成功！")
         print(commit_res.stdout)
         if args.push:
             print("[Git] 正在推送到遠端...")
-            subprocess.run(["git", "push"], check=True)
+            push_res = subprocess.run(["git", "push"], check=False)
+            if push_res.returncode != 0:
+                print(f"[X] 推送失敗 (code {push_res.returncode})", file=sys.stderr)
+                sys.exit(push_res.returncode)
             print("[*] 推送完成！")
     else:
-        print(f"❌ 提交失敗:\n{commit_res.stderr or commit_res.stdout}")
+        print(f"[X] 提交失敗 (code {commit_res.returncode}):\n{commit_res.stderr or commit_res.stdout}", file=sys.stderr)
+        sys.exit(commit_res.returncode)
 
 
 if __name__ == "__main__":

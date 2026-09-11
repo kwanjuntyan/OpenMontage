@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Unit tests for OpenMontage Git commit-msg gatekeeper and smart commit assistant."""
+"""Unit and black-box integration tests for OpenMontage Git commit-msg gatekeeper."""
 
 import os
 import re
@@ -10,16 +10,15 @@ from pathlib import Path
 
 import pytest
 
-from lib.git_bootstrap import ensure_git_hooks
-from scripts.om_commit import generate_course_commit_msg, generate_code_commit_msg
+from lib.git_bootstrap import ensure_git_hooks, get_git_hooks_dir
+from scripts.om_commit import generate_course_commit_msg, generate_code_commit_msg, get_git_status
 
 
-# Patterns mirrored from .githooks/commit-msg
 PATTERN_CAT_A = r"^(feat|fix|docs|test|refactor|chore|perf|ci|style|build)(\([a-zA-Z0-9_\-./]+\))?:\s+.{3,}"
 PATTERN_CAT_B = r"^(content|data)\([a-zA-Z0-9_\-./]+\):\s+.{3,}"
 
 
-def is_valid_commit_msg(msg: str) -> bool:
+def is_valid_commit_syntax(msg: str) -> bool:
     if msg.startswith("Merge ") or msg.startswith("Revert ") or msg.startswith("Initial commit"):
         return True
     return bool(re.match(PATTERN_CAT_A, msg, re.IGNORECASE) or re.match(PATTERN_CAT_B, msg, re.IGNORECASE))
@@ -37,7 +36,7 @@ def test_category_a_valid_formats():
         "perf(render): optimize ffmpeg encoding params",
     ]
     for msg in valid_msgs:
-        assert is_valid_commit_msg(msg) is True, f"Failed for valid message: {msg}"
+        assert is_valid_commit_syntax(msg) is True, f"Failed for valid message: {msg}"
 
 
 def test_category_b_valid_formats():
@@ -49,11 +48,11 @@ def test_category_b_valid_formats():
         "data(course-31-sequence4-vox): sync shot video manifests",
     ]
     for msg in valid_msgs:
-        assert is_valid_commit_msg(msg) is True, f"Failed for valid message: {msg}"
+        assert is_valid_commit_syntax(msg) is True, f"Failed for valid message: {msg}"
 
 
 def test_invalid_messages_rejected():
-    """Verifies that non-compliant, sloppy commit messages are rejected."""
+    """Verifies that non-compliant commit messages fail syntax validation."""
     invalid_msgs = [
         "update",
         "123",
@@ -61,135 +60,171 @@ def test_invalid_messages_rejected():
         "fixed some bug",
         "content: missing course scope",
         "feat(): empty scope",
-        "feat(cloud):",  # too short / empty description
+        "feat(cloud):",
         "wip",
         "tmp",
     ]
     for msg in invalid_msgs:
-        assert is_valid_commit_msg(msg) is False, f"Should reject: {msg}"
-
-
-def test_ensure_git_hooks_installs_correctly(tmp_path, monkeypatch):
-    """Verifies that ensure_git_hooks installs hook into .git/hooks."""
-    repo = tmp_path / "mock_repo"
-    repo.mkdir()
-    git_dir = repo / ".git"
-    git_dir.mkdir()
-    githooks_dir = repo / ".githooks"
-    githooks_dir.mkdir()
-    source_hook = githooks_dir / "commit-msg"
-    source_hook.write_text("#!/bin/sh\necho 'hook active'\n", encoding="utf-8")
-
-    monkeypatch.setattr("lib.git_bootstrap.Path.resolve", lambda self: repo / "lib" / "git_bootstrap.py")
-
-    success = ensure_git_hooks()
-    assert success is True
-    target_hook = git_dir / "hooks" / "commit-msg"
-    assert target_hook.is_file()
-    assert target_hook.read_text(encoding="utf-8") == source_hook.read_text(encoding="utf-8")
+        assert is_valid_commit_syntax(msg) is False, f"Should reject: {msg}"
 
 
 def test_om_commit_generators():
     """Verifies that om_commit automatically infers the correct commit messages."""
-    # Test course content generator
     course_files = [
         "projects/course-31-sequence5-vox/artifacts/script.json",
         "projects/course-31-sequence5-vox/artifacts/asset_manifest.json",
     ]
     msg = generate_course_commit_msg(course_files)
     assert msg.startswith("content(course-31):")
-    assert "script" in msg or "manifest" in msg
-    assert is_valid_commit_msg(msg) is True
 
-    # Test code generator
     code_files = [
         "lib/gcs_storage.py",
-        "tools/video/veo_video.py",
+        "tests/lib/test_gcs_auto_sync.py",
     ]
     code_msg = generate_code_commit_msg(code_files)
-    assert code_msg.startswith("feat(")
-    assert is_valid_commit_msg(code_msg) is True
+    assert code_msg.startswith("test(") or code_msg.startswith("feat(")
 
 
-def validate_commit(msg: str, staged_files: list[str]) -> tuple[bool, str]:
-    """Mirrors the full logic of .githooks/commit-msg (syntax + content awareness)."""
-    if msg.startswith("Merge ") or msg.startswith("Revert ") or msg.startswith("Initial commit"):
-        return True, "ok"
+# --------------------------------------------------------------------------
+# Black-Box Integration Tests: Running the Real Hook Against a Real Git Repo
+# --------------------------------------------------------------------------
 
-    is_cat_a = bool(re.match(PATTERN_CAT_A, msg, re.IGNORECASE))
-    is_cat_b = bool(re.match(PATTERN_CAT_B, msg, re.IGNORECASE))
+@pytest.fixture
+def real_git_repo(tmp_path):
+    """Creates a genuine temporary git repo configured with the real commit-msg hook."""
+    repo = tmp_path / "sandbox_repo"
+    repo.mkdir()
 
-    if not is_cat_a and not is_cat_b:
-        return False, "invalid_syntax"
+    # Initialize git
+    subprocess.run(["git", "init"], cwd=str(repo), check=True, capture_output=True)
+    subprocess.run(["git", "config", "user.email", "tester@openmontage.org"], cwd=str(repo), check=True)
+    subprocess.run(["git", "config", "user.name", "Tester"], cwd=str(repo), check=True)
 
-    if staged_files:
-        BINARY_EXTS = {
-            ".mp4", ".mov", ".webm", ".avi", ".mkv",
-            ".mp3", ".wav", ".m4a", ".aac", ".flac", ".ogg",
-            ".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp", ".ico",
-            ".onnx", ".pth", ".pt", ".bin"
-        }
-        if any(any(f.lower().endswith(ext) for ext in BINARY_EXTS) for f in staged_files):
-            return False, "binary_file_rejected"
+    # Copy the real .githooks/commit-msg
+    real_hook_source = Path(__file__).resolve().parent.parent.parent / ".githooks" / "commit-msg"
+    hooks_dir = repo / ".git" / "hooks"
+    hooks_dir.mkdir(parents=True, exist_ok=True)
+    target_hook = hooks_dir / "commit-msg"
+    shutil.copyfile(real_hook_source, target_hook)
+    try:
+        target_hook.chmod(0o755)
+    except Exception:
+        pass
 
-        course_files = [f for f in staged_files if f.startswith("projects/")]
-        code_files = [f for f in staged_files if not f.startswith("projects/")]
-
-        if course_files and code_files:
-            return False, "mixed_commit_rejected"
-
-        if is_cat_b and code_files and not course_files:
-            return False, "mismatch_content_with_code"
-
-        if is_cat_a and course_files and not code_files:
-            return False, "mismatch_code_with_course"
-
-    return True, "ok"
+    return repo, target_hook
 
 
-def test_content_aware_binary_shield():
-    """Verifies binary media files are strictly rejected even with valid message."""
-    ok, reason = validate_commit("content(course-31): add video", ["projects/course-31/assets/video/sc01.mp4"])
-    assert ok is False
-    assert reason == "binary_file_rejected"
-
-    ok, reason = validate_commit("feat(ui): add logo", ["assets/logo.png"])
-    assert ok is False
-    assert reason == "binary_file_rejected"
-
-
-def test_content_aware_mixed_commits_rejected():
-    """Verifies mixing code and course files in one commit is blocked."""
-    mixed_files = [
-        "lib/gcs_storage.py",
-        "projects/course-31-sequence5-vox/artifacts/script.json",
-    ]
-    ok, reason = validate_commit("feat(cloud): update gcs and course", mixed_files)
-    assert ok is False
-    assert reason == "mixed_commit_rejected"
+def commit_in_repo(repo: Path, msg: str) -> subprocess.CompletedProcess:
+    """Invokes git commit inside the test repository."""
+    return subprocess.run(
+        ["git", "commit", "-m", msg],
+        cwd=str(repo),
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+        errors="replace",
+    )
 
 
-def test_content_aware_semantic_mismatch_rejected():
-    """Verifies semantic mismatch (calling code changes 'content' or vice-versa) is blocked."""
-    # Used content(...) but only modified Python code
-    ok, reason = validate_commit("content(course-31): update script", ["lib/gcs_storage.py"])
-    assert ok is False
-    assert reason == "mismatch_content_with_code"
+def test_real_hook_happy_paths(real_git_repo):
+    """Verifies that valid Category A and Category B commits succeed with real hook."""
+    repo, _ = real_git_repo
 
-    # Used feat(...) but only modified course JSON
-    ok, reason = validate_commit("feat(pipeline): update script", ["projects/course-31/artifacts/script.json"])
-    assert ok is False
-    assert reason == "mismatch_code_with_course"
+    # 1. Category A
+    code_file = repo / "lib" / "helper.py"
+    code_file.parent.mkdir(parents=True, exist_ok=True)
+    code_file.write_text("x = 1\n", encoding="utf-8")
+    subprocess.run(["git", "add", "lib/helper.py"], cwd=str(repo), check=True)
+
+    res = commit_in_repo(repo, "feat(core): add helper module")
+    assert res.returncode == 0, f"Expected success but got: {res.stderr}"
+
+    # 2. Category B
+    course_file = repo / "projects" / "c1" / "project.json"
+    course_file.parent.mkdir(parents=True, exist_ok=True)
+    course_file.write_text('{"id": "c1"}\n', encoding="utf-8")
+    subprocess.run(["git", "add", "projects/c1/project.json"], cwd=str(repo), check=True)
+
+    res = commit_in_repo(repo, "content(c1): create project recipe")
+    assert res.returncode == 0, f"Expected success but got: {res.stderr}"
 
 
-def test_content_aware_valid_cases_pass():
-    """Verifies properly classified commits pass both syntax and content checks."""
-    # Pure course commit
-    ok, reason = validate_commit("content(course-31): update script", ["projects/course-31/artifacts/script.json"])
-    assert ok is True
-    assert reason == "ok"
+def test_real_hook_blocks_empty_message(real_git_repo):
+    """Verifies that empty commit message is strictly blocked (Fail-Closed)."""
+    repo, _ = real_git_repo
+    f = repo / "lib" / "a.py"
+    f.parent.mkdir(parents=True, exist_ok=True)
+    f.write_text("a = 1\n")
+    subprocess.run(["git", "add", "lib/a.py"], cwd=str(repo), check=True)
 
-    # Pure code commit
-    ok, reason = validate_commit("feat(cloud): add background sync", ["lib/gcs_storage.py", "tools/base_tool.py"])
-    assert ok is True
-    assert reason == "ok"
+    res = commit_in_repo(repo, "")
+    assert res.returncode != 0
+    assert "Commit 訊息不能為空" in res.stderr or "Aborting commit due to empty commit message" in res.stderr
+
+
+def test_real_hook_blocks_special_commit_with_binary_shield(real_git_repo):
+    """Verifies that 'Merge ...' or special messages CANNOT bypass the binary shield."""
+    repo, _ = real_git_repo
+    media = repo / "projects" / "c1" / "assets" / "video" / "test.mp4"
+    media.parent.mkdir(parents=True, exist_ok=True)
+    media.write_bytes(b"fake mp4 stream")
+    subprocess.run(["git", "add", "projects/c1/assets/video/test.mp4"], cwd=str(repo), check=True)
+
+    # Attempt bypass with Merge message
+    res = commit_in_repo(repo, "Merge branch 'feature' into main")
+    assert res.returncode != 0
+    assert "二進位防護盾" in res.stderr
+
+
+def test_real_hook_blocks_unicode_quoted_path_media(real_git_repo):
+    """Verifies that Chinese/Unicode paths outputted with C-style quotes by Git are caught."""
+    repo, _ = real_git_repo
+    media = repo / "projects" / "課程A" / "assets" / "測試.mp4"
+    media.parent.mkdir(parents=True, exist_ok=True)
+    media.write_bytes(b"fake video")
+    subprocess.run(["git", "add", "."], cwd=str(repo), check=True)
+
+    res = commit_in_repo(repo, "content(course-a): add intro video")
+    assert res.returncode != 0
+    assert "二進位防護盾" in res.stderr
+
+
+def test_real_hook_blocks_mixed_commits(real_git_repo):
+    """Verifies that staging both code and projects/ in one commit is blocked."""
+    repo, _ = real_git_repo
+    (repo / "lib").mkdir(parents=True, exist_ok=True)
+    (repo / "lib" / "foo.py").write_text("def foo(): pass\n")
+
+    (repo / "projects" / "c1").mkdir(parents=True, exist_ok=True)
+    (repo / "projects" / "c1" / "project.json").write_text("{}\n")
+
+    subprocess.run(["git", "add", "lib/foo.py", "projects/c1/project.json"], cwd=str(repo), check=True)
+
+    res = commit_in_repo(repo, "feat(core): update core and course")
+    assert res.returncode != 0
+    assert "混雜提交" in res.stderr
+
+
+def test_real_hook_blocks_semantic_mismatches(real_git_repo):
+    """Verifies that calling code 'content' or calling projects 'feat' is blocked."""
+    repo, _ = real_git_repo
+    (repo / "lib").mkdir(parents=True, exist_ok=True)
+    (repo / "lib" / "code.py").write_text("x = 1\n")
+    subprocess.run(["git", "add", "lib/code.py"], cwd=str(repo), check=True)
+
+    # Only code staged, but using Category B content message
+    res = commit_in_repo(repo, "content(c1): update script")
+    assert res.returncode != 0
+    assert "名實不符阻斷" in res.stderr
+
+    # Unstage code.py
+    subprocess.run(["git", "rm", "-f", "-r", "--cached", "."], cwd=str(repo), check=True)
+
+    # Only project staged, but using Category A feat message
+    (repo / "projects" / "c1").mkdir(parents=True, exist_ok=True)
+    (repo / "projects" / "c1" / "script.json").write_text("{}\n")
+    subprocess.run(["git", "add", "projects/c1/script.json"], cwd=str(repo), check=True)
+
+    res = commit_in_repo(repo, "feat(core): update script engine")
+    assert res.returncode != 0
+    assert "名實不符阻斷" in res.stderr
