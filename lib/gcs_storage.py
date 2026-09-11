@@ -92,11 +92,50 @@ class GCSStorage:
             print(f"[GCS Upload Failed] {destination_blob_name}: {e}")
             return None
 
+    def upload_asset(
+        self,
+        project_id: str,
+        local_path: str | Path,
+        rel_path: Optional[str] = None,
+        content_type: Optional[str] = None,
+    ) -> Optional[str]:
+        """Unified upload method for all media types (CLP, video, audio, image, render).
+
+        Maps local project asset directly to projects/<project_id>/<rel_path> on GCS.
+        """
+        local_file = Path(local_path)
+        if not local_file.is_file():
+            print(f"[GCS Error] Local asset not found: {local_file}")
+            return None
+
+        # Determine relative destination blob path
+        if rel_path:
+            clean_rel = rel_path.replace("\\", "/").lstrip("/")
+            blob_path = f"projects/{project_id}/{clean_rel}"
+        else:
+            # Auto-detect from file extension and parent directory
+            ext = local_file.suffix.lower()
+            parent_name = local_file.parent.name.lower()
+            if "clp" in parent_name:
+                blob_path = f"projects/{project_id}/clp/{local_file.name}"
+            elif ext in {".mp4", ".webm", ".mov"}:
+                if "render" in parent_name or local_file.name == "final.mp4":
+                    blob_path = f"projects/{project_id}/renders/{local_file.name}"
+                else:
+                    blob_path = f"projects/{project_id}/assets/video/{local_file.name}"
+            elif ext in {".mp3", ".wav", ".m4a", ".aac", ".ogg"}:
+                blob_path = f"projects/{project_id}/assets/audio/{local_file.name}"
+            elif ext in {".png", ".jpg", ".jpeg", ".webp"}:
+                blob_path = f"projects/{project_id}/assets/images/{local_file.name}"
+            else:
+                blob_path = f"projects/{project_id}/assets/{local_file.name}"
+
+        return self.upload_file(local_file, blob_path, content_type=content_type)
+
     def upload_render(self, project_id: str, local_mp4_path: str | Path) -> Optional[str]:
         """Uploads final or scene MP4 to projects/<project_id>/renders/<filename>."""
         filename = Path(local_mp4_path).name
-        blob_path = f"projects/{project_id}/renders/{filename}"
-        return self.upload_file(local_mp4_path, blob_path, content_type="video/mp4")
+        return self.upload_asset(project_id, local_mp4_path, rel_path=f"renders/{filename}", content_type="video/mp4")
 
     def upload_clp(self, clp_name: str, local_image_path: str | Path) -> Optional[str]:
         """Uploads CLP reference prop/character to shared_clp/<clp_name>.<ext>."""
@@ -107,58 +146,146 @@ class GCSStorage:
         blob_path = f"shared_clp/{clean_name}{ext}"
         return self.upload_file(local_image_path, blob_path)
 
-    def sync_project_clp(self, project_dir: str | Path) -> dict[str, str]:
-        """Uploads all CLP images in a project's clp/ folder and updates character_design.json."""
+    def upload_audio(self, project_id: str, local_audio_path: str | Path) -> Optional[str]:
+        """Uploads narration/mix audio to projects/<project_id>/assets/audio/<filename>."""
+        filename = Path(local_audio_path).name
+        return self.upload_asset(project_id, local_audio_path, rel_path=f"assets/audio/{filename}", content_type="audio/mpeg")
+
+    def sync_project_assets(self, project_dir: str | Path) -> dict[str, str]:
+        """Unified sync of ALL project media assets (CLP, shot video, audio, image, render) to GCS.
+
+        Scans:
+          - clp/
+          - assets/video/
+          - assets/images/
+          - assets/audio/
+          - renders/
+        Uploads each file to GCS and automatically updates:
+          - artifacts/asset_manifest.json (with gcs_url per asset)
+          - artifacts/character_design.json (with gcs_url per character)
+          - artifacts/render_report.json & project.json (with gcs_url for renders)
+        """
         p_dir = Path(project_dir)
+        project_id = p_dir.name
         results: dict[str, str] = {}
         if not self.is_configured():
-            print("[GCS] Bucket not configured, skipping CLP sync.")
+            print(f"[GCS] Bucket not configured, skipping sync for {project_id}.")
             return results
 
-        # 1. Upload files from clp/ directory
-        clp_dir = p_dir / "clp"
-        if clp_dir.is_dir():
-            for img_file in clp_dir.iterdir():
-                if img_file.is_file() and img_file.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}:
-                    url = self.upload_clp(img_file.name, img_file)
-                    if url:
-                        results[img_file.name] = url
+        # Directories to scan and their relative subpaths
+        scan_targets = [
+            ("clp", p_dir / "clp"),
+            ("assets/video", p_dir / "assets" / "video"),
+            ("assets/images", p_dir / "assets" / "images"),
+            ("assets/audio", p_dir / "assets" / "audio"),
+            ("renders", p_dir / "renders"),
+        ]
 
-        # 2. Update character_design.json if it exists
+        valid_exts = {
+            ".mp4", ".webm", ".mov",
+            ".mp3", ".wav", ".m4a", ".aac",
+            ".png", ".jpg", ".jpeg", ".webp"
+        }
+
+        for rel_prefix, target_dir in scan_targets:
+            if not target_dir.is_dir():
+                continue
+            for f in sorted(target_dir.iterdir()):
+                if f.is_file() and f.suffix.lower() in valid_exts:
+                    rel_path = f"{rel_prefix}/{f.name}"
+                    url = self.upload_asset(project_id, f, rel_path=rel_path)
+                    if url:
+                        results[rel_path] = url
+                        # Also upload CLP to shared_clp for global cross-project sharing
+                        if rel_prefix == "clp":
+                            self.upload_clp(f.name, f)
+
+        import json
+
+        # 1. Update artifacts/asset_manifest.json
+        manifest_path = p_dir / "artifacts" / "asset_manifest.json"
+        if manifest_path.is_file() and results:
+            try:
+                with open(manifest_path, "r", encoding="utf-8") as f:
+                    manifest = json.load(f)
+                changed = False
+                for asset in manifest.get("assets", []):
+                    asset_path = asset.get("path", "").replace("\\", "/")
+                    filename = Path(asset_path).name
+                    # Try matching by exact relative path or filename
+                    matched_url = None
+                    if asset_path in results:
+                        matched_url = results[asset_path]
+                    else:
+                        for r_path, url in results.items():
+                            if r_path.endswith(f"/{filename}") or r_path == filename:
+                                matched_url = url
+                                break
+                    if matched_url and asset.get("gcs_url") != matched_url:
+                        asset["gcs_url"] = matched_url
+                        changed = True
+
+                if changed:
+                    with open(manifest_path, "w", encoding="utf-8") as f:
+                        json.dump(manifest, f, indent=2, ensure_ascii=False)
+                    print(f"[GCS] Updated {manifest_path.name} with asset GCS URLs.")
+            except Exception as e:
+                print(f"[GCS] Error updating asset_manifest.json: {e}")
+
+        # 2. Update artifacts/character_design.json
         cd_path = p_dir / "artifacts" / "character_design.json"
         if cd_path.is_file() and results:
             try:
-                import json
                 with open(cd_path, "r", encoding="utf-8") as f:
                     cd_data = json.load(f)
-
                 changed = False
                 for char in cd_data.get("characters", []):
                     img_name = Path(char.get("image", "")).name
-                    if img_name in results:
-                        char["gcs_url"] = results[img_name]
-                        changed = True
-                    elif f"clp_{char.get('id')}.jpg" in results:
-                        char["gcs_url"] = results[f"clp_{char.get('id')}.jpg"]
-                        changed = True
-                    elif f"clp_{char.get('id')}.png" in results:
-                        char["gcs_url"] = results[f"clp_{char.get('id')}.png"]
+                    matched_url = None
+                    for r_path, url in results.items():
+                        if r_path.endswith(f"/{img_name}") or r_path == img_name or char.get("id") in r_path:
+                            matched_url = url
+                            break
+                    if matched_url and char.get("gcs_url") != matched_url:
+                        char["gcs_url"] = matched_url
                         changed = True
 
                 if changed:
                     with open(cd_path, "w", encoding="utf-8") as f:
                         json.dump(cd_data, f, indent=2, ensure_ascii=False)
-                    print(f"[GCS] Updated {cd_path.name} with CLP GCS URLs.")
+                    print(f"[GCS] Updated {cd_path.name} with character GCS URLs.")
             except Exception as e:
                 print(f"[GCS] Error updating character_design.json: {e}")
 
+        # 3. Update artifacts/render_report.json and project.json
+        render_url = results.get("renders/final.mp4")
+        if render_url:
+            rep_path = p_dir / "artifacts" / "render_report.json"
+            if rep_path.is_file():
+                try:
+                    with open(rep_path, "r", encoding="utf-8") as f:
+                        rep = json.load(f)
+                    rep["gcs_url"] = render_url
+                    with open(rep_path, "w", encoding="utf-8") as f:
+                        json.dump(rep, f, indent=2, ensure_ascii=False)
+                except Exception:
+                    pass
+            pj_path = p_dir / "project.json"
+            if pj_path.is_file():
+                try:
+                    with open(pj_path, "r", encoding="utf-8") as f:
+                        pj = json.load(f)
+                    pj["gcs_url"] = render_url
+                    with open(pj_path, "w", encoding="utf-8") as f:
+                        json.dump(pj, f, indent=2, ensure_ascii=False)
+                except Exception:
+                    pass
+
         return results
 
-    def upload_audio(self, project_id: str, local_audio_path: str | Path) -> Optional[str]:
-        """Uploads narration/mix audio to projects/<project_id>/audio/<filename>."""
-        filename = Path(local_audio_path).name
-        blob_path = f"projects/{project_id}/audio/{filename}"
-        return self.upload_file(local_audio_path, blob_path, content_type="audio/mpeg")
+    def sync_project_clp(self, project_dir: str | Path) -> dict[str, str]:
+        """Backward-compatible alias: uploads CLP images and updates character_design.json."""
+        return self.sync_project_assets(project_dir)
 
     def get_public_url(self, blob_name: str) -> str:
         """Returns standard public storage URL for a given blob name."""

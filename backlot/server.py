@@ -248,31 +248,25 @@ def create_app() -> FastAPI:
     # ---- Cloud URL Resolver --------------------------------------------
 
     def _resolve_gcs_url(project_dir: Path, file_path: str) -> Optional[str]:
-        """Resolves cloud storage URL for missing media assets (renders, CLP images, audio)."""
+        """Resolves cloud storage URL for missing media assets (renders, CLP, shot videos, images, audio)."""
         filename = Path(file_path).name
-        # 1. Check render_report.json
-        render_report_path = project_dir / "artifacts" / "render_report.json"
-        if render_report_path.is_file():
+        clean_path = file_path.replace("\\", "/").lstrip("/")
+
+        # 1. Check artifacts/asset_manifest.json (unified shot video, audio, image registry)
+        manifest_path = project_dir / "artifacts" / "asset_manifest.json"
+        if manifest_path.is_file():
             try:
-                with open(render_report_path, "r", encoding="utf-8") as f:
-                    rep = json.load(f)
-                if rep.get("output_path", "").endswith(filename) and rep.get("gcs_url"):
-                    return rep["gcs_url"]
+                with open(manifest_path, "r", encoding="utf-8") as f:
+                    manifest = json.load(f)
+                for asset in manifest.get("assets", []):
+                    a_path = asset.get("path", "").replace("\\", "/")
+                    if a_path.endswith(filename) or a_path == clean_path or asset.get("id") == Path(file_path).stem:
+                        if asset.get("gcs_url"):
+                            return asset["gcs_url"]
             except Exception:
                 pass
 
-        # 2. Check project.json
-        project_json_path = project_dir / "project.json"
-        if project_json_path.is_file():
-            try:
-                with open(project_json_path, "r", encoding="utf-8") as f:
-                    pdata = json.load(f)
-                if pdata.get("gcs_url") and filename.endswith(".mp4"):
-                    return pdata["gcs_url"]
-            except Exception:
-                pass
-
-        # 3. Check character_design.json for CLP assets
+        # 2. Check artifacts/character_design.json for CLP assets
         cd_path = project_dir / "artifacts" / "character_design.json"
         if cd_path.is_file():
             try:
@@ -286,16 +280,34 @@ def create_app() -> FastAPI:
             except Exception:
                 pass
 
-        # 4. Check GCS bucket directly if configured
+        # 3. Check artifacts/render_report.json for final render
+        render_report_path = project_dir / "artifacts" / "render_report.json"
+        if render_report_path.is_file():
+            try:
+                with open(render_report_path, "r", encoding="utf-8") as f:
+                    rep = json.load(f)
+                if rep.get("output_path", "").endswith(filename) and rep.get("gcs_url"):
+                    return rep["gcs_url"]
+            except Exception:
+                pass
+
+        # 4. Check project.json for final render
+        project_json_path = project_dir / "project.json"
+        if project_json_path.is_file():
+            try:
+                with open(project_json_path, "r", encoding="utf-8") as f:
+                    pdata = json.load(f)
+                if pdata.get("gcs_url") and filename.endswith(".mp4"):
+                    return pdata["gcs_url"]
+            except Exception:
+                pass
+
+        # 5. Check GCS mirror path directly if bucket is configured
         try:
             from lib.gcs_storage import gcs_storage
             if gcs_storage.is_configured():
-                if "clp" in file_path.lower() or file_path.startswith("clp/"):
-                    return gcs_storage.get_public_url(f"shared_clp/{filename}")
-                if filename.endswith(".mp4"):
-                    return gcs_storage.get_public_url(f"projects/{project_dir.name}/renders/{filename}")
-                if filename.endswith((".mp3", ".wav", ".m4a")):
-                    return gcs_storage.get_public_url(f"projects/{project_dir.name}/audio/{filename}")
+                # Direct 1:1 mirror: projects/<project_id>/<rel_path>
+                return gcs_storage.get_public_url(f"projects/{project_dir.name}/{clean_path}")
         except Exception:
             pass
 

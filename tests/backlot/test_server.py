@@ -226,3 +226,33 @@ class TestFindingsFixes:
         res_thumb = client.get("/thumb/clp-test/clp/hero.png", follow_redirects=False)
         assert res_thumb.status_code == 302
         assert res_thumb.headers["location"] == "https://storage.googleapis.com/my-bucket/shared_clp/hero.png"
+
+    def test_asset_manifest_unified_media_redirects_to_gcs(self, client, projects_root):
+        p = _make_project(projects_root, "manifest-test")
+        # Add asset_manifest.json with shot video and narration audio
+        _write_json(p / "artifacts" / "asset_manifest.json", {
+            "project_id": "manifest-test",
+            "assets": [
+                {
+                    "id": "asset_video_sc01",
+                    "type": "video",
+                    "path": "assets/video/sc01.mp4",
+                    "gcs_url": "https://storage.googleapis.com/my-bucket/projects/manifest-test/assets/video/sc01.mp4"
+                },
+                {
+                    "id": "asset_audio_sc01",
+                    "type": "audio",
+                    "path": "assets/audio/sc01.mp3",
+                    "gcs_url": "https://storage.googleapis.com/my-bucket/projects/manifest-test/assets/audio/sc01.mp3"
+                }
+            ]
+        })
+        # 1. Shot video missing locally -> 302 redirect to GCS
+        res_v = client.get("/media/manifest-test/assets/video/sc01.mp4", follow_redirects=False)
+        assert res_v.status_code == 302
+        assert res_v.headers["location"] == "https://storage.googleapis.com/my-bucket/projects/manifest-test/assets/video/sc01.mp4"
+
+        # 2. Audio missing locally -> 302 redirect to GCS
+        res_a = client.get("/media/manifest-test/assets/audio/sc01.mp3", follow_redirects=False)
+        assert res_a.status_code == 302
+        assert res_a.headers["location"] == "https://storage.googleapis.com/my-bucket/projects/manifest-test/assets/audio/sc01.mp3"

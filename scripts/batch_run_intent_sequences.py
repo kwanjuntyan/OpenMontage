@@ -344,8 +344,9 @@ def process_sequence(seq_num: int):
 
     gcs_url = None
     if gcs_storage.is_configured():
-        print(f"[GCS] Uploading Sequence {seq_num} master render to GCS...")
-        gcs_url = gcs_storage.upload_render(project_id, final_output)
+        print(f"[GCS] Syncing all Sequence {seq_num} media assets (shot videos, audio, images, master render) to GCS...")
+        synced_urls = gcs_storage.sync_project_assets(proj_dir)
+        gcs_url = synced_urls.get("renders/final.mp4") or gcs_storage.get_public_url(f"projects/{project_id}/renders/final.mp4")
 
     render_report = {
         "version": "1.0",
