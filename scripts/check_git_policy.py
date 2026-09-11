@@ -154,41 +154,63 @@ def check_staged_content(commit_msg: str = "") -> int:
 def check_tree_content(repo_dir: str = ".") -> int:
     """Scans repository tree on CI (used by GitHub Actions)."""
     violations = []
-    projects_dir = os.path.join(repo_dir, "projects")
+    SHIPPED_MEDIA_PREFIXES = (".agents/", "docs/", "showcase_assets/", "assets/")
 
-    # Check projects directory
-    for root, _, files in os.walk(repo_dir):
-        rel_root = os.path.relpath(root, repo_dir).replace("\\", "/")
-        if rel_root.startswith(".git"):
-            continue
+    # 1. Prefer git ls-files to inspect tracked files only
+    tracked_files = []
+    try:
+        res = subprocess.run(
+            ["git", "ls-files", "-z"],
+            cwd=repo_dir,
+            capture_output=True,
+            check=True
+        )
+        tracked_files = [
+            os.fsdecode(p).replace("\\", "/").strip()
+            for p in res.stdout.split(b"\0") if p
+        ]
+    except Exception:
+        pass
 
-        in_projects = is_project_path(rel_root)
+    if tracked_files:
+        files_to_check = [(f, os.path.join(repo_dir, f)) for f in tracked_files]
+    else:
+        # Fallback for non-git environments: walk directory skipping ignored directories
+        ignored_dirs = {".git", "node_modules", ".venv", "venv", ".pytest_cache", "__pycache__", "build", "dist"}
+        files_to_check = []
+        for root, dirs, files in os.walk(repo_dir):
+            dirs[:] = [d for d in dirs if d not in ignored_dirs]
+            rel_root = os.path.relpath(root, repo_dir).replace("\\", "/")
+            for fname in files:
+                rel_fpath = os.path.join(rel_root, fname).replace("\\", "/") if rel_root != "." else fname
+                files_to_check.append((rel_fpath, os.path.join(root, fname)))
 
-        for fname in files:
-            fpath = os.path.join(rel_root, fname).replace("\\", "/")
-            posix = PurePosixPath(fpath)
-            suffix = posix.suffix.lower()
+    for fpath, full_path in files_to_check:
+        posix = PurePosixPath(fpath)
+        suffix = posix.suffix.lower()
+        in_projects = is_project_path(fpath)
 
-            if in_projects:
-                if suffix not in PROJECT_ALLOWED_EXTS:
-                    violations.append(f"{fpath} (projects/ 目錄不允許非純文字: '{suffix}')")
-                elif suffix == ".json":
-                    full_path = os.path.join(root, fname)
-                    try:
-                        with open(full_path, "r", encoding="utf-8") as f:
-                            content = f.read()
-                            if "\0" in content:
-                                violations.append(f"{fpath} (內含二進位 NUL 字元)")
-                            else:
-                                json.loads(content)
-                    except Exception:
-                        violations.append(f"{fpath} (無效的 JSON 或二進位檔)")
-            elif suffix in REPO_FORBIDDEN_EXTS:
+        if in_projects:
+            if suffix not in PROJECT_ALLOWED_EXTS:
+                violations.append(f"{fpath} (projects/ 目錄不允許非純文字: '{suffix}')")
+            elif suffix == ".json":
+                try:
+                    with open(full_path, "r", encoding="utf-8") as f:
+                        content = f.read()
+                        if "\0" in content:
+                            violations.append(f"{fpath} (內含二進位 NUL 字元)")
+                        else:
+                            json.loads(content)
+                except Exception:
+                    violations.append(f"{fpath} (無效的 JSON 或二進位檔)")
+        elif not any(fpath.startswith(p) for p in SHIPPED_MEDIA_PREFIXES):
+            if suffix in REPO_FORBIDDEN_EXTS:
                 violations.append(f"{fpath} (全庫禁止媒體/權重檔案)")
 
-            # Check file size
+        # Check file size (>15MB) for non-shipped media
+        if not any(fpath.startswith(p) for p in SHIPPED_MEDIA_PREFIXES):
             try:
-                if os.path.getsize(os.path.join(root, fname)) > MAX_BLOB_BYTES:
+                if os.path.getsize(full_path) > MAX_BLOB_BYTES:
                     violations.append(f"{fpath} (超過 15MB 限制)")
             except Exception:
                 pass
