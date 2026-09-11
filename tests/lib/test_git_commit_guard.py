@@ -14,8 +14,8 @@ from lib.git_bootstrap import ensure_git_hooks, get_git_hooks_dir
 from scripts.om_commit import generate_course_commit_msg, generate_code_commit_msg, get_git_status
 
 
-PATTERN_CAT_A = r"^(feat|fix|docs|test|refactor|chore|perf|ci|style|build)(\([a-zA-Z0-9_\-./]+\))?:\s+.{3,}"
-PATTERN_CAT_B = r"^(content|data)\([a-zA-Z0-9_\-./]+\):\s+.{3,}"
+PATTERN_CAT_A = r"^(feat|fix|docs|test|refactor|chore|perf|ci|style|build)(\([\w\-./]+\))?:\s+.{3,}"
+PATTERN_CAT_B = r"^(content|data)\([\w\-./]+\):\s+.{3,}"
 
 
 def is_valid_commit_syntax(msg: str) -> bool:
@@ -285,4 +285,59 @@ def test_real_hook_blocks_non_text_in_projects_allowlist(real_git_repo):
     res = commit_in_repo(repo, "content(c1): add helper tool")
     assert res.returncode != 0
     assert "二進位防護盾" in res.stderr or "純文字" in res.stderr
+
+
+def test_real_hook_accepts_cjk_extension_unicode_slugs(real_git_repo):
+    """Verifies that rare/extension CJK characters like 𠮷 are accepted in commit scopes (R3-Unicode)."""
+    repo, _ = real_git_repo
+    p = repo / "projects" / "𠮷課程" / "project.json"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text('{"id": "𠮷課程"}\n', encoding="utf-8")
+    subprocess.run(["git", "add", "projects/𠮷課程/project.json"], cwd=str(repo), check=True)
+
+    res = commit_in_repo(repo, "content(𠮷課程): 測試罕見漢字與擴展字元")
+    assert res.returncode == 0, f"CJK extension character should be accepted, but got: {res.stderr}"
+
+
+def test_real_hook_blocks_binary_disguised_as_json(real_git_repo):
+    """Verifies that binary payloads or NUL bytes disguised as .json in projects/ are blocked (R3-2)."""
+    repo, _ = real_git_repo
+    p = repo / "projects" / "c1" / "project.json"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    # Write binary payload with NUL byte disguised as .json
+    p.write_bytes(b"{\x00\xff: 'bad'}")
+    subprocess.run(["git", "add", "projects/c1/project.json"], cwd=str(repo), check=True)
+
+    res = commit_in_repo(repo, "content(c1): update project metadata")
+    assert res.returncode != 0
+    assert ("二進位" in res.stderr) or ("JSON" in res.stderr) or ("二進位防護盾" in res.stderr)
+
+
+def test_unified_policy_checker_staged_and_tree(real_git_repo, tmp_path):
+    """Verifies that scripts/check_git_policy.py detects violations in both staged and tree modes (R3-1)."""
+    repo, _ = real_git_repo
+    checker_script = Path(__file__).resolve().parent.parent.parent / "scripts" / "check_git_policy.py"
+    assert checker_script.is_file(), "scripts/check_git_policy.py must exist"
+
+    # Test 1: tree mode clean
+    res_clean = subprocess.run([sys.executable, str(checker_script), "--tree"], cwd=str(repo), capture_output=True, encoding="utf-8", errors="replace")
+    assert res_clean.returncode == 0
+
+    # Test 2: tree mode catches binary in projects/
+    bad_p = repo / "projects" / "c1" / "payload.exe"
+    bad_p.parent.mkdir(parents=True, exist_ok=True)
+    bad_p.write_bytes(b"bad exe payload")
+    res_bad = subprocess.run([sys.executable, str(checker_script), "--tree"], cwd=str(repo), capture_output=True, encoding="utf-8", errors="replace")
+    assert res_bad.returncode != 0
+    assert "payload.exe" in (res_bad.stderr or "")
+
+    # Test 3: tree mode catches NUL in json
+    bad_p.unlink()
+    bad_json = repo / "projects" / "c1" / "project.json"
+    bad_json.write_bytes(b"{\x00}")
+    res_bad_json = subprocess.run([sys.executable, str(checker_script), "--tree"], cwd=str(repo), capture_output=True, encoding="utf-8", errors="replace")
+    assert res_bad_json.returncode != 0
+    assert "project.json" in (res_bad_json.stderr or "")
+
+
 

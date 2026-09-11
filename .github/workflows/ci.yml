@@ -52,14 +52,10 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Verify projects/ contains zero binary media
-        run: |
-          echo "Scanning projects/ for unauthorized binary files..."
-          if [ -d "projects" ]; then
-            BAD_FILES=$(find projects/ -type f \( -name "*.mp4" -o -name "*.mov" -o -name "*.mp3" -o -name "*.wav" -o -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.webp" -o -name "*.exe" -o -name "*.bin" \) || true)
-            if [ -n "$BAD_FILES" ]; then
-              echo "::error::Violation: Media files detected under projects/: $BAD_FILES"
-              exit 1
-            fi
-          fi
-          echo "Policy check passed: projects/ strictly adheres to text-only recipe policy."
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run Unified Git & Binary Policy Check
+        run: python scripts/check_git_policy.py --tree

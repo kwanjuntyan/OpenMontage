@@ -131,8 +131,9 @@ class GCSStorage:
                             # Verify bucket existence to prevent false configured reporting
                             if hasattr(self._bucket, "exists") and not self._bucket.exists(timeout=3):
                                 self._bucket = None
-                        except Exception:
-                            pass
+                        except Exception as e:
+                            print(f"[GCS] Bucket probe failed ({e}); marking unconfigured.")
+                            self._bucket = None
 
                     self._checked = True
                 except Exception as e:

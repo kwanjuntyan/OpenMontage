@@ -222,3 +222,16 @@ def test_is_configured_checks_bucket_existence(monkeypatch):
     monkeypatch.setattr("google.cloud.storage.Client", lambda *a, **kw: storage._client)
     assert storage.is_configured() is False
 
+
+def test_is_configured_returns_false_on_bucket_exists_exception(monkeypatch):
+    """Verifies that is_configured returns False if bucket.exists() raises PermissionError/timeout (R3-3)."""
+    storage = GCSStorage(bucket_name="forbidden-bucket")
+    fake_bucket = MagicMock()
+    fake_bucket.exists.side_effect = PermissionError("Forbidden / Access Denied")
+    storage._client = MagicMock()
+    storage._client.bucket.return_value = fake_bucket
+
+    monkeypatch.setattr("google.cloud.storage.Client", lambda *a, **kw: storage._client)
+    assert storage.is_configured() is False
+
+

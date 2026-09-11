@@ -57,8 +57,8 @@ is_special_commit = (
 # 1. Commit Message Syntax Validation (if not special commit)
 # -------------------------------------------------------------
 # Support alphanumeric, dashes, dots, underscores, and Unicode (e.g. Chinese characters)
-pattern_cat_a = r"^(feat|fix|docs|test|refactor|chore|perf|ci|style|build)(\([a-zA-Z0-9_\-./\u4e00-\u9fa5]+\))?:\s+.{3,}"
-pattern_cat_b = r"^(content|data)\([a-zA-Z0-9_\-./\u4e00-\u9fa5]+\):\s+.{3,}"
+pattern_cat_a = r"^(feat|fix|docs|test|refactor|chore|perf|ci|style|build)(\([\w\-./]+\))?:\s+.{3,}"
+pattern_cat_b = r"^(content|data)\([\w\-./]+\):\s+.{3,}"
 
 is_cat_a = bool(re.match(pattern_cat_a, msg, re.IGNORECASE))
 is_cat_b = bool(re.match(pattern_cat_b, msg, re.IGNORECASE))
@@ -137,6 +137,17 @@ if all_staged:
         if is_project_path(f):
             if suffix not in PROJECT_ALLOWED_EXTS:
                 bad_files.append((f, f"課程配方目錄 (projects/) 僅允許純文字檔案 (.json, .yaml, .md 等)，不允許 '{suffix or '無副檔名'}'"))
+            elif suffix == ".json":
+                try:
+                    show_res = subprocess.run(["git", "show", f":{f}"], capture_output=True, check=True)
+                    content = show_res.stdout.decode("utf-8")
+                    if "\0" in content:
+                        bad_files.append((f, "JSON 檔案內含二進位 NUL 字元，禁止提交"))
+                    else:
+                        import json
+                        json.loads(content)
+                except Exception:
+                    bad_files.append((f, "無效的 JSON 內容或非 UTF-8 二進位檔"))
         # Rule 2: Repository-wide forbidden video/audio/weights/archives
         elif suffix in REPO_FORBIDDEN_EXTS:
             bad_files.append((f, "全代碼庫禁止提交影片、音訊、模型權重或大型壓縮檔"))
