@@ -340,9 +340,17 @@ def process_sequence(seq_num: int):
     with open(artifacts_dir / "edit_decisions.json", "w", encoding="utf-8") as f:
         json.dump(edit_decisions, f, indent=2, ensure_ascii=False)
 
+    from lib.gcs_storage import gcs_storage
+
+    gcs_url = None
+    if gcs_storage.is_configured():
+        print(f"[GCS] Uploading Sequence {seq_num} master render to GCS...")
+        gcs_url = gcs_storage.upload_render(project_id, final_output)
+
     render_report = {
         "version": "1.0",
         "output_path": "renders/final.mp4",
+        "gcs_url": gcs_url,
         "duration_seconds": round(final_dur, 2),
         "file_size_bytes": final_output.stat().st_size,
         "video_codec": "h264",
@@ -378,6 +386,8 @@ def process_sequence(seq_num: int):
         pdata["metadata"]["actual_duration"] = round(final_dur, 2)
         first_shot_id = shots[0]["id"]
         pdata["thumbnail"] = f"assets/images/{first_shot_id}_thumb.jpg"
+        if gcs_url:
+            pdata["gcs_url"] = gcs_url
         with open(project_json_path, "w", encoding="utf-8") as f:
             json.dump(pdata, f, indent=2, ensure_ascii=False)
 

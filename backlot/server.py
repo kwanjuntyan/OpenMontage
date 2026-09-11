@@ -21,7 +21,7 @@ mimetypes.add_type("text/javascript", ".js")
 mimetypes.add_type("text/css", ".css")
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.responses import FileResponse, HTMLResponse, StreamingResponse
+from fastapi.responses import FileResponse, HTMLResponse, StreamingResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
 from backlot.state import PROJECTS_DIR, REPO_ROOT, list_projects, load_board_state, summarize_project
@@ -270,16 +270,39 @@ def create_app() -> FastAPI:
     # ---- Media (range requests handled by FileResponse) ---------------
 
     @app.get("/media/{project_id}/{file_path:path}")
-    async def media(project_id: str, file_path: str) -> FileResponse:
+    async def media(project_id: str, file_path: str):
         project_dir = _safe_project_dir(project_id)
         target = (project_dir / file_path).resolve()
         try:
             target.relative_to(project_dir.resolve())
         except ValueError:
             raise HTTPException(status_code=403, detail="path escapes project")
-        if not target.is_file():
-            raise HTTPException(status_code=404, detail="media not found")
-        return FileResponse(target, headers={"Cache-Control": "no-cache, must-revalidate"})
+        if target.is_file():
+            return FileResponse(target, headers={"Cache-Control": "no-cache, must-revalidate"})
+
+        # If local media file not found on disk, check if GCS streaming URL exists
+        gcs_url = None
+        render_report_path = project_dir / "artifacts" / "render_report.json"
+        if render_report_path.is_file():
+            try:
+                with open(render_report_path, "r", encoding="utf-8") as f:
+                    rep = json.load(f)
+                if rep.get("output_path", "").endswith(Path(file_path).name):
+                    gcs_url = rep.get("gcs_url")
+            except Exception:
+                pass
+        if not gcs_url:
+            project_json_path = project_dir / "project.json"
+            if project_json_path.is_file():
+                try:
+                    with open(project_json_path, "r", encoding="utf-8") as f:
+                        pdata = json.load(f)
+                    gcs_url = pdata.get("gcs_url")
+                except Exception:
+                    pass
+        if gcs_url:
+            return RedirectResponse(url=gcs_url, status_code=302)
+        raise HTTPException(status_code=404, detail="media not found")
 
     # ---- UI ------------------------------------------------------------
 

@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OpenMontage • 影片生成成果展示廳 (Production Showcase)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-base: #0a0c12;
+      --bg-surface: #111420;
+      --bg-surface-elevated: #181d2f;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(245, 158, 11, 0.4);
+      --text-main: #f3f4f6;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      --accent-amber: #f59e0b;
+      --accent-amber-light: #fbbf24;
+      --accent-cyan: #06b6d4;
+      --accent-emerald: #10b981;
+      --accent-violet: #8b5cf6;
+      --glow-amber: rgba(245, 158, 11, 0.25);
+      --shadow-card: 0 12px 32px -8px rgba(0, 0, 0, 0.6);
+      --radius-lg: 16px;
+      --radius-md: 10px;
+      --radius-sm: 6px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', 'Noto Sans TC', sans-serif;
+      min-height: 100vh;
+      line-height: 1.5;
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(245, 158, 11, 0.07) 0%, transparent 40%),
+        radial-gradient(circle at 85% 25%, rgba(6, 182, 212, 0.06) 0%, transparent 45%),
+        radial-gradient(circle at 50% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+      background-attachment: fixed;
+    }
+
+    /* Container */
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: 36px 28px 80px;
+    }
+
+    /* Top Navigation Header */
+    header.hero-header {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-bottom: 40px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .header-top-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .brand-title {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-logo-badge {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 18px var(--glow-amber);
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .brand-text h1 {
+      font-size: 26px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #ffffff 40%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-text p {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-top: 2px;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .btn-backlot-direct {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+      color: #0b0d14;
+      font-weight: 700;
+      font-size: 14px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 16px var(--glow-amber);
+    }
+
+    .btn-backlot-direct:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 22px rgba(245, 158, 11, 0.4);
+      color: #000;
+    }
+
+    /* Metrics Bar */
+    .metrics-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 14px;
+      background: rgba(17, 20, 32, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 18px 24px;
+    }
+
+    .metric-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .metric-label {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+      font-weight: 600;
+    }
+
+    .metric-value {
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .metric-value .pill-tag {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 2px 7px;
+      border-radius: 4px;
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-emerald);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
+    /* Filter & Search Bar */
+    .controls-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .filter-tabs {
+      display: flex;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 4px;
+      gap: 4px;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn:hover {
+      color: #fff;
+    }
+
+    .tab-btn.active {
+      background: var(--bg-surface-elevated);
+      color: #fff;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .search-box {
+      position: relative;
+      min-width: 260px;
+    }
+
+    .search-input {
+      width: 100%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 10px 14px 10px 38px;
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .search-input:focus {
+      border-color: var(--accent-amber);
+      box-shadow: 0 0 0 3px var(--glow-amber);
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-dim);
+      font-size: 14px;
+      pointer-events: none;
+    }
+
+    /* Showcase Grid */
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 26px;
+    }
+
+    /* Card Component */
+    .project-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: var(--shadow-card);
+      transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
+    }
+
+    .project-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--border-hover);
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.7), 0 0 20px var(--glow-amber);
+    }
+
+    /* Media Poster Area */
+    .card-media {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%; /* 16:9 Aspect Ratio */
+      background: #000;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .card-media img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .project-card:hover .card-media img {
+      transform: scale(1.04);
+    }
+
+    .media-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.85;
+      transition: opacity 0.25s ease;
+    }
+
+    .project-card:hover .media-overlay {
+      opacity: 1;
+    }
+
+    .play-button-icon {
+      width: 58px;
+      height: 58px;
+      border-radius: 50%;
+      background: rgba(245, 158, 11, 0.9);
+      color: #0b0d14;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.5), 0 0 25px var(--glow-amber);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .project-card:hover .play-button-icon {
+      transform: scale(1.12);
+      background: var(--accent-amber-light);
+    }
+
+    .duration-badge {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      background: rgba(11, 13, 20, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 3px 8px;
+      border-radius: var(--radius-sm);
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .style-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(11, 13, 20, 0.85);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(245, 158, 11, 0.4);
+      color: var(--accent-amber-light);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    /* Card Content */
+    .card-body {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .card-header {
+      margin-bottom: 10px;
+    }
+
+    .card-category {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--accent-cyan);
+      margin-bottom: 4px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.35;
+    }
+
+    .card-desc {
+      font-size: 13px;
+      color: var(--text-muted);
+      margin-bottom: 18px;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.5;
+    }
+
+    /* Sub-scenes Chapter Bar */
+    .scenes-selector {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 8px 12px;
+      margin-bottom: 18px;
+    }
+
+    .scenes-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .scenes-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .scene-pill-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 4px 9px;
+      border-radius: var(--radius-sm);
+      font-size: 11px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .scene-pill-btn:hover {
+      background: rgba(245, 158, 11, 0.15);
+      border-color: var(--accent-amber);
+      color: #fff;
+    }
+
+    /* Badges Footer */
+    .card-specs {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border-subtle);
+      margin-top: auto;
+    }
+
+    .spec-badge {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 12px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .spec-badge svg {
+      width: 14px;
+      height: 14px;
+      fill: var(--text-dim);
+    }
+
+    .card-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .btn-play-action {
+      flex: 1;
+      padding: 9px 14px;
+      border-radius: var(--radius-md);
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+      font-weight: 600;
+      font-size: 13px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-play-action:hover {
+      background: var(--accent-amber);
+      color: #0b0d14;
+      border-color: var(--accent-amber);
+    }
+
+    .btn-board-action {
+      padding: 9px 12px;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-board-action:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #fff;
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* Cinema Modal Player */
+    .cinema-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(5, 7, 12, 0.88);
+      backdrop-filter: blur(20px);
+      z-index: 9999;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .cinema-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-content-box {
+      width: 92%;
+      max-width: 1100px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+
+    .modal-header-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border-subtle);
+      background: var(--bg-surface-elevated);
+    }
+
+    .modal-title-info h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .modal-title-info p {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .modal-close-btn {
+      background: rgba(255, 255, 255, 0.08);
+      border: none;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .modal-close-btn:hover {
+      background: rgba(239, 68, 68, 0.8);
+    }
+
+    .video-viewport {
+      width: 100%;
+      background: #000;
+      max-height: 65vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .video-viewport video {
+      width: 100%;
+      max-height: 65vh;
+      outline: none;
+    }
+
+    .modal-chapters-bar {
+      padding: 14px 24px;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      overflow-x: auto;
+    }
+
+    .modal-chapters-bar span {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .modal-chapter-chips {
+      display: flex;
+      gap: 8px;
+    }
+
+    .chapter-chip {
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--border-subtle);
+      padding: 6px 14px;
+      border-radius: 20px;
+      color: var(--text-muted);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+
+    .chapter-chip.active, .chapter-chip:hover {
+      background: var(--accent-amber);
+      color: #0b0d14;
+      border-color: var(--accent-amber);
+    }
+
+    /* Footer */
+    footer.showcase-footer {
+      margin-top: 80px;
+      text-align: center;
+      padding-top: 30px;
+      border-top: 1px solid var(--border-subtle);
+      color: var(--text-dim);
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- Top Header -->
+    <header class="hero-header">
+      <div class="header-top-row">
+        <div class="brand-title">
+          <div class="brand-logo-badge">🎬</div>
+          <div class="brand-text">
+            <h1>OpenMontage Studio • 影音成果展示廳</h1>
+            <p>AI 劇本化微單元生成 • 剪紙定格、真人對嘴與代碼動態綜合展示</p>
+          </div>
+        </div>
+        <div class="header-actions">
+          <a href="http://127.0.0.1:4750/" target="_blank" class="btn-backlot-direct" title="開啟 Backlot 即時導演看板">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="2.18" ry="2.18"></rect><line x1="7" y1="2" x2="7" y2="22"></line><line x1="17" y1="2" x2="17" y2="22"></line><line x1="2" y1="12" x2="22" y2="12"></line><line x1="2" y1="7" x2="7" y2="7"></line><line x1="2" y1="17" x2="7" y2="17"></line><line x1="17" y1="17" x2="22" y2="17"></line><line x1="17" y1="7" x2="22" y2="7"></line></svg>
+            進入 Backlot 導演總覽
+          </a>
+        </div>
+      </div>
+
+      <!-- Metrics Rollup -->
+      <div class="metrics-bar">
+        <div class="metric-item">
+          <div class="metric-label">完成影音專案</div>
+          <div class="metric-value">9 大多模態專案 <span class="pill-tag">100% 驗證交付</span></div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">生成鏡頭與場景</div>
+          <div class="metric-value">150+ 鏡頭 & 3D世界 <span class="pill-tag">零合成錯誤</span></div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">核心生成引擎</div>
+          <div class="metric-value">Gemini Omni • Veo 2 • Three.js</div>
+        </div>
+        <div class="metric-item">
+          <div class="metric-label">空間與影音架構</div>
+          <div class="metric-value">2D 骨骼 • 3D 空間 • 數位人</div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Controls Bar: Filter Tabs & Search -->
+    <div class="controls-bar">
+      <div class="filter-tabs">
+        <button class="tab-btn active" onclick="filterCategory('all', this)">全部專案 (All)</button>
+        <button class="tab-btn" onclick="filterCategory('pdca', this)">PDCA 課程系列 (Vox)</button>
+        <button class="tab-btn" onclick="filterCategory('esg', this)">ESG 劇情短劇</button>
+        <button class="tab-btn" onclick="filterCategory('demo', this)">動態圖表與技術 Demo</button>
+      </div>
+      <div class="search-box">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="搜尋篇章、關鍵字 (如: 戴明, 稽核, SOP)..." onkeyup="searchProjects()">
+      </div>
+    </div>
+
+    <!-- Cards Grid -->
+    <div class="showcase-grid" id="projectsGrid">
+      <!-- Dynamic populated via JS -->
+    </div>
+
+    <!-- Footer -->
+    <footer class="showcase-footer">
+      <p>OpenMontage Studio • 自動化批次合成管線 • 本地高畫質影音無縫串流</p>
+    </footer>
+  </div>
+
+  <!-- Cinema Modal Player -->
+  <div class="cinema-modal" id="cinemaModal">
+    <div class="modal-content-box">
+      <div class="modal-header-bar">
+        <div class="modal-title-info">
+          <h3 id="modalVideoTitle">播放標題</h3>
+          <p id="modalVideoSubtitle">詳細描述與篇章資訊</p>
+        </div>
+        <button class="modal-close-btn" onclick="closeModal()">✕</button>
+      </div>
+
+      <div class="video-viewport">
+        <video id="modalVideoPlayer" controls autoplay preload="metadata">
+          <source id="modalVideoSource" src="" type="video/mp4">
+          您的瀏覽器不支援 HTML5 影片播放。
+        </video>
+      </div>
+
+      <div class="modal-chapters-bar" id="modalChaptersBar">
+        <span>快速切換章節:</span>
+        <div class="modal-chapter-chips" id="modalChapterChips">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Projects Data Registry
+    const PROJECTS_DATA = [
+      {
+        id: "seq4",
+        title: "Course 31 • Sequence 4: Do / 執行篇",
+        category: "pdca",
+        categoryLabel: "PDCA 課程 • 單元 4",
+        style: "Vox Paper-Collage 12 FPS",
+        duration: "01:15",
+        shots: "11 個分鏡",
+        scenesCount: "3 個 Scene",
+        size: "30.5 MB",
+        poster: "showcase_assets/seq4.jpg",
+        video: "projects/course-31-sequence4-vox/renders/final.mp4",
+        boardUrl: "http://127.0.0.1:4750/p/course-31-sequence4-vox",
+        desc: "落實小規模試行與變數解耦。核心意象包含齒輪變數隔離、以地震儀記錄筆忠實記錄客觀數據，展現不帶情緒的真實執行力。",
+        scenes: [
+          { name: "完整總覽 (Final)", file: "projects/course-31-sequence4-vox/renders/final.mp4" },
+          { name: "Scene 4.1 變數解耦 (21s)", file: "projects/course-31-sequence4-vox/renders/scene_4.1_intro.mp4" },
+          { name: "Scene 4.2 試行與記錄 (22s)", file: "projects/course-31-sequence4-vox/renders/scene_4.2_execution.mp4" },
+          { name: "Scene 4.3 現場阻力化解 (31s)", file: "projects/course-31-sequence4-vox/renders/scene_4.3_feedback.mp4" }
+        ]
+      },
+      {
+        id: "seq5",
+        title: "Course 31 • Sequence 5: Check / 稽核篇",
+        category: "pdca",
+        categoryLabel: "PDCA 課程 • 單元 5",
+        style: "Vox Paper-Collage 12 FPS",
+        duration: "01:53",
+        shots: "15 個分鏡",
+        scenesCount: "3 個 Scene",
+        size: "43.7 MB",
+        poster: "showcase_assets/seq5.jpg",
+        video: "projects/course-31-sequence5-vox/renders/final.mp4",
+        boardUrl: "http://127.0.0.1:4750/p/course-31-sequence5-vox",
+        desc: "從 Check 走向 Study 的認知躍遷。透過黃銅滑軌統計管制圖 (UCL/LCL) 判別機遇原因與非機遇原因，指針客觀審查真實效益。",
+        scenes: [
+          { name: "完整總覽 (Final)", file: "projects/course-31-sequence5-vox/renders/final.mp4" },
+          { name: "Scene 5.1 稽核與指針 (18s)", file: "projects/course-31-sequence5-vox/renders/scene_5.1_intro.mp4" },
+          { name: "Scene 5.2 管制圖審查 (72s)", file: "projects/course-31-sequence5-vox/renders/scene_5.2_review.mp4" },
+          { name: "Scene 5.3 決策躍遷 (23s)", file: "projects/course-31-sequence5-vox/renders/scene_5.3_decision.mp4" }
+        ]
+      },
+      {
+        id: "seq6",
+        title: "Course 31 • Sequence 6: Act / 行動篇",
+        category: "pdca",
+        categoryLabel: "PDCA 課程 • 單元 6",
+        style: "Vox Paper-Collage 12 FPS",
+        duration: "01:40",
+        shots: "14 個分鏡",
+        scenesCount: "3 個 Scene",
+        size: "43.4 MB",
+        poster: "showcase_assets/seq6.jpg",
+        video: "projects/course-31-sequence6-vox/renders/final.mp4",
+        boardUrl: "http://127.0.0.1:4750/p/course-31-sequence6-vox",
+        desc: "標準化與持續螺旋提升。展現戴明之楔 (Deming Wedge) 牢牢頂住品質輪，防止成果下滑，並打上 SOP 鋼印開啟螺旋新循環。",
+        scenes: [
+          { name: "完整總覽 (Final)", file: "projects/course-31-sequence6-vox/renders/final.mp4" },
+          { name: "Scene 6.1 決策分流 (16s)", file: "projects/course-31-sequence6-vox/renders/scene_6.1_intro.mp4" },
+          { name: "Scene 6.2 戴明之楔與SOP (45s)", file: "projects/course-31-sequence6-vox/renders/scene_6.2_sop.mp4" },
+          { name: "Scene 6.3 螺旋上升循環 (38s)", file: "projects/course-31-sequence6-vox/renders/scene_6.3_new_cycle.mp4" }
+        ]
+      },
+      {
+        id: "seq3",
+        title: "Course 31 • Sequence 3: Plan / 規劃篇 (檢討教材)",
+        category: "pdca",
+        categoryLabel: "PDCA 課程 • 單元 3",
+        style: "Vox Paper-Collage 長篇版",
+        duration: "07:14",
+        shots: "61 個分鏡",
+        scenesCount: "長篇長片",
+        size: "181.8 MB",
+        poster: "showcase_assets/seq3.jpg",
+        video: "projects/course-31-sequence3-vox/renders/final.mp4",
+        boardUrl: "http://127.0.0.1:4750/p/course-31-sequence3-vox",
+        desc: "【教學檢討保留版】完整的 Plan 篇長篇製作成果，保留了早期探索的多樣態四象限轉盤與圖表，作為團隊架構檢討之對比教材。",
+        scenes: [
+          { name: "7分14秒 完整母帶 (Master)", file: "projects/course-31-sequence3-vox/renders/final.mp4" }
+        ]
+      },
+      {
+        id: "esg",
+        title: "ESG Episode 1: 綠色供應鏈危機",
+        category: "esg",
+        categoryLabel: "真人影視短劇 • 試播集",
+        style: "Veo 2 Photorealism",
+        duration: "00:34",
+        shots: "8 個分鏡",
+        scenesCount: "真人微電影",
+        size: "13.6 MB",
+        poster: "showcase_assets/esg.jpg",
+        video: "projects/esg-episode1-pilot/renders/final.mp4",
+        boardUrl: "http://127.0.0.1:4750/p/esg-episode1-pilot",
+        desc: "Google Veo 2 與 Gemini Omni 驅動之真人寫實影集。涵蓋倫敦暴雨、高層董事會危機裁決、分析師艾米驚愕神情與中文對嘴配音。",
+        scenes: [
+          { name: "完整中文版試播集 (34s)", file: "projects/esg-episode1-pilot/renders/final.mp4" }
+        ]
+      },
+      {
+        id: "demo_energy",
+        title: "Remotion 數據動態：台灣綠能發展報告",
+        category: "demo",
+        categoryLabel: "代碼驅動動畫 • Remotion",
+        style: "Motion Graphics",
+        duration: "00:16",
+        shots: "動態圖表卡片",
+        scenesCount: "React 代碼生成",
+        size: "2.4 MB",
+        poster: "showcase_assets/demo_energy.jpg",
+        video: "projects/demos/renders/taiwan-green-energy.mp4",
+        boardUrl: "http://127.0.0.1:4750/",
+        desc: "採用 Remotion React 原生渲染引擎製作。展現彈簧物理動力學 (Spring Physics)、即時數字計數器與響應式 SVG 長條圖。",
+        scenes: [
+          { name: "動態圖表展示 (16s)", file: "projects/demos/renders/taiwan-green-energy.mp4" }
+        ]
+      },
+      {
+        id: "demo_veo",
+        title: "Veo 2 鏡頭延伸：森林湖泊高畫質模擬",
+        category: "demo",
+        categoryLabel: "AI 影片生成實驗 • Veo 2",
+        style: "Cinematic Nature",
+        duration: "00:16",
+        shots: "首尾幀平滑銜接",
+        scenesCount: "高階鏡頭實驗",
+        size: "19.3 MB",
+        poster: "showcase_assets/demo_veo.jpg",
+        video: "projects/veo-multi-biome/kjsimulation_veo_lite_16s.mp4",
+        boardUrl: "http://127.0.0.1:4750/",
+        desc: "Veo 2 雙鏡頭連續性拼接驗證。展示自然光影、平滑運鏡與 1080p 超高清晰度物理粒子質感。",
+        scenes: [
+          { name: "森林湖泊 16s 完整版", file: "projects/veo-multi-biome/kjsimulation_veo_lite_16s.mp4" }
+        ]
+      },
+      {
+        id: "avatar-speech",
+        title: "AI 數位人演講：連續對話與口型同步",
+        category: "demo",
+        categoryLabel: "數位人對嘴 • Avatar Speech",
+        style: "Talking Head / Avatar",
+        duration: "00:18",
+        shots: "3 段銜接對話",
+        scenesCount: "連續流暢對嘴",
+        size: "4.2 MB",
+        poster: "showcase_assets/avatar_speech.jpg",
+        video: "projects/avatar-speech/kjsimulation_avatar_speech_18s.mp4",
+        boardUrl: "projects/avatar-speech/index.html",
+        boardLabel: "專屬播放器 ↗",
+        desc: "以 AI 虛擬講者進行 18 秒連續英文演講與自然眨眼、頭部微動、唇形同步 (Lip-sync)。包含三段對話銜接、語音混音與雙軌字幕合成。",
+        scenes: [
+          { name: "完整對嘴演講 (18s)", file: "projects/avatar-speech/kjsimulation_avatar_speech_18s.mp4" }
+        ]
+      },
+      {
+        id: "character-demo",
+        title: "2D 空間：向量角色骨骼綁定與動作編排",
+        category: "demo",
+        categoryLabel: "2D 骨骼動畫 • 2D 空間",
+        style: "SVG Rig / HyperFrames",
+        duration: "10 秒動畫循環",
+        shots: "骨骼姿勢庫 (Pose Lib)",
+        scenesCount: "向量運鏡空間",
+        size: "即時向量渲染",
+        poster: "showcase_assets/character_demo.png",
+        interactiveUrl: "projects/character-demo/preview.html",
+        boardUrl: "projects/character-demo/preview.html",
+        boardLabel: "2D 角色預覽 ↗",
+        desc: "OpenMontage 2D 角色動畫架構驗證。包含 SVG 肢體骨骼圖形定義 (rig_plan)、表情姿勢庫 (pose_library) 與動作時間軸 (action_timeline)。",
+        scenes: []
+      },
+      {
+        id: "world-demo",
+        title: "3D 空間：Three.js 語意地貌與 3D 鏡頭漫遊",
+        category: "demo",
+        categoryLabel: "3D 世界生成 • 3D 空間",
+        style: "Three.js 3D Procedural",
+        duration: "即時 3D 漫遊",
+        shots: "程序化地貌與植被",
+        scenesCount: "攝影機飛掠軌道",
+        size: "即時 WebGL 渲染",
+        poster: "showcase_assets/world_demo.png",
+        interactiveUrl: "projects/world-demo/index.html",
+        boardUrl: "projects/world-demo/index.html",
+        boardLabel: "3D 空間漫遊 ↗",
+        desc: "以純代碼程序化生成的 3D 虛擬世界。具備多重生態域（森林、湖泊、荒野）、環境粒子系統、光影計算與可自由操控視角之飛掠鏡頭。",
+        scenes: []
+      }
+    ];
+
+    let currentFilter = 'all';
+
+    // Render cards
+    function renderGrid(projects) {
+      const grid = document.getElementById('projectsGrid');
+      grid.innerHTML = '';
+
+      if (projects.length === 0) {
+        grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; padding: 60px 0; color: #64748b;">
+          <h3>沒有找到符合條件的影音成果</h3>
+          <p style="margin-top: 8px;">請嘗試更換篩選條件或關鍵字</p>
+        </div>`;
+        return;
+      }
+
+      projects.forEach(p => {
+        const card = document.createElement('div');
+        card.className = 'project-card';
+        card.setAttribute('data-id', p.id);
+
+        const scenesChipsHtml = p.scenes && p.scenes.length > 1 
+          ? `<div class="scenes-selector">
+              <div class="scenes-label">
+                <span>分段場景快選</span>
+                <span>${p.scenes.length} 個片段</span>
+              </div>
+              <div class="scenes-pills">
+                ${p.scenes.map((sc, i) => `
+                  <button class="scene-pill-btn" onclick="event.stopPropagation(); playScene('${p.id}', ${i})">
+                    <span>▶</span> ${sc.name}
+                  </button>
+                `).join('')}
+              </div>
+            </div>`
+          : '';
+
+        const isInteractive = Boolean(p.interactiveUrl);
+        const playActionHtml = isInteractive
+          ? `<a href="${p.interactiveUrl}" target="_blank" class="btn-play-action" style="text-decoration:none; background: linear-gradient(135deg, #06b6d4, #0284c7); border-color: #0284c7; color:#fff;">
+               <span>🌐</span> 開啟互動空間
+             </a>`
+          : `<button class="btn-play-action" onclick="playProject('${p.id}')">
+               <span>▶</span> 立即播放
+             </button>`;
+
+        const mediaClickAction = isInteractive 
+          ? `window.open('${p.interactiveUrl}', '_blank')` 
+          : `playProject('${p.id}')`;
+
+        const boardLabel = p.boardLabel || '導演看板 ↗';
+
+        card.innerHTML = `
+          <div class="card-media" onclick="${mediaClickAction}">
+            <img src="${p.poster}" alt="${p.title}" loading="lazy">
+            <div class="media-overlay">
+              <div class="play-button-icon">${isInteractive ? '🌐' : '▶'}</div>
+            </div>
+            <span class="style-badge">${p.style}</span>
+            <span class="duration-badge">${p.duration}</span>
+          </div>
+
+          <div class="card-body">
+            <div class="card-header">
+              <div class="card-category">${p.categoryLabel}</div>
+              <h2 class="card-title">${p.title}</h2>
+            </div>
+            <p class="card-desc">${p.desc}</p>
+            
+            ${scenesChipsHtml}
+
+            <div class="card-specs">
+              <div class="spec-badge">
+                <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H8V4h12v12z"/></svg>
+                ${p.shots}
+              </div>
+              <div class="spec-badge">
+                <svg viewBox="0 0 24 24"><path d="M19 4h-4L14 3H10L9 4H5v2h14V4zM6 7v12c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6zm3 3h2v8H9v-8zm4 0h2v8h-2v-8z"/></svg>
+                ${p.size}
+              </div>
+              <div class="spec-badge" style="margin-left:auto; color: ${isInteractive ? 'var(--accent-cyan)' : 'var(--accent-emerald)'};">
+                ● ${isInteractive ? '即時 WebGL/SVG' : '1080p 交付'}
+              </div>
+            </div>
+
+            <div class="card-actions">
+              ${playActionHtml}
+              <a href="${p.boardUrl}" target="_blank" class="btn-board-action" title="檢視詳細資訊">
+                ${boardLabel}
+              </a>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Filter by Category
+    function filterCategory(cat, btn) {
+      currentFilter = cat;
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      applyFilterAndSearch();
+    }
+
+    // Search
+    function searchProjects() {
+      applyFilterAndSearch();
+    }
+
+    function applyFilterAndSearch() {
+      const query = document.getElementById('searchInput').value.trim().toLowerCase();
+      let filtered = PROJECTS_DATA;
+
+      if (currentFilter !== 'all') {
+        filtered = filtered.filter(p => p.category === currentFilter);
+      }
+
+      if (query) {
+        filtered = filtered.filter(p => 
+          p.title.toLowerCase().includes(query) || 
+          p.desc.toLowerCase().includes(query) ||
+          p.style.toLowerCase().includes(query)
+        );
+      }
+
+      renderGrid(filtered);
+    }
+
+    // Playback Modal
+    const modal = document.getElementById('cinemaModal');
+    const modalVideo = document.getElementById('modalVideoPlayer');
+    const modalTitle = document.getElementById('modalVideoTitle');
+    const modalSubtitle = document.getElementById('modalVideoSubtitle');
+    const modalChips = document.getElementById('modalChapterChips');
+
+    function playProject(id) {
+      const project = PROJECTS_DATA.find(p => p.id === id);
+      if (!project) return;
+
+      modalTitle.innerText = project.title;
+      modalSubtitle.innerText = `${project.categoryLabel} • ${project.duration} • ${project.shots}`;
+      modalVideo.src = project.gcsUrl || project.video;
+
+      modalVideo.onerror = () => {
+        if (project.gcsUrl && modalVideo.src !== project.gcsUrl) {
+          console.log("[Showcase] Local file not found, streaming from GCS:", project.gcsUrl);
+          modalVideo.src = project.gcsUrl;
+          modalVideo.play();
+        }
+      };
+
+      // Populate chapters
+      modalChips.innerHTML = '';
+      if (project.scenes && project.scenes.length > 0) {
+        project.scenes.forEach((sc, idx) => {
+          const chip = document.createElement('button');
+          chip.className = `chapter-chip ${idx === 0 ? 'active' : ''}`;
+          chip.innerText = sc.name;
+          chip.onclick = () => {
+            document.querySelectorAll('.chapter-chip').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            modalVideo.src = sc.file;
+            modalVideo.play();
+          };
+          modalChips.appendChild(chip);
+        });
+        document.getElementById('modalChaptersBar').style.display = 'flex';
+      } else {
+        document.getElementById('modalChaptersBar').style.display = 'none';
+      }
+
+      modal.classList.add('active');
+      modalVideo.play();
+    }
+
+    function playScene(id, sceneIndex) {
+      const project = PROJECTS_DATA.find(p => p.id === id);
+      if (!project || !project.scenes[sceneIndex]) return;
+
+      playProject(id);
+      const chips = modalChips.querySelectorAll('.chapter-chip');
+      if (chips[sceneIndex]) {
+        chips[sceneIndex].click();
+      }
+    }
+
+    function closeModal() {
+      modal.classList.remove('active');
+      modalVideo.pause();
+      modalVideo.src = '';
+    }
+
+    // Close on background click
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+
+    // Close on ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeModal();
+      }
+    });
+
+    // Initial render
+    renderGrid(PROJECTS_DATA);
+  </script>
+</body>
+</html>
