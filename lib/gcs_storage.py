@@ -101,8 +101,58 @@ class GCSStorage:
     def upload_clp(self, clp_name: str, local_image_path: str | Path) -> Optional[str]:
         """Uploads CLP reference prop/character to shared_clp/<clp_name>.<ext>."""
         ext = Path(local_image_path).suffix or ".png"
-        blob_path = f"shared_clp/{clp_name}{ext}"
+        clean_name = clp_name
+        if clean_name.endswith(ext):
+            clean_name = clean_name[:-len(ext)]
+        blob_path = f"shared_clp/{clean_name}{ext}"
         return self.upload_file(local_image_path, blob_path)
+
+    def sync_project_clp(self, project_dir: str | Path) -> dict[str, str]:
+        """Uploads all CLP images in a project's clp/ folder and updates character_design.json."""
+        p_dir = Path(project_dir)
+        results: dict[str, str] = {}
+        if not self.is_configured():
+            print("[GCS] Bucket not configured, skipping CLP sync.")
+            return results
+
+        # 1. Upload files from clp/ directory
+        clp_dir = p_dir / "clp"
+        if clp_dir.is_dir():
+            for img_file in clp_dir.iterdir():
+                if img_file.is_file() and img_file.suffix.lower() in {".png", ".jpg", ".jpeg", ".webp"}:
+                    url = self.upload_clp(img_file.name, img_file)
+                    if url:
+                        results[img_file.name] = url
+
+        # 2. Update character_design.json if it exists
+        cd_path = p_dir / "artifacts" / "character_design.json"
+        if cd_path.is_file() and results:
+            try:
+                import json
+                with open(cd_path, "r", encoding="utf-8") as f:
+                    cd_data = json.load(f)
+
+                changed = False
+                for char in cd_data.get("characters", []):
+                    img_name = Path(char.get("image", "")).name
+                    if img_name in results:
+                        char["gcs_url"] = results[img_name]
+                        changed = True
+                    elif f"clp_{char.get('id')}.jpg" in results:
+                        char["gcs_url"] = results[f"clp_{char.get('id')}.jpg"]
+                        changed = True
+                    elif f"clp_{char.get('id')}.png" in results:
+                        char["gcs_url"] = results[f"clp_{char.get('id')}.png"]
+                        changed = True
+
+                if changed:
+                    with open(cd_path, "w", encoding="utf-8") as f:
+                        json.dump(cd_data, f, indent=2, ensure_ascii=False)
+                    print(f"[GCS] Updated {cd_path.name} with CLP GCS URLs.")
+            except Exception as e:
+                print(f"[GCS] Error updating character_design.json: {e}")
+
+        return results
 
     def upload_audio(self, project_id: str, local_audio_path: str | Path) -> Optional[str]:
         """Uploads narration/mix audio to projects/<project_id>/audio/<filename>."""

@@ -54,12 +54,20 @@ export function fmtClock(iso) {
 }
 
 export function mediaURL(projectId, relPath, v = null) {
+  if (!relPath) return "";
+  if (relPath.startsWith("http://") || relPath.startsWith("https://") || relPath.startsWith("//")) {
+    return relPath;
+  }
   const base = `/media/${encodeURIComponent(projectId)}/${relPath.split("/").map(encodeURIComponent).join("/")}`;
   return v ? `${base}?v=${v}` : base;
 }
 
 // Downscaled cached JPEG for images (full media only in players/lightbox).
 export function thumbURL(projectId, relPath, w = 640) {
+  if (!relPath) return "";
+  if (relPath.startsWith("http://") || relPath.startsWith("https://") || relPath.startsWith("//")) {
+    return relPath;
+  }
   return `/thumb/${encodeURIComponent(projectId)}/${relPath.split("/").map(encodeURIComponent).join("/")}?w=${w}`;
 }
 

@@ -245,10 +245,66 @@ def create_app() -> FastAPI:
             "X-Accel-Buffering": "no",
         })
 
+    # ---- Cloud URL Resolver --------------------------------------------
+
+    def _resolve_gcs_url(project_dir: Path, file_path: str) -> Optional[str]:
+        """Resolves cloud storage URL for missing media assets (renders, CLP images, audio)."""
+        filename = Path(file_path).name
+        # 1. Check render_report.json
+        render_report_path = project_dir / "artifacts" / "render_report.json"
+        if render_report_path.is_file():
+            try:
+                with open(render_report_path, "r", encoding="utf-8") as f:
+                    rep = json.load(f)
+                if rep.get("output_path", "").endswith(filename) and rep.get("gcs_url"):
+                    return rep["gcs_url"]
+            except Exception:
+                pass
+
+        # 2. Check project.json
+        project_json_path = project_dir / "project.json"
+        if project_json_path.is_file():
+            try:
+                with open(project_json_path, "r", encoding="utf-8") as f:
+                    pdata = json.load(f)
+                if pdata.get("gcs_url") and filename.endswith(".mp4"):
+                    return pdata["gcs_url"]
+            except Exception:
+                pass
+
+        # 3. Check character_design.json for CLP assets
+        cd_path = project_dir / "artifacts" / "character_design.json"
+        if cd_path.is_file():
+            try:
+                with open(cd_path, "r", encoding="utf-8") as f:
+                    cd_data = json.load(f)
+                for char in cd_data.get("characters", []):
+                    char_img = Path(char.get("image", "")).name
+                    if char_img == filename or char.get("id") == Path(file_path).stem:
+                        if char.get("gcs_url"):
+                            return char["gcs_url"]
+            except Exception:
+                pass
+
+        # 4. Check GCS bucket directly if configured
+        try:
+            from lib.gcs_storage import gcs_storage
+            if gcs_storage.is_configured():
+                if "clp" in file_path.lower() or file_path.startswith("clp/"):
+                    return gcs_storage.get_public_url(f"shared_clp/{filename}")
+                if filename.endswith(".mp4"):
+                    return gcs_storage.get_public_url(f"projects/{project_dir.name}/renders/{filename}")
+                if filename.endswith((".mp3", ".wav", ".m4a")):
+                    return gcs_storage.get_public_url(f"projects/{project_dir.name}/audio/{filename}")
+        except Exception:
+            pass
+
+        return None
+
     # ---- Thumbnails (downscaled, cached on disk) ------------------------
 
     @app.get("/thumb/{project_id}/{file_path:path}")
-    async def thumb(project_id: str, file_path: str, w: int = 640) -> FileResponse:
+    async def thumb(project_id: str, file_path: str, w: int = 640):
         project_dir = _safe_project_dir(project_id)
         target = (project_dir / file_path).resolve()
         try:
@@ -256,6 +312,10 @@ def create_app() -> FastAPI:
         except ValueError:
             raise HTTPException(status_code=403, detail="path escapes project")
         if not target.is_file():
+            # If local file missing on disk, fallback to GCS redirect for images/CLP
+            gcs_url = _resolve_gcs_url(project_dir, file_path)
+            if gcs_url:
+                return RedirectResponse(url=gcs_url, status_code=302)
             raise HTTPException(status_code=404, detail="media not found")
         width = min(THUMB_WIDTHS, key=lambda x: abs(x - w))
         cached = await asyncio.to_thread(_thumbnail_for, target, width)
@@ -281,25 +341,7 @@ def create_app() -> FastAPI:
             return FileResponse(target, headers={"Cache-Control": "no-cache, must-revalidate"})
 
         # If local media file not found on disk, check if GCS streaming URL exists
-        gcs_url = None
-        render_report_path = project_dir / "artifacts" / "render_report.json"
-        if render_report_path.is_file():
-            try:
-                with open(render_report_path, "r", encoding="utf-8") as f:
-                    rep = json.load(f)
-                if rep.get("output_path", "").endswith(Path(file_path).name):
-                    gcs_url = rep.get("gcs_url")
-            except Exception:
-                pass
-        if not gcs_url:
-            project_json_path = project_dir / "project.json"
-            if project_json_path.is_file():
-                try:
-                    with open(project_json_path, "r", encoding="utf-8") as f:
-                        pdata = json.load(f)
-                    gcs_url = pdata.get("gcs_url")
-                except Exception:
-                    pass
+        gcs_url = _resolve_gcs_url(project_dir, file_path)
         if gcs_url:
             return RedirectResponse(url=gcs_url, status_code=302)
         raise HTTPException(status_code=404, detail="media not found")

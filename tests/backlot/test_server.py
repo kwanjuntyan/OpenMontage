@@ -203,3 +203,26 @@ class TestFindingsFixes:
         fake_video.write_bytes(b"\x00" * 4096)
         res = client.get("/thumb/vid/renders/final.mp4")
         assert res.status_code == 404  # never the raw video bytes (F-03)
+
+    def test_media_and_thumb_redirects_to_gcs_when_local_file_missing(self, client, projects_root):
+        p = _make_project(projects_root, "clp-test")
+        # Add character_design.json with gcs_url
+        _write_json(p / "artifacts" / "character_design.json", {
+            "version": "1.0",
+            "characters": [
+                {
+                    "id": "hero",
+                    "display_name": "Hero",
+                    "image": "clp/hero.png",
+                    "gcs_url": "https://storage.googleapis.com/my-bucket/shared_clp/hero.png"
+                }
+            ]
+        })
+        # Local file clp/hero.png does NOT exist
+        res_media = client.get("/media/clp-test/clp/hero.png", follow_redirects=False)
+        assert res_media.status_code == 302
+        assert res_media.headers["location"] == "https://storage.googleapis.com/my-bucket/shared_clp/hero.png"
+
+        res_thumb = client.get("/thumb/clp-test/clp/hero.png", follow_redirects=False)
+        assert res_thumb.status_code == 302
+        assert res_thumb.headers["location"] == "https://storage.googleapis.com/my-bucket/shared_clp/hero.png"

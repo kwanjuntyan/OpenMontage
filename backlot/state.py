@@ -551,7 +551,8 @@ def _derive_characters(project_dir: Path, artifacts: dict) -> list[dict]:
                 "style": item.get("style") or item.get("description") or "",
                 "props": item.get("props") or [],
                 "binding": item.get("binding") or item.get("constraints") or [],
-                "image": item.get("image") or item.get("portrait"),
+                "image": item.get("image") or item.get("portrait") or item.get("gcs_url"),
+                "gcs_url": item.get("gcs_url"),
             })
     # Source 2: characters artifact / file
     if not chars:
@@ -604,6 +605,16 @@ def _derive_characters(project_dir: Path, artifacts: dict) -> list[dict]:
                             break
                 if c.get("image"):
                     break
+
+    # GCS Fallback: If local image file doesn't exist on disk, use gcs_url
+    for c in chars:
+        img = c.get("image")
+        if img and not str(img).startswith(("http://", "https://", "//")):
+            if not (project_dir / img).is_file() and c.get("gcs_url"):
+                c["image"] = c["gcs_url"]
+        elif not img and c.get("gcs_url"):
+            c["image"] = c["gcs_url"]
+
     return chars
 
 
