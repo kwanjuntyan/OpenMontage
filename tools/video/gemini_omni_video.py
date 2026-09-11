@@ -179,11 +179,46 @@ class GeminiOmniVideo(BaseTool):
     ]
 
     @staticmethod
+    def _patch_ipv4_dns() -> None:
+        """Fix Windows IPv6 timeout issue when resolving oauth2.googleapis.com."""
+        import socket
+        orig_getaddrinfo = socket.getaddrinfo
+
+        def getaddrinfo_ipv4_only(host, port, family=0, type=0, proto=0, flags=0):
+            try:
+                ipv4_responses = orig_getaddrinfo(host, port, socket.AF_INET, type, proto, flags)
+                if ipv4_responses:
+                    return ipv4_responses
+            except Exception:
+                pass
+            return orig_getaddrinfo(host, port, family, type, proto, flags)
+
+        socket.getaddrinfo = getaddrinfo_ipv4_only
+
+    @staticmethod
+    def _get_vertex_credentials_path() -> Path | None:
+        path_str = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
+        if path_str and Path(path_str).exists():
+            return Path(path_str)
+        common_path = Path(r"D:\gcp-keys\prj-vertex-json-key-62b0dfa2d527.json")
+        if common_path.exists():
+            return common_path
+        env_file = Path(__file__).resolve().parent.parent.parent / ".env"
+        if env_file.exists():
+            for line in env_file.read_text(encoding="utf-8").splitlines():
+                if line.startswith("GOOGLE_APPLICATION_CREDENTIALS="):
+                    val = line.split("=", 1)[1].strip('"\r\n ')
+                    p = Path(val)
+                    if p.exists():
+                        return p
+        return None
+
+    @staticmethod
     def _get_api_key() -> str | None:
         return os.environ.get("GEMINI_API_KEY") or os.environ.get("GOOGLE_API_KEY")
 
     def get_status(self) -> ToolStatus:
-        if self._get_api_key():
+        if self._get_api_key() or self._get_vertex_credentials_path():
             return ToolStatus.AVAILABLE
         return ToolStatus.UNAVAILABLE
 
@@ -341,10 +376,11 @@ class GeminiOmniVideo(BaseTool):
 
     def execute(self, inputs: dict[str, Any]) -> ToolResult:
         api_key = self._get_api_key()
-        if not api_key:
+        vertex_cred_path = self._get_vertex_credentials_path()
+        if not api_key and not vertex_cred_path:
             return ToolResult(
                 success=False,
-                error="GEMINI_API_KEY / GOOGLE_API_KEY not set. " + self.install_instructions,
+                error="Neither GEMINI_API_KEY/GOOGLE_API_KEY nor GOOGLE_APPLICATION_CREDENTIALS set. " + self.install_instructions,
             )
 
         import requests
@@ -354,6 +390,8 @@ class GeminiOmniVideo(BaseTool):
         prompt = str(inputs["prompt"]).strip()
         aspect_ratio = inputs.get("aspect_ratio", "16:9")
         previous_interaction_id = inputs.get("previous_interaction_id")
+
+        use_vertex = bool(vertex_cred_path and (not api_key or os.environ.get("GOOGLE_GENAI_USE_VERTEXAI", "").lower() == "true"))
 
         if operation == "edit_video" and not previous_interaction_id and not inputs.get("input_video_path"):
             return ToolResult(
@@ -373,24 +411,69 @@ class GeminiOmniVideo(BaseTool):
         try:
             parts: list[dict[str, Any]] = [self._image_part(p) for p in reference_paths]
             if inputs.get("input_video_path"):
+                if use_vertex:
+                    raise NotImplementedError("Direct video upload to Vertex Interactions API is not yet supported; use image references or prompt text.")
                 video_uri = self._upload_video_file(requests, api_key, inputs["input_video_path"])
                 parts.append({"type": "document", "uri": video_uri})
         except Exception as e:
             return ToolResult(success=False, error=f"Gemini Omni input preparation failed: {e}")
 
-        payload: dict[str, Any] = {
-            "model": _DEFAULT_MODEL,
-            # Plain string for text-only turns (the documented minimal form),
-            # typed parts when images or an uploaded video ride along.
-            "input": prompt if not parts else parts + [{"type": "text", "text": prompt}],
-            # uri delivery avoids the ~4MB inline-payload ceiling; inline data in
-            # the response is still handled below if the API returns it anyway.
-            "response_format": {
-                "type": "video",
-                "aspect_ratio": aspect_ratio,
-                "delivery": "uri",
-            },
-        }
+        if use_vertex:
+            self._patch_ipv4_dns()
+            global _GLOBAL_VERTEX_CREDS
+            try:
+                creds = _GLOBAL_VERTEX_CREDS
+            except NameError:
+                creds = None
+
+            from google.oauth2 import service_account
+            import google.auth.transport.requests
+
+            if creds is None or not creds.valid:
+                creds = service_account.Credentials.from_service_account_file(
+                    str(vertex_cred_path), scopes=["https://www.googleapis.com/auth/cloud-platform"]
+                )
+                auth_req = google.auth.transport.requests.Request()
+                for attempt in range(3):
+                    try:
+                        creds.refresh(auth_req)
+                        _GLOBAL_VERTEX_CREDS = creds
+                        break
+                    except Exception:
+                        if attempt == 2:
+                            raise
+                        time.sleep(2 * (attempt + 1))
+            token = creds.token
+            project_id = os.environ.get("GOOGLE_CLOUD_PROJECT") or os.environ.get("VERTEX_PROJECT_ID") or "prj-vertex-json-key"
+            endpoint = f"https://aiplatform.googleapis.com/v1beta1/projects/{project_id}/locations/global/interactions"
+            headers = {
+                "Authorization": f"Bearer {token}",
+                "X-Goog-User-Project": project_id,
+                "Content-Type": "application/json",
+            }
+            model_name = "gemini-omni-1.1-flash-preview"
+            payload: dict[str, Any] = {
+                "model": model_name,
+                "input": prompt if not parts else parts + [{"type": "text", "text": prompt}],
+                "response_format": {
+                    "type": "video",
+                    "aspect_ratio": aspect_ratio,
+                },
+            }
+        else:
+            endpoint = f"{_BASE_URL}/interactions"
+            headers = {"x-goog-api-key": api_key, "Content-Type": "application/json"}
+            model_name = _DEFAULT_MODEL
+            payload: dict[str, Any] = {
+                "model": model_name,
+                "input": prompt if not parts else parts + [{"type": "text", "text": prompt}],
+                "response_format": {
+                    "type": "video",
+                    "aspect_ratio": aspect_ratio,
+                    "delivery": "uri",
+                },
+            }
+
         if previous_interaction_id:
             payload["previous_interaction_id"] = previous_interaction_id
         if inputs.get("store") is False:
@@ -398,8 +481,8 @@ class GeminiOmniVideo(BaseTool):
 
         try:
             resp = requests.post(
-                f"{_BASE_URL}/interactions",
-                headers={"x-goog-api-key": api_key, "Content-Type": "application/json"},
+                endpoint,
+                headers=headers,
                 json=payload,
                 timeout=600,
             )
@@ -421,6 +504,11 @@ class GeminiOmniVideo(BaseTool):
 
             if video.get("data"):
                 video_bytes = base64.b64decode(video["data"])
+            elif use_vertex:
+                uri = str(video.get("uri"))
+                dl_resp = requests.get(uri, headers={"Authorization": f"Bearer {token}"})
+                dl_resp.raise_for_status()
+                video_bytes = dl_resp.content
             else:
                 video_bytes = self._download_via_uri(requests, api_key, str(video["uri"]))
 
@@ -435,7 +523,7 @@ class GeminiOmniVideo(BaseTool):
             success=True,
             data={
                 "provider": self.provider,
-                "model": _DEFAULT_MODEL,
+                "model": model_name,
                 "prompt": prompt,
                 "operation": operation,
                 "output": str(output_path),
@@ -448,5 +536,5 @@ class GeminiOmniVideo(BaseTool):
             artifacts=[str(output_path)],
             cost_usd=self.estimate_cost(inputs),
             duration_seconds=round(time.time() - start, 2),
-            model=_DEFAULT_MODEL,
+            model=model_name,
         )
