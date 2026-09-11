@@ -295,6 +295,64 @@ function renderScriptCard(s) {
   return card;
 }
 
+function renderCharacters(s) {
+  const chars = s.characters || [];
+  if (!chars.length) return null;
+
+  const cards = [];
+  for (const c of chars) {
+    const avatar = el("div", { class: "clp-avatar-wrap" });
+    if (c.image) {
+      const img = el("img", {
+        src: thumbURL(s.project_id, c.image, 640),
+        alt: c.name || "Character",
+        loading: "lazy",
+      });
+      img.onerror = () => {
+        img.src = mediaURL(s.project_id, c.image);
+      };
+      avatar.append(img);
+    } else {
+      avatar.append(el("div", { class: "clp-avatar-placeholder" }, "🎭"));
+    }
+
+    const info = el("div", { class: "clp-info" });
+    const nameRow = el("div", { class: "clp-name-row" },
+      el("span", { class: "clp-name" }, c.name || c.id),
+      c.age ? el("span", { class: "clp-age" }, `${c.age}歲`) : null
+    );
+    info.append(nameRow);
+
+    if (c.role) {
+      info.append(el("div", { class: "clp-role" }, c.role));
+    }
+    if (c.style || c.description) {
+      info.append(el("div", { class: "clp-desc" }, c.style || c.description));
+    }
+
+    const tags = [
+      ...(Array.isArray(c.binding) ? c.binding : (c.binding ? [c.binding] : [])),
+      ...(Array.isArray(c.props) ? c.props : [])
+    ];
+    if (tags.length) {
+      const tagsWrap = el("div", { class: "clp-tags" });
+      for (const t of tags) {
+        tagsWrap.append(el("span", { class: "clp-tag" }, String(t)));
+      }
+      info.append(tagsWrap);
+    }
+
+    cards.push(el("div", { class: "clp-card" }, avatar, info));
+  }
+
+  return el("section", { class: "clp-section", id: "characters" },
+    el("div", { class: "section-title" }, "Characters (CLP 定裝規格)",
+      el("span", { class: "meta" }, `${chars.length} characters · visual consistency`)
+    ),
+    el("div", { class: "clp-grid" }, ...cards)
+  );
+}
+
 function humanize(value) {
   return String(value || "artifact").replaceAll("_", " ");
 }
@@ -695,7 +753,7 @@ function sceneCard(s, card) {
       v.quality_score != null ? `q ${v.quality_score}` : null].filter(Boolean).join(" · ");
     if (v.type === "video") {
       thumb = el("div", { class: "thumb approved" },
-        el("video", { src: mediaURL(s.project_id, v.path), muted: "", preload: "metadata", playsinline: "" }),
+        el("video", { src: mediaURL(s.project_id, v.path, v.mtime ? Math.floor(v.mtime) : null), muted: "", preload: "metadata", playsinline: "" }),
         el("span", { class: "play" }, "▶"),
         badge ? el("span", { class: "badge" }, badge) : null);
       thumb.onclick = () => {
@@ -824,7 +882,7 @@ function renderRenders(s) {
   // Full re-renders (every SSE refresh) must not reset an in-progress
   // watch: carry playback position/state over to the recreated element.
   const prev = document.querySelector(".render-hero video");
-  const src = mediaURL(s.project_id, current.path);
+  const src = mediaURL(s.project_id, current.path, current.mtime ? Math.floor(current.mtime) : Date.now());
   // preload="metadata" gives the element its intrinsic aspect ratio (and a
   // poster frame) before playback — without it a portrait 9:16 render sits
   // in a letterboxed 100%-wide black box that reads as landscape.
@@ -1074,6 +1132,8 @@ function render() {
   if (approvalReview) main.append(approvalReview);
   const script = renderScriptCard(s);
   if (script) main.append(script);
+  const characters = renderCharacters(s);
+  if (characters) main.append(characters);
   const aside = el("aside", {});
   const decisions = renderDecisions(s);
   const activity = renderActivity(s);
@@ -1086,7 +1146,7 @@ function render() {
   const found = renderFoundMedia(s);
   const renders = renderRenders(s);
 
-  if (approvalReview || script || decisions || activity) {
+  if (approvalReview || script || characters || decisions || activity) {
     for (const section of [storyboard, found, renders]) {
       if (section) main.append(section);
     }
@@ -1108,6 +1168,7 @@ function normalize(s) {
     stage.produces = Array.isArray(stage.produces) ? stage.produces : [];
   }
   s.artifacts = s.artifacts || {};
+  s.characters = Array.isArray(s.characters) ? s.characters : [];
   s.media = s.media || {};
   s.media.renders = Array.isArray(s.media.renders) ? s.media.renders : [];
   s.media.snapshots = Array.isArray(s.media.snapshots) ? s.media.snapshots : [];

@@ -240,6 +240,7 @@ ARTIFACT_FILES = {
     "final_review": "final_review.json",
     "publish_log": "publish_log.json",
     "decision_log": "decision_log.json",
+    "character_design": "character_design.json",
 }
 
 
@@ -534,6 +535,78 @@ def _scan_media(project_dir: Path) -> dict[str, list[dict]]:
     return {"renders": renders, "snapshots": snapshots, "music": music}
 
 
+def _derive_characters(project_dir: Path, artifacts: dict) -> list[dict]:
+    """Derive character look profiles (CLP) from artifacts or local clp/ directory."""
+    chars: list[dict] = []
+    # Source 1: character_design artifact
+    cd = artifacts.get("character_design")
+    if isinstance(cd, dict) and isinstance(cd.get("characters"), list):
+        for item in cd["characters"]:
+            cid = item.get("id") or "character"
+            chars.append({
+                "id": cid,
+                "name": item.get("display_name") or item.get("name") or cid.title(),
+                "role": item.get("role") or "",
+                "age": item.get("age"),
+                "style": item.get("style") or item.get("description") or "",
+                "props": item.get("props") or [],
+                "binding": item.get("binding") or item.get("constraints") or [],
+                "image": item.get("image") or item.get("portrait"),
+            })
+    # Source 2: characters artifact / file
+    if not chars:
+        c_json = artifacts.get("characters") or _read_json(project_dir / "artifacts" / "characters.json")
+        if isinstance(c_json, dict) and isinstance(c_json.get("characters"), list):
+            for item in c_json["characters"]:
+                chars.append(item)
+    # Source 3: Heuristic scan of clp/ folder
+    clp_dir = project_dir / "clp"
+    clp_files: dict[str, Path] = {}
+    if clp_dir.is_dir():
+        for f in clp_dir.iterdir():
+            if f.suffix.lower() in MEDIA_IMAGE_EXT and f.is_file():
+                clp_files[f.stem.lower()] = f
+
+    # Associate images with characters
+    for c in chars:
+        if not c.get("image"):
+            cid = str(c.get("id", "")).lower()
+            cname = str(c.get("name", "")).lower()
+            for key in (f"clp_{cid}", cid, f"clp_{cname}", cname):
+                if key in clp_files:
+                    c["image"] = _rel(project_dir, clp_files[key])
+                    break
+
+    # If no chars defined in artifacts, auto-populate from clp directory
+    if not chars and clp_files:
+        for stem_name, f in sorted(clp_files.items()):
+            clean_name = stem_name.replace("clp_", "").replace("_", " ").title()
+            chars.append({
+                "id": stem_name,
+                "name": clean_name,
+                "role": "Character",
+                "age": None,
+                "style": "",
+                "props": [],
+                "binding": [],
+                "image": _rel(project_dir, f),
+            })
+
+    # Final pass: check assets/images for matching portraits if still missing
+    for c in chars:
+        if not c.get("image"):
+            cid = str(c.get("id", "")).lower()
+            for search_dir in (project_dir / "assets" / "images", project_dir / "output"):
+                if search_dir.is_dir():
+                    for f in search_dir.glob(f"*{cid}*"):
+                        if f.suffix.lower() in MEDIA_IMAGE_EXT and f.is_file():
+                            c["image"] = _rel(project_dir, f)
+                            break
+                if c.get("image"):
+                    break
+    return chars
+
+
 def _find_poster(project_dir: Path, state: dict) -> Optional[str]:
     """Best poster for the library card (image path, or a video path —
     the /thumb endpoint extracts a frame from videos)."""
@@ -647,6 +720,7 @@ def load_board_state(project_dir: Path) -> dict[str, Any]:
         "has_pipeline_state": bool(checkpoints),
         "stages": stages,
         "artifacts": artifacts,
+        "characters": _derive_characters(project_dir, artifacts),
         "storyboard": storyboard,
         "media": media,
         "events": events,
