@@ -44,3 +44,22 @@ jobs:
 
       - name: Run test suite
         run: make test
+
+  policy-guard:
+    name: Repository Policy & Binary Shield Guard
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify projects/ contains zero binary media
+        run: |
+          echo "Scanning projects/ for unauthorized binary files..."
+          if [ -d "projects" ]; then
+            BAD_FILES=$(find projects/ -type f \( -name "*.mp4" -o -name "*.mov" -o -name "*.mp3" -o -name "*.wav" -o -name "*.png" -o -name "*.jpg" -o -name "*.jpeg" -o -name "*.webp" -o -name "*.exe" -o -name "*.bin" \) || true)
+            if [ -n "$BAD_FILES" ]; then
+              echo "::error::Violation: Media files detected under projects/: $BAD_FILES"
+              exit 1
+            fi
+          fi
+          echo "Policy check passed: projects/ strictly adheres to text-only recipe policy."

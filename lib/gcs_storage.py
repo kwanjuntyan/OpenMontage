@@ -126,6 +126,14 @@ class GCSStorage:
                             except Exception:
                                 pass
 
+                    if self._bucket is not None:
+                        try:
+                            # Verify bucket existence to prevent false configured reporting
+                            if hasattr(self._bucket, "exists") and not self._bucket.exists(timeout=3):
+                                self._bucket = None
+                        except Exception:
+                            pass
+
                     self._checked = True
                 except Exception as e:
                     print(f"[GCS] Initialization notice: {e}")
@@ -254,7 +262,7 @@ class GCSStorage:
                     matched_url = results.get(ap)
                     if not matched_url:
                         for r_path, url in results.items():
-                            if r_path.endswith(f"/{fn}") or r_path == fn:
+                            if ap.endswith(r_path) or r_path.endswith(ap):
                                 matched_url = url
                                 break
                     if matched_url and asset.get("gcs_url") != matched_url:
@@ -371,7 +379,12 @@ class GCSStorage:
                         changed = False
                         for asset in manifest.get("assets", []):
                             ap = asset.get("path", "").replace("\\", "/")
-                            if ap.endswith(f"/{fn}") or ap == fn or (rel_path and ap == rel_path):
+                            matched = False
+                            if rel_path:
+                                matched = (ap == rel_path or ap.endswith(rel_path) or rel_path.endswith(ap))
+                            else:
+                                matched = (ap == fn or ap.endswith(f"/{fn}"))
+                            if matched:
                                 if asset.get("gcs_url") != url:
                                     asset["gcs_url"] = url
                                     changed = True

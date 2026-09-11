@@ -228,3 +228,61 @@ def test_real_hook_blocks_semantic_mismatches(real_git_repo):
     res = commit_in_repo(repo, "feat(core): update script engine")
     assert res.returncode != 0
     assert "名實不符阻斷" in res.stderr
+
+
+def test_real_hook_allows_deleting_forbidden_files(real_git_repo):
+    """Verifies that git rm on a forbidden file (e.g. legacy .mp4) is allowed (R2-4)."""
+    repo, _ = real_git_repo
+    forbidden = repo / "assets" / "legacy.mp4"
+    forbidden.parent.mkdir(parents=True, exist_ok=True)
+    forbidden.write_bytes(b"legacy media")
+
+    # Initial commit created bypassing hook via --no-verify
+    subprocess.run(["git", "add", "assets/legacy.mp4"], cwd=str(repo), check=True)
+    subprocess.run(["git", "commit", "--no-verify", "-m", "Initial commit with legacy file"], cwd=str(repo), check=True)
+
+    # Now delete the legacy file
+    subprocess.run(["git", "rm", "assets/legacy.mp4"], cwd=str(repo), check=True)
+
+    # Commit the deletion through the hook
+    res = commit_in_repo(repo, "fix(assets): remove legacy mp4 file")
+    assert res.returncode == 0, f"Deletion should be allowed, but got error: {res.stderr}"
+
+
+def test_real_hook_blocks_windows_case_variant(real_git_repo):
+    """Verifies that casing variations like 'Projects/' are caught by case-insensitive check (R2-3)."""
+    repo, _ = real_git_repo
+    p = repo / "Projects" / "c1" / "image.png"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_bytes(b"image data")
+    subprocess.run(["git", "add", "Projects/c1/image.png"], cwd=str(repo), check=True)
+
+    res = commit_in_repo(repo, "content(c1): add image")
+    assert res.returncode != 0
+    assert "資產防護盾" in res.stderr or "二進位防護盾" in res.stderr
+
+
+def test_real_hook_accepts_unicode_slugs(real_git_repo):
+    """Verifies that Chinese/Unicode project IDs in content(...) are accepted by hook regex (R2-5)."""
+    repo, _ = real_git_repo
+    p = repo / "projects" / "環境ESG" / "project.json"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_text('{"id": "esg"}\n', encoding="utf-8")
+    subprocess.run(["git", "add", "projects/環境ESG/project.json"], cwd=str(repo), check=True)
+
+    res = commit_in_repo(repo, "content(環境ESG): update environmental pilot project")
+    assert res.returncode == 0, f"Unicode slug should be accepted, but got: {res.stderr}"
+
+
+def test_real_hook_blocks_non_text_in_projects_allowlist(real_git_repo):
+    """Verifies that non-text files like .exe or .bin are blocked under projects/ (R2-3)."""
+    repo, _ = real_git_repo
+    p = repo / "projects" / "c1" / "tool.exe"
+    p.parent.mkdir(parents=True, exist_ok=True)
+    p.write_bytes(b"executable payload")
+    subprocess.run(["git", "add", "projects/c1/tool.exe"], cwd=str(repo), check=True)
+
+    res = commit_in_repo(repo, "content(c1): add helper tool")
+    assert res.returncode != 0
+    assert "二進位防護盾" in res.stderr or "純文字" in res.stderr
+

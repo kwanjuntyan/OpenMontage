@@ -56,11 +56,9 @@ is_special_commit = (
 # -------------------------------------------------------------
 # 1. Commit Message Syntax Validation (if not special commit)
 # -------------------------------------------------------------
-# Category A: Code & Infrastructure
-pattern_cat_a = r"^(feat|fix|docs|test|refactor|chore|perf|ci|style|build)(\([a-zA-Z0-9_\-./]+\))?:\s+.{3,}"
-
-# Category B: Course Content & Recipes
-pattern_cat_b = r"^(content|data)\([a-zA-Z0-9_\-./]+\):\s+.{3,}"
+# Support alphanumeric, dashes, dots, underscores, and Unicode (e.g. Chinese characters)
+pattern_cat_a = r"^(feat|fix|docs|test|refactor|chore|perf|ci|style|build)(\([a-zA-Z0-9_\-./\u4e00-\u9fa5]+\))?:\s+.{3,}"
+pattern_cat_b = r"^(content|data)\([a-zA-Z0-9_\-./\u4e00-\u9fa5]+\):\s+.{3,}"
 
 is_cat_a = bool(re.match(pattern_cat_a, msg, re.IGNORECASE))
 is_cat_b = bool(re.match(pattern_cat_b, msg, re.IGNORECASE))
@@ -88,15 +86,13 @@ if not is_special_commit and not is_cat_a and not is_cat_b:
 # -------------------------------------------------------------
 # 2. Staged Content Awareness Validation (NUL-safe, Fail-Closed)
 # -------------------------------------------------------------
-def get_staged_entries():
-    """Returns list of (filepath, blob_hash) using NUL-terminated output."""
+def get_staged_entries(diff_filter=None):
+    """Returns list of staged filepaths using NUL-terminated output."""
     try:
-        # Run git diff --cached --name-only -z
-        res = subprocess.run(
-            ["git", "diff", "--cached", "--name-only", "-z"],
-            capture_output=True,
-            check=True
-        )
+        cmd = ["git", "diff", "--cached", "--name-only", "-z"]
+        if diff_filter:
+            cmd.append(f"--diff-filter={diff_filter}")
+        res = subprocess.run(cmd, capture_output=True, check=True)
         raw_paths = [p for p in res.stdout.split(b"\0") if p]
         files = [os.fsdecode(p).replace("\\", "/").strip() for p in raw_paths]
         return files
@@ -107,83 +103,94 @@ def get_staged_entries():
         print(f"[X] 解析暫存區失敗 ({e})，提交已被阻斷！", file=sys.stderr)
         sys.exit(1)
 
-staged_files = get_staged_entries()
-if staged_files:
-    # A. Binary Shield
-    # Rule 1: Under projects/, ZERO binary tolerance (all media must reside in GCS)
-    PROJECT_FORBIDDEN_EXTS = {
-        ".mp4", ".mov", ".webm", ".avi", ".mkv",
-        ".mp3", ".wav", ".m4a", ".aac", ".flac", ".ogg",
-        ".jpg", ".jpeg", ".png", ".webp", ".gif", ".bmp", ".ico",
-        ".onnx", ".pth", ".pt", ".bin", ".safetensors", ".ckpt",
-        ".zip", ".tar", ".gz", ".7z", ".rar"
+# all_staged includes additions, modifications, renames, and deletions
+all_staged = get_staged_entries()
+# added_or_modified excludes deletions ('D'), so deleting forbidden files is allowed!
+added_or_modified = get_staged_entries(diff_filter="ACMR")
+
+def is_project_path(path_str: str) -> bool:
+    """Case-insensitive check for projects/ directory (fixes Windows case vulnerability)."""
+    return path_str.lower().startswith("projects/")
+
+if all_staged:
+    # A. Binary Shield & Strict Project Allowlist
+    # For Added/Modified files only:
+    PROJECT_ALLOWED_EXTS = {
+        ".json", ".yaml", ".yml", ".md", ".txt",
+        ".srt", ".vtt", ".tsv", ".csv",
+        ".html", ".js", ".css"
     }
 
-    # Rule 2: Repository-wide forbidden video/audio/weights/archives
     REPO_FORBIDDEN_EXTS = {
         ".mp4", ".mov", ".webm", ".avi", ".mkv",
         ".mp3", ".wav", ".m4a", ".aac", ".flac", ".ogg",
-        ".onnx", ".pth", ".pt", ".safetensors", ".ckpt",
-        ".tar", ".gz", ".7z", ".rar"
+        ".onnx", ".pth", ".pt", ".bin", ".safetensors", ".ckpt",
+        ".tar", ".gz", ".7z", ".rar", ".zip", ".exe", ".dll", ".so"
     }
 
-    bad_binaries = []
-    for f in staged_files:
+    bad_files = []
+    for f in added_or_modified:
         posix = PurePosixPath(f)
         suffix = posix.suffix.lower()
-        if f.startswith("projects/") and suffix in PROJECT_FORBIDDEN_EXTS:
-            bad_binaries.append((f, "課程配方目錄禁止包含任何多媒體/二進位檔案"))
-        elif suffix in REPO_FORBIDDEN_EXTS:
-            bad_binaries.append((f, "全代碼庫禁止提交影片、音訊、模型權重或大型壓縮檔"))
 
-    if bad_binaries:
+        # Rule 1: projects/ has a STRICT PURE-TEXT ALLOWLIST
+        if is_project_path(f):
+            if suffix not in PROJECT_ALLOWED_EXTS:
+                bad_files.append((f, f"課程配方目錄 (projects/) 僅允許純文字檔案 (.json, .yaml, .md 等)，不允許 '{suffix or '無副檔名'}'"))
+        # Rule 2: Repository-wide forbidden video/audio/weights/archives
+        elif suffix in REPO_FORBIDDEN_EXTS:
+            bad_files.append((f, "全代碼庫禁止提交影片、音訊、模型權重或大型壓縮檔"))
+
+    if bad_files:
         print("\n" + "=" * 70, file=sys.stderr)
-        print("[X] [OpenMontage 規範守門員 - 二進位防護盾] 禁止提交多媒體/二進位檔案！", file=sys.stderr)
+        print("[X] [OpenMontage 規範守門員 - 二進位防護盾] 禁止提交非合規/多媒體檔案！", file=sys.stderr)
         print("=" * 70, file=sys.stderr)
-        print(f"偵測到您試圖將媒體檔案提交進 Git (共 {len(bad_binaries)} 個)：", file=sys.stderr)
-        for b, reason in bad_binaries[:5]:
+        print(f"偵測到您試圖將不符合規範的檔案提交進 Git (共 {len(bad_files)} 個)：", file=sys.stderr)
+        for b, reason in bad_files[:5]:
             print(f"  * {b} ({reason})", file=sys.stderr)
-        if len(bad_binaries) > 5:
-            print(f"  * ... 還有另外 {len(bad_binaries) - 5} 個檔案", file=sys.stderr)
+        if len(bad_files) > 5:
+            print(f"  * ... 還有另外 {len(bad_files) - 5} 個檔案", file=sys.stderr)
         print("\n[!] 規範說明：", file=sys.stderr)
-        print("  所有影片、音訊與課程圖片請存放於 GCS 雲端儲存庫，Git 僅保留純文字配方 (JSON/Code)。", file=sys.stderr)
+        print("  所有影片、音訊與多媒體資產請存放於 GCS 雲端儲存庫，Git 僅保留純文字配方 (JSON/Code)。", file=sys.stderr)
         print("  請執行: git reset HEAD <檔案> 將其移出暫存區。", file=sys.stderr)
         print("=" * 70 + "\n", file=sys.stderr)
         sys.exit(1)
 
-    # Check blob size limit (>15MB is strictly blocked repository-wide)
-    try:
-        ls_res = subprocess.run(
-            ["git", "ls-files", "-s", "-z"],
-            capture_output=True,
-            check=True
-        )
-        for entry in ls_res.stdout.split(b"\0"):
-            if not entry:
-                continue
-            # format: <mode> <sha> <stage>\t<path>
-            parts = entry.split(b"\t", 1)
-            if len(parts) == 2:
-                meta, path_bytes = parts
-                path_str = os.fsdecode(path_bytes).replace("\\", "/").strip()
-                if path_str in staged_files:
-                    sha = meta.split()[1].decode("ascii")
-                    size_res = subprocess.run(["git", "cat-file", "-s", sha], capture_output=True, text=True)
-                    if size_res.returncode == 0 and size_res.stdout.strip().isdigit():
-                        size_bytes = int(size_res.stdout.strip())
-                        if size_bytes > 15 * 1024 * 1024:
-                            print("\n" + "=" * 70, file=sys.stderr)
-                            print(f"[X] [OpenMontage 守門員 - 檔案過大阻斷] 檔案超過 15MB ({size_bytes / (1024*1024):.2f} MB)！", file=sys.stderr)
-                            print(f"  * {path_str}", file=sys.stderr)
-                            print("  請將大檔案託管至 GCS 雲端儲存庫，勿直接提交至 Git。", file=sys.stderr)
-                            print("=" * 70 + "\n", file=sys.stderr)
-                            sys.exit(1)
-    except Exception:
-        pass
+    # Check blob size limit (>15MB is strictly blocked for added/modified files)
+    if added_or_modified:
+        try:
+            ls_res = subprocess.run(
+                ["git", "ls-files", "-s", "-z"],
+                capture_output=True,
+                check=True
+            )
+            for entry in ls_res.stdout.split(b"\0"):
+                if not entry:
+                    continue
+                parts = entry.split(b"\t", 1)
+                if len(parts) == 2:
+                    meta, path_bytes = parts
+                    path_str = os.fsdecode(path_bytes).replace("\\", "/").strip()
+                    if path_str in added_or_modified:
+                        sha = meta.split()[1].decode("ascii")
+                        size_res = subprocess.run(["git", "cat-file", "-s", sha], capture_output=True, text=True, check=True)
+                        size_str = size_res.stdout.strip()
+                        if size_str.isdigit():
+                            size_bytes = int(size_str)
+                            if size_bytes > 15 * 1024 * 1024:
+                                print("\n" + "=" * 70, file=sys.stderr)
+                                print(f"[X] [OpenMontage 守門員 - 檔案過大阻斷] 檔案超過 15MB ({size_bytes / (1024*1024):.2f} MB)！", file=sys.stderr)
+                                print(f"  * {path_str}", file=sys.stderr)
+                                print("  請將大檔案託管至 GCS 雲端儲存庫，勿直接提交至 Git。", file=sys.stderr)
+                                print("=" * 70 + "\n", file=sys.stderr)
+                                sys.exit(1)
+        except subprocess.CalledProcessError as e:
+            print(f"[X] 檢查檔案大小失敗 (code {e.returncode})，提交已被阻斷 (Fail-Closed)！", file=sys.stderr)
+            sys.exit(1)
 
-    # B. No Mixed Commits: Prevent mixing system code with course data
-    course_files = [f for f in staged_files if f.startswith("projects/")]
-    code_files = [f for f in staged_files if not f.startswith("projects/")]
+    # B. No Mixed Commits: Prevent mixing system code with course data (case-insensitive)
+    course_files = [f for f in all_staged if is_project_path(f)]
+    code_files = [f for f in all_staged if not is_project_path(f)]
 
     if course_files and code_files:
         print("\n" + "=" * 70, file=sys.stderr)

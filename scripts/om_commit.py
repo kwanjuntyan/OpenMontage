@@ -69,7 +69,7 @@ def generate_course_commit_msg(project_files: list[str]) -> str:
 
     for f in project_files:
         parts = f.split("/")
-        if len(parts) >= 2 and parts[0] == "projects":
+        if len(parts) >= 2 and parts[0].lower() == "projects":
             project_ids.add(parts[1])
             filename = parts[-1]
             if "manifest" in filename:
@@ -149,12 +149,12 @@ def main():
         print("[OpenMontage] 乾淨的工作目錄，沒有任何需要提交的改動。 (Working tree clean)")
         return
 
-    # Check for already staged files in index
-    staged_course = [p for idx, _, p in status_items if idx not in (" ", "?") and p.startswith("projects/")]
-    staged_code = [p for idx, _, p in status_items if idx not in (" ", "?") and not p.startswith("projects/")]
+    # Check for already staged files in index (case-insensitive for Windows)
+    staged_course = [p for idx, _, p in status_items if idx not in (" ", "?") and p.lower().startswith("projects/")]
+    staged_code = [p for idx, _, p in status_items if idx not in (" ", "?") and not p.lower().startswith("projects/")]
 
-    all_course = [p for _, _, p in status_items if p.startswith("projects/")]
-    all_code = [p for _, _, p in status_items if not p.startswith("projects/")]
+    all_course = [p for _, _, p in status_items if p.lower().startswith("projects/")]
+    all_code = [p for _, _, p in status_items if not p.lower().startswith("projects/")]
 
     print("\n" + "=" * 60)
     print("[OpenMontage 智慧提交助手]")

@@ -209,3 +209,16 @@ def test_backlot_sync_gcs_endpoint(tmp_path, monkeypatch):
         assert data["ok"] is True
         assert data["status"] == "sync_started"
         assert sync_called.is_set()
+
+
+def test_is_configured_checks_bucket_existence(monkeypatch):
+    """Verifies that is_configured returns False if bucket.exists() returns False (R2-7)."""
+    storage = GCSStorage(bucket_name="nonexistent-bucket")
+    fake_bucket = MagicMock()
+    fake_bucket.exists.return_value = False
+    storage._client = MagicMock()
+    storage._client.bucket.return_value = fake_bucket
+
+    monkeypatch.setattr("google.cloud.storage.Client", lambda *a, **kw: storage._client)
+    assert storage.is_configured() is False
+
