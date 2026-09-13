@@ -9,6 +9,9 @@ from __future__ import annotations
 
 import io
 import json
+import os
+import subprocess
+import sys
 import time
 from pathlib import Path
 
@@ -71,7 +74,23 @@ def _make_project(root: Path, project_id: str = "film") -> Path:
             "stage": "script",
             "status": "awaiting_human",
             "timestamp": "2026-07-02T00:01:00Z",
-            "artifacts": {},
+            "human_approval_required": True,
+            "human_approved": False,
+            "artifacts": {
+                "script": {
+                    "version": "1.0",
+                    "title": "Film",
+                    "total_duration_seconds": 1,
+                    "sections": [
+                        {
+                            "id": "s1",
+                            "text": "Awaiting review.",
+                            "start_seconds": 0,
+                            "end_seconds": 1,
+                        }
+                    ],
+                }
+            },
         },
     )
     return project
@@ -108,6 +127,82 @@ class TestBacklotServerApi:
         assert state_body["project_id"] == "film"
         assert state_body["title"] == "Film"
         assert state_body["stages"]
+
+    def test_projects_api_ignores_linked_project_directory(self, client, projects_root):
+        """The cached API enumeration must not bypass project-root identity."""
+        _make_project(projects_root, "film")
+        outside = projects_root.parent / "outside-secret"
+        _make_project(outside.parent, outside.name)
+        link = projects_root / "linked-secret"
+        is_junction = False
+        try:
+            link.symlink_to(outside, target_is_directory=True)
+        except OSError:
+            if sys.platform != "win32":
+                pytest.skip("Directory link creation is not permitted")
+            created = subprocess.run(
+                ["cmd", "/c", "mklink", "/J", str(link), str(outside)],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            if created.returncode != 0:
+                pytest.fail(
+                    "Could not create Windows junction probe: "
+                    f"{created.stderr or created.stdout}"
+                )
+            is_junction = True
+
+        # A stale cache entry must not resurrect an invalid directory alias.
+        server_mod._summary_cache[link.name] = {
+            "project_id": link.name,
+            "title": "Secret",
+            "pipeline_type": "cinematic",
+            "has_pipeline_state": True,
+            "poster": None,
+            "live": False,
+            "last_activity": 0,
+            "active_stage": None,
+            "awaiting_human": False,
+            "stage_states": [],
+            "completed_count": 0,
+            "render_count": 0,
+            "scene_count": 0,
+        }
+        try:
+            response = client.get("/api/projects")
+            assert response.status_code == 200
+            assert [item["project_id"] for item in response.json()] == ["film"]
+            assert link.name not in server_mod._summary_cache
+        finally:
+            if is_junction and link.exists():
+                os.rmdir(link)
+            elif link.is_symlink():
+                link.unlink()
+
+    def test_invalid_nan_checkpoint_lifecycle_remains_json_safe(self, client, projects_root):
+        project = _make_project(projects_root, "nan-state")
+        current = json.loads((project / "checkpoint_script.json").read_text())
+        current["timestamp"] = float("nan")
+        current["status"] = "completed"
+        _write_json(project / "checkpoint_script.json", current)
+        _write_json(
+            project / "history" / "checkpoint_script_20260913T000000Z.json",
+            {"status": "completed", "timestamp": float("nan")},
+        )
+
+        response = client.get("/api/project/nan-state/state")
+
+        assert response.status_code == 200
+        script_stage = next(
+            stage for stage in response.json()["stages"] if stage["name"] == "script"
+        )
+        assert script_stage["status"] == "invalid"
+        assert script_stage["timestamp"] is None
+        assert script_stage["history_entries"][-1] == {
+            "status": "invalid",
+            "timestamp": None,
+        }
 
     @pytest.mark.parametrize(
         ("url", "status"),
@@ -256,3 +351,54 @@ class TestFindingsFixes:
         res_a = client.get("/media/manifest-test/assets/audio/sc01.mp3", follow_redirects=False)
         assert res_a.status_code == 302
         assert res_a.headers["location"] == "https://storage.googleapis.com/my-bucket/projects/manifest-test/assets/audio/sc01.mp3"
+
+    def test_gcs_registry_symlink_cannot_escape_project(self, client, projects_root):
+        project = _make_project(projects_root, "contained-registry")
+        outside_dir = projects_root.parent / "outside-registry"
+        outside = outside_dir / "character_design.json"
+        _write_json(
+            outside,
+            {
+                "characters": [
+                    {
+                        "id": "hero",
+                        "image": "clp/hero.png",
+                        "gcs_url": "https://outside.invalid/escaped.png",
+                    }
+                ]
+            },
+        )
+        registry = project / "artifacts" / "character_design.json"
+        linked_artifacts = project / "artifacts"
+        is_junction = False
+        try:
+            registry.symlink_to(outside)
+        except OSError:
+            if sys.platform != "win32":
+                pytest.skip("File symlink creation is not permitted")
+            linked_artifacts.rmdir()
+            created = subprocess.run(
+                ["cmd", "/c", "mklink", "/J", str(linked_artifacts), str(outside_dir)],
+                capture_output=True,
+                text=True,
+                check=False,
+            )
+            if created.returncode != 0:
+                pytest.fail(
+                    "Could not create Windows junction probe: "
+                    f"{created.stderr or created.stdout}"
+                )
+            is_junction = True
+
+        try:
+            response = client.get(
+                "/media/contained-registry/clp/hero.png", follow_redirects=False
+            )
+
+            assert response.status_code == 404
+            assert response.headers.get("location") != "https://outside.invalid/escaped.png"
+        finally:
+            if is_junction and linked_artifacts.exists():
+                os.rmdir(linked_artifacts)
+            elif registry.is_symlink():
+                registry.unlink()

@@ -33,12 +33,17 @@ def _approve_predecessors(tmp_path, project_id, pipeline_type, *stages) -> None:
 
     for stage in stages:
         artifact_name = CANONICAL_STAGE_ARTIFACTS[stage]
+        artifacts = {artifact_name: sample_artifact(artifact_name)}
+        if stage == "clp":
+            artifacts["clp_candidates"] = sample_artifact("clp_candidates")
+        elif stage == "scene_plan" and pipeline_type == "cinematic":
+            artifacts["clp_shot_bindings"] = sample_artifact("clp_shot_bindings")
         write_checkpoint(
             tmp_path,
             project_id,
             stage,
             "completed",
-            artifacts={artifact_name: sample_artifact(artifact_name)},
+            artifacts=artifacts,
             pipeline_type=pipeline_type,
             human_approved=True,
         )

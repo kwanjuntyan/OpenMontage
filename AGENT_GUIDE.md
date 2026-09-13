@@ -187,7 +187,7 @@ The agent itself orchestrates the production state machine:
 The agent:
 
 1. Reads the pipeline manifest (`pipeline_defs/*.yaml`) to know the process
-2. Calls `checkpoint.get_next_stage()` to find where to resume
+2. Calls `checkpoint.get_next_stage(pipeline_dir, project_name, pipeline_type)` to find where to resume using the selected manifest's exact DAG
 3. Reads the stage's director skill (`skills/pipelines/<pipeline>/<stage>-director.md`) to know HOW
 4. Uses tools (`tools/`) for concrete capabilities
 5. Self-reviews using the reviewer meta skill (`skills/meta/reviewer.md`)

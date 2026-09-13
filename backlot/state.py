@@ -48,6 +48,19 @@ def _read_json(path: Path) -> Optional[dict]:
         return None
 
 
+def _read_contained_project_json(project_dir: Path, path: Path) -> Optional[dict]:
+    """Read one regular JSON file only when its resolved target stays local."""
+    try:
+        root = Path(project_dir).resolve()
+        resolved = Path(path).resolve(strict=True)
+        resolved.relative_to(root)
+    except (ValueError, OSError):
+        return None
+    if not resolved.is_file():
+        return None
+    return _read_json(resolved)
+
+
 def _rel(project_dir: Path, path: Path) -> str:
     """Project-relative POSIX path for media URLs."""
     try:
@@ -107,28 +120,56 @@ def _resolve_artifact(project_dir: Path, value: Any) -> Optional[dict]:
         p = Path(value)
         if not p.is_absolute():
             p = project_dir / value
-        try:
-            p.resolve().relative_to(Path(project_dir).resolve())
-        except (ValueError, OSError):
-            return None
-        return _read_json(p)
+        return _read_contained_project_json(project_dir, p)
     return None
 
 
 def _collect_checkpoints(project_dir: Path) -> dict[str, dict]:
-    """Current checkpoint per stage (raw dicts, unvalidated by design)."""
+    """Current checkpoint per stage, validated under its physical project root.
+
+    Loader metadata must never be inserted into the checkpoint object.  Gate
+    verification validates the full envelope with ``additionalProperties:
+    false``; mutating the object here and later stripping private-looking keys
+    would make a malicious on-disk ``_...`` field indistinguishable from
+    trusted BoardState metadata.
+    """
     out: dict[str, dict] = {}
     for path in sorted(project_dir.glob("checkpoint_*.json")):
         stage = path.stem[len("checkpoint_"):]
-        data = _read_json(path)
-        if data is not None:
-            data["_mtime"] = path.stat().st_mtime
+        data = _read_contained_project_json(project_dir, path)
+        if data is None:
+            continue
+        try:
+            if data.get("project_id") != project_dir.name or data.get("stage") != stage:
+                raise ValueError(
+                    "checkpoint filename/project identity does not match its envelope"
+                )
+            from lib.checkpoint import validate_checkpoint
+
+            # Lifecycle truth must match runtime resume exactly.  Validate the
+            # raw envelope; do not make a path-backed legacy artifact look valid
+            # merely because the board can materialize it for display.
+            validate_checkpoint(data, pipeline_dir=project_dir.parent)
             out[stage] = data
+        except Exception as exc:
+            # Preserve the raw envelope for diagnostics, but make invalidity a
+            # trusted BoardState annotation and never honor lifecycle/approval
+            # fields from the rejected checkpoint.
+            rejected = dict(data)
+            rejected["_checkpoint_invalid"] = True
+            rejected["_checkpoint_validation_error"] = str(exc)
+            out[stage] = rejected
     return out
 
 
 def _collect_history(project_dir: Path) -> dict[str, list[dict]]:
-    """Archived checkpoint versions per stage (oldest first)."""
+    """Archived lifecycle snapshots per stage (oldest first).
+
+    History drives display replay only; it is never authority. Keep only a
+    schema-safe status/timestamp pair so malformed NaN/Infinity or forged raw
+    lifecycle fields cannot break JSON serialization or overwrite an invalid
+    current state during replay.
+    """
     history_dir = project_dir / "history"
     out: dict[str, list[dict]] = {}
     if not history_dir.is_dir():
@@ -136,53 +177,228 @@ def _collect_history(project_dir: Path) -> dict[str, list[dict]]:
     for path in sorted(history_dir.glob("checkpoint_*.json")):
         m = re.match(r"checkpoint_(.+?)_\d", path.stem)
         stage = m.group(1) if m else path.stem[len("checkpoint_"):]
-        data = _read_json(path)
+        data = _read_contained_project_json(project_dir, path)
         if data is not None:
-            out.setdefault(stage, []).append(data)
+            status = data.get("status")
+            timestamp = data.get("timestamp")
+            valid = status in {
+                "pending",
+                "in_progress",
+                "awaiting_human",
+                "completed",
+                "failed",
+            }
+            if valid:
+                try:
+                    from lib.checkpoint import _validate_rfc3339_timestamp
+
+                    _validate_rfc3339_timestamp(timestamp, "history timestamp")
+                except Exception:
+                    valid = False
+            out.setdefault(stage, []).append({
+                "status": status if valid else "invalid",
+                "timestamp": timestamp if valid else None,
+            })
     return out
+
+
+def _checkpoint_mtime(project_dir: Path, stage: str) -> float:
+    """Return checkpoint freshness without contaminating its JSON envelope."""
+    try:
+        root = Path(project_dir).resolve()
+        path = (root / f"checkpoint_{stage}.json").resolve(strict=True)
+        path.relative_to(root)
+        return path.stat().st_mtime if path.is_file() else 0.0
+    except (ValueError, OSError):
+        return 0.0
+
+
+def _resolve_checkpoint_artifacts(
+    project_dir: Optional[Path], checkpoint: dict[str, Any]
+) -> Optional[dict[str, dict]]:
+    """Resolve every artifact in one checkpoint without leaving its project root.
+
+    The board accepts both inline artifact objects and legacy/project-relative
+    JSON paths.  Gate evidence must never mix a raw checkpoint value with an
+    artifact discovered elsewhere on the board, so resolution is performed
+    against the checkpoint's own artifact map and fails closed as a unit.
+    """
+    raw_artifacts = checkpoint.get("artifacts")
+    if not isinstance(raw_artifacts, dict):
+        return None
+
+    resolved: dict[str, dict] = {}
+    for name, value in raw_artifacts.items():
+        if not isinstance(name, str) or not name:
+            return None
+        if isinstance(value, dict):
+            artifact = value
+        elif project_dir is not None:
+            artifact = _resolve_artifact(project_dir, value)
+        else:
+            artifact = None
+        if not isinstance(artifact, dict):
+            return None
+        resolved[name] = artifact
+    return resolved
+
+
+def _resolved_checkpoint(
+    project_dir: Optional[Path], checkpoint: Any
+) -> Optional[dict[str, Any]]:
+    """Materialize one schema-facing checkpoint without BoardState metadata."""
+    if not isinstance(checkpoint, dict):
+        return None
+    resolved_artifacts = _resolve_checkpoint_artifacts(project_dir, checkpoint)
+    if resolved_artifacts is None:
+        return None
+    # Copy every raw key. Unknown fields (including names beginning with an
+    # underscore) must reach the shared checkpoint schema and fail closed.
+    clean_checkpoint = dict(checkpoint)
+    clean_checkpoint["artifacts"] = resolved_artifacts
+    return clean_checkpoint
+
+
+def _resolved_predecessor_checkpoint(
+    project_dir: Optional[Path],
+    checkpoints: dict[str, dict],
+) -> Optional[dict[str, Any]]:
+    """Resolve the exact script checkpoint within the current project root.
+
+    This helper only materializes the candidate bundle.  The shared gate verifier
+    remains the single authority for checkpoint identity, status, approval,
+    schema, and provenance validation.
+    """
+    script_checkpoint = checkpoints.get("script")
+    resolved = _resolved_checkpoint(project_dir, script_checkpoint)
+    if not isinstance(resolved, dict):
+        return None
+    artifacts = resolved.get("artifacts")
+    if not isinstance(artifacts, dict) or not isinstance(artifacts.get("script"), dict):
+        return None
+    return resolved
+
+
+def _has_valid_zero_entity_auto_pass(
+    project_dir: Optional[Path],
+    checkpoint: Any,
+    checkpoints: dict[str, dict],
+) -> bool:
+    """Use the shared gate verifier with one project-root-resolved bundle."""
+    if not isinstance(checkpoint, dict) or project_dir is None:
+        return False
+    try:
+        from lib.identity import resolve_project_dir
+
+        requested_project_dir = Path(project_dir)
+        physical_project_id = requested_project_dir.name
+        safe_project_dir = resolve_project_dir(
+            requested_project_dir.parent, physical_project_id
+        )
+        if checkpoint.get("project_id") != physical_project_id:
+            return False
+
+        resolved_checkpoint = _resolved_checkpoint(safe_project_dir, checkpoint)
+        if resolved_checkpoint is None:
+            return False
+        resolved_artifacts = resolved_checkpoint["artifacts"]
+        predecessor_checkpoint = _resolved_predecessor_checkpoint(
+            safe_project_dir, checkpoints
+        )
+        if predecessor_checkpoint is None:
+            return False
+        if predecessor_checkpoint.get("project_id") != physical_project_id:
+            return False
+
+        from lib.checkpoint import verify_gate_resolution
+
+        is_valid, _ = verify_gate_resolution(
+            resolved_checkpoint,
+            resolved_artifacts,
+            predecessor_checkpoint=predecessor_checkpoint,
+            pipeline_dir=safe_project_dir.parent,
+        )
+        return bool(is_valid)
+    except Exception:
+        # BoardState is observational.  Truncated, malformed, or path-escaped
+        # evidence degrades to an unverified badge and must never break the board.
+        return False
 
 
 def _build_stage_rail(
     pipeline_meta: dict,
     checkpoints: dict[str, dict],
     history: dict[str, list[dict]],
+    project_dir: Optional[Path] = None,
 ) -> list[dict]:
     """One entry per manifest stage with derived status + gate audit."""
     rail = []
     manifest_stage_names = {s["name"] for s in pipeline_meta["stages"]}
     for stage_def in pipeline_meta["stages"]:
         name = stage_def["name"]
-        cp = checkpoints.get(name)
+        raw_checkpoint = checkpoints.get(name)
+        cp = raw_checkpoint if isinstance(raw_checkpoint, dict) else None
         versions = history.get(name, [])
-        status = cp.get("status") if cp else "pending"
+        checkpoint_invalid = bool(cp and cp.get("_checkpoint_invalid"))
+        status = "invalid" if checkpoint_invalid else (cp.get("status") if cp else "pending")
+        metadata = (
+            cp.get("metadata")
+            if isinstance(cp, dict) and not checkpoint_invalid
+            else None
+        )
         entry: dict[str, Any] = {
             "name": name,
             "gated": stage_def["gated"],
             "produces": list(stage_def.get("produces") or []),
             "status": status or "pending",
-            "timestamp": cp.get("timestamp") if cp else None,
-            "review": cp.get("review") if cp else None,
-            "cost_snapshot": cp.get("cost_snapshot") if cp else None,
-            "error": cp.get("error") if cp else None,
-            "human_approved": cp.get("human_approved") if cp else None,
-            "partial_progress": (cp.get("metadata") or {}).get("partial_progress") if cp else None,
+            "timestamp": cp.get("timestamp") if cp and not checkpoint_invalid else None,
+            "review": cp.get("review") if cp and not checkpoint_invalid else None,
+            "cost_snapshot": cp.get("cost_snapshot") if cp and not checkpoint_invalid else None,
+            "error": (
+                cp.get("_checkpoint_validation_error")
+                if checkpoint_invalid
+                else (cp.get("error") if cp else None)
+            ),
+            "human_approved": cp.get("human_approved") if cp and not checkpoint_invalid else None,
+            "gate_resolution": cp.get("gate_resolution") if cp and not checkpoint_invalid else None,
+            "checkpoint_invalid": checkpoint_invalid,
+            "partial_progress": metadata.get("partial_progress") if isinstance(metadata, dict) else None,
             "versions": len(versions) + (1 if cp else 0),
             # Chronological status trail (history + current) — powers replay.
             "history_entries": (
                 [{"status": v.get("status"), "timestamp": v.get("timestamp")} for v in versions]
-                + ([{"status": cp.get("status"), "timestamp": cp.get("timestamp")}] if cp else [])
+                + ([{
+                    "status": "invalid" if checkpoint_invalid else cp.get("status"),
+                    "timestamp": None if checkpoint_invalid else cp.get("timestamp"),
+                }] if cp else [])
             ),
         }
-        # Gate audit: a gated stage that completed without ever passing
-        # through awaiting_human (current or archived) was gate-skipped.
-        if (
-            stage_def["gated"]
-            and cp is not None
-            and cp.get("status") == "completed"
-        ):
-            saw_wait = any(v.get("status") == "awaiting_human" for v in versions)
-            approved = bool(cp.get("human_approved"))
-            entry["gate_skipped"] = not (saw_wait or approved)
+        # CLP gate truth comes exclusively from the shared verifier, supplied
+        # with artifacts and its predecessor resolved within this project root.
+        is_verified_auto_passed = not checkpoint_invalid and name == "clp" and _has_valid_zero_entity_auto_pass(
+            project_dir, cp, checkpoints
+        )
+
+        if is_verified_auto_passed:
+            entry["auto_passed"] = True
+            entry["gate_skipped"] = False
+        else:
+            entry["auto_passed"] = False
+            if (
+                not checkpoint_invalid
+                and
+                cp is not None
+                and cp.get("status") == "completed"
+                and cp.get("human_approved") is not True
+                and (stage_def["gated"] or name == "clp")
+            ):
+                # Historical ``awaiting_human`` is evidence that a gate was
+                # reached, never evidence that a human approved it.  An
+                # unapproved completed CLP checkpoint is also a skip unless the
+                # shared typed zero-entity verifier accepted it above.
+                entry["gate_skipped"] = True
+            else:
+                entry["gate_skipped"] = False
         rail.append(entry)
 
     # Checkpoints for stages the manifest doesn't declare (legacy runs,
@@ -192,6 +408,7 @@ def _build_stage_rail(
     for name, cp in checkpoints.items():
         if name in manifest_stage_names:
             continue
+        checkpoint_invalid = bool(cp.get("_checkpoint_invalid"))
         entry = {
             "name": name,
             "gated": False,
@@ -200,12 +417,13 @@ def _build_stage_rail(
                 for artifact_name in (cp.get("artifacts") or {})
                 if isinstance(artifact_name, str) and artifact_name
             ],
-            "status": cp.get("status") or "unknown",
-            "timestamp": cp.get("timestamp"),
-            "review": cp.get("review"),
-            "cost_snapshot": cp.get("cost_snapshot"),
-            "error": cp.get("error"),
-            "human_approved": cp.get("human_approved"),
+            "status": "invalid" if checkpoint_invalid else (cp.get("status") or "unknown"),
+            "timestamp": None if checkpoint_invalid else cp.get("timestamp"),
+            "review": None if checkpoint_invalid else cp.get("review"),
+            "cost_snapshot": None if checkpoint_invalid else cp.get("cost_snapshot"),
+            "error": cp.get("_checkpoint_validation_error") if checkpoint_invalid else cp.get("error"),
+            "human_approved": None if checkpoint_invalid else cp.get("human_approved"),
+            "checkpoint_invalid": checkpoint_invalid,
             "partial_progress": None,
             "versions": 1 + len(history.get(name, [])),
             "undeclared": True,
@@ -241,30 +459,94 @@ ARTIFACT_FILES = {
     "publish_log": "publish_log.json",
     "decision_log": "decision_log.json",
     "character_design": "character_design.json",
+    "clp_manifest": "clp_manifest.json",
+    "clp_candidates": "clp_candidates.json",
+    "clp_shot_bindings": "clp_shot_bindings.json",
+}
+
+CLP_ARTIFACT_OWNERS = {
+    "clp_manifest": "clp",
+    "clp_candidates": "clp",
+    "clp_shot_bindings": "scene_plan",
 }
 
 
-def _collect_artifacts(project_dir: Path, checkpoints: dict[str, dict]) -> dict[str, dict]:
-    """Artifacts from artifacts/*.json, backfilled from checkpoint payloads."""
+def _collect_artifacts(
+    project_dir: Path, checkpoints: dict[str, dict]
+) -> tuple[dict[str, dict], list[dict[str, str]]]:
+    """Collect display artifacts without creating a second CLP truth source.
+
+    Ordinary standalone artifacts retain their historical precedence.  CLP
+    artifacts are different: runtime execution is authorized by validated
+    owning checkpoints, so a standalone file is only a cache and can never
+    override (or substitute for) that checkpoint authority.
+    """
     artifacts: dict[str, dict] = {}
+    diagnostics: list[dict[str, str]] = []
     art_dir = project_dir / "artifacts"
     for name, filename in ARTIFACT_FILES.items():
-        data = _read_json(art_dir / filename)
+        if name in CLP_ARTIFACT_OWNERS:
+            continue
+        data = _read_contained_project_json(project_dir, art_dir / filename)
         if data is not None:
             artifacts[name] = data
     # decision_log historically also lives at project root
     if "decision_log" not in artifacts:
-        data = _read_json(project_dir / "decision_log.json")
+        data = _read_contained_project_json(
+            project_dir, project_dir / "decision_log.json"
+        )
         if data is not None:
             artifacts["decision_log"] = data
     # Backfill from checkpoint-embedded artifacts.
     for cp in checkpoints.values():
+        if cp.get("_checkpoint_invalid"):
+            continue
         for name, value in (cp.get("artifacts") or {}).items():
+            if name in CLP_ARTIFACT_OWNERS:
+                continue
             if name not in artifacts:
                 resolved = _resolve_artifact(project_dir, value)
                 if resolved is not None:
                     artifacts[name] = resolved
-    return artifacts
+
+    from lib.clp_validator import canonical_digest
+
+    for name, owner_stage in CLP_ARTIFACT_OWNERS.items():
+        cache = _read_contained_project_json(
+            project_dir, art_dir / ARTIFACT_FILES[name]
+        )
+        checkpoint = checkpoints.get(owner_stage) or {}
+        authoritative = None
+        if not checkpoint.get("_checkpoint_invalid"):
+            authoritative = _resolve_artifact(
+                project_dir, (checkpoint.get("artifacts") or {}).get(name)
+            )
+        if authoritative is None:
+            if cache is not None:
+                diagnostics.append({
+                    "artifact": name,
+                    "status": "untrusted_cache_ignored",
+                    "reason": f"missing valid checkpoint_{owner_stage}.json authority",
+                })
+            continue
+        artifacts[name] = authoritative
+        if cache is not None:
+            try:
+                cache_matches = canonical_digest(cache) == canonical_digest(authoritative)
+            except (TypeError, ValueError):
+                diagnostics.append({
+                    "artifact": name,
+                    "status": "invalid_cache_ignored",
+                    "reason": "standalone cache is not canonical JSON",
+                })
+            else:
+                if not cache_matches:
+                    diagnostics.append({
+                        "artifact": name,
+                        "status": "cache_mismatch_ignored",
+                        "reason": f"checkpoint_{owner_stage}.json remains authoritative",
+                    })
+    return artifacts, diagnostics
 
 
 # ---------------------------------------------------------------------------
@@ -535,8 +817,8 @@ def _scan_media(project_dir: Path) -> dict[str, list[dict]]:
     return {"renders": renders, "snapshots": snapshots, "music": music}
 
 
-def _derive_characters(project_dir: Path, artifacts: dict) -> list[dict]:
-    """Derive character look profiles (CLP) from artifacts or local clp/ directory."""
+def _derive_characters_legacy(project_dir: Path, artifacts: dict) -> list[dict]:
+    """Legacy character parser for older character_design / characters.json artifacts."""
     chars: list[dict] = []
     # Source 1: character_design artifact
     cd = artifacts.get("character_design")
@@ -618,6 +900,111 @@ def _derive_characters(project_dir: Path, artifacts: dict) -> list[dict]:
     return chars
 
 
+def _derive_clp(
+    project_dir: Path,
+    artifacts: dict,
+    artifact_diagnostics: Optional[list[dict[str, str]]] = None,
+) -> dict[str, list[dict]]:
+    """Derive full Character, Location, Prop (CLP) profiles from clp_manifest or legacy sources."""
+    clp_data: dict[str, list[dict]] = {
+        "characters": [],
+        "locations": [],
+        "props": [],
+    }
+
+    def _resolve_asset_image(item: dict, category: str) -> None:
+        raw_img = item.get("image") or item.get("asset_path") or item.get("portrait")
+        if raw_img:
+            p = project_dir / str(raw_img)
+            if p.is_file():
+                item["image"] = _rel(project_dir, p)
+            elif not str(raw_img).startswith(("http://", "https://", "//")) and item.get("gcs_url"):
+                item["image"] = item["gcs_url"]
+            else:
+                item["image"] = str(raw_img)
+        elif item.get("gcs_url"):
+            item["image"] = item["gcs_url"]
+
+        if not item.get("image"):
+            iid = str(item.get("id", "")).lower()
+            iname = str(item.get("name", "")).lower()
+            search_dirs = [
+                project_dir / "assets" / "clp" / category,
+                project_dir / "clp" / category,
+                project_dir / "clp",
+                project_dir / "assets" / "images",
+            ]
+            for sdir in search_dirs:
+                if sdir.is_dir():
+                    for pattern in (f"*{iid}*", f"*{iname}*"):
+                        matches = list(sdir.glob(pattern))
+                        found = next((m for m in matches if m.suffix.lower() in MEDIA_IMAGE_EXT and m.is_file()), None)
+                        if found:
+                            item["image"] = _rel(project_dir, found)
+                            break
+                if item.get("image"):
+                    break
+
+        img = item.get("image")
+        if img and not str(img).startswith(("http://", "https://", "//")):
+            if not (project_dir / img).is_file() and item.get("gcs_url"):
+                item["image"] = item["gcs_url"]
+        elif not img and item.get("gcs_url"):
+            item["image"] = item["gcs_url"]
+
+    # Source 1: only the owning checkpoint's validated CLP artifact. Standalone
+    # files are cache copies evaluated by `_collect_artifacts`, never authority.
+    manifest = artifacts.get("clp_manifest")
+    if isinstance(manifest, dict):
+        for cat in ("characters", "locations", "props"):
+            entries = manifest.get(cat)
+            if isinstance(entries, list):
+                for entry in entries:
+                    if isinstance(entry, dict):
+                        item = dict(entry)
+                        _resolve_asset_image(item, cat)
+                        clp_data[cat].append(item)
+        # If manifest is present, it is authoritative (even if explicitly empty)
+        return clp_data
+
+    # A modern standalone CLP file rejected as untrusted/mismatched must not be
+    # re-read here or indirectly replaced by a legacy scan. Keep the cabinets
+    # empty until a valid owning checkpoint establishes authority.
+    if any(
+        item.get("artifact") == "clp_manifest"
+        for item in (artifact_diagnostics or [])
+    ):
+        return clp_data
+
+    # Source 2: Legacy fallback
+    clp_data["characters"] = _derive_characters_legacy(project_dir, artifacts)
+
+    # Source 3: Heuristic scan of clp/ subdirectories
+    for cat in ("characters", "locations", "props"):
+        if not clp_data[cat]:
+            cat_dir = project_dir / "clp" / cat
+            if not cat_dir.is_dir():
+                cat_dir = project_dir / "assets" / "clp" / cat
+            if cat_dir.is_dir():
+                for f in sorted(cat_dir.iterdir()):
+                    if f.suffix.lower() in MEDIA_IMAGE_EXT and f.is_file():
+                        stem = f.stem.lower()
+                        clean_name = stem.replace("clp_", "").replace("_", " ").title()
+                        clp_data[cat].append({
+                            "id": stem,
+                            "name": clean_name,
+                            "policy": "strict_reference",
+                            "image": _rel(project_dir, f),
+                        })
+
+    return clp_data
+
+
+def _derive_characters(project_dir: Path, artifacts: dict) -> list[dict]:
+    """Derive character look profiles (backward compatibility alias)."""
+    return _derive_clp(project_dir, artifacts).get("characters", [])
+
+
 def _find_poster(project_dir: Path, state: dict) -> Optional[str]:
     """Best poster for the library card (image path, or a video path —
     the /thumb endpoint extracts a frame from videos)."""
@@ -674,8 +1061,12 @@ def load_board_state(project_dir: Path) -> dict[str, Any]:
     project_dir = Path(project_dir)
     project_id = project_dir.name
 
-    marker = _read_json(project_dir / "project.json") or {}
-    meta_json = _read_json(project_dir / "meta.json") or {}
+    marker = _read_contained_project_json(
+        project_dir, project_dir / "project.json"
+    ) or {}
+    meta_json = _read_contained_project_json(
+        project_dir, project_dir / "meta.json"
+    ) or {}
 
     checkpoints = _collect_checkpoints(project_dir)
     history = _collect_history(project_dir)
@@ -683,22 +1074,35 @@ def load_board_state(project_dir: Path) -> dict[str, Any]:
     pipeline_type = marker.get("pipeline_type")
     if not pipeline_type:
         for cp in checkpoints.values():
+            if cp.get("_checkpoint_invalid"):
+                continue
             pt = cp.get("pipeline_type")
             if pt and pt != "unknown":
                 pipeline_type = pt
                 break
     pipeline_meta = _load_pipeline_meta(pipeline_type)
 
-    artifacts = _collect_artifacts(project_dir, checkpoints)
+    artifacts, artifact_diagnostics = _collect_artifacts(project_dir, checkpoints)
     events = read_events(project_dir, limit=250)
     storyboard = _build_storyboard(project_dir, artifacts, events)
     media = _scan_media(project_dir)
 
-    stages = _build_stage_rail(pipeline_meta, checkpoints, history)
+    stages = _build_stage_rail(
+        pipeline_meta, checkpoints, history, project_dir=project_dir
+    )
 
     # Cost: latest checkpoint snapshot wins; fall back to manifest total.
     cost = None
-    for cp in sorted(checkpoints.values(), key=lambda c: c.get("_mtime", 0), reverse=True):
+    # Filesystem freshness is BoardState metadata, not checkpoint payload.
+    # Keep it out of the schema-facing envelope and derive it independently.
+    checkpoint_items = sorted(
+        checkpoints.items(),
+        key=lambda item: _checkpoint_mtime(project_dir, item[0]),
+        reverse=True,
+    )
+    for _, cp in checkpoint_items:
+        if cp.get("_checkpoint_invalid"):
+            continue
         if cp.get("cost_snapshot"):
             cost = cp["cost_snapshot"]
             break
@@ -721,6 +1125,7 @@ def load_board_state(project_dir: Path) -> dict[str, Any]:
             stage_entry["stalled"] = True
             stage_entry["stalled_minutes"] = int((now - last_activity) / 60)
 
+    clp_data = _derive_clp(project_dir, artifacts, artifact_diagnostics)
     state: dict[str, Any] = {
         "project_id": project_id,
         "title": marker.get("title") or meta_json.get("name") or project_id.replace("-", " ").title(),
@@ -731,7 +1136,9 @@ def load_board_state(project_dir: Path) -> dict[str, Any]:
         "has_pipeline_state": bool(checkpoints),
         "stages": stages,
         "artifacts": artifacts,
-        "characters": _derive_characters(project_dir, artifacts),
+        "artifact_diagnostics": artifact_diagnostics,
+        "clp": clp_data,
+        "characters": clp_data.get("characters", []),
         "storyboard": storyboard,
         "media": media,
         "events": events,
@@ -778,7 +1185,14 @@ def list_projects(projects_dir: Optional[Path] = None) -> list[dict[str, Any]]:
         if not entry.is_dir() or entry.name.startswith(("_", ".")):
             continue
         try:
-            summaries.append(summarize_project(entry))
+            from lib.identity import InvalidProjectIdError, resolve_project_dir
+
+            safe_entry = resolve_project_dir(root, entry.name)
+            summaries.append(summarize_project(safe_entry))
+        except InvalidProjectIdError:
+            # A linked alias is not a project entry, even when Path.is_dir()
+            # follows it successfully.
+            continue
         except Exception:
             summaries.append({
                 "project_id": entry.name,

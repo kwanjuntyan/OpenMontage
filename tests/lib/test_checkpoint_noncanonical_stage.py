@@ -43,15 +43,22 @@ def test_manifest_declares_noncanonical_stage():
     assert "character_design" in stages
 
 
-def test_noncanonical_stage_does_not_raise_keyerror():
-    # character_design has no canonical artifact; completing it with no
-    # artifacts must validate cleanly rather than crash.
+def test_noncanonical_stage_uses_manifest_contract_without_keyerror():
+    # In-progress heartbeats need no completed output and must not crash just
+    # because the stage is absent from the legacy canonical map.
     validate_checkpoint(
-        _checkpoint("character_design", "completed", {}, "character-animation")
+        _checkpoint("character_design", "in_progress", {}, "character-animation")
     )
     validate_checkpoint(
         _checkpoint("rig_plan", "in_progress", {}, "character-animation")
     )
+
+    # The live manifest now explicitly declares character_design as an output;
+    # completed checkpoints therefore fail closed when it is absent.
+    with pytest.raises(CheckpointValidationError, match="character_design"):
+        validate_checkpoint(
+            _checkpoint("character_design", "completed", {}, "character-animation")
+        )
 
 
 def test_canonical_stage_still_requires_its_artifact():

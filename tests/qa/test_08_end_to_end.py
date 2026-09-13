@@ -30,6 +30,7 @@ from lib.checkpoint import (
 from tools.cost_tracker import CostTracker, BudgetMode
 from schemas.artifacts import validate_artifact, list_schemas
 from styles.playbook_loader import load_playbook, validate_accessibility
+from lib.clp_validator import canonical_digest
 
 OUT = os.path.join(os.path.dirname(__file__), "output")
 PIPELINE_DIR = Path(OUT) / "e2e_pipeline"
@@ -290,9 +291,45 @@ write_checkpoint(
 check("Completed stages", get_completed_stages(PIPELINE_DIR, PROJECT_ID) == ["research", "proposal", "script"])  # research, proposal and script in pipeline order
 
 # ===================================================================
-# Stage 3: scene_plan
+# Stage 3: clp (zero-entity typed auto-pass)
 # ===================================================================
-print("\n--- Stage 3: scene_plan ---")
+print("\n--- Stage 3: clp ---")
+
+clp_manifest = {
+    "version": "2.0",
+    "project_id": PROJECT_ID,
+    "characters": [],
+    "locations": [],
+    "props": [],
+}
+clp_candidates = {
+    "version": "2.0",
+    "project_id": PROJECT_ID,
+    "source_script_sha256": canonical_digest(script),
+    "candidates": {"characters": [], "locations": [], "props": []},
+}
+write_checkpoint(
+    PIPELINE_DIR,
+    PROJECT_ID,
+    "clp",
+    "completed",
+    human_approved=False,
+    artifacts={
+        "clp_manifest": clp_manifest,
+        "clp_candidates": clp_candidates,
+    },
+    pipeline_type="animated-explainer",
+)
+clp_checkpoint = read_checkpoint(PIPELINE_DIR, PROJECT_ID, "clp")
+check(
+    "Zero-entity CLP typed auto-pass",
+    clp_checkpoint["gate_resolution"]["mode"] == "zero_entity_auto",
+)
+
+# ===================================================================
+# Stage 4: scene_plan
+# ===================================================================
+print("\n--- Stage 4: scene_plan ---")
 
 SCENE_TYPES = ["text_card", "diagram", "animation", "generated", "text_card"]
 scene_plan = {
@@ -321,14 +358,28 @@ try:
 except Exception as e:
     check("Scene plan validates against schema", False, str(e))
 
+clp_shot_bindings = {
+    "version": "2.0",
+    "project_id": PROJECT_ID,
+    "source_scene_plan_sha256": canonical_digest(scene_plan),
+    "clp_manifest_sha256": canonical_digest(clp_manifest),
+    "bindings": [
+        {"shot_id": scene["id"], "character_refs": [], "prop_refs": []}
+        for scene in scene_plan["scenes"]
+    ],
+}
+
 write_checkpoint(
     PIPELINE_DIR, PROJECT_ID, "scene_plan", "completed", human_approved=True,
-    artifacts={"scene_plan": scene_plan},
+    artifacts={
+        "scene_plan": scene_plan,
+        "clp_shot_bindings": clp_shot_bindings,
+    },
     pipeline_type="animated-explainer",
 )
 
 # ===================================================================
-# Stage 4: assets (generate fixtures)
+# Stage 5: assets (generate fixtures)
 # ===================================================================
 print("\n--- Stage 4: assets ---")
 

@@ -73,7 +73,8 @@ class TestBoardState:
         _write(p / "checkpoint_script.json", {
             "version": "1.0", "project_id": "film", "pipeline_type": "cinematic",
             "stage": "script", "status": "completed", "timestamp": "2026-01-01T01:00:00Z",
-            "human_approved": True, "artifacts": {},
+            "human_approval_required": True, "human_approved": True,
+            "artifacts": {"script": SCRIPT},
         })
 
         s = load_board_state(p)
@@ -98,7 +99,8 @@ class TestBoardState:
     def test_gate_skip_detection(self, projects_root):
         p = _make_project(projects_root, "sneaky")
         # completed on a gated stage with no awaiting_human history and no
-        # human_approved -> gate_skipped flag
+        # A forged completion is rejected as an invalid checkpoint rather than
+        # honored as lifecycle truth.
         _write(p / "checkpoint_script.json", {
             "version": "1.0", "project_id": "sneaky", "pipeline_type": "cinematic",
             "stage": "script", "status": "completed",
@@ -106,14 +108,17 @@ class TestBoardState:
         })
         s = load_board_state(p)
         script_stage = next(x for x in s["stages"] if x["name"] == "script")
-        assert script_stage["gate_skipped"] is True
+        assert script_stage["status"] == "invalid"
+        assert script_stage["checkpoint_invalid"] is True
+        assert script_stage["gate_skipped"] is False
 
-        # with an archived awaiting_human version, the gate was honored
+        # Historical waiting is not approval and cannot rehabilitate it.
         _write(p / "history" / "checkpoint_script_20260101.json", {
             "stage": "script", "status": "awaiting_human",
         })
         s2 = load_board_state(p)
         script_stage2 = next(x for x in s2["stages"] if x["name"] == "script")
+        assert script_stage2["status"] == "invalid"
         assert script_stage2["gate_skipped"] is False
 
     def test_generating_state_from_events(self, projects_root):
@@ -146,6 +151,9 @@ class TestBoardState:
 
     def test_undeclared_stage_surfaces(self, projects_root):
         p = _make_project(projects_root, "legacy")
+        _write(p / "project.json", {
+            "project_id": "legacy", "title": "Legacy", "pipeline_type": "cinematic"
+        })
         _write(p / "checkpoint_idea.json", {
             "version": "1.0", "project_id": "legacy", "pipeline_type": "cinematic",
             "stage": "idea", "status": "completed",
@@ -154,6 +162,7 @@ class TestBoardState:
         s = load_board_state(p)
         idea = next(x for x in s["stages"] if x["name"] == "idea")
         assert idea.get("undeclared") is True
+        assert idea["status"] == "invalid"
 
 
 class TestLibrary:
@@ -183,10 +192,15 @@ class TestLibrary:
 
     def test_summary_shape(self, projects_root):
         p = _make_project(projects_root, "sum")
-        _write(p / "project.json", {"title": "Sum", "pipeline_type": "cinematic"})
+        _write(p / "project.json", {
+            "project_id": "sum", "title": "Sum", "pipeline_type": "cinematic"
+        })
         _write(p / "checkpoint_script.json", {
+            "version": "1.0", "project_id": "sum", "pipeline_type": "cinematic",
             "stage": "script", "status": "awaiting_human",
-            "timestamp": "2026-01-01T01:00:00Z", "artifacts": {},
+            "timestamp": "2026-01-01T01:00:00Z",
+            "human_approval_required": True, "human_approved": False,
+            "artifacts": {"script": SCRIPT},
         })
         summary = summarize_project(p)
         assert summary["awaiting_human"] is True
@@ -210,7 +224,7 @@ class TestFindingsFixes:
         s = load_board_state(p)
         assert "script" not in s["artifacts"]
 
-    def test_inside_project_absolute_refs_still_resolve(self, projects_root):
+    def test_inside_project_path_backed_checkpoint_matches_runtime_rejection(self, projects_root):
         p = _make_project(projects_root, "abs-ref")
         _write(p / "artifacts" / "inline_script.json", SCRIPT)
         _write(p / "checkpoint_script.json", {
@@ -219,13 +233,16 @@ class TestFindingsFixes:
             "artifacts": {"script": str((p / "artifacts" / "inline_script.json").resolve())},
         })
         s = load_board_state(p)
-        assert s["artifacts"]["script"]["title"] == "Test Film"
+        assert "script" not in s["artifacts"]
+        stage = next(x for x in s["stages"] if x["name"] == "script")
+        assert stage["status"] == "invalid"
 
     def test_stalled_in_progress_stage_flagged(self, projects_root):
         # F-05: an in_progress stage with no recent activity reads stalled.
         import os
         p = _make_project(projects_root, "wedged")
         _write(p / "checkpoint_research.json", {
+            "version": "1.0", "project_id": "wedged", "pipeline_type": "cinematic",
             "stage": "research", "status": "in_progress",
             "timestamp": "2026-01-01T01:00:00Z", "artifacts": {},
         })
@@ -241,6 +258,7 @@ class TestFindingsFixes:
     def test_fresh_in_progress_not_stalled(self, projects_root):
         p = _make_project(projects_root, "busy")
         _write(p / "checkpoint_research.json", {
+            "version": "1.0", "project_id": "busy", "pipeline_type": "cinematic",
             "stage": "research", "status": "in_progress",
             "timestamp": "2026-01-01T01:00:00Z", "artifacts": {},
         })

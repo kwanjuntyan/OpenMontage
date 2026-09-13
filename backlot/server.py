@@ -10,21 +10,29 @@ from __future__ import annotations
 import asyncio
 import json
 import mimetypes
+import os as _os
 import time
 from contextlib import asynccontextmanager, suppress
 from pathlib import Path
 from typing import Optional
 
-# Ensure standard MIME types on Windows (where .js is often mapped to text/plain)
-mimetypes.add_type("application/javascript", ".js")
-mimetypes.add_type("text/javascript", ".js")
-mimetypes.add_type("text/css", ".css")
-
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, HTMLResponse, StreamingResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 
-from backlot.state import PROJECTS_DIR, REPO_ROOT, list_projects, load_board_state, summarize_project
+from backlot.state import (
+    PROJECTS_DIR,
+    REPO_ROOT,
+    _read_contained_project_json,
+    load_board_state,
+    summarize_project,
+)
+from lib.identity import InvalidProjectIdError, resolve_project_dir
+
+# Ensure standard MIME types on Windows (where .js is often mapped to text/plain)
+mimetypes.add_type("application/javascript", ".js")
+mimetypes.add_type("text/javascript", ".js")
+mimetypes.add_type("text/css", ".css")
 
 UI_DIR = Path(__file__).resolve().parent / "ui"
 THUMB_CACHE_DIR = REPO_ROOT / ".backlot" / "thumbs"
@@ -95,10 +103,19 @@ def _cached_summaries() -> list[dict]:
     for entry in sorted(PROJECTS_DIR.iterdir()):
         if not entry.is_dir() or entry.name.startswith(("_", ".")):
             continue
+        try:
+            # The projects API is a separate cached enumeration path, so it
+            # must enforce the same direct-child identity invariant as the
+            # state library.  In-root aliases and out-of-root links are not
+            # projects merely because ``Path.is_dir()`` follows them.
+            safe_entry = resolve_project_dir(PROJECTS_DIR, entry.name)
+        except InvalidProjectIdError:
+            _summary_cache.pop(entry.name, None)
+            continue
         cached = _summary_cache.get(entry.name)
         if cached is None:
             try:
-                cached = summarize_project(entry)
+                cached = summarize_project(safe_entry)
             except Exception:
                 cached = {
                     "project_id": entry.name, "title": entry.name,
@@ -116,8 +133,6 @@ def _cached_summaries() -> list[dict]:
 
 # Watch-loop hot path: pure string comparison, no per-path filesystem calls
 # (change batches can be thousands of paths during a render).
-import os as _os
-
 _PROJECTS_ROOT_STR = _os.path.normcase(str(PROJECTS_DIR.resolve()))
 
 
@@ -266,55 +281,61 @@ def create_app() -> FastAPI:
         filename = Path(file_path).name
         clean_path = file_path.replace("\\", "/").lstrip("/")
 
+        def _objects(data: dict, key: str):
+            values = data.get(key)
+            if not isinstance(values, list):
+                return ()
+            return (value for value in values if isinstance(value, dict))
+
+        def _string(value: object) -> Optional[str]:
+            return value if isinstance(value, str) and value else None
+
         # 1. Check artifacts/asset_manifest.json (unified shot video, audio, image registry)
         manifest_path = project_dir / "artifacts" / "asset_manifest.json"
-        if manifest_path.is_file():
-            try:
-                with open(manifest_path, "r", encoding="utf-8") as f:
-                    manifest = json.load(f)
-                for asset in manifest.get("assets", []):
-                    a_path = asset.get("path", "").replace("\\", "/")
-                    if a_path.endswith(filename) or a_path == clean_path or asset.get("id") == Path(file_path).stem:
-                        if asset.get("gcs_url"):
-                            return asset["gcs_url"]
-            except Exception:
-                pass
+        manifest = _read_contained_project_json(project_dir, manifest_path)
+        if manifest is not None:
+            for asset in _objects(manifest, "assets"):
+                a_path = _string(asset.get("path"))
+                asset_id = _string(asset.get("id"))
+                gcs_url = _string(asset.get("gcs_url"))
+                normalized_path = a_path.replace("\\", "/") if a_path else ""
+                if (
+                    normalized_path.endswith(filename)
+                    or normalized_path == clean_path
+                    or asset_id == Path(file_path).stem
+                ) and gcs_url:
+                    return gcs_url
 
         # 2. Check artifacts/character_design.json for CLP assets
         cd_path = project_dir / "artifacts" / "character_design.json"
-        if cd_path.is_file():
-            try:
-                with open(cd_path, "r", encoding="utf-8") as f:
-                    cd_data = json.load(f)
-                for char in cd_data.get("characters", []):
-                    char_img = Path(char.get("image", "")).name
-                    if char_img == filename or char.get("id") == Path(file_path).stem:
-                        if char.get("gcs_url"):
-                            return char["gcs_url"]
-            except Exception:
-                pass
+        cd_data = _read_contained_project_json(project_dir, cd_path)
+        if cd_data is not None:
+            for char in _objects(cd_data, "characters"):
+                image = _string(char.get("image"))
+                char_img = Path(image).name if image else ""
+                char_id = _string(char.get("id"))
+                gcs_url = _string(char.get("gcs_url"))
+                if (
+                    char_img == filename or char_id == Path(file_path).stem
+                ) and gcs_url:
+                    return gcs_url
 
         # 3. Check artifacts/render_report.json for final render
         render_report_path = project_dir / "artifacts" / "render_report.json"
-        if render_report_path.is_file():
-            try:
-                with open(render_report_path, "r", encoding="utf-8") as f:
-                    rep = json.load(f)
-                if rep.get("output_path", "").endswith(filename) and rep.get("gcs_url"):
-                    return rep["gcs_url"]
-            except Exception:
-                pass
+        rep = _read_contained_project_json(project_dir, render_report_path)
+        if rep is not None:
+            output_path = _string(rep.get("output_path"))
+            gcs_url = _string(rep.get("gcs_url"))
+            if output_path and output_path.endswith(filename) and gcs_url:
+                return gcs_url
 
         # 4. Check project.json for final render
         project_json_path = project_dir / "project.json"
-        if project_json_path.is_file():
-            try:
-                with open(project_json_path, "r", encoding="utf-8") as f:
-                    pdata = json.load(f)
-                if pdata.get("gcs_url") and filename.endswith(".mp4"):
-                    return pdata["gcs_url"]
-            except Exception:
-                pass
+        pdata = _read_contained_project_json(project_dir, project_json_path)
+        if pdata is not None:
+            gcs_url = _string(pdata.get("gcs_url"))
+            if gcs_url and filename.endswith(".mp4"):
+                return gcs_url
 
         # 5. Check GCS mirror path directly if bucket is configured
         try:
@@ -405,11 +426,10 @@ def create_app() -> FastAPI:
 
 
 def _safe_project_dir(project_id: str) -> Path:
-    # ':' rejects Windows drive-relative ids like "C:" (PROJECTS_DIR / "C:"
-    # collapses back to PROJECTS_DIR itself).
-    if any(c in project_id for c in "/\\:") or project_id in (".", ".."):
+    try:
+        project_dir = resolve_project_dir(PROJECTS_DIR, project_id)
+    except InvalidProjectIdError:
         raise HTTPException(status_code=400, detail="invalid project id")
-    project_dir = PROJECTS_DIR / project_id
     if not project_dir.is_dir():
         raise HTTPException(status_code=404, detail=f"unknown project: {project_id}")
     return project_dir

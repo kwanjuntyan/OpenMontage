@@ -699,15 +699,15 @@
       <div class="metrics-bar">
         <div class="metric-item">
           <div class="metric-label">完成影音專案</div>
-          <div class="metric-value">9 大多模態專案 <span class="pill-tag">100% 驗證交付</span></div>
+          <div class="metric-value">10 大多模態專案 <span class="pill-tag">100% 驗證交付</span></div>
         </div>
         <div class="metric-item">
           <div class="metric-label">生成鏡頭與場景</div>
-          <div class="metric-value">150+ 鏡頭 & 3D世界 <span class="pill-tag">零合成錯誤</span></div>
+          <div class="metric-value">155+ 鏡頭 & 3D世界 <span class="pill-tag">零合成錯誤</span></div>
         </div>
         <div class="metric-item">
           <div class="metric-label">核心生成引擎</div>
-          <div class="metric-value">Gemini Omni • Veo 2 • Three.js</div>
+          <div class="metric-value">Banana Pro • Gemini Omni • Veo 2</div>
         </div>
         <div class="metric-item">
           <div class="metric-label">空間與影音架構</div>
@@ -720,6 +720,7 @@
     <div class="controls-bar">
       <div class="filter-tabs">
         <button class="tab-btn active" onclick="filterCategory('all', this)">全部專案 (All)</button>
+        <button class="tab-btn" onclick="filterCategory('cinematic', this)">3D 電影短片 (Pixar)</button>
         <button class="tab-btn" onclick="filterCategory('pdca', this)">PDCA 課程系列 (Vox)</button>
         <button class="tab-btn" onclick="filterCategory('esg', this)">ESG 劇情短劇</button>
         <button class="tab-btn" onclick="filterCategory('demo', this)">動態圖表與技術 Demo</button>
@@ -771,6 +772,30 @@
   <script>
     // Projects Data Registry
     const PROJECTS_DATA = [
+      {
+        id: "mole-stargazer",
+        title: "3D 電影短片 •《鼴鼠的星空》",
+        category: "cinematic",
+        categoryLabel: "皮克斯 3D 動畫 • Cinematic",
+        style: "PixarPremiumStyle 3D",
+        duration: "00:30",
+        shots: "5 個電影級分鏡",
+        scenesCount: "5 個 Scene (30s)",
+        size: "19.6 MB (1080p 60fps)",
+        poster: "showcase_assets/mole_stargazer.jpg",
+        video: "projects/mole-stargazer/renders/mole_stargazer_25d_master.mp4",
+        interactiveUrl: "projects/mole-stargazer/preview.html",
+        boardUrl: "projects/mole-stargazer/preview.html",
+        boardLabel: "開啟 3D 劇院 ↗",
+        desc: "【2.5D 動態短片首發版】一隻戴著黃銅護目鏡的小鼴鼠，第一次偷偷鑽出地面看星空。採用 Google Banana Pro 角色錨定，整合 1080p 60fps 物理相機運鏡 (Dolly In / Crane Up)、台灣繁體中文童話繪本旁白與磅礴管弦交響樂。",
+        scenes: [
+          { name: "Scene 1: 地底準備 (6s)", file: "projects/mole-stargazer/preview.html" },
+          { name: "Scene 2: 破土探頭 (5s)", file: "projects/mole-stargazer/preview.html" },
+          { name: "Scene 3: 甩泥舒展 (7s)", file: "projects/mole-stargazer/preview.html" },
+          { name: "Scene 4: 史詩星空 (7s)", file: "projects/mole-stargazer/preview.html" },
+          { name: "Scene 5: 倒影淚珠 (5s)", file: "projects/mole-stargazer/preview.html" }
+        ]
+      },
       {
         id: "pdca-master",
         title: "Course 31 • 戴明 PDCA 完整 15 鏡頭精煉版",

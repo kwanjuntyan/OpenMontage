@@ -152,7 +152,12 @@ def test_async_upload_single_asset_updates_manifest(tmp_path, monkeypatch):
 
 def test_write_checkpoint_triggers_auto_sync(tmp_path, monkeypatch):
     """Verifies write_checkpoint calls async_sync_project_assets on media stages."""
-    init_project("sync_test", title="Sync Test", pipeline_type="unknown", pipeline_dir=tmp_path)
+    init_project(
+        "sync_test",
+        title="Sync Test",
+        pipeline_type="cinematic",
+        pipeline_dir=tmp_path,
+    )
 
     called = threading.Event()
 
@@ -162,6 +167,9 @@ def test_write_checkpoint_triggers_auto_sync(tmp_path, monkeypatch):
 
     monkeypatch.setattr("lib.gcs_storage.gcs_storage.is_auto_sync_enabled", lambda: True)
     monkeypatch.setattr("lib.gcs_storage.gcs_storage.async_sync_project_assets", mock_async_sync)
+    # This unit test isolates the post-write sync hook; DAG prerequisite
+    # enforcement has dedicated checkpoint contract coverage.
+    monkeypatch.setattr("lib.checkpoint._enforce_stage_prerequisites", lambda *args, **kwargs: None)
 
     write_checkpoint(
         tmp_path,
@@ -182,6 +190,7 @@ def test_write_checkpoint_triggers_auto_sync(tmp_path, monkeypatch):
                 ],
             }
         },
+        pipeline_type="cinematic",
         human_approved=True
     )
 
@@ -233,5 +242,4 @@ def test_is_configured_returns_false_on_bucket_exists_exception(monkeypatch):
 
     monkeypatch.setattr("google.cloud.storage.Client", lambda *a, **kw: storage._client)
     assert storage.is_configured() is False
-
 

@@ -120,6 +120,7 @@ function stageSub(st) {
   if (st.status === "in_progress") return "in progress";
   if (st.status === "failed") return st.error ? String(st.error).slice(0, 60) : "failed";
   if (st.timestamp) {
+    if (st.auto_passed) return `${fmtClock(st.timestamp)} · auto-passed (zero entities)`;
     const approved = st.gated && st.human_approved ? " · approved" : "";
     return fmtClock(st.timestamp) + approved;
   }
@@ -162,7 +163,8 @@ const STAGE_ARTIFACTS = {
   proposal: ["proposal_packet"],
   idea: ["brief"],
   script: ["script"],
-  scene_plan: ["scene_plan"],
+  clp: ["clp_manifest", "clp_candidates"],
+  scene_plan: ["scene_plan", "clp_shot_bindings"],
   assets: ["asset_manifest"],
   edit: ["edit_decisions"],
   compose: ["render_report", "final_review"],
@@ -295,45 +297,85 @@ function renderScriptCard(s) {
   return card;
 }
 
-function renderCharacters(s) {
-  const chars = s.characters || [];
-  if (!chars.length) return null;
+function renderCLP(s) {
+  const clp = s.clp || {};
+  const chars = (clp.characters && clp.characters.length) ? clp.characters : (s.characters || []);
+  const locs = clp.locations || [];
+  const props = clp.props || [];
 
-  const cards = [];
-  for (const c of chars) {
-    const avatar = el("div", { class: "clp-avatar-wrap" });
-    if (c.image) {
+  const total = chars.length + locs.length + props.length;
+  if (!total) return null;
+
+  function renderCard(item, type, defaultIcon) {
+    const avatar = el("div", { class: `clp-avatar-wrap clp-${type}-wrap` });
+    if (item.image) {
       const img = el("img", {
-        src: thumbURL(s.project_id, c.image, 640),
-        alt: c.name || "Character",
+        src: thumbURL(s.project_id, item.image, 640),
+        alt: item.name || item.id || "Asset",
         loading: "lazy",
       });
       img.onerror = () => {
-        img.src = mediaURL(s.project_id, c.image);
+        img.src = mediaURL(s.project_id, item.image);
       };
       avatar.append(img);
     } else {
-      avatar.append(el("div", { class: "clp-avatar-placeholder" }, "🎭"));
+      avatar.append(el("div", { class: "clp-avatar-placeholder" }, defaultIcon));
     }
+
+    const isStrict = item.policy === "strict_reference" && Boolean(item.image);
+    const isTextOnly = item.policy === "text_anchor_only";
+    const isIgnored = item.policy === "ignore";
+
+    let lockBadge = null;
+    if (isStrict) {
+      lockBadge = el("span", {
+        class: "clp-lock-badge strict",
+        title: "Strict Visual Reference (Master Locked)",
+      }, "🔒 STRICT LOCK");
+    } else if (isTextOnly) {
+      lockBadge = el("span", {
+        class: "clp-lock-badge text-only",
+        title: "Text-only Anchor Prompt",
+      }, "📄 TEXT ANCHOR");
+    } else if (isIgnored) {
+      lockBadge = el("span", {
+        class: "clp-lock-badge ignored",
+        title: "Ignored Entity",
+      }, "⚪ IGNORED");
+    } else if (item.image) {
+      lockBadge = el("span", {
+        class: "clp-lock-badge strict",
+        title: "Visual Reference Asset",
+      }, "🔒 REF LOCKED");
+    }
+    if (lockBadge) avatar.append(lockBadge);
 
     const info = el("div", { class: "clp-info" });
     const nameRow = el("div", { class: "clp-name-row" },
-      el("span", { class: "clp-name" }, c.name || c.id),
-      c.age ? el("span", { class: "clp-age" }, `${c.age}歲`) : null
+      el("span", { class: "clp-name" }, item.name || item.id),
+      item.age ? el("span", { class: "clp-age" }, `${item.age}歲`) : null
     );
     info.append(nameRow);
 
-    if (c.role) {
-      info.append(el("div", { class: "clp-role" }, c.role));
+    const sub = item.role || item.interior_exterior || item.category;
+    if (sub) {
+      info.append(el("div", { class: "clp-role" }, String(sub).replace(/_/g, " ").toUpperCase()));
     }
-    if (c.style || c.description) {
-      info.append(el("div", { class: "clp-desc" }, c.style || c.description));
+
+    const desc = item.costume || item.visual_traits || item.environment_description || item.description || item.style;
+    if (desc) {
+      info.append(el("div", { class: "clp-desc" }, desc));
     }
 
     const tags = [
-      ...(Array.isArray(c.binding) ? c.binding : (c.binding ? [c.binding] : [])),
-      ...(Array.isArray(c.props) ? c.props : [])
-    ];
+      item.gender,
+      item.lighting,
+      item.material,
+      ...(Array.isArray(item.binding) ? item.binding : (item.binding ? [item.binding] : [])),
+      ...(Array.isArray(item.props) ? item.props : []),
+      ...(Array.isArray(item.palette) ? item.palette : []),
+    ].filter(Boolean);
+
     if (tags.length) {
       const tagsWrap = el("div", { class: "clp-tags" });
       for (const t of tags) {
@@ -342,15 +384,60 @@ function renderCharacters(s) {
       info.append(tagsWrap);
     }
 
-    cards.push(el("div", { class: "clp-card" }, avatar, info));
+    return el("div", { class: `clp-card clp-${type}-card` }, avatar, info);
   }
 
-  return el("section", { class: "clp-section", id: "characters" },
-    el("div", { class: "section-title" }, "Characters (CLP 定裝規格)",
-      el("span", { class: "meta" }, `${chars.length} characters · visual consistency`)
+  const cabinets = [];
+
+  if (chars.length) {
+    const cards = chars.map((c) => renderCard(c, "character", "🎭"));
+    cabinets.push(
+      el("div", { class: "clp-cabinet" },
+        el("div", { class: "clp-cabinet-header" },
+          el("span", { class: "clp-cabinet-title" }, `Characters · 角色定裝 (${chars.length})`),
+          el("span", { class: "clp-cabinet-hint" }, "One Signature Look per Character")
+        ),
+        el("div", { class: "clp-grid" }, ...cards)
+      )
+    );
+  }
+
+  if (locs.length) {
+    const cards = locs.map((l) => renderCard(l, "location", "🏞️"));
+    cabinets.push(
+      el("div", { class: "clp-cabinet" },
+        el("div", { class: "clp-cabinet-header" },
+          el("span", { class: "clp-cabinet-title" }, `Locations · 場景地標 (${locs.length})`),
+          el("span", { class: "clp-cabinet-hint" }, "Environment & spatial continuity")
+        ),
+        el("div", { class: "clp-grid" }, ...cards)
+      )
+    );
+  }
+
+  if (props.length) {
+    const cards = props.map((p) => renderCard(p, "prop", "🗡️"));
+    cabinets.push(
+      el("div", { class: "clp-cabinet" },
+        el("div", { class: "clp-cabinet-header" },
+          el("span", { class: "clp-cabinet-title" }, `Props · 關鍵道具 (${props.length})`),
+          el("span", { class: "clp-cabinet-hint" }, "Hero objects & device consistency")
+        ),
+        el("div", { class: "clp-grid" }, ...cards)
+      )
+    );
+  }
+
+  return el("section", { class: "clp-section", id: "clp" },
+    el("div", { class: "section-title" }, "Character, Location, Prop (CLP 實體資產庫)",
+      el("span", { class: "meta" }, `${total} visual anchors · locked identity`)
     ),
-    el("div", { class: "clp-grid" }, ...cards)
+    el("div", { class: "clp-cabinets" }, ...cabinets)
   );
+}
+
+function renderCharacters(s) {
+  return renderCLP(s);
 }
 
 function humanize(value) {
@@ -1168,7 +1255,11 @@ function normalize(s) {
     stage.produces = Array.isArray(stage.produces) ? stage.produces : [];
   }
   s.artifacts = s.artifacts || {};
-  s.characters = Array.isArray(s.characters) ? s.characters : [];
+  s.clp = s.clp || { characters: [], locations: [], props: [] };
+  s.clp.characters = Array.isArray(s.clp.characters) ? s.clp.characters : [];
+  s.clp.locations = Array.isArray(s.clp.locations) ? s.clp.locations : [];
+  s.clp.props = Array.isArray(s.clp.props) ? s.clp.props : [];
+  s.characters = Array.isArray(s.characters) ? s.characters : (s.clp.characters || []);
   s.media = s.media || {};
   s.media.renders = Array.isArray(s.media.renders) ? s.media.renders : [];
   s.media.snapshots = Array.isArray(s.media.snapshots) ? s.media.snapshots : [];
