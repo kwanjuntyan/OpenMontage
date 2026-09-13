@@ -8,8 +8,8 @@ You are deciding how each cinematic beat will look and transition. This is where
 
 | Layer | Resource | Purpose |
 |-------|----------|---------|
-| Schema | `schemas/artifacts/scene_plan.schema.json` | Artifact validation |
-| Prior artifacts | `state.artifacts["script"]["script"]`, `state.artifacts["proposal"]["proposal_packet"]` | Beat map and source truth |
+| Schema | `schemas/artifacts/scene_plan.schema.json`, `schemas/artifacts/clp_shot_bindings.schema.json` | Artifact & Sidecar validation |
+| Prior artifacts | `state.artifacts["script"]["script"]`, `state.artifacts["clp"]["clp_manifest"]`, `state.artifacts["proposal"]["proposal_packet"]` | Beat map, CLP visual anchors, source truth |
 | Tools | `frame_sampler`, `scene_detect` | Source inspection and reframing checks |
 | Playbook | Active style playbook | Color and typography consistency |
 
@@ -49,7 +49,23 @@ Recommended metadata keys:
 - `title_card_rules`
 - `support_insert_rules`
 
-### 5. 5-Aspect Scene-Plan Checklist
+### 5. Bind CLP Entities via Sidecar (`clp_shot_bindings.json`)
+
+To preserve clean separation between narrative staging and visual asset bindings:
+1. **Zero Text Pollution**: Do NOT inject `@CharID` or markup into natural language descriptions.
+2. **Shot-to-Entity Mapping**: For every shot/cut, bind relevant character, location, and prop IDs established in `clp_manifest`.
+3. **Sidecar Output**: Write `projects/<project-id>/artifacts/clp_shot_bindings.json` validating against `schemas/artifacts/clp_shot_bindings.schema.json`.
+4. **Referential Integrity**: Compute and write `source_scene_plan_sha256` and
+   `clp_manifest_sha256` exclusively with
+   `lib.clp_validator.canonical_digest`. Do not use pretty-printed JSON, file
+   bytes, language-runtime default serialization, or a second digest helper;
+   all producers and validators must hash the same compact canonical JSON.
+5. **Physical Slot Discipline**:
+   - `focal_entity`: Designate the single primary entity (receives first reference slot).
+   - If a shot has multiple characters/props, respect downstream provider limits (Seedance 9 images, Kling 1-4).
+   - If slot count is tight, secondary entities can use `policy: "text_anchor_only"`.
+
+### 6. 5-Aspect Scene-Plan Checklist
 
 > Every scene beat — and especially every hero frame — must specify all five aspects. Cinematic relies on a small number of memorable frames; vague hero-frame specs are the single most common failure mode and produce unpredictable model output. Marking an aspect as N/A is allowed but must be explicit (e.g., "no subject — establishing scenery shot"). Silent omission is forbidden.
 >
@@ -63,10 +79,11 @@ Recommended metadata keys:
 
 > **Overlays callout.** Overlays (titles, subtitles, HUD, watermarks, framing graphics, lower-thirds, name plates, end-tag cards) are NOT part of the scene's foreground/midground/background depth axis. List them separately in scene metadata (`overlays: [...]`) with content and placement. Never describe an overlay as "in the foreground" — that confuses both downstream tools and any video-understanding model that re-analyzes the output.
 
-### 6. Quality Gate
+### 7. Quality Gate
 
 - every beat has a scene treatment,
 - hero frames are identifiable AND fully specified across all 5 aspects,
+- CLP shot bindings are generated in `clp_shot_bindings.json` and validate cleanly,
 - support inserts are justified,
 - overlays are recorded under `overlays:`, never inside the depth/framing description,
 - the visual language stays consistent across the piece.

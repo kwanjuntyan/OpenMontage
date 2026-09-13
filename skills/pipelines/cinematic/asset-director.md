@@ -25,8 +25,8 @@ Before authoring title cards, name plates, or SVG overlays, read **`skills/meta/
 
 | Layer | Resource | Purpose |
 |-------|----------|---------|
-| Schema | `schemas/artifacts/asset_manifest.schema.json` | Artifact validation |
-| Prior artifacts | `state.artifacts["scene_plan"]["scene_plan"]`, `state.artifacts["script"]["script"]`, `state.artifacts["proposal"]["proposal_packet"]` | Scene intent and beat plan |
+| Schema | `schemas/artifacts/asset_manifest.schema.json`, `schemas/artifacts/clp_manifest.schema.json`, `schemas/artifacts/clp_shot_bindings.schema.json` | Artifact validation |
+| Prior artifacts | `state.artifacts["scene_plan"]["scene_plan"]`, `state.artifacts["scene_plan"]["clp_shot_bindings"]`, `state.artifacts["clp"]["clp_manifest"]`, `state.artifacts["script"]["script"]`, `state.artifacts["proposal"]["proposal_packet"]` | Scene intent, CLP bindings, locked visual anchors |
 | Tools | `subtitle_gen`, `audio_enhance`, `image_selector`, `video_selector`, `pixabay_music` (free, default), `freesound_music` (free), `music_gen` (ElevenLabs, paid) — selectors auto-discover all available providers from the registry. **Default to `pixabay_music` before reaching for `music_gen`.** | Optional support asset creation |
 | Playbook | Active style playbook | Brand and typography consistency |
 
@@ -95,6 +95,59 @@ Optional generated assets should fill clear gaps:
 
 For motion-required jobs, use `video_selector` first for generated shots. `image_selector` may support look development, concept frames, or embedded design layers, but it does not satisfy the motion requirement by itself.
 
+### 2b. CLP Consistency & Strict Reference Allocation Policy
+
+When generating **video** shots bound to characters, locations, or props:
+1. **Load Bindings**: Read `clp_shot_bindings.json` and resolve corresponding entities from `clp_manifest.json`.
+2. **One Signature Look Rule**: For any character, use the single composite appearance master image (Face + Costume) as the locked visual reference. Characters maintain one classic look throughout the episode/project.
+3. **Physical Slot Limits (Strict Protection)**:
+   - Identify the model's reference image limit $K$ (e.g. Seedance 2.0/2.5: up to 9 reference images; Kling: 1-4; Gemini Omni: `<IMAGE_REF_N>`).
+   - Count the entities whose sole persisted policy is `policy: "strict_reference"`; the UI may derive a lock badge from this policy, but no separate `strict_lock` field exists.
+   - **FAIL-CLOSED PROTECTION**: If the count of strict entities exceeds the model's physical reference slots ($N_{strict} > K$), **DO NOT SILENTLY DOWNGRADE TO TEXT**. An agent must raise a blocker or report `UNSATISFIED_REFERENCE_CONSTRAINTS` to the user. Never secretly strip visual references.
+   - For non-strict entities (`policy: "text_anchor_only"`), inject their natural language `prompt_anchor` directly into the generation prompt.
+
+4. **Executable Reference Boundary (Mandatory)**: Never assemble CLP reference arrays by hand. Compile the exact stage-scoped shot binding and manifest, then pass the complete structured context through `video_selector`:
+   ```python
+   from lib.clp_validator import compile_attached_references
+
+   clp_reference_inputs = compile_attached_references(
+       shot_binding,
+       manifest,
+       project_dir,
+       expected_shot_id=scene["id"],
+   )
+
+   video_selector.execute({
+       "prompt": scene["description"],
+       "operation": "reference_to_video",
+       "project_dir": str(project_dir),
+       "clp_shot_id": scene["id"],
+       "clp_binding": shot_binding,
+       "clp_manifest": manifest,
+       "clp_reference_inputs": clp_reference_inputs,
+       # Style/non-identity inputs never satisfy strict CLP slots.
+       "auxiliary_reference_images": auxiliary_reference_images,
+   })
+   ```
+   `expected_shot_id` / `clp_shot_id` must come from the current scene iteration,
+   never from `shot_binding` itself. The compiler and selector reload
+   `checkpoint_clp.json` plus `checkpoint_scene_plan.json`; detached values are
+   accepted only as exact caches of that persisted authority. Before any upload
+   or provider execution, require
+   `len(clp_reference_inputs) == strict_count`. Each compiled item must retain
+   its `entity_id`, `asset_sha256`, materialized project-local input, and
+   deterministic slot order. Missing, surplus, reordered, substituted, or
+   digest-mismatched CLP inputs are fatal. Auxiliary/style inputs stay in their
+   separate collection and consume their own physical slots. A strict request
+   must use `operation="reference_to_video"`; text-to-video is never a valid
+   implicit fallback.
+
+   This executable fail-closed boundary currently applies to `video_selector`.
+   A still-image task containing any `strict_reference` entity must not be sent
+   through an unguarded `image_selector` route. Use `text_anchor_only`/`ignore`
+   where the approved policy permits it, or block until an image adapter with
+   the same persisted-provenance and exact-slot contract is available.
+
 ### 3. Prepare A Real Audio Plan
 
 Store:
@@ -135,6 +188,7 @@ Recommended metadata keys:
 
 - source and support assets are clearly distinguished,
 - generated inserts are limited and purposeful,
+- CLP visual references are strictly allocated without silent degradation or slot overflow,
 - audio plan matches the beat map,
 - every referenced file exists.
 - if motion is required, the asset set contains actual video clips for the motion-led beats.

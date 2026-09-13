@@ -29,16 +29,16 @@ Quick routing for common explainer needs:
 | Layer | Resource | Purpose |
 |-------|----------|---------|
 | Schema | `schemas/artifacts/asset_manifest.schema.json` | Artifact validation |
-| Prior artifacts | `state.artifacts["scene_plan"]["scene_plan"]`, `state.artifacts["script"]["script"]`, `state.artifacts["proposal"]["proposal_packet"]` | What to produce |
+| Prior artifacts | `state.artifacts["scene_plan"]["scene_plan"]`, `state.artifacts["scene_plan"]["clp_shot_bindings"]`, `state.artifacts["clp"]["clp_manifest"]`, `state.artifacts["script"]["script"]`, `state.artifacts["proposal"]["proposal_packet"]` | What to produce and the exact stage-scoped CLP constraints |
 | Playbook | Active style playbook | Image prompts, diagram style, audio preferences |
 | Tools | `tts_selector`, `image_selector`, `video_selector`, `diagram_gen`, `code_snippet`, `music_gen` — selectors auto-discover all available providers from the registry | Generation capabilities |
 | Cost tracker | `tools/cost_tracker.py` | Budget governance |
 
 ## Process
 
-### Step 1: Inventory Required Assets
+### Step 1: Inventory Required Assets & Resolve CLP Policies
 
-Walk every scene in the scene plan. For each `required_assets` entry, create an asset task:
+Walk every scene in the scene plan and inspect `clp_shot_bindings` and `clp_manifest`. For each `required_assets` entry, create an asset task:
 
 ```
 Asset Task:
@@ -49,6 +49,48 @@ Asset Task:
   tool: diagram_gen
   estimated_cost: $0.00
 ```
+
+#### CLP Consistency Integration for Generated Video:
+For any scene requiring generated video:
+- **Inspect Bound Entities**: Check `character_refs`, `location_ref`, and `prop_refs` in `clp_shot_bindings` for this shot.
+- **Lookup CLP Policy**: Look up each entity in `clp_manifest`:
+  - **`strict_reference`**: Do not assemble reference arrays by hand. Compile the exact stage-scoped binding and manifest into one structured entry per strict entity, then pass only that compiled CLP collection to `video_selector`:
+    ```python
+    from lib.clp_validator import compile_attached_references
+
+    clp_reference_inputs = compile_attached_references(
+        shot_binding,
+        manifest,
+        project_dir,
+        expected_shot_id=scene["id"],
+    )
+
+    video_selector.execute({
+        "prompt": scene["description"],
+        "operation": "reference_to_video",
+        "project_dir": str(project_dir),
+        "clp_shot_id": scene["id"],
+        "clp_binding": shot_binding,
+        "clp_manifest": manifest,
+        "clp_reference_inputs": clp_reference_inputs,
+        # Optional stylistic/non-identity images are a separate collection.
+        "auxiliary_reference_images": auxiliary_reference_images,
+    })
+    ```
+    `expected_shot_id` / `clp_shot_id` comes from the current scene iteration,
+    not from the binding row. The compiler and selector reload the completed
+    CLP/scene checkpoints and treat detached inputs only as exact caches.
+    Enforce exact coverage before any paid call:
+    `len(clp_reference_inputs) == strict_count`.
+    Each compiled entry must preserve its `entity_id`, `asset_sha256`, materialized project-local input, and deterministic slot order. Surplus CLP references are forbidden just like missing references. Auxiliary/style references must stay in `auxiliary_reference_images` and never satisfy a strict entity slot. A strict-reference request must declare `operation="reference_to_video"`; `text_to_video` is not an acceptable downgrade.
+  - **`text_anchor_only`**: Append the entity's `prompt_anchor` to the generation prompt.
+  - **`ignore`**: Do not allocate a reference slot and do not add an identity anchor for the entity.
+
+The executable strict-reference boundary above currently applies only to
+`video_selector`. Do not route a bound `strict_reference` entity through an
+unguarded `image_selector` call. Still images may use `text_anchor_only` or
+`ignore` when that is the persisted policy; otherwise stop until a guarded
+image adapter provides the same checkpoint-provenance and exact-slot contract.
 
 Also create tasks for:
 - **Narration audio** — one per script section (use `tts_selector` or a concrete TTS provider)

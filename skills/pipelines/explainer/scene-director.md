@@ -10,8 +10,8 @@ This is where words become visuals. A great script with a bad scene plan produce
 
 | Layer | Resource | Purpose |
 |-------|----------|---------|
-| Schema | `schemas/artifacts/scene_plan.schema.json` | Artifact validation |
-| Prior artifacts | `state.artifacts["script"]["script"]`, `state.artifacts["proposal"]["proposal_packet"]` | Script sections and proposal packet |
+| Schema | `schemas/artifacts/scene_plan.schema.json`, `schemas/artifacts/clp_shot_bindings.schema.json` | Artifact validation |
+| Prior artifacts | `state.artifacts["script"]["script"]`, `state.artifacts["proposal"]["proposal_packet"]`, `state.artifacts["clp"]["clp_manifest"]` | Script sections, proposal packet, and the exact predecessor CLP checkpoint artifact |
 | Playbook | Active style playbook | Visual language, transitions, motion rules |
 | Layer 3 | `.agents/skills/flux-best-practices/`, `.agents/skills/beautiful-mermaid/`, `.agents/skills/manim-composer/` | Image gen, diagram, animation knowledge |
 
@@ -236,10 +236,25 @@ Score (1-5):
 
 If any dimension scores below 3, revise.
 
+### Step 7.5: Generate CLP Shot Bindings (`clp_shot_bindings`)
+
+The explainer pipeline requires `clp_shot_bindings` as a declared output of `scene_plan`.
+1. **Load Predecessor CLP Manifest**: Read the production checkpoint state at `state.artifacts["clp"]["clp_manifest"]` (that is, `checkpoint_clp.artifacts.clp_manifest`). Do not use Backlot's flat display merge as production source truth.
+2. **Compute Canonical Digests**:
+   - Compute `source_scene_plan_sha256 = canonical_digest(scene_plan)`
+   - Compute `clp_manifest_sha256 = canonical_digest(clp_manifest)`
+3. **Map Each Scene to CLP Entities**:
+   - For each scene in `scene_plan.scenes`, construct a binding entry:
+     `{"shot_id": scene["id"], "character_refs": [...], "location_ref": ..., "prop_refs": [...]}`
+   - If the project is a zero-entity explainer (`characters`, `locations`, and `props` in `clp_manifest` are all empty), assign empty lists: `{"shot_id": scene["id"], "character_refs": [], "prop_refs": []}`.
+   - If entities are defined, bind each shot to the corresponding entity IDs from `clp_manifest` matching the scene's visual content.
+4. **Validate Bindings Sidecar**:
+   Validate `clp_shot_bindings` against `schemas/artifacts/clp_shot_bindings.schema.json` and ensure exact 1:1 coverage of all scenes in `scene_plan` without duplicates or dangling references.
+
 ### Step 8: Submit
 
-Validate `scene_plan_json` against the canonical scene-plan schema, persist it
-through the checkpoint protocol, and attach the stage review. There is no
+Validate `scene_plan` and `clp_shot_bindings` against their schemas, persist them
+through the checkpoint protocol (`checkpoint_scene_plan.json`), and attach the stage review. There is no
 separate explainer submit function.
 
 ## Common Pitfalls

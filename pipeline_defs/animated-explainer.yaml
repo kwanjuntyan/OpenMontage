@@ -31,6 +31,7 @@ required_skills:
   - pipelines/explainer/research-director
   - pipelines/explainer/proposal-director
   - pipelines/explainer/script-director
+  - pipelines/explainer/clp-director
   - pipelines/explainer/scene-director
   - pipelines/explainer/asset-director
   - pipelines/explainer/edit-director
@@ -68,7 +69,9 @@ stages:
     produces:
       - research_brief
     tools_available: []
-    checkpoint_required: false
+    # research_brief is a required input to proposal, so it must be persisted
+    # as provenance rather than existing only in transient Agent state.
+    checkpoint_required: true
     human_approval_default: false
     review_focus:
       - Content landscape mapped with at least 3 existing pieces
@@ -139,14 +142,36 @@ stages:
       - Schema-valid script with enhancement_cues per section
       - Total duration matches selected concept target within 10%
 
-  - name: scene_plan
-    skill: pipelines/explainer/scene-director
+  - name: clp
+    skill: pipelines/explainer/clp-director
     required_artifacts_in:
       - script
     optional_artifacts_in:
       - proposal_packet
     produces:
+      - clp_manifest
+      - clp_candidates
+    tools_available:
+      - image_selector
+    checkpoint_required: true
+    human_approval_default: false
+    review_focus:
+      - Recurring hero assets, diagrams, or mascots have explicit visual anchors
+      - strict_reference policies are assigned realistically
+      - Zero-entity explainer passes cleanly with empty manifest
+    success_criteria:
+      - Schema-valid clp_manifest with characters, locations, and props
+
+  - name: scene_plan
+    skill: pipelines/explainer/scene-director
+    required_artifacts_in:
+      - script
+      - clp_manifest
+    optional_artifacts_in:
+      - proposal_packet
+    produces:
       - scene_plan
+      - clp_shot_bindings
     tools_available: []
     checkpoint_required: true
     human_approval_default: true
@@ -155,8 +180,10 @@ stages:
       - "Visual variety: no 3+ consecutive scenes of same type"
       - Asset feasibility - every required_asset uses a tool from the production plan
       - Playbook adherence - transitions, colors, pacing rules
+      - Shot bindings assign strict assets and anchors consistently
     success_criteria:
       - Schema-valid scene_plan with required_assets per scene
+      - Schema-valid clp_shot_bindings with 1:1 scene coverage
       - At least 3 different scene types used
 
   - name: assets
@@ -164,6 +191,8 @@ stages:
     required_artifacts_in:
       - scene_plan
       - script
+      - clp_manifest
+      - clp_shot_bindings
     optional_artifacts_in:
       - proposal_packet
     produces:

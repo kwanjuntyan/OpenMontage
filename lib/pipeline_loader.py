@@ -6,6 +6,8 @@ Loads and validates pipeline YAML manifests from pipeline_defs/.
 from __future__ import annotations
 
 import json
+import re
+from functools import lru_cache
 from pathlib import Path
 from typing import Any, Optional
 
@@ -20,8 +22,16 @@ SCHEMA_PATH = (
     / "pipeline_manifest.schema.json"
 )
 
+PIPELINE_NAME_RE = re.compile(r"^[A-Za-z0-9_-]+$")
 
-from functools import lru_cache
+
+def validate_pipeline_name(name: str) -> str:
+    """Require a pipeline manifest name to be one safe filename component."""
+    if not isinstance(name, str) or not PIPELINE_NAME_RE.fullmatch(name):
+        raise ValueError(
+            f"Invalid pipeline name {name!r}; expected letters, digits, '_' or '-'"
+        )
+    return name
 
 
 @lru_cache(maxsize=1)
@@ -56,8 +66,13 @@ def load_pipeline(name: str, defs_dir: Optional[Path] = None) -> dict[str, Any]:
     Returns:
         Validated pipeline manifest dict.
     """
-    defs_dir = defs_dir or PIPELINE_DEFS_DIR
-    path = defs_dir / f"{name}.yaml"
+    safe_name = validate_pipeline_name(name)
+    defs_dir = (defs_dir or PIPELINE_DEFS_DIR).resolve()
+    path = (defs_dir / f"{safe_name}.yaml").resolve()
+    try:
+        path.relative_to(defs_dir)
+    except ValueError as exc:  # defense in depth if the name contract changes
+        raise ValueError(f"Pipeline manifest path escapes definition root: {path}") from exc
     if not path.exists():
         raise FileNotFoundError(f"Pipeline manifest not found: {path}")
 

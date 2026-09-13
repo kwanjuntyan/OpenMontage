@@ -40,6 +40,7 @@ required_skills:
   - pipelines/cinematic/research-director
   - pipelines/cinematic/proposal-director
   - pipelines/cinematic/script-director
+  - pipelines/cinematic/clp-director
   - pipelines/cinematic/scene-director
   - pipelines/cinematic/asset-director
   - pipelines/cinematic/edit-director
@@ -134,14 +135,38 @@ stages:
       - Schema-valid script artifact
       - Script sections map to identifiable cinematic beats
 
-  - name: scene_plan
-    skill: pipelines/cinematic/scene-director
+  - name: clp
+    skill: pipelines/cinematic/clp-director
     required_artifacts_in:
       - script
     optional_artifacts_in:
       - proposal_packet
     produces:
+      - clp_manifest
+      - clp_candidates
+    tools_available:
+      - image_selector
+    checkpoint_required: true
+    human_approval_default: true
+    review_focus:
+      - All hero characters have signature composite appearance master images
+      - Key locations and critical props have explicit visual anchors
+      - strict_reference policies are assigned realistically to preserve reference image budget
+      - Master reference images are verified in Backlot
+    success_criteria:
+      - Schema-valid clp_manifest artifact
+      - Every character has unique ID and signature composite appearance
+
+  - name: scene_plan
+    skill: pipelines/cinematic/scene-director
+    required_artifacts_in:
+      - script
+      - clp_manifest
+    optional_artifacts_in:
+      - proposal_packet
+    produces:
       - scene_plan
+      - clp_shot_bindings
     optional_tools:
       - frame_sampler
       - scene_detect
@@ -162,6 +187,8 @@ stages:
     skill: pipelines/cinematic/asset-director
     required_artifacts_in:
       - scene_plan
+      - clp_manifest
+      - clp_shot_bindings
     optional_artifacts_in:
       - script
       - brief

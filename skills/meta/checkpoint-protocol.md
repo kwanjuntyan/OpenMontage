@@ -171,7 +171,7 @@ When `human_approval_default: true`:
 After checkpoint is written and approved (if needed):
 
 ```python
-next_stage = get_next_stage(pipeline_dir, project_name)
+next_stage = get_next_stage(pipeline_dir, project_name, pipeline_type)
 ```
 
 This reads all existing checkpoints and returns the next stage that needs to run, or `None` if the pipeline is complete.
@@ -181,7 +181,7 @@ This reads all existing checkpoints and returns the next stage that needs to run
 At the START of any pipeline run (not just after a stage), always check for existing progress:
 
 ```python
-next_stage = get_next_stage(pipeline_dir, project_name)
+next_stage = get_next_stage(pipeline_dir, project_name, pipeline_type)
 ```
 
 If `next_stage` is not the first stage:

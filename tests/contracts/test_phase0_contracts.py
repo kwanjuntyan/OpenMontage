@@ -23,6 +23,7 @@ from lib.checkpoint import (
     CheckpointValidationError,
     STAGES,
     get_next_stage,
+    init_project,
     read_checkpoint,
     write_checkpoint,
 )
@@ -247,6 +248,31 @@ def sample_artifact(name: str) -> dict:
                 },
             },
         }
+    if name == "clp_manifest":
+        return {
+            "version": "2.0",
+            "project_id": "sample-project",
+            "characters": [],
+            "locations": [],
+            "props": [],
+        }
+    if name == "clp_candidates":
+        return {
+            "version": "2.0",
+            "project_id": "sample-project",
+            "source_script_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+            "candidates": {"characters": [], "locations": [], "props": []},
+        }
+    if name == "clp_shot_bindings":
+        return {
+            "version": "2.0",
+            "project_id": "sample-project",
+            "source_scene_plan_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+            "clp_manifest_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+            "bindings": [
+                {"shot_id": "scene-1", "character_refs": [], "prop_refs": []}
+            ],
+        }
     raise KeyError(f"Unknown artifact sample: {name}")
 
 
@@ -292,6 +318,7 @@ class TestCheckpoint:
         write_checkpoint(
             tmp_path, "test_project", "research", "completed",
             {"research_brief": sample_artifact("research_brief")},
+            pipeline_type="cinematic",
         )
         cp = read_checkpoint(tmp_path, "test_project", "research")
         assert cp is not None
@@ -307,8 +334,44 @@ class TestCheckpoint:
             "research",
             "completed",
             {"research_brief": sample_artifact("research_brief")},
+            pipeline_type="cinematic",
         )
         assert get_next_stage(tmp_path, "proj") == "proposal"
+
+    def test_two_argument_resume_infers_exact_marker_pipeline_dag(self, tmp_path):
+        project_id = "resume-explainer"
+        init_project(
+            project_id,
+            title="Resume Explainer",
+            pipeline_type="animated-explainer",
+            pipeline_dir=tmp_path,
+        )
+        write_checkpoint(
+            tmp_path,
+            project_id,
+            "research",
+            "completed",
+            {"research_brief": sample_artifact("research_brief")},
+        )
+        write_checkpoint(
+            tmp_path,
+            project_id,
+            "proposal",
+            "completed",
+            {
+                "proposal_packet": sample_artifact("proposal_packet"),
+                "decision_log": {
+                    "version": "1.0",
+                    "project_id": project_id,
+                    "decisions": [],
+                },
+            },
+            human_approved=True,
+        )
+
+        # The historical two-argument call now authenticates project.json and
+        # follows explainer's DAG; it must never fall into generic `idea`.
+        assert get_next_stage(tmp_path, project_id) == "script"
 
     def test_invalid_stage_rejected(self, tmp_path):
         with pytest.raises(ValueError):
@@ -342,16 +405,75 @@ class TestCheckpoint:
         write_checkpoint(
             tmp_path,
             "proj",
+            "research",
+            "completed",
+            {"research_brief": sample_artifact("research_brief")},
+            pipeline_type="cinematic",
+        )
+        write_checkpoint(
+            tmp_path,
+            "proj",
             "proposal",
             "completed",
             {
                 "proposal_packet": sample_artifact("proposal_packet"),
                 "video_analysis_brief": sample_artifact("video_analysis_brief"),
+                "decision_log": {
+                    "version": "1.0",
+                    "project_id": "proj",
+                    "decisions": [],
+                },
             },
+            pipeline_type="cinematic",
+            human_approved=True,
         )
         cp = read_checkpoint(tmp_path, "proj", "proposal")
         assert cp is not None
         assert "video_analysis_brief" in cp["artifacts"]
+
+    def test_failed_checkpoint_serialization_cannot_mutate_log_or_caller(self, tmp_path):
+        write_checkpoint(
+            tmp_path,
+            "atomic-log",
+            "research",
+            "completed",
+            {"research_brief": sample_artifact("research_brief")},
+            pipeline_type="cinematic",
+        )
+        project_dir = tmp_path / "atomic-log"
+        existing_log = {
+            "version": "1.0",
+            "project_id": "atomic-log",
+            "decisions": [],
+        }
+        log_path = project_dir / "decision_log.json"
+        log_path.write_text(json.dumps(existing_log), encoding="utf-8")
+        original_bytes = log_path.read_bytes()
+        proposal = sample_artifact("proposal_packet")
+        incoming_log = {
+            "version": "1.0",
+            "project_id": "atomic-log",
+            "decisions": [],
+        }
+
+        with pytest.raises(TypeError):
+            write_checkpoint(
+                tmp_path,
+                "atomic-log",
+                "proposal",
+                "completed",
+                {
+                    "proposal_packet": proposal,
+                    "decision_log": incoming_log,
+                },
+                pipeline_type="cinematic",
+                human_approved=True,
+                metadata={"not_json": {"set-value"}},
+            )
+
+        assert log_path.read_bytes() == original_bytes
+        assert not (project_dir / "checkpoint_proposal.json").exists()
+        assert "decision_log_ref" not in proposal["production_plan"]
 
 
 # ---- Pipeline manifests ----

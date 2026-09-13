@@ -1,12 +1,8 @@
 """Every shipped pipeline manifest must actually load.
 
-`lib.checkpoint` degrades gracefully when a manifest cannot be parsed:
-`get_pipeline_stages()` falls back to the canonical STAGES list and
-`_stage_requires_approval()` returns None so the caller's own flag wins. That
-is the right behaviour for a corrupt user manifest, but it means a manifest
-shipped *in this repo* that fails its schema is silently ignored rather than
-loudly rejected — the pipeline then runs against the wrong stage order and
-without its declared approval gates.
+`lib.checkpoint` must fail closed when a named manifest cannot be parsed.
+Falling back to the canonical stage list or to a caller-supplied gate flag
+would run against the wrong DAG and could silently disable approval gates.
 
 Existing manifest coverage names individual pipelines (talking-head,
 framework-smoke, animated-explainer, documentary-montage), so a manifest that
@@ -18,7 +14,7 @@ from pathlib import Path
 import pytest
 import yaml
 
-from lib.checkpoint import _stage_requires_approval, get_pipeline_stages
+from lib.checkpoint import _stage_requires_approval, get_next_stage, get_pipeline_stages
 from lib.pipeline_loader import load_pipeline
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -34,6 +30,12 @@ def _declared_stages(name: str) -> list[str]:
 
 def test_catalog_is_not_empty() -> None:
     assert PIPELINE_NAMES, "no pipeline manifests found"
+
+
+@pytest.mark.parametrize("name", ["../cinematic", "subdir/cinematic", "C:\\cinematic"])
+def test_pipeline_name_cannot_escape_manifest_root(name: str) -> None:
+    with pytest.raises(ValueError, match="Invalid pipeline name"):
+        load_pipeline(name)
 
 
 @pytest.mark.parametrize("name", PIPELINE_NAMES)
@@ -73,3 +75,65 @@ def test_declared_approval_gates_are_enforceable(name: str) -> None:
             f"{stage['human_approval_default']} but the checkpoint writer "
             f"resolves {resolved}"
         )
+
+
+def test_animated_explainer_required_research_artifact_is_durable() -> None:
+    """A required artifact cannot live only in transient Agent state."""
+    manifest = load_pipeline("animated-explainer")
+    stages = {stage["name"]: stage for stage in manifest["stages"]}
+
+    assert "research_brief" in stages["proposal"]["required_artifacts_in"]
+    assert "research_brief" in stages["research"]["produces"]
+    assert stages["research"].get("checkpoint_required", True) is True
+
+
+@pytest.mark.parametrize("name", PIPELINE_NAMES)
+def test_required_inputs_are_produced_by_durable_earlier_stages(name: str) -> None:
+    """No required DAG input may disappear with a non-persisted producer."""
+    manifest = load_pipeline(name)
+    producers: dict[str, dict] = {}
+    for stage in manifest["stages"]:
+        for required in stage.get("required_artifacts_in") or []:
+            assert required in producers, (
+                f"{name}.{stage['name']} requires {required!r} without an earlier producer"
+            )
+            assert producers[required].get("checkpoint_required", True) is True, (
+                f"{name}.{stage['name']} requires {required!r}, but producer "
+                f"{producers[required]['name']} is non-durable"
+            )
+        for produced in stage.get("produces") or []:
+            producers[produced] = stage
+
+
+def test_get_next_stage_skips_missing_optional_but_resumes_started_optional(
+    tmp_path, monkeypatch
+) -> None:
+    """checkpoint_required:false means optional only until that stage starts."""
+    from lib import checkpoint as checkpoint_module
+
+    manifest = {
+        "stages": [
+            {"name": "research", "checkpoint_required": False},
+            {"name": "proposal", "checkpoint_required": True},
+        ]
+    }
+    monkeypatch.setattr(
+        "lib.pipeline_loader.load_pipeline_readonly", lambda _name: manifest
+    )
+    monkeypatch.setattr(
+        checkpoint_module,
+        "get_pipeline_stages",
+        lambda _name: ["research", "proposal"],
+    )
+    monkeypatch.setattr(checkpoint_module, "read_checkpoint", lambda *_args: None)
+    assert get_next_stage(tmp_path, "optional-probe", "probe") == "proposal"
+
+    def _started(_root, _project, stage):
+        return (
+            {"status": "in_progress", "pipeline_type": "probe"}
+            if stage == "research"
+            else None
+        )
+
+    monkeypatch.setattr(checkpoint_module, "read_checkpoint", _started)
+    assert get_next_stage(tmp_path, "optional-probe", "probe") == "research"
