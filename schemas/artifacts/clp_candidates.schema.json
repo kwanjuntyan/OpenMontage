@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "openmontage/artifacts/clp_candidates",
+  "title": "CLP Candidates Sidecar",
+  "description": "Sidecar artifact for extracted entities from script without mutating script.json.",
+  "type": "object",
+  "required": ["version", "project_id", "source_script_sha256", "candidates"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "2.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "minLength": 1
+    },
+    "source_script_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest of the source script.json to ensure referential integrity"
+    },
+    "extracted_by": {
+      "type": "string",
+      "description": "Model or tool that performed the entity extraction"
+    },
+    "candidates": {
+      "type": "object",
+      "required": ["characters", "locations", "props"],
+      "additionalProperties": false,
+      "properties": {
+        "characters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name"],
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "frequency": { "type": "integer" },
+              "suggested_role": { "type": "string" },
+              "context_snippets": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "locations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name"],
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "frequency": { "type": "integer" },
+              "context_snippets": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        },
+        "props": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name"],
+            "additionalProperties": false,
+            "properties": {
+              "name": { "type": "string", "minLength": 1 },
+              "frequency": { "type": "integer" },
+              "context_snippets": { "type": "array", "items": { "type": "string" } }
+            }
+          }
+        }
+      }
+    }
+  }
+}

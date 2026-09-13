@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "openmontage/artifacts/clp_shot_bindings",
+  "title": "CLP Shot Bindings Sidecar",
+  "description": "Sidecar artifact mapping shots in scene_plan to CLP entities without mutating scene_plan.json.",
+  "type": "object",
+  "required": ["version", "project_id", "source_scene_plan_sha256", "clp_manifest_sha256", "bindings"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "2.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "minLength": 1
+    },
+    "source_scene_plan_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest of scene_plan.json"
+    },
+    "clp_manifest_sha256": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest of clp_manifest.json"
+    },
+    "bindings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["shot_id"],
+        "additionalProperties": false,
+        "properties": {
+          "shot_id": { "type": "string", "minLength": 1 },
+          "location_ref": { "type": "string", "minLength": 1, "description": "ID of bound location" },
+          "character_refs": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "uniqueItems": true,
+            "description": "IDs of bound characters"
+          },
+          "prop_refs": {
+            "type": "array",
+            "items": { "type": "string", "minLength": 1 },
+            "uniqueItems": true,
+            "description": "IDs of bound props"
+          },
+          "focal_entity": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Entity with highest narrative priority in this shot"
+          }
+        }
+      }
+    }
+  }
+}

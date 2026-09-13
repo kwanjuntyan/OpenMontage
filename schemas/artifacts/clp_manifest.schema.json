@@ -1,0 +1,215 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "openmontage/artifacts/clp_manifest",
+  "title": "CLP Manifest",
+  "description": "Schema for Character, Location, and Prop (CLP) consistency assets in OpenMontage. Adopts One Signature Look per Episode.",
+  "type": "object",
+  "required": ["version", "project_id", "characters", "locations", "props"],
+  "additionalProperties": false,
+  "properties": {
+    "version": {
+      "type": "string",
+      "const": "2.0"
+    },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "minLength": 1,
+      "description": "Identifier of the project this CLP manifest belongs to"
+    },
+    "decision_log_ref": {
+      "type": "string",
+      "description": "Reference ID in decision_log for style/aesthetic decisions"
+    },
+    "characters": {
+      "type": "array",
+      "description": "List of character profiles. Each character has one signature composite appearance (Face + Costume).",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "visual_traits", "policy"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]+$",
+            "minLength": 1,
+            "description": "Unique identifier for the character, e.g. char_amy"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Display name of the character"
+          },
+          "role": {
+            "type": "string",
+            "description": "Role in the story (e.g., Protagonist, Antagonist, Host)"
+          },
+          "age": {
+            "type": ["integer", "null"],
+            "description": "Apparent age of the character"
+          },
+          "gender": {
+            "type": "string"
+          },
+          "visual_traits": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Detailed visual description of physical features, face, hair, and costume"
+          },
+          "costume": {
+            "type": "string",
+            "description": "Signature outfit for this project/episode"
+          },
+          "voice_id": {
+            "type": "string",
+            "description": "Voice identifier for TTS engines (ElevenLabs, Azure, etc.)"
+          },
+          "image": {
+            "type": "string",
+            "pattern": "^(?!/|[a-zA-Z]:|\\\\)(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+$",
+            "description": "Relative path to composite appearance master image"
+          },
+          "asset_sha256": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "description": "SHA-256 binary digest of the master image for CAS verification"
+          },
+          "gcs_url": {
+            "type": "string",
+            "description": "Cloud storage URL for remote access and sharing"
+          },
+          "prompt_anchor": {
+            "type": "string",
+            "description": "Concise natural language keywords to anchor character appearance in prompts"
+          },
+          "policy": {
+            "type": "string",
+            "enum": ["strict_reference", "text_anchor_only", "ignore"],
+            "description": "Single source of truth for reference enforcement; strict_reference implies a strict lock"
+          }
+        }
+      }
+    },
+    "locations": {
+      "type": "array",
+      "description": "List of environment and setting profiles for spatial consistency",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "environment_description", "policy"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]+$",
+            "minLength": 1,
+            "description": "Unique identifier for the location, e.g. loc_laboratory"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Display name of the location"
+          },
+          "environment_description": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Detailed visual description of the setting, architecture, mood"
+          },
+          "lighting": {
+            "type": "string",
+            "description": "Lighting conditions (e.g., Golden hour, moody overcast, neon glow)"
+          },
+          "palette": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Color hex codes or key palette terms"
+          },
+          "interior_exterior": {
+            "type": "string",
+            "enum": ["interior", "exterior", "abstract"]
+          },
+          "image": {
+            "type": "string",
+            "pattern": "^(?!/|[a-zA-Z]:|\\\\)(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+$",
+            "description": "Relative path to local reference image"
+          },
+          "asset_sha256": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "description": "SHA-256 binary digest of the master image"
+          },
+          "gcs_url": {
+            "type": "string",
+            "description": "Cloud storage URL for remote access"
+          },
+          "prompt_anchor": {
+            "type": "string",
+            "description": "Concise natural language keywords to anchor environment in prompts"
+          },
+          "policy": {
+            "type": "string",
+            "enum": ["strict_reference", "text_anchor_only", "ignore"],
+            "description": "Single source of truth for reference enforcement; strict_reference implies a strict lock"
+          }
+        }
+      }
+    },
+    "props": {
+      "type": "array",
+      "description": "List of hero objects, key devices, diagram assets, or brand products",
+      "items": {
+        "type": "object",
+        "required": ["id", "name", "description", "policy"],
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-zA-Z0-9_-]+$",
+            "minLength": 1,
+            "description": "Unique identifier for the prop, e.g. prop_quantum_core"
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Display name of the prop"
+          },
+          "category": {
+            "type": "string",
+            "enum": ["hero_prop", "diagram_asset", "product_mockup", "set_dressing"]
+          },
+          "description": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Physical description, shape, function, distinctive marks"
+          },
+          "material": {
+            "type": "string",
+            "description": "Surface texture and material (e.g., brushed titanium, matte plastic)"
+          },
+          "image": {
+            "type": "string",
+            "pattern": "^(?!/|[a-zA-Z]:|\\\\)(?!.*(?:^|[\\\\/])\\.\\.(?:[\\\\/]|$)).+$",
+            "description": "Relative path to reference image"
+          },
+          "asset_sha256": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "description": "SHA-256 binary digest of the master image"
+          },
+          "gcs_url": {
+            "type": "string",
+            "description": "Cloud storage URL for remote access"
+          },
+          "prompt_anchor": {
+            "type": "string",
+            "description": "Concise natural language keywords to anchor prop in prompts"
+          },
+          "policy": {
+            "type": "string",
+            "enum": ["strict_reference", "text_anchor_only", "ignore"],
+            "description": "Single source of truth for reference enforcement; strict_reference implies a strict lock"
+          }
+        }
+      }
+    }
+  }
+}

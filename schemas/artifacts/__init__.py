@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 import jsonschema
 
@@ -31,6 +31,9 @@ ARTIFACT_NAMES = [
     "final_review",
     "character_qa_report",
     "video_analysis_brief",
+    "clp_manifest",
+    "clp_candidates",
+    "clp_shot_bindings",
 ]
 
 
@@ -43,10 +46,20 @@ def load_schema(name: str) -> dict:
         return json.load(f)
 
 
-def validate_artifact(name: str, data: dict[str, Any]) -> None:
+def validate_artifact(
+    name: str,
+    data: dict[str, Any],
+    project_dir: Optional[Path] = None,
+) -> None:
     """Validate artifact data against its schema. Raises on failure."""
     schema = load_schema(name)
     jsonschema.validate(instance=data, schema=schema)
+    if name == "clp_manifest":
+        from lib.clp_validator import validate_clp_manifest_or_raise
+        validate_clp_manifest_or_raise(data, project_dir=project_dir)
+    elif name == "clp_shot_bindings":
+        from lib.clp_validator import validate_clp_shot_bindings_or_raise
+        validate_clp_shot_bindings_or_raise(data)
 
 
 def list_schemas() -> list[str]:

@@ -7,9 +7,15 @@
   "required": ["version", "project_id", "pipeline_type", "stage", "status", "timestamp", "artifacts"],
   "properties": {
     "version": { "type": "string", "const": "1.0" },
-    "project_id": { "type": "string" },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "minLength": 1
+    },
     "stage": {
       "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "minLength": 1,
       "description": "Stage name — validated at runtime against the pipeline manifest's stage list"
     },
     "status": {
@@ -17,7 +23,12 @@
       "enum": ["completed", "failed", "awaiting_human", "in_progress"]
     },
     "timestamp": { "type": "string", "format": "date-time" },
-    "pipeline_type": { "type": "string", "description": "Pipeline manifest name" },
+    "pipeline_type": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "minLength": 1,
+      "description": "Pipeline manifest name; runtime validation must resolve it exactly"
+    },
     "style_playbook": { "type": "string" },
     "checkpoint_policy": { "type": "string", "enum": ["guided", "manual_all", "auto_noncreative"] },
     "human_approval_required": { "type": "boolean" },
@@ -40,6 +51,33 @@
       }
     },
     "error": { "type": "string" },
+    "gate_resolution": {
+      "type": "object",
+      "required": ["mode", "rule_version", "entity_counts", "manifest_sha256", "resolved_at"],
+      "additionalProperties": false,
+      "properties": {
+        "mode": { "type": "string", "const": "zero_entity_auto" },
+        "rule_version": { "type": "string", "enum": ["clp_literal_empty_v1"] },
+        "entity_counts": {
+          "type": "object",
+          "required": ["characters", "locations", "props"],
+          "additionalProperties": false,
+          "properties": {
+            "characters": { "type": "integer", "minimum": 0 },
+            "locations": { "type": "integer", "minimum": 0 },
+            "props": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "manifest_sha256": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "resolved_at": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
     "metadata": { "type": "object" }
   },
   "additionalProperties": false
