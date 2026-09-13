@@ -25,6 +25,59 @@ from tools.base_tool import (
 _DEFAULT_MODEL = "bytedance/seedance-2.5/text-to-video"
 _DEFAULT_COST_PER_SECOND = 0.10
 _OPERATIONS = ("text_to_video", "image_to_video", "reference_to_video", "video_edit")
+_ATLAS_RESERVED_EXTRA_PARAM_KEYS = frozenset(
+    {
+        "model",
+        "model_variant",
+        "operation",
+        "prompt",
+        "duration",
+        "ratio",
+        "aspect_ratio",
+        "resolution",
+        "image",
+        "images",
+        "image_url",
+        "image_urls",
+        "reference_image",
+        "reference_images",
+        "reference_image_url",
+        "reference_image_urls",
+        "reference_image_path",
+        "reference_image_paths",
+        "last_image",
+        "last_image_url",
+        "end_image",
+        "end_image_url",
+        "video",
+        "videos",
+        "video_url",
+        "video_clips",
+        "reference_video",
+        "reference_videos",
+        "reference_video_url",
+        "reference_audios",
+        "refers",
+        "clp_manifest",
+        "clp_binding",
+        "clp_shot_id",
+        "clp_shot_bindings",
+        "clp_scene_plan",
+        "clp_reference_inputs",
+        "auxiliary_reference_images",
+        "_reference_execution_plan",
+        "project_dir",
+        "output_path",
+        "poll_interval",
+        "poll_timeout",
+    }
+    | {
+        field
+        for spec in VIDEO_MODELS.values()
+        for field in spec.get("optional_fields", ())
+    }
+    | {str(spec["ratio_key"]) for spec in VIDEO_MODELS.values()}
+)
 
 
 def _is_remote(entry: str) -> bool:
@@ -56,6 +109,8 @@ class AtlasVideo(BaseTool):
     execution_mode = ExecutionMode.SYNC
     determinism = Determinism.STOCHASTIC
     runtime = ToolRuntime.API
+    default_model = _DEFAULT_MODEL
+    reference_model_input_key = "model"
 
     dependencies = ["env:ATLASCLOUD_API_KEY"]
     install_instructions = atlas_client.INSTALL_INSTRUCTIONS
@@ -123,6 +178,13 @@ class AtlasVideo(BaseTool):
             "end_image_url": {"type": "string"},
             "end_image_path": {"type": "string"},
             "reference_images": {"type": "array", "items": {"type": "string"}},
+            "project_dir": {
+                "type": "string",
+                "description": (
+                    "Authoritative CLP project directory; required for strict local "
+                    "reference byte/digest verification."
+                ),
+            },
             "reference_videos": {"type": "array", "items": {"type": "string"}},
             "reference_audios": {"type": "array", "items": {"type": "string"}},
             "video_url": {"type": "string"},
@@ -181,6 +243,102 @@ class AtlasVideo(BaseTool):
     def estimate_runtime(self, inputs: dict[str, Any]) -> float:
         return 180.0
 
+    def get_reference_capability(
+        self,
+        model: str | None = None,
+        operation: str | None = None,
+        model_variant: str | None = None,
+    ) -> dict[str, Any]:
+        if model is not None and not isinstance(model, str):
+            raise ValueError(f"Atlas model must be a string, got {type(model).__name__}")
+        if operation is not None and not isinstance(operation, str):
+            raise ValueError(f"Atlas operation must be a string, got {type(operation).__name__}")
+        if model_variant is not None and not isinstance(model_variant, str):
+            raise ValueError(
+                f"Atlas model_variant must be a string, got {type(model_variant).__name__}"
+            )
+        requested_model = model or _DEFAULT_MODEL
+        requested_spec = VIDEO_MODELS.get(requested_model)
+        if requested_spec is None:
+            raise ValueError(
+                f"Unsupported Atlas video model id {requested_model!r} for reference contract"
+            )
+        op = operation or requested_spec["operation"]
+        if op not in _OPERATIONS:
+            raise ValueError(f"Unsupported Atlas video operation {op!r}")
+        resolved_model = self._resolve_model(requested_model, op, model_variant)
+        resolved_spec = VIDEO_MODELS[resolved_model]
+        if resolved_spec["operation"] != op:
+            raise ValueError(
+                f"Atlas capability resolved operation mismatch: requested {op!r}, "
+                f"resolved {resolved_spec['operation']!r}"
+            )
+        media_limits = resolved_spec.get("media_limits", {})
+        if op in {"reference_to_video", "video_edit"}:
+            max_images = int(media_limits.get("images", 0))
+        elif op == "image_to_video":
+            max_images = 1
+        else:
+            max_images = 0
+        media_style = str(resolved_spec.get("media_style", "none"))
+        payload_key = {
+            "seedance_references": "reference_images",
+            "gemini_images": "images",
+            "h3_refers": "refers",
+            "gemini_video_edit": "images",
+            "seedance_image": "image",
+            "gemini_image": "image",
+            "h3_image": "image",
+        }.get(media_style, "none")
+        canonical_input_key = (
+            "reference_images"
+            if op in {"reference_to_video", "video_edit"}
+            else ("image_path" if op == "image_to_video" else "none")
+        )
+        accepted_input_keys = {
+            "reference_to_video": (
+                "reference_images",
+                "reference_image_urls",
+                "reference_image_paths",
+            ),
+            "video_edit": (
+                "reference_images",
+                "reference_image_urls",
+                "reference_image_paths",
+            ),
+            "image_to_video": (
+                "image_path",
+                "image_url",
+                "reference_image_path",
+                "reference_image_url",
+            ),
+            "text_to_video": (),
+        }[op]
+        return {
+            "operation": op,
+            "resolved_model": resolved_model,
+            "max_image_slots": max_images,
+            "strict_clp_supported": op == "reference_to_video" and max_images > 0,
+            "canonical_input_key": canonical_input_key,
+            "accepted_input_keys": accepted_input_keys,
+            "provider_payload_key": payload_key,
+        }
+
+    def get_reference_capacity(
+        self,
+        model: str | None = None,
+        operation: str | None = None,
+        model_variant: str | None = None,
+    ) -> int:
+        """Backward-compatible scalar view of the exact typed capability."""
+        return int(
+            self.get_reference_capability(
+                model=model,
+                operation=operation,
+                model_variant=model_variant,
+            )["max_image_slots"]
+        )
+
     def is_operation_available(self, operation: str) -> bool:
         return operation in _OPERATIONS
 
@@ -204,6 +362,22 @@ class AtlasVideo(BaseTool):
         if allowed and value not in allowed:
             raise ValueError(f"{name}={value!r} is not supported; choose one of {list(allowed)}")
         return value
+
+    @staticmethod
+    def _validated_extra_params(value: Any) -> dict[str, Any]:
+        """Return extension-only Atlas parameters; reject all owned payload keys."""
+        if value is None:
+            return {}
+        if not isinstance(value, dict):
+            raise ValueError("extra_params must be an object")
+        if any(not isinstance(key, str) or not key for key in value):
+            raise ValueError("extra_params keys must be non-empty strings")
+        conflicts = sorted(set(value) & _ATLAS_RESERVED_EXTRA_PARAM_KEYS)
+        if conflicts:
+            raise ValueError(
+                f"extra_params cannot override reserved Atlas payload keys: {conflicts}"
+            )
+        return dict(value)
 
     def _build_payload(self, inputs: dict[str, Any], model: str) -> dict[str, Any]:
         spec = VIDEO_MODELS[model]
@@ -243,6 +417,12 @@ class AtlasVideo(BaseTool):
                 images = [image]
             if not images:
                 raise ValueError("This Gemini route requires at least one reference image")
+            image_limit = int(spec.get("media_limits", {}).get("images", 0))
+            if image_limit and len(images) > image_limit:
+                raise ValueError(
+                    f"{model} accepts at most {image_limit} reference images; "
+                    f"got {len(images)}"
+                )
             payload["images"] = images
         elif style == "seedance_references":
             if image and not images:
@@ -292,9 +472,7 @@ class AtlasVideo(BaseTool):
                     raise ValueError("Gemini Omni video_edit accepts at most 10 reference images")
                 payload["images"] = images
 
-        extra = inputs.get("extra_params")
-        if isinstance(extra, dict):
-            payload.update(extra)
+        payload.update(self._validated_extra_params(inputs.get("extra_params")))
         return payload
 
     @staticmethod
@@ -303,22 +481,44 @@ class AtlasVideo(BaseTool):
             return value
         return atlas_client.upload_media(value, api_key)
 
-    def _resolve_media(self, inputs: dict[str, Any], api_key: str) -> dict[str, Any]:
+    def _normalize_media_inputs(self, inputs: dict[str, Any]) -> dict[str, Any]:
+        """Normalize and type-check media aliases without uploads."""
         resolved = dict(inputs)
+
+        def _media_string(value: Any, context: str) -> str:
+            if not isinstance(value, str) or not value.strip():
+                raise ValueError(f"Atlas {context} must be a non-empty string")
+            if value != value.strip():
+                raise ValueError(
+                    f"Atlas {context} must not contain surrounding whitespace"
+                )
+            return value
+
+        def _items(key: str) -> list[str]:
+            value = resolved.get(key)
+            if value is None:
+                return []
+            if not isinstance(value, list):
+                raise ValueError(f"Atlas {key} must be an array")
+            return [
+                _media_string(item, f"{key}[{index}]")
+                for index, item in enumerate(value)
+            ]
+
         resolved["reference_images"] = [
-            *(resolved.get("reference_images") or []),
-            *(resolved.get("reference_image_urls") or []),
-            *(resolved.get("reference_image_paths") or []),
+            *_items("reference_images"),
+            *_items("reference_image_urls"),
+            *_items("reference_image_paths"),
         ]
         resolved["reference_videos"] = [
-            *(resolved.get("reference_videos") or []),
-            *(resolved.get("reference_video_urls") or []),
-            *(resolved.get("reference_video_paths") or []),
+            *_items("reference_videos"),
+            *_items("reference_video_urls"),
+            *_items("reference_video_paths"),
         ]
         resolved["reference_audios"] = [
-            *(resolved.get("reference_audios") or []),
-            *(resolved.get("reference_audio_urls") or []),
-            *(resolved.get("reference_audio_paths") or []),
+            *_items("reference_audios"),
+            *_items("reference_audio_urls"),
+            *_items("reference_audio_paths"),
         ]
         aliases = {
             "image_url": ("image_url", "reference_image_url", "image_path", "reference_image_path"),
@@ -326,19 +526,64 @@ class AtlasVideo(BaseTool):
             "video_url": ("video_url", "reference_video_url", "video_path", "reference_video_path"),
         }
         for target, sources in aliases.items():
-            value = next((resolved.get(key) for key in sources if resolved.get(key)), None)
-            if value:
-                resolved[target] = self._upload_value(str(value), api_key)
+            supplied = []
+            for key in sources:
+                if key in resolved and resolved[key] is not None:
+                    supplied.append(_media_string(resolved[key], key))
+            if supplied:
+                resolved[target] = supplied[0]
+
+        if resolved.get("refers") is not None:
+            if not isinstance(resolved["refers"], list):
+                raise ValueError("Atlas refers must be an array")
+            normalized = []
+            for index, item in enumerate(resolved["refers"]):
+                if not isinstance(item, dict):
+                    raise ValueError("Each Atlas refers item must be an object")
+                entry = dict(item)
+                entry["url"] = _media_string(item.get("url"), f"refers[{index}].url")
+                if "type" in entry:
+                    if entry["type"] not in {"image", "video", "audio"}:
+                        raise ValueError(
+                            "Each Atlas refers item type must be image, video, or audio"
+                        )
+                else:
+                    entry["type"] = _media_type(entry["url"])
+                normalized.append(entry)
+            resolved["refers"] = normalized
+
+        if resolved.get("video_clips") is not None:
+            if not isinstance(resolved["video_clips"], list):
+                raise ValueError("Atlas video_clips must be an array")
+            clips = []
+            for index, item in enumerate(resolved["video_clips"]):
+                if not isinstance(item, dict):
+                    raise ValueError("Each Atlas video_clips item must be an object")
+                clip = dict(item)
+                clip["url"] = _media_string(
+                    item.get("url"), f"video_clips[{index}].url"
+                )
+                clips.append(clip)
+            resolved["video_clips"] = clips
+        return resolved
+
+    def _resolve_media(self, inputs: dict[str, Any], api_key: str) -> dict[str, Any]:
+        resolved = self._normalize_media_inputs(inputs)
+        for key in ("image_url", "last_image_url", "video_url"):
+            if resolved.get(key):
+                resolved[key] = self._upload_value(resolved[key], api_key)
 
         for key in ("reference_images", "reference_videos", "reference_audios"):
-            resolved[key] = [self._upload_value(str(value), api_key) for value in resolved.get(key, [])]
+            resolved[key] = [
+                self._upload_value(value, api_key)
+                for value in resolved.get(key, [])
+            ]
 
         if resolved.get("refers"):
             normalized = []
             for item in resolved["refers"]:
                 entry = dict(item)
-                entry["url"] = self._upload_value(str(entry["url"]), api_key)
-                entry.setdefault("type", _media_type(str(item["url"])))
+                entry["url"] = self._upload_value(entry["url"], api_key)
                 normalized.append(entry)
             resolved["refers"] = normalized
 
@@ -346,23 +591,55 @@ class AtlasVideo(BaseTool):
             clips = []
             for item in resolved["video_clips"]:
                 clip = dict(item)
-                clip["url"] = self._upload_value(str(clip["url"]), api_key)
+                clip["url"] = self._upload_value(clip["url"], api_key)
                 clips.append(clip)
             resolved["video_clips"] = clips
         return resolved
 
     def execute(self, inputs: dict[str, Any]) -> ToolResult:
+        try:
+            from lib.clp_validator import validate_provider_reference_submission
+
+            def _effective_string(key: str, default: str) -> str:
+                if key not in inputs:
+                    return default
+                value = inputs[key]
+                if not isinstance(value, str) or not value:
+                    raise ValueError(
+                        f"Atlas {key} must be a non-empty string when supplied, "
+                        f"got {value!r}"
+                    )
+                return value
+
+            requested_model = _effective_string("model", _DEFAULT_MODEL)
+            requested_operation = _effective_string("operation", "text_to_video")
+            requested_variant = (
+                _effective_string("model_variant", "standard")
+                if "model_variant" in inputs
+                else None
+            )
+            route_contract = self.get_reference_capability(
+                model=requested_model,
+                operation=requested_operation,
+                model_variant=requested_variant,
+            )
+            self._validated_extra_params(inputs.get("extra_params"))
+            validate_provider_reference_submission(self, inputs)
+            # Pure shape/cardinality/required-media validation. This produces
+            # no network I/O and runs before API-key lookup or media upload.
+            preview = self._normalize_media_inputs(inputs)
+            self._build_payload(preview, route_contract["resolved_model"])
+        except (ValueError, RuntimeError) as exc:
+            return ToolResult(success=False, error=f"Provider preflight rejected request: {exc}")
+
         api_key = atlas_client.get_api_key()
         if not api_key:
             return ToolResult(success=False, error="ATLASCLOUD_API_KEY not set. " + self.install_instructions)
 
         started = time.time()
-        operation = str(inputs.get("operation", "text_to_video"))
+        operation = route_contract["operation"]
         try:
-            model = self._resolve_model(
-                str(inputs.get("model", _DEFAULT_MODEL)), operation,
-                str(inputs["model_variant"]) if inputs.get("model_variant") else None,
-            )
+            model = route_contract["resolved_model"]
             resolved = self._resolve_media(inputs, api_key)
             payload = self._build_payload(resolved, model)
             prediction_id = atlas_client.submit(atlas_client.GENERATE_VIDEO_ENDPOINT, payload, api_key)

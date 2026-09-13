@@ -720,6 +720,7 @@ class TestAnimatedExplainerManifest:
             "research",
             "proposal",
             "script",
+            "clp",
             "scene_plan",
             "assets",
             "edit",

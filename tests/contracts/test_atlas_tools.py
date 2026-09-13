@@ -1,6 +1,7 @@
 """Contract and exact-schema tests for the Atlas Cloud media gateway."""
 
 from pathlib import Path
+from unittest.mock import patch
 
 import pytest
 
@@ -189,6 +190,53 @@ class TestVideoRoutes:
             tool._resolve_model("minimax/h3/text-to-video", "video_edit")
         with pytest.raises(ValueError, match="duration"):
             tool._build_payload({"prompt": "p", "duration": 30}, "minimax/h3/text-to-video")
+
+    @pytest.mark.parametrize(
+        "request_inputs",
+        [
+            {
+                "model": "bytedance/seedance-2.5/reference-to-video",
+                "operation": "reference_to_video",
+                "reference_images": [{"bad": 1}],
+            },
+            {
+                "model": "bytedance/seedance-2.5/reference-to-video",
+                "operation": "reference_to_video",
+                "reference_images": ["   "],
+            },
+            {
+                "model": "bytedance/seedance-2.5/image-to-video",
+                "operation": "image_to_video",
+                "image_url": {"bad": 1},
+            },
+            {
+                "model": "minimax/h3/reference-to-video",
+                "operation": "reference_to_video",
+                "refers": [{"url": "", "type": "image"}],
+            },
+            {
+                "model": "minimax/h3/reference-to-video",
+                "operation": "reference_to_video",
+                "refers": [{"url": "https://x/a.png", "type": "document"}],
+            },
+            {
+                "model": "google/gemini-omni-flash/reference-to-video",
+                "model_variant": "developer",
+                "operation": "reference_to_video",
+                "video_clips": [{"url": ""}],
+            },
+        ],
+    )
+    def test_malformed_media_fails_before_upload(self, request_inputs):
+        tool = AtlasVideo()
+        with patch("tools.atlas_client.get_api_key", return_value="key"), patch(
+            "tools.atlas_client.upload_media"
+        ) as upload:
+            result = tool.execute({"prompt": "p", **request_inputs})
+
+        assert result.success is False
+        assert "preflight" in result.error.lower()
+        upload.assert_not_called()
 
     @pytest.mark.parametrize(
         "model,expected",
