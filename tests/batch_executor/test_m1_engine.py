@@ -702,6 +702,35 @@ def test_independent_item_continues_and_dependency_is_blocked_without_dispatch(
     assert {call.item_id for call in provider.calls} == {"item-001", "item-003"}
 
 
+def test_systemic_auth_failure_stops_all_new_dispatch_without_fallback(
+    batch_request, authorized_project, source_revision, qualified_adapter_observation
+):
+    request = _request(batch_request, count=3)
+    provider = ScriptedFakeProvider(
+        scripts={
+            "item-001": [
+                FakeProviderStep.error(
+                    "AUTH_CONFIGURATION",
+                    acceptance="not_accepted",
+                    retry_action="do_not_retry",
+                )
+            ]
+        }
+    )
+    result = _run(
+        _executor(authorized_project, provider),
+        request,
+        source_revision,
+        qualified_adapter_observation,
+    )
+    assert result["outcome"] == "failed"
+    assert result["counts"]["failed"] == 3
+    assert provider.submit_calls == 1
+    assert {item["error"]["error_class"] for item in result["items"]} == {
+        "AUTH_CONFIGURATION"
+    }
+
+
 def test_forty_item_fake_executor_workload_is_complete_and_model_assertion_is_stable(
     batch_request, authorized_project, source_revision, qualified_adapter_observation
 ):

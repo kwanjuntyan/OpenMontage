@@ -85,6 +85,7 @@ class LocalBatchExecutor:
         self._reused_item_ids: set[str] = set()
         self._rate_limit_wait_seconds = 0.0
         self._cancellation = threading.Event()
+        self._dispatch_blocker: str | None = None
 
     def _now(self) -> str:
         now_method = getattr(self.clock, "now", None)
@@ -557,6 +558,34 @@ class LocalBatchExecutor:
         )
         return exposure <= float(self._state["cost"]["authorized_cap_usd"]) + 1e-9
 
+    def _budget_would_exceed_cap(self, item: Mapping[str, Any]) -> bool:
+        exposure = (
+            float(self._state["cost"]["reserved_usd"])
+            + float(self._state["cost"]["known_actual_usd"])
+            + float(self._state["cost"]["indeterminate_exposure_usd"])
+            + float(item["estimated_cost_usd"])
+        )
+        return exposure > float(self._state["cost"]["authorized_cap_usd"]) + 1e-9
+
+    def _apply_dispatch_blocker(self) -> bool:
+        """Fail undispatched work after a systemic M1 blocker."""
+
+        if self._dispatch_blocker is None:
+            return False
+        changed = False
+        for record in self._state["items"]:
+            if record["state"] not in {"pending", "eligible"}:
+                continue
+            record.update(
+                {
+                    "state": "failed_terminal",
+                    "error_class": self._dispatch_blocker,
+                }
+            )
+            record.pop("next_eligible_at", None)
+            changed = True
+        return changed
+
     def _fail_retry_candidate(self, record: dict[str, Any], latest: dict[str, Any] | None) -> None:
         record.pop("next_eligible_at", None)
         record["state"] = "failed_terminal"
@@ -575,6 +604,8 @@ class LocalBatchExecutor:
             and latest.get("retry_action") == "await_charged_generation_authorization"
         )
         if not self._can_start_attempt(item, charged_retry=charged_retry):
+            if self._budget_would_exceed_cap(item):
+                self._dispatch_blocker = "BUDGET_EXCEEDED"
             self._fail_retry_candidate(record, latest)
             self._save_state()
             return None
@@ -804,6 +835,8 @@ class LocalBatchExecutor:
                 record["next_eligible_at"] = self._retry_deadline(delay)
         validate_attempt(attempt)
         self._save_state()
+        if error_class == "AUTH_CONFIGURATION":
+            self._dispatch_blocker = error_class
         if record["state"] == "retry_wait":
             self._crash(
                 "retry_wait_persisted",
@@ -952,6 +985,7 @@ class LocalBatchExecutor:
                     {"state": "failed_terminal", "error_class": "LOCAL_STORAGE_TRANSIENT"}
                 )
                 record.pop("next_eligible_at", None)
+                self._dispatch_blocker = "LOCAL_STORAGE_TRANSIENT"
             else:
                 delay = full_jitter_delay(
                     continuation_count - 1,
@@ -1184,13 +1218,19 @@ class LocalBatchExecutor:
             inflight: dict[Future[ProviderFacts], tuple[ProviderCall, dict[str, Any]]] = {}
             while True:
                 state_changed = False
+                if self._apply_dispatch_blocker():
+                    state_changed = True
                 if cancellation.is_set():
                     state_changed = self._settle_cancellation()
                     if state_changed:
                         self._save_state()
 
                 capacity = policy["provider_concurrency_cap"] - len(inflight)
-                if not cancellation.is_set() and capacity > 0:
+                if (
+                    not cancellation.is_set()
+                    and self._dispatch_blocker is None
+                    and capacity > 0
+                ):
                     for item_id, item in self._work_items.items():
                         if capacity <= 0:
                             break
@@ -1288,6 +1328,7 @@ class LocalBatchExecutor:
         self._state_version = None
         self._reused_item_ids = set()
         self._rate_limit_wait_seconds = 0.0
+        self._dispatch_blocker = None
         frozen = deepcopy(dict(request))
         facts = preflight_batch_request(
             frozen,
