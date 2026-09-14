@@ -471,6 +471,23 @@ CLP_ARTIFACT_OWNERS = {
 }
 
 
+def _batch_v2_asset_manifest_authority(
+    project_dir: Path, checkpoint: Any
+) -> Optional[dict]:
+    """Recognize only an exact, validated V2 assets command/checkpoint pair."""
+
+    if not isinstance(checkpoint, dict) or checkpoint.get("_checkpoint_invalid"):
+        return None
+    try:
+        from lib.batch_executor.publication import (
+            validated_v2_asset_manifest_from_checkpoint,
+        )
+
+        return validated_v2_asset_manifest_from_checkpoint(project_dir, checkpoint)
+    except Exception:
+        return None
+
+
 def _collect_artifacts(
     project_dir: Path, checkpoints: dict[str, dict]
 ) -> tuple[dict[str, dict], list[dict[str, str]]]:
@@ -545,6 +562,36 @@ def _collect_artifacts(
                         "artifact": name,
                         "status": "cache_mismatch_ignored",
                         "reason": f"checkpoint_{owner_stage}.json remains authoritative",
+                    })
+
+    # Batch V2 makes only its explicitly tagged, officially validated assets
+    # checkpoint authoritative.  Do not generalize this precedence rule: old
+    # projects and every non-V2 artifact retain the legacy behavior above.
+    v2_asset_manifest = _batch_v2_asset_manifest_authority(
+        project_dir, checkpoints.get("assets")
+    )
+    if v2_asset_manifest is not None:
+        loose_asset_manifest = _read_contained_project_json(
+            project_dir, art_dir / ARTIFACT_FILES["asset_manifest"]
+        )
+        artifacts["asset_manifest"] = v2_asset_manifest
+        if loose_asset_manifest is not None:
+            try:
+                loose_matches = canonical_digest(loose_asset_manifest) == canonical_digest(
+                    v2_asset_manifest
+                )
+            except (TypeError, ValueError):
+                diagnostics.append({
+                    "artifact": "asset_manifest",
+                    "status": "invalid_cache_ignored",
+                    "reason": "standalone cache is not canonical JSON",
+                })
+            else:
+                if not loose_matches:
+                    diagnostics.append({
+                        "artifact": "asset_manifest",
+                        "status": "cache_mismatch_ignored",
+                        "reason": "validated Batch V2 checkpoint_assets.json remains authoritative",
                     })
     return artifacts, diagnostics
 

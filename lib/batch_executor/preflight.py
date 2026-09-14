@@ -474,6 +474,29 @@ def preflight_batch_request(
     if dict(request["source_revision"]) != dict(observed_source_revision):
         raise M0ContractError("SOURCE_REVISION_MISMATCH", "Materialized source revision is stale")
     validate_adapter_observation(adapter_observation)
+    return validate_frozen_request_authority(
+        request,
+        projects_root=projects_root,
+        manifest_loader=manifest_loader,
+        checkpoint_reader=checkpoint_reader,
+    )
+
+
+def validate_frozen_request_authority(
+    request: Mapping[str, Any],
+    *,
+    projects_root: str | Path,
+    manifest_loader: ManifestLoader = load_pipeline_readonly,
+    checkpoint_reader: CheckpointReader = read_checkpoint,
+) -> PreflightFacts:
+    """Revalidate immutable project/source/gate authority without tool facts.
+
+    M2 uses this read-only subset after execution so a changed predecessor,
+    project marker, pipeline manifest, authorization, or source binding cannot
+    be published merely because it was valid before M1 dispatch.
+    """
+
+    validate_batch_request(request)
     root = Path(projects_root).resolve()
     project_dir = _authenticate_project_marker(
         root, request["project_id"], request["pipeline_type"]
@@ -536,4 +559,8 @@ def preflight_batch_request(
     )
 
 
-__all__ = ["PreflightFacts", "preflight_batch_request"]
+__all__ = [
+    "PreflightFacts",
+    "preflight_batch_request",
+    "validate_frozen_request_authority",
+]

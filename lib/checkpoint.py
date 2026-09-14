@@ -1362,7 +1362,18 @@ def write_checkpoint(
     os.replace(tmp_path, path)
 
     # Automatic non-blocking GCS sync for media stages (shot videos, audio, images, renders)
-    if stage in {"assets", "edit", "compose"} and status in {"completed", "awaiting_human"}:
+    suppress_legacy_sync = False
+    try:
+        from lib.batch_executor.side_effects import hidden_writers_suppressed
+
+        suppress_legacy_sync = hidden_writers_suppressed()
+    except ImportError:
+        pass
+    if (
+        not suppress_legacy_sync
+        and stage in {"assets", "edit", "compose"}
+        and status in {"completed", "awaiting_human"}
+    ):
         try:
             from lib.gcs_storage import gcs_storage
             if gcs_storage.is_auto_sync_enabled():

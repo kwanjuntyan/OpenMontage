@@ -1,8 +1,9 @@
-"""Batch Executor V2 contracts and M1 local execution primitives.
+"""Batch Executor V2 contracts, M1 local execution, and M2 publication.
 
 The local executor is deliberately mechanical: it executes only an already
-frozen, authorized assets request through one injected exact adapter. Canonical
-publication and the production Gemini transport remain later milestones.
+frozen, authorized assets request through one injected exact adapter. M2 then
+applies an immutable Agent-authored command through the official checkpoint
+contracts. The production Gemini transport remains an M3 milestone.
 """
 
 from .contracts import (
@@ -16,14 +17,17 @@ from .contracts import (
     compute_work_item_digest,
     derive_attempt_output_path,
     freeze_batch_request,
+    freeze_publication_command,
     validate_attempt,
     validate_batch_request,
     validate_batch_result,
     validate_batch_state,
     validate_contract,
+    validate_publication_command,
     validate_storage_receipt,
 )
 from .engine import LocalBatchExecutor
+from .publication import LocalAssetsPublisher
 from .storage import LocalStore
 
 __all__ = [
@@ -32,6 +36,7 @@ __all__ = [
     "MVP_ADAPTER_SUPPORT",
     "M0ContractError",
     "LocalBatchExecutor",
+    "LocalAssetsPublisher",
     "LocalStore",
     "canonical_json_bytes",
     "canonical_sha256",
@@ -39,10 +44,12 @@ __all__ = [
     "compute_work_item_digest",
     "derive_attempt_output_path",
     "freeze_batch_request",
+    "freeze_publication_command",
     "validate_attempt",
     "validate_batch_request",
     "validate_batch_result",
     "validate_batch_state",
     "validate_contract",
+    "validate_publication_command",
     "validate_storage_receipt",
 ]

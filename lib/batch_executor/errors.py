@@ -1,4 +1,4 @@
-"""Typed failures for the M1 local Batch Executor."""
+"""Typed failures for the local Batch Executor V2 milestones."""
 
 from __future__ import annotations
 
@@ -27,6 +27,10 @@ class WorkerWriteViolation(M1ExecutionError):
     """A worker attempted to write outside its unique attempt directory."""
 
 
+class M2PublicationError(M1ExecutionError):
+    """A fail-closed canonical publication contract or lifecycle violation."""
+
+
 class InjectedCrash(M1ExecutionError):
     """Offline crash-injection signal used at durable M1 boundaries."""
 
@@ -40,6 +44,7 @@ __all__ = [
     "InjectedCrash",
     "LocalRunLocked",
     "M1ExecutionError",
+    "M2PublicationError",
     "StorageConflict",
     "WorkerWriteViolation",
 ]

@@ -1,4 +1,4 @@
-"""Thread-scoped suppression and filesystem confinement for V2 workers."""
+"""Scoped hidden-writer suppression and V2 worker filesystem confinement."""
 
 from __future__ import annotations
 
@@ -21,12 +21,30 @@ _WORKER_WRITE_ROOT: contextvars.ContextVar[Path | None] = contextvars.ContextVar
 _HIDDEN_WRITERS_SUPPRESSED: contextvars.ContextVar[bool] = contextvars.ContextVar(
     "batch_v2_hidden_writers_suppressed", default=False
 )
+_PUBLICATION_SCOPE_ACTIVE: contextvars.ContextVar[bool] = contextvars.ContextVar(
+    "batch_v2_publication_scope_active", default=False
+)
 
 
 def hidden_writers_suppressed() -> bool:
-    """Return whether the current call is inside a V2 worker execution scope."""
+    """Return whether the current call is inside a scoped V2 invocation."""
 
     return _HIDDEN_WRITERS_SUPPRESSED.get()
+
+
+def assert_publication_invocation_allowed() -> None:
+    """Reject canonical publication from a provider worker or nested publisher."""
+
+    if _WORKER_WRITE_ROOT.get() is not None:
+        raise WorkerWriteViolation(
+            "WORKER_PUBLICATION_FORBIDDEN",
+            "Provider workers cannot enter the canonical publication path",
+        )
+    if _PUBLICATION_SCOPE_ACTIVE.get():
+        raise WorkerWriteViolation(
+            "NESTED_PUBLICATION_FORBIDDEN",
+            "Canonical publication invocations cannot be nested",
+        )
 
 
 def _is_write_open(mode: object, flags: object) -> bool:
@@ -214,4 +232,23 @@ def worker_execution_scope(attempt_dir: str | Path) -> Iterator[None]:
         _WORKER_WRITE_ROOT.reset(root_token)
 
 
-__all__ = ["hidden_writers_suppressed", "worker_execution_scope"]
+@contextlib.contextmanager
+def publication_execution_scope() -> Iterator[None]:
+    """Suppress legacy writers only for one sequential V2 publication call."""
+
+    assert_publication_invocation_allowed()
+    publication_token = _PUBLICATION_SCOPE_ACTIVE.set(True)
+    hidden_token = _HIDDEN_WRITERS_SUPPRESSED.set(True)
+    try:
+        yield
+    finally:
+        _HIDDEN_WRITERS_SUPPRESSED.reset(hidden_token)
+        _PUBLICATION_SCOPE_ACTIVE.reset(publication_token)
+
+
+__all__ = [
+    "assert_publication_invocation_allowed",
+    "hidden_writers_suppressed",
+    "publication_execution_scope",
+    "worker_execution_scope",
+]

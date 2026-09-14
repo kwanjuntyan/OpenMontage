@@ -1,11 +1,13 @@
-"""Project-scoped durable LocalStore for the M1 executor."""
+"""Project-scoped local storage for M1 execution and M2 publication."""
 
 from __future__ import annotations
 
 import hashlib
 import json
 import os
+import re
 import shutil
+import stat
 import tempfile
 import threading
 from decimal import Decimal
@@ -20,12 +22,14 @@ from .contracts import (
     validate_batch_request,
     validate_batch_result,
     validate_batch_state,
+    validate_publication_command,
     validate_storage_receipt,
 )
 from .errors import (
     CoordinatorWriterViolation,
     LocalRunLocked,
     M1ExecutionError,
+    M2PublicationError,
     StorageConflict,
 )
 from .media_validation import MediaValidator, OutputFacts
@@ -137,16 +141,127 @@ def _write_immutable(
                 pass
 
 
+def _copy_immutable_file(
+    source: Path,
+    destination: Path,
+    *,
+    expected_sha256: str,
+    expected_size: int,
+    publish_hook: Callable[[Path, Path], None] | None = None,
+) -> bool:
+    """Copy and no-replace publish one verified file; return whether it was new."""
+
+    def assert_safe_destination() -> None:
+        lexical = Path(os.path.abspath(destination))
+        resolved = destination.resolve(strict=False)
+        if os.path.normcase(str(resolved)) != os.path.normcase(str(lexical)):
+            raise M2PublicationError(
+                "CANONICAL_PATH_ALIAS",
+                "Canonical destination changes identity through a filesystem alias",
+            )
+        if destination.exists():
+            target_stat = destination.stat(follow_symlinks=False)
+            if stat.S_ISLNK(target_stat.st_mode) or (
+                stat.S_ISREG(target_stat.st_mode) and target_stat.st_nlink > 1
+            ):
+                raise M2PublicationError(
+                    "CANONICAL_PATH_ALIAS",
+                    "Existing canonical destination is a symlink or multiply-linked file",
+                )
+
+    source_sha, source_size = _digest_file(source)
+    if source_sha != expected_sha256 or source_size != expected_size:
+        raise M2PublicationError(
+            "PUBLICATION_SOURCE_CHANGED",
+            "The verified content-addressed source changed before publication",
+        )
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    assert_safe_destination()
+    if destination.exists():
+        target_sha, target_size = _digest_file(destination)
+        if target_sha != expected_sha256 or target_size != expected_size:
+            raise StorageConflict(
+                "CANONICAL_ASSET_CONFLICT",
+                f"Canonical destination already contains different bytes: {destination}",
+            )
+        return False
+
+    prefix = f".{destination.name}.batch-v2-publication."
+    for orphan in destination.parent.glob(f"{prefix}*.tmp"):
+        try:
+            orphan.unlink()
+        except FileNotFoundError:
+            pass
+    descriptor, temporary = tempfile.mkstemp(
+        prefix=prefix, suffix=".tmp", dir=destination.parent
+    )
+    temporary_path = Path(temporary)
+    preserve_orphan = False
+    try:
+        with source.open("rb") as source_handle, os.fdopen(descriptor, "wb") as target:
+            shutil.copyfileobj(source_handle, target)
+            target.flush()
+            os.fsync(target.fileno())
+        copied_sha, copied_size = _digest_file(temporary_path)
+        if copied_sha != expected_sha256 or copied_size != expected_size:
+            raise M2PublicationError(
+                "PUBLICATION_COPY_INVALID",
+                "Canonical publication copy failed digest/size verification",
+            )
+        if publish_hook is not None:
+            try:
+                publish_hook(destination, temporary_path)
+            except BaseException:
+                preserve_orphan = True
+                raise
+        assert_safe_destination()
+        created = _publish_temp_no_replace(temporary_path, destination)
+        if not created:
+            assert_safe_destination()
+            target_sha, target_size = _digest_file(destination)
+            if target_sha != expected_sha256 or target_size != expected_size:
+                raise StorageConflict(
+                    "CANONICAL_ASSET_CONFLICT",
+                    f"Canonical destination raced with different bytes: {destination}",
+                )
+        return created
+    finally:
+        if not preserve_orphan:
+            try:
+                temporary_path.unlink()
+            except FileNotFoundError:
+                pass
+
+
+_PROCESS_LOCK_GUARD = threading.Lock()
+_PROCESS_LOCK_PATHS: set[str] = set()
+
+
 class LocalRunLock:
     """A non-blocking OS-level exclusive lock held for the whole local run."""
 
     def __init__(self, path: Path):
         self.path = path
         self._handle = None
+        self._registry_key: str | None = None
 
     def __enter__(self) -> "LocalRunLock":
         self.path.parent.mkdir(parents=True, exist_ok=True)
-        handle = self.path.open("a+b")
+        registry_key = os.path.normcase(str(self.path.resolve(strict=False)))
+        with _PROCESS_LOCK_GUARD:
+            if registry_key in _PROCESS_LOCK_PATHS:
+                raise LocalRunLocked(
+                    "LOCAL_RUN_LOCKED", f"Another coordinator owns {self.path}"
+                )
+            _PROCESS_LOCK_PATHS.add(registry_key)
+        self._registry_key = registry_key
+        try:
+            handle = self.path.open("a+b")
+        except OSError:
+            with _PROCESS_LOCK_GUARD:
+                _PROCESS_LOCK_PATHS.discard(registry_key)
+            self._registry_key = None
+            raise
         try:
             if os.name == "nt":
                 import msvcrt
@@ -163,6 +278,9 @@ class LocalRunLock:
                 fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
         except (OSError, BlockingIOError) as exc:
             handle.close()
+            with _PROCESS_LOCK_GUARD:
+                _PROCESS_LOCK_PATHS.discard(registry_key)
+            self._registry_key = None
             raise LocalRunLocked(
                 "LOCAL_RUN_LOCKED", f"Another coordinator owns {self.path}"
             ) from exc
@@ -186,10 +304,15 @@ class LocalRunLock:
                 fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
         finally:
             handle.close()
+            registry_key = self._registry_key
+            self._registry_key = None
+            if registry_key is not None:
+                with _PROCESS_LOCK_GUARD:
+                    _PROCESS_LOCK_PATHS.discard(registry_key)
 
 
 class LocalStore:
-    """Minimal M1 store; every mutating method is coordinator-thread-only."""
+    """Minimal local store; mutating methods are coordinator-thread-only."""
 
     def __init__(
         self,
@@ -206,11 +329,15 @@ class LocalStore:
         self.state_path = self.run_dir / "state.json"
         self.result_path = self.run_dir / "result.json"
         self.lock_path = self.run_dir / "run.lock"
+        self.publication_lock_path = self.project_dir / ".batch-v2" / "publication.lock"
+        self.publication_command_dir = self.run_dir / "publication" / "commands"
         self._writer_thread_id = threading.get_ident()
         self._journal_digests: dict[str, str] = {}
         self._immutable_publish_hook = immutable_publish_hook
         self._assert_project_scoped_path(self.run_dir)
         self._assert_project_scoped_path(self.blob_root)
+        self._assert_project_scoped_path(self.publication_command_dir)
+        self._assert_project_scoped_path(self.publication_lock_path)
 
     def _assert_project_scoped_path(self, path: Path) -> Path:
         resolved = path.resolve(strict=False)
@@ -236,6 +363,12 @@ class LocalStore:
     def acquire_run_lock(self) -> LocalRunLock:
         self._assert_writer()
         return LocalRunLock(self.lock_path)
+
+    def acquire_publication_lock(self) -> LocalRunLock:
+        """Serialize canonical publication across every batch in this project."""
+
+        self._assert_writer()
+        return LocalRunLock(self.publication_lock_path)
 
     def attempt_output_path(
         self, item_id: str, attempt_id: str, output_name: str
@@ -524,6 +657,124 @@ class LocalStore:
                 "RESULT_RECORD_INVALID", "Durable BatchResult is corrupt"
             ) from exc
         return result, canonical_sha256(result)
+
+    def publication_command_path(self, command_id: str) -> Path:
+        if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", command_id):
+            raise M2PublicationError(
+                "PUBLICATION_COMMAND_ID_INVALID", "Unsafe publication command ID"
+            )
+        path = self.publication_command_dir / f"{command_id}.json"
+        return self._assert_project_scoped_path(path)
+
+    def write_publication_command_if_absent(
+        self, command: Mapping[str, Any]
+    ) -> tuple[Path, str]:
+        self._assert_writer()
+        validate_publication_command(command)
+        path = self.publication_command_path(str(command["command_id"]))
+        payload = canonical_json_bytes(command)
+        _write_immutable(
+            path,
+            payload,
+            conflict_code="PUBLICATION_COMMAND_CONFLICT",
+            publish_hook=self._immutable_publish_hook,
+        )
+        return path, str(command["command_digest"])
+
+    def load_publication_command(
+        self, command_id: str
+    ) -> tuple[dict[str, Any], str]:
+        path = self.publication_command_path(command_id)
+        try:
+            command = json.loads(path.read_text(encoding="utf-8"))
+            validate_publication_command(command)
+        except (OSError, json.JSONDecodeError, M0ContractError) as exc:
+            raise M2PublicationError(
+                "PUBLICATION_COMMAND_RECORD_INVALID",
+                "Durable PublicationCommand is missing or corrupt",
+            ) from exc
+        return command, str(command["command_digest"])
+
+    def _canonical_asset_target(self, logical_path: str) -> Path:
+        relative = PurePosixPath(logical_path)
+        if len(relative.parts) < 2 or relative.parts[0] != "assets":
+            raise M2PublicationError(
+                "CANONICAL_ASSET_PATH_INVALID",
+                "Canonical media must be a file beneath assets/",
+            )
+        lexical = self.project_dir / Path(*relative.parts)
+        resolved = lexical.resolve(strict=False)
+        try:
+            resolved.relative_to(self.project_dir)
+        except ValueError as exc:
+            raise M2PublicationError(
+                "CANONICAL_PATH_ESCAPE", "Canonical media path escapes the project"
+            ) from exc
+        if os.path.normcase(str(resolved)) != os.path.normcase(str(lexical)):
+            raise M2PublicationError(
+                "CANONICAL_PATH_ALIAS",
+                "Canonical media path changes identity through a symlink or junction",
+            )
+        return lexical
+
+    def preflight_canonical_asset(
+        self,
+        *,
+        receipt: Mapping[str, Any],
+        canonical_path: str,
+        validator: MediaValidator,
+        output_spec: Mapping[str, Any],
+    ) -> tuple[Path, Path]:
+        self._assert_writer()
+        self.verify_receipt(receipt, validator=validator, output_spec=output_spec)
+        source = (
+            self.project_dir / Path(*PurePosixPath(receipt["locator"]).parts)
+        ).resolve(strict=True)
+        destination = self._canonical_asset_target(canonical_path)
+        if destination.exists():
+            target_stat = destination.stat(follow_symlinks=False)
+            if stat.S_ISLNK(target_stat.st_mode) or (
+                stat.S_ISREG(target_stat.st_mode) and target_stat.st_nlink > 1
+            ):
+                raise M2PublicationError(
+                    "CANONICAL_PATH_ALIAS",
+                    "Canonical destination is an unsafe filesystem alias",
+                )
+            target_sha, target_size = _digest_file(destination)
+            if (
+                target_sha != receipt["sha256"]
+                or target_size != receipt["size_bytes"]
+            ):
+                raise StorageConflict(
+                    "CANONICAL_ASSET_CONFLICT",
+                    f"Canonical destination already differs: {destination}",
+                )
+        return source, destination
+
+    def materialize_canonical_asset(
+        self,
+        *,
+        receipt: Mapping[str, Any],
+        canonical_path: str,
+        validator: MediaValidator,
+        output_spec: Mapping[str, Any],
+        publish_hook: Callable[[Path, Path], None] | None = None,
+    ) -> tuple[Path, bool]:
+        self._assert_writer()
+        source, destination = self.preflight_canonical_asset(
+            receipt=receipt,
+            canonical_path=canonical_path,
+            validator=validator,
+            output_spec=output_spec,
+        )
+        created = _copy_immutable_file(
+            source,
+            destination,
+            expected_sha256=receipt["sha256"],
+            expected_size=receipt["size_bytes"],
+            publish_hook=publish_hook,
+        )
+        return destination, created
 
 
 __all__ = ["LocalRunLock", "LocalStore"]
