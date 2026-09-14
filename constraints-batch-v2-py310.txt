@@ -1,0 +1,30 @@
+# Fully resolved Python 3.10 constraint set for the M3 direct runtime lock.
+# A later authorized image build must verify wheel availability and retain its
+# install report; changing any version requires a reviewed lock refresh.
+PyYAML==6.0.3
+attrs==25.4.0
+certifi==2025.1.31
+cffi==2.0.0
+charset-normalizer==3.4.1
+cryptography==46.0.5
+google-api-core==2.25.1
+google-auth==2.48.0
+google-cloud-core==2.5.0
+google-cloud-storage==3.4.1
+google-crc32c==1.8.0
+google-resumable-media==2.8.0
+googleapis-common-protos==1.70.0
+idna==3.10
+jsonschema==4.26.0
+jsonschema-specifications==2025.9.1
+proto-plus==1.26.1
+protobuf==5.29.5
+pyasn1==0.6.1
+pyasn1_modules==0.4.2
+pycparser==3.0
+referencing==0.37.0
+requests==2.32.3
+rpds-py==2026.5.1
+rsa==4.9.1
+typing_extensions==4.15.0
+urllib3==2.4.0

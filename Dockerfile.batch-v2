@@ -1,0 +1,38 @@
+# syntax=docker/dockerfile:1.7
+# The caller must supply an immutable digest-qualified Python 3.10 image and
+# the exact Debian ffmpeg package version recorded by the approved build.
+ARG PYTHON_BASE_IMAGE
+FROM ${PYTHON_BASE_IMAGE}
+
+ARG FFMPEG_APT_VERSION
+ENV DEBIAN_FRONTEND=noninteractive \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1 \
+    PYTHONPATH=/opt/openmontage
+
+RUN test -n "${FFMPEG_APT_VERSION}" \
+    && apt-get update \
+    && apt-get install --yes --no-install-recommends \
+        "ffmpeg=${FFMPEG_APT_VERSION}" \
+    && rm -rf /var/lib/apt/lists/*
+
+WORKDIR /opt/openmontage
+COPY requirements-batch-v2.txt constraints-batch-v2-py310.txt ./
+RUN python -m pip install --no-cache-dir \
+    --constraint constraints-batch-v2-py310.txt \
+    --requirement requirements-batch-v2.txt
+
+COPY lib ./lib
+COPY schemas ./schemas
+COPY pipeline_defs ./pipeline_defs
+COPY scripts/batch_execute.py ./scripts/batch_execute.py
+
+RUN groupadd --gid 65532 batchv2 \
+    && useradd --uid 65532 --gid 65532 --no-create-home --shell /usr/sbin/nologin batchv2 \
+    && mkdir --parents /workspace/projects \
+    && chown --recursive 65532:65532 /workspace \
+    && chmod --recursive a-w /opt/openmontage
+
+USER 65532:65532
+WORKDIR /workspace
+ENTRYPOINT ["python", "/opt/openmontage/scripts/batch_execute.py"]

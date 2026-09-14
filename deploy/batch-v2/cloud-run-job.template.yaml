@@ -1,0 +1,43 @@
+# Offline-reviewed template only. M5 approval is required before substitution
+# or deployment. Every ${...} value is an explicit launch input.
+apiVersion: run.googleapis.com/v1
+kind: Job
+metadata:
+  name: ${CLOUD_RUN_JOB}
+spec:
+  template:
+    metadata:
+      annotations:
+        run.googleapis.com/execution-environment: gen2
+    spec:
+      taskCount: 1
+      parallelism: 1
+      template:
+        spec:
+          maxRetries: 0
+          timeoutSeconds: ${TIMEOUT_SECONDS}
+          serviceAccountName: ${BATCH_V2_SERVICE_ACCOUNT}
+          containers:
+            - image: ${BATCH_V2_IMAGE_DIGEST}
+              args:
+                - run
+                - --profile
+                - cloud-run
+                - --config
+                - /workspace/config/runtime-config.json
+                - --request-uri
+                - ${PRIVATE_REQUEST_URI}
+              resources:
+                limits:
+                  cpu: ${CPU_LIMIT}
+                  memory: ${MEMORY_LIMIT}
+              volumeMounts:
+                - name: materialized-project-workspace
+                  mountPath: /workspace
+          volumes:
+            - name: materialized-project-workspace
+              csi:
+                driver: gcsfuse.run.googleapis.com
+                readOnly: false
+                volumeAttributes:
+                  bucketName: ${PRIVATE_WORKSPACE_BUCKET}

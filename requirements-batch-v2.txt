@@ -1,0 +1,9 @@
+# Batch Executor V2 M3 direct runtime lock.
+# Transitive resolution is fixed by constraints-batch-v2-py310.txt; real image
+# qualification remains an M5 action.
+PyYAML==6.0.3
+google-auth==2.48.0
+google-cloud-storage==3.4.1
+google-crc32c==1.8.0
+jsonschema==4.26.0
+requests==2.32.3
