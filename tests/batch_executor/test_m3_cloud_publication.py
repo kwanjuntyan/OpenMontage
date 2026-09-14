@@ -569,12 +569,14 @@ def test_exact_one_time_human_publication_authorization_can_replace_verifier(
     )
     assert result["status"] == "awaiting_human"
 
-    with pytest.raises(M2PublicationError, match="PUBLICATION_AUTHORIZATION_REPLAY"):
-        _publisher(case).publish(
-            command,
-            trusted_invocation=_identity("publication-another"),
-            publication_authorization=authorization,
-        )
+    writes_before = case["transport"].write_calls
+    replay = _publisher(case).publish(
+        command,
+        trusted_invocation=_identity("publication-another"),
+        publication_authorization=authorization,
+    )
+    assert replay["idempotent"] is True
+    assert case["transport"].write_calls == writes_before
 
 
 def test_stale_or_corrupt_source_bytes_fail_before_claim_or_canonical_mutation(

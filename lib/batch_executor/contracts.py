@@ -1257,6 +1257,16 @@ def _validate_cost_exposure(cost: Mapping[str, Any], *, code: str) -> None:
 def validate_publication_command(document: Mapping[str, Any]) -> None:
     """Validate the immutable Agent/Human authorization boundary for M2."""
 
+    manifest_candidate = document.get("asset_manifest")
+    bindings_candidate = document.get("asset_bindings")
+    if (
+        isinstance(manifest_candidate, Mapping)
+        and manifest_candidate.get("assets") == []
+    ) or bindings_candidate == []:
+        raise M0ContractError(
+            "EMPTY_ASSETS_PUBLICATION",
+            "Assets MVP publication requires at least one manifest asset and binding",
+        )
     validate_contract("publication_command", document)
     _assert_no_sensitive_values(document)
     if document["canonical_json"] != CANONICAL_JSON_VERSION:

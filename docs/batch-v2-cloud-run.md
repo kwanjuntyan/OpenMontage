@@ -82,15 +82,15 @@ build context through additional `COPY` instructions.
 
 ## Materialized workspace and inputs
 
-Before process launch, GCS FUSE exposes only an immutable content-addressed
-input snapshot at:
+Before process launch, GCS FUSE exposes only an externally prepared immutable
+input snapshot namespace at:
 
 ```text
 /input-snapshot/  (only-dir=batch-v2-input-snapshots/sha256/<full-sha256>)
 ```
 
 The mount is read-only. It contains `projects/<project-id>/` with the exact
-hash-bound project snapshot needed by project/checkpoint/source preflight,
+project snapshot needed by project/checkpoint/source preflight,
 including matching `project.json`, plus the frozen launch config. At startup,
 the entrypoint copies that project into the container's non-FUSE, ephemeral,
 non-root-writable `/workspace/projects/<project-id>/` tree without overwriting
@@ -112,7 +112,13 @@ creative state.
 
 The frozen runtime config uses `/workspace/projects` as `projects_root`,
 `/input-snapshot/projects` as `input_snapshot_projects_root`, and binds the
-full content-addressed `input_snapshot_object_prefix`.
+full SHA-256-shaped `input_snapshot_object_prefix`. At M3 runtime, that value
+is a namespace identifier: code validates its exact path shape, disjoint roots,
+and the bytes copied for each materialized file. It does not compute a Merkle digest
+of the complete snapshot tree. M5 must therefore verify and record the
+external snapshot-preparation process, exact source object generations and
+manifest digest, retention policy, read-only mount, and least-privilege IAM;
+the SHA-looking directory name alone is not proof of whole-tree content.
 Workers receive only paths under:
 
 ```text
@@ -140,16 +146,27 @@ runtime config still selects exactly `local` or `cloud_run`. Production launch
 uses its explicit profile and does not treat `portable` as provider, model, or
 storage discovery.
 
-Once an image has been built from already available, approved inputs, its fake
-40-item qualification uses one prepared host workspace and the same portable
-request. No credential or network access is permitted:
+Once an image has been built from already available, approved inputs, prepare
+one deterministic portable request plus disjoint Local/Cloud workspaces on the
+host. The preparer does not run the executor or access a provider, credential,
+network, Docker, or cloud service:
+
+```text
+python -m scripts.batch_v2_prepare_offline_qualification prepare \
+  --output-root <absolute-prepared-root>
+```
+
+Then run both fake profiles with no network. The input snapshot is mounted
+separately and read-only; each profile gets its own writable workspace:
 
 ```text
 docker run --rm --network none \
-  --mount type=bind,src=<prepared-workspace>,dst=/workspace \
+  --mount type=bind,src=<prepared-local-workspace>,dst=/workspace \
+  --mount type=bind,src=<prepared-input-snapshot>,dst=/input-snapshot,readonly \
   <local-image-digest> run --profile local \
-  --config /workspace/config/local.json \
-  --request-uri /workspace/config/request.json
+  --config /input-snapshot/config/local-runtime-config.json \
+  --request-uri /input-snapshot/config/request.json \
+  --offline-qualification
 
 docker run --rm --network none \
   --env CLOUD_RUN_JOB=batch-v2 \
@@ -157,16 +174,23 @@ docker run --rm --network none \
   --env CLOUD_RUN_TASK_INDEX=0 \
   --env CLOUD_RUN_TASK_COUNT=1 \
   --env CLOUD_RUN_TASK_ATTEMPT=0 \
-  --mount type=bind,src=<prepared-workspace>,dst=/workspace \
+  --mount type=bind,src=<prepared-cloud-workspace>,dst=/workspace \
+  --mount type=bind,src=<prepared-input-snapshot>,dst=/input-snapshot,readonly \
   <local-image-digest> run --profile cloud-run \
-  --config /workspace/config/cloud-fake.json \
-  --request-uri /workspace/config/request.json
+  --config /input-snapshot/config/cloud-runtime-config.json \
+  --request-uri /input-snapshot/config/request.json \
+  --offline-qualification
 ```
 
 Both runtime configs use `transport_mode: offline_fake`. Their results must
-have the same request digest, item transitions, accounting, and stable exit
-category. M3 records the static container checks when no approved base image is
-locally available; it does not pull one merely to run this command.
+have the same `qualification.semantics` request digest, item transitions,
+accounting, and stable exit category. The Cloud qualification uses process-only
+FakeGCS, deliberately emits no durable result locator, and cannot be mistaken
+for a production run. The production Job template does not carry
+`--offline-qualification`; a Cloud fake config without that explicit test-only
+boundary fails before FakeGCS/provider construction. M3 records the static
+container checks when no approved base image is locally available; it does not
+pull one merely to run this command, and the container gate remains pending.
 
 ## First run and resume
 

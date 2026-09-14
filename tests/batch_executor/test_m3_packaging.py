@@ -130,6 +130,7 @@ def test_cloud_run_job_template_is_exactly_one_zero_retry_task():
         "only-dir=projects"
     )
     assert task["serviceAccountName"] == "${BATCH_V2_SERVICE_ACCOUNT}"
+    assert "--offline-qualification" not in container["args"]
 
 
 def test_cloud_publication_job_uses_separate_root_and_disjoint_read_only_snapshot():
@@ -172,6 +173,7 @@ def test_cloud_publication_job_uses_separate_root_and_disjoint_read_only_snapsho
         "only-dir=batch-v2-input-snapshots/sha256/${INPUT_SNAPSHOT_SHA256},"
         f"uid={user_match.group(1)},gid={user_match.group(2)}"
     )
+    assert "--offline-qualification" not in container["args"]
 
 
 def _docker_context_includes(rules: list[str], path: str) -> bool:
@@ -253,6 +255,7 @@ def test_cloud_entrypoint_exposes_no_pipeline_review_or_identity_selector():
         "--request-uri",
         "--resume-proof-uri",
         "--resume-proof-kind",
+        "--offline-qualification",
     }
     assert all(
         selector not in parser_arguments
@@ -342,3 +345,51 @@ def test_runbook_keeps_external_actions_behind_m5_and_project_scoped_workspace()
     assert "Only the Dockerfile inputs" in runbook
     assert "container gate remains pending, rather than waived" in runbook
     assert "not part of M3 acceptance" not in runbook
+    assert "dst=/input-snapshot,readonly" in runbook
+    assert "<prepared-local-workspace>" in runbook
+    assert "<prepared-cloud-workspace>" in runbook
+    assert "--offline-qualification" in runbook
+    assert "does not compute a Merkle digest" in runbook
+    assert "python -m scripts.batch_v2_prepare_offline_qualification" in runbook
+
+
+def test_offline_qualification_fixture_prepares_forty_portable_items(tmp_path):
+    from scripts.batch_v2_prepare_offline_qualification import (
+        prepare_offline_qualification,
+    )
+
+    root = tmp_path / "offline-qualification"
+    summary = prepare_offline_qualification(root)
+    snapshot = root / "input-snapshot"
+    request = yaml.safe_load(
+        (snapshot / "config" / "request.json").read_text(encoding="utf-8")
+    )
+    assert len(request["work_items"]) == 40
+    assert request["execution_policy"]["storage_profile"] == "portable"
+    assert summary["request_digest"] == request["request_digest"]
+    assert (snapshot / "projects" / request["project_id"] / "project.json").is_file()
+    assert (root / "local-workspace" / "projects" / request["project_id"]).is_dir()
+    assert (root / "cloud-workspace" / "projects").is_dir()
+    for name, profile in (
+        ("local-runtime-config.json", "local"),
+        ("cloud-runtime-config.json", "cloud_run"),
+    ):
+        config = yaml.safe_load(
+            (snapshot / "config" / name).read_text(encoding="utf-8")
+        )
+        assert config["profile"] == profile
+        assert config["transport_mode"] == "offline_fake"
+        assert config["request_digest"] == request["request_digest"]
+
+    second_root = tmp_path / "offline-qualification-second"
+    second = prepare_offline_qualification(second_root)
+    assert second["request_digest"] == summary["request_digest"]
+    for relative in (
+        "config/request.json",
+        f"projects/{request['project_id']}/project.json",
+        f"projects/{request['project_id']}/checkpoint_idea.json",
+        f"projects/{request['project_id']}/checkpoint_scene_plan.json",
+    ):
+        assert (second_root / "input-snapshot" / relative).read_bytes() == (
+            snapshot / relative
+        ).read_bytes()

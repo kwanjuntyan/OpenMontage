@@ -8,6 +8,7 @@ from copy import deepcopy
 from pathlib import Path
 
 import pytest
+from jsonschema import Draft202012Validator
 
 from lib.batch_executor.contracts import (
     M0ContractError,
@@ -15,6 +16,7 @@ from lib.batch_executor.contracts import (
     canonical_sha256,
     freeze_batch_request,
     freeze_publication_command,
+    load_execution_schema,
 )
 from lib.batch_executor.engine import CloudBatchExecutor
 from lib.batch_executor.errors import InjectedCrash, M2PublicationError
@@ -45,6 +47,7 @@ from tests.batch_executor.test_m3_cloud_publication import (
     _identity,
     _make_cloud_publication_case,
     _publication_authorization,
+    _publication_owner_for_proof,
 )
 
 
@@ -417,12 +420,14 @@ def test_completed_manual_authorization_retry_is_idempotent_for_same_invocation(
     repaired_state, _ = case["gcs_store"].load_publication_state()
     assert repaired_state["owner"]["owner_status"] == "completed"
 
-    with pytest.raises(M2PublicationError):
-        _publisher(case).publish(
-            command,
-            trusted_invocation=_identity("manual-auth-other-invocation"),
-            publication_authorization=authorization,
-        )
+    writes_before = case["transport"].write_calls
+    replacement_replay = _publisher(case).publish(
+        command,
+        trusted_invocation=_identity("manual-auth-other-invocation"),
+        publication_authorization=authorization,
+    )
+    assert replacement_replay["idempotent"] is True
+    assert case["transport"].write_calls == writes_before
     changed = deepcopy(command)
     changed["command_id"] = "manual-auth-other-command"
     changed = freeze_publication_command(changed)
@@ -434,7 +439,7 @@ def test_completed_manual_authorization_retry_is_idempotent_for_same_invocation(
         )
 
 
-def test_completed_repair_claim_crash_is_resumable_only_by_exact_owner(
+def test_completed_rehydrate_never_reopens_owner_or_calls_repair_hook(
     cloud_publication_case,
 ):
     case = cloud_publication_case
@@ -445,26 +450,20 @@ def test_completed_repair_claim_crash_is_resumable_only_by_exact_owner(
         command, trusted_invocation=identity
     )
 
-    def crash_on_repair_claim(name, _facts):
+    def forbid_repair_claim(name, _facts):
         if name == "cloud_publication_repair_claim_acquired":
-            raise InjectedCrash(name)
+            raise AssertionError("completed replay reopened publication ownership")
 
-    with pytest.raises(InjectedCrash):
-        _publisher(case, verifier=verifier, crash_hook=crash_on_repair_claim).publish(
-            command, trusted_invocation=identity
-        )
-    repairing, _ = case["gcs_store"].load_publication_state()
-    assert repairing["owner"]["owner_status"] == "repairing"
-    with pytest.raises(M2PublicationError):
-        _publisher(case, verifier=verifier).publish(
-            command, trusted_invocation=_identity("repair-claim-intruder")
-        )
-    repaired = _publisher(case, verifier=verifier).publish(
-        command, trusted_invocation=identity
+    state_before, generation_before = case["gcs_store"].load_publication_state()
+    writes_before = case["transport"].write_calls
+    replay = _publisher(case, crash_hook=forbid_repair_claim).publish(
+        command, trusted_invocation=_identity("repair-claim-replacement")
     )
-    assert repaired["idempotent"] is True
-    closed, _ = case["gcs_store"].load_publication_state()
-    assert closed["owner"]["owner_status"] == "completed"
+    assert replay["idempotent"] is True
+    closed, generation_after = case["gcs_store"].load_publication_state()
+    assert generation_after == generation_before
+    assert closed == state_before
+    assert case["transport"].write_calls == writes_before
 
 
 def test_owner_generation_is_rechecked_before_first_canonical_mutation(
@@ -640,6 +639,133 @@ def test_completed_agent_publication_rehydrates_a_fresh_materialized_replica(
     ).is_file()
 
 
+def test_completed_agent_rehydrate_accepts_new_execution_and_writes_no_gcs(
+    cloud_publication_case, tmp_path
+):
+    case = cloud_publication_case
+    snapshot = tmp_path / "cross-execution-snapshot"
+    _copy_prepublication_project(case, snapshot)
+    command = _agent_command(case)
+    _publisher(
+        case, verifier=FakeADCStatusVerifier(case["state"]["owner"])
+    ).publish(command, trusted_invocation=_identity("completed-original"))
+    fresh_root = tmp_path / "cross-execution-rehydrate"
+    fresh_project = _copy_prepublication_project(
+        {**case, "project_dir": snapshot / case["project_id"]}, fresh_root
+    )
+    writes_before = case["transport"].write_calls
+
+    receipt = _publisher(case, root=fresh_root).publish(
+        command, trusted_invocation=_identity("completed-replacement")
+    )
+
+    assert receipt["idempotent"] is True
+    assert case["transport"].write_calls == writes_before
+    assert (fresh_project / "assets/video/asset-1.mp4").is_file()
+    assert (
+        read_checkpoint(fresh_root, case["project_id"], "assets")["status"]
+        == "awaiting_human"
+    )
+
+
+def test_same_successor_can_read_only_rehydrate_after_takeover_completion(
+    cloud_publication_case, tmp_path
+):
+    case = cloud_publication_case
+    snapshot = tmp_path / "takeover-successor-snapshot"
+    _copy_prepublication_project(case, snapshot)
+    command = _agent_command(case)
+    first_identity = _identity("completed-takeover-first")
+
+    def crash_after_asset(name, _facts):
+        if name == "cloud_publication_asset_materialized":
+            raise InjectedCrash(name)
+
+    with pytest.raises(InjectedCrash):
+        _publisher(
+            case,
+            verifier=FakeADCStatusVerifier(case["state"]["owner"]),
+            crash_hook=crash_after_asset,
+        ).publish(command, trusted_invocation=first_identity)
+    active_state, _ = case["gcs_store"].load_publication_state()
+    successor = _identity("completed-takeover-successor")
+    _publisher(
+        case,
+        verifier=FakeADCStatusVerifier(
+            _publication_owner_for_proof(case, active_state)
+        ),
+    ).publish(command, trusted_invocation=successor)
+
+    fresh_root = tmp_path / "takeover-successor-rehydrate"
+    fresh_project = _copy_prepublication_project(
+        {**case, "project_dir": snapshot / case["project_id"]}, fresh_root
+    )
+    writes_before = case["transport"].write_calls
+    receipt = _publisher(case, root=fresh_root).publish(
+        command, trusted_invocation=successor
+    )
+    assert receipt["idempotent"] is True
+    assert case["transport"].write_calls == writes_before
+    assert (fresh_project / "assets/video/asset-1.mp4").is_file()
+
+
+@pytest.mark.parametrize(
+    "tamper",
+    ["changed-command", "fence", "state", "asset", "checkpoint"],
+)
+def test_completed_read_only_rehydrate_rejects_changed_authority_without_gcs_writes(
+    cloud_publication_case, tmp_path, tamper
+):
+    case = cloud_publication_case
+    snapshot = tmp_path / f"tamper-snapshot-{tamper}"
+    _copy_prepublication_project(case, snapshot)
+    command = _agent_command(case)
+    _publisher(
+        case, verifier=FakeADCStatusVerifier(case["state"]["owner"])
+    ).publish(command, trusted_invocation=_identity(f"tamper-source-{tamper}"))
+    attempted = command
+    if tamper == "changed-command":
+        attempted = deepcopy(command)
+        attempted["review_evidence"]["review_reference"] = "agent-review:changed"
+        attempted = freeze_publication_command(attempted)
+    elif tamper == "fence":
+        case["transport"].corrupt(
+            f"gs://{BUCKET}/{case['gcs_store'].publication_fence_object_name}",
+            "metadata",
+        )
+    elif tamper == "state":
+        case["transport"].corrupt(
+            f"gs://{BUCKET}/{case['gcs_store'].publication_state_object_name}",
+            "bytes",
+        )
+    else:
+        state, _ = case["gcs_store"].load_publication_state()
+        completion = state["completed_commands"][-1]
+        facts = (
+            completion["asset_objects"][0]
+            if tamper == "asset"
+            else completion["checkpoint_snapshot"]
+        )
+        case["transport"].corrupt(
+            f"gs://{BUCKET}/{facts['object_name']}", "bytes"
+        )
+    fresh_root = tmp_path / f"tampered-{tamper}-rehydrate"
+    fresh_project = _copy_prepublication_project(
+        {**case, "project_dir": snapshot / case["project_id"]}, fresh_root
+    )
+    writes_before = case["transport"].write_calls
+
+    with pytest.raises(Exception):
+        _publisher(case, root=fresh_root).publish(
+            attempted, trusted_invocation=_identity(f"tamper-reader-{tamper}")
+        )
+    assert case["transport"].write_calls == writes_before
+    assert not (
+        fresh_root / case["project_id"] / "checkpoint_assets.json"
+    ).exists()
+    assert not (fresh_project / "assets/video/asset-1.mp4").exists()
+
+
 def test_human_transition_and_completed_replay_rehydrate_fresh_replicas(
     cloud_publication_case, tmp_path
 ):
@@ -677,10 +803,20 @@ def test_human_transition_and_completed_replay_rehydrate_fresh_replicas(
     replay_project = _copy_prepublication_project(
         {**case, "project_dir": snapshot / case["project_id"]}, replay_root
     )
-    replay = _publisher(case, root=replay_root, verifier=verifier).publish(
-        human, trusted_invocation=_identity("fresh-human-second")
+    completed_state, _ = case["gcs_store"].load_publication_state()
+    prior_canonical = completed_state["completed_commands"][0]["checkpoint"]
+    with pytest.raises(GCSObjectNotFound):
+        case["transport"].read_object(
+            bucket=BUCKET,
+            name=prior_canonical["object_name"],
+            generation=prior_canonical["generation"],
+        )
+    writes_before = case["transport"].write_calls
+    replay = _publisher(case, root=replay_root).publish(
+        human, trusted_invocation=_identity("fresh-human-replacement")
     )
     assert replay["idempotent"] is True
+    assert case["transport"].write_calls == writes_before
     assert (
         read_checkpoint(replay_root, case["project_id"], "assets")["status"]
         == "completed"
@@ -696,6 +832,76 @@ def test_human_transition_and_completed_replay_rehydrate_fresh_replicas(
     )
     assert (command_dir / f"{first['command_id']}.json").is_file()
     assert (command_dir / f"{human['command_id']}.json").is_file()
+    assert json.loads(
+        (command_dir / f"{first['command_id']}.json").read_text(encoding="utf-8")
+    ) == first
+    assert json.loads(
+        (command_dir / f"{human['command_id']}.json").read_text(encoding="utf-8")
+    ) == human
+    replay_history = list(
+        (replay_project / "history").glob("checkpoint_assets_*.json")
+    )
+    assert len(replay_history) == 1
+    replay_state, _ = case["gcs_store"].load_publication_state()
+    prior_completion = replay_state["completed_commands"][0]
+    assert hashlib.sha256(replay_history[0].read_bytes()).hexdigest() == (
+        prior_completion["checkpoint_snapshot"]["sha256"]
+    )
+    replay_prior = json.loads(replay_history[0].read_text(encoding="utf-8"))
+    assert replay_prior["status"] == "awaiting_human"
+    assert replay_prior["metadata"]["batch_v2_publication"]["command_digest"] == (
+        first["command_digest"]
+    )
+
+
+def test_publication_command_schema_formally_rejects_empty_assets_and_bindings(
+    cloud_publication_case
+):
+    schema = load_execution_schema("publication_command")
+    command = _agent_command(cloud_publication_case)
+
+    no_bindings = deepcopy(command)
+    no_bindings["asset_bindings"] = []
+    binding_errors = list(
+        Draft202012Validator(
+            schema["properties"]["asset_bindings"]
+        ).iter_errors(no_bindings["asset_bindings"])
+    )
+    assert any(
+        error.validator == "minItems" and list(error.path) == []
+        for error in binding_errors
+    )
+
+    no_assets = deepcopy(command)
+    no_assets["asset_manifest"]["assets"] = []
+    asset_errors = list(
+        Draft202012Validator(
+            schema["properties"]["asset_manifest"]
+        ).iter_errors(no_assets["asset_manifest"])
+    )
+    assert any(
+        error.validator == "minItems" and list(error.path) == ["assets"]
+        for error in asset_errors
+    )
+
+    _publisher(
+        cloud_publication_case,
+        verifier=FakeADCStatusVerifier(cloud_publication_case["state"]["owner"]),
+    ).publish(command, trusted_invocation=_identity("schema-state-source"))
+    state, _ = cloud_publication_case["gcs_store"].load_publication_state()
+    state["completed_commands"][0]["asset_objects"] = []
+    state_schema = load_execution_schema("publication_state")
+    completion_schema = state_schema["properties"]["completed_commands"]["items"]
+    asset_objects_schema = completion_schema["properties"]["asset_objects"]
+    state_errors = list(
+        Draft202012Validator(asset_objects_schema).iter_errors(
+            state["completed_commands"][0]["asset_objects"]
+        )
+    )
+    assert any(
+        error.validator == "minItems" and list(error.path) == []
+        for error in state_errors
+    )
 
 
 def test_same_command_checkpoint_timestamp_race_adopts_gcs_authority(

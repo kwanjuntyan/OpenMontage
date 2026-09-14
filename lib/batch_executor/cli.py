@@ -87,6 +87,7 @@ _REQUEST_FAILURE_CODES = {
 }
 _CONFIGURATION_FAILURE_CODES = {
     "AUTH_CONFIGURATION",
+    "OFFLINE_QUALIFICATION_REQUIRED",
     "REQUEST_URI_INVALID",
     "RUNTIME_CONFIG_DIGEST_MISMATCH",
     "RUNTIME_CONFIG_INVALID",
@@ -350,6 +351,11 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument(
         "--resume-proof-kind", choices=("control-plane", "human-authorization")
     )
+    parser.add_argument(
+        "--offline-qualification",
+        action="store_true",
+        help="Authorize the explicit no-network portable FakeGCS qualification path",
+    )
     return parser
 
 
@@ -377,6 +383,21 @@ def run_cli(
                 "RUNTIME_CONFIG_MISMATCH",
                 "CLI command/profile/request URI differs from frozen runtime config",
             )
+        offline_qualification = bool(args.offline_qualification)
+        if (
+            profile == "cloud_run"
+            and config["transport_mode"] == "offline_fake"
+            and not offline_qualification
+        ):
+            raise M0ContractError(
+                "OFFLINE_QUALIFICATION_REQUIRED",
+                "Cloud FakeGCS execution requires the explicit test-only qualification flag",
+            )
+        if offline_qualification and config["transport_mode"] != "offline_fake":
+            raise M0ContractError(
+                "RUNTIME_CONFIG_MISMATCH",
+                "Offline qualification cannot authorize a production transport",
+            )
         resolver = dependencies.credential_resolver or GoogleADCResolver()
         gcs_transport = dependencies.gcs_transport
         if profile == "cloud_run" and gcs_transport is None:
@@ -393,6 +414,13 @@ def run_cli(
         if request["request_digest"] != config["request_digest"]:
             raise M0ContractError(
                 "RUNTIME_CONFIG_MISMATCH", "Runtime config binds another request"
+            )
+        if offline_qualification and request["execution_policy"][
+            "storage_profile"
+        ] != "portable":
+            raise M0ContractError(
+                "INVALID_STORAGE_PROFILE",
+                "Offline qualification requires the explicit portable storage profile",
             )
         if (
             request["execution_policy"]["storage_profile"] == "portable"
@@ -535,17 +563,37 @@ def run_cli(
                 f"gs://{cloud['bucket']}/projects/{request['project_id']}/.batch-v2/"
                 f"runs/{request['batch_id']}/result.json"
             )
-        exit_code = _exit_for_result(result)
-        emit(
-            json.dumps(
-                {
-                    "exit_code": exit_code,
+        qualification = None
+        if offline_qualification:
+            result_locator = None
+            qualification = {
+                "mode": "offline_fake_non_production",
+                "durability": (
+                    "process_memory" if profile == "cloud_run" else "local_workspace"
+                ),
+                "semantics": {
+                    "batch_id": result["batch_id"],
+                    "request_digest": result["request_digest"],
+                    "status": result["status"],
                     "outcome": result["outcome"],
-                    "result_locator": result_locator,
+                    "counts": deepcopy(result["counts"]),
+                    "items": [
+                        {"item_id": item["item_id"], "state": item["state"]}
+                        for item in result["items"]
+                    ],
+                    "cost": deepcopy(result["cost"]),
+                    "statistics": deepcopy(result["statistics"]),
                 },
-                sort_keys=True,
-            )
-        )
+            }
+        exit_code = _exit_for_result(result)
+        summary = {
+            "exit_code": exit_code,
+            "outcome": result["outcome"],
+            "result_locator": result_locator,
+        }
+        if qualification is not None:
+            summary["qualification"] = qualification
+        emit(json.dumps(summary, sort_keys=True))
         return exit_code
     except BaseException as exc:
         if isinstance(exc, KeyboardInterrupt):

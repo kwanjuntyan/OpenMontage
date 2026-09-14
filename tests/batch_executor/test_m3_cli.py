@@ -148,7 +148,7 @@ def test_single_task_cloud_fake_cli_uses_injected_gcs_and_never_resolves_adc_or_
     batch_request, authorized_project, tmp_path, monkeypatch
 ):
     request = deepcopy(batch_request)
-    request["execution_policy"]["storage_profile"] = "cloud_run"
+    request["execution_policy"]["storage_profile"] = "portable"
     request = freeze_batch_request(request)
     request_uri = _request_file(tmp_path, request)
     config_path = _write_config(
@@ -179,6 +179,7 @@ def test_single_task_cloud_fake_cli_uses_injected_gcs_and_never_resolves_adc_or_
             config_path,
             "--request-uri",
             request_uri,
+            "--offline-qualification",
         ],
         dependencies=RuntimeDependencies(
             environment=_cloud_environment(),
@@ -189,19 +190,88 @@ def test_single_task_cloud_fake_cli_uses_injected_gcs_and_never_resolves_adc_or_
     )
     assert exit_code == 0
     summary = json.loads(emitted[-1])
-    assert summary == {
-        "exit_code": 0,
-        "outcome": "all_succeeded",
-        "result_locator": (
-            "gs://private-batch-bucket/projects/batch-project/.batch-v2/"
-            "runs/batch-001/result.json"
-        ),
-    }
+    assert summary["exit_code"] == 0
+    assert summary["outcome"] == "all_succeeded"
+    assert summary["result_locator"] is None
+    assert summary["qualification"]["mode"] == "offline_fake_non_production"
+    assert summary["qualification"]["durability"] == "process_memory"
+    assert summary["qualification"]["semantics"]["counts"]["successful"] == 1
     assert any(
         name.endswith("/result.json")
         for name in transport.object_names("private-batch-bucket")
     )
     assert transport.background_operations == 0
+
+
+def test_cloud_offline_fake_requires_explicit_qualification_before_fake_construction(
+    batch_request, authorized_project, tmp_path, monkeypatch
+):
+    request = deepcopy(batch_request)
+    request["execution_policy"]["storage_profile"] = "portable"
+    request = freeze_batch_request(request)
+    request_uri = _request_file(tmp_path, request)
+    config_path = _write_config(
+        tmp_path,
+        _config(request, authorized_project, request_uri, profile="cloud_run"),
+    )
+    monkeypatch.setattr(
+        "lib.batch_executor.cli.FakeGCS",
+        lambda: (_ for _ in ()).throw(
+            AssertionError("FakeGCS constructed without qualification authorization")
+        ),
+    )
+    emitted = []
+    assert run_cli(
+        [
+            "run",
+            "--profile",
+            "cloud-run",
+            "--config",
+            config_path,
+            "--request-uri",
+            request_uri,
+        ],
+        dependencies=RuntimeDependencies(environment=_cloud_environment()),
+        emit=emitted.append,
+    ) == 3
+    assert json.loads(emitted[-1])["error_code"] == (
+        "OFFLINE_QUALIFICATION_REQUIRED"
+    )
+
+
+def test_cloud_offline_qualification_rejects_cloud_run_storage_profile(
+    batch_request, authorized_project, tmp_path
+):
+    request = deepcopy(batch_request)
+    request["execution_policy"]["storage_profile"] = "cloud_run"
+    request = freeze_batch_request(request)
+    request_uri = _request_file(tmp_path, request)
+    config_path = _write_config(
+        tmp_path,
+        _config(request, authorized_project, request_uri, profile="cloud_run"),
+    )
+    provider = ScriptedFakeProvider()
+    emitted = []
+    assert run_cli(
+        [
+            "run",
+            "--profile",
+            "cloud-run",
+            "--config",
+            config_path,
+            "--request-uri",
+            request_uri,
+            "--offline-qualification",
+        ],
+        dependencies=RuntimeDependencies(
+            environment=_cloud_environment(),
+            gcs_transport=FakeGCS(),
+            fake_provider_factory=lambda: provider,
+        ),
+        emit=emitted.append,
+    ) == 2
+    assert json.loads(emitted[-1])["error_code"] == "INVALID_STORAGE_PROFILE"
+    assert provider.calls == []
 
 
 @pytest.mark.parametrize(
@@ -408,7 +478,7 @@ def test_cloud_cli_active_owner_blocks_run_then_control_plane_resume_takes_over(
     batch_request, authorized_project, tmp_path
 ):
     request = deepcopy(batch_request)
-    request["execution_policy"]["storage_profile"] = "cloud_run"
+    request["execution_policy"]["storage_profile"] = "portable"
     request = freeze_batch_request(request)
     request_uri = _request_file(tmp_path, request)
     transport = FakeGCS()
@@ -441,6 +511,7 @@ def test_cloud_cli_active_owner_blocks_run_then_control_plane_resume_takes_over(
             first_config_path,
             "--request-uri",
             request_uri,
+            "--offline-qualification",
         ],
         dependencies=RuntimeDependencies(
             environment=_cloud_environment(execution="execution-old"),
@@ -473,6 +544,7 @@ def test_cloud_cli_active_owner_blocks_run_then_control_plane_resume_takes_over(
                 str(ordinary_path.resolve()),
                 "--request-uri",
                 request_uri,
+                "--offline-qualification",
             ],
             dependencies=RuntimeDependencies(
                 environment=_cloud_environment(execution="execution-other"),
@@ -527,6 +599,7 @@ def test_cloud_cli_active_owner_blocks_run_then_control_plane_resume_takes_over(
             request_uri,
             "--resume-proof-kind",
             "control-plane",
+            "--offline-qualification",
         ],
         dependencies=RuntimeDependencies(
             environment=_cloud_environment(execution="execution-successor"),

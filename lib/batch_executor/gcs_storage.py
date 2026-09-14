@@ -348,6 +348,40 @@ class GCSStore:
             generation=generation,
         )
 
+    def load_publication_fence(
+        self, command: Mapping[str, Any]
+    ) -> tuple[dict[str, Any], int]:
+        """Load the exact immutable project/assets guard without creating it."""
+
+        self._assert_writer()
+        fence = self._publication_fence(command)
+        payload = canonical_json_bytes(fence)
+        try:
+            generation = self._read_and_verify(
+                name=self.publication_fence_object_name,
+                payload=payload,
+                metadata=self._record_metadata(
+                    "publication_fence",
+                    hashlib.sha256(payload).hexdigest(),
+                    stage="assets",
+                    request_digest=str(command["request_digest"]),
+                ),
+                content_type="application/json",
+            )
+        except M1ExecutionError as exc:
+            if exc.code in {"GCS_TRANSIENT", "AUTH_CONFIGURATION"}:
+                raise
+            raise StorageConflict(
+                "PROJECT_STAGE_PUBLICATION_CONFLICT",
+                "Project/assets publication fence is missing or differs",
+            ) from exc
+        except (GCSObjectNotFound, GCSPreconditionFailed) as exc:
+            raise StorageConflict(
+                "PROJECT_STAGE_PUBLICATION_CONFLICT",
+                "Project/assets publication fence is missing or differs",
+            ) from exc
+        return fence, generation
+
     def _assert_writer(self) -> None:
         if threading.get_ident() != self._writer_thread_id:
             raise CoordinatorWriterViolation(
