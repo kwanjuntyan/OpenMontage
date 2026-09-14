@@ -57,8 +57,9 @@ _INITIAL_IDENTITY = {
 }
 INITIAL_ADAPTER_IDENTITY: Mapping[str, str] = MappingProxyType(_INITIAL_IDENTITY)
 
-# This freezes the support target without claiming that the current production
-# adapter implements it.  M3 must satisfy every declaration before a real call.
+# This freezes the sole support target. M3 supplies its production-shaped
+# adapter with injected fake transports; real-route qualification remains an
+# explicitly approved M5 action.
 MVP_ADAPTER_SUPPORT: Mapping[str, Any] = MappingProxyType(
     {
         "contract_version": "batch-v2-gemini-vertex-v1",
@@ -67,7 +68,7 @@ MVP_ADAPTER_SUPPORT: Mapping[str, Any] = MappingProxyType(
         "credential_mode": "adc",
         "maximum_qualified_concurrency": 1,
         "hidden_writers": "disabled",
-        "implementation_status": "contract_only_until_m3",
+        "implementation_status": "implemented_m3_offline_fake_qualified",
     }
 )
 

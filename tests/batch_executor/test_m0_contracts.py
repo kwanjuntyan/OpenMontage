@@ -338,7 +338,10 @@ def test_mvp_support_declaration_freezes_vertex_identity_and_adc(qualified_adapt
     }
     assert MVP_ADAPTER_SUPPORT["credential_mode"] == "adc"
     assert MVP_ADAPTER_SUPPORT["route_binding"] == "explicit_request"
-    assert MVP_ADAPTER_SUPPORT["implementation_status"] == "contract_only_until_m3"
+    assert (
+        MVP_ADAPTER_SUPPORT["implementation_status"]
+        == "implemented_m3_offline_fake_qualified"
+    )
     validate_adapter_observation(qualified_adapter_observation)
 
 
