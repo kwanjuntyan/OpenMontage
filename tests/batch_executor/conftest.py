@@ -230,7 +230,7 @@ def make_paid_running_attempt(*, acceptance="unknown"):
         },
         "acceptance_knowledge": acceptance,
         "billing_mode": "paid",
-        "retry_decision": "none",
+        "retry_action": "none",
         "cost": {
             "estimated_usd": 0.8,
             "reserved_usd": 0.8,

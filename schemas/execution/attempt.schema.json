@@ -17,7 +17,7 @@
     "timestamps",
     "acceptance_knowledge",
     "billing_mode",
-    "retry_decision",
+    "retry_action",
     "cost"
   ],
   "additionalProperties": false,
@@ -65,29 +65,26 @@
       "required": ["error_class", "sanitized_message"],
       "additionalProperties": false,
       "properties": {
-        "error_class": {
-          "enum": [
-            "AUTHENTICATION",
-            "AUTHORIZATION",
-            "INVALID_REQUEST",
-            "RATE_LIMITED_NOT_ACCEPTED",
-            "RATE_LIMITED_ACCEPTANCE_UNKNOWN",
-            "PROVIDER_TRANSIENT_NOT_ACCEPTED",
-            "TIMEOUT_OR_NETWORK_UNKNOWN",
-            "OUTPUT_TECHNICALLY_INVALID",
-            "STORAGE_TRANSIENT",
-            "STORAGE_PERMANENT",
-            "CONCURRENT_RUN_CONFLICT",
-            "INTERNAL_BUG"
-          ]
-        },
+        "error_class": { "$ref": "#/$defs/error_class" },
         "http_status": { "type": "integer", "minimum": 100, "maximum": 599 },
         "provider_code": { "type": "string", "maxLength": 256 },
         "sanitized_message": { "type": "string", "minLength": 1, "maxLength": 4096 },
         "retry_after_seconds": { "type": "number", "minimum": 0 }
       }
     },
-    "retry_decision": { "enum": ["none", "retry", "do_not_retry", "indeterminate"] },
+    "retry_action": {
+      "description": "Typed next mechanical action. await_charged_generation_authorization records an M1 authorization candidate and never authorizes dispatch by itself.",
+      "enum": [
+        "none",
+        "resubmit_generation",
+        "poll_remote_operation",
+        "retry_storage_commit",
+        "reconcile_storage_precondition",
+        "await_charged_generation_authorization",
+        "do_not_retry",
+        "mark_indeterminate"
+      ]
+    },
     "cost": {
       "type": "object",
       "required": ["estimated_usd", "reserved_usd", "known_actual_usd", "potentially_charged_usd"],
@@ -129,6 +126,34 @@
       "maxLength": 128
     },
     "digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "error_class": {
+      "enum": [
+        "REQUEST_CONTRACT_INVALID",
+        "PROJECT_IDENTITY_INVALID",
+        "SOURCE_BINDING_CHANGED",
+        "APPROVAL_MISSING_OR_STALE",
+        "BUDGET_EXCEEDED",
+        "TOOL_UNAVAILABLE",
+        "AUTH_CONFIGURATION",
+        "INPUT_MEDIA_INVALID",
+        "RATE_LIMITED_SUBMIT_REJECTED",
+        "RATE_LIMITED_REMOTE_POLL",
+        "RATE_LIMITED_ACCEPTANCE_UNKNOWN",
+        "PROVIDER_TRANSIENT_PRE_ACCEPT",
+        "PROVIDER_PERMANENT_REJECT",
+        "CONTENT_SAFETY_REJECT",
+        "TIMEOUT_OR_NETWORK_UNKNOWN",
+        "REMOTE_JOB_RECOVERABLE",
+        "OUTPUT_TECHNICALLY_INVALID",
+        "LOCAL_STORAGE_TRANSIENT",
+        "GCS_TRANSIENT",
+        "GCS_PRECONDITION_CONFLICT",
+        "EXECUTION_OWNER_ACTIVE",
+        "RESUME_OWNERSHIP_PROOF_INVALID",
+        "INTERNAL_BUG",
+        "CANCELLED"
+      ]
+    },
     "identity": {
       "type": "object",
       "required": ["tool_name", "tool_contract_version", "provider", "route", "model", "operation"],

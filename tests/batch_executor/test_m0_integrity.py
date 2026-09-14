@@ -79,6 +79,7 @@ def _valid_result() -> dict:
             "successful": 1,
             "cache_hit": 0,
             "failed": 0,
+            "blocked": 0,
             "indeterminate": 0,
             "cancelled": 0,
         },
@@ -126,7 +127,7 @@ def test_public_schema_load_isolated_from_caller_mutation():
             "INVALID_ATTEMPT_STATE",
         ),
         (
-            lambda attempt: attempt.update({"retry_decision": "do_not_retry"}),
+            lambda attempt: attempt.update({"retry_action": "do_not_retry"}),
             "INVALID_ATTEMPT_STATE",
         ),
         (
@@ -155,13 +156,13 @@ def test_durably_committed_attempt_requires_one_clean_receipted_terminal_state(
 @pytest.mark.parametrize(
     "mutate",
     [
-        lambda attempt: attempt.update({"phase": "failed", "retry_decision": "do_not_retry"}),
+        lambda attempt: attempt.update({"phase": "failed", "retry_action": "do_not_retry"}),
         lambda attempt: attempt.update(
             {
                 "phase": "failed",
-                "retry_decision": "do_not_retry",
+                "retry_action": "do_not_retry",
                 "error": {
-                    "error_class": "INVALID_REQUEST",
+                    "error_class": "REQUEST_CONTRACT_INVALID",
                     "sanitized_message": "terminal request failure",
                 },
             }
@@ -182,7 +183,7 @@ def test_unknown_paid_terminal_attempt_must_remain_indeterminate():
         {
             "phase": "failed",
             "acceptance_knowledge": "unknown",
-            "retry_decision": "do_not_retry",
+            "retry_action": "do_not_retry",
             "error": {
                 "error_class": "TIMEOUT_OR_NETWORK_UNKNOWN",
                 "sanitized_message": "provider acceptance cannot be established",
@@ -380,7 +381,7 @@ def test_failed_result_item_cannot_carry_success_receipt():
         {
             "state": "failed_terminal",
             "error": {
-                "error_class": "INVALID_REQUEST",
+                "error_class": "REQUEST_CONTRACT_INVALID",
                 "sanitized_message": "terminal request failure",
             },
         }

@@ -606,7 +606,7 @@ Every attempt records:
 - timestamps for queued, dispatched, response received, bytes verified, and committed where available;
 - acceptance knowledge: `not_accepted`, `accepted`, or `unknown`;
 - provider remote operation/interaction ID as soon as it becomes available;
-- structured error class, HTTP/provider code, sanitized message, retry-after, and retry decision;
+- structured error class, HTTP/provider code, sanitized message, retry-after, and typed retry action;
 - estimated, reserved, known actual, and potentially charged amounts;
 - output digest/size/probe summary and storage receipt;
 - no credential values and no raw provider payload unless explicitly redacted and separately protected.
@@ -621,7 +621,7 @@ Required summary fields:
 - invocation/execution identity chain and ownership-proof digests used by this run;
 - status `awaiting_agent_review` when all safe mechanical work has stopped;
 - outcome `all_succeeded`, `partial_failure`, `failed`, `cancelled`, or `indeterminate`;
-- successful/cache-hit/failed/indeterminate counts;
+- successful/cache-hit/failed/blocked/indeterminate/cancelled counts;
 - per-item verified storage receipt or structured blocker/error;
 - full cost snapshot including retained reserves for indeterminate calls;
 - retry/cache/quota statistics;
@@ -699,11 +699,13 @@ pending -> eligible -> running
 
 verified cache hit ----------------> committed
 pending/eligible/retry_wait --------> cancelled
+pending/eligible -------------------> blocked_by_dependency
 ```
 
 - `succeeded_staged` is not durable success; it means worker bytes and facts reached the coordinator.
 - `committed` requires media validation, content digest, durable blob receipt, attempt record, and state transition.
 - `indeterminate` is terminal for automatic scheduling.
+- `blocked_by_dependency` is terminal mechanical non-execution with a structured reason and IDs of failed, cancelled, indeterminate, or already-blocked dependency items; it has no dispatch attempt.
 - One item's terminal failure does not cancel independent items.
 
 ### 8.3 Attempt phases
@@ -883,6 +885,8 @@ Adapters may add provider codes, but must map them to this stable taxonomy and r
 - Retry ceilings apply simultaneously to attempts, elapsed time, and authorized cost.
 - Technical output retries that incur another provider charge require explicit allowance in the immutable request.
 - Test code uses an injected fake clock/random source; CI never waits real provider-scale intervals.
+
+Attempt v1 freezes `retry_action` as `none`, `resubmit_generation`, `poll_remote_operation`, `retry_storage_commit`, `reconcile_storage_precondition`, `await_charged_generation_authorization`, `do_not_retry`, or `mark_indeterminate`. `resubmit_generation` is valid only for a known-not-accepted submit. Poll and storage actions can only continue the same remote operation or commit the already-produced bytes. `await_charged_generation_authorization` records a candidate that M1 must still validate against the immutable work-item allowance, attempt ceiling, and budget; it is not dispatch authority. Unknown paid acceptance can only become `mark_indeterminate`.
 
 ### 11.3 Failure aggregation
 

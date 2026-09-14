@@ -13,6 +13,7 @@ import math
 import os
 import re
 from copy import deepcopy
+from dataclasses import dataclass
 from decimal import Decimal
 from functools import lru_cache
 from pathlib import Path, PurePosixPath
@@ -745,13 +746,192 @@ def validate_storage_receipt(document: Mapping[str, Any]) -> None:
             )
 
 
+_GENERATION_RESUBMIT_ERRORS = frozenset(
+    {"RATE_LIMITED_SUBMIT_REJECTED", "PROVIDER_TRANSIENT_PRE_ACCEPT"}
+)
+_REMOTE_POLL_ERRORS = frozenset({"RATE_LIMITED_REMOTE_POLL", "REMOTE_JOB_RECOVERABLE"})
+_STORAGE_RETRY_ERRORS = frozenset({"LOCAL_STORAGE_TRANSIENT", "GCS_TRANSIENT"})
+_UNKNOWN_ACCEPTANCE_ERRORS = frozenset(
+    {"RATE_LIMITED_ACCEPTANCE_UNKNOWN", "TIMEOUT_OR_NETWORK_UNKNOWN"}
+)
+_NOT_ACCEPTED_TERMINAL_ERRORS = frozenset(
+    {
+        "REQUEST_CONTRACT_INVALID",
+        "PROJECT_IDENTITY_INVALID",
+        "SOURCE_BINDING_CHANGED",
+        "APPROVAL_MISSING_OR_STALE",
+        "BUDGET_EXCEEDED",
+        "TOOL_UNAVAILABLE",
+        "AUTH_CONFIGURATION",
+        "INPUT_MEDIA_INVALID",
+        "PROVIDER_PERMANENT_REJECT",
+        "CONTENT_SAFETY_REJECT",
+        "EXECUTION_OWNER_ACTIVE",
+        "RESUME_OWNERSHIP_PROOF_INVALID",
+    }
+)
+
+
+@dataclass(frozen=True)
+class _AttemptActionRule:
+    action: str
+    error_classes: frozenset[str]
+    phase: str
+    acceptance: str
+    output_requirement: str
+    provider_operation_requirement: str = "optional"
+
+
+_ATTEMPT_ACTION_RULES = (
+    _AttemptActionRule(
+        "resubmit_generation",
+        _GENERATION_RESUBMIT_ERRORS,
+        "failed",
+        "not_accepted",
+        "forbidden",
+        "forbidden",
+    ),
+    _AttemptActionRule(
+        "poll_remote_operation",
+        _REMOTE_POLL_ERRORS,
+        "provider_accepted",
+        "accepted",
+        "forbidden",
+        "required",
+    ),
+    _AttemptActionRule(
+        "retry_storage_commit",
+        _STORAGE_RETRY_ERRORS,
+        "technically_valid",
+        "accepted",
+        "required",
+    ),
+    _AttemptActionRule(
+        "reconcile_storage_precondition",
+        frozenset({"GCS_PRECONDITION_CONFLICT"}),
+        "technically_valid",
+        "accepted",
+        "required",
+    ),
+    _AttemptActionRule(
+        "await_charged_generation_authorization",
+        frozenset({"OUTPUT_TECHNICALLY_INVALID"}),
+        "failed",
+        "accepted",
+        "forbidden",
+    ),
+    _AttemptActionRule(
+        "do_not_retry",
+        _NOT_ACCEPTED_TERMINAL_ERRORS | _GENERATION_RESUBMIT_ERRORS,
+        "failed",
+        "not_accepted",
+        "forbidden",
+        "forbidden",
+    ),
+    _AttemptActionRule(
+        "do_not_retry",
+        frozenset({"OUTPUT_TECHNICALLY_INVALID"}),
+        "failed",
+        "accepted",
+        "forbidden",
+    ),
+    _AttemptActionRule(
+        "do_not_retry",
+        _STORAGE_RETRY_ERRORS | {"GCS_PRECONDITION_CONFLICT"},
+        "failed",
+        "accepted",
+        "required",
+    ),
+    _AttemptActionRule(
+        "do_not_retry", frozenset({"INTERNAL_BUG"}), "failed", "not_accepted", "forbidden"
+    ),
+    _AttemptActionRule(
+        "do_not_retry", frozenset({"INTERNAL_BUG"}), "failed", "accepted", "optional"
+    ),
+    _AttemptActionRule(
+        "do_not_retry", frozenset({"CANCELLED"}), "cancelled", "not_accepted", "forbidden"
+    ),
+    _AttemptActionRule(
+        "do_not_retry", frozenset({"CANCELLED"}), "cancelled", "accepted", "forbidden"
+    ),
+    _AttemptActionRule(
+        "mark_indeterminate",
+        _UNKNOWN_ACCEPTANCE_ERRORS | {"INTERNAL_BUG", "CANCELLED"},
+        "indeterminate",
+        "unknown",
+        "forbidden",
+    ),
+    _AttemptActionRule(
+        "mark_indeterminate",
+        _REMOTE_POLL_ERRORS,
+        "indeterminate",
+        "accepted",
+        "forbidden",
+        "required",
+    ),
+)
+
+
+def _require_attempt_shape(document: Mapping[str, Any], rule: _AttemptActionRule) -> None:
+    if document["phase"] != rule.phase:
+        raise M0ContractError(
+            "INVALID_RETRY_ACTION",
+            f"{rule.action} requires phase={rule.phase} for {document['error']['error_class']}",
+        )
+    actual_output = document.get("output")
+    if rule.output_requirement == "forbidden" and actual_output is not None:
+        raise M0ContractError(
+            "INVALID_ATTEMPT_STATE",
+            f"{rule.action} cannot carry an output",
+        )
+    if rule.output_requirement == "required" and not isinstance(actual_output, Mapping):
+        raise M0ContractError(
+            "INVALID_ATTEMPT_STATE",
+            f"{rule.action} requires the already-produced output",
+        )
+    operation_id = document.get("provider_operation_id")
+    if rule.provider_operation_requirement == "required" and not operation_id:
+        raise M0ContractError(
+            "PROVIDER_OPERATION_ID_REQUIRED",
+            f"{rule.action} requires a durable provider operation ID",
+        )
+    if rule.provider_operation_requirement == "forbidden" and operation_id is not None:
+        raise M0ContractError(
+            "INVALID_RETRY_ACTION",
+            f"{rule.action} cannot reuse a provider operation ID",
+        )
+
+
+def _validate_charged_retry_facts(document: Mapping[str, Any]) -> None:
+    if (
+        document["billing_mode"] != "paid"
+        or _decimal(document["cost"]["known_actual_usd"]) <= 0
+    ):
+        raise M0ContractError(
+            "CHARGED_RETRY_FACTS_REQUIRED",
+            "Technical retry candidacy requires an accepted, known-charged paid attempt",
+        )
+
+
+def _validate_generation_resubmit_cost(document: Mapping[str, Any]) -> None:
+    cost = document["cost"]
+    if (
+        _decimal(cost["known_actual_usd"]) != 0
+        or _decimal(cost["potentially_charged_usd"]) != 0
+    ):
+        raise M0ContractError(
+            "RETRY_COST_FACTS_INVALID",
+            "Known-not-accepted generation resubmission cannot carry actual or possible charge",
+        )
+
+
 def validate_attempt(document: Mapping[str, Any]) -> None:
     validate_contract("attempt", document)
     _assert_no_sensitive_values(document)
     validate_exact_identity(document["identity"], field="attempt.identity")
     phase = document["phase"]
     acceptance = document["acceptance_knowledge"]
-    retry = document["retry_decision"]
+    retry_action = document["retry_action"]
     expected_idempotency = compute_idempotency_digest(
         document["request_digest"], document["work_item_digest"]
     )
@@ -773,46 +953,66 @@ def validate_attempt(document: Mapping[str, Any]) -> None:
             acceptance != "accepted"
             or not isinstance(output, Mapping)
             or not output.get("storage_receipt_id")
-            or retry != "none"
+            or retry_action != "none"
             or error is not None
         ):
             raise M0ContractError(
                 "INVALID_ATTEMPT_STATE",
                 "Committed attempt requires one accepted, receipted output with no error or retry",
             )
-    elif phase == "failed":
-        if error is None or output is not None or retry not in {"retry", "do_not_retry"}:
-            raise M0ContractError(
-                "INVALID_ATTEMPT_STATE",
-                "Failed attempt requires an error, no output, and an explicit retry decision",
-            )
-    elif phase == "indeterminate":
-        if error is None or output is not None or retry != "indeterminate":
-            raise M0ContractError(
-                "INVALID_ATTEMPT_STATE",
-                "Indeterminate attempt requires an error, no output, and no automatic retry",
-            )
-    elif phase == "cancelled":
-        if output is not None or error is not None or retry not in {"none", "do_not_retry"}:
-            raise M0ContractError(
-                "INVALID_ATTEMPT_STATE",
-                "Cancelled attempt cannot claim output, error, or retry work",
-            )
-    elif error is not None:
-        raise M0ContractError(
-            "INVALID_ATTEMPT_STATE", "Only failed or indeterminate attempts may carry errors"
-        )
-    if acceptance == "unknown" and document["billing_mode"] == "paid" and (
-        retry == "retry" or phase in {"failed", "cancelled"}
+    if acceptance == "unknown" and document["billing_mode"] == "paid" and error is not None and (
+        phase != "indeterminate" or retry_action != "mark_indeterminate"
     ):
         raise M0ContractError(
             "PAID_AMBIGUITY",
             "Unknown paid acceptance must remain indeterminate and cannot be retried",
         )
-    if retry == "retry" and (phase != "failed" or acceptance != "not_accepted"):
+    if acceptance == "unknown" and document["billing_mode"] == "paid" and (
+        _decimal(document["cost"]["known_actual_usd"])
+        + _decimal(document["cost"]["potentially_charged_usd"])
+        <= 0
+    ):
         raise M0ContractError(
-            "INVALID_ATTEMPT_STATE", "Retry requires a known-not-accepted failed attempt"
+            "PAID_AMBIGUITY",
+            "Unknown paid acceptance must retain a non-zero known or potential charge",
         )
+
+    if retry_action == "none":
+        if error is not None or phase in {"failed", "indeterminate", "cancelled"}:
+            raise M0ContractError(
+                "INVALID_ATTEMPT_STATE",
+                "An error or terminal non-success attempt requires a typed retry action",
+            )
+        return
+    if not isinstance(error, Mapping):
+        raise M0ContractError(
+            "INVALID_ATTEMPT_STATE", "A typed retry action requires a structured error"
+        )
+    error_class = error["error_class"]
+    class_rules = [
+        rule
+        for rule in _ATTEMPT_ACTION_RULES
+        if rule.action == retry_action and error_class in rule.error_classes
+    ]
+    if not class_rules:
+        raise M0ContractError(
+            "INVALID_RETRY_ACTION",
+            f"{error_class} cannot use {retry_action}",
+        )
+    rule = next(
+        (rule for rule in class_rules if rule.acceptance == acceptance),
+        None,
+    )
+    if rule is None:
+        raise M0ContractError(
+            "INVALID_RETRY_ACTION",
+            f"{error_class}/{retry_action} cannot use acceptance={acceptance}",
+        )
+    _require_attempt_shape(document, rule)
+    if retry_action == "resubmit_generation":
+        _validate_generation_resubmit_cost(document)
+    if error_class == "OUTPUT_TECHNICALLY_INVALID":
+        _validate_charged_retry_facts(document)
 
 
 def _validate_cost_exposure(cost: Mapping[str, Any], *, code: str) -> None:
@@ -839,6 +1039,99 @@ def _mechanical_outcome(states: list[str]) -> str:
     if successful:
         return "partial_failure"
     return "failed"
+
+
+def _validate_dependency_blockers(
+    items: list[Mapping[str, Any]],
+    *,
+    attempts_for_item: Mapping[str, list[Mapping[str, Any]]] | None = None,
+) -> None:
+    items_by_id = {item["item_id"]: item for item in items}
+    blocking_states = {
+        "failed_terminal",
+        "blocked_by_dependency",
+        "indeterminate",
+        "cancelled",
+    }
+    for item in items:
+        blocker = item.get("blocker")
+        if item["state"] != "blocked_by_dependency":
+            if blocker is not None:
+                raise M0ContractError(
+                    "DEPENDENCY_BLOCKER_INVALID",
+                    f"Non-blocked item {item['item_id']} cannot claim a dependency blocker",
+                )
+            continue
+        if not isinstance(blocker, Mapping):
+            raise M0ContractError(
+                "DEPENDENCY_BLOCKER_INVALID",
+                f"Blocked item {item['item_id']} requires a structured blocker",
+            )
+        if attempts_for_item is not None and attempts_for_item[item["item_id"]]:
+            raise M0ContractError(
+                "DEPENDENCY_BLOCKER_INVALID",
+                f"Dependency-blocked item {item['item_id']} must not have been dispatched",
+            )
+        if item.get("storage_receipt_id") is not None or item.get("error_class") is not None:
+            raise M0ContractError(
+                "DEPENDENCY_BLOCKER_INVALID",
+                f"Dependency-blocked item {item['item_id']} cannot masquerade as provider work",
+            )
+        for dependency_id in blocker["dependency_item_ids"]:
+            dependency = items_by_id.get(dependency_id)
+            if (
+                dependency is None
+                or dependency_id == item["item_id"]
+                or dependency["state"] not in blocking_states
+            ):
+                raise M0ContractError(
+                    "DEPENDENCY_BLOCKER_INVALID",
+                    f"Blocked item {item['item_id']} names no valid blocking item {dependency_id}",
+                )
+
+
+def _validate_terminal_item_latest_attempt(
+    item: Mapping[str, Any], attempts: list[Mapping[str, Any]]
+) -> Mapping[str, Any] | None:
+    if not attempts:
+        if item["state"] == "committed":
+            raise M0ContractError(
+                "COMMITTED_ITEM_INCOMPLETE",
+                f"Committed item {item['item_id']} has no durable attempt",
+            )
+        return None
+    latest = max(attempts, key=lambda attempt: attempt["dispatch_sequence"])
+    expected = {
+        "committed": ("durably_committed", "none"),
+        "failed_terminal": ("failed", "do_not_retry"),
+        "indeterminate": ("indeterminate", "mark_indeterminate"),
+        "cancelled": ("cancelled", "do_not_retry"),
+    }.get(item["state"])
+    if expected is not None and (latest["phase"], latest["retry_action"]) != expected:
+        raise M0ContractError(
+            "ITEM_LATEST_ATTEMPT_MISMATCH",
+            f"{item['state']} item {item['item_id']} is not supported by its latest attempt",
+        )
+    if item["state"] == "cancelled" and any(
+        attempt["phase"] == "indeterminate"
+        or (
+            attempt["billing_mode"] == "paid"
+            and attempt["acceptance_knowledge"] == "unknown"
+        )
+        for attempt in attempts
+    ):
+        raise M0ContractError(
+            "ITEM_LATEST_ATTEMPT_MISMATCH",
+            f"Cancelled item {item['item_id']} cannot hide a paid or indeterminate ambiguity",
+        )
+    if item.get("error_class") is not None and latest.get("error", {}).get(
+        "error_class"
+    ) != item["error_class"]:
+        raise M0ContractError(
+            "ITEM_LATEST_ATTEMPT_MISMATCH",
+            f"Item {item['item_id']} error class differs from its latest attempt",
+        )
+    return latest
 
 
 def validate_batch_state(document: Mapping[str, Any]) -> None:
@@ -941,9 +1234,15 @@ def validate_batch_state(document: Mapping[str, Any]) -> None:
                 f"StorageReceipt {receipt_id} is not bound by its attempt output",
             )
 
+    _validate_dependency_blockers(
+        document["items"], attempts_for_item=attempts_for_item
+    )
     for item in document["items"]:
         if item["attempt_count"] != attempts_by_item[item["item_id"]]:
             raise M0ContractError("ATTEMPT_COUNT_MISMATCH", f"Wrong count for {item['item_id']}")
+        latest_attempt = _validate_terminal_item_latest_attempt(
+            item, attempts_for_item[item["item_id"]]
+        )
         receipt_id = item.get("storage_receipt_id")
         if item["state"] == "committed":
             receipt = receipts_by_id.get(receipt_id)
@@ -957,16 +1256,12 @@ def validate_batch_state(document: Mapping[str, Any]) -> None:
                     "ITEM_RECEIPT_MISMATCH",
                     f"Item {item['item_id']} references no matching StorageReceipt",
                 )
-            durable_attempts = [
-                attempt
-                for attempt in attempts_for_item[item["item_id"]]
-                if attempt["phase"] == "durably_committed"
-                and attempt.get("output", {}).get("storage_receipt_id") == receipt_id
-            ]
-            if not durable_attempts:
+            if latest_attempt is None or latest_attempt.get("output", {}).get(
+                "storage_receipt_id"
+            ) != receipt_id:
                 raise M0ContractError(
                     "COMMITTED_ITEM_INCOMPLETE",
-                    f"Committed item {item['item_id']} lacks one matching durable attempt/receipt",
+                    f"Committed item {item['item_id']} latest attempt lacks its durable receipt",
                 )
         elif receipt_id is not None:
             raise M0ContractError(
@@ -996,6 +1291,7 @@ def validate_batch_result(document: Mapping[str, Any]) -> None:
         "successful": states.count("committed"),
         "cache_hit": states.count("cache_hit"),
         "failed": states.count("failed_terminal"),
+        "blocked": states.count("blocked_by_dependency"),
         "indeterminate": states.count("indeterminate"),
         "cancelled": states.count("cancelled"),
     }
@@ -1006,6 +1302,7 @@ def validate_batch_result(document: Mapping[str, Any]) -> None:
         raise M0ContractError(
             "RESULT_OUTCOME_MISMATCH", f"Outcome must be {expected_outcome} for item states"
         )
+    _validate_dependency_blockers(document["items"])
     receipt_ids: set[str] = set()
     for item in document["items"]:
         if item["state"] in {"committed", "cache_hit"}:
@@ -1040,6 +1337,11 @@ def validate_batch_result(document: Mapping[str, Any]) -> None:
             if item["state"] in {"failed_terminal", "indeterminate"} and "error" not in item:
                 raise M0ContractError(
                     "INVALID_BATCH_RESULT", f"{item['item_id']} lacks a structured error"
+                )
+            if item["state"] == "blocked_by_dependency" and "error" in item:
+                raise M0ContractError(
+                    "DEPENDENCY_BLOCKER_INVALID",
+                    f"Blocked item {item['item_id']} cannot claim a provider error",
                 )
     _validate_cost_exposure(document["cost"], code="BUDGET_RESULT_INVALID")
 

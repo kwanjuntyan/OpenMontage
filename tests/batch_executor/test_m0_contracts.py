@@ -82,7 +82,7 @@ def _committed_attempt():
         "acceptance_knowledge": "accepted",
         "billing_mode": "paid",
         "provider_operation_id": "interaction-123",
-        "retry_decision": "none",
+        "retry_action": "none",
         "cost": {
             "estimated_usd": 0.8,
             "reserved_usd": 0,
@@ -211,6 +211,7 @@ def test_versioned_state_attempt_receipt_and_result_contracts_resolve_refs():
             "successful": 1,
             "cache_hit": 0,
             "failed": 0,
+            "blocked": 0,
             "indeterminate": 0,
             "cancelled": 0,
         },
