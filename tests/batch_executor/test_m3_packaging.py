@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import ast
+import fnmatch
+import re
 from pathlib import Path
 
 import yaml
@@ -45,6 +47,24 @@ def test_dedicated_container_requires_immutable_base_and_runs_non_root():
         encoding="utf-8"
     )
     assert "ARG PYTHON_BASE_IMAGE\nFROM ${PYTHON_BASE_IMAGE}" in dockerfile
+    digest_guard = re.search(
+        r"re\.fullmatch\(r'([^']+)', sys\.argv\[1\]\)", dockerfile
+    )
+    assert digest_guard is not None
+    digest_pattern = re.compile(digest_guard.group(1))
+    assert digest_pattern.fullmatch(
+        "python:3.10.18-slim-bookworm@sha256:" + "a" * 64
+    )
+    for mutable_or_malformed in (
+        "python:3.10.18-slim-bookworm",
+        "python:latest",
+        "python@sha256:" + "a" * 63,
+        "python@sha256:" + "g" * 64,
+        "python@sha512:" + "a" * 64,
+        "python@sha256:" + "a" * 64 + "-suffix",
+    ):
+        assert digest_pattern.fullmatch(mutable_or_malformed) is None
+    assert dockerfile.index("re.fullmatch") < dockerfile.index("apt-get update")
     assert "ARG FFMPEG_APT_VERSION" in dockerfile
     assert '"ffmpeg=${FFMPEG_APT_VERSION}"' in dockerfile
     assert "USER 65532:65532" in dockerfile
@@ -86,7 +106,75 @@ def test_cloud_run_job_template_is_exactly_one_zero_retry_task():
     assert container["volumeMounts"] == [
         {"name": "materialized-project-workspace", "mountPath": "/workspace"}
     ]
+    dockerfile = (REPOSITORY_ROOT / "Dockerfile.batch-v2").read_text(
+        encoding="utf-8"
+    )
+    user_match = re.search(r"(?m)^USER (\d+):(\d+)$", dockerfile)
+    assert user_match is not None
+    workspace_volume = task["volumes"][0]
+    assert workspace_volume["name"] == "materialized-project-workspace"
+    assert workspace_volume["csi"]["volumeAttributes"]["mountOptions"] == (
+        f"uid={user_match.group(1)},gid={user_match.group(2)}"
+    )
     assert task["serviceAccountName"] == "${BATCH_V2_SERVICE_ACCOUNT}"
+
+
+def _docker_context_includes(rules: list[str], path: str) -> bool:
+    included = True
+    for raw_rule in rules:
+        negated = raw_rule.startswith("!")
+        pattern = raw_rule[1:] if negated else raw_rule
+        if pattern.endswith("/"):
+            matched = path.rstrip("/") == pattern.rstrip("/")
+        else:
+            matched = fnmatch.fnmatchcase(path, pattern)
+        if matched:
+            included = negated
+    return included
+
+
+def test_docker_build_context_is_default_deny_with_only_runtime_inputs_allowed():
+    rules = [
+        line.strip()
+        for line in (REPOSITORY_ROOT / ".dockerignore")
+        .read_text(encoding="utf-8")
+        .splitlines()
+        if line.strip() and not line.lstrip().startswith("#")
+    ]
+    assert rules[0] == "**"
+
+    required_inputs = (
+        "Dockerfile.batch-v2",
+        ".dockerignore",
+        "requirements-batch-v2.txt",
+        "constraints-batch-v2-py310.txt",
+        "lib/batch_executor/cli.py",
+        "schemas/execution/batch_request.schema.json",
+        "pipeline_defs/documentary-montage.yaml",
+        "scripts/batch_execute.py",
+    )
+    for path in required_inputs:
+        assert _docker_context_includes(rules, path), path
+
+    forbidden_context = (
+        ".git/config",
+        ".env.production",
+        "projects/private/assets/video.mp4",
+        "lib/service-account.json",
+        "lib/credentials-prod.json",
+        "lib/__pycache__/runtime.cpython-310.pyc",
+        "node_modules/example/index.js",
+        ".pytest-tmp-packaging/result.xml",
+        "tests/output.xml",
+        "worktrees/another-checkout/file.py",
+        ".vscode/settings.json",
+        "Thumbs.db",
+        "generated/preview.mp4",
+        "unrelated-source.txt",
+        "scripts/not-a-runtime-entrypoint.py",
+    )
+    for path in forbidden_context:
+        assert not _docker_context_includes(rules, path), path
 
 
 def test_cloud_entrypoint_exposes_no_pipeline_review_or_identity_selector():
@@ -163,3 +251,5 @@ def test_runbook_keeps_external_actions_behind_m5_and_project_scoped_workspace()
     assert "No tool output uses `/tmp`" in runbook
     assert "awaiting_agent_review" in runbook
     assert "cannot choose a\nstage/provider/model" in runbook
+    assert "default-deny build context" in runbook
+    assert "Only the Dockerfile inputs" in runbook

@@ -4,6 +4,9 @@
 ARG PYTHON_BASE_IMAGE
 FROM ${PYTHON_BASE_IMAGE}
 
+ARG PYTHON_BASE_IMAGE
+RUN python -c "import re, sys; raise SystemExit(0 if re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._:/-]*@sha256:[0-9a-f]{64}', sys.argv[1]) else 'PYTHON_BASE_IMAGE must be digest-qualified with a lowercase sha256 digest')" "${PYTHON_BASE_IMAGE}"
+
 ARG FFMPEG_APT_VERSION
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONDONTWRITEBYTECODE=1 \

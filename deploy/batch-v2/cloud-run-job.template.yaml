@@ -41,3 +41,4 @@ spec:
                 readOnly: false
                 volumeAttributes:
                   bucketName: ${PRIVATE_WORKSPACE_BUCKET}
+                  mountOptions: "uid=65532,gid=65532"

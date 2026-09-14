@@ -606,6 +606,7 @@ class RequestsVertexInteractionsTransport:
                 "response_format": {
                     "type": "video",
                     "aspect_ratio": inputs["aspect_ratio"],
+                    "duration": inputs["duration"],
                 },
                 "store": bool(inputs["store"]),
             }

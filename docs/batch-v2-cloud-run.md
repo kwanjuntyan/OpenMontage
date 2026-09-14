@@ -42,8 +42,19 @@ that durable Interactions identity the adapter fails preflight before dispatch.
 build must provide a Python 3.10 base by immutable registry digest and an exact
 Debian ffmpeg package version. Direct Python dependencies are pinned in
 `requirements-batch-v2.txt`; `constraints-batch-v2-py310.txt` freezes the full
-Python 3.10 resolution. The build record must retain the resolver's install
-report and image digest.
+Python 3.10 resolution. The Dockerfile itself fails the build before package
+installation unless `PYTHON_BASE_IMAGE` ends in an exact lowercase, 64-hex
+`@sha256:` digest; a mutable tag alone is never accepted. The build record must
+retain the resolver's install report and image digest.
+
+The repository-root `.dockerignore` is a default-deny build context. Only the Dockerfile inputs
+(`lib/`, `schemas/`, `pipeline_defs/`, `scripts/batch_execute.py`, and the two
+pinned dependency files) are explicitly includable. Secret/environment files,
+credentials, project media, generated outputs, caches, test artifacts,
+worktrees, and editor/OS noise remain excluded even if they appear below an
+otherwise allowed source directory. Builds must use the repository root as
+their context so this boundary is effective; preparing a broader or alternate
+context requires a separate security review.
 
 The following checks are local and make no external call:
 

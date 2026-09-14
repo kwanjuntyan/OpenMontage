@@ -454,7 +454,9 @@ def test_vertex_http_transport_parses_realistic_output_video_without_route_fallb
     session = FakeVertexHTTPSession(response)
     transport = RequestsVertexInteractionsTransport()
     transport._session = lambda: session
-    normalized = transport.submit(**_vertex_transport_kwargs(batch_request))
+    request_kwargs = _vertex_transport_kwargs(batch_request)
+    request_kwargs["inputs"]["duration"] = "7s"
+    normalized = transport.submit(**request_kwargs)
     assert normalized.output_bytes == output
     assert normalized.provider_operation_id == "interaction-001"
     assert normalized.observed_identity == exact_identity()
@@ -465,10 +467,33 @@ def test_vertex_http_transport_parses_realistic_output_video_without_route_fallb
         "explicit-vertex-project/locations/global/interactions"
     )
     assert headers["Authorization"] == "Bearer fake-vertex-adc-token"
-    assert payload["model"] == "gemini-omni-1.1-flash-preview"
-    assert payload["input"] == batch_request["work_items"][0]["inputs"]["prompt"]
+    assert payload == {
+        "model": "gemini-omni-1.1-flash-preview",
+        "input": batch_request["work_items"][0]["inputs"]["prompt"],
+        "response_format": {
+            "type": "video",
+            "aspect_ratio": "16:9",
+            "duration": "7s",
+        },
+        "store": True,
+    }
     assert timeout == 600
     assert allow_redirects is False
+
+
+def test_vertex_http_transport_never_defaults_a_missing_frozen_duration(
+    batch_request,
+):
+    session = FakeVertexHTTPSession(FakeVertexHTTPResponse(500, {}))
+    transport = RequestsVertexInteractionsTransport()
+    transport._session = lambda: session
+    request_kwargs = _vertex_transport_kwargs(batch_request)
+    del request_kwargs["inputs"]["duration"]
+
+    with pytest.raises(KeyError, match="duration"):
+        transport.submit(**request_kwargs)
+
+    assert session.calls == []
 
 
 def test_vertex_adapter_rejects_unsafe_remote_operation_identity(
