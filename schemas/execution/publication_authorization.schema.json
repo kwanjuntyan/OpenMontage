@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmontage.local/schemas/execution/publication_authorization.schema.json",
+  "title": "Batch Executor V2 PublicationAuthorization",
+  "description": "Immutable one-time Human authorization for one exact Cloud publication process and command.",
+  "type": "object",
+  "required": [
+    "version",
+    "canonical_json",
+    "authorization_id",
+    "authorization_digest",
+    "authorized_at",
+    "scope",
+    "batch_id",
+    "request_digest",
+    "prior_invocation_id",
+    "prior_execution_id",
+    "prior_task_id",
+    "intended_publication_invocation_id",
+    "intended_publication_execution_id",
+    "intended_publication_task_id",
+    "command_id",
+    "command_digest",
+    "source_state_generation",
+    "source_state_sha256",
+    "reason",
+    "decision_reference"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": "1.0" },
+    "canonical_json": { "const": "openmontage-canonical-json-v1" },
+    "authorization_id": { "$ref": "#/$defs/id" },
+    "authorization_digest": { "$ref": "#/$defs/digest" },
+    "authorized_at": { "type": "string", "format": "date-time" },
+    "scope": { "enum": ["source_execution", "publication_takeover"] },
+    "batch_id": { "$ref": "#/$defs/id" },
+    "request_digest": { "$ref": "#/$defs/digest" },
+    "prior_invocation_id": { "$ref": "#/$defs/id" },
+    "prior_execution_id": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "prior_task_id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "intended_publication_invocation_id": { "$ref": "#/$defs/id" },
+    "intended_publication_execution_id": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "intended_publication_task_id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "command_id": { "$ref": "#/$defs/id" },
+    "command_digest": { "$ref": "#/$defs/digest" },
+    "source_state_generation": { "type": "integer", "minimum": 1 },
+    "source_state_sha256": { "$ref": "#/$defs/digest" },
+    "reason": { "type": "string", "minLength": 1, "maxLength": 2048 },
+    "decision_reference": { "type": "string", "minLength": 1, "maxLength": 1024 }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  }
+}

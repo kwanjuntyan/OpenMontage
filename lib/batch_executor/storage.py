@@ -1056,5 +1056,151 @@ class LocalStore:
             )
         return destination
 
+    def preflight_materialized_canonical_asset(
+        self,
+        *,
+        source: Path,
+        receipt: Mapping[str, Any],
+        canonical_path: str,
+        validator: MediaValidator,
+        output_spec: Mapping[str, Any],
+    ) -> tuple[Path, Path]:
+        """Validate a GCS-derived hidden staging file and canonical target.
+
+        This is deliberately separate from the LocalStore receipt path so a
+        Cloud publication cannot fabricate a local receipt or weaken M2's
+        local-only source authority.
+        """
+
+        self._assert_writer()
+        validate_storage_receipt(receipt)
+        if receipt["store_type"] != "gcs":
+            raise M2PublicationError(
+                "PUBLICATION_GCS_AUTHORITY_MISMATCH",
+                "Materialized Cloud publication requires one exact GCS receipt",
+            )
+        source = Path(source)
+        lexical = Path(os.path.abspath(source))
+        try:
+            resolved = source.resolve(strict=True)
+            relative = resolved.relative_to(self.project_dir)
+        except (OSError, ValueError) as exc:
+            raise M2PublicationError(
+                "PUBLICATION_STAGING_INVALID",
+                "Cloud publication staging is missing or outside the project",
+            ) from exc
+        if (
+            not relative.parts
+            or relative.parts[0] != ".batch-v2"
+            or os.path.normcase(str(resolved)) != os.path.normcase(str(lexical))
+        ):
+            raise M2PublicationError(
+                "PUBLICATION_STAGING_INVALID",
+                "Cloud publication staging must be an unaliased hidden project path",
+            )
+        source_stat = resolved.stat(follow_symlinks=False)
+        if (
+            stat.S_ISLNK(source_stat.st_mode)
+            or not stat.S_ISREG(source_stat.st_mode)
+            or source_stat.st_nlink > 1
+        ):
+            raise M2PublicationError(
+                "PUBLICATION_STAGING_INVALID",
+                "Cloud publication staging cannot be a filesystem alias",
+            )
+        digest, size = _digest_file(resolved)
+        facts = validator.validate(resolved, output_spec)
+        if (
+            digest != receipt["sha256"]
+            or size != receipt["size_bytes"]
+            or facts.sha256 != receipt["sha256"]
+            or facts.size_bytes != receipt["size_bytes"]
+            or canonical_json_bytes(facts.probe)
+            != canonical_json_bytes(receipt["probe"])
+        ):
+            raise M2PublicationError(
+                "PUBLICATION_STAGING_INVALID",
+                "Cloud publication staging differs from its verified GCS receipt",
+            )
+        destination = self._canonical_asset_target(canonical_path)
+        if destination.exists():
+            target_stat = destination.stat(follow_symlinks=False)
+            if stat.S_ISLNK(target_stat.st_mode) or (
+                stat.S_ISREG(target_stat.st_mode) and target_stat.st_nlink > 1
+            ):
+                raise M2PublicationError(
+                    "CANONICAL_PATH_ALIAS",
+                    "Canonical destination is an unsafe filesystem alias",
+                )
+            target_sha, target_size = _digest_file(destination)
+            if target_sha != receipt["sha256"] or target_size != receipt["size_bytes"]:
+                raise StorageConflict(
+                    "CANONICAL_ASSET_CONFLICT",
+                    f"Canonical destination already differs: {destination}",
+                )
+        return resolved, destination
+
+    def materialize_from_publication_staging(
+        self,
+        *,
+        source: Path,
+        receipt: Mapping[str, Any],
+        canonical_path: str,
+        validator: MediaValidator,
+        output_spec: Mapping[str, Any],
+        publish_hook: Callable[[Path, Path], None] | None = None,
+    ) -> tuple[Path, bool]:
+        self._assert_writer()
+        verified_source, destination = self.preflight_materialized_canonical_asset(
+            source=source,
+            receipt=receipt,
+            canonical_path=canonical_path,
+            validator=validator,
+            output_spec=output_spec,
+        )
+        created = _copy_immutable_file(
+            verified_source,
+            destination,
+            expected_sha256=receipt["sha256"],
+            expected_size=receipt["size_bytes"],
+            publish_hook=publish_hook,
+        )
+        return destination, created
+
+    def verify_materialized_canonical_asset(
+        self,
+        *,
+        source: Path,
+        receipt: Mapping[str, Any],
+        canonical_path: str,
+        validator: MediaValidator,
+        output_spec: Mapping[str, Any],
+    ) -> Path:
+        self._assert_writer()
+        _, destination = self.preflight_materialized_canonical_asset(
+            source=source,
+            receipt=receipt,
+            canonical_path=canonical_path,
+            validator=validator,
+            output_spec=output_spec,
+        )
+        if not destination.is_file():
+            raise M2PublicationError(
+                "CANONICAL_ASSET_MISSING",
+                "Canonical media is missing before checkpoint publication",
+            )
+        facts = validator.validate(destination, output_spec)
+        if (
+            facts.sha256 != receipt["sha256"]
+            or facts.size_bytes != receipt["size_bytes"]
+            or canonical_json_bytes(facts.probe)
+            != canonical_json_bytes(receipt["probe"])
+        ):
+            raise M2PublicationError(
+                "CANONICAL_ASSET_VERIFICATION_FAILED",
+                "Canonical media differs from its durable GCS receipt",
+            )
+        return destination
+
 
 __all__ = ["ExecutionStore", "LocalRunLock", "LocalStore", "StoreVersion"]

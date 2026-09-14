@@ -25,9 +25,13 @@ from .contracts import (
     canonical_json_bytes,
     canonical_sha256,
     derive_attempt_output_path,
+    validate_canonical_asset_path,
     validate_batch_request,
     validate_batch_result,
     validate_batch_state,
+    validate_publication_authorization,
+    validate_publication_command,
+    validate_publication_state,
     validate_storage_receipt,
 )
 from .errors import CoordinatorWriterViolation, M1ExecutionError, StorageConflict
@@ -36,6 +40,7 @@ from .storage import _atomic_write, _digest_file, _validate_ownership_record
 
 
 _GCS_BUCKET = re.compile(r"^[a-z0-9][a-z0-9._-]{1,220}[a-z0-9]$")
+_SAFE_ID = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
 
 
 class GCSObjectNotFound(RuntimeError):
@@ -230,6 +235,29 @@ class GCSStore:
     @property
     def result_logical_path(self) -> str:
         return f".batch-v2/runs/{self.batch_id}/result.json"
+
+    @property
+    def request_object_name(self) -> str:
+        return self._request_name
+
+    @property
+    def state_object_name(self) -> str:
+        return self._state_name
+
+    @property
+    def result_object_name(self) -> str:
+        return self._result_name
+
+    @property
+    def publication_state_object_name(self) -> str:
+        return f"{self._prefix}/publication/state.json"
+
+    def publication_command_object_name(self, command_id: str) -> str:
+        if not isinstance(command_id, str) or not _SAFE_ID.fullmatch(command_id):
+            raise M1ExecutionError(
+                "PUBLICATION_COMMAND_ID_INVALID", "Unsafe publication command ID"
+            )
+        return f"{self._prefix}/publication/commands/{command_id}.json"
 
     def _assert_writer(self) -> None:
         if threading.get_ident() != self._writer_thread_id:
@@ -1027,6 +1055,579 @@ class GCSStore:
             ),
             content_type="application/json",
             conflict_code="OWNERSHIP_RECORD_CONFLICT",
+        )
+
+    def write_publication_authorization_if_absent(
+        self, authorization: Mapping[str, Any]
+    ) -> int:
+        """Persist one command-bound Human proof before publication claiming."""
+
+        self._assert_writer()
+        validate_publication_authorization(authorization)
+        digest = str(authorization["authorization_digest"])
+        return self._write_immutable(
+            name=f"{self._prefix}/publication/authorizations/{digest}.json",
+            payload=canonical_json_bytes(authorization),
+            metadata=self._record_metadata(
+                "publication_authorization",
+                canonical_sha256(authorization),
+                authorization_digest=digest,
+                command_digest=str(authorization["command_digest"]),
+            ),
+            content_type="application/json",
+            conflict_code="PUBLICATION_AUTHORIZATION_CONFLICT",
+        )
+
+    def write_publication_command_if_absent(
+        self, command: Mapping[str, Any]
+    ) -> tuple[int, str]:
+        """Create and synchronously verify the immutable Agent command in GCS."""
+
+        self._assert_writer()
+        validate_publication_command(command)
+        cloud_source = command.get("cloud_source")
+        if (
+            not isinstance(cloud_source, Mapping)
+            or cloud_source.get("bucket") != self.bucket
+            or command.get("batch_id") != self.batch_id
+            or command.get("project_id") != self.project_id
+        ):
+            raise M1ExecutionError(
+                "PUBLICATION_GCS_AUTHORITY_MISMATCH",
+                "PublicationCommand does not bind this exact GCS store",
+            )
+        payload = canonical_json_bytes(command)
+        digest = str(command["command_digest"])
+        generation = self._write_immutable(
+            name=self.publication_command_object_name(str(command["command_id"])),
+            payload=payload,
+            metadata=self._record_metadata(
+                "publication_command",
+                hashlib.sha256(payload).hexdigest(),
+                command_digest=digest,
+            ),
+            content_type="application/json",
+            conflict_code="PUBLICATION_COMMAND_CONFLICT",
+        )
+        return generation, digest
+
+    def load_publication_command(
+        self, command_id: str
+    ) -> tuple[dict[str, Any], int]:
+        name = self.publication_command_object_name(command_id)
+        try:
+            snapshot = self.transport.read_object(bucket=self.bucket, name=name)
+            if snapshot.data is None:
+                raise ValueError("missing publication command bytes")
+            command = json.loads(snapshot.data.decode("utf-8"))
+            validate_publication_command(command)
+            payload = canonical_json_bytes(command)
+            metadata = self._record_metadata(
+                "publication_command",
+                hashlib.sha256(payload).hexdigest(),
+                command_digest=str(command["command_digest"]),
+            )
+            self._read_and_verify(
+                name=name,
+                payload=payload,
+                metadata=metadata,
+                content_type="application/json",
+                generation=snapshot.generation,
+            )
+        except M1ExecutionError as exc:
+            if exc.code in {"GCS_TRANSIENT", "AUTH_CONFIGURATION"}:
+                raise
+            raise M1ExecutionError(
+                "PUBLICATION_COMMAND_RECORD_INVALID",
+                "Durable GCS PublicationCommand is missing or corrupt",
+            ) from exc
+        except (
+            GCSObjectNotFound,
+            GCSPreconditionFailed,
+            M0ContractError,
+            UnicodeError,
+            ValueError,
+            json.JSONDecodeError,
+        ) as exc:
+            raise M1ExecutionError(
+                "PUBLICATION_COMMAND_RECORD_INVALID",
+                "Durable GCS PublicationCommand is missing or corrupt",
+            ) from exc
+        return command, snapshot.generation
+
+    def load_publication_state(self) -> tuple[dict[str, Any], int] | None:
+        name = self.publication_state_object_name
+        try:
+            snapshot = self.transport.read_object(bucket=self.bucket, name=name)
+        except GCSObjectNotFound:
+            return None
+        except Exception as exc:
+            raise self._transport_error(
+                exc, "Durable Cloud PublicationState read failed"
+            ) from exc
+        try:
+            if snapshot.data is None:
+                raise ValueError("missing publication state bytes")
+            state = json.loads(snapshot.data.decode("utf-8"))
+            validate_publication_state(state)
+            payload = canonical_json_bytes(state)
+            metadata = self._record_metadata(
+                "publication_state",
+                hashlib.sha256(payload).hexdigest(),
+                request_digest=str(state["request_digest"]),
+                logical_revision=str(state["revision"]),
+            )
+            self._read_and_verify(
+                name=name,
+                payload=payload,
+                metadata=metadata,
+                content_type="application/json",
+                generation=snapshot.generation,
+            )
+        except M1ExecutionError as exc:
+            if exc.code in {"GCS_TRANSIENT", "AUTH_CONFIGURATION"}:
+                raise
+            raise M1ExecutionError(
+                "PUBLICATION_STATE_INVALID",
+                "Durable Cloud PublicationState is corrupt",
+            ) from exc
+        except (
+            GCSObjectNotFound,
+            GCSPreconditionFailed,
+            M0ContractError,
+            UnicodeError,
+            ValueError,
+            json.JSONDecodeError,
+        ) as exc:
+            raise M1ExecutionError(
+                "PUBLICATION_STATE_INVALID",
+                "Durable Cloud PublicationState is corrupt",
+            ) from exc
+        return state, snapshot.generation
+
+    def save_publication_state(
+        self,
+        state: Mapping[str, Any],
+        *,
+        expected_generation: int | None,
+    ) -> int:
+        """Generation-CAS one publication owner/state and verify the winner."""
+
+        self._assert_writer()
+        validate_publication_state(state)
+        if (
+            state["project_id"] != self.project_id
+            or state["batch_id"] != self.batch_id
+            or state["source"]["bucket"] != self.bucket
+        ):
+            raise M1ExecutionError(
+                "PUBLICATION_GCS_AUTHORITY_MISMATCH",
+                "PublicationState does not bind this exact GCS store",
+            )
+        if expected_generation is None:
+            if state["revision"] != 0:
+                raise StorageConflict(
+                    "GCS_PRECONDITION_CONFLICT",
+                    "Initial PublicationState must use revision zero",
+                )
+            precondition = 0
+        else:
+            if isinstance(expected_generation, bool) or expected_generation < 1:
+                raise StorageConflict(
+                    "GCS_PRECONDITION_CONFLICT",
+                    "PublicationState expected generation must be positive",
+                )
+            loaded = self.load_publication_state()
+            if loaded is None or loaded[1] != expected_generation:
+                raise StorageConflict(
+                    "GCS_PRECONDITION_CONFLICT",
+                    "PublicationState generation changed before CAS",
+                )
+            if state["revision"] != loaded[0]["revision"] + 1:
+                raise StorageConflict(
+                    "GCS_PRECONDITION_CONFLICT",
+                    "PublicationState revision must increment exactly once",
+                )
+            precondition = expected_generation
+        payload = canonical_json_bytes(state)
+        metadata = self._record_metadata(
+            "publication_state",
+            hashlib.sha256(payload).hexdigest(),
+            request_digest=str(state["request_digest"]),
+            logical_revision=str(state["revision"]),
+        )
+        try:
+            written = self.transport.write_object(
+                bucket=self.bucket,
+                name=self.publication_state_object_name,
+                data=payload,
+                metadata=metadata,
+                content_type="application/json",
+                if_generation_match=precondition,
+            )
+        except GCSPreconditionFailed as exc:
+            raise StorageConflict(
+                "GCS_PRECONDITION_CONFLICT",
+                "Cloud publication ownership claim lost its generation CAS",
+            ) from exc
+        except Exception as exc:
+            raise self._transport_error(
+                exc, "PublicationState conditional write failed"
+            ) from exc
+        try:
+            return self._read_and_verify(
+                name=self.publication_state_object_name,
+                payload=payload,
+                metadata=metadata,
+                content_type="application/json",
+                generation=written.generation,
+            )
+        except (GCSObjectNotFound, GCSPreconditionFailed, M1ExecutionError) as exc:
+            raise M1ExecutionError(
+                "GCS_TRANSIENT",
+                "PublicationState CAS winner could not be synchronously re-read",
+            ) from exc
+
+    def read_verified_blob_bytes(self, receipt: Mapping[str, Any]) -> bytes:
+        """Read one exact private GCS receipt without touching local canonical state."""
+
+        self._assert_writer()
+        snapshot = self._verified_blob_snapshot(receipt)
+        if snapshot.data is None:  # pragma: no cover - enforced by helper
+            raise M1ExecutionError(
+                "GCS_VERIFICATION_FAILED", "Verified GCS receipt returned no bytes"
+            )
+        return bytes(snapshot.data)
+
+    @staticmethod
+    def _workspace_facts(
+        *, logical_path: str, name: str, generation: int, payload: bytes
+    ) -> dict[str, Any]:
+        return {
+            "logical_path": logical_path,
+            "object_name": name,
+            "generation": generation,
+            "sha256": hashlib.sha256(payload).hexdigest(),
+            "size_bytes": len(payload),
+            "crc32c": crc32c_base64(payload),
+        }
+
+    def publish_workspace_asset(
+        self,
+        *,
+        source: Path,
+        canonical_path: str,
+        receipt: Mapping[str, Any],
+    ) -> dict[str, Any]:
+        """Conditionally create and synchronously verify one canonical GCS asset."""
+
+        self._assert_writer()
+        canonical_path = validate_canonical_asset_path(
+            canonical_path, field="canonical_path"
+        )
+        validate_storage_receipt(receipt)
+        if receipt["store_type"] != "gcs":
+            raise M1ExecutionError(
+                "PUBLICATION_GCS_AUTHORITY_MISMATCH",
+                "Canonical GCS publication requires a GCS source receipt",
+            )
+        expected_source = self.project_dir / Path(*canonical_path.split("/"))
+        try:
+            resolved_source = Path(source).resolve(strict=True)
+        except OSError as exc:
+            raise M1ExecutionError(
+                "WORKSPACE_ESCAPE", "Canonical GCS source is missing"
+            ) from exc
+        if (
+            os.path.normcase(str(resolved_source))
+            != os.path.normcase(str(expected_source))
+            or os.path.normcase(str(resolved_source))
+            != os.path.normcase(str(Path(os.path.abspath(source))))
+        ):
+            raise M1ExecutionError(
+                "WORKSPACE_ESCAPE",
+                "Canonical GCS source must be the exact unaliased project destination",
+            )
+        payload = resolved_source.read_bytes()
+        if (
+            hashlib.sha256(payload).hexdigest() != receipt["sha256"]
+            or len(payload) != receipt["size_bytes"]
+        ):
+            raise M1ExecutionError(
+                "GCS_VERIFICATION_FAILED",
+                "Canonical source bytes differ from their verified receipt",
+            )
+        name = f"projects/{self.project_id}/{canonical_path}"
+        metadata = self._record_metadata(
+            "canonical_asset",
+            receipt["sha256"],
+            client_sha256=str(receipt["sha256"]),
+            logical_path=canonical_path,
+            source_receipt_id=str(receipt["receipt_id"]),
+            source_generation=str(receipt["generation"]),
+        )
+        generation = self._write_immutable(
+            name=name,
+            payload=payload,
+            metadata=metadata,
+            content_type="video/mp4",
+            conflict_code="GCS_PRECONDITION_CONFLICT",
+        )
+        return self._workspace_facts(
+            logical_path=canonical_path,
+            name=name,
+            generation=generation,
+            payload=payload,
+        )
+
+    def preflight_workspace_asset(
+        self,
+        *,
+        payload: bytes,
+        canonical_path: str,
+        receipt: Mapping[str, Any],
+    ) -> None:
+        """Read-only check that a canonical GCS destination is absent or exact."""
+
+        self._assert_writer()
+        canonical_path = validate_canonical_asset_path(
+            canonical_path, field="canonical_path"
+        )
+        validate_storage_receipt(receipt)
+        if (
+            receipt["store_type"] != "gcs"
+            or hashlib.sha256(payload).hexdigest() != receipt["sha256"]
+            or len(payload) != receipt["size_bytes"]
+        ):
+            raise M1ExecutionError(
+                "PUBLICATION_GCS_AUTHORITY_MISMATCH",
+                "Canonical preflight source differs from its GCS receipt",
+            )
+        name = f"projects/{self.project_id}/{canonical_path}"
+        metadata = self._record_metadata(
+            "canonical_asset",
+            str(receipt["sha256"]),
+            client_sha256=str(receipt["sha256"]),
+            logical_path=canonical_path,
+            source_receipt_id=str(receipt["receipt_id"]),
+            source_generation=str(receipt["generation"]),
+        )
+        try:
+            existing = self.transport.head_object(bucket=self.bucket, name=name)
+        except GCSObjectNotFound:
+            return
+        except Exception as exc:
+            raise self._transport_error(
+                exc, "Canonical GCS asset preflight failed"
+            ) from exc
+        try:
+            self._read_and_verify(
+                name=name,
+                payload=payload,
+                metadata=metadata,
+                content_type="video/mp4",
+                generation=existing.generation,
+            )
+        except (GCSObjectNotFound, GCSPreconditionFailed, M1ExecutionError) as exc:
+            raise StorageConflict(
+                "GCS_PRECONDITION_CONFLICT",
+                "Canonical GCS asset destination already differs",
+            ) from exc
+
+    def verify_workspace_asset(
+        self,
+        *,
+        facts: Mapping[str, Any],
+        payload: bytes,
+        receipt: Mapping[str, Any],
+    ) -> None:
+        """Re-read an already completed private canonical asset exactly."""
+
+        self._assert_writer()
+        validate_storage_receipt(receipt)
+        expected_name = f"projects/{self.project_id}/{facts['logical_path']}"
+        expected_facts = self._workspace_facts(
+            logical_path=str(facts["logical_path"]),
+            name=expected_name,
+            generation=int(facts["generation"]),
+            payload=payload,
+        )
+        if dict(facts) != expected_facts:
+            raise M1ExecutionError(
+                "GCS_VERIFICATION_FAILED",
+                "Completed canonical asset facts differ from local bytes",
+            )
+        metadata = self._record_metadata(
+            "canonical_asset",
+            str(receipt["sha256"]),
+            client_sha256=str(receipt["sha256"]),
+            logical_path=str(facts["logical_path"]),
+            source_receipt_id=str(receipt["receipt_id"]),
+            source_generation=str(receipt["generation"]),
+        )
+        self._read_and_verify(
+            name=expected_name,
+            payload=payload,
+            metadata=metadata,
+            content_type="video/mp4",
+            generation=int(facts["generation"]),
+        )
+
+    def publish_workspace_checkpoint(
+        self,
+        *,
+        source: Path,
+        checkpoint: Mapping[str, Any],
+        command: Mapping[str, Any],
+        expected_generation: int,
+    ) -> dict[str, Any]:
+        """Generation-CAS the official checkpoint bytes; never overwrite a conflict."""
+
+        self._assert_writer()
+        if isinstance(expected_generation, bool) or expected_generation < 0:
+            raise StorageConflict(
+                "GCS_PRECONDITION_CONFLICT", "Invalid checkpoint expected generation"
+            )
+        expected_source = self.project_dir / "checkpoint_assets.json"
+        try:
+            resolved_source = Path(source).resolve(strict=True)
+        except OSError as exc:
+            raise M1ExecutionError(
+                "WORKSPACE_ESCAPE", "Canonical checkpoint source is missing"
+            ) from exc
+        if (
+            os.path.normcase(str(resolved_source))
+            != os.path.normcase(str(expected_source))
+            or os.path.normcase(str(resolved_source))
+            != os.path.normcase(str(Path(os.path.abspath(source))))
+        ):
+            raise M1ExecutionError(
+                "WORKSPACE_ESCAPE",
+                "GCS checkpoint source must be the exact unaliased project checkpoint",
+            )
+        payload = resolved_source.read_bytes()
+        name = f"projects/{self.project_id}/checkpoint_assets.json"
+        metadata = self._record_metadata(
+            "canonical_checkpoint",
+            hashlib.sha256(payload).hexdigest(),
+            client_sha256=hashlib.sha256(payload).hexdigest(),
+            logical_path="checkpoint_assets.json",
+            command_digest=str(command["command_digest"]),
+            checkpoint_sha256=canonical_sha256(checkpoint),
+            status=str(checkpoint["status"]),
+        )
+        try:
+            written = self.transport.write_object(
+                bucket=self.bucket,
+                name=name,
+                data=payload,
+                metadata=metadata,
+                content_type="application/json",
+                if_generation_match=expected_generation,
+            )
+            generation = written.generation
+        except GCSPreconditionFailed:
+            try:
+                existing = self.transport.read_object(bucket=self.bucket, name=name)
+                generation = existing.generation
+                self._read_and_verify(
+                    name=name,
+                    payload=payload,
+                    metadata=metadata,
+                    content_type="application/json",
+                    generation=generation,
+                )
+            except (GCSObjectNotFound, GCSPreconditionFailed, M1ExecutionError) as exc:
+                raise StorageConflict(
+                    "GCS_PRECONDITION_CONFLICT",
+                    "Canonical checkpoint generation changed or differs",
+                ) from exc
+        except Exception as exc:
+            raise self._transport_error(
+                exc, "Canonical checkpoint conditional write failed"
+            ) from exc
+        self._read_and_verify(
+            name=name,
+            payload=payload,
+            metadata=metadata,
+            content_type="application/json",
+            generation=generation,
+        )
+        return self._workspace_facts(
+            logical_path="checkpoint_assets.json",
+            name=name,
+            generation=generation,
+            payload=payload,
+        )
+
+    def preflight_workspace_checkpoint_generation(
+        self, *, expected_generation: int
+    ) -> None:
+        """Read-only validation of the next canonical checkpoint CAS base."""
+
+        self._assert_writer()
+        if isinstance(expected_generation, bool) or expected_generation < 0:
+            raise StorageConflict(
+                "GCS_PRECONDITION_CONFLICT", "Invalid checkpoint preflight generation"
+            )
+        name = f"projects/{self.project_id}/checkpoint_assets.json"
+        try:
+            current = self.transport.head_object(bucket=self.bucket, name=name)
+        except GCSObjectNotFound:
+            if expected_generation == 0:
+                return
+            raise StorageConflict(
+                "GCS_PRECONDITION_CONFLICT",
+                "Expected canonical GCS checkpoint generation is missing",
+            ) from None
+        except Exception as exc:
+            raise self._transport_error(
+                exc, "Canonical GCS checkpoint preflight failed"
+            ) from exc
+        if expected_generation == 0 or current.generation != expected_generation:
+            raise StorageConflict(
+                "GCS_PRECONDITION_CONFLICT",
+                "Canonical GCS checkpoint generation differs before publication",
+            )
+
+    def verify_workspace_checkpoint(
+        self,
+        *,
+        facts: Mapping[str, Any],
+        payload: bytes,
+        checkpoint: Mapping[str, Any],
+        command: Mapping[str, Any],
+    ) -> None:
+        """Re-read an already completed private canonical checkpoint exactly."""
+
+        self._assert_writer()
+        name = f"projects/{self.project_id}/checkpoint_assets.json"
+        expected_facts = self._workspace_facts(
+            logical_path="checkpoint_assets.json",
+            name=name,
+            generation=int(facts["generation"]),
+            payload=payload,
+        )
+        if dict(facts) != expected_facts:
+            raise M1ExecutionError(
+                "GCS_VERIFICATION_FAILED",
+                "Completed canonical checkpoint facts differ from local bytes",
+            )
+        metadata = self._record_metadata(
+            "canonical_checkpoint",
+            hashlib.sha256(payload).hexdigest(),
+            client_sha256=hashlib.sha256(payload).hexdigest(),
+            logical_path="checkpoint_assets.json",
+            command_digest=str(command["command_digest"]),
+            checkpoint_sha256=canonical_sha256(checkpoint),
+            status=str(checkpoint["status"]),
+        )
+        self._read_and_verify(
+            name=name,
+            payload=payload,
+            metadata=metadata,
+            content_type="application/json",
+            generation=int(facts["generation"]),
         )
 
 

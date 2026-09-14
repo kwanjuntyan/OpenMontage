@@ -120,7 +120,7 @@ def _owner():
     }
 
 
-def test_all_nine_execution_schemas_are_valid_draft_2020_12():
+def test_all_execution_schemas_are_valid_draft_2020_12():
     assert SCHEMA_NAMES == {
         "batch_request",
         "batch_state",
@@ -131,6 +131,8 @@ def test_all_nine_execution_schemas_are_valid_draft_2020_12():
         "execution_status_evidence",
         "resume_authorization",
         "publication_command",
+        "publication_authorization",
+        "publication_state",
     }
     for name in SCHEMA_NAMES:
         schema = load_execution_schema(name)

@@ -41,6 +41,8 @@ SCHEMA_NAMES = frozenset(
         "execution_status_evidence",
         "resume_authorization",
         "publication_command",
+        "publication_authorization",
+        "publication_state",
     }
 )
 
@@ -289,6 +291,20 @@ def freeze_publication_command(document: Mapping[str, Any]) -> dict[str, Any]:
     frozen["asset_manifest_sha256"] = canonical_sha256(manifest)
     frozen["command_digest"] = _digest_without(frozen, "command_digest")
     validate_publication_command(frozen)
+    return frozen
+
+
+def freeze_publication_authorization(
+    document: Mapping[str, Any],
+) -> dict[str, Any]:
+    """Freeze one explicit Human authorization for an exact Cloud publisher."""
+
+    frozen = freeze_self_digest(
+        document,
+        schema_name="publication_authorization",
+        digest_field="authorization_digest",
+    )
+    validate_publication_authorization(frozen)
     return frozen
 
 
@@ -1198,6 +1214,36 @@ def validate_publication_command(document: Mapping[str, Any]) -> None:
             "EXECUTION_NOT_STOPPED",
             "Canonical publication requires a terminal or cancelled execution owner",
         )
+    if owner["profile"] == "cloud_run":
+        cloud_source = document["cloud_source"]
+        expected_prefix = f"projects/{document['project_id']}/.batch-v2/runs/{batch_id}"
+        expected_sources = {
+            "request": (
+                f".batch-v2/runs/{batch_id}/request.json",
+                f"{expected_prefix}/request.json",
+            ),
+            "state": (expected_state_path, f"{expected_prefix}/state.json"),
+            "result": (expected_result_path, f"{expected_prefix}/result.json"),
+        }
+        for source_kind, (logical_path, object_name) in expected_sources.items():
+            source_ref = cloud_source[source_kind]
+            if (
+                source_ref["logical_path"] != logical_path
+                or source_ref["object_name"] != object_name
+            ):
+                raise M0ContractError(
+                    "PUBLICATION_CLOUD_SOURCE_PATH_INVALID",
+                    f"Cloud {source_kind} must bind its exact project-scoped object",
+                )
+        if (
+            cloud_source["state"]["sha256"] != document["state_ref"]["sha256"]
+            or cloud_source["result"]["sha256"]
+            != document["result_ref"]["sha256"]
+        ):
+            raise M0ContractError(
+                "PUBLICATION_CLOUD_SOURCE_DIGEST_INVALID",
+                "Cloud state/result digests must equal the primary command references",
+            )
     validate_exact_identity(document["identity"], field="publication.identity")
 
     review = document["review_evidence"]
@@ -1321,6 +1367,160 @@ def validate_publication_command(document: Mapping[str, Any]) -> None:
                 "HUMAN_APPROVAL_BINDING_INVALID",
                 "Human reply evidence must bind the prior checkpoint/command and exact reviewed output",
             )
+        if owner["profile"] == "cloud_run" and (
+            not isinstance(prior_checkpoint.get("gcs_generation"), int)
+            or isinstance(prior_checkpoint.get("gcs_generation"), bool)
+            or not isinstance(prior_command.get("gcs_generation"), int)
+            or isinstance(prior_command.get("gcs_generation"), bool)
+        ):
+            raise M0ContractError(
+                "HUMAN_APPROVAL_BINDING_INVALID",
+                "Cloud Human transition must bind prior command/checkpoint generations",
+            )
+
+
+def validate_publication_authorization(document: Mapping[str, Any]) -> None:
+    """Validate a one-time Human authorization for one exact Cloud command."""
+
+    validate_contract("publication_authorization", document)
+    _assert_no_sensitive_values(document)
+    if document["canonical_json"] != CANONICAL_JSON_VERSION:
+        raise M0ContractError(
+            "CANONICAL_JSON_MISMATCH",
+            "PublicationAuthorization canonical JSON version differs",
+        )
+    expected = _digest_without(document, "authorization_digest")
+    if document["authorization_digest"] != expected:
+        raise M0ContractError(
+            "PUBLICATION_AUTHORIZATION_DIGEST_MISMATCH",
+            "PublicationAuthorization does not match its complete canonical SHA-256",
+        )
+
+
+def validate_publication_state(document: Mapping[str, Any]) -> None:
+    """Validate the narrow generation-CAS Cloud publication journal."""
+
+    validate_contract("publication_state", document)
+    _assert_no_sensitive_values(document)
+    if document["canonical_json"] != CANONICAL_JSON_VERSION:
+        raise M0ContractError(
+            "CANONICAL_JSON_MISMATCH",
+            "PublicationState canonical JSON version differs",
+        )
+    expected_prefix = (
+        f"projects/{document['project_id']}/.batch-v2/runs/{document['batch_id']}"
+    )
+    expected_names = {
+        "request": f"{expected_prefix}/request.json",
+        "state": f"{expected_prefix}/state.json",
+        "result": f"{expected_prefix}/result.json",
+    }
+    expected_logical = {
+        kind: name.removeprefix(f"projects/{document['project_id']}/")
+        for kind, name in expected_names.items()
+    }
+    if any(
+        document["source"][kind]["object_name"] != name
+        or document["source"][kind]["logical_path"] != expected_logical[kind]
+        for kind, name in expected_names.items()
+    ):
+        raise M0ContractError(
+            "PUBLICATION_STATE_SOURCE_INVALID",
+            "PublicationState source objects do not bind its project and batch",
+        )
+    completed = document["completed_commands"]
+    command_ids: set[str] = set()
+    command_digests: set[str] = set()
+    human_approval_ids: set[str] = set()
+    human_approval_digests: set[str] = set()
+    expected_transitions = (
+        "agent_review_to_awaiting_human",
+        "human_approval_to_completed",
+    )
+    for index, record in enumerate(completed):
+        if (
+            record["command_id"] in command_ids
+            or record["command_digest"] in command_digests
+            or record["transition"] != expected_transitions[index]
+        ):
+            raise M0ContractError(
+                "PUBLICATION_STATE_HISTORY_INVALID",
+                "Publication completion history must be unique and lifecycle ordered",
+            )
+        command_ids.add(record["command_id"])
+        command_digests.add(record["command_digest"])
+        checkpoint = record["checkpoint"]
+        if (
+            checkpoint["logical_path"] != "checkpoint_assets.json"
+            or checkpoint["object_name"]
+            != f"projects/{document['project_id']}/checkpoint_assets.json"
+        ):
+            raise M0ContractError(
+                "PUBLICATION_STATE_HISTORY_INVALID",
+                "Publication completion checkpoint path is not canonical",
+            )
+        asset_identities: set[str] = set()
+        for asset_object in record["asset_objects"]:
+            logical_path = validate_canonical_asset_path(
+                asset_object["logical_path"], field="publication_state.asset_object"
+            )
+            identity = portable_canonical_asset_identity(
+                logical_path, field="publication_state.asset_object"
+            )
+            if (
+                identity in asset_identities
+                or asset_object["object_name"]
+                != f"projects/{document['project_id']}/{logical_path}"
+            ):
+                raise M0ContractError(
+                    "PUBLICATION_STATE_HISTORY_INVALID",
+                    "Publication completion asset objects are duplicated or non-canonical",
+                )
+            asset_identities.add(identity)
+        approval_id = record.get("human_approval_id")
+        approval_digest = record.get("human_approval_digest")
+        if record["transition"] == "human_approval_to_completed":
+            if not approval_id or not approval_digest:
+                raise M0ContractError(
+                    "PUBLICATION_STATE_HISTORY_INVALID",
+                    "Completed Human transition must retain its exact approval evidence",
+                )
+            if approval_id in human_approval_ids or approval_digest in human_approval_digests:
+                raise M0ContractError(
+                    "PUBLICATION_STATE_HISTORY_INVALID",
+                    "Human approval evidence must be one-time",
+                )
+            human_approval_ids.add(approval_id)
+            human_approval_digests.add(approval_digest)
+        elif approval_id is not None or approval_digest is not None:
+            raise M0ContractError(
+                "PUBLICATION_STATE_HISTORY_INVALID",
+                "Agent review completion cannot claim Human approval evidence",
+            )
+    owner = document["owner"]
+    if (
+        owner["proof"]["kind"] == "human_publication_authorization"
+        and owner["proof"]["digest"]
+        not in document["consumed_authorization_digests"]
+    ):
+        raise M0ContractError(
+            "PUBLICATION_STATE_OWNER_INVALID",
+            "Human publication proof must be durably marked consumed",
+        )
+    if owner["owner_status"] == "completed":
+        if not completed or (
+            owner["command_id"] != completed[-1]["command_id"]
+            or owner["command_digest"] != completed[-1]["command_digest"]
+        ):
+            raise M0ContractError(
+                "PUBLICATION_STATE_OWNER_INVALID",
+                "Completed publication owner must match the latest completion",
+            )
+    elif owner["command_digest"] in command_digests:
+        raise M0ContractError(
+            "PUBLICATION_STATE_OWNER_INVALID",
+            "An active owner cannot replay an already completed command",
+        )
 
 
 def _mechanical_outcome(states: list[str]) -> str:
@@ -1750,6 +1950,7 @@ __all__ = [
     "derive_attempt_output_path",
     "exact_identity",
     "freeze_batch_request",
+    "freeze_publication_authorization",
     "freeze_publication_command",
     "freeze_self_digest",
     "load_execution_schema",
@@ -1762,7 +1963,9 @@ __all__ = [
     "validate_batch_state",
     "validate_canonical_asset_path",
     "validate_contract",
+    "validate_publication_authorization",
     "validate_publication_command",
+    "validate_publication_state",
     "validate_exact_identity",
     "validate_logical_path",
     "validate_storage_receipt",

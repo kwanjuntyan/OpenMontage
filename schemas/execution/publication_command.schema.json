@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://openmontage.local/schemas/execution/publication_command.schema.json",
   "title": "Batch Executor V2 PublicationCommand",
-  "description": "Immutable Agent-authored authorization for one exact local assets checkpoint transition.",
+  "description": "Immutable Agent-authored authorization for one exact local or GCS-backed assets checkpoint transition.",
   "type": "object",
   "required": [
     "version",
@@ -61,6 +61,7 @@
       }
     },
     "execution_owner": { "$ref": "execution_owner.schema.json" },
+    "cloud_source": { "$ref": "#/$defs/cloud_source" },
     "asset_manifest": { "type": "object" },
     "asset_manifest_sha256": { "$ref": "#/$defs/digest" },
     "asset_bindings": {
@@ -130,7 +131,8 @@
           "properties": {
             "logical_path": { "$ref": "#/$defs/logical_path" },
             "sha256": { "$ref": "#/$defs/digest" },
-            "status": { "const": "awaiting_human" }
+            "status": { "const": "awaiting_human" },
+            "gcs_generation": { "type": "integer", "minimum": 1 }
           }
         },
         "prior_publication_command_ref": {
@@ -140,7 +142,8 @@
           "properties": {
             "command_id": { "$ref": "#/$defs/id" },
             "logical_path": { "$ref": "#/$defs/logical_path" },
-            "sha256": { "$ref": "#/$defs/digest" }
+            "sha256": { "$ref": "#/$defs/digest" },
+            "gcs_generation": { "type": "integer", "minimum": 1 }
           }
         },
         "human_approval_evidence": {
@@ -214,6 +217,21 @@
       ]
     }
   },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "execution_owner": {
+            "properties": { "profile": { "const": "cloud_run" } },
+            "required": ["profile"]
+          }
+        },
+        "required": ["execution_owner"]
+      },
+      "then": { "required": ["cloud_source"] },
+      "else": { "not": { "required": ["cloud_source"] } }
+    }
+  ],
   "$defs": {
     "id": {
       "type": "string",
@@ -235,6 +253,31 @@
       "properties": {
         "logical_path": { "$ref": "#/$defs/logical_path" },
         "sha256": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "gcs_content_ref": {
+      "type": "object",
+      "required": ["logical_path", "object_name", "generation", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "logical_path": { "$ref": "#/$defs/logical_path" },
+        "object_name": { "$ref": "#/$defs/logical_path" },
+        "generation": { "type": "integer", "minimum": 1 },
+        "sha256": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "cloud_source": {
+      "type": "object",
+      "required": ["bucket", "request", "state", "result"],
+      "additionalProperties": false,
+      "properties": {
+        "bucket": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{1,220}[a-z0-9]$"
+        },
+        "request": { "$ref": "#/$defs/gcs_content_ref" },
+        "state": { "$ref": "#/$defs/gcs_content_ref" },
+        "result": { "$ref": "#/$defs/gcs_content_ref" }
       }
     },
     "cost": {

@@ -18,6 +18,7 @@ from .contracts import (
     compute_work_item_digest,
     derive_attempt_output_path,
     freeze_batch_request,
+    freeze_publication_authorization,
     freeze_publication_command,
     portable_canonical_asset_identity,
     validate_attempt,
@@ -26,12 +27,14 @@ from .contracts import (
     validate_batch_state,
     validate_canonical_asset_path,
     validate_contract,
+    validate_publication_authorization,
     validate_publication_command,
+    validate_publication_state,
     validate_storage_receipt,
 )
 from .engine import BatchExecutor, CloudBatchExecutor, LocalBatchExecutor
 from .gcs_storage import GCSStore
-from .publication import LocalAssetsPublisher
+from .publication import CloudAssetsPublisher, LocalAssetsPublisher
 from .storage import ExecutionStore, LocalStore
 
 __all__ = [
@@ -41,6 +44,7 @@ __all__ = [
     "M0ContractError",
     "BatchExecutor",
     "CloudBatchExecutor",
+    "CloudAssetsPublisher",
     "ExecutionStore",
     "GCSStore",
     "LocalBatchExecutor",
@@ -52,6 +56,7 @@ __all__ = [
     "compute_work_item_digest",
     "derive_attempt_output_path",
     "freeze_batch_request",
+    "freeze_publication_authorization",
     "freeze_publication_command",
     "portable_canonical_asset_identity",
     "validate_attempt",
@@ -60,6 +65,8 @@ __all__ = [
     "validate_batch_state",
     "validate_canonical_asset_path",
     "validate_contract",
+    "validate_publication_authorization",
     "validate_publication_command",
+    "validate_publication_state",
     "validate_storage_receipt",
 ]

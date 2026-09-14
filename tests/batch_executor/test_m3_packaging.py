@@ -253,3 +253,5 @@ def test_runbook_keeps_external_actions_behind_m5_and_project_scoped_workspace()
     assert "cannot choose a\nstage/provider/model" in runbook
     assert "default-deny build context" in runbook
     assert "Only the Dockerfile inputs" in runbook
+    assert "container gate remains pending, rather than waived" in runbook
+    assert "not part of M3 acceptance" not in runbook

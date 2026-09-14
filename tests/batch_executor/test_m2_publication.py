@@ -226,6 +226,8 @@ def _agent_command(case, *, command_id="publish-agent-001"):
             "human_approved": False,
         },
     }
+    if "cloud_source" in case:
+        command["cloud_source"] = deepcopy(case["cloud_source"])
     return freeze_publication_command(command)
 
 
@@ -270,6 +272,13 @@ def _human_command(case, first_command, first_receipt):
             },
         }
     )
+    if "cloud_source" in command:
+        command["transition"]["prior_checkpoint_ref"]["gcs_generation"] = (
+            first_receipt["checkpoint_generation"]
+        )
+        command["transition"]["prior_publication_command_ref"][
+            "gcs_generation"
+        ] = first_receipt["command_generation"]
     return freeze_publication_command(command)
 
 

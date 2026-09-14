@@ -63,9 +63,10 @@ python -m pytest tests/batch_executor/test_m3_packaging.py -q --basetemp=.pytest
 python -m ruff check lib/batch_executor scripts/batch_execute.py tests/batch_executor
 ```
 
-An image build is deliberately not part of M3 acceptance when its digest-pinned
-base or package cache is unavailable. After an explicit later approval, the
-shape of a reproducible build is:
+The M3 container gate remains pending, rather than waived, when the Docker
+daemon, digest-pinned base image, or pinned package cache is unavailable. After
+an explicit later approval provides those inputs, the reproducible build shape
+to qualify is:
 
 ```text
 docker build --file Dockerfile.batch-v2 \
@@ -206,4 +207,18 @@ owner remains active and requires proof-gated resume.
 Execution stops at `awaiting_agent_review`. This entrypoint cannot choose a
 stage/provider/model, issue a PublicationCommand, publish canonical media,
 advance a checkpoint, or satisfy an Agent/Human Gate. Those remain the separate
-Agent-native M2 publication lifecycle.
+Agent-native publication lifecycle.
+
+After the Agent has reviewed the exact GCS BatchResult and authored a frozen
+`PublicationCommand`, the separate `CloudAssetsPublisher` library boundary may
+be invoked with injected GCS and Cloud Run status transports. It requires exact
+request/state/result object generations and digests, independent terminal or
+cancelled execution proof (or one command-bound Human publication
+authorization), and a re-read generation-CAS publication claim before any
+canonical mutation. It stages only below the materialized project's hidden
+`.batch-v2/runs/<batch-id>/publication/` tree, publishes canonical media first,
+uses the official checkpoint writer/reader last, and synchronously verifies the
+corresponding private workspace GCS objects. The later `completed` transition
+still requires a second immutable command bound to an explicit Human Gate reply.
+This boundary is intentionally absent from `batch_execute.py` so execution can
+never auto-review or auto-publish.
