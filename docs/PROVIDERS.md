@@ -767,6 +767,17 @@ costs about $0.015. OpenMontage estimates cost from character count. See
 **Tools unlocked:** `google_tts`, `google_imagen`, `google_music`, `gemini_omni_video`, `veo_video`
 **Env var:** `GOOGLE_API_KEY` (or `GEMINI_API_KEY` — either works; `GEMINI_API_KEY` takes precedence)
 
+`gemini_omni_video` defaults explicitly to `route=developer_api` and model
+`gemini-omni-flash-preview`, preserving the existing API-key path. To use
+Vertex, the caller must instead bind `route=vertex_interactions`, model
+`gemini-omni-1.1-flash-preview`, `vertex_project`, and `vertex_location` in the
+tool input or construction config. Standard ADC authenticates that explicit
+route only: credentials alone never select Vertex, and neither the ADC-detected
+project nor `GOOGLE_CLOUD_PROJECT` replaces `vertex_project`. A local
+service-account file is supported only when explicitly configured through the
+standard `GOOGLE_APPLICATION_CREDENTIALS` ADC mechanism; OpenMontage does not
+search for key files.
+
 #### Setup
 
 1. Go to [Google AI Studio](https://aistudio.google.com/) and sign in

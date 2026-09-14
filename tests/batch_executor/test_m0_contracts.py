@@ -10,7 +10,6 @@ from lib.batch_executor.contracts import (
     MVP_ADAPTER_SUPPORT,
     M0ContractError,
     SCHEMA_NAMES,
-    adapter_observation_blockers,
     canonical_json_bytes,
     canonical_sha256,
     compute_idempotency_digest,
@@ -347,34 +346,19 @@ def test_mvp_support_declaration_freezes_vertex_identity_and_adc(qualified_adapt
     validate_adapter_observation(qualified_adapter_observation)
 
 
-def test_current_gemini_adapter_is_explicitly_not_m0_production_qualified():
+def test_current_gemini_tool_freezes_explicit_portable_vertex_contract():
     from tools.video import gemini_omni_video as current
 
     source = inspect.getsource(current.GeminiOmniVideo.execute)
-    assert "use_vertex = bool" in source
-    assert "GOOGLE_GENAI_USE_VERTEXAI" in source
+    assert "GOOGLE_GENAI_USE_VERTEXAI" not in source
+    assert "_get_vertex_credentials_path" not in source
+    assert "_patch_ipv4_dns" not in source
+    assert "_GLOBAL_VERTEX_CREDS" not in source
     assert current._DEFAULT_MODEL == "gemini-omni-flash-preview"
-
-    observed_current_behavior = {
-        "identity": {
-            "tool_name": current.GeminiOmniVideo.name,
-            "tool_contract_version": current.GeminiOmniVideo.version,
-            "provider": current.GeminiOmniVideo.provider,
-            "route": "ambient_credential_selected",
-            "model": current._DEFAULT_MODEL,
-            "operation": "text_to_video",
-        },
-        "route_binding": "ambient_credentials",
-        "credential_mode": "api_key_or_service_account_file",
-        "hidden_writers": "enabled_by_base_tool",
-        "available": True,
-    }
-    blockers = adapter_observation_blockers(observed_current_behavior)
-    assert "EXACT_IDENTITY_MISMATCH" in blockers
-    assert "ROUTE_NOT_EXPLICIT" in blockers
-    assert "ADC_REQUIRED" in blockers
-    assert "HIDDEN_WRITERS_NOT_DISABLED" in blockers
-    assert "FALLBACK_FORBIDDEN" not in blockers
+    assert current._VERTEX_ROUTE == "vertex_interactions"
+    assert current._VERTEX_MODEL == "gemini-omni-1.1-flash-preview"
+    assert current.GeminiOmniVideo.version == "0.2.0"
+    assert current.GeminiOmniVideo.provider_concurrency_cap == 1
 
 
 def test_evidence_schema_rejects_unversioned_or_nonterminal_claim():
