@@ -44,7 +44,7 @@ def _local_receipt():
         },
         "store_type": "local",
         "logical_path": ".batch-v2/runs/batch-001/attempts/item-001/attempt-001/clip.mp4",
-        "locator": ".batch-v2/runs/batch-001/attempts/item-001/attempt-001/clip.mp4",
+        "locator": ".batch-v2/blobs/sha256/cc/" + "c" * 64,
         "created_at": "2026-09-14T08:02:00Z",
         "verification": {
             "completed_at": "2026-09-14T08:02:00Z",

@@ -239,7 +239,7 @@ def test_noncommitted_attempt_cannot_claim_durable_receipt():
         ),
         (
             lambda state: state["storage_receipts"][0].update({"sha256": "e" * 64}),
-            "ATTEMPT_RECEIPT_MISMATCH",
+            "INVALID_STORAGE_RECEIPT",
         ),
         (
             lambda state: state["storage_receipts"][0].update({"size_bytes": 4321}),

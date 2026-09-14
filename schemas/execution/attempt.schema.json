@@ -85,6 +85,11 @@
         "mark_indeterminate"
       ]
     },
+    "operation_retry_count": {
+      "description": "Durable count of same-attempt poll or storage continuation retries; never generation submissions.",
+      "type": "integer",
+      "minimum": 0
+    },
     "cost": {
       "type": "object",
       "required": ["estimated_usd", "reserved_usd", "known_actual_usd", "potentially_charged_usd"],

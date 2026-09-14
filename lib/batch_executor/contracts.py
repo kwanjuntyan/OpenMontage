@@ -729,9 +729,20 @@ def validate_storage_receipt(document: Mapping[str, Any]) -> None:
                 "GCS success requires synchronous checksum and generation verification",
             )
     else:
-        if locator != document["logical_path"]:
+        locator_path = validate_logical_path(
+            locator, field="StorageReceipt.locator"
+        )
+        expected_locator = PurePosixPath(
+            ".batch-v2",
+            "blobs",
+            "sha256",
+            document["sha256"][:2],
+            document["sha256"],
+        )
+        if PurePosixPath(locator_path) != expected_locator:
             raise M0ContractError(
-                "INVALID_STORAGE_RECEIPT", "Local locator must equal logical_path"
+                "INVALID_STORAGE_RECEIPT",
+                "Local locator must be the exact project-scoped SHA-256 CAS path",
             )
         if "generation" in document or "provider_checksum" in document:
             raise M0ContractError(
@@ -1240,6 +1251,17 @@ def validate_batch_state(document: Mapping[str, Any]) -> None:
     for item in document["items"]:
         if item["attempt_count"] != attempts_by_item[item["item_id"]]:
             raise M0ContractError("ATTEMPT_COUNT_MISMATCH", f"Wrong count for {item['item_id']}")
+        if item["state"] == "retry_wait":
+            if "next_eligible_at" not in item:
+                raise M0ContractError(
+                    "RETRY_DEADLINE_REQUIRED",
+                    f"Retry-wait item {item['item_id']} requires a durable deadline",
+                )
+        elif "next_eligible_at" in item:
+            raise M0ContractError(
+                "INVALID_RETRY_DEADLINE",
+                f"Non-waiting item {item['item_id']} cannot retain a retry deadline",
+            )
         latest_attempt = _validate_terminal_item_latest_attempt(
             item, attempts_for_item[item["item_id"]]
         )

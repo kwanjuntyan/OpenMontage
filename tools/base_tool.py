@@ -14,6 +14,7 @@ import os
 import platform
 import subprocess
 import shutil
+import threading as _threading
 import time
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
@@ -144,8 +145,6 @@ class ToolResult:
     model: Optional[str] = None
 
 
-import threading as _threading
-
 # Shared nesting counter for instrumented execute() calls (thread-local so
 # parallel tool threads don't see each other's depth).
 _EXECUTE_DEPTH = _threading.local()
@@ -169,6 +168,17 @@ def _instrument_execute(fn: Callable) -> Callable:
 
     @functools.wraps(fn)
     def wrapper(self, inputs: Any, *args: Any, **kwargs: Any):
+        # Batch Executor V2 workers run under a thread-scoped execution context.
+        # It owns durable state/events itself and must not inherit these legacy
+        # hidden event and background GCS writers. Outside that exact scope the
+        # legacy behavior remains unchanged.
+        try:
+            from lib.batch_executor.side_effects import hidden_writers_suppressed
+
+            if hidden_writers_suppressed():
+                return fn(self, inputs, *args, **kwargs)
+        except ImportError:
+            pass
         # Event layer is fully optional: if it can't import, run untouched.
         try:
             from lib.events import emit_event, infer_project_dir

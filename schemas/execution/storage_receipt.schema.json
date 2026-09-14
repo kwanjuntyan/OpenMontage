@@ -44,7 +44,12 @@
     },
     "store_type": { "enum": ["local", "gcs"] },
     "logical_path": { "$ref": "#/$defs/logical_path" },
-    "locator": { "type": "string", "minLength": 1, "maxLength": 2048 },
+    "locator": {
+      "description": "Immutable content-addressed locator. Local uses .batch-v2/blobs/sha256/<prefix>/<fullsha>; GCS uses a private gs:// object.",
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2048
+    },
     "generation": { "type": "integer", "minimum": 1 },
     "provider_checksum": {
       "type": "object",

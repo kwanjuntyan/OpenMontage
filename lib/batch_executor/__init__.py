@@ -1,7 +1,8 @@
-"""Batch Executor V2 contracts.
+"""Batch Executor V2 contracts and M1 local execution primitives.
 
-M0 intentionally exports validation and planning primitives only.  Execution,
-scheduling, provider transports, and storage engines begin in later milestones.
+The local executor is deliberately mechanical: it executes only an already
+frozen, authorized assets request through one injected exact adapter. Canonical
+publication and the production Gemini transport remain later milestones.
 """
 
 from .contracts import (
@@ -22,12 +23,16 @@ from .contracts import (
     validate_contract,
     validate_storage_receipt,
 )
+from .engine import LocalBatchExecutor
+from .storage import LocalStore
 
 __all__ = [
     "CANONICAL_JSON_VERSION",
     "INITIAL_ADAPTER_IDENTITY",
     "MVP_ADAPTER_SUPPORT",
     "M0ContractError",
+    "LocalBatchExecutor",
+    "LocalStore",
     "canonical_json_bytes",
     "canonical_sha256",
     "compute_idempotency_digest",

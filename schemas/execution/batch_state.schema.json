@@ -63,6 +63,7 @@
             ]
           },
           "attempt_count": { "type": "integer", "minimum": 0 },
+          "next_eligible_at": { "type": "string", "format": "date-time" },
           "storage_receipt_id": { "$ref": "#/$defs/id" },
           "error_class": { "$ref": "attempt.schema.json#/$defs/error_class" },
           "blocker": { "$ref": "#/$defs/dependency_blocker" }
