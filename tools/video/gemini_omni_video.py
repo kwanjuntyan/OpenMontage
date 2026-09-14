@@ -630,12 +630,14 @@ class GeminiOmniVideo(BaseTool):
             payload["store"] = False
 
         try:
-            resp = self._transport.post(
-                endpoint,
-                headers=headers,
-                json=payload,
-                timeout=600,
-            )
+            post_options: dict[str, Any] = {
+                "headers": headers,
+                "json": payload,
+                "timeout": 600,
+            }
+            if use_vertex:
+                post_options["allow_redirects"] = False
+            resp = self._transport.post(endpoint, **post_options)
             if not resp.ok:
                 if use_vertex:
                     return ToolResult(

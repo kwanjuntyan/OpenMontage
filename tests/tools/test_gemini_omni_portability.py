@@ -196,6 +196,7 @@ def test_explicit_vertex_route_uses_injected_adc_and_exact_payload(tmp_path):
         "X-Goog-User-Project": "explicit-project",
         "Content-Type": "application/json",
     }
+    assert call["allow_redirects"] is False
     assert call["json"] == {
         "model": "gemini-omni-1.1-flash-preview",
         "input": "offline vertex",
