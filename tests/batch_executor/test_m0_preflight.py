@@ -9,9 +9,13 @@ from lib.batch_executor.contracts import (
     M0ContractError,
     canonical_json_bytes,
     canonical_sha256,
+    compute_work_item_digest,
     exact_identity,
     freeze_batch_request,
+    freeze_self_digest,
 )
+from lib.batch_executor.engine import LocalBatchExecutor
+from lib.batch_executor.media_validation import DeterministicFakeMediaValidator
 from lib.checkpoint import init_project, read_checkpoint, write_checkpoint
 from lib.pipeline_loader import load_pipeline_readonly
 from lib.batch_executor.preflight import (
@@ -19,6 +23,7 @@ from lib.batch_executor.preflight import (
     _validate_proposal_approval,
     preflight_batch_request,
 )
+from lib.batch_executor.testing import FakeClock, ScriptedFakeProvider
 from tests.contracts.test_phase0_contracts import sample_artifact
 
 
@@ -123,6 +128,28 @@ def _preflight_then_execute(request, *, projects_root, source_revision, observat
     return facts
 
 
+def _request_with_two_destinations(batch_request, first, second):
+    request = deepcopy(batch_request)
+    request["authorization"]["approved_budget_usd"] = 2.0
+    request["authorization"]["max_authorized_spend_usd"] = 2.0
+    request["authorization"]["max_total_attempts"] = 2
+    request["work_items"][0]["output_spec"][
+        "canonical_destination_intent"
+    ] = first
+    item = deepcopy(request["work_items"][0])
+    item.update(
+        {
+            "item_id": "item-002",
+            "scene_id": "scene-2",
+            "asset_id": "asset-2",
+        }
+    )
+    item["inputs"]["prompt"] = "A second approved cinematic shot."
+    item["output_spec"]["canonical_destination_intent"] = second
+    request["work_items"].append(item)
+    return request
+
+
 def test_valid_project_source_gate_budget_and_exact_identity_preflight(
     batch_request, authorized_project, source_revision, qualified_adapter_observation
 ):
@@ -137,6 +164,97 @@ def test_valid_project_source_gate_budget_and_exact_identity_preflight(
     assert facts.source_binding_ids == ("brief-source", "scene-plan-source")
     assert facts.work_item_ids == ("item-001",)
     assert facts.request_digest == batch_request["request_digest"]
+
+
+@pytest.mark.parametrize(
+    ("first", "second"),
+    [
+        ("assets/video/asset-1.mp4", "assets/video/ASSET-1.mp4"),
+        ("assets/video/caf\u00e9.mp4", "assets/video/cafe\u0301.mp4"),
+    ],
+)
+def test_portable_destination_collision_blocks_before_fake_tool(
+    batch_request, first, second
+):
+    request = _request_with_two_destinations(batch_request, first, second)
+    tool = FakePaidTool()
+
+    with pytest.raises(M0ContractError, match="CANONICAL_DESTINATION_COLLISION"):
+        freeze_batch_request(request)
+        tool.execute()
+
+    assert tool.calls == 0
+
+
+def test_two_item_case_collision_reaches_no_fake_provider_dispatch(
+    batch_request,
+    authorized_project,
+    source_revision,
+    qualified_adapter_observation,
+):
+    request = freeze_batch_request(
+        _request_with_two_destinations(
+            batch_request,
+            "assets/video/asset-1.mp4",
+            "assets/video/asset-2.mp4",
+        )
+    )
+    request["work_items"][1]["output_spec"][
+        "canonical_destination_intent"
+    ] = "assets/video/ASSET-1.mp4"
+    bindings = {
+        binding["binding_id"]: binding for binding in request["source_bindings"]
+    }
+    request["work_items"][1]["work_item_digest"] = compute_work_item_digest(
+        request["work_items"][1], bindings
+    )
+    request = freeze_self_digest(
+        request, schema_name="batch_request", digest_field="request_digest"
+    )
+    provider = ScriptedFakeProvider()
+    executor = LocalBatchExecutor(
+        projects_root=authorized_project["projects_root"],
+        provider=provider,
+        media_validator=DeterministicFakeMediaValidator(),
+        clock=FakeClock(),
+    )
+
+    with pytest.raises(M0ContractError, match="CANONICAL_DESTINATION_COLLISION"):
+        executor.run(
+            request,
+            observed_source_revision=source_revision,
+            adapter_observation=qualified_adapter_observation,
+        )
+
+    assert provider.calls == []
+
+
+@pytest.mark.parametrize(
+    "destination",
+    [
+        "assets/video/clip.mp4:stream",
+        "assets/video./clip.mp4",
+        "assets/video /clip.mp4",
+        "assets/video/CON.mp4",
+        "assets/AUX/clip.mp4",
+        "assets/video/bad\u001f.mp4",
+        "assets/video/not-mp4.mov",
+    ],
+)
+def test_windows_ambiguous_or_non_mp4_destination_blocks_before_fake_tool(
+    batch_request, destination
+):
+    request = deepcopy(batch_request)
+    request["work_items"][0]["output_spec"][
+        "canonical_destination_intent"
+    ] = destination
+    tool = FakePaidTool()
+
+    with pytest.raises(M0ContractError, match="CANONICAL_ASSET_PATH_INVALID"):
+        freeze_batch_request(request)
+        tool.execute()
+
+    assert tool.calls == 0
 
 
 @pytest.mark.parametrize(

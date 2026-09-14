@@ -12,7 +12,9 @@ from lib.batch_executor.contracts import (
     M0ContractError,
     canonical_json_bytes,
     canonical_sha256,
+    freeze_batch_request,
     freeze_publication_command,
+    freeze_self_digest,
     validate_publication_command,
 )
 from lib.batch_executor.engine import LocalBatchExecutor
@@ -71,30 +73,96 @@ def publication_case(
     }
 
 
+@pytest.fixture()
+def two_item_publication_case(
+    batch_request,
+    authorized_project,
+    source_revision,
+    qualified_adapter_observation,
+):
+    request = deepcopy(batch_request)
+    request["authorization"]["approved_budget_usd"] = 2.0
+    request["authorization"]["max_authorized_spend_usd"] = 2.0
+    request["authorization"]["max_total_attempts"] = 2
+    item = deepcopy(request["work_items"][0])
+    item.update(
+        {
+            "item_id": "item-002",
+            "scene_id": "scene-2",
+            "asset_id": "asset-2",
+        }
+    )
+    item["inputs"]["prompt"] = "A second approved cinematic shot."
+    item["output_spec"][
+        "canonical_destination_intent"
+    ] = "assets/video/asset-2.mp4"
+    request["work_items"].append(item)
+    request = freeze_batch_request(request)
+
+    provider = ScriptedFakeProvider()
+    result = LocalBatchExecutor(
+        projects_root=authorized_project["projects_root"],
+        provider=provider,
+        media_validator=DeterministicFakeMediaValidator(),
+        clock=FakeClock(),
+    ).run(
+        request,
+        observed_source_revision=source_revision,
+        adapter_observation=qualified_adapter_observation,
+        invocation_id="invocation-m2-two-item-source",
+    )
+    store = LocalStore(authorized_project["project_dir"], request["batch_id"])
+    state, revision = store.load_batch_state()
+    durable_result, result_digest = store.load_result()
+    assert durable_result == result
+    return {
+        **authorized_project,
+        "request": request,
+        "result": durable_result,
+        "result_digest": result_digest,
+        "state": state,
+        "state_revision": revision,
+        "store": store,
+        "provider": provider,
+    }
+
+
 def _agent_command(case, *, command_id="publish-agent-001"):
     request = case["request"]
     result = case["result"]
     state = case["state"]
     work_item = request["work_items"][0]
-    receipt = result["items"][0]["storage_receipt"]
+    result_items = {item["item_id"]: item for item in result["items"]}
+    latest_attempts = {
+        item_id: max(
+            (
+                attempt
+                for attempt in state["attempts"]
+                if attempt["item_id"] == item_id
+            ),
+            key=lambda attempt: attempt["dispatch_sequence"],
+        )
+        for item_id in result_items
+    }
     manifest = {
         "version": "1.0",
         "assets": [
             {
-                "id": work_item["asset_id"],
+                "id": item["asset_id"],
                 "type": "video",
-                "path": work_item["output_spec"]["canonical_destination_intent"],
-                "source_tool": work_item["identity"]["tool_name"],
-                "scene_id": work_item["scene_id"],
-                "prompt": work_item["inputs"]["prompt"],
-                "model": work_item["identity"]["model"],
-                "provider": work_item["identity"]["provider"],
-                "cost_usd": result["cost"]["known_actual_usd"],
-                "duration_seconds": float(
-                    work_item["inputs"]["duration"].rstrip("s")
-                ),
+                "path": item["output_spec"]["canonical_destination_intent"],
+                "source_tool": item["identity"]["tool_name"],
+                "scene_id": item["scene_id"],
+                "prompt": item["inputs"]["prompt"],
+                "model": item["identity"]["model"],
+                "provider": item["identity"]["provider"],
+                "cost_usd": latest_attempts[item["item_id"]]["cost"][
+                    "known_actual_usd"
+                ],
+                "duration_seconds": float(item["inputs"]["duration"].rstrip("s")),
                 "format": "mp4",
             }
+            for item in request["work_items"]
         ],
         "total_cost_usd": result["cost"]["known_actual_usd"],
         "metadata": {"reviewed_batch_result": case["result_digest"]},
@@ -130,16 +198,18 @@ def _agent_command(case, *, command_id="publish-agent-001"):
         "asset_manifest_sha256": manifest_digest,
         "asset_bindings": [
             {
-                "item_id": work_item["item_id"],
-                "asset_id": work_item["asset_id"],
+                "item_id": item["item_id"],
+                "asset_id": item["asset_id"],
                 "storage_receipt_id": receipt["receipt_id"],
                 "sha256": receipt["sha256"],
                 "size_bytes": receipt["size_bytes"],
                 "source_locator": receipt["locator"],
-                "canonical_path": work_item["output_spec"][
+                "canonical_path": item["output_spec"][
                     "canonical_destination_intent"
                 ],
             }
+            for item in request["work_items"]
+            for receipt in [result_items[item["item_id"]]["storage_receipt"]]
         ],
         "review_evidence": {
             "kind": "agent_review",
@@ -248,6 +318,110 @@ def test_publication_command_rejects_invalid_manifest_and_noncanonical_paths(
     ]["assets"][0]["path"]
     with pytest.raises(M0ContractError, match="SCHEMA_VALIDATION_FAILED"):
         freeze_publication_command(traversal)
+
+
+def test_m2_rejects_portable_two_item_collision_before_any_publication_mutation(
+    two_item_publication_case,
+):
+    case = two_item_publication_case
+    command = deepcopy(_agent_command(case))
+    command["asset_manifest"]["assets"][1][
+        "path"
+    ] = "assets/video/ASSET-1.mp4"
+    command["asset_bindings"][1][
+        "canonical_path"
+    ] = "assets/video/ASSET-1.mp4"
+    command["asset_manifest_sha256"] = canonical_sha256(command["asset_manifest"])
+    command["review_evidence"]["asset_manifest_sha256"] = command[
+        "asset_manifest_sha256"
+    ]
+    command = freeze_self_digest(
+        command,
+        schema_name="publication_command",
+        digest_field="command_digest",
+    )
+
+    with pytest.raises(M0ContractError, match="CANONICAL_DESTINATION_COLLISION"):
+        _publisher(case).publish(command)
+
+    assert not case["store"].publication_command_path(command["command_id"]).exists()
+    assert not (case["project_dir"] / "checkpoint_assets.json").exists()
+    assert not list((case["project_dir"] / "assets" / "video").glob("*.mp4"))
+
+
+def test_m2_rejects_windows_ads_path_before_any_publication_mutation(
+    publication_case,
+):
+    command = deepcopy(_agent_command(publication_case))
+    unsafe = "assets/video/asset-1.mp4:alternate"
+    command["asset_manifest"]["assets"][0]["path"] = unsafe
+    command["asset_bindings"][0]["canonical_path"] = unsafe
+    command["asset_manifest_sha256"] = canonical_sha256(command["asset_manifest"])
+    command["review_evidence"]["asset_manifest_sha256"] = command[
+        "asset_manifest_sha256"
+    ]
+    command = freeze_self_digest(
+        command,
+        schema_name="publication_command",
+        digest_field="command_digest",
+    )
+
+    with pytest.raises(M0ContractError, match="CANONICAL_ASSET_PATH_INVALID"):
+        _publisher(publication_case).publish(command)
+
+    assert not publication_case["store"].publication_command_path(
+        command["command_id"]
+    ).exists()
+    assert not (publication_case["project_dir"] / "checkpoint_assets.json").exists()
+    assert not list(
+        (publication_case["project_dir"] / "assets" / "video").glob("*.mp4")
+    )
+
+
+def test_existing_case_alias_is_rejected_before_command_or_checkpoint(
+    publication_case,
+):
+    command = _agent_command(publication_case)
+    receipt = publication_case["result"]["items"][0]["storage_receipt"]
+    source = publication_case["project_dir"] / receipt["locator"]
+    alias = publication_case["project_dir"] / "assets/video/ASSET-1.mp4"
+    alias.write_bytes(source.read_bytes())
+
+    with pytest.raises(M2PublicationError, match="CANONICAL_PATH_ALIAS"):
+        _publisher(publication_case).publish(command)
+
+    assert not publication_case["store"].publication_command_path(
+        command["command_id"]
+    ).exists()
+    assert not (publication_case["project_dir"] / "checkpoint_assets.json").exists()
+    assert alias.exists()
+
+
+def test_agent_review_must_not_postdate_its_publication_command(publication_case):
+    command = deepcopy(_agent_command(publication_case))
+    command["review_evidence"]["reviewed_at"] = "2026-09-14T10:00:01Z"
+
+    with pytest.raises(M0ContractError, match="PUBLICATION_CHRONOLOGY_INVALID"):
+        freeze_publication_command(command)
+
+
+def test_result_must_exist_before_agent_review_and_before_persistence(
+    publication_case,
+):
+    command = deepcopy(_agent_command(publication_case))
+    command["review_evidence"]["reviewed_at"] = "2000-01-01T00:00:00Z"
+    command = freeze_publication_command(command)
+
+    with pytest.raises(M2PublicationError, match="PUBLICATION_CHRONOLOGY_INVALID"):
+        _publisher(publication_case).publish(command)
+
+    assert not publication_case["store"].publication_command_path(
+        command["command_id"]
+    ).exists()
+    assert not (publication_case["project_dir"] / "checkpoint_assets.json").exists()
+    assert not list(
+        (publication_case["project_dir"] / "assets" / "video").glob("*.mp4")
+    )
 
 
 def test_execution_success_stops_without_canonical_publication(publication_case):
@@ -539,16 +713,17 @@ def test_prerequisite_failure_does_not_persist_command_or_materialize_media(
 
 
 @pytest.mark.parametrize(
-    "boundary",
+    ("boundary", "checkpoint_exists_after_crash"),
     [
-        "publication_command_persisted",
-        "publication_checkpoint_written",
-        "publication_checkpoint_verified",
-        "publication_asset_materialized",
+        ("publication_command_persisted", False),
+        ("publication_asset_materialized", False),
+        ("publication_assets_verified", False),
+        ("publication_checkpoint_written", True),
+        ("publication_checkpoint_verified", True),
     ],
 )
 def test_publication_crash_boundaries_repair_idempotently(
-    publication_case, boundary
+    publication_case, boundary, checkpoint_exists_after_crash
 ):
     command = _agent_command(publication_case)
 
@@ -558,6 +733,10 @@ def test_publication_crash_boundaries_repair_idempotently(
 
     with pytest.raises(InjectedCrash, match=boundary):
         _publisher(publication_case, crash_hook=crash_once).publish(command)
+
+    assert (
+        publication_case["project_dir"] / "checkpoint_assets.json"
+    ).exists() is checkpoint_exists_after_crash
 
     receipt = _publisher(publication_case).publish(command)
     repeated = _publisher(publication_case).publish(command)
@@ -608,7 +787,7 @@ def test_same_command_id_cannot_be_reauthored_after_immutable_persistence(
     assert not (publication_case["project_dir"] / "checkpoint_assets.json").exists()
 
 
-def test_partial_canonical_asset_publish_repairs_after_checkpoint_authority(
+def test_partial_canonical_asset_publish_repairs_before_checkpoint_authority(
     publication_case,
 ):
     command = _agent_command(publication_case)
@@ -618,10 +797,7 @@ def test_partial_canonical_asset_publish_repairs_after_checkpoint_authority(
 
     with pytest.raises(InjectedCrash, match="immutable_canonical_asset_publish"):
         _publisher(publication_case, asset_publish_hook=interrupt).publish(command)
-    checkpoint = read_checkpoint(
-        publication_case["projects_root"], publication_case["project_id"], "assets"
-    )
-    assert checkpoint["artifacts"]["asset_manifest"] == command["asset_manifest"]
+    assert not (publication_case["project_dir"] / "checkpoint_assets.json").exists()
     target = publication_case["project_dir"] / "assets" / "video" / "asset-1.mp4"
     assert not target.exists()
     assert list(target.parent.glob(".asset-1.mp4.batch-v2-publication.*.tmp"))
@@ -629,6 +805,38 @@ def test_partial_canonical_asset_publish_repairs_after_checkpoint_authority(
     _publisher(publication_case).publish(command)
     assert target.exists()
     assert not list(target.parent.glob(".asset-1.mp4.batch-v2-publication.*.tmp"))
+    checkpoint = read_checkpoint(
+        publication_case["projects_root"], publication_case["project_id"], "assets"
+    )
+    assert checkpoint["artifacts"]["asset_manifest"] == command["asset_manifest"]
+
+
+def test_crash_after_first_of_two_assets_leaves_no_authoritative_checkpoint(
+    two_item_publication_case,
+):
+    case = two_item_publication_case
+    command = _agent_command(case)
+
+    def stop_after_first_asset(name, facts):
+        if (
+            name == "publication_asset_materialized"
+            and facts["canonical_path"] == "assets/video/asset-1.mp4"
+        ):
+            raise InjectedCrash("after-first-canonical-asset")
+
+    with pytest.raises(InjectedCrash, match="after-first-canonical-asset"):
+        _publisher(case, crash_hook=stop_after_first_asset).publish(command)
+
+    assert (case["project_dir"] / "assets/video/asset-1.mp4").exists()
+    assert not (case["project_dir"] / "assets/video/asset-2.mp4").exists()
+    assert not (case["project_dir"] / "checkpoint_assets.json").exists()
+
+    _publisher(case).publish(command)
+    assert (case["project_dir"] / "assets/video/asset-1.mp4").exists()
+    assert (case["project_dir"] / "assets/video/asset-2.mp4").exists()
+    assert read_checkpoint(
+        case["projects_root"], case["project_id"], "assets"
+    )["artifacts"]["asset_manifest"] == command["asset_manifest"]
 
 
 def test_scoped_publication_suppresses_checkpoint_gcs_hook_and_preserves_legacy(
@@ -798,7 +1006,7 @@ def test_checkpoint_manifest_overrides_a_stale_loose_backlot_cache(
 
 
 @pytest.mark.parametrize(
-    "metadata_mode", ["absent", "invalid_v2_tag", "missing_v2_command"]
+    "metadata_mode", ["absent", "invalid_v2_tag"]
 )
 def test_non_v2_or_invalid_v2_checkpoint_preserves_legacy_loose_precedence(
     publication_case, metadata_mode
@@ -809,14 +1017,8 @@ def test_non_v2_or_invalid_v2_checkpoint_preserves_legacy_loose_precedence(
     checkpoint = json.loads(checkpoint_path.read_text(encoding="utf-8"))
     if metadata_mode == "absent":
         checkpoint.pop("metadata")
-    elif metadata_mode == "invalid_v2_tag":
-        checkpoint["metadata"]["batch_v2_publication"]["kind"] = "untrusted"
     else:
-        command_path = (
-            publication_case["project_dir"]
-            / checkpoint["metadata"]["batch_v2_publication"]["command_logical_path"]
-        )
-        command_path.unlink()
+        checkpoint["metadata"]["batch_v2_publication"]["kind"] = "untrusted"
     checkpoint_path.write_text(json.dumps(checkpoint), encoding="utf-8")
 
     loose = {
@@ -841,3 +1043,57 @@ def test_non_v2_or_invalid_v2_checkpoint_preserves_legacy_loose_precedence(
         and entry.get("status") == "cache_mismatch_ignored"
         for entry in board["artifact_diagnostics"]
     )
+
+
+@pytest.mark.parametrize(
+    ("failure_mode", "reason"),
+    [
+        ("missing", "batch_v2_publication_command_missing"),
+        ("corrupt", "batch_v2_publication_command_corrupt"),
+        ("mismatched", "batch_v2_publication_command_mismatch"),
+    ],
+)
+def test_recognized_v2_checkpoint_fails_closed_when_command_is_not_exact(
+    publication_case, failure_mode, reason
+):
+    command = _agent_command(publication_case)
+    _publisher(publication_case).publish(command)
+    checkpoint = read_checkpoint(
+        publication_case["projects_root"], publication_case["project_id"], "assets"
+    )
+    command_path = (
+        publication_case["project_dir"]
+        / checkpoint["metadata"]["batch_v2_publication"]["command_logical_path"]
+    )
+    if failure_mode == "missing":
+        command_path.unlink()
+    elif failure_mode == "corrupt":
+        command_path.write_text("{not-json", encoding="utf-8")
+    else:
+        changed = deepcopy(command)
+        changed["review_evidence"]["review_reference"] = "codex:review:mismatch"
+        changed = freeze_publication_command(changed)
+        command_path.write_bytes(canonical_json_bytes(changed))
+
+    loose = {
+        "version": "1.0",
+        "assets": [
+            {
+                "id": "stale-loose",
+                "type": "video",
+                "path": "assets/video/stale-loose.mp4",
+                "source_tool": "legacy",
+                "scene_id": "stale-scene",
+            }
+        ],
+    }
+    loose_path = publication_case["project_dir"] / "artifacts" / "asset_manifest.json"
+    loose_path.write_text(json.dumps(loose), encoding="utf-8")
+
+    board = load_board_state(publication_case["project_dir"])
+    assert "asset_manifest" not in board["artifacts"]
+    assert {
+        "artifact": "asset_manifest",
+        "status": "batch_v2_authority_invalid",
+        "reason": reason,
+    } in board["artifact_diagnostics"]

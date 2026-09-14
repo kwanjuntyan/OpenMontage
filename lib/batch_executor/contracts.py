@@ -12,8 +12,10 @@ import json
 import math
 import os
 import re
+import unicodedata
 from copy import deepcopy
 from dataclasses import dataclass
+from datetime import datetime
 from decimal import Decimal
 from functools import lru_cache
 from pathlib import Path, PurePosixPath
@@ -71,6 +73,26 @@ MVP_ADAPTER_SUPPORT: Mapping[str, Any] = MappingProxyType(
 
 _SAFE_COMPONENT_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
 _WINDOWS_DRIVE_RE = re.compile(r"^[A-Za-z]:")
+_WINDOWS_FORBIDDEN_PATH_CHARS = frozenset('<>:"|?*')
+_WINDOWS_RESERVED_DEVICE_BASENAMES = frozenset(
+    {
+        "con",
+        "prn",
+        "aux",
+        "nul",
+        "clock$",
+        "conin$",
+        "conout$",
+        *(f"com{number}" for number in range(1, 10)),
+        *(f"lpt{number}" for number in range(1, 10)),
+        "com\u00b9",
+        "com\u00b2",
+        "com\u00b3",
+        "lpt\u00b9",
+        "lpt\u00b2",
+        "lpt\u00b3",
+    }
+)
 _SENSITIVE_KEYS = frozenset(
     {
         "api_key",
@@ -332,6 +354,53 @@ def validate_logical_path(value: Any, *, field: str) -> str:
             "INVALID_LOGICAL_PATH", f"{field} must use normalized POSIX spelling"
         )
     return normalized
+
+
+def validate_canonical_asset_path(value: Any, *, field: str) -> str:
+    """Require one portable, project-relative canonical MVP video path."""
+
+    logical = validate_logical_path(value, field=field)
+    parts = PurePosixPath(logical).parts
+    if len(parts) < 2 or parts[0] != "assets":
+        raise M0ContractError(
+            "CANONICAL_ASSET_PATH_INVALID",
+            f"{field} must be a file beneath the canonical assets/ directory",
+        )
+    for component in parts:
+        normalized = unicodedata.normalize("NFC", component)
+        device_basename = normalized.split(".", 1)[0].rstrip(" .").casefold()
+        if (
+            component.endswith((".", " "))
+            or any(char in _WINDOWS_FORBIDDEN_PATH_CHARS for char in component)
+            or any(unicodedata.category(char) == "Cc" for char in component)
+            or device_basename in _WINDOWS_RESERVED_DEVICE_BASENAMES
+        ):
+            raise M0ContractError(
+                "CANONICAL_ASSET_PATH_INVALID",
+                f"{field} contains a Windows-ambiguous or unsafe component",
+            )
+    filename = PurePosixPath(logical).name
+    if not filename or PurePosixPath(filename).suffix.casefold() != ".mp4":
+        raise M0ContractError(
+            "CANONICAL_ASSET_PATH_INVALID",
+            f"{field} must name an .mp4 canonical media file",
+        )
+    return logical
+
+
+def portable_canonical_asset_identity(value: Any, *, field: str) -> str:
+    """Return a host-independent identity for one validated asset path.
+
+    NFC plus Unicode case-folding is intentionally conservative: paths that
+    could identify one physical object on a supported case-insensitive host
+    are never authorized as separate paid work on another host.
+    """
+
+    logical = validate_canonical_asset_path(value, field=field)
+    return "/".join(
+        unicodedata.normalize("NFC", component).casefold()
+        for component in PurePosixPath(logical).parts
+    )
 
 
 def _safe_component(value: Any, *, field: str) -> str:
@@ -623,22 +692,25 @@ def validate_batch_request(document: Mapping[str, Any]) -> None:
     required_attempts = 0
     worst_case_cost = Decimal("0")
     used_binding_ids: set[str] = set()
+    destination_identities: set[str] = set()
     for item in work_items:
         validate_exact_identity(item["identity"], field=f"work_items.{item['item_id']}.identity")
         if item["inputs"]["operation"] != item["identity"]["operation"]:
             raise M0ContractError("OPERATION_MISMATCH", f"Operation mismatch for {item['item_id']}")
-        destination = validate_logical_path(
+        destination = validate_canonical_asset_path(
             item["output_spec"]["canonical_destination_intent"],
             field=f"work_items.{item['item_id']}.canonical_destination_intent",
         )
-        if PurePosixPath(destination).parts[0] != "assets":
+        destination_identity = portable_canonical_asset_identity(
+            destination,
+            field=f"work_items.{item['item_id']}.canonical_destination_intent",
+        )
+        if destination_identity in destination_identities:
             raise M0ContractError(
-                "INVALID_DESTINATION_INTENT", "MVP canonical destination intent must be under assets/"
+                "CANONICAL_DESTINATION_COLLISION",
+                "Work items must not target the same portable canonical asset identity",
             )
-        if destination.startswith(".batch-v2/"):
-            raise M0ContractError(
-                "INVALID_DESTINATION_INTENT", "Canonical intent cannot use attempt staging"
-            )
+        destination_identities.add(destination_identity)
         for binding_id in item["source_binding_ids"]:
             if binding_id not in binding_by_id:
                 raise M0ContractError(
@@ -1060,21 +1132,6 @@ def _validate_cost_exposure(cost: Mapping[str, Any], *, code: str) -> None:
         )
 
 
-def _validate_canonical_asset_path(value: Any, *, field: str) -> str:
-    logical = validate_logical_path(value, field=field)
-    parts = PurePosixPath(logical).parts
-    if len(parts) < 2 or parts[0] != "assets":
-        raise M0ContractError(
-            "CANONICAL_ASSET_PATH_INVALID",
-            f"{field} must be a file beneath the canonical assets/ directory",
-        )
-    if PurePosixPath(logical).name in {"", ".", ".."}:
-        raise M0ContractError(
-            "CANONICAL_ASSET_PATH_INVALID", f"{field} must name a canonical file"
-        )
-    return logical
-
-
 def validate_publication_command(document: Mapping[str, Any]) -> None:
     """Validate the immutable Agent/Human authorization boundary for M2."""
 
@@ -1151,6 +1208,15 @@ def validate_publication_command(document: Mapping[str, Any]) -> None:
             "AGENT_REVIEW_BINDING_INVALID",
             "Agent review evidence must bind the exact BatchResult and asset_manifest",
         )
+    reviewed_at = datetime.fromisoformat(review["reviewed_at"].replace("Z", "+00:00"))
+    command_created_at = datetime.fromisoformat(
+        document["created_at"].replace("Z", "+00:00")
+    )
+    if reviewed_at > command_created_at:
+        raise M0ContractError(
+            "PUBLICATION_CHRONOLOGY_INVALID",
+            "Agent review evidence cannot postdate its PublicationCommand",
+        )
     _validate_cost_exposure(
         document["cost_snapshot"], code="PUBLICATION_BUDGET_INVALID"
     )
@@ -1161,42 +1227,57 @@ def validate_publication_command(document: Mapping[str, Any]) -> None:
             "ASSET_MANIFEST_INVALID", "asset_manifest.assets must be an array"
         )
     manifest_by_id: dict[str, Mapping[str, Any]] = {}
-    manifest_paths: set[str] = set()
+    manifest_path_identities: set[str] = set()
     for index, asset in enumerate(manifest_assets):
         if not isinstance(asset, Mapping):
             raise M0ContractError(
                 "ASSET_MANIFEST_INVALID", f"asset_manifest.assets[{index}] is not an object"
             )
         asset_id = asset["id"]
-        path = _validate_canonical_asset_path(
+        path = validate_canonical_asset_path(
             asset["path"], field=f"asset_manifest.assets[{index}].path"
         )
-        if asset_id in manifest_by_id or path in manifest_paths:
+        path_identity = portable_canonical_asset_identity(
+            path, field=f"asset_manifest.assets[{index}].path"
+        )
+        if asset_id in manifest_by_id:
             raise M0ContractError(
                 "ASSET_MANIFEST_DUPLICATE",
-                "asset_manifest asset IDs and canonical paths must be unique",
+                "asset_manifest asset IDs must be unique",
+            )
+        if path_identity in manifest_path_identities:
+            raise M0ContractError(
+                "CANONICAL_DESTINATION_COLLISION",
+                "Manifest portable canonical path identities must be unique",
             )
         manifest_by_id[asset_id] = asset
-        manifest_paths.add(path)
+        manifest_path_identities.add(path_identity)
 
     bindings_by_asset: dict[str, Mapping[str, Any]] = {}
     binding_item_ids: set[str] = set()
     binding_receipt_ids: set[str] = set()
-    binding_paths: set[str] = set()
+    binding_path_identities: set[str] = set()
     for index, binding in enumerate(document["asset_bindings"]):
         asset_id = binding["asset_id"]
-        canonical_path = _validate_canonical_asset_path(
+        canonical_path = validate_canonical_asset_path(
             binding["canonical_path"], field=f"asset_bindings[{index}].canonical_path"
+        )
+        canonical_identity = portable_canonical_asset_identity(
+            canonical_path, field=f"asset_bindings[{index}].canonical_path"
         )
         if (
             asset_id in bindings_by_asset
             or binding["item_id"] in binding_item_ids
             or binding["storage_receipt_id"] in binding_receipt_ids
-            or canonical_path in binding_paths
         ):
             raise M0ContractError(
                 "ASSET_BINDING_DUPLICATE",
                 "Publication asset bindings must be one-to-one",
+            )
+        if canonical_identity in binding_path_identities:
+            raise M0ContractError(
+                "CANONICAL_DESTINATION_COLLISION",
+                "Publication bindings must have unique portable destination identities",
             )
         manifest_asset = manifest_by_id.get(asset_id)
         if manifest_asset is None or manifest_asset["path"] != canonical_path:
@@ -1207,7 +1288,7 @@ def validate_publication_command(document: Mapping[str, Any]) -> None:
         bindings_by_asset[asset_id] = binding
         binding_item_ids.add(binding["item_id"])
         binding_receipt_ids.add(binding["storage_receipt_id"])
-        binding_paths.add(canonical_path)
+        binding_path_identities.add(canonical_identity)
     if set(bindings_by_asset) != set(manifest_by_id):
         raise M0ContractError(
             "ASSET_MANIFEST_BINDING_INVALID",
@@ -1671,12 +1752,14 @@ __all__ = [
     "freeze_publication_command",
     "freeze_self_digest",
     "load_execution_schema",
+    "portable_canonical_asset_identity",
     "validate_adapter_observation",
     "validate_attempt",
     "validate_attempt_output_path",
     "validate_batch_request",
     "validate_batch_result",
     "validate_batch_state",
+    "validate_canonical_asset_path",
     "validate_contract",
     "validate_publication_command",
     "validate_exact_identity",

@@ -10,6 +10,7 @@ import shutil
 import stat
 import tempfile
 import threading
+import unicodedata
 from decimal import Decimal
 from pathlib import Path, PurePosixPath
 from typing import Any, Callable, Mapping
@@ -22,6 +23,7 @@ from .contracts import (
     validate_batch_request,
     validate_batch_result,
     validate_batch_state,
+    validate_canonical_asset_path,
     validate_publication_command,
     validate_storage_receipt,
 )
@@ -696,12 +698,43 @@ class LocalStore:
         return command, str(command["command_digest"])
 
     def _canonical_asset_target(self, logical_path: str) -> Path:
+        logical_path = validate_canonical_asset_path(
+            logical_path, field="canonical_path"
+        )
         relative = PurePosixPath(logical_path)
-        if len(relative.parts) < 2 or relative.parts[0] != "assets":
-            raise M2PublicationError(
-                "CANONICAL_ASSET_PATH_INVALID",
-                "Canonical media must be a file beneath assets/",
-            )
+        current = self.project_dir
+        for component in relative.parts:
+            if not current.exists():
+                break
+            resolved_current = current.resolve(strict=True)
+            lexical_current = Path(os.path.abspath(current))
+            if os.path.normcase(str(resolved_current)) != os.path.normcase(
+                str(lexical_current)
+            ):
+                raise M2PublicationError(
+                    "CANONICAL_PATH_ALIAS",
+                    "A canonical destination parent is a symlink or junction",
+                )
+            if not current.is_dir():
+                raise M2PublicationError(
+                    "CANONICAL_PATH_ALIAS",
+                    "A canonical destination parent is not a directory",
+                )
+            component_identity = unicodedata.normalize("NFC", component).casefold()
+            portable_matches = [
+                entry
+                for entry in current.iterdir()
+                if unicodedata.normalize("NFC", entry.name).casefold()
+                == component_identity
+            ]
+            if len(portable_matches) > 1 or any(
+                entry.name != component for entry in portable_matches
+            ):
+                raise M2PublicationError(
+                    "CANONICAL_PATH_ALIAS",
+                    "Canonical media collides with an existing portable path identity",
+                )
+            current /= component
         lexical = self.project_dir / Path(*relative.parts)
         resolved = lexical.resolve(strict=False)
         try:
@@ -775,6 +808,41 @@ class LocalStore:
             publish_hook=publish_hook,
         )
         return destination, created
+
+    def verify_canonical_asset(
+        self,
+        *,
+        receipt: Mapping[str, Any],
+        canonical_path: str,
+        validator: MediaValidator,
+        output_spec: Mapping[str, Any],
+    ) -> Path:
+        """Verify the physical canonical bytes before checkpoint authority."""
+
+        self._assert_writer()
+        _, destination = self.preflight_canonical_asset(
+            receipt=receipt,
+            canonical_path=canonical_path,
+            validator=validator,
+            output_spec=output_spec,
+        )
+        if not destination.is_file():
+            raise M2PublicationError(
+                "CANONICAL_ASSET_MISSING",
+                "Canonical media is missing before checkpoint publication",
+            )
+        facts = validator.validate(destination, output_spec)
+        if (
+            facts.sha256 != receipt["sha256"]
+            or facts.size_bytes != receipt["size_bytes"]
+            or canonical_json_bytes(facts.probe)
+            != canonical_json_bytes(receipt["probe"])
+        ):
+            raise M2PublicationError(
+                "CANONICAL_ASSET_VERIFICATION_FAILED",
+                "Canonical media differs from its durable receipt",
+            )
+        return destination
 
 
 __all__ = ["LocalRunLock", "LocalStore"]

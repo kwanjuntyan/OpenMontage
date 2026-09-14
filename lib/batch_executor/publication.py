@@ -233,16 +233,29 @@ def validated_v2_asset_manifest_from_checkpoint(
     ``None`` so legacy/non-V2 precedence remains untouched.
     """
 
-    if checkpoint is None:
-        return None
+    _claimed, manifest, _reason = inspect_v2_asset_manifest_claim(
+        project_dir, checkpoint
+    )
+    return manifest
+
+
+def inspect_v2_asset_manifest_claim(
+    project_dir: str | Path, checkpoint: Mapping[str, Any] | None
+) -> tuple[bool, dict[str, Any] | None, str | None]:
+    """Classify an explicit V2 assets claim without falling back to loose data."""
+
+    if checkpoint is None or checkpoint.get("_checkpoint_invalid"):
+        return False, None, None
+    metadata = (checkpoint.get("metadata") or {}).get("batch_v2_publication")
+    if not isinstance(metadata, Mapping) or metadata.get("kind") != (
+        "batch_v2_assets_publication"
+    ):
+        return False, None, None
     try:
         root = Path(project_dir).resolve(strict=True)
         validate_checkpoint(dict(checkpoint), pipeline_dir=root.parent)
-        metadata = (checkpoint.get("metadata") or {}).get("batch_v2_publication")
         if (
-            not isinstance(metadata, Mapping)
-            or metadata.get("version") != "1.0"
-            or metadata.get("kind") != "batch_v2_assets_publication"
+            metadata.get("version") != "1.0"
             or not isinstance(metadata.get("batch_id"), str)
             or re.fullmatch(
                 r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", metadata["batch_id"]
@@ -254,7 +267,7 @@ def validated_v2_asset_manifest_from_checkpoint(
             )
             is None
         ):
-            return None
+            return True, None, "batch_v2_publication_command_reference_invalid"
         expected_path = (
             root
             / ".batch-v2"
@@ -267,19 +280,25 @@ def validated_v2_asset_manifest_from_checkpoint(
         if metadata.get("command_logical_path") != expected_path.relative_to(
             root
         ).as_posix():
-            return None
+            return True, None, "batch_v2_publication_command_reference_invalid"
+        if not expected_path.is_file():
+            return True, None, "batch_v2_publication_command_missing"
         resolved_path = expected_path.resolve(strict=True)
         resolved_path.relative_to(root)
         if os.path.normcase(str(resolved_path)) != os.path.normcase(str(expected_path)):
-            return None
-        command = json.loads(resolved_path.read_text(encoding="utf-8"))
-        if not isinstance(command, dict):
-            return None
+            return True, None, "batch_v2_publication_command_reference_invalid"
+        try:
+            command = json.loads(resolved_path.read_text(encoding="utf-8"))
+            if not isinstance(command, dict):
+                raise TypeError("PublicationCommand is not an object")
+            validate_publication_command(command)
+        except (OSError, json.JSONDecodeError, M0ContractError, TypeError, ValueError):
+            return True, None, "batch_v2_publication_command_corrupt"
         if not is_exact_v2_publication_checkpoint(checkpoint, command):
-            return None
-        return deepcopy(command["asset_manifest"])
+            return True, None, "batch_v2_publication_command_mismatch"
+        return True, deepcopy(command["asset_manifest"]), None
     except Exception:
-        return None
+        return True, None, "batch_v2_publication_command_reference_invalid"
 
 
 class LocalAssetsPublisher:
@@ -393,6 +412,20 @@ class LocalAssetsPublisher:
             raise M2PublicationError(
                 "PUBLICATION_COST_MISMATCH",
                 "PublicationCommand cost snapshot differs from BatchResult",
+            )
+        result_created_at = datetime.fromisoformat(
+            result["created_at"].replace("Z", "+00:00")
+        )
+        reviewed_at = datetime.fromisoformat(
+            command["review_evidence"]["reviewed_at"].replace("Z", "+00:00")
+        )
+        command_created_at = datetime.fromisoformat(
+            command["created_at"].replace("Z", "+00:00")
+        )
+        if not result_created_at <= reviewed_at <= command_created_at:
+            raise M2PublicationError(
+                "PUBLICATION_CHRONOLOGY_INVALID",
+                "Publication requires result creation before Agent review before command creation",
             )
 
     @staticmethod
@@ -677,6 +710,33 @@ class LocalAssetsPublisher:
                 command_digest=command_digest,
             )
 
+            for receipt, output_spec, canonical_path in asset_plan:
+                destination, created = store.materialize_canonical_asset(
+                    receipt=receipt,
+                    canonical_path=canonical_path,
+                    validator=self.media_validator,
+                    output_spec=output_spec,
+                    publish_hook=self.asset_publish_hook,
+                )
+                self._crash(
+                    "publication_asset_materialized",
+                    command_id=frozen["command_id"],
+                    canonical_path=destination.relative_to(project_dir).as_posix(),
+                    created=created,
+                )
+
+            for receipt, output_spec, canonical_path in asset_plan:
+                store.verify_canonical_asset(
+                    receipt=receipt,
+                    canonical_path=canonical_path,
+                    validator=self.media_validator,
+                    output_spec=output_spec,
+                )
+            self._crash(
+                "publication_assets_verified",
+                command_id=frozen["command_id"],
+            )
+
             if not exact_checkpoint:
                 try:
                     write_checkpoint(
@@ -719,27 +779,6 @@ class LocalAssetsPublisher:
                 command_id=frozen["command_id"],
             )
 
-            for receipt, output_spec, canonical_path in asset_plan:
-                destination, created = store.materialize_canonical_asset(
-                    receipt=receipt,
-                    canonical_path=canonical_path,
-                    validator=self.media_validator,
-                    output_spec=output_spec,
-                    publish_hook=self.asset_publish_hook,
-                )
-                self._crash(
-                    "publication_asset_materialized",
-                    command_id=frozen["command_id"],
-                    canonical_path=destination.relative_to(project_dir).as_posix(),
-                    created=created,
-                )
-
-            checkpoint = self._verify_checkpoint(
-                read_checkpoint(
-                    self.projects_root, frozen["project_id"], "assets"
-                ),
-                frozen,
-            )
             checkpoint_digest = canonical_sha256(checkpoint)
             self._crash(
                 "publication_complete",
@@ -762,6 +801,7 @@ class LocalAssetsPublisher:
 
 __all__ = [
     "LocalAssetsPublisher",
+    "inspect_v2_asset_manifest_claim",
     "is_exact_v2_publication_checkpoint",
     "validated_v2_asset_manifest_from_checkpoint",
 ]
