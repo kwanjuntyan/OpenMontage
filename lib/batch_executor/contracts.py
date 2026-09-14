@@ -132,7 +132,9 @@ def _load_execution_schema_cached(name: str) -> dict[str, Any]:
     try:
         value = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
-        raise M0ContractError("SCHEMA_LOAD_FAILED", f"Cannot load {path}: {exc}") from exc
+        raise M0ContractError(
+            "SCHEMA_LOAD_FAILED", f"Cannot load {path}: {exc}"
+        ) from exc
     if not isinstance(value, dict):
         raise M0ContractError("SCHEMA_LOAD_FAILED", f"Schema {path} is not an object")
     return value
@@ -166,7 +168,9 @@ def _validator(name: str) -> Draft202012Validator:
 def validate_contract(name: str, document: Mapping[str, Any]) -> None:
     """Validate one document against its versioned JSON Schema."""
 
-    errors = sorted(_validator(name).iter_errors(document), key=lambda error: list(error.path))
+    errors = sorted(
+        _validator(name).iter_errors(document), key=lambda error: list(error.path)
+    )
     if not errors:
         return
     error = errors[0]
@@ -182,7 +186,9 @@ def _validate_json_value(value: Any, location: str = "<root>") -> None:
         return
     if isinstance(value, float):
         if not math.isfinite(value):
-            raise M0ContractError("NON_CANONICAL_JSON", f"Non-finite number at {location}")
+            raise M0ContractError(
+                "NON_CANONICAL_JSON", f"Non-finite number at {location}"
+            )
         return
     if isinstance(value, list):
         for index, item in enumerate(value):
@@ -192,7 +198,8 @@ def _validate_json_value(value: Any, location: str = "<root>") -> None:
         for key, item in value.items():
             if not isinstance(key, str):
                 raise M0ContractError(
-                    "NON_CANONICAL_JSON", f"Non-string object key at {location}: {key!r}"
+                    "NON_CANONICAL_JSON",
+                    f"Non-string object key at {location}: {key!r}",
                 )
             _validate_json_value(item, f"{location}.{key}")
         return
@@ -249,7 +256,9 @@ def freeze_batch_request(document: Mapping[str, Any]) -> dict[str, Any]:
         raise M0ContractError("INVALID_REQUEST", "work_items must be an array")
     for item in work_items:
         if not isinstance(item, dict):
-            raise M0ContractError("INVALID_REQUEST", "Every work item must be an object")
+            raise M0ContractError(
+                "INVALID_REQUEST", "Every work item must be an object"
+            )
         item["work_item_digest"] = compute_work_item_digest(item, binding_by_id)
     authorization = frozen.get("authorization")
     if not isinstance(authorization, dict):
@@ -323,7 +332,8 @@ def compute_work_item_digest(
         binding = source_bindings.get(binding_id)
         if not isinstance(binding, Mapping):
             raise M0ContractError(
-                "UNKNOWN_SOURCE_BINDING", f"Cannot digest unknown source binding {binding_id!r}"
+                "UNKNOWN_SOURCE_BINDING",
+                f"Cannot digest unknown source binding {binding_id!r}",
             )
         binding_digests.append(
             {
@@ -359,12 +369,18 @@ def validate_logical_path(value: Any, *, field: str) -> str:
     if not isinstance(value, str) or not value:
         raise M0ContractError("INVALID_LOGICAL_PATH", f"{field} must be non-empty text")
     if "\\" in value or "\x00" in value or "?" in value:
-        raise M0ContractError("INVALID_LOGICAL_PATH", f"{field} is not a durable logical path")
+        raise M0ContractError(
+            "INVALID_LOGICAL_PATH", f"{field} is not a durable logical path"
+        )
     if _WINDOWS_DRIVE_RE.match(value) or "://" in value:
-        raise M0ContractError("INVALID_LOGICAL_PATH", f"{field} must be project-relative")
+        raise M0ContractError(
+            "INVALID_LOGICAL_PATH", f"{field} must be project-relative"
+        )
     path = PurePosixPath(value)
     if path.is_absolute() or any(part in {"", ".", ".."} for part in path.parts):
-        raise M0ContractError("INVALID_LOGICAL_PATH", f"{field} escapes or is not normalized")
+        raise M0ContractError(
+            "INVALID_LOGICAL_PATH", f"{field} escapes or is not normalized"
+        )
     normalized = path.as_posix()
     if normalized != value or "//" in value:
         raise M0ContractError(
@@ -438,7 +454,9 @@ def _resolve_without_alias(path: Path, *, root: Path, field: str) -> Path:
     try:
         resolved.relative_to(root)
     except ValueError as exc:
-        raise M0ContractError("WORKSPACE_ESCAPE", f"{field} escapes project root") from exc
+        raise M0ContractError(
+            "WORKSPACE_ESCAPE", f"{field} escapes project root"
+        ) from exc
     if not _paths_equal(resolved, expected):
         raise M0ContractError(
             "WORKSPACE_ALIAS",
@@ -462,7 +480,9 @@ def derive_attempt_output_path(
     except InvalidProjectIdError as exc:
         raise M0ContractError("INVALID_PROJECT", str(exc)) from exc
     if not project_dir.is_dir():
-        raise M0ContractError("INVALID_PROJECT", f"Project directory does not exist: {project_dir}")
+        raise M0ContractError(
+            "INVALID_PROJECT", f"Project directory does not exist: {project_dir}"
+        )
     safe_batch = _safe_component(batch_id, field="batch_id")
     safe_item = _safe_component(item_id, field="item_id")
     safe_attempt = _safe_component(attempt_id, field="attempt_id")
@@ -504,10 +524,13 @@ def validate_attempt_output_path(
         projects_root, project_id, batch_id, item_id, attempt_id, output_name
     )
     project_dir = resolve_project_dir(projects_root, project_id)
-    resolved = _resolve_without_alias(candidate_path, root=project_dir, field="output_path")
+    resolved = _resolve_without_alias(
+        candidate_path, root=project_dir, field="output_path"
+    )
     if not _paths_equal(resolved, expected):
         raise M0ContractError(
-            "INVALID_OUTPUT_PATH", f"Expected coordinator-derived path {expected}, got {candidate}"
+            "INVALID_OUTPUT_PATH",
+            f"Expected coordinator-derived path {expected}, got {candidate}",
         )
     return resolved
 
@@ -537,7 +560,9 @@ def exact_identity() -> dict[str, str]:
     return dict(INITIAL_ADAPTER_IDENTITY)
 
 
-def validate_exact_identity(identity: Mapping[str, Any], *, field: str = "identity") -> None:
+def validate_exact_identity(
+    identity: Mapping[str, Any], *, field: str = "identity"
+) -> None:
     actual = dict(identity)
     expected = dict(INITIAL_ADAPTER_IDENTITY)
     if actual != expected:
@@ -599,16 +624,21 @@ def validate_adapter_observation(observation: Mapping[str, Any]) -> None:
 
 
 def _validate_dependency_graph(work_items: list[Mapping[str, Any]]) -> None:
-    graph = {str(item["item_id"]): list(item["dependency_item_ids"]) for item in work_items}
+    graph = {
+        str(item["item_id"]): list(item["dependency_item_ids"]) for item in work_items
+    }
     known = set(graph)
     for item_id, dependencies in graph.items():
         unknown = sorted(set(dependencies) - known)
         if unknown:
             raise M0ContractError(
-                "UNKNOWN_ITEM_DEPENDENCY", f"{item_id} depends on unknown items {unknown}"
+                "UNKNOWN_ITEM_DEPENDENCY",
+                f"{item_id} depends on unknown items {unknown}",
             )
         if item_id in dependencies:
-            raise M0ContractError("CYCLIC_ITEM_DEPENDENCY", f"{item_id} depends on itself")
+            raise M0ContractError(
+                "CYCLIC_ITEM_DEPENDENCY", f"{item_id} depends on itself"
+            )
     visiting: set[str] = set()
     visited: set[str] = set()
 
@@ -637,15 +667,21 @@ def validate_batch_request(document: Mapping[str, Any]) -> None:
     validate_contract("batch_request", document)
     _assert_no_sensitive_values(document)
     if document["canonical_json"] != CANONICAL_JSON_VERSION:
-        raise M0ContractError("CANONICAL_VERSION_MISMATCH", "Unsupported canonical JSON version")
+        raise M0ContractError(
+            "CANONICAL_VERSION_MISMATCH", "Unsupported canonical JSON version"
+        )
 
     source_bindings = list(document["source_bindings"])
     binding_ids = [binding["binding_id"] for binding in source_bindings]
     if len(binding_ids) != len(set(binding_ids)):
-        raise M0ContractError("DUPLICATE_SOURCE_BINDING", "source binding IDs must be unique")
+        raise M0ContractError(
+            "DUPLICATE_SOURCE_BINDING", "source binding IDs must be unique"
+        )
     binding_by_id = {binding["binding_id"]: binding for binding in source_bindings}
     for binding in source_bindings:
-        validate_logical_path(binding["logical_path"], field="source_bindings.logical_path")
+        validate_logical_path(
+            binding["logical_path"], field="source_bindings.logical_path"
+        )
         source_type = binding["source_type"]
         checkpoint_fields = {
             "checkpoint_stage",
@@ -656,11 +692,13 @@ def validate_batch_request(document: Mapping[str, Any]) -> None:
             missing = checkpoint_fields - set(binding)
             if missing:
                 raise M0ContractError(
-                    "INVALID_SOURCE_BINDING", f"{binding['binding_id']} missing {sorted(missing)}"
+                    "INVALID_SOURCE_BINDING",
+                    f"{binding['binding_id']} missing {sorted(missing)}",
                 )
             if source_type == "checkpoint_artifact" and "artifact_name" not in binding:
                 raise M0ContractError(
-                    "INVALID_SOURCE_BINDING", "checkpoint_artifact requires artifact_name"
+                    "INVALID_SOURCE_BINDING",
+                    "checkpoint_artifact requires artifact_name",
                 )
         elif checkpoint_fields.intersection(binding) or "artifact_name" in binding:
             raise M0ContractError(
@@ -670,28 +708,47 @@ def validate_batch_request(document: Mapping[str, Any]) -> None:
         if storage:
             locator = storage["locator"]
             if "?" in locator:
-                raise M0ContractError("SIGNED_URL_FORBIDDEN", "Source locator cannot be signed")
+                raise M0ContractError(
+                    "SIGNED_URL_FORBIDDEN", "Source locator cannot be signed"
+                )
             if storage["store_type"] == "gcs":
                 if not locator.startswith("gs://") or "generation" not in storage:
                     raise M0ContractError(
-                        "INVALID_STORAGE_BINDING", "GCS binding requires gs:// locator and generation"
+                        "INVALID_STORAGE_BINDING",
+                        "GCS binding requires gs:// locator and generation",
                     )
             elif locator != binding["logical_path"]:
                 raise M0ContractError(
-                    "INVALID_STORAGE_BINDING", "Local locator must equal normalized logical_path"
+                    "INVALID_STORAGE_BINDING",
+                    "Local locator must equal normalized logical_path",
                 )
 
     authorization = document["authorization"]
-    validate_exact_identity(authorization["allowed_identity"], field="authorization.allowed_identity")
-    expected_authorization_digest = _digest_without(authorization, "authorization_digest")
+    validate_exact_identity(
+        authorization["allowed_identity"], field="authorization.allowed_identity"
+    )
+    expected_authorization_digest = _digest_without(
+        authorization, "authorization_digest"
+    )
     if authorization["authorization_digest"] != expected_authorization_digest:
-        raise M0ContractError("AUTHORIZATION_DIGEST_MISMATCH", "Authorization was changed")
-    checkpoint_stages = [entry["stage"] for entry in authorization["prerequisite_checkpoints"]]
+        raise M0ContractError(
+            "AUTHORIZATION_DIGEST_MISMATCH", "Authorization was changed"
+        )
+    checkpoint_stages = [
+        entry["stage"] for entry in authorization["prerequisite_checkpoints"]
+    ]
     if len(checkpoint_stages) != len(set(checkpoint_stages)):
-        raise M0ContractError("DUPLICATE_CHECKPOINT_EVIDENCE", "Checkpoint stages must be unique")
+        raise M0ContractError(
+            "DUPLICATE_CHECKPOINT_EVIDENCE", "Checkpoint stages must be unique"
+        )
     for evidence in authorization["prerequisite_checkpoints"]:
         expected_path = f"checkpoint_{evidence['stage']}.json"
-        if validate_logical_path(evidence["logical_path"], field="checkpoint evidence path") != expected_path:
+        if (
+            validate_logical_path(
+                evidence["logical_path"], field="checkpoint evidence path"
+            )
+            != expected_path
+        ):
             raise M0ContractError(
                 "CHECKPOINT_PATH_MISMATCH",
                 f"Stage {evidence['stage']!r} must bind {expected_path!r}",
@@ -711,9 +768,13 @@ def validate_batch_request(document: Mapping[str, Any]) -> None:
     used_binding_ids: set[str] = set()
     destination_identities: set[str] = set()
     for item in work_items:
-        validate_exact_identity(item["identity"], field=f"work_items.{item['item_id']}.identity")
+        validate_exact_identity(
+            item["identity"], field=f"work_items.{item['item_id']}.identity"
+        )
         if item["inputs"]["operation"] != item["identity"]["operation"]:
-            raise M0ContractError("OPERATION_MISMATCH", f"Operation mismatch for {item['item_id']}")
+            raise M0ContractError(
+                "OPERATION_MISMATCH", f"Operation mismatch for {item['item_id']}"
+            )
         destination = validate_canonical_asset_path(
             item["output_spec"]["canonical_destination_intent"],
             field=f"work_items.{item['item_id']}.canonical_destination_intent",
@@ -731,25 +792,32 @@ def validate_batch_request(document: Mapping[str, Any]) -> None:
         for binding_id in item["source_binding_ids"]:
             if binding_id not in binding_by_id:
                 raise M0ContractError(
-                    "UNKNOWN_SOURCE_BINDING", f"{item['item_id']} references {binding_id!r}"
+                    "UNKNOWN_SOURCE_BINDING",
+                    f"{item['item_id']} references {binding_id!r}",
                 )
             used_binding_ids.add(binding_id)
         for reference in item["input_references"]:
             binding = binding_by_id.get(reference["binding_id"])
             if binding is None:
                 raise M0ContractError(
-                    "UNKNOWN_SOURCE_BINDING", f"Input reference uses {reference['binding_id']!r}"
+                    "UNKNOWN_SOURCE_BINDING",
+                    f"Input reference uses {reference['binding_id']!r}",
                 )
-            if reference["sha256"] != binding["sha256"] or reference["size_bytes"] != binding["size_bytes"]:
+            if (
+                reference["sha256"] != binding["sha256"]
+                or reference["size_bytes"] != binding["size_bytes"]
+            ):
                 raise M0ContractError(
-                    "INPUT_REFERENCE_MISMATCH", f"Input reference differs from {reference['binding_id']}"
+                    "INPUT_REFERENCE_MISMATCH",
+                    f"Input reference differs from {reference['binding_id']}",
                 )
             expected_locator = (binding.get("storage") or {}).get(
                 "locator", binding["logical_path"]
             )
             if reference["locator"] != expected_locator:
                 raise M0ContractError(
-                    "INPUT_REFERENCE_MISMATCH", f"Locator differs from {reference['binding_id']}"
+                    "INPUT_REFERENCE_MISMATCH",
+                    f"Locator differs from {reference['binding_id']}",
                 )
         if item["work_item_digest"] != compute_work_item_digest(item, binding_by_id):
             raise M0ContractError(
@@ -758,30 +826,44 @@ def validate_batch_request(document: Mapping[str, Any]) -> None:
         attempts = 1 + item["charged_retry_allowance"]
         if attempts > document["execution_policy"]["max_attempts_per_item"]:
             raise M0ContractError(
-                "RETRY_NOT_AUTHORIZED", f"{item['item_id']} exceeds max_attempts_per_item"
+                "RETRY_NOT_AUTHORIZED",
+                f"{item['item_id']} exceeds max_attempts_per_item",
             )
         required_attempts += attempts
         attempt_cost = _decimal(item["estimated_cost_usd"])
-        if attempt_cost > _decimal(document["execution_policy"]["max_attempt_cost_usd"]):
+        if attempt_cost > _decimal(
+            document["execution_policy"]["max_attempt_cost_usd"]
+        ):
             raise M0ContractError(
-                "ATTEMPT_COST_NOT_AUTHORIZED", f"{item['item_id']} exceeds per-attempt cap"
+                "ATTEMPT_COST_NOT_AUTHORIZED",
+                f"{item['item_id']} exceeds per-attempt cap",
             )
         worst_case_cost += attempt_cost * attempts
 
     if used_binding_ids != set(binding_ids):
         unused = sorted(set(binding_ids) - used_binding_ids)
-        raise M0ContractError("UNUSED_SOURCE_BINDING", f"Unused source bindings: {unused}")
+        raise M0ContractError(
+            "UNUSED_SOURCE_BINDING", f"Unused source bindings: {unused}"
+        )
     if required_attempts > authorization["max_total_attempts"]:
-        raise M0ContractError("ATTEMPT_BUDGET_EXCEEDED", "Requested attempts exceed authorization")
+        raise M0ContractError(
+            "ATTEMPT_BUDGET_EXCEEDED", "Requested attempts exceed authorization"
+        )
     approved = _decimal(authorization["approved_budget_usd"])
     cap = _decimal(authorization["max_authorized_spend_usd"])
     if cap > approved:
-        raise M0ContractError("BUDGET_AUTHORIZATION_INVALID", "Spend cap exceeds approved budget")
+        raise M0ContractError(
+            "BUDGET_AUTHORIZATION_INVALID", "Spend cap exceeds approved budget"
+        )
     if authorization["no_cost"]:
         if approved != 0 or cap != 0 or worst_case_cost != 0:
-            raise M0ContractError("BUDGET_AUTHORIZATION_INVALID", "no_cost requires zero exposure")
+            raise M0ContractError(
+                "BUDGET_AUTHORIZATION_INVALID", "no_cost requires zero exposure"
+            )
     elif cap <= 0:
-        raise M0ContractError("BUDGET_AUTHORIZATION_INVALID", "Paid batch requires a positive cap")
+        raise M0ContractError(
+            "BUDGET_AUTHORIZATION_INVALID", "Paid batch requires a positive cap"
+        )
     if worst_case_cost > cap:
         raise M0ContractError(
             "BUDGET_AUTHORIZATION_EXCEEDED",
@@ -818,13 +900,18 @@ def validate_storage_receipt(document: Mapping[str, Any]) -> None:
         )
     locator = document["locator"]
     if "?" in locator:
-        raise M0ContractError("SIGNED_URL_FORBIDDEN", "StorageReceipt locator cannot be signed")
+        raise M0ContractError(
+            "SIGNED_URL_FORBIDDEN", "StorageReceipt locator cannot be signed"
+        )
     if document["store_type"] == "gcs":
         if not locator.startswith("gs://"):
-            raise M0ContractError("INVALID_STORAGE_RECEIPT", "GCS locator must start gs://")
+            raise M0ContractError(
+                "INVALID_STORAGE_RECEIPT", "GCS locator must start gs://"
+            )
         if document["sha256"] not in locator:
             raise M0ContractError(
-                "INVALID_STORAGE_RECEIPT", "GCS blob locator must be content-addressed by SHA-256"
+                "INVALID_STORAGE_RECEIPT",
+                "GCS blob locator must be content-addressed by SHA-256",
             )
         if "generation" not in document or "provider_checksum" not in document:
             raise M0ContractError(
@@ -839,9 +926,7 @@ def validate_storage_receipt(document: Mapping[str, Any]) -> None:
                 "GCS success requires synchronous checksum and generation verification",
             )
     else:
-        locator_path = validate_logical_path(
-            locator, field="StorageReceipt.locator"
-        )
+        locator_path = validate_logical_path(locator, field="StorageReceipt.locator")
         expected_locator = PurePosixPath(
             ".batch-v2",
             "blobs",
@@ -863,7 +948,8 @@ def validate_storage_receipt(document: Mapping[str, Any]) -> None:
             or document["verification"]["generation_verified"] is not False
         ):
             raise M0ContractError(
-                "INVALID_STORAGE_RECEIPT", "Local receipt cannot claim GCS-only verification"
+                "INVALID_STORAGE_RECEIPT",
+                "Local receipt cannot claim GCS-only verification",
             )
 
 
@@ -964,13 +1050,21 @@ _ATTEMPT_ACTION_RULES = (
         "required",
     ),
     _AttemptActionRule(
-        "do_not_retry", frozenset({"INTERNAL_BUG"}), "failed", "not_accepted", "forbidden"
+        "do_not_retry",
+        frozenset({"INTERNAL_BUG"}),
+        "failed",
+        "not_accepted",
+        "forbidden",
     ),
     _AttemptActionRule(
         "do_not_retry", frozenset({"INTERNAL_BUG"}), "failed", "accepted", "optional"
     ),
     _AttemptActionRule(
-        "do_not_retry", frozenset({"CANCELLED"}), "cancelled", "not_accepted", "forbidden"
+        "do_not_retry",
+        frozenset({"CANCELLED"}),
+        "cancelled",
+        "not_accepted",
+        "forbidden",
     ),
     _AttemptActionRule(
         "do_not_retry", frozenset({"CANCELLED"}), "cancelled", "accepted", "forbidden"
@@ -993,7 +1087,9 @@ _ATTEMPT_ACTION_RULES = (
 )
 
 
-def _require_attempt_shape(document: Mapping[str, Any], rule: _AttemptActionRule) -> None:
+def _require_attempt_shape(
+    document: Mapping[str, Any], rule: _AttemptActionRule
+) -> None:
     if document["phase"] != rule.phase:
         raise M0ContractError(
             "INVALID_RETRY_ACTION",
@@ -1057,7 +1153,9 @@ def validate_attempt(document: Mapping[str, Any]) -> None:
         document["request_digest"], document["work_item_digest"]
     )
     if document["idempotency_digest"] != expected_idempotency:
-        raise M0ContractError("IDEMPOTENCY_DIGEST_MISMATCH", "Attempt identity was changed")
+        raise M0ContractError(
+            "IDEMPOTENCY_DIGEST_MISMATCH", "Attempt identity was changed"
+        )
     output = document.get("output")
     error = document.get("error")
     if (
@@ -1081,17 +1179,24 @@ def validate_attempt(document: Mapping[str, Any]) -> None:
                 "INVALID_ATTEMPT_STATE",
                 "Committed attempt requires one accepted, receipted output with no error or retry",
             )
-    if acceptance == "unknown" and document["billing_mode"] == "paid" and error is not None and (
-        phase != "indeterminate" or retry_action != "mark_indeterminate"
+    if (
+        acceptance == "unknown"
+        and document["billing_mode"] == "paid"
+        and error is not None
+        and (phase != "indeterminate" or retry_action != "mark_indeterminate")
     ):
         raise M0ContractError(
             "PAID_AMBIGUITY",
             "Unknown paid acceptance must remain indeterminate and cannot be retried",
         )
-    if acceptance == "unknown" and document["billing_mode"] == "paid" and (
-        _decimal(document["cost"]["known_actual_usd"])
-        + _decimal(document["cost"]["potentially_charged_usd"])
-        <= 0
+    if (
+        acceptance == "unknown"
+        and document["billing_mode"] == "paid"
+        and (
+            _decimal(document["cost"]["known_actual_usd"])
+            + _decimal(document["cost"]["potentially_charged_usd"])
+            <= 0
+        )
     ):
         raise M0ContractError(
             "PAID_AMBIGUITY",
@@ -1156,7 +1261,8 @@ def validate_publication_command(document: Mapping[str, Any]) -> None:
     _assert_no_sensitive_values(document)
     if document["canonical_json"] != CANONICAL_JSON_VERSION:
         raise M0ContractError(
-            "CANONICAL_JSON_MISMATCH", "PublicationCommand canonical JSON version differs"
+            "CANONICAL_JSON_MISMATCH",
+            "PublicationCommand canonical JSON version differs",
         )
     expected_digest = _digest_without(document, "command_digest")
     if document["command_digest"] != expected_digest:
@@ -1237,8 +1343,7 @@ def validate_publication_command(document: Mapping[str, Any]) -> None:
                 )
         if (
             cloud_source["state"]["sha256"] != document["state_ref"]["sha256"]
-            or cloud_source["result"]["sha256"]
-            != document["result_ref"]["sha256"]
+            or cloud_source["result"]["sha256"] != document["result_ref"]["sha256"]
         ):
             raise M0ContractError(
                 "PUBLICATION_CLOUD_SOURCE_DIGEST_INVALID",
@@ -1273,12 +1378,18 @@ def validate_publication_command(document: Mapping[str, Any]) -> None:
         raise M0ContractError(
             "ASSET_MANIFEST_INVALID", "asset_manifest.assets must be an array"
         )
+    if not manifest_assets or not document["asset_bindings"]:
+        raise M0ContractError(
+            "EMPTY_ASSETS_PUBLICATION",
+            "Assets MVP publication requires at least one exact media binding",
+        )
     manifest_by_id: dict[str, Mapping[str, Any]] = {}
     manifest_path_identities: set[str] = set()
     for index, asset in enumerate(manifest_assets):
         if not isinstance(asset, Mapping):
             raise M0ContractError(
-                "ASSET_MANIFEST_INVALID", f"asset_manifest.assets[{index}] is not an object"
+                "ASSET_MANIFEST_INVALID",
+                f"asset_manifest.assets[{index}] is not an object",
             )
         asset_id = asset["id"]
         path = validate_canonical_asset_path(
@@ -1459,6 +1570,21 @@ def validate_publication_state(document: Mapping[str, Any]) -> None:
                 "PUBLICATION_STATE_HISTORY_INVALID",
                 "Publication completion checkpoint path is not canonical",
             )
+        checkpoint_snapshot = record["checkpoint_snapshot"]
+        expected_snapshot_logical = (
+            f".batch-v2/runs/{document['batch_id']}/publication/checkpoints/"
+            f"{record['command_digest']}.json"
+        )
+        if (
+            checkpoint_snapshot["logical_path"] != expected_snapshot_logical
+            or checkpoint_snapshot["object_name"]
+            != f"projects/{document['project_id']}/{expected_snapshot_logical}"
+            or checkpoint_snapshot["sha256"] != checkpoint["sha256"]
+        ):
+            raise M0ContractError(
+                "PUBLICATION_STATE_HISTORY_INVALID",
+                "Publication checkpoint recovery snapshot is not exact command authority",
+            )
         asset_identities: set[str] = set()
         for asset_object in record["asset_objects"]:
             logical_path = validate_canonical_asset_path(
@@ -1485,7 +1611,10 @@ def validate_publication_state(document: Mapping[str, Any]) -> None:
                     "PUBLICATION_STATE_HISTORY_INVALID",
                     "Completed Human transition must retain its exact approval evidence",
                 )
-            if approval_id in human_approval_ids or approval_digest in human_approval_digests:
+            if (
+                approval_id in human_approval_ids
+                or approval_digest in human_approval_digests
+            ):
                 raise M0ContractError(
                     "PUBLICATION_STATE_HISTORY_INVALID",
                     "Human approval evidence must be one-time",
@@ -1500,8 +1629,7 @@ def validate_publication_state(document: Mapping[str, Any]) -> None:
     owner = document["owner"]
     if (
         owner["proof"]["kind"] == "human_publication_authorization"
-        and owner["proof"]["digest"]
-        not in document["consumed_authorization_digests"]
+        and owner["proof"]["digest"] not in document["consumed_authorization_digests"]
     ):
         raise M0ContractError(
             "PUBLICATION_STATE_OWNER_INVALID",
@@ -1515,6 +1643,15 @@ def validate_publication_state(document: Mapping[str, Any]) -> None:
             raise M0ContractError(
                 "PUBLICATION_STATE_OWNER_INVALID",
                 "Completed publication owner must match the latest completion",
+            )
+    elif owner["owner_status"] == "repairing":
+        if not completed or (
+            owner["command_id"] != completed[-1]["command_id"]
+            or owner["command_digest"] != completed[-1]["command_digest"]
+        ):
+            raise M0ContractError(
+                "PUBLICATION_STATE_OWNER_INVALID",
+                "Repair owner must match the latest durable completion",
             )
     elif owner["command_digest"] in command_digests:
         raise M0ContractError(
@@ -1567,7 +1704,10 @@ def _validate_dependency_blockers(
                 "DEPENDENCY_BLOCKER_INVALID",
                 f"Dependency-blocked item {item['item_id']} must not have been dispatched",
             )
-        if item.get("storage_receipt_id") is not None or item.get("error_class") is not None:
+        if (
+            item.get("storage_receipt_id") is not None
+            or item.get("error_class") is not None
+        ):
             raise M0ContractError(
                 "DEPENDENCY_BLOCKER_INVALID",
                 f"Dependency-blocked item {item['item_id']} cannot masquerade as provider work",
@@ -1619,9 +1759,10 @@ def _validate_terminal_item_latest_attempt(
             "ITEM_LATEST_ATTEMPT_MISMATCH",
             f"Cancelled item {item['item_id']} cannot hide a paid or indeterminate ambiguity",
         )
-    if item.get("error_class") is not None and latest.get("error", {}).get(
-        "error_class"
-    ) != item["error_class"]:
+    if (
+        item.get("error_class") is not None
+        and latest.get("error", {}).get("error_class") != item["error_class"]
+    ):
         raise M0ContractError(
             "ITEM_LATEST_ATTEMPT_MISMATCH",
             f"Item {item['item_id']} error class differs from its latest attempt",
@@ -1633,8 +1774,13 @@ def validate_batch_state(document: Mapping[str, Any]) -> None:
     validate_contract("batch_state", document)
     _assert_no_sensitive_values(document)
     owner = document["owner"]
-    if owner["batch_id"] != document["batch_id"] or owner["request_digest"] != document["request_digest"]:
-        raise M0ContractError("OWNER_IDENTITY_MISMATCH", "Owner does not bind this BatchState")
+    if (
+        owner["batch_id"] != document["batch_id"]
+        or owner["request_digest"] != document["request_digest"]
+    ):
+        raise M0ContractError(
+            "OWNER_IDENTITY_MISMATCH", "Owner does not bind this BatchState"
+        )
     invocations = document.get("invocations")
     if invocations is not None:
         invocation_ids = [entry["invocation_id"] for entry in invocations]
@@ -1654,7 +1800,9 @@ def validate_batch_state(document: Mapping[str, Any]) -> None:
             )
     item_ids = [item["item_id"] for item in document["items"]]
     if len(item_ids) != len(set(item_ids)):
-        raise M0ContractError("DUPLICATE_WORK_ITEM", "BatchState item IDs must be unique")
+        raise M0ContractError(
+            "DUPLICATE_WORK_ITEM", "BatchState item IDs must be unique"
+        )
     receipts_by_id: dict[str, Mapping[str, Any]] = {}
     known_item_ids = set(item_ids)
     for receipt in document["storage_receipts"]:
@@ -1663,7 +1811,10 @@ def validate_batch_state(document: Mapping[str, Any]) -> None:
             raise M0ContractError(
                 "DUPLICATE_STORAGE_RECEIPT", "StorageReceipt IDs must be unique"
             )
-        if receipt["batch_id"] != document["batch_id"] or receipt["item_id"] not in known_item_ids:
+        if (
+            receipt["batch_id"] != document["batch_id"]
+            or receipt["item_id"] not in known_item_ids
+        ):
             raise M0ContractError(
                 "STORAGE_RECEIPT_IDENTITY_MISMATCH",
                 "StorageReceipt does not bind this batch and a known item",
@@ -1679,19 +1830,27 @@ def validate_batch_state(document: Mapping[str, Any]) -> None:
     attempts_by_item: dict[str, int] = {item_id: 0 for item_id in item_ids}
     for attempt in document["attempts"]:
         validate_attempt(attempt)
-        if attempt["batch_id"] != document["batch_id"] or attempt["request_digest"] != document["request_digest"]:
-            raise M0ContractError("ATTEMPT_IDENTITY_MISMATCH", "Attempt does not bind this state")
+        if (
+            attempt["batch_id"] != document["batch_id"]
+            or attempt["request_digest"] != document["request_digest"]
+        ):
+            raise M0ContractError(
+                "ATTEMPT_IDENTITY_MISMATCH", "Attempt does not bind this state"
+            )
         if attempt["attempt_id"] in attempt_ids:
             raise M0ContractError("DUPLICATE_ATTEMPT", "Attempt IDs must be unique")
         attempt_ids.add(attempt["attempt_id"])
         sequence = attempt["dispatch_sequence"]
         if sequence in dispatch_sequences:
             raise M0ContractError(
-                "DUPLICATE_ATTEMPT_SEQUENCE", "dispatch_sequence values must be globally unique"
+                "DUPLICATE_ATTEMPT_SEQUENCE",
+                "dispatch_sequence values must be globally unique",
             )
         dispatch_sequences.add(sequence)
         if attempt["item_id"] not in attempts_by_item:
-            raise M0ContractError("UNKNOWN_ATTEMPT_ITEM", "Attempt references unknown item")
+            raise M0ContractError(
+                "UNKNOWN_ATTEMPT_ITEM", "Attempt references unknown item"
+            )
         attempts_by_id[attempt["attempt_id"]] = attempt
         attempts_for_item[attempt["item_id"]].append(attempt)
         attempts_by_item[attempt["item_id"]] += 1
@@ -1738,7 +1897,8 @@ def validate_batch_state(document: Mapping[str, Any]) -> None:
         receipt = receipts_by_id.get(receipt_id)
         if receipt is None:
             raise M0ContractError(
-                "ATTEMPT_RECEIPT_MISMATCH", f"Attempt {attempt_id} references no durable receipt"
+                "ATTEMPT_RECEIPT_MISMATCH",
+                f"Attempt {attempt_id} references no durable receipt",
             )
         if (
             receipt["batch_id"] != attempt["batch_id"]
@@ -1768,7 +1928,9 @@ def validate_batch_state(document: Mapping[str, Any]) -> None:
     )
     for item in document["items"]:
         if item["attempt_count"] != attempts_by_item[item["item_id"]]:
-            raise M0ContractError("ATTEMPT_COUNT_MISMATCH", f"Wrong count for {item['item_id']}")
+            raise M0ContractError(
+                "ATTEMPT_COUNT_MISMATCH", f"Wrong count for {item['item_id']}"
+            )
         if item["state"] == "retry_wait":
             if "next_eligible_at" not in item:
                 raise M0ContractError(
@@ -1796,9 +1958,11 @@ def validate_batch_state(document: Mapping[str, Any]) -> None:
                     "ITEM_RECEIPT_MISMATCH",
                     f"Item {item['item_id']} references no matching StorageReceipt",
                 )
-            if latest_attempt is None or latest_attempt.get("output", {}).get(
-                "storage_receipt_id"
-            ) != receipt_id:
+            if (
+                latest_attempt is None
+                or latest_attempt.get("output", {}).get("storage_receipt_id")
+                != receipt_id
+            ):
                 raise M0ContractError(
                     "COMMITTED_ITEM_INCOMPLETE",
                     f"Committed item {item['item_id']} latest attempt lacks its durable receipt",
@@ -1834,9 +1998,13 @@ def validate_batch_state(document: Mapping[str, Any]) -> None:
             )
     _validate_cost_exposure(document["cost"], code="BUDGET_STATE_INVALID")
     if document["status"] == "awaiting_agent_review" and "outcome" not in document:
-        raise M0ContractError("INVALID_BATCH_STATE", "Terminal mechanical state requires outcome")
+        raise M0ContractError(
+            "INVALID_BATCH_STATE", "Terminal mechanical state requires outcome"
+        )
     if document["status"] == "awaiting_agent_review":
-        expected_outcome = _mechanical_outcome([item["state"] for item in document["items"]])
+        expected_outcome = _mechanical_outcome(
+            [item["state"] for item in document["items"]]
+        )
         if document["outcome"] != expected_outcome:
             raise M0ContractError(
                 "INVALID_BATCH_STATE",
@@ -1848,7 +2016,10 @@ def validate_batch_state(document: Mapping[str, Any]) -> None:
                 "M1_STATE_PROVENANCE_INCOMPLETE",
                 "M1 BatchState requires durable rate-limit accounting",
             )
-        if document["status"] == "awaiting_agent_review" and "completed_at" not in document:
+        if (
+            document["status"] == "awaiting_agent_review"
+            and "completed_at" not in document
+        ):
             raise M0ContractError(
                 "M1_STATE_PROVENANCE_INCOMPLETE",
                 "Terminal M1 BatchState requires a stable completion timestamp",
@@ -1870,7 +2041,9 @@ def validate_batch_result(document: Mapping[str, Any]) -> None:
     _assert_no_sensitive_values(document)
     item_ids = [item["item_id"] for item in document["items"]]
     if len(item_ids) != len(set(item_ids)):
-        raise M0ContractError("DUPLICATE_RESULT_ITEM", "BatchResult item IDs must be unique")
+        raise M0ContractError(
+            "DUPLICATE_RESULT_ITEM", "BatchResult item IDs must be unique"
+        )
     invocation_ids = [entry["invocation_id"] for entry in document["invocations"]]
     if len(invocation_ids) != len(set(invocation_ids)):
         raise M0ContractError(
@@ -1890,7 +2063,8 @@ def validate_batch_result(document: Mapping[str, Any]) -> None:
     expected_outcome = _mechanical_outcome(states)
     if document["outcome"] != expected_outcome:
         raise M0ContractError(
-            "RESULT_OUTCOME_MISMATCH", f"Outcome must be {expected_outcome} for item states"
+            "RESULT_OUTCOME_MISMATCH",
+            f"Outcome must be {expected_outcome} for item states",
         )
     _validate_dependency_blockers(document["items"])
     receipt_ids: set[str] = set()
@@ -1903,11 +2077,13 @@ def validate_batch_result(document: Mapping[str, Any]) -> None:
             receipt = item["storage_receipt"]
             if receipt["receipt_id"] in receipt_ids:
                 raise M0ContractError(
-                    "DUPLICATE_STORAGE_RECEIPT", "BatchResult receipt IDs must be unique"
+                    "DUPLICATE_STORAGE_RECEIPT",
+                    "BatchResult receipt IDs must be unique",
                 )
-            if receipt["batch_id"] != document["batch_id"] or receipt["item_id"] != item[
-                "item_id"
-            ]:
+            if (
+                receipt["batch_id"] != document["batch_id"]
+                or receipt["item_id"] != item["item_id"]
+            ):
                 raise M0ContractError(
                     "RESULT_RECEIPT_IDENTITY_MISMATCH",
                     f"Receipt does not bind result item {item['item_id']}",
@@ -1916,7 +2092,8 @@ def validate_batch_result(document: Mapping[str, Any]) -> None:
             receipt_ids.add(receipt["receipt_id"])
             if "error" in item:
                 raise M0ContractError(
-                    "INVALID_BATCH_RESULT", f"Successful item {item['item_id']} cannot carry an error"
+                    "INVALID_BATCH_RESULT",
+                    f"Successful item {item['item_id']} cannot carry an error",
                 )
         else:
             if "storage_receipt" in item:
@@ -1924,9 +2101,13 @@ def validate_batch_result(document: Mapping[str, Any]) -> None:
                     "INVALID_BATCH_RESULT",
                     f"Non-success item {item['item_id']} cannot carry a success receipt",
                 )
-            if item["state"] in {"failed_terminal", "indeterminate"} and "error" not in item:
+            if (
+                item["state"] in {"failed_terminal", "indeterminate"}
+                and "error" not in item
+            ):
                 raise M0ContractError(
-                    "INVALID_BATCH_RESULT", f"{item['item_id']} lacks a structured error"
+                    "INVALID_BATCH_RESULT",
+                    f"{item['item_id']} lacks a structured error",
                 )
             if item["state"] == "blocked_by_dependency" and "error" in item:
                 raise M0ContractError(

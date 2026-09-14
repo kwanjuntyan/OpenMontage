@@ -14,6 +14,7 @@
 !pipeline_defs/**
 !scripts/
 !scripts/batch_execute.py
+!scripts/batch_publish.py
 
 # Defense in depth: these stay excluded even beneath an allowed directory.
 .git

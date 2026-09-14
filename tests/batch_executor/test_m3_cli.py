@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import signal
+import shutil
 import socket
 import threading
 from copy import deepcopy
@@ -60,12 +61,27 @@ def _config(
         "adapter_config": adapter,
     }
     if profile == "cloud_run":
+        snapshot_projects_root = (
+            authorized_project["projects_root"].parent
+            / f"{authorized_project['projects_root'].name}-input-snapshot-projects"
+        ).resolve()
+        snapshot_project = snapshot_projects_root / request["project_id"]
+        if not snapshot_project.exists():
+            shutil.copytree(
+                authorized_project["project_dir"],
+                snapshot_project,
+                ignore=shutil.ignore_patterns(".batch-v2"),
+            )
         config["cloud"] = {
             "bucket": "private-batch-bucket",
             "storage_project": "explicit-storage-project",
             "cloud_run_project": "cloud-project",
             "cloud_run_location": "us-central1",
             "cloud_run_job": "batch-v2",
+            "input_snapshot_projects_root": str(snapshot_projects_root),
+            "input_snapshot_object_prefix": (
+                "batch-v2-input-snapshots/sha256/" + "a" * 64
+            ),
         }
     return freeze_runtime_config(config)
 
@@ -181,7 +197,10 @@ def test_single_task_cloud_fake_cli_uses_injected_gcs_and_never_resolves_adc_or_
             "runs/batch-001/result.json"
         ),
     }
-    assert any(name.endswith("/result.json") for name in transport.object_names("private-batch-bucket"))
+    assert any(
+        name.endswith("/result.json")
+        for name in transport.object_names("private-batch-bucket")
+    )
     assert transport.background_operations == 0
 
 
@@ -285,19 +304,22 @@ def test_runtime_configuration_digest_failure_uses_preflight_blocker_exit_three(
     config_path = _write_config(tmp_path, config)
     provider = ScriptedFakeProvider()
     emitted = []
-    assert run_cli(
-        [
-            "run",
-            "--profile",
-            "local",
-            "--config",
-            config_path,
-            "--request-uri",
-            request_uri,
-        ],
-        dependencies=RuntimeDependencies(fake_provider_factory=lambda: provider),
-        emit=emitted.append,
-    ) == 3
+    assert (
+        run_cli(
+            [
+                "run",
+                "--profile",
+                "local",
+                "--config",
+                config_path,
+                "--request-uri",
+                request_uri,
+            ],
+            dependencies=RuntimeDependencies(fake_provider_factory=lambda: provider),
+            emit=emitted.append,
+        )
+        == 3
+    )
     assert provider.calls == []
     assert json.loads(emitted[-1]) == {
         "error_code": "RUNTIME_CONFIG_DIGEST_MISMATCH",
@@ -322,19 +344,22 @@ def test_portable_request_cannot_be_used_as_a_production_transport_profile(
             raise AssertionError("portable production request reached credentials")
 
     emitted = []
-    assert run_cli(
-        [
-            "run",
-            "--profile",
-            "local",
-            "--config",
-            config_path,
-            "--request-uri",
-            request_uri,
-        ],
-        dependencies=RuntimeDependencies(credential_resolver=ForbiddenADC()),
-        emit=emitted.append,
-    ) == 2
+    assert (
+        run_cli(
+            [
+                "run",
+                "--profile",
+                "local",
+                "--config",
+                config_path,
+                "--request-uri",
+                request_uri,
+            ],
+            dependencies=RuntimeDependencies(credential_resolver=ForbiddenADC()),
+            emit=emitted.append,
+        )
+        == 2
+    )
     assert json.loads(emitted[-1])["error_code"] == "INVALID_STORAGE_PROFILE"
 
 
@@ -438,23 +463,26 @@ def test_cloud_cli_active_owner_blocks_run_then_control_plane_resume_takes_over(
     ordinary_path = tmp_path / "ordinary-config.json"
     ordinary_path.write_bytes(canonical_json_bytes(ordinary_config))
     ordinary_provider = ScriptedFakeProvider()
-    assert run_cli(
-        [
-            "run",
-            "--profile",
-            "cloud-run",
-            "--config",
-            str(ordinary_path.resolve()),
-            "--request-uri",
-            request_uri,
-        ],
-        dependencies=RuntimeDependencies(
-            environment=_cloud_environment(execution="execution-other"),
-            gcs_transport=transport,
-            fake_provider_factory=lambda: ordinary_provider,
-        ),
-        emit=lambda _line: None,
-    ) == 3
+    assert (
+        run_cli(
+            [
+                "run",
+                "--profile",
+                "cloud-run",
+                "--config",
+                str(ordinary_path.resolve()),
+                "--request-uri",
+                request_uri,
+            ],
+            dependencies=RuntimeDependencies(
+                environment=_cloud_environment(execution="execution-other"),
+                gcs_transport=transport,
+                fake_provider_factory=lambda: ordinary_provider,
+            ),
+            emit=lambda _line: None,
+        )
+        == 3
+    )
     assert ordinary_provider.calls == []
 
     old_resource = (
@@ -487,7 +515,8 @@ def test_cloud_cli_active_owner_blocks_run_then_control_plane_resume_takes_over(
     resume_path = tmp_path / "resume-config.json"
     resume_path.write_bytes(canonical_json_bytes(resume_config))
     resume_provider = ScriptedFakeProvider()
-    assert run_cli(
+    resume_emitted = []
+    resume_exit = run_cli(
         [
             "resume",
             "--profile",
@@ -506,6 +535,7 @@ def test_cloud_cli_active_owner_blocks_run_then_control_plane_resume_takes_over(
             cloud_status_transport=FakeStatus(),
             fake_provider_factory=lambda: resume_provider,
         ),
-        emit=lambda _line: None,
-    ) == 0
+        emit=resume_emitted.append,
+    )
+    assert resume_exit == 0, resume_emitted
     assert resume_provider.submit_calls == 1

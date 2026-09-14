@@ -1,9 +1,10 @@
 # Offline-reviewed template only. M5 approval is required before substitution
-# or deployment. Every ${...} value is an explicit launch input.
+# or deployment. The GCS FUSE mount exposes immutable inputs only; /workspace
+# is the non-root container's ephemeral writable layer.
 apiVersion: run.googleapis.com/v1
 kind: Job
 metadata:
-  name: ${CLOUD_RUN_JOB}
+  name: ${CLOUD_RUN_PUBLICATION_JOB}
 spec:
   template:
     metadata:
@@ -16,17 +17,24 @@ spec:
         spec:
           maxRetries: 0
           timeoutSeconds: ${TIMEOUT_SECONDS}
-          serviceAccountName: ${BATCH_V2_SERVICE_ACCOUNT}
+          serviceAccountName: ${BATCH_V2_PUBLICATION_SERVICE_ACCOUNT}
           containers:
             - image: ${BATCH_V2_IMAGE_DIGEST}
+              command:
+                - python
+                - /opt/openmontage/scripts/batch_publish.py
               args:
-                - run
-                - --profile
-                - cloud-run
+                - publish
                 - --config
-                - /input-snapshot/config/runtime-config.json
-                - --request-uri
-                - ${PRIVATE_REQUEST_URI}
+                - /input-snapshot/config/publication-runtime-config.json
+                - --command-uri
+                - ${PRIVATE_PUBLICATION_COMMAND_URI}
+                - --command-generation
+                - ${PUBLICATION_COMMAND_GENERATION}
+                - --command-sha256
+                - ${PUBLICATION_COMMAND_BYTES_SHA256}
+                - --command-digest
+                - ${PUBLICATION_COMMAND_DIGEST}
               resources:
                 limits:
                   cpu: ${CPU_LIMIT}

@@ -113,9 +113,7 @@ def _make_cloud_publication_case(
             mode="run",
         ),
     )
-    gcs_store = store_factory(
-        authorized_project["project_dir"], request["batch_id"]
-    )
+    gcs_store = store_factory(authorized_project["project_dir"], request["batch_id"])
     durable_request, request_generation = gcs_store.load_request()
     state, state_generation = gcs_store.load_batch_state()
     loaded_result = gcs_store.load_result()
@@ -123,9 +121,7 @@ def _make_cloud_publication_case(
     durable_result, result_generation = loaded_result
     assert durable_request == request
     assert durable_result == result
-    local_store = LocalStore(
-        authorized_project["project_dir"], request["batch_id"]
-    )
+    local_store = LocalStore(authorized_project["project_dir"], request["batch_id"])
     cloud_source = {
         "bucket": BUCKET,
         "request": {
@@ -186,6 +182,7 @@ def _publisher(case, *, verifier=None, crash_hook=None, allow_portable_fake=Fals
         execution_status_verifier=verifier,
         crash_hook=crash_hook,
         allow_portable_fake=allow_portable_fake,
+        allow_fake_status_verifier=True,
     )
 
 
@@ -199,9 +196,7 @@ def test_cloud_agent_publication_is_explicit_data_first_and_checkpoint_last(
         command, trusted_invocation=_identity("publication-agent")
     )
 
-    checkpoint = read_checkpoint(
-        case["projects_root"], case["project_id"], "assets"
-    )
+    checkpoint = read_checkpoint(case["projects_root"], case["project_id"], "assets")
     assert checkpoint is not None
     assert checkpoint["status"] == "awaiting_human"
     assert checkpoint["human_approved"] is False
@@ -213,14 +208,15 @@ def test_cloud_agent_publication_is_explicit_data_first_and_checkpoint_last(
     assert case["transport"].background_operations == 0
     assert (case["project_dir"] / "assets/video/asset-1.mp4").is_file()
     names = case["transport"].object_names(BUCKET)
-    assert case["gcs_store"].publication_command_object_name(
-        command["command_id"]
-    ) in names
+    assert (
+        case["gcs_store"].publication_command_object_name(command["command_id"])
+        in names
+    )
     assert "projects/batch-project/assets/video/asset-1.mp4" in names
     assert "projects/batch-project/checkpoint_assets.json" in names
-    publication_state, publication_generation = (
-        case["gcs_store"].load_publication_state()
-    )
+    publication_state, publication_generation = case[
+        "gcs_store"
+    ].load_publication_state()
     assert publication_generation == receipt["publication_state_generation"]
     assert publication_state["owner"]["owner_status"] == "completed"
     assert publication_state["owner"]["command_digest"] == command["command_digest"]
@@ -237,9 +233,10 @@ def test_cloud_agent_publication_is_explicit_data_first_and_checkpoint_last(
     assert checkpoint_object.data == checkpoint_bytes
     assert checkpoint_object.size_bytes == len(checkpoint_bytes)
     assert checkpoint_object.metadata["command_digest"] == command["command_digest"]
-    assert checkpoint_object.metadata["client_sha256"] == hashlib.sha256(
-        checkpoint_bytes
-    ).hexdigest()
+    assert (
+        checkpoint_object.metadata["client_sha256"]
+        == hashlib.sha256(checkpoint_bytes).hexdigest()
+    )
     assert checkpoint_object.metadata["checkpoint_sha256"] == canonical_sha256(
         checkpoint
     )
@@ -250,9 +247,9 @@ def test_cloud_checkpoint_manifest_overrides_stale_loose_backlot_cache(
 ):
     case = cloud_publication_case
     command = _agent_command(case)
-    _publisher(
-        case, verifier=FakeADCStatusVerifier(case["state"]["owner"])
-    ).publish(command, trusted_invocation=_identity("publication-backlot"))
+    _publisher(case, verifier=FakeADCStatusVerifier(case["state"]["owner"])).publish(
+        command, trusted_invocation=_identity("publication-backlot")
+    )
     loose = {
         "version": "1.0",
         "assets": [
@@ -293,9 +290,9 @@ def test_cloud_publication_suppresses_legacy_checkpoint_sync_and_restores_it(
         lambda project_dir: scheduled.append(project_dir),
     )
     command = _agent_command(case)
-    _publisher(
-        case, verifier=FakeADCStatusVerifier(case["state"]["owner"])
-    ).publish(command, trusted_invocation=_identity("publication-hidden-writer"))
+    _publisher(case, verifier=FakeADCStatusVerifier(case["state"]["owner"])).publish(
+        command, trusted_invocation=_identity("publication-hidden-writer")
+    )
     checkpoint_path = case["project_dir"] / "checkpoint_assets.json"
     returned_bytes = checkpoint_path.read_bytes()
     assert scheduled == []
@@ -335,9 +332,7 @@ def test_cloud_publisher_rejects_caller_json_and_unsafe_invocation_identity(
 ):
     case = cloud_publication_case
     command = _agent_command(case)
-    publisher = _publisher(
-        case, verifier=FakeADCStatusVerifier(case["state"]["owner"])
-    )
+    publisher = _publisher(case, verifier=FakeADCStatusVerifier(case["state"]["owner"]))
     with pytest.raises(M2PublicationError, match="PUBLICATION_INVOCATION_INVALID"):
         publisher.publish(command, trusted_invocation={"invocation_id": "caller"})
     unsafe = CloudInvocationIdentity(
@@ -374,9 +369,9 @@ def test_portable_profile_is_allowed_only_for_explicit_offline_fake_qualificatio
         )
     assert not (case["project_dir"] / "checkpoint_assets.json").exists()
 
-    result = _publisher(
-        case, verifier=verifier, allow_portable_fake=True
-    ).publish(command, trusted_invocation=_identity("portable-fake-qualified"))
+    result = _publisher(case, verifier=verifier, allow_portable_fake=True).publish(
+        command, trusted_invocation=_identity("portable-fake-qualified")
+    )
     assert result["status"] == "awaiting_human"
 
 
@@ -456,9 +451,10 @@ def test_cloud_publication_repairs_each_ordered_crash_boundary(
         command, trusted_invocation=identity
     )
     assert repaired["status"] == "awaiting_human"
-    assert read_checkpoint(
-        case["projects_root"], case["project_id"], "assets"
-    )["status"] == "awaiting_human"
+    assert (
+        read_checkpoint(case["projects_root"], case["project_id"], "assets")["status"]
+        == "awaiting_human"
+    )
 
 
 def test_cloud_human_gate_requires_later_exact_command_and_replay_is_idempotent(
@@ -476,7 +472,7 @@ def test_cloud_human_gate_requires_later_exact_command_and_replay_is_idempotent(
         human, trusted_invocation=_identity("publication-human-second")
     )
     replay = publisher.publish(
-        human, trusted_invocation=_identity("publication-human-replay")
+        human, trusted_invocation=_identity("publication-human-second")
     )
 
     assert completed["status"] == replay["status"] == "completed"
@@ -487,6 +483,7 @@ def test_cloud_human_gate_requires_later_exact_command_and_replay_is_idempotent(
 @pytest.mark.parametrize(
     "boundary",
     [
+        "cloud_publication_prior_checkpoint_restored",
         "cloud_publication_checkpoint_written",
         "cloud_publication_checkpoint_gcs_verified",
     ],
@@ -550,9 +547,7 @@ def _publication_authorization(
             "intended_publication_task_id": identity.task_id,
             "command_id": command["command_id"],
             "command_digest": command["command_digest"],
-            "source_state_generation": command["cloud_source"]["state"][
-                "generation"
-            ],
+            "source_state_generation": command["cloud_source"]["state"]["generation"],
             "source_state_sha256": command["state_ref"]["sha256"],
             "reason": "Explicitly authorize this exact stopped execution publication.",
             "decision_reference": "user-reply:cloud-publication-1",
@@ -593,7 +588,7 @@ def test_stale_or_corrupt_source_bytes_fail_before_claim_or_canonical_mutation(
     with pytest.raises(M2PublicationError, match="GCS_RECEIPT_INVALID"):
         _publisher(
             case, verifier=FakeADCStatusVerifier(case["state"]["owner"])
-    ).publish(command, trusted_invocation=_identity("publication-corrupt"))
+        ).publish(command, trusted_invocation=_identity("publication-corrupt"))
     assert not (case["project_dir"] / "checkpoint_assets.json").exists()
     assert not (case["project_dir"] / "assets/video/asset-1.mp4").exists()
 
@@ -684,9 +679,10 @@ def test_new_process_can_repair_with_one_time_bound_human_takeover_authorization
     )
     assert result["status"] == "awaiting_human"
     completed, _ = case["gcs_store"].load_publication_state()
-    assert authorization["authorization_digest"] in completed[
-        "consumed_authorization_digests"
-    ]
+    assert (
+        authorization["authorization_digest"]
+        in completed["consumed_authorization_digests"]
+    )
     assert completed["owner"]["proof"]["scope"] == "publication_takeover"
 
 
@@ -698,9 +694,7 @@ def test_cloud_publication_command_binds_exact_full_source_bytes_and_generations
     assert command["cloud_source"]["request"]["sha256"] == canonical_sha256(
         case["request"]
     )
-    assert command["cloud_source"]["state"]["sha256"] == canonical_sha256(
-        case["state"]
-    )
+    assert command["cloud_source"]["state"]["sha256"] == canonical_sha256(case["state"])
     assert command["cloud_source"]["result"]["sha256"] == canonical_sha256(
         case["result"]
     )
@@ -898,9 +892,8 @@ def test_concurrent_publishers_have_one_cas_winner_and_loser_mutates_no_canonica
                 bucket=BUCKET,
                 transport=case["transport"],
                 media_validator=DeterministicFakeMediaValidator(),
-                execution_status_verifier=FakeADCStatusVerifier(
-                    case["state"]["owner"]
-                ),
+                execution_status_verifier=FakeADCStatusVerifier(case["state"]["owner"]),
+                allow_fake_status_verifier=True,
             ).publish(command, trusted_invocation=_identity(invocation))
             outcomes.append((root, result))
         except BaseException as exc:
@@ -1047,9 +1040,7 @@ def test_changed_human_command_cannot_replay_prior_human_gate_evidence(
     changed["created_at"] = "2026-09-14T10:06:00Z"
     changed = freeze_publication_command(changed)
     with pytest.raises(M2PublicationError, match="HUMAN_APPROVAL_BINDING_INVALID"):
-        publisher.publish(
-            changed, trusted_invocation=_identity("human-replay-attempt")
-        )
+        publisher.publish(changed, trusted_invocation=_identity("human-replay-attempt"))
 
 
 @pytest.mark.parametrize("reference", ["checkpoint", "command"])
@@ -1076,9 +1067,7 @@ def test_human_transition_rejects_wrong_prior_gcs_generation(
             human,
             trusted_invocation=_identity(f"wrong-prior-generation-{reference}"),
         )
-    checkpoint = read_checkpoint(
-        case["projects_root"], case["project_id"], "assets"
-    )
+    checkpoint = read_checkpoint(case["projects_root"], case["project_id"], "assets")
     assert checkpoint["status"] == "awaiting_human"
 
 

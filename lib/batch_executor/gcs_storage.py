@@ -18,9 +18,10 @@ from contextlib import nullcontext
 from dataclasses import dataclass
 from decimal import Decimal
 from pathlib import Path
-from typing import Any, ContextManager, Mapping, Protocol
+from typing import Any, Callable, ContextManager, Mapping, Protocol
 
 from .contracts import (
+    CANONICAL_JSON_VERSION,
     M0ContractError,
     canonical_json_bytes,
     canonical_sha256,
@@ -165,9 +166,7 @@ class GoogleCloudStorageTransport:
                 checksum="crc32c",
             )
             written_generation = int(blob.generation)
-            blob = self._client.bucket(bucket).blob(
-                name, generation=written_generation
-            )
+            blob = self._client.bucket(bucket).blob(name, generation=written_generation)
             blob.reload(if_generation_match=written_generation)
         except BaseException as exc:
             translated = self._translate(exc)
@@ -221,7 +220,9 @@ class GCSStore:
         self.project_id = self.project_dir.name
         self.batch_id = batch_id
         if not isinstance(bucket, str) or not _GCS_BUCKET.fullmatch(bucket):
-            raise M1ExecutionError("GCS_CONFIGURATION_INVALID", "Invalid private bucket name")
+            raise M1ExecutionError(
+                "GCS_CONFIGURATION_INVALID", "Invalid private bucket name"
+            )
         self.bucket = bucket
         self.transport = transport
         self.run_dir = self.project_dir / ".batch-v2" / "runs" / batch_id
@@ -252,12 +253,100 @@ class GCSStore:
     def publication_state_object_name(self) -> str:
         return f"{self._prefix}/publication/state.json"
 
+    @property
+    def publication_fence_object_name(self) -> str:
+        """Project/stage authority guard shared by every assets batch."""
+
+        return f"projects/{self.project_id}/.batch-v2/publication/assets/fence.json"
+
     def publication_command_object_name(self, command_id: str) -> str:
         if not isinstance(command_id, str) or not _SAFE_ID.fullmatch(command_id):
             raise M1ExecutionError(
                 "PUBLICATION_COMMAND_ID_INVALID", "Unsafe publication command ID"
             )
         return f"{self._prefix}/publication/commands/{command_id}.json"
+
+    def _publication_fence(self, command: Mapping[str, Any]) -> dict[str, Any]:
+        validate_publication_command(command)
+        return {
+            "version": "1.0",
+            "canonical_json": CANONICAL_JSON_VERSION,
+            "project_id": self.project_id,
+            "stage": "assets",
+            "batch_id": self.batch_id,
+            "request_digest": str(command["request_digest"]),
+            "source_state": dict(command["cloud_source"]["state"]),
+        }
+
+    def claim_publication_fence(
+        self, command: Mapping[str, Any]
+    ) -> tuple[dict[str, Any], int]:
+        """Permanently bind one project/assets authority to one frozen batch.
+
+        This is a finite CAS guard, not a lease.  Later lifecycle transitions
+        for the same batch reuse the byte-identical guard; another batch fails
+        closed before any canonical mutation.
+        """
+
+        self._assert_writer()
+        fence = self._publication_fence(command)
+        payload = canonical_json_bytes(fence)
+        generation = self._write_immutable(
+            name=self.publication_fence_object_name,
+            payload=payload,
+            metadata=self._record_metadata(
+                "publication_fence",
+                hashlib.sha256(payload).hexdigest(),
+                stage="assets",
+                request_digest=str(command["request_digest"]),
+            ),
+            content_type="application/json",
+            conflict_code="PROJECT_STAGE_PUBLICATION_CONFLICT",
+        )
+        return fence, generation
+
+    def verify_publication_fence(
+        self, fence: Mapping[str, Any], *, generation: int
+    ) -> None:
+        """Re-read the exact project/stage guard before canonical writes."""
+
+        self._assert_writer()
+        if (
+            set(fence)
+            != {
+                "version",
+                "canonical_json",
+                "project_id",
+                "stage",
+                "batch_id",
+                "request_digest",
+                "source_state",
+            }
+            or fence.get("version") != "1.0"
+            or fence.get("canonical_json") != CANONICAL_JSON_VERSION
+            or fence.get("project_id") != self.project_id
+            or fence.get("stage") != "assets"
+            or fence.get("batch_id") != self.batch_id
+            or not re.fullmatch(r"[0-9a-f]{64}", str(fence.get("request_digest", "")))
+            or not isinstance(fence.get("source_state"), Mapping)
+        ):
+            raise StorageConflict(
+                "PROJECT_STAGE_PUBLICATION_CONFLICT",
+                "Project/assets publication fence is malformed or names another batch",
+            )
+        payload = canonical_json_bytes(fence)
+        self._read_and_verify(
+            name=self.publication_fence_object_name,
+            payload=payload,
+            metadata=self._record_metadata(
+                "publication_fence",
+                hashlib.sha256(payload).hexdigest(),
+                stage="assets",
+                request_digest=str(fence["request_digest"]),
+            ),
+            content_type="application/json",
+            generation=generation,
+        )
 
     def _assert_writer(self) -> None:
         if threading.get_ident() != self._writer_thread_id:
@@ -277,7 +366,8 @@ class GCSStore:
             ) from exc
         if os.path.normcase(str(resolved)) != os.path.normcase(str(lexical)):
             raise M1ExecutionError(
-                "WORKSPACE_ALIAS", f"Batch V2 path changes identity through an alias: {path}"
+                "WORKSPACE_ALIAS",
+                f"Batch V2 path changes identity through an alias: {path}",
             )
         if relative.parts and relative.parts[0] != ".batch-v2":
             raise M1ExecutionError(
@@ -297,7 +387,9 @@ class GCSStore:
         except GCSObjectNotFound:
             return False
         except Exception as exc:
-            raise self._transport_error(exc, "BatchState existence check failed") from exc
+            raise self._transport_error(
+                exc, "BatchState existence check failed"
+            ) from exc
         return True
 
     def attempt_output_path(
@@ -341,7 +433,9 @@ class GCSStore:
 
     @staticmethod
     def _transport_error(exc: Exception, message: str) -> M1ExecutionError:
-        code = "AUTH_CONFIGURATION" if _http_status(exc) in {401, 403} else "GCS_TRANSIENT"
+        code = (
+            "AUTH_CONFIGURATION" if _http_status(exc) in {401, 403} else "GCS_TRANSIENT"
+        )
         return M1ExecutionError(code, message)
 
     def _verify_exact_object(
@@ -358,14 +452,19 @@ class GCSStore:
         digest = hashlib.sha256(payload).hexdigest()
         expected_crc32c = crc32c_base64(payload)
         if snapshot.data is None:
-            raise M1ExecutionError("GCS_VERIFICATION_FAILED", "GCS re-read returned no bytes")
+            raise M1ExecutionError(
+                "GCS_VERIFICATION_FAILED", "GCS re-read returned no bytes"
+            )
         if (
             snapshot.bucket != self.bucket
             or snapshot.name != name
             or head.bucket != self.bucket
             or head.name != name
             or snapshot.generation != head.generation
-            or (expected_generation is not None and snapshot.generation != expected_generation)
+            or (
+                expected_generation is not None
+                and snapshot.generation != expected_generation
+            )
             or snapshot.size_bytes != len(payload)
             or head.size_bytes != len(payload)
             or snapshot.data != payload
@@ -461,9 +560,13 @@ class GCSStore:
         except M1ExecutionError as exc:
             if exc.code in {"GCS_TRANSIENT", "AUTH_CONFIGURATION"}:
                 raise
-            raise StorageConflict(conflict_code, f"Immutable GCS record differs: {name}") from exc
+            raise StorageConflict(
+                conflict_code, f"Immutable GCS record differs: {name}"
+            ) from exc
         except GCSObjectNotFound as exc:
-            raise StorageConflict(conflict_code, f"Immutable GCS record differs: {name}") from exc
+            raise StorageConflict(
+                conflict_code, f"Immutable GCS record differs: {name}"
+            ) from exc
 
     def write_request_if_absent(self, request: Mapping[str, Any]) -> int:
         validate_batch_request(request)
@@ -506,7 +609,8 @@ class GCSStore:
             if exc.code in {"GCS_TRANSIENT", "AUTH_CONFIGURATION"}:
                 raise
             raise M1ExecutionError(
-                "REQUEST_RECORD_INVALID", "Durable GCS BatchRequest is missing or corrupt"
+                "REQUEST_RECORD_INVALID",
+                "Durable GCS BatchRequest is missing or corrupt",
             ) from exc
         except (
             GCSObjectNotFound,
@@ -516,20 +620,29 @@ class GCSStore:
             UnicodeError,
         ) as exc:
             raise M1ExecutionError(
-                "REQUEST_RECORD_INVALID", "Durable GCS BatchRequest is missing or corrupt"
+                "REQUEST_RECORD_INVALID",
+                "Durable GCS BatchRequest is missing or corrupt",
             ) from exc
         except Exception as exc:
-            raise self._transport_error(exc, "Durable GCS BatchRequest read failed") from exc
+            raise self._transport_error(
+                exc, "Durable GCS BatchRequest read failed"
+            ) from exc
         return request, snapshot.generation
 
     @staticmethod
     def _validate_cost_ledger(state: Mapping[str, Any]) -> None:
         reserved = sum(
-            (Decimal(str(attempt["cost"]["reserved_usd"])) for attempt in state["attempts"]),
+            (
+                Decimal(str(attempt["cost"]["reserved_usd"]))
+                for attempt in state["attempts"]
+            ),
             Decimal("0"),
         )
         known = sum(
-            (Decimal(str(attempt["cost"]["known_actual_usd"])) for attempt in state["attempts"]),
+            (
+                Decimal(str(attempt["cost"]["known_actual_usd"]))
+                for attempt in state["attempts"]
+            ),
             Decimal("0"),
         )
         indeterminate = sum(
@@ -561,7 +674,8 @@ class GCSStore:
             isinstance(expected_version, bool) or not isinstance(expected_version, int)
         ):
             raise StorageConflict(
-                "GCS_PRECONDITION_CONFLICT", "GCS state version must be an object generation"
+                "GCS_PRECONDITION_CONFLICT",
+                "GCS state version must be an object generation",
             )
         payload = canonical_json_bytes(state)
         digest = hashlib.sha256(payload).hexdigest()
@@ -587,7 +701,9 @@ class GCSStore:
                 f"BatchState generation no longer equals {precondition}",
             ) from exc
         except Exception as exc:
-            raise self._transport_error(exc, "BatchState conditional write failed") from exc
+            raise self._transport_error(
+                exc, "BatchState conditional write failed"
+            ) from exc
         try:
             return self._read_and_verify(
                 name=self._state_name,
@@ -609,7 +725,9 @@ class GCSStore:
 
     def load_batch_state(self) -> tuple[dict[str, Any], int]:
         try:
-            snapshot = self.transport.read_object(bucket=self.bucket, name=self._state_name)
+            snapshot = self.transport.read_object(
+                bucket=self.bucket, name=self._state_name
+            )
             if snapshot.data is None:
                 raise ValueError("missing state bytes")
             state = json.loads(snapshot.data.decode("utf-8"))
@@ -646,7 +764,9 @@ class GCSStore:
                 "STATE_RECORD_INVALID", "Durable GCS BatchState is missing or corrupt"
             ) from exc
         except Exception as exc:
-            raise self._transport_error(exc, "Durable GCS BatchState read failed") from exc
+            raise self._transport_error(
+                exc, "Durable GCS BatchState read failed"
+            ) from exc
         return state, snapshot.generation
 
     def _blob_name(self, item_id: str, digest: str) -> str:
@@ -669,24 +789,27 @@ class GCSStore:
     def _parse_locator(self, locator: str) -> tuple[str, str]:
         prefix = "gs://"
         if not locator.startswith(prefix) or "?" in locator:
-            raise M1ExecutionError("REUSE_RECEIPT_INVALID", "Invalid private GCS locator")
+            raise M1ExecutionError(
+                "REUSE_RECEIPT_INVALID", "Invalid private GCS locator"
+            )
         remainder = locator[len(prefix) :]
         bucket, separator, name = remainder.partition("/")
         if not separator or not name:
             raise M1ExecutionError("REUSE_RECEIPT_INVALID", "Incomplete GCS locator")
         return bucket, name
 
-    def _verified_blob_snapshot(
-        self, receipt: Mapping[str, Any]
-    ) -> GCSObjectSnapshot:
+    def _verified_blob_snapshot(self, receipt: Mapping[str, Any]) -> GCSObjectSnapshot:
         validate_storage_receipt(receipt)
         if receipt["store_type"] != "gcs":
-            raise M1ExecutionError("REUSE_RECEIPT_INVALID", "Receipt is not a GCS receipt")
+            raise M1ExecutionError(
+                "REUSE_RECEIPT_INVALID", "Receipt is not a GCS receipt"
+            )
         bucket, name = self._parse_locator(str(receipt["locator"]))
         expected_name = self._blob_name(str(receipt["item_id"]), str(receipt["sha256"]))
         if bucket != self.bucket or name != expected_name:
             raise M1ExecutionError(
-                "REUSE_RECEIPT_INVALID", "GCS receipt locator is outside the exact batch namespace"
+                "REUSE_RECEIPT_INVALID",
+                "GCS receipt locator is outside the exact batch namespace",
             )
         generation = int(receipt["generation"])
         try:
@@ -733,7 +856,8 @@ class GCSStore:
             or snapshot.crc32c != receipt["provider_checksum"]["value"]
         ):
             raise M1ExecutionError(
-                "REUSE_RECEIPT_INVALID", "GCS digest, size, or provider checksum changed"
+                "REUSE_RECEIPT_INVALID",
+                "GCS digest, size, or provider checksum changed",
             )
         return snapshot
 
@@ -777,7 +901,8 @@ class GCSStore:
                 generation = existing.generation
             except GCSObjectNotFound as exc:
                 raise StorageConflict(
-                    "GCS_PRECONDITION_CONFLICT", "Blob create race has no verifiable winner"
+                    "GCS_PRECONDITION_CONFLICT",
+                    "Blob create race has no verifiable winner",
                 ) from exc
         except M1ExecutionError:
             raise
@@ -836,9 +961,7 @@ class GCSStore:
         validate_storage_receipt(receipt)
         return receipt
 
-    def get_verified_blob(
-        self, receipt: Mapping[str, Any], destination: Path
-    ) -> Path:
+    def get_verified_blob(self, receipt: Mapping[str, Any], destination: Path) -> Path:
         self._assert_writer()
         destination = self._assert_project_scoped_path(Path(destination))
         snapshot = self._verified_blob_snapshot(receipt)
@@ -964,7 +1087,11 @@ class GCSStore:
             ):
                 raise ValueError("media probe changed")
         except M1ExecutionError as exc:
-            if exc.code in {"GCS_TRANSIENT", "AUTH_CONFIGURATION", "LOCAL_STORAGE_TRANSIENT"}:
+            if exc.code in {
+                "GCS_TRANSIENT",
+                "AUTH_CONFIGURATION",
+                "LOCAL_STORAGE_TRANSIENT",
+            }:
                 raise
             raise M1ExecutionError(
                 "REUSE_RECEIPT_INVALID", "Committed GCS receipt failed verification"
@@ -992,11 +1119,15 @@ class GCSStore:
 
     def load_result(self) -> tuple[dict[str, Any], int] | None:
         try:
-            snapshot = self.transport.read_object(bucket=self.bucket, name=self._result_name)
+            snapshot = self.transport.read_object(
+                bucket=self.bucket, name=self._result_name
+            )
         except GCSObjectNotFound:
             return None
         except Exception as exc:
-            raise self._transport_error(exc, "Durable GCS BatchResult read failed") from exc
+            raise self._transport_error(
+                exc, "Durable GCS BatchResult read failed"
+            ) from exc
         try:
             if snapshot.data is None:
                 raise ValueError("missing result bytes")
@@ -1078,6 +1209,52 @@ class GCSStore:
             conflict_code="PUBLICATION_AUTHORIZATION_CONFLICT",
         )
 
+    def load_publication_authorization(
+        self, authorization_digest: str
+    ) -> tuple[dict[str, Any], int]:
+        """Read one exact immutable publication authorization record."""
+
+        if not isinstance(authorization_digest, str) or not re.fullmatch(
+            r"[0-9a-f]{64}", authorization_digest
+        ):
+            raise M1ExecutionError(
+                "PUBLICATION_AUTHORIZATION_INVALID", "Unsafe authorization digest"
+            )
+        name = f"{self._prefix}/publication/authorizations/{authorization_digest}.json"
+        try:
+            snapshot = self.transport.read_object(bucket=self.bucket, name=name)
+            if snapshot.data is None:
+                raise ValueError("missing authorization bytes")
+            authorization = json.loads(snapshot.data.decode("utf-8"))
+            validate_publication_authorization(authorization)
+            if authorization["authorization_digest"] != authorization_digest:
+                raise ValueError("authorization digest differs")
+            payload = canonical_json_bytes(authorization)
+            metadata = self._record_metadata(
+                "publication_authorization",
+                canonical_sha256(authorization),
+                authorization_digest=authorization_digest,
+                command_digest=str(authorization["command_digest"]),
+            )
+            self._read_and_verify(
+                name=name,
+                payload=payload,
+                metadata=metadata,
+                content_type="application/json",
+                generation=snapshot.generation,
+            )
+        except (
+            GCSObjectNotFound,
+            GCSPreconditionFailed,
+            M0ContractError,
+            ValueError,
+        ) as exc:
+            raise M1ExecutionError(
+                "PUBLICATION_AUTHORIZATION_INVALID",
+                "Immutable publication authorization is missing or corrupt",
+            ) from exc
+        return authorization, snapshot.generation
+
     def write_publication_command_if_absent(
         self, command: Mapping[str, Any]
     ) -> tuple[int, str]:
@@ -1111,9 +1288,7 @@ class GCSStore:
         )
         return generation, digest
 
-    def load_publication_command(
-        self, command_id: str
-    ) -> tuple[dict[str, Any], int]:
+    def load_publication_command(self, command_id: str) -> tuple[dict[str, Any], int]:
         name = self.publication_command_object_name(command_id)
         try:
             snapshot = self.transport.read_object(bucket=self.bucket, name=name)
@@ -1312,6 +1487,233 @@ class GCSStore:
             "crc32c": crc32c_base64(payload),
         }
 
+    def read_workspace_asset_bytes(
+        self,
+        *,
+        facts: Mapping[str, Any],
+        receipt: Mapping[str, Any],
+    ) -> bytes:
+        """Download one completed canonical asset by exact immutable facts."""
+
+        self._assert_writer()
+        validate_storage_receipt(receipt)
+        logical_path = validate_canonical_asset_path(
+            str(facts.get("logical_path", "")), field="publication asset"
+        )
+        name = f"projects/{self.project_id}/{logical_path}"
+        try:
+            snapshot = self.transport.read_object(
+                bucket=self.bucket,
+                name=name,
+                generation=int(facts["generation"]),
+            )
+        except Exception as exc:
+            raise self._transport_error(
+                exc, "Completed canonical GCS asset download failed"
+            ) from exc
+        if snapshot.data is None:
+            raise M1ExecutionError(
+                "GCS_VERIFICATION_FAILED", "Canonical GCS asset returned no bytes"
+            )
+        payload = bytes(snapshot.data)
+        self.verify_workspace_asset(facts=facts, payload=payload, receipt=receipt)
+        return payload
+
+    def materialize_workspace_asset(
+        self,
+        *,
+        facts: Mapping[str, Any],
+        receipt: Mapping[str, Any],
+        destination: Path,
+    ) -> Path:
+        """Restore verified canonical GCS bytes only into hidden project staging."""
+
+        self._assert_writer()
+        destination = self._assert_project_scoped_path(Path(destination))
+        relative = destination.relative_to(self.project_dir)
+        if not relative.parts or relative.parts[0] != ".batch-v2":
+            raise M1ExecutionError(
+                "WORKSPACE_ESCAPE",
+                "Cloud recovery download must remain in hidden project staging",
+            )
+        payload = self.read_workspace_asset_bytes(facts=facts, receipt=receipt)
+        destination.parent.mkdir(parents=True, exist_ok=True)
+        _atomic_write(destination, payload)
+        if _digest_file(destination) != (receipt["sha256"], receipt["size_bytes"]):
+            raise M1ExecutionError(
+                "GCS_VERIFICATION_FAILED",
+                "Recovered canonical asset staging bytes changed",
+            )
+        return destination
+
+    def publication_checkpoint_snapshot_object_name(self, command_digest: str) -> str:
+        if not isinstance(command_digest, str) or not re.fullmatch(
+            r"[0-9a-f]{64}", command_digest
+        ):
+            raise M1ExecutionError(
+                "PUBLICATION_COMMAND_DIGEST_MISMATCH",
+                "Unsafe publication command digest",
+            )
+        return f"{self._prefix}/publication/checkpoints/{command_digest}.json"
+
+    def _checkpoint_object_metadata(
+        self,
+        *,
+        record_type: str,
+        payload: bytes,
+        checkpoint: Mapping[str, Any],
+        command: Mapping[str, Any],
+        logical_path: str,
+    ) -> dict[str, str]:
+        return self._record_metadata(
+            record_type,
+            hashlib.sha256(payload).hexdigest(),
+            client_sha256=hashlib.sha256(payload).hexdigest(),
+            logical_path=logical_path,
+            command_digest=str(command["command_digest"]),
+            checkpoint_sha256=canonical_sha256(checkpoint),
+            status=str(checkpoint["status"]),
+        )
+
+    def _read_command_bound_checkpoint(
+        self,
+        *,
+        name: str,
+        generation: int | None,
+        record_type: str,
+        logical_path: str,
+        command: Mapping[str, Any],
+        validator: Callable[[Mapping[str, Any]], Any],
+    ) -> tuple[dict[str, Any], bytes, dict[str, Any]]:
+        try:
+            snapshot = self.transport.read_object(
+                bucket=self.bucket, name=name, generation=generation
+            )
+            if snapshot.data is None:
+                raise ValueError("missing checkpoint bytes")
+            payload = bytes(snapshot.data)
+            checkpoint = json.loads(payload.decode("utf-8"))
+            validator(checkpoint)
+            metadata = self._checkpoint_object_metadata(
+                record_type=record_type,
+                payload=payload,
+                checkpoint=checkpoint,
+                command=command,
+                logical_path=logical_path,
+            )
+            self._read_and_verify(
+                name=name,
+                payload=payload,
+                metadata=metadata,
+                content_type="application/json",
+                generation=snapshot.generation,
+            )
+        except (GCSObjectNotFound, GCSPreconditionFailed, M1ExecutionError):
+            raise
+        except Exception as exc:
+            raise M1ExecutionError(
+                "GCS_VERIFICATION_FAILED",
+                "Command-bound checkpoint object is missing, corrupt, or mismatched",
+            ) from exc
+        return (
+            self._workspace_facts(
+                logical_path=logical_path,
+                name=name,
+                generation=snapshot.generation,
+                payload=payload,
+            ),
+            payload,
+            checkpoint,
+        )
+
+    def publish_publication_checkpoint_snapshot(
+        self,
+        *,
+        source: Path,
+        checkpoint: Mapping[str, Any],
+        command: Mapping[str, Any],
+        validator: Callable[[Mapping[str, Any]], Any],
+    ) -> tuple[dict[str, Any], bytes, dict[str, Any]]:
+        """Freeze one per-command checkpoint image for recovery/convergence."""
+
+        self._assert_writer()
+        payload = Path(source).read_bytes()
+        validator(checkpoint)
+        name = self.publication_checkpoint_snapshot_object_name(
+            str(command["command_digest"])
+        )
+        logical_path = (
+            f".batch-v2/runs/{self.batch_id}/publication/checkpoints/"
+            f"{command['command_digest']}.json"
+        )
+        metadata = self._checkpoint_object_metadata(
+            record_type="publication_checkpoint_snapshot",
+            payload=payload,
+            checkpoint=checkpoint,
+            command=command,
+            logical_path=logical_path,
+        )
+        try:
+            written = self.transport.write_object(
+                bucket=self.bucket,
+                name=name,
+                data=payload,
+                metadata=metadata,
+                content_type="application/json",
+                if_generation_match=0,
+            )
+            generation = written.generation
+        except GCSPreconditionFailed:
+            generation = None
+        except Exception as exc:
+            raise self._transport_error(
+                exc, "Publication checkpoint snapshot create failed"
+            ) from exc
+        return self._read_command_bound_checkpoint(
+            name=name,
+            generation=generation,
+            record_type="publication_checkpoint_snapshot",
+            logical_path=logical_path,
+            command=command,
+            validator=validator,
+        )
+
+    def read_publication_checkpoint_snapshot(
+        self,
+        *,
+        command: Mapping[str, Any],
+        expected_facts: Mapping[str, Any],
+        expected_document_sha256: str,
+        validator: Callable[[Mapping[str, Any]], Any],
+    ) -> tuple[dict[str, Any], bytes, dict[str, Any]]:
+        """Read a completed transition's immutable checkpoint image exactly."""
+
+        self._assert_writer()
+        name = self.publication_checkpoint_snapshot_object_name(
+            str(command["command_digest"])
+        )
+        logical_path = (
+            f".batch-v2/runs/{self.batch_id}/publication/checkpoints/"
+            f"{command['command_digest']}.json"
+        )
+        facts, payload, checkpoint = self._read_command_bound_checkpoint(
+            name=name,
+            generation=int(expected_facts["generation"]),
+            record_type="publication_checkpoint_snapshot",
+            logical_path=logical_path,
+            command=command,
+            validator=validator,
+        )
+        if (
+            canonical_sha256(checkpoint) != expected_document_sha256
+            or dict(facts) != dict(expected_facts)
+        ):
+            raise M1ExecutionError(
+                "GCS_VERIFICATION_FAILED",
+                "Checkpoint snapshot differs from completed publication facts",
+            )
+        return facts, payload, checkpoint
+
     def publish_workspace_asset(
         self,
         *,
@@ -1338,11 +1740,10 @@ class GCSStore:
             raise M1ExecutionError(
                 "WORKSPACE_ESCAPE", "Canonical GCS source is missing"
             ) from exc
-        if (
-            os.path.normcase(str(resolved_source))
-            != os.path.normcase(str(expected_source))
-            or os.path.normcase(str(resolved_source))
-            != os.path.normcase(str(Path(os.path.abspath(source))))
+        if os.path.normcase(str(resolved_source)) != os.path.normcase(
+            str(expected_source)
+        ) or os.path.normcase(str(resolved_source)) != os.path.normcase(
+            str(Path(os.path.abspath(source)))
         ):
             raise M1ExecutionError(
                 "WORKSPACE_ESCAPE",
@@ -1480,8 +1881,9 @@ class GCSStore:
         checkpoint: Mapping[str, Any],
         command: Mapping[str, Any],
         expected_generation: int,
-    ) -> dict[str, Any]:
-        """Generation-CAS the official checkpoint bytes; never overwrite a conflict."""
+        validator: Callable[[Mapping[str, Any]], Any],
+    ) -> tuple[dict[str, Any], bytes, dict[str, Any]]:
+        """Generation-CAS the official checkpoint, adopting a same-command winner."""
 
         self._assert_writer()
         if isinstance(expected_generation, bool) or expected_generation < 0:
@@ -1495,11 +1897,10 @@ class GCSStore:
             raise M1ExecutionError(
                 "WORKSPACE_ESCAPE", "Canonical checkpoint source is missing"
             ) from exc
-        if (
-            os.path.normcase(str(resolved_source))
-            != os.path.normcase(str(expected_source))
-            or os.path.normcase(str(resolved_source))
-            != os.path.normcase(str(Path(os.path.abspath(source))))
+        if os.path.normcase(str(resolved_source)) != os.path.normcase(
+            str(expected_source)
+        ) or os.path.normcase(str(resolved_source)) != os.path.normcase(
+            str(Path(os.path.abspath(source)))
         ):
             raise M1ExecutionError(
                 "WORKSPACE_ESCAPE",
@@ -1507,14 +1908,13 @@ class GCSStore:
             )
         payload = resolved_source.read_bytes()
         name = f"projects/{self.project_id}/checkpoint_assets.json"
-        metadata = self._record_metadata(
-            "canonical_checkpoint",
-            hashlib.sha256(payload).hexdigest(),
-            client_sha256=hashlib.sha256(payload).hexdigest(),
+        validator(checkpoint)
+        metadata = self._checkpoint_object_metadata(
+            record_type="canonical_checkpoint",
+            payload=payload,
+            checkpoint=checkpoint,
+            command=command,
             logical_path="checkpoint_assets.json",
-            command_digest=str(command["command_digest"]),
-            checkpoint_sha256=canonical_sha256(checkpoint),
-            status=str(checkpoint["status"]),
         )
         try:
             written = self.transport.write_object(
@@ -1527,37 +1927,18 @@ class GCSStore:
             )
             generation = written.generation
         except GCSPreconditionFailed:
-            try:
-                existing = self.transport.read_object(bucket=self.bucket, name=name)
-                generation = existing.generation
-                self._read_and_verify(
-                    name=name,
-                    payload=payload,
-                    metadata=metadata,
-                    content_type="application/json",
-                    generation=generation,
-                )
-            except (GCSObjectNotFound, GCSPreconditionFailed, M1ExecutionError) as exc:
-                raise StorageConflict(
-                    "GCS_PRECONDITION_CONFLICT",
-                    "Canonical checkpoint generation changed or differs",
-                ) from exc
+            generation = None
         except Exception as exc:
             raise self._transport_error(
                 exc, "Canonical checkpoint conditional write failed"
             ) from exc
-        self._read_and_verify(
+        return self._read_command_bound_checkpoint(
             name=name,
-            payload=payload,
-            metadata=metadata,
-            content_type="application/json",
             generation=generation,
-        )
-        return self._workspace_facts(
+            record_type="canonical_checkpoint",
             logical_path="checkpoint_assets.json",
-            name=name,
-            generation=generation,
-            payload=payload,
+            command=command,
+            validator=validator,
         )
 
     def preflight_workspace_checkpoint_generation(

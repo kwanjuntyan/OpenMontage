@@ -8,7 +8,6 @@ repository's official artifact and checkpoint contracts.
 
 from __future__ import annotations
 
-import hashlib
 import json
 import os
 import re
@@ -44,8 +43,11 @@ from .gcs_storage import GCSObjectTransport, GCSStore
 from .media_validation import MediaValidator
 from .ownership import ExecutionStatusVerifier, freeze_execution_status_evidence
 from .preflight import validate_frozen_request_authority
-from .runtime import CloudInvocationIdentity
-from .side_effects import assert_publication_invocation_allowed, publication_execution_scope
+from .runtime import CloudInvocationIdentity, CloudRunADCExecutionStatusVerifier
+from .side_effects import (
+    assert_publication_invocation_allowed,
+    publication_execution_scope,
+)
 from .storage import LocalStore
 
 
@@ -65,9 +67,7 @@ def _expected_result(
 ) -> dict[str, Any]:
     """Re-derive the complete M1 BatchResult projection from terminal state."""
 
-    receipts = {
-        receipt["receipt_id"]: receipt for receipt in state["storage_receipts"]
-    }
+    receipts = {receipt["receipt_id"]: receipt for receipt in state["storage_receipts"]}
     result_items = []
     for record in state["items"]:
         item_id = record["item_id"]
@@ -115,9 +115,7 @@ def _expected_result(
             for binding in request["source_bindings"]
         ],
         "invocations": deepcopy(state["invocations"]),
-        "ownership_proof_digests": deepcopy(
-            state.get("ownership_proof_digests", [])
-        ),
+        "ownership_proof_digests": deepcopy(state.get("ownership_proof_digests", [])),
         "status": "awaiting_agent_review",
         "outcome": state["outcome"],
         "counts": counts,
@@ -187,9 +185,9 @@ def _publication_metadata(command: Mapping[str, Any]) -> dict[str, Any]:
             "reply_sha256": human["reply_sha256"],
             "approved_at": human["approved_at"],
         }
-        metadata["prior_checkpoint_sha256"] = transition[
-            "prior_checkpoint_ref"
-        ]["sha256"]
+        metadata["prior_checkpoint_sha256"] = transition["prior_checkpoint_ref"][
+            "sha256"
+        ]
         metadata["prior_publication_command_digest"] = transition[
             "prior_publication_command_ref"
         ]["sha256"]
@@ -266,14 +264,10 @@ def inspect_v2_asset_manifest_claim(
         if (
             metadata.get("version") != "1.0"
             or not isinstance(metadata.get("batch_id"), str)
-            or re.fullmatch(
-                r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", metadata["batch_id"]
-            )
+            or re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", metadata["batch_id"])
             is None
             or not isinstance(metadata.get("command_id"), str)
-            or re.fullmatch(
-                r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", metadata["command_id"]
-            )
+            or re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", metadata["command_id"])
             is None
         ):
             return True, None, "batch_v2_publication_command_reference_invalid"
@@ -286,9 +280,10 @@ def inspect_v2_asset_manifest_claim(
             / "commands"
             / f"{metadata['command_id']}.json"
         )
-        if metadata.get("command_logical_path") != expected_path.relative_to(
-            root
-        ).as_posix():
+        if (
+            metadata.get("command_logical_path")
+            != expected_path.relative_to(root).as_posix()
+        ):
             return True, None, "batch_v2_publication_command_reference_invalid"
         if not expected_path.is_file():
             return True, None, "batch_v2_publication_command_missing"
@@ -470,8 +465,7 @@ class LocalAssetsPublisher:
                 != binding["canonical_path"]
                 or manifest_asset["path"] != binding["canonical_path"]
                 or manifest_asset["type"] != "video"
-                or manifest_asset["source_tool"]
-                != work_item["identity"]["tool_name"]
+                or manifest_asset["source_tool"] != work_item["identity"]["tool_name"]
                 or manifest_asset.get("provider") != work_item["identity"]["provider"]
                 or manifest_asset.get("model") != work_item["identity"]["model"]
                 or manifest_asset.get("prompt") != work_item["inputs"]["prompt"]
@@ -551,7 +545,9 @@ class LocalAssetsPublisher:
             checkpoint.get("status") != "awaiting_human"
             or checkpoint.get("human_approved") is True
             or canonical_sha256(checkpoint) != prior_checkpoint["sha256"]
-            or canonical_sha256((checkpoint.get("artifacts") or {}).get("asset_manifest"))
+            or canonical_sha256(
+                (checkpoint.get("artifacts") or {}).get("asset_manifest")
+            )
             != command["asset_manifest_sha256"]
         ):
             raise M2PublicationError(
@@ -559,15 +555,17 @@ class LocalAssetsPublisher:
                 "Current checkpoint is not the exact Agent-reviewed gate state",
             )
         prior_ref = transition["prior_publication_command_ref"]
-        prior_command, prior_digest = store.load_publication_command(prior_ref["command_id"])
+        prior_command, prior_digest = store.load_publication_command(
+            prior_ref["command_id"]
+        )
         LocalAssetsPublisher._assert_human_transition_with_prior(
             command,
             checkpoint,
             prior_command=prior_command,
             prior_digest=prior_digest,
-            prior_logical_path=store.publication_command_path(
-                prior_ref["command_id"]
-            ).relative_to(store.project_dir).as_posix(),
+            prior_logical_path=store.publication_command_path(prior_ref["command_id"])
+            .relative_to(store.project_dir)
+            .as_posix(),
         )
 
     @staticmethod
@@ -590,7 +588,9 @@ class LocalAssetsPublisher:
             checkpoint.get("status") != "awaiting_human"
             or checkpoint.get("human_approved") is True
             or canonical_sha256(checkpoint) != prior_checkpoint["sha256"]
-            or canonical_sha256((checkpoint.get("artifacts") or {}).get("asset_manifest"))
+            or canonical_sha256(
+                (checkpoint.get("artifacts") or {}).get("asset_manifest")
+            )
             != command["asset_manifest_sha256"]
         ):
             raise M2PublicationError(
@@ -618,15 +618,16 @@ class LocalAssetsPublisher:
         prior_created_at = datetime.fromisoformat(
             prior_command["created_at"].replace("Z", "+00:00")
         )
-        approved_at = datetime.fromisoformat(human["approved_at"].replace("Z", "+00:00"))
+        approved_at = datetime.fromisoformat(
+            human["approved_at"].replace("Z", "+00:00")
+        )
         command_created_at = datetime.fromisoformat(
             command["created_at"].replace("Z", "+00:00")
         )
         if (
             prior_digest != prior_ref["sha256"]
             or prior_logical_path != prior_ref["logical_path"]
-            or prior_command["transition"]["kind"]
-            != "agent_review_to_awaiting_human"
+            or prior_command["transition"]["kind"] != "agent_review_to_awaiting_human"
             or prior_command["command_digest"] != prior_digest
             or any(
                 canonical_json_bytes(prior_command[field])
@@ -670,11 +671,10 @@ class LocalAssetsPublisher:
             validate_publication_command(frozen)
             if frozen["execution_owner"]["profile"] != "local":
                 raise M2PublicationError(
-                    "M2_LOCAL_ONLY", "M2 local publisher accepts only local execution authority"
+                    "M2_LOCAL_ONLY",
+                    "M2 local publisher accepts only local execution authority",
                 )
-            project_dir = resolve_project_dir(
-                self.projects_root, frozen["project_id"]
-            )
+            project_dir = resolve_project_dir(self.projects_root, frozen["project_id"])
         except (M0ContractError, InvalidProjectIdError) as exc:
             if isinstance(exc, M0ContractError):
                 raise
@@ -693,9 +693,7 @@ class LocalAssetsPublisher:
             publication_execution_scope(),
         ):
             request, request_digest = store.load_request()
-            validate_frozen_request_authority(
-                request, projects_root=self.projects_root
-            )
+            validate_frozen_request_authority(request, projects_root=self.projects_root)
             state, _ = store.load_batch_state()
             loaded_result = store.load_result()
             if loaded_result is None:
@@ -800,9 +798,7 @@ class LocalAssetsPublisher:
                         human_approval_required=True,
                         human_approved=frozen["transition"]["human_approved"],
                         review={
-                            "batch_v2_agent_review": deepcopy(
-                                frozen["review_evidence"]
-                            )
+                            "batch_v2_agent_review": deepcopy(frozen["review_evidence"])
                         },
                         cost_snapshot=_checkpoint_cost(frozen["cost_snapshot"]),
                         metadata={
@@ -819,9 +815,7 @@ class LocalAssetsPublisher:
                 )
 
             checkpoint = self._verify_checkpoint(
-                read_checkpoint(
-                    self.projects_root, frozen["project_id"], "assets"
-                ),
+                read_checkpoint(self.projects_root, frozen["project_id"], "assets"),
                 frozen,
             )
             self._crash(
@@ -839,7 +833,9 @@ class LocalAssetsPublisher:
                 "version": "1.0",
                 "command_id": frozen["command_id"],
                 "command_digest": frozen["command_digest"],
-                "command_logical_path": command_path.relative_to(project_dir).as_posix(),
+                "command_logical_path": command_path.relative_to(
+                    project_dir
+                ).as_posix(),
                 "checkpoint_logical_path": "checkpoint_assets.json",
                 "checkpoint_sha256": checkpoint_digest,
                 "status": checkpoint["status"],
@@ -871,6 +867,7 @@ class CloudAssetsPublisher:
         immutable_publish_hook: PublishHook | None = None,
         asset_publish_hook: PublishHook | None = None,
         allow_portable_fake: bool = False,
+        allow_fake_status_verifier: bool = False,
         now: Callable[[], datetime] | None = None,
     ):
         self.projects_root = Path(projects_root).resolve(strict=True)
@@ -882,6 +879,7 @@ class CloudAssetsPublisher:
         self.immutable_publish_hook = immutable_publish_hook
         self.asset_publish_hook = asset_publish_hook
         self.allow_portable_fake = allow_portable_fake
+        self.allow_fake_status_verifier = allow_fake_status_verifier
         self._now_value = now or (lambda: datetime.now(timezone.utc))
 
     def _now(self) -> str:
@@ -901,9 +899,7 @@ class CloudAssetsPublisher:
             or identity.trust_source != "cloud_run_launch_contract"
             or identity.task_id != "0"
             or identity.mode not in {"run", "resume"}
-            or re.fullmatch(
-                r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", identity.invocation_id
-            )
+            or re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", identity.invocation_id)
             is None
             or re.fullmatch(
                 r"projects/[A-Za-z0-9][A-Za-z0-9-]{0,127}/"
@@ -949,9 +945,7 @@ class CloudAssetsPublisher:
             portable_fake = isinstance(self.transport, FakeGCS)
         else:
             portable_fake = False
-        if profile != "cloud_run" and not (
-            profile == "portable" and portable_fake
-        ):
+        if profile != "cloud_run" and not (profile == "portable" and portable_fake):
             raise M2PublicationError(
                 "CLOUD_PUBLICATION_PROFILE_INVALID",
                 "Cloud publisher accepts only cloud_run (or explicit FakeGCS portable qualification)",
@@ -1033,11 +1027,9 @@ class CloudAssetsPublisher:
                 "PublicationCommand primary refs differ from exact GCS source bytes",
             )
         state_result_ref = state.get("result_ref")
-        if (
-            not isinstance(state_result_ref, Mapping)
-            or canonical_json_bytes(state_result_ref)
-            != canonical_json_bytes(command["result_ref"])
-        ):
+        if not isinstance(state_result_ref, Mapping) or canonical_json_bytes(
+            state_result_ref
+        ) != canonical_json_bytes(command["result_ref"]):
             raise M2PublicationError(
                 "PUBLICATION_RESULT_REF_MISMATCH",
                 "GCS BatchState result pointer differs from PublicationCommand",
@@ -1081,7 +1073,10 @@ class CloudAssetsPublisher:
     ) -> None:
         transition = command["transition"]
         if transition["kind"] == "agent_review_to_awaiting_human":
-            if publication_state is not None and publication_state["completed_commands"]:
+            if (
+                publication_state is not None
+                and publication_state["completed_commands"]
+            ):
                 raise M2PublicationError(
                     "CHECKPOINT_PUBLICATION_CONFLICT",
                     "Agent review cannot replace an existing Cloud publication lifecycle",
@@ -1114,18 +1109,26 @@ class CloudAssetsPublisher:
                 f"{prior_command['command_id']}.json"
             ),
         )
-        if publication_state is None or len(publication_state["completed_commands"]) != 1:
+        completed_commands = (
+            publication_state["completed_commands"]
+            if publication_state is not None
+            else []
+        )
+        is_exact_completed_replay = (
+            len(completed_commands) == 2
+            and completed_commands[-1]["command_digest"] == command["command_digest"]
+        )
+        if len(completed_commands) != (2 if is_exact_completed_replay else 1):
             raise M2PublicationError(
                 "HUMAN_APPROVAL_BINDING_INVALID",
                 "Human completion requires exactly one prior Agent publication completion",
             )
-        completion = publication_state["completed_commands"][0]
+        completion = completed_commands[0]
         prior_ref = transition["prior_publication_command_ref"]
         if (
             completion["command_id"] != prior_ref["command_id"]
             or completion["command_digest"] != prior_ref["sha256"]
-            or completion["command_generation"]
-            != prior_ref.get("gcs_generation")
+            or completion["command_generation"] != prior_ref.get("gcs_generation")
             or prior_command_generation != prior_ref.get("gcs_generation")
             or completion["checkpoint_document_sha256"]
             != transition["prior_checkpoint_ref"]["sha256"]
@@ -1155,7 +1158,15 @@ class CloudAssetsPublisher:
         active_owner = publication_state.get("owner") if publication_state else None
         same_active_process = (
             isinstance(active_owner, Mapping)
-            and active_owner.get("owner_status") == "active"
+            and active_owner.get("owner_status") in {"active", "repairing"}
+            and active_owner.get("invocation_id") == identity.invocation_id
+            and active_owner.get("execution_id") == identity.execution_resource
+            and active_owner.get("task_id") == identity.task_id
+            and active_owner.get("command_digest") == command["command_digest"]
+        )
+        same_completed_process = (
+            isinstance(active_owner, Mapping)
+            and active_owner.get("owner_status") == "completed"
             and active_owner.get("invocation_id") == identity.invocation_id
             and active_owner.get("execution_id") == identity.execution_resource
             and active_owner.get("task_id") == identity.task_id
@@ -1163,7 +1174,7 @@ class CloudAssetsPublisher:
         )
         if (
             isinstance(active_owner, Mapping)
-            and active_owner.get("owner_status") == "active"
+            and active_owner.get("owner_status") in {"active", "repairing"}
             and not same_active_process
         ):
             proof_scope = "publication_takeover"
@@ -1179,9 +1190,7 @@ class CloudAssetsPublisher:
                 "owner_status": "active",
                 "acquired_at": active_owner["acquired_at"],
                 "state_revision": publication_state["revision"],
-                "base_state_generation": command["cloud_source"]["state"][
-                    "generation"
-                ],
+                "base_state_generation": command["cloud_source"]["state"]["generation"],
             }
             validate_contract("execution_owner", proof_owner)
         else:
@@ -1202,9 +1211,8 @@ class CloudAssetsPublisher:
                 else []
             )
             same_active = (
-                same_active_process
-                and active_owner.get("proof", {}).get("digest") == digest
-            )
+                same_active_process or same_completed_process
+            ) and active_owner.get("proof", {}).get("digest") == digest
             if digest in consumed and not same_active:
                 raise M2PublicationError(
                     "PUBLICATION_AUTHORIZATION_REPLAY",
@@ -1220,8 +1228,7 @@ class CloudAssetsPublisher:
                 != proof_owner["invocation_id"]
                 or publication_authorization["prior_execution_id"]
                 != proof_owner["execution_id"]
-                or publication_authorization["prior_task_id"]
-                != proof_owner["task_id"]
+                or publication_authorization["prior_task_id"] != proof_owner["task_id"]
                 or publication_authorization["intended_publication_invocation_id"]
                 != identity.invocation_id
                 or publication_authorization["intended_publication_execution_id"]
@@ -1248,6 +1255,20 @@ class CloudAssetsPublisher:
             )
 
         assert verifier is not None
+        if type(verifier) is not CloudRunADCExecutionStatusVerifier:
+            from .fake_gcs import FakeGCS
+
+            explicitly_fake = (
+                self.allow_fake_status_verifier
+                and isinstance(self.transport, FakeGCS)
+                and getattr(verifier, "verifier_id", None)
+                == "cloud_run_control_plane_adc"
+            )
+            if not explicitly_fake:
+                raise M2PublicationError(
+                    "UNTRUSTED_EXECUTION_EVIDENCE",
+                    "Production Cloud publication requires the concrete ADC control-plane verifier",
+                )
         if verifier.verifier_id != "cloud_run_control_plane_adc":
             raise M2PublicationError(
                 "UNTRUSTED_EXECUTION_EVIDENCE",
@@ -1293,7 +1314,7 @@ class CloudAssetsPublisher:
     ) -> bool:
         owner = publication_state["owner"]
         return (
-            owner["owner_status"] == "active"
+            owner["owner_status"] in {"active", "repairing"}
             and owner["invocation_id"] == identity.invocation_id
             and owner["execution_id"] == identity.execution_resource
             and owner["task_id"] == identity.task_id
@@ -1316,6 +1337,7 @@ class CloudAssetsPublisher:
         proof_document: Mapping[str, Any],
     ) -> tuple[dict[str, Any], int, bool]:
         loaded = store.load_publication_state()
+        repair_claim = False
         if loaded is None:
             if command["transition"]["kind"] != "agent_review_to_awaiting_human":
                 raise M2PublicationError(
@@ -1374,20 +1396,31 @@ class CloudAssetsPublisher:
                 proof_digest,
             ):
                 reread = store.load_publication_state()
-                if reread is None or reread[1] != prior_generation or canonical_json_bytes(
-                    reread[0]
-                ) != canonical_json_bytes(prior):
+                if (
+                    reread is None
+                    or reread[1] != prior_generation
+                    or canonical_json_bytes(reread[0]) != canonical_json_bytes(prior)
+                ):
                     raise M2PublicationError(
                         "PUBLICATION_CLAIM_REREAD_FAILED",
                         "Active publication claim changed during exact resume",
                     )
-                return prior, prior_generation, False
-            if prior["owner"]["owner_status"] == "active":
+                repair_claim = bool(
+                    prior["completed_commands"]
+                    and prior["completed_commands"][-1]["command_digest"]
+                    == command["command_digest"]
+                )
+                return prior, prior_generation, repair_claim
+            if prior["owner"]["owner_status"] in {"active", "repairing"}:
+                repair_claim = bool(
+                    prior["completed_commands"]
+                    and prior["completed_commands"][-1]["command_digest"]
+                    == command["command_digest"]
+                )
                 if (
                     proof_scope != "publication_takeover"
                     or prior["owner"]["command_id"] != command["command_id"]
-                    or prior["owner"]["command_digest"]
-                    != command["command_digest"]
+                    or prior["owner"]["command_digest"] != command["command_digest"]
                     or prior["owner"]["invocation_id"]
                     != proof_document.get("prior_invocation_id")
                     or prior["owner"]["execution_id"]
@@ -1408,7 +1441,7 @@ class CloudAssetsPublisher:
                     "invocation_id": identity.invocation_id,
                     "execution_id": identity.execution_resource,
                     "task_id": identity.task_id,
-                    "owner_status": "active",
+                    "owner_status": "repairing" if repair_claim else "active",
                     "command_id": command["command_id"],
                     "command_digest": command["command_digest"],
                     "acquired_at": self._now(),
@@ -1431,7 +1464,39 @@ class CloudAssetsPublisher:
                 and prior["completed_commands"][-1]["command_digest"]
                 == command["command_digest"]
             ):
-                return prior, prior_generation, True
+                owner = prior["owner"]
+                if not (
+                    owner["invocation_id"] == identity.invocation_id
+                    and owner["execution_id"] == identity.execution_resource
+                    and owner["task_id"] == identity.task_id
+                    and owner["command_id"] == command["command_id"]
+                    and owner["proof"]["kind"] == proof_kind
+                    and owner["proof"]["scope"] == proof_scope
+                    and owner["proof"]["digest"] == proof_digest
+                ):
+                    raise M2PublicationError(
+                        "PUBLICATION_COMPLETION_OWNER_MISMATCH",
+                        "A completed publication may be repaired only by its exact owner/proof",
+                    )
+                state = deepcopy(prior)
+                state["revision"] += 1
+                state["owner"] = {
+                    "invocation_id": identity.invocation_id,
+                    "execution_id": identity.execution_resource,
+                    "task_id": identity.task_id,
+                    "owner_status": "repairing",
+                    "command_id": command["command_id"],
+                    "command_digest": command["command_digest"],
+                    "acquired_at": self._now(),
+                    "proof": {
+                        "kind": proof_kind,
+                        "scope": proof_scope,
+                        "digest": proof_digest,
+                    },
+                }
+                state["owner"].pop("completed_at", None)
+                repair_claim = True
+                expected_generation = prior_generation
             elif (
                 command["transition"]["kind"] != "human_approval_to_completed"
                 or len(prior["completed_commands"]) != 1
@@ -1498,7 +1563,37 @@ class CloudAssetsPublisher:
                 "PUBLICATION_CLAIM_REREAD_FAILED",
                 "Cloud publication CAS winner could not be re-read exactly",
             )
-        return state, generation, False
+        return state, generation, repair_claim
+
+    @staticmethod
+    def _assert_claim_current(
+        *,
+        store: GCSStore,
+        publication_state: Mapping[str, Any],
+        publication_generation: int,
+        fence: Mapping[str, Any],
+        fence_generation: int,
+        require_active: bool = True,
+    ) -> None:
+        """Fail closed if either batch ownership or project authority changed."""
+
+        store.verify_publication_fence(fence, generation=fence_generation)
+        loaded = store.load_publication_state()
+        if (
+            loaded is None
+            or loaded[1] != publication_generation
+            or canonical_json_bytes(loaded[0])
+            != canonical_json_bytes(publication_state)
+            or (
+                require_active
+                and publication_state["owner"]["owner_status"]
+                not in {"active", "repairing"}
+            )
+        ):
+            raise M2PublicationError(
+                "PUBLICATION_OWNER_LOST",
+                "Publication owner/fence changed before a canonical mutation",
+            )
 
     def _completed_receipt(
         self,
@@ -1512,57 +1607,137 @@ class CloudAssetsPublisher:
         local_store: LocalStore,
         gcs_store: GCSStore,
         asset_plan: list[tuple[Mapping[str, Any], Mapping[str, Any], str]],
+        publication_fence: Mapping[str, Any],
+        fence_generation: int,
     ) -> dict[str, Any]:
-        checkpoint = LocalAssetsPublisher._verify_checkpoint(
-            read_checkpoint(self.projects_root, command["project_id"], "assets"),
-            command,
+        self._assert_claim_current(
+            store=gcs_store,
+            publication_state=publication_state,
+            publication_generation=state_generation,
+            fence=publication_fence,
+            fence_generation=fence_generation,
+            require_active=False,
         )
+        if publication_state["owner"]["owner_status"] == "repairing":
+            self._crash(
+                "cloud_publication_repair_claim_acquired",
+                command_id=command["command_id"],
+                publication_state_generation=state_generation,
+            )
         completion = publication_state["completed_commands"][-1]
         if (
             completion["command_digest"] != command["command_digest"]
             or completion["command_generation"] != command_generation
             or completion["checkpoint"]["logical_path"] != "checkpoint_assets.json"
-            or completion["checkpoint_document_sha256"]
-            != canonical_sha256(checkpoint)
         ):
             raise M2PublicationError(
                 "PUBLICATION_COMPLETION_INVALID",
                 "PublicationState completion does not bind the exact checkpoint",
             )
         try:
-            stored_command, stored_digest = local_store.load_publication_command(
-                str(command["command_id"])
-            )
-            if (
-                stored_digest != command["command_digest"]
-                or canonical_json_bytes(stored_command) != canonical_json_bytes(command)
-            ):
-                raise ValueError("local command mirror differs")
+            local_store.write_publication_command_if_absent(command)
+            if command["transition"]["kind"] == "human_approval_to_completed":
+                prior_id = command["transition"]["prior_publication_command_ref"][
+                    "command_id"
+                ]
+                prior_command, prior_generation = gcs_store.load_publication_command(
+                    prior_id
+                )
+                if (
+                    prior_generation
+                    != command["transition"]["prior_publication_command_ref"][
+                        "gcs_generation"
+                    ]
+                ):
+                    raise ValueError("prior command generation differs")
+                local_store.write_publication_command_if_absent(prior_command)
             asset_objects = {
-                record["logical_path"]: record
-                for record in completion["asset_objects"]
+                record["logical_path"]: record for record in completion["asset_objects"]
             }
             if len(asset_objects) != len(asset_plan):
                 raise ValueError("completion asset count differs")
             for receipt, output_spec, canonical_path in asset_plan:
-                destination = local_store._canonical_asset_target(canonical_path)
+                self._assert_claim_current(
+                    store=gcs_store,
+                    publication_state=publication_state,
+                    publication_generation=state_generation,
+                    fence=publication_fence,
+                    fence_generation=fence_generation,
+                    require_active=False,
+                )
+                staging = (
+                    local_store.run_dir
+                    / "publication"
+                    / "recovery"
+                    / str(command["command_id"])
+                    / str(receipt["item_id"])
+                    / "source.mp4"
+                )
+                gcs_store.materialize_workspace_asset(
+                    facts=asset_objects[canonical_path],
+                    receipt=receipt,
+                    destination=staging,
+                )
+                local_store.preflight_materialized_canonical_asset(
+                    source=staging,
+                    receipt=receipt,
+                    canonical_path=canonical_path,
+                    validator=self.media_validator,
+                    output_spec=output_spec,
+                )
+                self._assert_claim_current(
+                    store=gcs_store,
+                    publication_state=publication_state,
+                    publication_generation=state_generation,
+                    fence=publication_fence,
+                    fence_generation=fence_generation,
+                    require_active=False,
+                )
+                destination, _ = local_store.materialize_from_publication_staging(
+                    source=staging,
+                    receipt=receipt,
+                    canonical_path=canonical_path,
+                    validator=self.media_validator,
+                    output_spec=output_spec,
+                )
                 payload = destination.read_bytes()
-                facts = self.media_validator.validate(destination, output_spec)
-                if (
-                    hashlib.sha256(payload).hexdigest() != receipt["sha256"]
-                    or len(payload) != receipt["size_bytes"]
-                    or facts.sha256 != receipt["sha256"]
-                    or facts.size_bytes != receipt["size_bytes"]
-                    or canonical_json_bytes(facts.probe)
-                    != canonical_json_bytes(receipt["probe"])
-                ):
-                    raise ValueError("completed canonical media differs")
                 gcs_store.verify_workspace_asset(
                     facts=asset_objects[canonical_path],
                     payload=payload,
                     receipt=receipt,
                 )
-            checkpoint_payload = (project_dir / "checkpoint_assets.json").read_bytes()
+            _, checkpoint_payload, checkpoint_document = (
+                gcs_store.read_publication_checkpoint_snapshot(
+                    command=command,
+                    expected_facts=completion["checkpoint_snapshot"],
+                    expected_document_sha256=completion["checkpoint_document_sha256"],
+                    validator=lambda candidate: LocalAssetsPublisher._verify_checkpoint(
+                        candidate, command
+                    ),
+                )
+            )
+            self._assert_claim_current(
+                store=gcs_store,
+                publication_state=publication_state,
+                publication_generation=state_generation,
+                fence=publication_fence,
+                fence_generation=fence_generation,
+                require_active=False,
+            )
+            local_store.adopt_command_bound_checkpoint(
+                payload=checkpoint_payload,
+                validator=lambda candidate: LocalAssetsPublisher._verify_checkpoint(
+                    candidate, command
+                ),
+            )
+            checkpoint = LocalAssetsPublisher._verify_checkpoint(
+                read_checkpoint(self.projects_root, command["project_id"], "assets"),
+                command,
+            )
+            if canonical_json_bytes(checkpoint) != canonical_json_bytes(
+                checkpoint_document
+            ):
+                raise ValueError("official checkpoint reader differs from snapshot")
             gcs_store.verify_workspace_checkpoint(
                 facts=completion["checkpoint"],
                 payload=checkpoint_payload,
@@ -1576,6 +1751,41 @@ class CloudAssetsPublisher:
                 "PUBLICATION_COMPLETION_INVALID",
                 "Completed canonical/GCS publication failed exact re-verification",
             ) from exc
+        if publication_state["owner"]["owner_status"] == "repairing":
+            repaired_state = deepcopy(publication_state)
+            repaired_state["revision"] += 1
+            repaired_state["owner"]["owner_status"] = "completed"
+            repaired_state["owner"]["completed_at"] = self._now()
+            validate_publication_state(repaired_state)
+            try:
+                repaired_generation = gcs_store.save_publication_state(
+                    repaired_state, expected_generation=state_generation
+                )
+            except Exception as exc:
+                if getattr(exc, "code", None) == "GCS_PRECONDITION_CONFLICT":
+                    raise M2PublicationError(
+                        "PUBLICATION_COMPLETION_CONFLICT",
+                        "Publication repair lost its completion CAS",
+                    ) from exc
+                raise
+            reread = gcs_store.load_publication_state()
+            if (
+                reread is None
+                or reread[1] != repaired_generation
+                or canonical_json_bytes(reread[0])
+                != canonical_json_bytes(repaired_state)
+            ):
+                raise M2PublicationError(
+                    "PUBLICATION_COMPLETION_REREAD_FAILED",
+                    "Repaired publication owner did not close durably",
+                )
+            publication_state = repaired_state
+            state_generation = repaired_generation
+            self._crash(
+                "cloud_publication_repair_completed",
+                command_id=command["command_id"],
+                publication_state_generation=state_generation,
+            )
         return {
             "version": "1.0",
             "command_id": command["command_id"],
@@ -1660,9 +1870,13 @@ class CloudAssetsPublisher:
                 required_store_type="gcs",
             )
             prior_state_loaded = gcs_store.load_publication_state()
-            prior_state = prior_state_loaded[0] if prior_state_loaded is not None else None
+            prior_state = (
+                prior_state_loaded[0] if prior_state_loaded is not None else None
+            )
             prior_command = None
             prior_command_generation = None
+            prior_checkpoint_payload = None
+            prior_checkpoint_document = None
             if frozen["transition"]["kind"] == "human_approval_to_completed":
                 prior_id = frozen["transition"]["prior_publication_command_ref"][
                     "command_id"
@@ -1670,13 +1884,73 @@ class CloudAssetsPublisher:
                 prior_command, prior_command_generation = (
                     gcs_store.load_publication_command(prior_id)
                 )
+                if prior_state is None or not prior_state["completed_commands"]:
+                    raise M2PublicationError(
+                        "HUMAN_APPROVAL_BINDING_INVALID",
+                        "Human completion requires a durable prior publication completion",
+                    )
+                prior_completion = prior_state["completed_commands"][0]
+                _, prior_checkpoint_payload, prior_checkpoint_document = (
+                    gcs_store.read_publication_checkpoint_snapshot(
+                        command=prior_command,
+                        expected_facts=prior_completion["checkpoint_snapshot"],
+                        expected_document_sha256=prior_completion[
+                            "checkpoint_document_sha256"
+                        ],
+                        validator=lambda candidate: (
+                            LocalAssetsPublisher._verify_checkpoint(
+                                candidate, prior_command
+                            )
+                        ),
+                    )
+                )
+                if (
+                    prior_state["owner"]["owner_status"] == "completed"
+                    and prior_state["owner"]["command_digest"]
+                    == prior_command["command_digest"]
+                ):
+                    gcs_store.verify_workspace_checkpoint(
+                        facts=prior_completion["checkpoint"],
+                        payload=prior_checkpoint_payload,
+                        checkpoint=prior_checkpoint_document,
+                        command=prior_command,
+                    )
             current_checkpoint = read_checkpoint(
                 self.projects_root, frozen["project_id"], "assets"
             )
             exact_checkpoint = LocalAssetsPublisher._is_exact_checkpoint(
                 current_checkpoint, frozen
             )
-            if not exact_checkpoint:
+            state_matches_current = (
+                prior_state is not None
+                and prior_state["owner"]["command_id"] == frozen["command_id"]
+                and prior_state["owner"]["command_digest"] == frozen["command_digest"]
+            )
+            already_journaled = (
+                prior_state is not None
+                and bool(prior_state["completed_commands"])
+                and prior_state["completed_commands"][-1]["command_digest"]
+                == frozen["command_digest"]
+            )
+            if exact_checkpoint and not state_matches_current:
+                code = (
+                    "HUMAN_APPROVAL_BINDING_INVALID"
+                    if frozen["transition"]["kind"] == "human_approval_to_completed"
+                    else "CHECKPOINT_PUBLICATION_CONFLICT"
+                )
+                raise M2PublicationError(
+                    code,
+                    "An unjournaled target checkpoint cannot establish publication authority",
+                )
+            if frozen["transition"]["kind"] == "human_approval_to_completed":
+                self._assert_publication_lifecycle(
+                    frozen,
+                    prior_checkpoint_document,
+                    prior_state,
+                    prior_command,
+                    prior_command_generation,
+                )
+            elif not exact_checkpoint and not already_journaled:
                 self._assert_publication_lifecycle(
                     frozen,
                     current_checkpoint,
@@ -1702,7 +1976,6 @@ class CloudAssetsPublisher:
             staged_plan = []
             for receipt, output_spec, canonical_path in asset_plan:
                 try:
-                    payload = gcs_store.read_verified_blob_bytes(receipt)
                     staging = (
                         local_store.run_dir
                         / "publication"
@@ -1712,6 +1985,7 @@ class CloudAssetsPublisher:
                         / "source.mp4"
                     )
                     gcs_store.get_verified_blob(receipt, staging)
+                    payload = staging.read_bytes()
                     local_store.preflight_materialized_canonical_asset(
                         source=staging,
                         receipt=receipt,
@@ -1758,6 +2032,17 @@ class CloudAssetsPublisher:
                     "PUBLICATION_COMMAND_DIGEST_MISMATCH",
                     "Durable GCS PublicationCommand digest changed",
                 )
+            try:
+                publication_fence, fence_generation = gcs_store.claim_publication_fence(
+                    frozen
+                )
+            except StorageConflict as exc:
+                if exc.code == "PROJECT_STAGE_PUBLICATION_CONFLICT":
+                    raise M2PublicationError(
+                        "PROJECT_STAGE_PUBLICATION_CONFLICT",
+                        "Another batch already owns this project/assets canonical authority",
+                    ) from exc
+                raise
             publication_state, publication_generation, already_completed = (
                 self._acquire_claim(
                     store=gcs_store,
@@ -1780,6 +2065,8 @@ class CloudAssetsPublisher:
                     local_store=local_store,
                     gcs_store=gcs_store,
                     asset_plan=asset_plan,
+                    publication_fence=publication_fence,
+                    fence_generation=fence_generation,
                 )
             self._crash(
                 "cloud_publication_claim_acquired",
@@ -1813,6 +2100,13 @@ class CloudAssetsPublisher:
                 )
 
             for staging, receipt, output_spec, canonical_path in staged_plan:
+                self._assert_claim_current(
+                    store=gcs_store,
+                    publication_state=publication_state,
+                    publication_generation=publication_generation,
+                    fence=publication_fence,
+                    fence_generation=fence_generation,
+                )
                 destination, created = local_store.materialize_from_publication_staging(
                     source=staging,
                     receipt=receipt,
@@ -1837,6 +2131,13 @@ class CloudAssetsPublisher:
                     validator=self.media_validator,
                     output_spec=output_spec,
                 )
+                self._assert_claim_current(
+                    store=gcs_store,
+                    publication_state=publication_state,
+                    publication_generation=publication_generation,
+                    fence=publication_fence,
+                    fence_generation=fence_generation,
+                )
                 asset_objects.append(
                     gcs_store.publish_workspace_asset(
                         source=destination,
@@ -1849,7 +2150,56 @@ class CloudAssetsPublisher:
                 command_id=frozen["command_id"],
             )
 
+            if prior_command is not None:
+                assert prior_checkpoint_payload is not None
+                assert prior_checkpoint_document is not None
+                checkpoint_before_target = read_checkpoint(
+                    self.projects_root, frozen["project_id"], "assets"
+                )
+                if not LocalAssetsPublisher._is_exact_checkpoint(
+                    checkpoint_before_target, frozen
+                ):
+                    self._assert_claim_current(
+                        store=gcs_store,
+                        publication_state=publication_state,
+                        publication_generation=publication_generation,
+                        fence=publication_fence,
+                        fence_generation=fence_generation,
+                    )
+                    local_store.adopt_command_bound_checkpoint(
+                        payload=prior_checkpoint_payload,
+                        validator=lambda candidate: (
+                            LocalAssetsPublisher._verify_checkpoint(
+                                candidate, prior_command
+                            )
+                        ),
+                    )
+                    restored_prior = LocalAssetsPublisher._verify_checkpoint(
+                        read_checkpoint(
+                            self.projects_root, frozen["project_id"], "assets"
+                        ),
+                        prior_command,
+                    )
+                    if canonical_json_bytes(restored_prior) != canonical_json_bytes(
+                        prior_checkpoint_document
+                    ):
+                        raise M2PublicationError(
+                            "CHECKPOINT_RECOVERY_INVALID",
+                            "Restored prior Human Gate checkpoint differs from GCS authority",
+                        )
+                    self._crash(
+                        "cloud_publication_prior_checkpoint_restored",
+                        command_id=frozen["command_id"],
+                    )
+
             if not exact_checkpoint:
+                self._assert_claim_current(
+                    store=gcs_store,
+                    publication_state=publication_state,
+                    publication_generation=publication_generation,
+                    fence=publication_fence,
+                    fence_generation=fence_generation,
+                )
                 try:
                     write_checkpoint(
                         self.projects_root,
@@ -1862,9 +2212,7 @@ class CloudAssetsPublisher:
                         human_approval_required=True,
                         human_approved=frozen["transition"]["human_approved"],
                         review={
-                            "batch_v2_agent_review": deepcopy(
-                                frozen["review_evidence"]
-                            )
+                            "batch_v2_agent_review": deepcopy(frozen["review_evidence"])
                         },
                         cost_snapshot=_checkpoint_cost(frozen["cost_snapshot"]),
                         metadata={
@@ -1886,17 +2234,61 @@ class CloudAssetsPublisher:
             )
             checkpoint_path = project_dir / "checkpoint_assets.json"
             prior_checkpoint_generation = (
-                publication_state["completed_commands"][-1]["checkpoint"][
-                    "generation"
-                ]
+                publication_state["completed_commands"][-1]["checkpoint"]["generation"]
                 if publication_state["completed_commands"]
                 else 0
             )
-            checkpoint_object = gcs_store.publish_workspace_checkpoint(
-                source=checkpoint_path,
-                checkpoint=checkpoint,
-                command=frozen,
-                expected_generation=prior_checkpoint_generation,
+            self._assert_claim_current(
+                store=gcs_store,
+                publication_state=publication_state,
+                publication_generation=publication_generation,
+                fence=publication_fence,
+                fence_generation=fence_generation,
+            )
+            checkpoint_object, authoritative_payload, authoritative_checkpoint = (
+                gcs_store.publish_workspace_checkpoint(
+                    source=checkpoint_path,
+                    checkpoint=checkpoint,
+                    command=frozen,
+                    expected_generation=prior_checkpoint_generation,
+                    validator=lambda candidate: LocalAssetsPublisher._verify_checkpoint(
+                        candidate, frozen
+                    ),
+                )
+            )
+            self._assert_claim_current(
+                store=gcs_store,
+                publication_state=publication_state,
+                publication_generation=publication_generation,
+                fence=publication_fence,
+                fence_generation=fence_generation,
+            )
+            local_store.adopt_command_bound_checkpoint(
+                payload=authoritative_payload,
+                validator=lambda candidate: LocalAssetsPublisher._verify_checkpoint(
+                    candidate, frozen
+                ),
+            )
+            checkpoint = LocalAssetsPublisher._verify_checkpoint(
+                read_checkpoint(self.projects_root, frozen["project_id"], "assets"),
+                frozen,
+            )
+            if canonical_json_bytes(checkpoint) != canonical_json_bytes(
+                authoritative_checkpoint
+            ):
+                raise M2PublicationError(
+                    "CHECKPOINT_ROUNDTRIP_INVALID",
+                    "Local checkpoint did not converge on GCS command authority",
+                )
+            checkpoint_snapshot, _, _ = (
+                gcs_store.publish_publication_checkpoint_snapshot(
+                    source=checkpoint_path,
+                    checkpoint=checkpoint,
+                    command=frozen,
+                    validator=lambda candidate: (
+                        LocalAssetsPublisher._verify_checkpoint(candidate, frozen)
+                    ),
+                )
             )
             self._crash(
                 "cloud_publication_checkpoint_gcs_verified",
@@ -1915,6 +2307,7 @@ class CloudAssetsPublisher:
                 "command_generation": command_generation,
                 "transition": frozen["transition"]["kind"],
                 "checkpoint": checkpoint_object,
+                "checkpoint_snapshot": checkpoint_snapshot,
                 "checkpoint_document_sha256": canonical_sha256(checkpoint),
                 "asset_objects": asset_objects,
                 "completed_at": completed_at,
@@ -1962,6 +2355,8 @@ class CloudAssetsPublisher:
                 local_store=local_store,
                 gcs_store=gcs_store,
                 asset_plan=asset_plan,
+                publication_fence=publication_fence,
+                fence_generation=fence_generation,
             )
 
 

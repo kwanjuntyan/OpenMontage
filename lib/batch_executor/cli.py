@@ -45,6 +45,7 @@ from .runtime import (
 )
 from .testing import ScriptedFakeProvider
 from .tool_adapter import ProviderAdapter
+from .workspace import materialize_project_snapshot, validate_snapshot_roots
 
 
 _BASE_CONFIG_FIELDS = {
@@ -66,6 +67,8 @@ _CLOUD_FIELDS = {
     "cloud_run_project",
     "cloud_run_location",
     "cloud_run_job",
+    "input_snapshot_projects_root",
+    "input_snapshot_object_prefix",
 }
 _SAFE_CLOUD_COMPONENT = re.compile(r"^[A-Za-z0-9][A-Za-z0-9-]{0,127}$")
 _SAFE_BUCKET = re.compile(r"^[a-z0-9][a-z0-9._-]{1,220}[a-z0-9]$")
@@ -120,7 +123,9 @@ def validate_runtime_config(config: Mapping[str, Any]) -> None:
             f"Unexpected or missing runtime config fields: {sorted(set(config) ^ expected_fields)}",
         )
     if config.get("version") != "1.0" or profile not in {"local", "cloud_run"}:
-        raise M0ContractError("RUNTIME_CONFIG_INVALID", "Unsupported profile/config version")
+        raise M0ContractError(
+            "RUNTIME_CONFIG_INVALID", "Unsupported profile/config version"
+        )
     if config.get("transport_mode") not in {"offline_fake", "vertex"}:
         raise M0ContractError(
             "RUNTIME_CONFIG_INVALID", "Transport mode must be offline_fake or vertex"
@@ -153,7 +158,9 @@ def validate_runtime_config(config: Mapping[str, Any]) -> None:
         raise M0ContractError("RUNTIME_CONFIG_INVALID", "Invocation ID is unsafe")
     mode = config.get("invocation_mode")
     if mode not in {"run", "resume"} or (profile == "local" and mode != "run"):
-        raise M0ContractError("RUNTIME_CONFIG_INVALID", "Invalid invocation mode/profile")
+        raise M0ContractError(
+            "RUNTIME_CONFIG_INVALID", "Invalid invocation mode/profile"
+        )
     adapter = config.get("adapter_config")
     if not isinstance(adapter, Mapping):
         raise M0ContractError("RUNTIME_CONFIG_INVALID", "Adapter config is required")
@@ -178,14 +185,43 @@ def validate_runtime_config(config: Mapping[str, Any]) -> None:
             or not all(
                 isinstance(cloud.get(field), str)
                 and bool(_SAFE_CLOUD_COMPONENT.fullmatch(cloud[field]))
-                for field in _CLOUD_FIELDS - {"bucket"}
+                for field in _CLOUD_FIELDS
+                - {
+                    "bucket",
+                    "input_snapshot_projects_root",
+                    "input_snapshot_object_prefix",
+                }
             )
         ):
             raise M0ContractError(
                 "RUNTIME_CONFIG_INVALID", "Cloud profile values must be explicit"
             )
+        snapshot_root = cloud.get("input_snapshot_projects_root")
+        snapshot_prefix = cloud.get("input_snapshot_object_prefix")
+        if (
+            not isinstance(snapshot_root, str)
+            or not Path(snapshot_root).is_absolute()
+            or not isinstance(snapshot_prefix, str)
+            or re.fullmatch(
+                r"batch-v2-input-snapshots/sha256/[0-9a-f]{64}", snapshot_prefix
+            )
+            is None
+        ):
+            raise M0ContractError(
+                "RUNTIME_CONFIG_INVALID",
+                "Cloud input snapshot root/prefix must be explicit and immutable",
+            )
+        try:
+            validate_snapshot_roots(
+                projects_root=projects_root,
+                snapshot_projects_root=snapshot_root,
+            )
+        except M1ExecutionError as exc:
+            raise M0ContractError("RUNTIME_CONFIG_INVALID", str(exc)) from exc
     if config.get("config_digest") != _runtime_config_digest(config):
-        raise M0ContractError("RUNTIME_CONFIG_DIGEST_MISMATCH", "Runtime config changed")
+        raise M0ContractError(
+            "RUNTIME_CONFIG_DIGEST_MISMATCH", "Runtime config changed"
+        )
 
 
 def freeze_runtime_config(config: Mapping[str, Any]) -> dict[str, Any]:
@@ -215,14 +251,18 @@ def _load_local_bytes(uri: str) -> bytes:
     try:
         return path.read_bytes()
     except OSError as exc:
-        raise M0ContractError("REQUEST_URI_INVALID", "Local JSON input is unreadable") from exc
+        raise M0ContractError(
+            "REQUEST_URI_INVALID", "Local JSON input is unreadable"
+        ) from exc
 
 
 def _decode_json(payload: bytes, *, kind: str) -> dict[str, Any]:
     try:
         value = json.loads(payload.decode("utf-8"))
     except (UnicodeError, json.JSONDecodeError) as exc:
-        raise M0ContractError(f"{kind.upper()}_INVALID", f"{kind} is not valid JSON") from exc
+        raise M0ContractError(
+            f"{kind.upper()}_INVALID", f"{kind} is not valid JSON"
+        ) from exc
     if not isinstance(value, dict):
         raise M0ContractError(f"{kind.upper()}_INVALID", f"{kind} must be an object")
     return value
@@ -261,7 +301,9 @@ def _load_uri(
     if not uri.startswith("gs://"):
         return _load_local_bytes(uri)
     if "?" in uri or gcs_transport is None:
-        raise M0ContractError("REQUEST_URI_INVALID", "Private GCS transport is required")
+        raise M0ContractError(
+            "REQUEST_URI_INVALID", "Private GCS transport is required"
+        )
     bucket, separator, name = uri[5:].partition("/")
     if not separator or bucket != config["cloud"]["bucket"]:
         raise M0ContractError(
@@ -270,7 +312,9 @@ def _load_uri(
     try:
         snapshot = gcs_transport.read_object(bucket=bucket, name=name)
     except Exception as exc:
-        raise M1ExecutionError("GCS_TRANSIENT", "Failed to read immutable GCS input") from exc
+        raise M1ExecutionError(
+            "GCS_TRANSIENT", "Failed to read immutable GCS input"
+        ) from exc
     if snapshot.data is None:
         raise M1ExecutionError("GCS_TRANSIENT", "GCS input returned no bytes")
     return snapshot.data
@@ -342,9 +386,7 @@ def run_cli(
                 else _build_google_gcs_transport(config, resolver)
             )
         request = _decode_json(
-            _load_uri(
-                args.request_uri, config=config, gcs_transport=gcs_transport
-            ),
+            _load_uri(args.request_uri, config=config, gcs_transport=gcs_transport),
             kind="batch_request",
         )
         validate_batch_request(request)
@@ -361,6 +403,12 @@ def run_cli(
                 "portable storage profile is reserved for offline parity qualification",
             )
         project_dir = Path(config["projects_root"]) / request["project_id"]
+        if profile == "cloud_run":
+            project_dir = materialize_project_snapshot(
+                projects_root=config["projects_root"],
+                snapshot_projects_root=config["cloud"]["input_snapshot_projects_root"],
+                project_id=request["project_id"],
+            )
         if config["transport_mode"] == "offline_fake":
             provider = (
                 dependencies.fake_provider_factory()
@@ -406,11 +454,7 @@ def run_cli(
                 cancellation=cancellation,
             )
             result_locator = str(
-                project_dir
-                / ".batch-v2"
-                / "runs"
-                / request["batch_id"]
-                / "result.json"
+                project_dir / ".batch-v2" / "runs" / request["batch_id"] / "result.json"
             )
         else:
             assert gcs_transport is not None
@@ -431,7 +475,10 @@ def run_cli(
             status_verifier: ExecutionStatusVerifier | None = None
             resume_authorization: Mapping[str, Any] | None = None
             if args.command == "resume":
-                if args.resume_proof_kind == "control-plane" and not args.resume_proof_uri:
+                if (
+                    args.resume_proof_kind == "control-plane"
+                    and not args.resume_proof_uri
+                ):
                     status_transport = dependencies.cloud_status_transport
                     if status_transport is None:
                         status_transport = RequestsCloudRunStatusTransport()
@@ -456,11 +503,13 @@ def run_cli(
                     )
                 else:
                     raise M0ContractError(
-                        "TAKEOVER_PROOF_REQUIRED", "Resume requires exactly one proof source"
+                        "TAKEOVER_PROOF_REQUIRED",
+                        "Resume requires exactly one proof source",
                     )
             elif args.resume_proof_uri or args.resume_proof_kind:
                 raise M0ContractError(
-                    "RUNTIME_CONFIG_MISMATCH", "Ordinary run cannot carry takeover proof"
+                    "RUNTIME_CONFIG_MISMATCH",
+                    "Ordinary run cannot carry takeover proof",
                 )
             executor = CloudBatchExecutor(
                 projects_root=config["projects_root"],

@@ -29,6 +29,7 @@ COPY lib ./lib
 COPY schemas ./schemas
 COPY pipeline_defs ./pipeline_defs
 COPY scripts/batch_execute.py ./scripts/batch_execute.py
+COPY scripts/batch_publish.py ./scripts/batch_publish.py
 
 RUN groupadd --gid 65532 batchv2 \
     && useradd --uid 65532 --gid 65532 --no-create-home --shell /usr/sbin/nologin batchv2 \

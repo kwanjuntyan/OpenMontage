@@ -47,7 +47,7 @@
         "invocation_id": { "$ref": "#/$defs/id" },
         "execution_id": { "type": "string", "minLength": 1, "maxLength": 512 },
         "task_id": { "type": "string", "minLength": 1, "maxLength": 256 },
-        "owner_status": { "enum": ["active", "completed"] },
+        "owner_status": { "enum": ["active", "repairing", "completed"] },
         "command_id": { "$ref": "#/$defs/id" },
         "command_digest": { "$ref": "#/$defs/digest" },
         "acquired_at": { "type": "string", "format": "date-time" },
@@ -85,6 +85,7 @@
           "command_generation",
           "transition",
           "checkpoint",
+          "checkpoint_snapshot",
           "checkpoint_document_sha256",
           "asset_objects",
           "completed_at"
@@ -96,6 +97,7 @@
           "command_generation": { "type": "integer", "minimum": 1 },
           "transition": { "enum": ["agent_review_to_awaiting_human", "human_approval_to_completed"] },
           "checkpoint": { "$ref": "#/$defs/workspace_object" },
+          "checkpoint_snapshot": { "$ref": "#/$defs/workspace_object" },
           "checkpoint_document_sha256": { "$ref": "#/$defs/digest" },
           "asset_objects": {
             "type": "array",

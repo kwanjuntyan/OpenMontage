@@ -27,7 +27,9 @@ def test_batch_v2_runtime_dependencies_are_narrow_and_exactly_pinned():
         "pyyaml",
         "requests",
     }
-    assert all(line.count("==") == 1 and not line.endswith("==") for line in requirement_lines)
+    assert all(
+        line.count("==") == 1 and not line.endswith("==") for line in requirement_lines
+    )
     assert all("google-cloud-run" not in line.lower() for line in requirement_lines)
     constraints = [
         line.strip()
@@ -36,25 +38,23 @@ def test_batch_v2_runtime_dependencies_are_narrow_and_exactly_pinned():
         .splitlines()
         if line.strip() and not line.lstrip().startswith("#")
     ]
-    assert all(line.count("==") == 1 and not line.endswith("==") for line in constraints)
+    assert all(
+        line.count("==") == 1 and not line.endswith("==") for line in constraints
+    )
     constrained_names = {line.split("==", 1)[0].lower() for line in constraints}
-    assert {line.split("==", 1)[0].lower() for line in requirement_lines} <= constrained_names
+    assert {
+        line.split("==", 1)[0].lower() for line in requirement_lines
+    } <= constrained_names
     assert len(constrained_names) == len(constraints)
 
 
 def test_dedicated_container_requires_immutable_base_and_runs_non_root():
-    dockerfile = (REPOSITORY_ROOT / "Dockerfile.batch-v2").read_text(
-        encoding="utf-8"
-    )
+    dockerfile = (REPOSITORY_ROOT / "Dockerfile.batch-v2").read_text(encoding="utf-8")
     assert "ARG PYTHON_BASE_IMAGE\nFROM ${PYTHON_BASE_IMAGE}" in dockerfile
-    digest_guard = re.search(
-        r"re\.fullmatch\(r'([^']+)', sys\.argv\[1\]\)", dockerfile
-    )
+    digest_guard = re.search(r"re\.fullmatch\(r'([^']+)', sys\.argv\[1\]\)", dockerfile)
     assert digest_guard is not None
     digest_pattern = re.compile(digest_guard.group(1))
-    assert digest_pattern.fullmatch(
-        "python:3.10.18-slim-bookworm@sha256:" + "a" * 64
-    )
+    assert digest_pattern.fullmatch("python:3.10.18-slim-bookworm@sha256:" + "a" * 64)
     for mutable_or_malformed in (
         "python:3.10.18-slim-bookworm",
         "python:latest",
@@ -71,11 +71,12 @@ def test_dedicated_container_requires_immutable_base_and_runs_non_root():
     assert "chmod --recursive a-w /opt/openmontage" in dockerfile
     assert "mkdir --parents /workspace/projects" in dockerfile
     assert "--constraint constraints-batch-v2-py310.txt" in dockerfile
-    assert 'PYTHONPATH=/opt/openmontage' in dockerfile
+    assert "PYTHONPATH=/opt/openmontage" in dockerfile
     assert (
         'ENTRYPOINT ["python", "/opt/openmontage/scripts/batch_execute.py"]'
         in dockerfile
     )
+    assert "COPY scripts/batch_publish.py ./scripts/batch_publish.py" in dockerfile
     assert "COPY . " not in dockerfile
     assert "COPY .\n" not in dockerfile
     for forbidden in (
@@ -103,20 +104,74 @@ def test_cloud_run_job_template_is_exactly_one_zero_retry_task():
     container = task["containers"][0]
     assert container["image"] == "${BATCH_V2_IMAGE_DIGEST}"
     assert container["args"][:3] == ["run", "--profile", "cloud-run"]
+    assert container["args"][4] == "/input-snapshot/config/runtime-config.json"
     assert container["volumeMounts"] == [
-        {"name": "materialized-project-workspace", "mountPath": "/workspace"}
+        {
+            "name": "immutable-input-snapshot",
+            "mountPath": "/input-snapshot",
+            "readOnly": True,
+        }
     ]
+    assert all(
+        mount["mountPath"] != "/workspace" for mount in container["volumeMounts"]
+    )
+    dockerfile = (REPOSITORY_ROOT / "Dockerfile.batch-v2").read_text(encoding="utf-8")
+    user_match = re.search(r"(?m)^USER (\d+):(\d+)$", dockerfile)
+    assert user_match is not None
+    assert len(task["volumes"]) == 1
+    snapshot_volume = task["volumes"][0]
+    assert snapshot_volume["name"] == "immutable-input-snapshot"
+    assert snapshot_volume["csi"]["readOnly"] is True
+    assert snapshot_volume["csi"]["volumeAttributes"]["mountOptions"] == (
+        "only-dir=batch-v2-input-snapshots/sha256/${INPUT_SNAPSHOT_SHA256},"
+        f"uid={user_match.group(1)},gid={user_match.group(2)}"
+    )
+    assert not snapshot_volume["csi"]["volumeAttributes"]["mountOptions"].startswith(
+        "only-dir=projects"
+    )
+    assert task["serviceAccountName"] == "${BATCH_V2_SERVICE_ACCOUNT}"
+
+
+def test_cloud_publication_job_uses_separate_root_and_disjoint_read_only_snapshot():
+    template_path = (
+        REPOSITORY_ROOT
+        / "deploy"
+        / "batch-v2"
+        / "cloud-run-publication-job.template.yaml"
+    )
+    document = yaml.safe_load(template_path.read_text(encoding="utf-8"))
+    execution = document["spec"]["template"]["spec"]
+    task = execution["template"]["spec"]
+    assert execution["taskCount"] == execution["parallelism"] == 1
+    assert task["maxRetries"] == 0
+    container = task["containers"][0]
+    assert container["command"] == [
+        "python",
+        "/opt/openmontage/scripts/batch_publish.py",
+    ]
+    assert container["args"][:2] == ["publish", "--config"]
+    assert "/input-snapshot/config/publication-runtime-config.json" in container["args"]
+    assert container["volumeMounts"] == [
+        {
+            "name": "immutable-input-snapshot",
+            "mountPath": "/input-snapshot",
+            "readOnly": True,
+        }
+    ]
+    assert all(
+        mount["mountPath"] != "/workspace" for mount in container["volumeMounts"]
+    )
+    snapshot = task["volumes"][0]["csi"]
+    assert snapshot["readOnly"] is True
     dockerfile = (REPOSITORY_ROOT / "Dockerfile.batch-v2").read_text(
         encoding="utf-8"
     )
     user_match = re.search(r"(?m)^USER (\d+):(\d+)$", dockerfile)
     assert user_match is not None
-    workspace_volume = task["volumes"][0]
-    assert workspace_volume["name"] == "materialized-project-workspace"
-    assert workspace_volume["csi"]["volumeAttributes"]["mountOptions"] == (
+    assert snapshot["volumeAttributes"]["mountOptions"] == (
+        "only-dir=batch-v2-input-snapshots/sha256/${INPUT_SNAPSHOT_SHA256},"
         f"uid={user_match.group(1)},gid={user_match.group(2)}"
     )
-    assert task["serviceAccountName"] == "${BATCH_V2_SERVICE_ACCOUNT}"
 
 
 def _docker_context_includes(rules: list[str], path: str) -> bool:
@@ -152,6 +207,7 @@ def test_docker_build_context_is_default_deny_with_only_runtime_inputs_allowed()
         "schemas/execution/batch_request.schema.json",
         "pipeline_defs/documentary-montage.yaml",
         "scripts/batch_execute.py",
+        "scripts/batch_publish.py",
     )
     for path in required_inputs:
         assert _docker_context_includes(rules, path), path
@@ -214,6 +270,35 @@ def test_cloud_entrypoint_exposes_no_pipeline_review_or_identity_selector():
     assert not any(module.endswith("publication") for module in imported_modules)
 
 
+def test_publication_entrypoint_is_separate_and_composes_only_frozen_authority():
+    script = (REPOSITORY_ROOT / "scripts" / "batch_publish.py").read_text(
+        encoding="utf-8"
+    )
+    assert "lib.batch_executor.publication_cli" in script
+    source = (
+        REPOSITORY_ROOT / "lib" / "batch_executor" / "publication_cli.py"
+    ).read_text(encoding="utf-8")
+    tree = ast.parse(source)
+    imported = {
+        node.module
+        for node in ast.walk(tree)
+        if isinstance(node, ast.ImportFrom) and node.module
+    }
+    assert "lib.batch_executor.publication" not in imported
+    assert ".publication" in imported or "publication" in imported
+    assert "CloudAssetsPublisher" in source
+    assert "CloudRunADCExecutionStatusVerifier" in source
+    for forbidden in (
+        "CloudBatchExecutor",
+        "LocalBatchExecutor",
+        "get_next_stage",
+        "provider_selector",
+        "freeze_publication_command",
+        "freeze_publication_authorization",
+    ):
+        assert forbidden not in source
+
+
 def test_m3_runtime_sources_contain_no_key_path_or_ambient_project_fallback():
     runtime_sources = "\n".join(
         (REPOSITORY_ROOT / "lib" / "batch_executor" / filename).read_text(
@@ -225,6 +310,8 @@ def test_m3_runtime_sources_contain_no_key_path_or_ambient_project_fallback():
             "gemini_adapter.py",
             "identity.py",
             "runtime.py",
+            "publication_cli.py",
+            "workspace.py",
         )
     )
     for forbidden in (

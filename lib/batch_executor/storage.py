@@ -91,9 +91,7 @@ class ExecutionStore(Protocol):
 
     def prepare_attempt_directory(self, output_path: Path) -> None: ...
 
-    def write_request_if_absent(
-        self, request: Mapping[str, Any]
-    ) -> StoreVersion: ...
+    def write_request_if_absent(self, request: Mapping[str, Any]) -> StoreVersion: ...
 
     def load_request(self) -> tuple[dict[str, Any], StoreVersion]: ...
 
@@ -136,9 +134,7 @@ class ExecutionStore(Protocol):
         output_spec: Mapping[str, Any],
     ) -> bool: ...
 
-    def write_result_if_absent(
-        self, result: Mapping[str, Any]
-    ) -> StoreVersion: ...
+    def write_result_if_absent(self, result: Mapping[str, Any]) -> StoreVersion: ...
 
     def load_result(
         self,
@@ -471,7 +467,8 @@ class LocalStore:
             ) from exc
         if os.path.normcase(str(resolved)) != os.path.normcase(str(path)):
             raise M1ExecutionError(
-                "WORKSPACE_ALIAS", f"Batch V2 path changes identity through an alias: {path}"
+                "WORKSPACE_ALIAS",
+                f"Batch V2 path changes identity through an alias: {path}",
             )
         return resolved
 
@@ -511,7 +508,12 @@ class LocalStore:
     def prepare_attempt_directory(self, output_path: Path) -> None:
         self._assert_writer()
         resolved = self._assert_project_scoped_path(output_path.parent)
-        expected = self.run_dir / "attempts" / output_path.parent.parent.name / output_path.parent.name
+        expected = (
+            self.run_dir
+            / "attempts"
+            / output_path.parent.parent.name
+            / output_path.parent.name
+        )
         if os.path.normcase(str(resolved)) != os.path.normcase(str(expected)):
             raise M1ExecutionError(
                 "WORKSPACE_ALIAS", "Attempt directory changes identity through an alias"
@@ -577,11 +579,17 @@ class LocalStore:
         self._assert_writer()
         validate_batch_state(state)
         reserved = sum(
-            (Decimal(str(attempt["cost"]["reserved_usd"])) for attempt in state["attempts"]),
+            (
+                Decimal(str(attempt["cost"]["reserved_usd"]))
+                for attempt in state["attempts"]
+            ),
             Decimal("0"),
         )
         known = sum(
-            (Decimal(str(attempt["cost"]["known_actual_usd"])) for attempt in state["attempts"]),
+            (
+                Decimal(str(attempt["cost"]["known_actual_usd"]))
+                for attempt in state["attempts"]
+            ),
             Decimal("0"),
         )
         indeterminate = sum(
@@ -669,14 +677,18 @@ class LocalStore:
             os.close(descriptor)
             temporary_path = Path(temporary)
             try:
-                with source.open("rb") as source_handle, temporary_path.open("wb") as target:
+                with (
+                    source.open("rb") as source_handle,
+                    temporary_path.open("wb") as target,
+                ):
                     shutil.copyfileobj(source_handle, target)
                     target.flush()
                     os.fsync(target.fileno())
                 copied_sha, copied_size = _digest_file(temporary_path)
                 if copied_sha != output.sha256 or copied_size != output.size_bytes:
                     raise M1ExecutionError(
-                        "LOCAL_STORAGE_TRANSIENT", "Copied blob failed digest verification"
+                        "LOCAL_STORAGE_TRANSIENT",
+                        "Copied blob failed digest verification",
                     )
                 created = _publish_temp_no_replace(temporary_path, destination)
                 if not created:
@@ -758,9 +770,7 @@ class LocalStore:
             ) from exc
         return True
 
-    def get_verified_blob(
-        self, receipt: Mapping[str, Any], destination: Path
-    ) -> Path:
+    def get_verified_blob(self, receipt: Mapping[str, Any], destination: Path) -> Path:
         """Materialize a verified local CAS object inside the hidden V2 tree."""
 
         self._assert_writer()
@@ -772,7 +782,10 @@ class LocalStore:
             raise M1ExecutionError(
                 "WORKSPACE_ESCAPE", "Blob materialization escaped the project"
             ) from exc
-        if not relative_destination.parts or relative_destination.parts[0] != ".batch-v2":
+        if (
+            not relative_destination.parts
+            or relative_destination.parts[0] != ".batch-v2"
+        ):
             raise M1ExecutionError(
                 "WORKSPACE_ESCAPE",
                 "Execution blob materialization must remain in the hidden .batch-v2 tree",
@@ -895,9 +908,7 @@ class LocalStore:
         )
         return path, str(command["command_digest"])
 
-    def load_publication_command(
-        self, command_id: str
-    ) -> tuple[dict[str, Any], str]:
+    def load_publication_command(self, command_id: str) -> tuple[dict[str, Any], str]:
         path = self.publication_command_path(command_id)
         try:
             command = json.loads(path.read_text(encoding="utf-8"))
@@ -986,10 +997,7 @@ class LocalStore:
                     "Canonical destination is an unsafe filesystem alias",
                 )
             target_sha, target_size = _digest_file(destination)
-            if (
-                target_sha != receipt["sha256"]
-                or target_size != receipt["size_bytes"]
-            ):
+            if target_sha != receipt["sha256"] or target_size != receipt["size_bytes"]:
                 raise StorageConflict(
                     "CANONICAL_ASSET_CONFLICT",
                     f"Canonical destination already differs: {destination}",
@@ -1199,6 +1207,52 @@ class LocalStore:
             raise M2PublicationError(
                 "CANONICAL_ASSET_VERIFICATION_FAILED",
                 "Canonical media differs from its durable GCS receipt",
+            )
+        return destination
+
+    def adopt_command_bound_checkpoint(
+        self,
+        *,
+        payload: bytes,
+        validator: Callable[[Mapping[str, Any]], Any],
+    ) -> Path:
+        """Restore/adopt one immutable command-bound official checkpoint.
+
+        Missing replicas are repaired from durable Cloud authority.  Existing
+        bytes are replaced only when both the existing and authoritative JSON
+        independently validate as the same exact publication command; foreign
+        or malformed local data is never overwritten.
+        """
+
+        self._assert_writer()
+        destination = self._assert_project_scoped_path(
+            self.project_dir / "checkpoint_assets.json"
+        )
+        try:
+            authoritative = json.loads(payload.decode("utf-8"))
+            validator(authoritative)
+        except Exception as exc:
+            raise M2PublicationError(
+                "CHECKPOINT_RECOVERY_INVALID",
+                "Durable checkpoint snapshot is not exact command-bound authority",
+            ) from exc
+        if destination.exists():
+            current_payload = destination.read_bytes()
+            if current_payload == payload:
+                return destination
+            try:
+                current = json.loads(current_payload.decode("utf-8"))
+                validator(current)
+            except Exception as exc:
+                raise StorageConflict(
+                    "CHECKPOINT_PUBLICATION_CONFLICT",
+                    "Existing local checkpoint is not equivalent command-bound data",
+                ) from exc
+        _atomic_write(destination, payload)
+        if destination.read_bytes() != payload:
+            raise M2PublicationError(
+                "CHECKPOINT_RECOVERY_INVALID",
+                "Recovered local checkpoint bytes failed exact verification",
             )
         return destination
 

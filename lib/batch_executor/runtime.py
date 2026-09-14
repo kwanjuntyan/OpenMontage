@@ -6,7 +6,7 @@ import hashlib
 import re
 from dataclasses import dataclass
 from datetime import datetime, timezone
-from typing import Any, Callable, Literal, Mapping, Protocol
+from typing import Any, Callable, Literal, Mapping, Protocol, Sequence
 
 from .contracts import M0ContractError
 from .identity import CLOUD_PLATFORM_SCOPE, CredentialResolver
@@ -57,7 +57,8 @@ class CloudRunEnvironmentIdentityResolver:
             for value in (cloud_project, location, job_name)
         ):
             raise M0ContractError(
-                "AUTH_CONFIGURATION", "Explicit Cloud Run identity configuration is invalid"
+                "AUTH_CONFIGURATION",
+                "Explicit Cloud Run identity configuration is invalid",
             )
 
     def resolve(
@@ -81,7 +82,8 @@ class CloudRunEnvironmentIdentityResolver:
         execution_name = environment.get("CLOUD_RUN_EXECUTION", "")
         if not _safe_resource_component(execution_name):
             raise M0ContractError(
-                "AUTH_CONFIGURATION", "Cloud Run execution identity is missing or unsafe"
+                "AUTH_CONFIGURATION",
+                "Cloud Run execution identity is missing or unsafe",
             )
         resource = (
             f"projects/{self._project}/locations/{self._location}/jobs/{self._job}/"
@@ -112,36 +114,43 @@ class CloudRunADCExecutionStatusVerifier:
         cloud_project: str,
         location: str,
         job_name: str,
+        additional_job_names: Sequence[str] = (),
         credential_resolver: CredentialResolver,
         transport: CloudRunStatusTransport,
     ):
         if not all(
             _safe_resource_component(value)
-            for value in (cloud_project, location, job_name)
+            for value in (cloud_project, location, job_name, *additional_job_names)
         ):
             raise M0ContractError(
-                "AUTH_CONFIGURATION", "Explicit Cloud Run project/location/job are required"
+                "AUTH_CONFIGURATION",
+                "Explicit Cloud Run project/location/job are required",
             )
-        self._execution_prefix = (
-            f"projects/{cloud_project}/locations/{location}/jobs/{job_name}/executions/"
+        self._execution_prefixes = tuple(
+            f"projects/{cloud_project}/locations/{location}/jobs/{name}/executions/"
+            for name in (job_name, *additional_job_names)
         )
         self._credential_resolver = credential_resolver
         self._transport = transport
 
-    def verify_stopped(
-        self, recorded_owner: Mapping[str, Any]
-    ) -> Mapping[str, Any]:
+    def verify_stopped(self, recorded_owner: Mapping[str, Any]) -> Mapping[str, Any]:
         execution_resource = recorded_owner.get("execution_id")
+        execution_prefix = next(
+            (
+                prefix
+                for prefix in self._execution_prefixes
+                if isinstance(execution_resource, str)
+                and execution_resource.startswith(prefix)
+            ),
+            "",
+        )
         execution_name = (
-            execution_resource[len(self._execution_prefix) :]
-            if isinstance(execution_resource, str)
-            and execution_resource.startswith(self._execution_prefix)
-            else ""
+            execution_resource[len(execution_prefix) :] if execution_prefix else ""
         )
         if (
             recorded_owner.get("profile") != "cloud_run"
             or not isinstance(execution_resource, str)
-            or not execution_resource.startswith(self._execution_prefix)
+            or not execution_prefix
             or not _safe_resource_component(execution_name)
         ):
             raise M0ContractError(
@@ -272,9 +281,7 @@ class RequestsCloudRunStatusTransport:
         url = f"https://run.googleapis.com/v2/{execution_resource}"
         headers: dict[str, str] = {"Accept": "application/json"}
         try:
-            credentials.before_request(
-                self._auth_request(), "GET", url, headers
-            )
+            credentials.before_request(self._auth_request(), "GET", url, headers)
             response = self._session().get(
                 url,
                 headers=headers,
@@ -298,7 +305,10 @@ class RequestsCloudRunStatusTransport:
                 "EXECUTION_STATUS_VERIFICATION_FAILED",
                 "Cloud Run status response is not valid JSON",
             ) from exc
-        if not isinstance(document, Mapping) or document.get("name") != execution_resource:
+        if (
+            not isinstance(document, Mapping)
+            or document.get("name") != execution_resource
+        ):
             raise M0ContractError(
                 "TAKEOVER_PROOF_MISMATCH", "Cloud Run returned another execution"
             )

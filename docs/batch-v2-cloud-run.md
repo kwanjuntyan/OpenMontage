@@ -48,8 +48,9 @@ installation unless `PYTHON_BASE_IMAGE` ends in an exact lowercase, 64-hex
 retain the resolver's install report and image digest.
 
 The repository-root `.dockerignore` is a default-deny build context. Only the Dockerfile inputs
-(`lib/`, `schemas/`, `pipeline_defs/`, `scripts/batch_execute.py`, and the two
-pinned dependency files) are explicitly includable. Secret/environment files,
+(`lib/`, `schemas/`, `pipeline_defs/`, `scripts/batch_execute.py`,
+`scripts/batch_publish.py`, and the two pinned dependency files) are explicitly
+includable. Secret/environment files,
 credentials, project media, generated outputs, caches, test artifacts,
 worktrees, and editor/OS noise remain excluded even if they appear below an
 otherwise allowed source directory. Builds must use the repository root as
@@ -81,21 +82,37 @@ build context through additional `COPY` instructions.
 
 ## Materialized workspace and inputs
 
-Before process launch, the operator-controlled workspace must expose this exact
-logical root:
+Before process launch, GCS FUSE exposes only an immutable content-addressed
+input snapshot at:
 
 ```text
-/workspace/projects/<project-id>/
+/input-snapshot/  (only-dir=batch-v2-input-snapshots/sha256/<full-sha256>)
 ```
 
-It contains an immutable, hash-bound project snapshot sufficient for the
-existing project/checkpoint/source preflight, including a matching
-`project.json`. The template shows a private Cloud Storage volume as the
-materialization boundary; a later deployment review must freeze its prefix,
-IAM, retention, and mount behavior. The executor neither discovers a project
-from ADC nor reconstructs missing creative state.
+The mount is read-only. It contains `projects/<project-id>/` with the exact
+hash-bound project snapshot needed by project/checkpoint/source preflight,
+including matching `project.json`, plus the frozen launch config. At startup,
+the entrypoint copies that project into the container's non-FUSE, ephemeral,
+non-root-writable `/workspace/projects/<project-id>/` tree without overwriting
+different bytes. Symlinks, junctions, hard-link aliases, and `.batch-v2` input
+state are rejected/ignored as appropriate. The configured snapshot prefix and
+the writable project root must be disjoint.
 
-The frozen runtime config uses `/workspace/projects` as `projects_root`.
+The publication entrypoint additionally omits snapshot `assets/` and
+`checkpoint_assets.json` while materializing. Those canonical stage outputs
+can appear only after publication proof and ownership CAS, and are restored
+from exact GCS publication authority rather than trusted from FUSE input.
+
+This split is a correctness boundary: direct GCSStore publication owns object
+names below `projects/<project-id>/...`; no local/FUSE path maps to those object
+names. A local canonical write therefore cannot alias the same object later
+created and generation/checksum/metadata-verified through the GCS API. The
+executor neither discovers a project from ADC nor reconstructs missing
+creative state.
+
+The frozen runtime config uses `/workspace/projects` as `projects_root`,
+`/input-snapshot/projects` as `input_snapshot_projects_root`, and binds the
+full content-addressed `input_snapshot_object_prefix`.
 Workers receive only paths under:
 
 ```text
@@ -112,8 +129,8 @@ signed URL.
 
 The config and request locations must be explicit, private, unsigned paths. A
 configuration file is self-digested and binds its request URI/digest. The job
-template expects the config at `/workspace/config/runtime-config.json`; the
-same materialization boundary must provide it before launch. The request itself
+template expects the config at `/input-snapshot/config/runtime-config.json`.
+The request itself
 may be an exact private `gs://` URI in the configured bucket.
 
 For offline LocalStore/FakeGCS equivalence only, a request may freeze
@@ -158,7 +175,7 @@ First execution:
 ```text
 python /opt/openmontage/scripts/batch_execute.py run \
   --profile cloud-run \
-  --config /workspace/config/runtime-config.json \
+  --config /input-snapshot/config/runtime-config.json \
   --request-uri gs://<private-bucket>/<immutable-request-object>
 ```
 
@@ -209,9 +226,14 @@ stage/provider/model, issue a PublicationCommand, publish canonical media,
 advance a checkpoint, or satisfy an Agent/Human Gate. Those remain the separate
 Agent-native publication lifecycle.
 
-After the Agent has reviewed the exact GCS BatchResult and authored a frozen
-`PublicationCommand`, the separate `CloudAssetsPublisher` library boundary may
-be invoked with injected GCS and Cloud Run status transports. It requires exact
+After the Agent has reviewed the exact GCS BatchResult and authored and
+separately persists a frozen `PublicationCommand`, the dedicated
+`scripts/batch_publish.py` composition root invokes the separate
+`CloudAssetsPublisher` boundary. The production root constructs the concrete
+ADC GCS transport and `CloudRunADCExecutionStatusVerifier`; objects with only a
+spoofed public verifier name are not trusted. Its command URI, object
+generation, full-byte SHA-256, and command self-digest must all be supplied
+separately and match the frozen config. It requires exact
 request/state/result object generations and digests, independent terminal or
 cancelled execution proof (or one command-bound Human publication
 authorization), and a re-read generation-CAS publication claim before any
@@ -222,3 +244,42 @@ corresponding private workspace GCS objects. The later `completed` transition
 still requires a second immutable command bound to an explicit Human Gate reply.
 This boundary is intentionally absent from `batch_execute.py` so execution can
 never auto-review or auto-publish.
+
+For the Human-authorization proof path, the launch must likewise supply the
+exact immutable authorization URI, GCS generation, full-byte SHA-256, and
+authorization self-digest. The root never synthesizes that authorization. Its
+self-digest proves canonical integrity and binding; it does **not** by itself
+authenticate a Human identity. Trust in the explicit Agent/Human approval
+workflow and immutable object placement/IAM is a separate launch prerequisite.
+
+The checked-in publication Job template is the control-plane-proof shape. Its
+fully bound invocation is:
+
+```text
+python /opt/openmontage/scripts/batch_publish.py publish \
+  --config /input-snapshot/config/publication-runtime-config.json \
+  --command-uri gs://<bucket>/<immutable-command-object> \
+  --command-generation <exact-generation> \
+  --command-sha256 <full-object-bytes-sha256> \
+  --command-digest <command-self-digest>
+```
+
+An explicitly reviewed Human-authorization launch adds all four fields; a
+partial set fails before publication:
+
+```text
+  --authorization-uri gs://<bucket>/<immutable-authorization-object> \
+  --authorization-generation <exact-generation> \
+  --authorization-sha256 <full-object-bytes-sha256> \
+  --authorization-digest <authorization-self-digest>
+```
+
+The project/assets publication fence permanently binds the MVP canonical stage
+to one batch/request, while the batch-scoped PublicationState records finite
+ownership and ordered recovery. Neither is a renewable lease. The official
+`checkpoint_assets.json`, written/read through the official checkpoint APIs,
+is the canonical lifecycle commit authority. PublicationState is its
+ownership/recovery journal: if a process stops after the checkpoint commit but
+before the journal CAS, an exact same-command retry verifies/adopts the GCS
+checkpoint and repairs the journal; that window is not interpreted as an
+uncommitted or bypassed Human Gate.
