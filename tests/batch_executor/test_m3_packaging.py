@@ -3,6 +3,7 @@ from __future__ import annotations
 import ast
 import fnmatch
 import re
+import stat
 from pathlib import Path
 
 import yaml
@@ -368,8 +369,25 @@ def test_offline_qualification_fixture_prepares_forty_portable_items(tmp_path):
     assert request["execution_policy"]["storage_profile"] == "portable"
     assert summary["request_digest"] == request["request_digest"]
     assert (snapshot / "projects" / request["project_id"] / "project.json").is_file()
-    assert (root / "local-workspace" / "projects" / request["project_id"]).is_dir()
-    assert (root / "cloud-workspace" / "projects").is_dir()
+    local_project_root = (
+        root / "local-workspace" / "projects" / request["project_id"]
+    )
+    cloud_projects_root = root / "cloud-workspace" / "projects"
+    assert local_project_root.is_dir()
+    assert cloud_projects_root.is_dir()
+    assert summary["writable_workspace_mode"] == "0777"
+    assert summary["writable_workspace_roots"] == [
+        str(local_project_root),
+        str(cloud_projects_root),
+    ]
+    assert all(
+        not Path(path).is_relative_to(snapshot)
+        for path in summary["writable_workspace_roots"]
+    )
+    for writable_root in (local_project_root, cloud_projects_root):
+        mode = stat.S_IMODE(writable_root.stat().st_mode)
+        assert mode & stat.S_IWOTH
+        assert mode & stat.S_IXOTH
     for name, profile in (
         ("local-runtime-config.json", "local"),
         ("cloud-runtime-config.json", "cloud_run"),

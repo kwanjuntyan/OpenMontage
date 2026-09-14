@@ -89,6 +89,54 @@ def _copy_prepublication_project(case, destination_root: Path) -> Path:
     return destination
 
 
+def _advance_publication_state_generation(case) -> None:
+    """Model a concurrent valid journal CAS without changing canonical GCS data."""
+
+    state, generation = case["gcs_store"].load_publication_state()
+    advanced = deepcopy(state)
+    advanced["revision"] += 1
+    payload = canonical_json_bytes(advanced)
+    case["transport"].write_object(
+        bucket=BUCKET,
+        name=case["gcs_store"].publication_state_object_name,
+        data=payload,
+        metadata=case["gcs_store"]._record_metadata(
+            "publication_state",
+            hashlib.sha256(payload).hexdigest(),
+            request_digest=advanced["request_digest"],
+            logical_revision=str(advanced["revision"]),
+        ),
+        content_type="application/json",
+        if_generation_match=generation,
+    )
+
+
+def _publish_human_transition_in_concurrent_process_model(
+    case, command, *, invocation_name: str
+) -> int:
+    """Use a fresh thread/context to model a separate publication process."""
+
+    failures = []
+
+    def publish_transition():
+        try:
+            _publisher(
+                case,
+                verifier=FakeADCStatusVerifier(case["state"]["owner"]),
+            ).publish(command, trusted_invocation=_identity(invocation_name))
+        except BaseException as exc:  # pragma: no cover - surfaced in caller
+            failures.append(exc)
+
+    thread = threading.Thread(target=publish_transition)
+    thread.start()
+    thread.join(timeout=10)
+    if thread.is_alive():
+        raise AssertionError("Concurrent Human transition did not finish")
+    if failures:
+        raise failures[0]
+    return case["transport"].write_calls
+
+
 def _production_root_config(case, tmp_path, command):
     command_generation, _ = case["gcs_store"].write_publication_command_if_absent(
         command
@@ -666,6 +714,130 @@ def test_completed_agent_rehydrate_accepts_new_execution_and_writes_no_gcs(
         read_checkpoint(fresh_root, case["project_id"], "assets")["status"]
         == "awaiting_human"
     )
+
+
+def test_completed_rehydrate_rechecks_authority_after_assets_before_checkpoint(
+    cloud_publication_case, tmp_path
+):
+    case = cloud_publication_case
+    snapshot = tmp_path / "pre-checkpoint-toctou-snapshot"
+    _copy_prepublication_project(case, snapshot)
+    command = _agent_command(case)
+    first_receipt = _publisher(
+        case, verifier=FakeADCStatusVerifier(case["state"]["owner"])
+    ).publish(command, trusted_invocation=_identity("pre-checkpoint-source"))
+    human = _human_command(case, command, first_receipt)
+
+    fresh_root = tmp_path / "pre-checkpoint-toctou-rehydrate"
+    _copy_prepublication_project(
+        {**case, "project_dir": snapshot / case["project_id"]}, fresh_root
+    )
+    interleaved = False
+    transition_writes = None
+
+    def advance_after_assets(name, _facts):
+        nonlocal interleaved, transition_writes
+        if name == "cloud_publication_recovery_assets_restored" and not interleaved:
+            interleaved = True
+            transition_writes = _publish_human_transition_in_concurrent_process_model(
+                case,
+                human,
+                invocation_name="pre-checkpoint-human-transition",
+            )
+
+    with pytest.raises(M2PublicationError, match="PUBLICATION_OWNER_LOST"):
+        _publisher(case, root=fresh_root, crash_hook=advance_after_assets).publish(
+            command, trusted_invocation=_identity("pre-checkpoint-reader")
+        )
+
+    assert interleaved is True
+    assert transition_writes is not None
+    assert case["transport"].write_calls == transition_writes
+    assert not (fresh_root / case["project_id"] / "checkpoint_assets.json").exists()
+    history = fresh_root / case["project_id"] / "history"
+    assert not history.exists() or not list(history.glob("checkpoint_assets_*.json"))
+
+
+def test_completed_rehydrate_rechecks_authority_after_checkpoint_before_receipt(
+    cloud_publication_case, tmp_path
+):
+    case = cloud_publication_case
+    snapshot = tmp_path / "pre-receipt-toctou-snapshot"
+    _copy_prepublication_project(case, snapshot)
+    command = _agent_command(case)
+    first_receipt = _publisher(
+        case, verifier=FakeADCStatusVerifier(case["state"]["owner"])
+    ).publish(command, trusted_invocation=_identity("pre-receipt-source"))
+    human = _human_command(case, command, first_receipt)
+
+    fresh_root = tmp_path / "pre-receipt-toctou-rehydrate"
+    _copy_prepublication_project(
+        {**case, "project_dir": snapshot / case["project_id"]}, fresh_root
+    )
+    interleaved = False
+    transition_writes = None
+
+    def advance_after_checkpoint(name, _facts):
+        nonlocal interleaved, transition_writes
+        if name == "cloud_publication_recovery_checkpoint_restored" and not interleaved:
+            interleaved = True
+            transition_writes = _publish_human_transition_in_concurrent_process_model(
+                case,
+                human,
+                invocation_name="pre-receipt-human-transition",
+            )
+
+    with pytest.raises(M2PublicationError, match="PUBLICATION_OWNER_LOST"):
+        _publisher(case, root=fresh_root, crash_hook=advance_after_checkpoint).publish(
+            command, trusted_invocation=_identity("pre-receipt-reader")
+        )
+
+    assert interleaved is True
+    assert transition_writes is not None
+    assert case["transport"].write_calls == transition_writes
+    assert (
+        read_checkpoint(fresh_root, case["project_id"], "assets")["status"]
+        == "awaiting_human"
+    )
+
+
+def test_completed_repair_rechecks_post_repair_generation_before_receipt(
+    cloud_publication_case,
+):
+    case = cloud_publication_case
+    command = _agent_command(case)
+    identity = _identity("post-repair-owner")
+    verifier = FakeADCStatusVerifier(case["state"]["owner"])
+    _publisher(case, verifier=verifier).publish(
+        command, trusted_invocation=identity
+    )
+
+    completed_state, completed_generation = (
+        case["gcs_store"].load_publication_state()
+    )
+    repairing_state = deepcopy(completed_state)
+    repairing_state["revision"] += 1
+    repairing_state["owner"]["owner_status"] = "repairing"
+    repairing_state["owner"].pop("completed_at")
+    case["gcs_store"].save_publication_state(
+        repairing_state, expected_generation=completed_generation
+    )
+    interleaved = False
+
+    def advance_after_repair(name, _facts):
+        nonlocal interleaved
+        if name == "cloud_publication_repair_completed" and not interleaved:
+            interleaved = True
+            _advance_publication_state_generation(case)
+
+    with pytest.raises(M2PublicationError, match="PUBLICATION_OWNER_LOST"):
+        _publisher(
+            case,
+            verifier=verifier,
+            crash_hook=advance_after_repair,
+        ).publish(command, trusted_invocation=identity)
+
+    assert interleaved is True
 
 
 def test_same_successor_can_read_only_rehydrate_after_takeover_completion(

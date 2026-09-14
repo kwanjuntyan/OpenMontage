@@ -156,6 +156,14 @@ python -m scripts.batch_v2_prepare_offline_qualification prepare \
   --output-root <absolute-prepared-root>
 ```
 
+The preparer explicitly sets POSIX mode `0777` on exactly two disposable bind
+roots: the prepared Local project root and the otherwise empty Cloud
+`projects/` root. This narrow qualification-only choice lets container UID/GID
+`65532:65532` create `.batch-v2` state and materialize the Cloud project even
+when the host fixture is owned by another UID. It does not change the read-only
+`input-snapshot`, application files, or either production Job template, and it
+is not a production workspace-permission recommendation.
+
 Then run both fake profiles with no network. The input snapshot is mounted
 separately and read-only; each profile gets its own writable workspace:
 

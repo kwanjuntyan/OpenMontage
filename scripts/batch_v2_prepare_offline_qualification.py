@@ -10,6 +10,7 @@ from __future__ import annotations
 import argparse
 import json
 import shutil
+import stat
 from copy import deepcopy
 from pathlib import Path
 from typing import Any, Mapping, Sequence
@@ -36,6 +37,18 @@ _REQUEST_CONTAINER_PATH = "/input-snapshot/config/request.json"
 _PROJECTS_CONTAINER_PATH = "/workspace/projects"
 _SNAPSHOT_PROJECTS_CONTAINER_PATH = "/input-snapshot/projects"
 _FIXED_TIMESTAMP = "2026-09-15T00:00:00Z"
+_DISPOSABLE_WORKSPACE_MODE = 0o777
+
+
+def _make_disposable_workspace_non_owner_writable(path: Path) -> None:
+    """Set and verify the narrow POSIX bind-root mode used only by this fixture."""
+
+    path.chmod(_DISPOSABLE_WORKSPACE_MODE)
+    mode = stat.S_IMODE(path.stat().st_mode)
+    if mode & 0o003 != 0o003:
+        raise RuntimeError(
+            f"Offline qualification workspace is not non-owner writable: {path}"
+        )
 
 
 def _brief() -> dict[str, Any]:
@@ -346,7 +359,11 @@ def prepare_offline_qualification(output_root: str | Path) -> dict[str, Any]:
 
     local_project = root / "local-workspace" / "projects" / _PROJECT_ID
     shutil.copytree(project_dir, local_project)
-    (root / "cloud-workspace" / "projects").mkdir(parents=True)
+    cloud_projects = root / "cloud-workspace" / "projects"
+    cloud_projects.mkdir(parents=True)
+    writable_workspace_roots = (local_project, cloud_projects)
+    for writable_root in writable_workspace_roots:
+        _make_disposable_workspace_non_owner_writable(writable_root)
     return {
         "version": "1.0",
         "mode": "offline_fake_non_production",
@@ -355,6 +372,10 @@ def prepare_offline_qualification(output_root: str | Path) -> dict[str, Any]:
         "input_snapshot": str(snapshot_root),
         "local_workspace": str(root / "local-workspace"),
         "cloud_workspace": str(root / "cloud-workspace"),
+        "writable_workspace_mode": "0777",
+        "writable_workspace_roots": [
+            str(writable_root) for writable_root in writable_workspace_roots
+        ],
     }
 
 

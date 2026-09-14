@@ -1770,6 +1770,19 @@ class CloudAssetsPublisher:
                     payload=destination.read_bytes(),
                     receipt=receipt,
                 )
+            self._crash(
+                "cloud_publication_recovery_assets_restored",
+                command_id=command["command_id"],
+                publication_state_generation=state_generation,
+            )
+            self._assert_claim_current(
+                store=gcs_store,
+                publication_state=publication_state,
+                publication_generation=state_generation,
+                fence=publication_fence,
+                fence_generation=fence_generation,
+                require_active=False,
+            )
             current_checkpoint = read_checkpoint(
                 self.projects_root, command["project_id"], "assets"
             )
@@ -1783,6 +1796,14 @@ class CloudAssetsPublisher:
                     if not LocalAssetsPublisher._is_exact_checkpoint(
                         current_checkpoint, prior_command
                     ):
+                        self._assert_claim_current(
+                            store=gcs_store,
+                            publication_state=publication_state,
+                            publication_generation=state_generation,
+                            fence=publication_fence,
+                            fence_generation=fence_generation,
+                            require_active=False,
+                        )
                         local_store.adopt_command_bound_checkpoint(
                             payload=prior_checkpoint_payload,
                             validator=lambda candidate: (
@@ -1801,6 +1822,14 @@ class CloudAssetsPublisher:
                         prior_checkpoint_document
                     ):
                         raise ValueError("local prior checkpoint differs from authority")
+                    self._assert_claim_current(
+                        store=gcs_store,
+                        publication_state=publication_state,
+                        publication_generation=state_generation,
+                        fence=publication_fence,
+                        fence_generation=fence_generation,
+                        require_active=False,
+                    )
                     write_checkpoint(
                         self.projects_root,
                         command["project_id"],
@@ -1821,6 +1850,14 @@ class CloudAssetsPublisher:
                             "batch_v2_publication": _publication_metadata(command)
                         },
                     )
+                self._assert_claim_current(
+                    store=gcs_store,
+                    publication_state=publication_state,
+                    publication_generation=state_generation,
+                    fence=publication_fence,
+                    fence_generation=fence_generation,
+                    require_active=False,
+                )
                 local_store.adopt_command_bound_checkpoint(
                     payload=checkpoint_payload,
                     validator=lambda candidate: (
@@ -1840,6 +1877,11 @@ class CloudAssetsPublisher:
                 payload=checkpoint_payload,
                 checkpoint=checkpoint,
                 command=command,
+            )
+            self._crash(
+                "cloud_publication_recovery_checkpoint_restored",
+                command_id=command["command_id"],
+                publication_state_generation=state_generation,
             )
         except Exception as exc:
             if isinstance(exc, M2PublicationError):
@@ -1883,6 +1925,14 @@ class CloudAssetsPublisher:
                 command_id=command["command_id"],
                 publication_state_generation=state_generation,
             )
+        self._assert_claim_current(
+            store=gcs_store,
+            publication_state=publication_state,
+            publication_generation=state_generation,
+            fence=publication_fence,
+            fence_generation=fence_generation,
+            require_active=False,
+        )
         return {
             "version": "1.0",
             "command_id": command["command_id"],
