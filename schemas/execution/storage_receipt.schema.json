@@ -1,0 +1,97 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmontage.local/schemas/execution/storage_receipt.schema.json",
+  "title": "Batch Executor V2 StorageReceipt",
+  "type": "object",
+  "required": [
+    "version",
+    "receipt_id",
+    "batch_id",
+    "item_id",
+    "attempt_id",
+    "sha256",
+    "size_bytes",
+    "media_type",
+    "probe",
+    "store_type",
+    "logical_path",
+    "locator",
+    "created_at",
+    "verification",
+    "access",
+    "encryption"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": "1.0" },
+    "receipt_id": { "$ref": "#/$defs/id" },
+    "batch_id": { "$ref": "#/$defs/id" },
+    "item_id": { "$ref": "#/$defs/id" },
+    "attempt_id": { "$ref": "#/$defs/id" },
+    "sha256": { "$ref": "#/$defs/digest" },
+    "size_bytes": { "type": "integer", "minimum": 1 },
+    "media_type": { "type": "string", "minLength": 1, "maxLength": 255 },
+    "probe": {
+      "type": "object",
+      "required": ["container", "duration_seconds", "video_codec", "has_audio"],
+      "additionalProperties": false,
+      "properties": {
+        "container": { "type": "string", "minLength": 1, "maxLength": 32 },
+        "duration_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "video_codec": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "has_audio": { "type": "boolean" }
+      }
+    },
+    "store_type": { "enum": ["local", "gcs"] },
+    "logical_path": { "$ref": "#/$defs/logical_path" },
+    "locator": { "type": "string", "minLength": 1, "maxLength": 2048 },
+    "generation": { "type": "integer", "minimum": 1 },
+    "provider_checksum": {
+      "type": "object",
+      "required": ["algorithm", "value"],
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": { "const": "crc32c" },
+        "value": { "type": "string", "minLength": 1, "maxLength": 128 }
+      }
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "verification": {
+      "type": "object",
+      "required": [
+        "completed_at",
+        "write_mode",
+        "sha256_verified",
+        "size_verified",
+        "provider_checksum_verified",
+        "generation_verified"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "completed_at": { "type": "string", "format": "date-time" },
+        "write_mode": { "const": "synchronous" },
+        "sha256_verified": { "const": true },
+        "size_verified": { "const": true },
+        "provider_checksum_verified": { "type": "boolean" },
+        "generation_verified": { "type": "boolean" }
+      }
+    },
+    "access": { "const": "private" },
+    "encryption": { "enum": ["provider_managed", "customer_managed"] }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "logical_path": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.\\.?/)(?!.*(?:^|/)\\.\\.?$)[^?\\u0000]+$",
+      "minLength": 1,
+      "maxLength": 1024
+    }
+  }
+}

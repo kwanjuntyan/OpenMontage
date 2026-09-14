@@ -1,0 +1,146 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmontage.local/schemas/execution/attempt.schema.json",
+  "title": "Batch Executor V2 Attempt",
+  "type": "object",
+  "required": [
+    "version",
+    "batch_id",
+    "request_digest",
+    "item_id",
+    "attempt_id",
+    "work_item_digest",
+    "idempotency_digest",
+    "identity",
+    "dispatch_sequence",
+    "phase",
+    "timestamps",
+    "acceptance_knowledge",
+    "billing_mode",
+    "retry_decision",
+    "cost"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": "1.0" },
+    "batch_id": { "$ref": "#/$defs/id" },
+    "request_digest": { "$ref": "#/$defs/digest" },
+    "item_id": { "$ref": "#/$defs/id" },
+    "attempt_id": { "$ref": "#/$defs/id" },
+    "work_item_digest": { "$ref": "#/$defs/digest" },
+    "idempotency_digest": { "$ref": "#/$defs/digest" },
+    "identity": { "$ref": "#/$defs/identity" },
+    "dispatch_sequence": { "type": "integer", "minimum": 1 },
+    "phase": {
+      "enum": [
+        "prepared",
+        "dispatched",
+        "provider_accepted",
+        "result_received",
+        "bytes_staged",
+        "technically_valid",
+        "durably_committed",
+        "failed",
+        "indeterminate",
+        "cancelled"
+      ]
+    },
+    "timestamps": {
+      "type": "object",
+      "required": ["queued_at"],
+      "additionalProperties": false,
+      "properties": {
+        "queued_at": { "type": "string", "format": "date-time" },
+        "dispatched_at": { "type": "string", "format": "date-time" },
+        "response_received_at": { "type": "string", "format": "date-time" },
+        "bytes_verified_at": { "type": "string", "format": "date-time" },
+        "committed_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "acceptance_knowledge": { "enum": ["not_accepted", "accepted", "unknown"] },
+    "billing_mode": { "enum": ["paid", "no_cost"] },
+    "provider_operation_id": { "type": "string", "minLength": 1, "maxLength": 1024 },
+    "error": {
+      "type": "object",
+      "required": ["error_class", "sanitized_message"],
+      "additionalProperties": false,
+      "properties": {
+        "error_class": {
+          "enum": [
+            "AUTHENTICATION",
+            "AUTHORIZATION",
+            "INVALID_REQUEST",
+            "RATE_LIMITED_NOT_ACCEPTED",
+            "RATE_LIMITED_ACCEPTANCE_UNKNOWN",
+            "PROVIDER_TRANSIENT_NOT_ACCEPTED",
+            "TIMEOUT_OR_NETWORK_UNKNOWN",
+            "OUTPUT_TECHNICALLY_INVALID",
+            "STORAGE_TRANSIENT",
+            "STORAGE_PERMANENT",
+            "CONCURRENT_RUN_CONFLICT",
+            "INTERNAL_BUG"
+          ]
+        },
+        "http_status": { "type": "integer", "minimum": 100, "maximum": 599 },
+        "provider_code": { "type": "string", "maxLength": 256 },
+        "sanitized_message": { "type": "string", "minLength": 1, "maxLength": 4096 },
+        "retry_after_seconds": { "type": "number", "minimum": 0 }
+      }
+    },
+    "retry_decision": { "enum": ["none", "retry", "do_not_retry", "indeterminate"] },
+    "cost": {
+      "type": "object",
+      "required": ["estimated_usd", "reserved_usd", "known_actual_usd", "potentially_charged_usd"],
+      "additionalProperties": false,
+      "properties": {
+        "estimated_usd": { "type": "number", "minimum": 0 },
+        "reserved_usd": { "type": "number", "minimum": 0 },
+        "known_actual_usd": { "type": "number", "minimum": 0 },
+        "potentially_charged_usd": { "type": "number", "minimum": 0 }
+      }
+    },
+    "output": {
+      "type": "object",
+      "required": ["sha256", "size_bytes", "probe"],
+      "additionalProperties": false,
+      "properties": {
+        "sha256": { "$ref": "#/$defs/digest" },
+        "size_bytes": { "type": "integer", "minimum": 1 },
+        "probe": {
+          "type": "object",
+          "required": ["container", "duration_seconds", "video_codec", "has_audio"],
+          "additionalProperties": false,
+          "properties": {
+            "container": { "type": "string", "minLength": 1, "maxLength": 32 },
+            "duration_seconds": { "type": "number", "exclusiveMinimum": 0 },
+            "video_codec": { "type": "string", "minLength": 1, "maxLength": 64 },
+            "has_audio": { "type": "boolean" }
+          }
+        },
+        "storage_receipt_id": { "$ref": "#/$defs/id" }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "identity": {
+      "type": "object",
+      "required": ["tool_name", "tool_contract_version", "provider", "route", "model", "operation"],
+      "additionalProperties": false,
+      "properties": {
+        "tool_name": { "const": "gemini_omni_video" },
+        "tool_contract_version": { "const": "0.1.0" },
+        "provider": { "const": "gemini_omni" },
+        "route": { "const": "vertex_interactions" },
+        "model": { "const": "gemini-omni-1.1-flash-preview" },
+        "operation": { "const": "text_to_video" }
+      }
+    }
+  }
+}

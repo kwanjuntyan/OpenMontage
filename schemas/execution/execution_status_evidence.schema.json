@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmontage.local/schemas/execution/execution_status_evidence.schema.json",
+  "title": "Batch Executor V2 ExecutionStatusEvidence",
+  "type": "object",
+  "required": [
+    "version",
+    "evidence_id",
+    "evidence_digest",
+    "batch_id",
+    "request_digest",
+    "prior_invocation_id",
+    "prior_execution_id",
+    "observed_status",
+    "observed_at",
+    "verifier",
+    "execution_resource"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": "1.0" },
+    "evidence_id": { "$ref": "#/$defs/id" },
+    "evidence_digest": { "$ref": "#/$defs/digest" },
+    "batch_id": { "$ref": "#/$defs/id" },
+    "request_digest": { "$ref": "#/$defs/digest" },
+    "prior_invocation_id": { "$ref": "#/$defs/id" },
+    "prior_execution_id": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "observed_status": { "enum": ["terminal", "cancelled"] },
+    "observed_at": { "type": "string", "format": "date-time" },
+    "verifier": { "const": "cloud_run_control_plane_adc" },
+    "execution_resource": { "type": "string", "minLength": 1, "maxLength": 1024 }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  }
+}
