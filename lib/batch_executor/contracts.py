@@ -38,6 +38,7 @@ SCHEMA_NAMES = frozenset(
         "execution_owner",
         "execution_status_evidence",
         "resume_authorization",
+        "publication_command",
     }
 )
 
@@ -245,6 +246,26 @@ def freeze_self_digest(
     frozen[digest_field] = _digest_without(frozen, digest_field)
     validate_contract(schema_name, frozen)
     _assert_no_sensitive_values(frozen)
+    return frozen
+
+
+def freeze_publication_command(document: Mapping[str, Any]) -> dict[str, Any]:
+    """Freeze an exact Agent-authored M2 publication command.
+
+    Only derived integrity fields are filled.  The Agent remains responsible
+    for the manifest, review evidence, lifecycle transition, and (for the
+    second command) the explicit Human Gate reply evidence.
+    """
+
+    frozen = deepcopy(dict(document))
+    manifest = frozen.get("asset_manifest")
+    if not isinstance(manifest, dict):
+        raise M0ContractError(
+            "ASSET_MANIFEST_INVALID", "PublicationCommand requires an object manifest"
+        )
+    frozen["asset_manifest_sha256"] = canonical_sha256(manifest)
+    frozen["command_digest"] = _digest_without(frozen, "command_digest")
+    validate_publication_command(frozen)
     return frozen
 
 
@@ -1039,6 +1060,187 @@ def _validate_cost_exposure(cost: Mapping[str, Any], *, code: str) -> None:
         )
 
 
+def _validate_canonical_asset_path(value: Any, *, field: str) -> str:
+    logical = validate_logical_path(value, field=field)
+    parts = PurePosixPath(logical).parts
+    if len(parts) < 2 or parts[0] != "assets":
+        raise M0ContractError(
+            "CANONICAL_ASSET_PATH_INVALID",
+            f"{field} must be a file beneath the canonical assets/ directory",
+        )
+    if PurePosixPath(logical).name in {"", ".", ".."}:
+        raise M0ContractError(
+            "CANONICAL_ASSET_PATH_INVALID", f"{field} must name a canonical file"
+        )
+    return logical
+
+
+def validate_publication_command(document: Mapping[str, Any]) -> None:
+    """Validate the immutable Agent/Human authorization boundary for M2."""
+
+    validate_contract("publication_command", document)
+    _assert_no_sensitive_values(document)
+    if document["canonical_json"] != CANONICAL_JSON_VERSION:
+        raise M0ContractError(
+            "CANONICAL_JSON_MISMATCH", "PublicationCommand canonical JSON version differs"
+        )
+    expected_digest = _digest_without(document, "command_digest")
+    if document["command_digest"] != expected_digest:
+        raise M0ContractError(
+            "PUBLICATION_COMMAND_DIGEST_MISMATCH",
+            "PublicationCommand does not match its complete canonical SHA-256",
+        )
+
+    manifest = document["asset_manifest"]
+    manifest_digest = canonical_sha256(manifest)
+    if document["asset_manifest_sha256"] != manifest_digest:
+        raise M0ContractError(
+            "ASSET_MANIFEST_DIGEST_MISMATCH",
+            "PublicationCommand asset_manifest digest differs from its content",
+        )
+    try:
+        from schemas.artifacts import validate_artifact
+
+        validate_artifact("asset_manifest", manifest)
+    except Exception as exc:
+        raise M0ContractError(
+            "ASSET_MANIFEST_INVALID",
+            "PublicationCommand asset_manifest failed the canonical artifact validator",
+        ) from exc
+
+    batch_id = document["batch_id"]
+    expected_result_path = PurePosixPath(
+        ".batch-v2", "runs", batch_id, "result.json"
+    ).as_posix()
+    expected_state_path = PurePosixPath(
+        ".batch-v2", "runs", batch_id, "state.json"
+    ).as_posix()
+    if document["result_ref"]["logical_path"] != expected_result_path:
+        raise M0ContractError(
+            "PUBLICATION_RESULT_PATH_INVALID",
+            "PublicationCommand must bind the exact project-scoped BatchResult path",
+        )
+    if document["state_ref"]["logical_path"] != expected_state_path:
+        raise M0ContractError(
+            "PUBLICATION_STATE_PATH_INVALID",
+            "PublicationCommand must bind the exact project-scoped BatchState path",
+        )
+
+    owner = document["execution_owner"]
+    if (
+        owner["batch_id"] != batch_id
+        or owner["request_digest"] != document["request_digest"]
+    ):
+        raise M0ContractError(
+            "PUBLICATION_OWNER_IDENTITY_MISMATCH",
+            "PublicationCommand owner does not bind its batch and request",
+        )
+    if owner["owner_status"] not in {"terminal", "cancelled"}:
+        raise M0ContractError(
+            "EXECUTION_NOT_STOPPED",
+            "Canonical publication requires a terminal or cancelled execution owner",
+        )
+    validate_exact_identity(document["identity"], field="publication.identity")
+
+    review = document["review_evidence"]
+    if (
+        review["batch_result_sha256"] != document["result_ref"]["sha256"]
+        or review["asset_manifest_sha256"] != manifest_digest
+    ):
+        raise M0ContractError(
+            "AGENT_REVIEW_BINDING_INVALID",
+            "Agent review evidence must bind the exact BatchResult and asset_manifest",
+        )
+    _validate_cost_exposure(
+        document["cost_snapshot"], code="PUBLICATION_BUDGET_INVALID"
+    )
+
+    manifest_assets = manifest.get("assets")
+    if not isinstance(manifest_assets, list):
+        raise M0ContractError(
+            "ASSET_MANIFEST_INVALID", "asset_manifest.assets must be an array"
+        )
+    manifest_by_id: dict[str, Mapping[str, Any]] = {}
+    manifest_paths: set[str] = set()
+    for index, asset in enumerate(manifest_assets):
+        if not isinstance(asset, Mapping):
+            raise M0ContractError(
+                "ASSET_MANIFEST_INVALID", f"asset_manifest.assets[{index}] is not an object"
+            )
+        asset_id = asset["id"]
+        path = _validate_canonical_asset_path(
+            asset["path"], field=f"asset_manifest.assets[{index}].path"
+        )
+        if asset_id in manifest_by_id or path in manifest_paths:
+            raise M0ContractError(
+                "ASSET_MANIFEST_DUPLICATE",
+                "asset_manifest asset IDs and canonical paths must be unique",
+            )
+        manifest_by_id[asset_id] = asset
+        manifest_paths.add(path)
+
+    bindings_by_asset: dict[str, Mapping[str, Any]] = {}
+    binding_item_ids: set[str] = set()
+    binding_receipt_ids: set[str] = set()
+    binding_paths: set[str] = set()
+    for index, binding in enumerate(document["asset_bindings"]):
+        asset_id = binding["asset_id"]
+        canonical_path = _validate_canonical_asset_path(
+            binding["canonical_path"], field=f"asset_bindings[{index}].canonical_path"
+        )
+        if (
+            asset_id in bindings_by_asset
+            or binding["item_id"] in binding_item_ids
+            or binding["storage_receipt_id"] in binding_receipt_ids
+            or canonical_path in binding_paths
+        ):
+            raise M0ContractError(
+                "ASSET_BINDING_DUPLICATE",
+                "Publication asset bindings must be one-to-one",
+            )
+        manifest_asset = manifest_by_id.get(asset_id)
+        if manifest_asset is None or manifest_asset["path"] != canonical_path:
+            raise M0ContractError(
+                "ASSET_MANIFEST_BINDING_INVALID",
+                "Every binding must match one exact asset_manifest ID and path",
+            )
+        bindings_by_asset[asset_id] = binding
+        binding_item_ids.add(binding["item_id"])
+        binding_receipt_ids.add(binding["storage_receipt_id"])
+        binding_paths.add(canonical_path)
+    if set(bindings_by_asset) != set(manifest_by_id):
+        raise M0ContractError(
+            "ASSET_MANIFEST_BINDING_INVALID",
+            "Every manifest asset must have exactly one durable result binding",
+        )
+
+    transition = document["transition"]
+    if transition["kind"] == "human_approval_to_completed":
+        prior_checkpoint = transition["prior_checkpoint_ref"]
+        prior_command = transition["prior_publication_command_ref"]
+        human = transition["human_approval_evidence"]
+        expected_prior_command_path = PurePosixPath(
+            ".batch-v2",
+            "runs",
+            batch_id,
+            "publication",
+            "commands",
+            f"{prior_command['command_id']}.json",
+        ).as_posix()
+        if (
+            prior_checkpoint["logical_path"] != "checkpoint_assets.json"
+            or prior_command["logical_path"] != expected_prior_command_path
+            or human["prior_checkpoint_sha256"] != prior_checkpoint["sha256"]
+            or human["prior_publication_command_digest"] != prior_command["sha256"]
+            or human["batch_result_sha256"] != document["result_ref"]["sha256"]
+            or human["asset_manifest_sha256"] != manifest_digest
+        ):
+            raise M0ContractError(
+                "HUMAN_APPROVAL_BINDING_INVALID",
+                "Human reply evidence must bind the prior checkpoint/command and exact reviewed output",
+            )
+
+
 def _mechanical_outcome(states: list[str]) -> str:
     if "indeterminate" in states:
         return "indeterminate"
@@ -1466,6 +1668,7 @@ __all__ = [
     "derive_attempt_output_path",
     "exact_identity",
     "freeze_batch_request",
+    "freeze_publication_command",
     "freeze_self_digest",
     "load_execution_schema",
     "validate_adapter_observation",
@@ -1475,6 +1678,7 @@ __all__ = [
     "validate_batch_result",
     "validate_batch_state",
     "validate_contract",
+    "validate_publication_command",
     "validate_exact_identity",
     "validate_logical_path",
     "validate_storage_receipt",
