@@ -1608,7 +1608,7 @@ Each track receives its own proposal, tests, risk review, and approval. Architec
 - [ ] Canonical publication begins only after execution stops and has one writer; hidden legacy/background writers are suppressed in V2 scope and no mutation occurs after return.
 - [ ] Interrupted ordered publication is idempotently repairable with the checkpoint-embedded artifact as authority; no cross-file transaction is claimed.
 - [ ] The container is reproducible, pinned, non-root, contains no credentials/media, and has stable signal/exit behavior and redacted logs.
-- [ ] All Section 17.2 no-cost tests pass on Windows, repository-version Linux CI, and the local container; CI makes no network call and uses no real credential.
+- [ ] All Section 17.2 no-cost tests pass on Windows, repository-version Linux CI, and the local container; after checkout/dependency setup, the CI test process and its children run in a fail-closed no-egress environment with no real credential.
 - [ ] The writable-temp baseline passes, the Gemini credential portability defect is fixed rather than suppressed, and the 40-item fake performance criteria pass.
 - [ ] Migration and rollback are documented/tested, V2 remains opt-in, the legacy runner is untouched, and `team-main-pre-batch-v2` plus normal Git history remain intact.
 

@@ -200,6 +200,23 @@ boundary fails before FakeGCS/provider construction. M3 records the static
 container checks when no approved base image is locally available; it does not
 pull one merely to run this command, and the container gate remains pending.
 
+## M4 Linux test-execution isolation
+
+The dedicated Linux CI job may use network while checking out source and
+installing pinned test dependencies. After setup, it invokes
+`scripts/run_batch_v2_linux_offline_gate.sh`; only that test execution is
+described as offline. The launcher refuses to run if credential-like files are
+present in the workspace or if `sudo`, `unshare`, `setpriv`, or network
+inspection tools are unavailable. It creates a fresh network namespace,
+enables loopback for Backlot, proves there is no default route or active
+non-loopback interface, clears the inherited environment and user config home,
+executes the real legacy entrypoint with only `-B` and `--help`, then starts
+pytest with a repository-local temp root. The help smoke must exit zero and is
+never given a sequence selector. This OS-level boundary also contains child
+processes, unlike the in-process pytest socket guard. A failed isolation
+preflight fails the gate; it never falls back to an ordinary networked test
+process.
+
 ## First run and resume
 
 First execution:
@@ -315,3 +332,24 @@ ownership/recovery journal: if a process stops after the checkpoint commit but
 before the journal CAS, an exact same-command retry verifies/adopts the GCS
 checkpoint and repairs the journal; that window is not interpreted as an
 uncommitted or bypassed Human Gate.
+
+## M5 publication IAM and generation prerequisite
+
+Before production qualification, bucket IAM and launch topology must make the
+publication identity the unique writer for canonical asset/checkpoint objects,
+the project/assets fence, and PublicationState. Legacy and executor identities
+must not have write permission to those namespaces. Object versions/generations
+referenced by the recovery protocol must remain readable for the documented
+recovery window under an explicit retention/versioning policy.
+
+Any mutation outside the reviewed publication protocol invalidates the
+qualification evidence. If unique-writer IAM cannot be guaranteed,
+qualification remains blocked pending a new threat-model and architecture
+review. Exact `latest-head == recorded-generation` checks at every relevant
+canonical mutation/return boundary are a minimum detection requirement, not a
+sufficient defense against an identity with canonical write permission. Such a
+deployment must first adopt immutable canonical objects plus a generation-CAS
+pointer, or a separately reviewed protocol proven equivalent, then repeat
+qualification. Retention of recorded generations is an additional prerequisite.
+These requirements do not retroactively block the accepted M3 offline
+implementation, and no M5 mechanism is implemented by M4.
