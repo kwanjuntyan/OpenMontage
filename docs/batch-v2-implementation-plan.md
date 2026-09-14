@@ -1,19 +1,19 @@
 # OpenMontage Batch Executor V2 — Implementation Plan
 
-> - Status: **Proposed — awaiting user approval**
+> - Status: **Revised — awaiting coordinating main-task acceptance**
 > - Planning branch: `codex/batch-v2`
 > - Baseline commit: `aa4dbd42e0f0c05b7029198793c2e52041c24a47`
 > - Safety tag: `team-main-pre-batch-v2` (annotated tag; peels to the baseline commit)
 > - Audit date: 2026-09-14
-> - Scope revision: MVP boundary clarified on 2026-09-14
+> - Scope revision: MVP boundary plus workspace and Cloud resume-ownership contracts clarified on 2026-09-14
 > - Scope of this commit: planning only; no Batch V2 implementation, deployment, or paid/live API call
 
 ## 1. Decision summary
 
 Batch Executor V2 MVP will be one local-first, cloud-ready execution engine with two configuration profiles:
 
-- `local`: durable local project/run storage plus isolated local scratch space.
-- `cloud-run`: the same engine in one Cloud Run Job task, with GCS as durable storage and local ephemeral scratch space.
+- `local`: durable local project/run storage plus project-scoped, non-canonical attempt staging.
+- `cloud-run`: the same engine in one Cloud Run Job task, with GCS as durable storage and a materialized logical `projects/<project-id>/` workspace containing the same project-scoped staging layout.
 
 The MVP is deliberately narrow: it executes only already-approved `assets`-stage work items, in one process, with bounded internal concurrency. The recommended starting point is three global workers, within the approved 2–4 range. A selected provider has its own explicit cap; an unqualified paid provider starts at one in-flight call. Gemini may remain at one for MVP rather than pulling generic thread-safety work into the critical path.
 
@@ -23,7 +23,8 @@ MVP must deliver all of the following as one vertical slice:
 - the same engine under `local` and single-task `cloud-run` profiles;
 - exact immutable binding to one approved concrete tool/provider/route/model and all output-affecting inputs;
 - per-item durable attempt/state, safe resume, partial-failure reporting, and paid-call ambiguity handling;
-- one coordinator writer per invocation; workers write only isolated scratch;
+- one coordinator writer per invocation; every tool receives an explicit `output_path` under `projects/<project-id>/.batch-v2/runs/<batch-id>/attempts/<item-id>/<attempt-id>/`;
+- Cloud ownership records that reject a second active execution and require trusted terminal/cancelled evidence or an explicit prior-invocation-bound human resume authorization before expected GCS generation CAS takeover;
 - standard ADC for GCS and, when the selected Google provider route requires it, Vertex;
 - synchronous private GCS uploads whose bytes, checksum, size, and object generation are verified before success;
 - formal `asset_manifest` validation and official checkpoint validation/writes.
@@ -38,7 +39,7 @@ The governing boundary is non-negotiable:
 
 The executor's successful terminal state is `awaiting_agent_review`, not a pipeline `completed` checkpoint. After the execution process has stopped, the Agent self-reviews and authorizes a sequential single-writer publication through `schemas.artifacts.validate_artifact()` and `lib.checkpoint.write_checkpoint()`. MVP deliberately fails closed to the normal per-gate flow: a gated `assets` stage is written `awaiting_human`, and only a later explicit human reply permits `completed` with `human_approved=true`. Consuming broad/full-run pre-authorization is deferred until its documented `approval_policy` schema mismatch is resolved.
 
-All worker output goes to isolated per-attempt staging. During execution, one coordinator is the only writer of run state, minimal cost state, storage receipts, and checkpoint progress. Publication occurs only after that process has stopped, under a separate sequential single-writer handoff. Existing hidden GCS background writers must be disabled in both execution and publication contexts.
+All worker output goes to `projects/<project-id>/.batch-v2/runs/<batch-id>/attempts/<item-id>/<attempt-id>/` or a path with exactly the same project-scoped semantics. This reserved subtree is inside the configured project workspace, but outside `artifacts/`, `assets/`, `renders/`, `history/`, and `checkpoint_<stage>.json`; it is never canonical and Backlot must ignore it. During execution, one coordinator is the only writer of run state, minimal cost state, storage receipts, and checkpoint progress. Publication occurs only after that process has stopped, under a separate sequential single-writer handoff. Existing hidden GCS background writers must be disabled in both execution and publication contexts.
 
 For paid stochastic calls, exactly-once billing cannot be promised unless a provider supplies durable idempotency or recoverable remote job IDs. If a process may have lost contact after provider acceptance, the item becomes `indeterminate` and is not automatically submitted again.
 
@@ -260,10 +261,12 @@ MVP is complete only when this bounded slice works end to end:
 | Pipeline scope | Execute Agent-authored canonical work items for `assets` only | No stage selection, edit, compose, or cross-stage chaining |
 | Initial asset type | Independent video-generation assets needed by the 40-shot use case | Other asset/tool families require an explicit qualified adapter and do not block MVP |
 | Process model | One coordinator process with bounded worker threads, default 3 and configured range 1–4 | No multiple executor processes or array jobs |
-| Profiles | Same engine under `local` and one Cloud Run Job task | Cloud `task-count=1`, `parallelism=1`, platform task retries disabled |
+| Profiles | Same engine under `local` and one Cloud Run Job task | Cloud `task-count=1`, `parallelism=1`, `max-retries=0` |
 | Tool identity | Exact concrete tool, provider, API route, model/variant, operation, full inputs, and source digests | One selected provider/route/model per MVP batch; no selector or fallback |
 | State/recovery | Durable per-item attempts and `pending/running/staged/committed/failed/indeterminate` state | Resume the same frozen request only; no distributed recovery coordinator |
-| Writer model | Workers write unique scratch; one coordinator serializes shared state and outputs | Sequential publication only after the execution process stops; no distributed lease system |
+| Staging/workspace | Tool `output_path` is coordinator-derived under `projects/<project-id>/.batch-v2/runs/<batch-id>/attempts/<item-id>/<attempt-id>/` | Inside configured project root, but outside canonical `artifacts/`, `assets/`, `renders/`, `history/`, and checkpoint paths; Backlot ignores it |
+| Writer model | Workers write only their unique project-scoped attempt directory; one coordinator serializes shared state and outputs | Sequential publication only after the execution process stops; no distributed lease system |
+| Cloud resume ownership | Durable invocation plus Cloud execution identity; an active owner blocks another execution | Takeover requires trusted prior terminal/cancelled evidence or explicit human resume authorization bound to the prior invocation, then expected-generation CAS |
 | Credentials | Standard ADC for GCS and selected Google Cloud provider routes | No hard-coded credential file/project; non-ADC API-key routes must be explicit and secret-injected |
 | GCS durability | Synchronous private upload, digest/size/checksum/generation receipt, verified read/head | No background future may satisfy success |
 | Canonical state | Complete `asset_manifest` through `validate_artifact`; checkpoint through `write_checkpoint` and validating read | No schema mutation, no automatic Human Gate resolution |
@@ -317,12 +320,14 @@ These are MVP release-blocking invariants, not preferences:
 4. **No silent fallback.** A blocked exact tool produces a blocker result.
 5. **Authorization before dispatch.** Project identity, checkpoint chain, approval evidence, and cost cap are authenticated before any side effect.
 6. **Single coordinator writer.** One process serializes shared execution state; workers never mutate canonical project state or shared control state.
-7. **Durability before success.** Output verification and durable storage receipt precede `committed` state.
-8. **Unknown paid outcome is not retryable by default.** Possible acceptance becomes `indeterminate`.
-9. **Canonical schemas stay canonical.** Storage locators do not introduce unknown artifact fields.
-10. **Human Gates remain human.** Executor completion never implies review or approval.
-11. **Profile parity.** Local and single-task Cloud Run differ only in configuration, minimal storage/scratch implementations, and identity source.
-12. **Legacy coexistence.** V2 writes to a namespaced run area until explicit Agent promotion.
+7. **Workspace contract.** Every tool `output_path` stays under the configured `projects/<project-id>/`; attempt staging uses the reserved non-canonical `.batch-v2/runs/.../attempts/...` subtree.
+8. **Proven Cloud takeover.** A different Cloud execution cannot dispatch while the recorded owner is active; task topology and elapsed time are not stop evidence. Resume proves stop/authorization before expected-generation CAS.
+9. **Durability before success.** Output verification and durable storage receipt precede `committed` state.
+10. **Unknown paid outcome is not retryable by default.** Possible acceptance becomes `indeterminate`.
+11. **Canonical schemas stay canonical.** Storage locators do not introduce unknown artifact fields.
+12. **Human Gates remain human.** Executor completion never implies review or approval.
+13. **Profile parity.** Local and single-task Cloud Run differ only in configuration, minimal storage/staging implementations, and identity source.
+14. **Legacy coexistence.** V2 writes to a namespaced run area until explicit Agent promotion.
 
 ## 5. Responsibility boundary
 
@@ -365,7 +370,7 @@ Agent-authored immutable BatchRequest
           |          |          |
        exact qualified BaseTool adapter
           |          |          |
-       isolated per-attempt scratch only
+ project-scoped non-canonical attempt staging only
           \          |          /
            verified result messages
                     |
@@ -402,6 +407,9 @@ schemas/execution/
   batch_state.schema.json
   batch_result.schema.json
   storage_receipt.schema.json
+  execution_owner.schema.json
+  execution_status_evidence.schema.json
+  resume_authorization.schema.json
 
 lib/batch_executor/
   contracts.py          # schema loading, canonical JSON, digests
@@ -429,11 +437,12 @@ The MVP layout is intentionally not a generic framework. Multi-provider fairness
 | Setting | Local profile | Cloud Run profile |
 |---|---|---|
 | Engine | Same coordinator package | Same coordinator package |
-| Process/task count | 1 process | Cloud Run Job `task-count=1`, `parallelism=1`, platform retries `0` |
+| Process/task count | 1 process | Cloud Run Job `task-count=1`, `parallelism=1`, `max-retries=0` |
 | Default workers | 3 | 3, capped by the exact selected-provider setting |
-| Scratch | Configured local temp outside canonical project tree | `/tmp/openmontage/...` ephemeral |
+| Logical project root | Configured projects root plus `<project-id>` (logically `projects/<project-id>/`) | Immutable snapshot materialized as a logical `projects/<project-id>/` workspace under a configured writable job workspace |
+| Attempt staging | `<project-root>/.batch-v2/runs/<batch-id>/attempts/<item-id>/<attempt-id>/` | Same logical path inside the materialized Cloud project root; ephemeral bytes are uploaded through GCSStore before commit |
 | Durable run store | LocalStore | GCSStore |
-| Project source | `OPENMONTAGE_PROJECTS_DIR` plus explicit project ID | Immutable GCS project/request snapshot |
+| Project source | `OPENMONTAGE_PROJECTS_DIR` plus explicit project ID | Immutable GCS project/request snapshot materialized before preflight |
 | GCS identity | ADC or explicit local credential profile | Attached service account via ADC |
 | Provider identity | Explicit profile; never hard-coded | Service identity where supported or Secret Manager-injected key |
 | Logs | JSONL/file plus console | Structured stdout to Cloud Logging plus durable summary |
@@ -527,6 +536,14 @@ Each work item must include:
 
 Any omitted output-affecting input is a validation error. The executor does not apply a provider default that could change output invisibly.
 
+The work item may name a canonical destination **intent**, but it cannot supply an arbitrary tool write path. Immediately before execution, the coordinator derives the only permitted tool `output_path` from validated IDs:
+
+```text
+projects/<project-id>/.batch-v2/runs/<batch-id>/attempts/<item-id>/<attempt-id>/<output-name>
+```
+
+The resolved path must remain beneath the configured and identity-validated project root, after symlink/junction resolution. It must not resolve into `artifacts/`, `assets/`, `renders/`, `history/`, a `checkpoint_<stage>.json` path, the repository root, the process working directory, or a system temp directory. Cloud uses the same logical path after materializing `projects/<project-id>/`; only its physical job-workspace prefix differs.
+
 ### 7.4 Digest and identity rules
 
 V2 must not use BaseTool's current 16-hex convenience key as its durable identity.
@@ -544,7 +561,8 @@ V2 must not use BaseTool's current 16-hex convenience key as its durable identit
 The MVP state is a revisioned durable snapshot plus per-item attempt records. It contains:
 
 - request identity/digest;
-- active invocation ID, state revision, and storage version/generation where applicable;
+- embedded active ExecutionOwner containing invocation ID, platform execution identity, owner status, state revision, and storage version/generation where applicable;
+- the digest/reference of any terminal-execution evidence or human ResumeAuthorization used for ownership handoff;
 - lifecycle status/outcome;
 - per-item current state and attempt count;
 - selected-provider permit/rate summary;
@@ -553,9 +571,32 @@ The MVP state is a revisioned durable snapshot plus per-item attempt records. It
 - timestamps and last durable attempt sequence;
 - links to result and storage receipts.
 
-State must not contain secrets or full prompts by default. A generalized append-only event-sourcing service, distributed ownership/fencing token, and global cache index are post-MVP.
+State must not contain secrets or full prompts by default. A generalized append-only event-sourcing service, renewable distributed ownership lease/fencing token, and global cache index are post-MVP.
 
-### 7.6 Attempt and error records
+### 7.6 Cloud execution ownership and ResumeAuthorization
+
+MVP does not implement a renewable lease, but it does require durable proof that only one Cloud execution may dispatch for a request at a time.
+
+`ExecutionOwner` is embedded in BatchState and contains at least:
+
+- `batch_id` and exact `request_digest`;
+- unique executor-generated `invocation_id`;
+- trusted Cloud Run execution resource identity/UID plus task identity where available;
+- `owner_status`: `active`, `terminal`, or `cancelled`;
+- acquisition timestamp and GCS state generation;
+- terminal/cancelled evidence digest and observation source when released;
+- predecessor owner identity and takeover-proof digest when ownership changed.
+
+An existing `active` owner always blocks a different ordinary `run` invocation. Only an explicitly requested `resume` invocation may attempt the proof-and-CAS handoff below. `task-count=1`, `parallelism=1`, `max-retries=0`, elapsed wall time, missing logs, an old heartbeat, or inability to contact the prior process are **not** proof that the earlier Cloud execution stopped.
+
+Before ownership may move to a new invocation, preflight must validate exactly one of:
+
+1. **Trusted platform evidence:** a minimal ADC-authenticated Cloud Run execution-status verifier identifies the exact recorded prior execution and reports it terminal or cancelled. It persists an immutable, schema-valid `ExecutionStatusEvidence` binding batch ID, request digest, prior invocation ID, execution identity, observed terminal state, observation time, and verifier/source identity. Caller-supplied status JSON without authenticated verification is not trusted evidence.
+2. **Explicit human resume authorization:** after the Agent has surfaced the unresolved owner, an immutable `ResumeAuthorization` records the explicit human direction and binds batch ID, request digest, prior invocation ID/execution identity, intended new invocation ID, reason, decision/reply reference, timestamp, and one-time authorization digest.
+
+Only after one proof validates may the explicit resume invocation replace the owner using `save_batch_state(..., expected_generation)`. The successful CAS stores the proof digest and new identity atomically with `owner_status=active`. A failed CAS, mismatched/stale proof, proof for another request/invocation, or unavailable verifier fails closed before any provider dispatch. Normal completion/cancellation changes the application owner record to `terminal`/`cancelled` with expected-generation CAS, but that self-written status alone is not proof that the Cloud Run execution process has stopped; a later execution still needs authenticated control-plane terminal/cancelled evidence or the bound human authorization. This is bounded ownership handoff, not automatic failover, lease expiry, or distributed fencing.
+
+### 7.7 Attempt and error records
 
 Every attempt records:
 
@@ -570,13 +611,14 @@ Every attempt records:
 - output digest/size/probe summary and storage receipt;
 - no credential values and no raw provider payload unless explicitly redacted and separately protected.
 
-### 7.7 BatchResult v1
+### 7.8 BatchResult v1
 
 The durable result reports every item, including failures and indeterminate calls. It contains no pipeline approval claim.
 
 Required summary fields:
 
 - request digest and source bindings;
+- invocation/execution identity chain and ownership-proof digests used by this run;
 - status `awaiting_agent_review` when all safe mechanical work has stopped;
 - outcome `all_succeeded`, `partial_failure`, `failed`, `cancelled`, or `indeterminate`;
 - successful/cache-hit/failed/indeterminate counts;
@@ -585,7 +627,7 @@ Required summary fields:
 - retry/cache/quota statistics;
 - Agent-review checklist hints limited to facts, never an automated creative verdict.
 
-### 7.8 StorageReceipt v1
+### 7.9 StorageReceipt v1
 
 Every committed blob receipt includes:
 
@@ -597,7 +639,7 @@ Every committed blob receipt includes:
 - encryption/access classification;
 - no public or signed URL as durable identity.
 
-### 7.9 Canonical artifact and checkpoint publication
+### 7.10 Canonical artifact and checkpoint publication
 
 Execution and publication are deliberately separate, sequential single-writer barriers:
 
@@ -606,7 +648,7 @@ Execution and publication are deliberately separate, sequential single-writer ba
 3. The Agent inspects outputs using the stage reviewer skill and manifest `review_focus`.
 4. The Agent constructs the stage's canonical artifact from reviewed results.
 5. The Agent emits an immutable `PublicationCommand` containing the exact `asset_manifest`, review/cost facts, and target `awaiting_human` status for a gated assets stage.
-6. Only after the execution process is durably stopped does one publication process take the local run lock or expected GCS state generation. It enters a scoped V2 context that suppresses every legacy BaseTool/checkpoint background GCS writer.
+6. Only after the execution process is durably stopped does one publication process take the local run lock or, in Cloud, verify the recorded terminal/cancelled owner evidence and acquire the expected GCS state generation. It enters a scoped V2 context that suppresses every legacy BaseTool/checkpoint background GCS writer.
 7. The publication process validates the complete `asset_manifest` with `validate_artifact` and calls `write_checkpoint` with the exact Agent-authorized status. The checkpoint-embedded artifact is the MVP authority.
 8. A loose `artifacts/asset_manifest.json` is optional. If compatibility requires it, write it serially after the checkpoint as a digest-identical, rebuildable mirror; startup/resume detects and repairs a mismatched mirror before exposing it.
 9. After the later explicit Human Gate reply, the Agent issues a second command and a single publication process writes `completed, human_approved=true` through `write_checkpoint`.
@@ -636,7 +678,7 @@ Definitions:
 
 - `received`: bytes exist but are not trusted.
 - `validating`: schema, digest, project identity, approval, budget, sources, tool identity, and storage preflight are being checked with no provider side effects.
-- `ready`: request is frozen and a local exclusive run lock or conditionally created GCS run record confirms no concurrent invocation.
+- `ready`: request is frozen and ownership preflight has succeeded. Local holds the exclusive run lock. Cloud has either conditionally created the first owner or proven the prior owner stopped/was explicitly superseded and then won the expected-generation CAS for the new invocation.
 - `running`: at least one item may be queued/dispatched; one coordinator process owns execution writes.
 - `blocked`: safe automatic progress is impossible before a configuration, authorization, or ambiguity decision.
 - `cancelled`: no new items will dispatch; in-flight calls are reconciled as far as provider semantics permit.
@@ -750,13 +792,13 @@ For stochastic generation, a reuse hit means reuse of a previously accepted exac
 
 ### 10.2 Content-addressed storage
 
-Media is first committed to an immutable path such as:
+Local media is first committed beneath the validated project root to an immutable V2 path such as:
 
 ```text
-blobs/sha256/<first-two-hex>/<full-sha256>
+projects/<project-id>/.batch-v2/blobs/sha256/<first-two-hex>/<full-sha256>
 ```
 
-Run/item paths are small references to the blob receipt. Canonical project materialization happens only during Agent-approved publication. An existing blob for the same batch/item digest is verified and reused; an existing logical path with a different digest creates a conflict rather than an overwrite. MVP does not build a global cross-project content-addressed service.
+The equivalent private GCS object is namespaced by project and digest. Run/item paths are small references to the blob receipt. Canonical `assets/...` materialization happens only during Agent-approved publication. An existing blob for the same batch/item digest is verified and reused; an existing logical path with a different digest creates a conflict rather than an overwrite. MVP does not build a global cross-project content-addressed service.
 
 ### 10.3 Pre-dispatch durability
 
@@ -775,14 +817,19 @@ If this barrier fails, the provider call is not made.
 On restart, the coordinator:
 
 1. loads and validates the immutable request;
-2. verifies that the previous process/task has stopped, then obtains the local exclusive lock or conditionally advances the expected GCS state generation for the resume invocation;
-3. verifies the state revision and per-item attempt records;
-4. verifies each committed receipt and reconstructs the derived state;
-5. requeues `pending`, `eligible`, and expired `retry_wait` items;
-6. treats stale `running` attempts according to provider semantics;
-7. reconciles recoverable remote operation IDs before considering a new call;
-8. marks possibly accepted paid attempts `indeterminate` when safe reconciliation is unavailable;
-9. emits a complete resumed BatchResult without hiding partial failures.
+2. creates and records the proposed new `invocation_id`, invocation mode (`run` or explicit `resume`), and, for Cloud, the trusted Cloud Run execution identity;
+3. on Local, acquires the exclusive run lock; failure means no dispatch;
+4. on Cloud, loads BatchState plus its exact GCS generation and evaluates the current `ExecutionOwner`;
+5. if there is no owner, conditionally creates the first `active` owner; if the exact same invocation/execution already owns the state, it may continue only after validating its identity and state generation;
+6. if a different owner exists, an ordinary `run` fails closed; only explicit `resume` mode validates trusted terminal/cancelled platform evidence or an explicit human `ResumeAuthorization` bound to that prior owner, this request digest, and the proposed new invocation;
+7. only after step 6 succeeds, performs one expected-generation CAS that records the proof digest and makes the new invocation the `active` owner; a CAS loss, missing proof, stale heartbeat alone, elapsed timeout alone, or task topology alone blocks the batch with zero provider calls;
+8. verifies the state revision and per-item attempt records;
+9. verifies each committed receipt and reconstructs the derived state;
+10. requeues `pending`, `eligible`, and expired `retry_wait` items;
+11. treats prior `running` attempts according to provider acceptance semantics;
+12. reconciles recoverable remote operation IDs before considering a new call;
+13. marks possibly accepted paid attempts `indeterminate` when safe reconciliation is unavailable;
+14. emits a complete resumed BatchResult without hiding partial failures.
 
 ### 10.5 Paid-call ambiguity policy
 
@@ -821,6 +868,8 @@ Otherwise the attempt is `indeterminate`. Its reservation remains in the conserv
 | `LOCAL_STORAGE_TRANSIENT` | Provider result already received | Retry storage commit, not generation |
 | `GCS_TRANSIENT` | Provider result already received | Retry same blob commit, not generation |
 | `GCS_PRECONDITION_CONFLICT` | No new provider call needed | Verify existing object/state; fail closed on digest mismatch |
+| `EXECUTION_OWNER_ACTIVE` | Not dispatched | Block the second invocation; no timeout-based takeover |
+| `RESUME_OWNERSHIP_PROOF_INVALID` | Not dispatched | Block until exact trusted terminal/cancelled evidence or bound human authorization exists |
 | `INTERNAL_BUG` | Depends on phase | Preserve facts; unknown paid phase becomes indeterminate |
 | `CANCELLED` | Depends on in-flight state | Stop dispatch; reconcile honestly |
 
@@ -848,7 +897,7 @@ The default batch policy is `continue_independent`:
 
 ### 12.1 Writer ownership
 
-MVP permits exactly one coordinator process per invocation. Local uses an exclusive run lock; Cloud Run fixes `task-count=1`, `parallelism=1`, and platform retries to zero. GCS request creation and state updates use expected object generations to reject an accidental concurrent invocation, but MVP has no renewable distributed lease, heartbeat, or fencing service.
+MVP permits exactly one coordinator process per invocation. Local uses an exclusive run lock. Cloud Run fixes `task-count=1`, `parallelism=1`, and `max-retries=0` **within each execution**, but does not treat those settings as protection against another execution of the same request. Cross-execution ownership is enforced by the durable `ExecutionOwner`, validated stop/authorization evidence, and expected-generation CAS described below. MVP has no renewable distributed lease, automatic expiry, heartbeat takeover, or fencing service.
 
 The execution coordinator owns run/progress writes until it durably stops. A later publication invocation begins only after that stop and is the sole writer while persisting the exact Agent-authored command. The Agent owns the semantic decision but does not run a competing writer.
 
@@ -866,30 +915,48 @@ The active coordinator may mutate:
 Workers may only:
 
 - read immutable request/materialized inputs;
-- write to their unique attempt scratch directory;
-- invoke the exact tool with a staging output path;
+- write to their unique project-scoped attempt staging directory;
+- invoke the exact tool with the coordinator-derived staging `output_path`;
 - return immutable result facts/messages to the coordinator.
 
-### 12.2 Suppressing legacy hidden writers
+### 12.2 Cloud ownership acquisition and handoff
+
+The first Cloud invocation conditionally creates BatchState, or fills an owner-null initial state, with its exact `invocation_id`, Cloud Run execution identity, request digest, and `owner_status=active`. A different ordinary `run` execution that observes this owner must fail closed before queueing or dispatching work.
+
+For normal completion or cancellation, the current owner uses expected-generation CAS to persist application status `terminal` or `cancelled` before exiting. A later Cloud execution still verifies that the recorded prior Cloud Run execution itself is terminal/cancelled; the old process's self-written status is not sufficient stop proof. For an abnormal stop that cannot write the transition, the same rule applies. A later invocation cannot infer death from age, missing progress, Cloud task settings, or its own launch. It must be an explicit `resume` and receive one of the Section 7.6 proofs. The minimal authenticated Cloud Run status verifier or the Agent supplies the evidence; the executor only validates the bound facts and mechanically performs the CAS.
+
+The handoff sequence is:
+
+1. load the exact immutable request, BatchState, owner, and GCS generation;
+2. require explicit `resume` mode and validate the proposed new invocation/execution identity;
+3. verify terminal/cancelled platform evidence for the recorded owner, or validate the one-time human ResumeAuthorization for that owner and proposed successor;
+4. reconcile prior in-flight attempt acceptance before allowing any resubmission;
+5. CAS the new owner plus proof digest against the previously read generation;
+6. re-read and verify that the new owner and generation are durable;
+7. only then allow scheduler dispatch.
+
+If two successors race, at most one CAS may win; every loser stops without a provider call. This bounded proof-and-CAS protocol is an MVP safety requirement while renewable leases, fencing tokens, and automated failover remain post-MVP.
+
+### 12.3 Suppressing legacy hidden writers
 
 Every V2 execution **and V2 result-to-artifact/checkpoint publication invocation** must:
 
 - disable legacy `GCS_AUTO_SYNC` behavior even when V2's own GCSStore is configured;
 - disable or redirect BaseTool's project event writer and post-success auto-upload in a scoped Batch execution context;
 - bypass the terminal `write_checkpoint` legacy async-sync hook for V2 publication metadata, then use the coordinator's synchronous Store commit path instead;
-- keep attempt scratch outside the canonical project tree so legacy path inference cannot mistake it for canonical output;
+- derive every tool `output_path` beneath `<project-root>/.batch-v2/runs/.../attempts/...`, while keeping it outside canonical directories and checkpoint/history paths;
 - prevent workers from calling `write_checkpoint`, `atomic_update_json`, CostTracker persistence, or writing `artifacts/`.
 
 Disabling these behaviors must be scoped to V2 and must not silently break the legacy runner. Integration tests write both `awaiting_human` and `completed` V2 checkpoints and prove that no legacy future is scheduled and no background mutation appears after `write_checkpoint` returns.
 
-### 12.3 Local commit sequence
+### 12.4 Local commit sequence
 
 For one successful attempt:
 
-1. worker closes output in unique scratch;
+1. worker closes output in its unique project-scoped attempt directory;
 2. coordinator probes media and computes SHA-256/size;
 3. coordinator writes an attempt record containing the staged digest;
-4. coordinator copies/writes to a unique temporary file in the target filesystem;
+4. coordinator copies/writes to a unique sibling temporary file beneath the validated project-scoped target filesystem, never system temp;
 5. flush and `fsync` the file;
 6. verify copied digest;
 7. atomically publish with `os.replace` or no-replace semantics as appropriate;
@@ -897,9 +964,9 @@ For one successful attempt:
 9. persist the storage receipt and state revision;
 10. only then set item state `committed`.
 
-Local run ownership uses one OS-level exclusive lock or equivalent; a process-local `threading.Lock` is insufficient. Publication takes the same lock only after execution has stopped. MVP does not implement a renewable lease or fencing token. In Cloud, task-count/parallelism/retry settings plus conditional creation/update of the batch state reject an accidental second invocation.
+Local run ownership uses one OS-level exclusive lock or equivalent; a process-local `threading.Lock` is insufficient. Publication takes the same lock only after execution has stopped. MVP does not implement a renewable lease or fencing token. In Cloud, the durable owner/proof/CAS protocol—not task-count/parallelism/retry settings alone—rejects an accidental second execution and controls resume handoff.
 
-### 12.4 GCS commit sequence
+### 12.5 GCS commit sequence
 
 1. upload the content-addressed blob with `if_generation_match=0`;
 2. request and verify provider checksum, size, and metadata SHA-256;
@@ -910,11 +977,11 @@ Local run ownership uses one OS-level exclusive lock or equivalent; a process-lo
 
 If the blob upload succeeds and the expected-generation state write fails, restart discovers and verifies the blob by digest/generation; it never regenerates merely because the state update failed. This conditional write is an MVP data-integrity mechanism, not a distributed lease service.
 
-### 12.5 Checkpoint publication constraints
+### 12.6 Checkpoint publication constraints
 
 - Existing `write_checkpoint` remains the only semantic path for checkpoint construction, schema checks, manifest gates, and prerequisites.
 - MVP materializes the project, calls `write_checkpoint`, validates it again with `read_checkpoint`, then synchronously writes/verifies the resulting checkpoint and optional digest-identical artifact mirror through the selected Store. It must not copy gate logic into another implementation.
-- Merely calling local `write_checkpoint` in ephemeral `/tmp` and launching a background upload is not acceptable.
+- The Cloud profile materializes `projects/<project-id>/` first, calls `write_checkpoint` at the normal project checkpoint path, and then performs the synchronous verified GCS write. Calling it in a detached system-temp tree or launching a background upload is not acceptable.
 - Terminal artifact/checkpoint status and content remain an Agent decision after review; one sequential publication process is the sole physical writer.
 - The checkpoint-embedded `asset_manifest` is MVP authority. A loose file is an optional derived mirror, so two-file atomicity is not claimed.
 - MVP crash tests cover the ordered publication boundaries and prove idempotent repair. A transactional bundle/current-pointer spanning checkpoint, decision log, and mirror is post-MVP.
@@ -927,7 +994,8 @@ If the blob upload succeeds and the expected-generation state write fails, resta
 - Resolve local project roots through `resolve_project_dir` and reject symlink/junction aliases or escapes.
 - Batch V2 requires an existing, valid `project.json` with matching `project_id` and `pipeline_type`; legacy missing-marker tolerance is not accepted.
 - All input/output logical paths are relative, normalized, and checked against their allowed roots.
-- Scratch and canonical roots are distinct. A worker cannot choose a canonical path.
+- Attempt staging and canonical paths are distinct subtrees of the same validated project root. A worker cannot choose its path: the coordinator derives `<project-root>/.batch-v2/runs/<batch-id>/attempts/<item-id>/<attempt-id>/`, and containment is checked after symlink/junction resolution.
+- Reject any tool `output_path` outside the configured project root or inside `artifacts/`, `assets/`, `renders/`, `history/`, or checkpoint paths. Only the later Agent-authorized publication step may materialize reviewed media into canonical `assets/`.
 - Reject absolute paths, traversal, alternate Windows drive/UNC paths, NULs, and symlink escapes in request-controlled names.
 - Subprocess adapters pass argument arrays; no shell interpolation from work-item text.
 
@@ -946,6 +1014,7 @@ If the blob upload succeeds and the expected-generation state write fails, resta
 
 - Dedicated least-privilege Cloud Run service account.
 - Bucket access limited to the selected project/run prefixes where practical.
+- The identity performing Cloud resume preflight has only the read permission needed to verify the exact prior Cloud Run execution status, plus the scoped GCS permissions needed for the owner CAS; it cannot accept caller-supplied status as authoritative.
 - Private objects by default; no `make_public()` in V2.
 - Public delivery, if ever needed, is a separate publish-stage decision.
 - Uniform bucket-level access and customer-managed encryption choices are deployment inputs, not hard-coded behavior.
@@ -956,7 +1025,7 @@ If the blob upload succeeds and the expected-generation state write fails, resta
 - Pin Python and direct dependencies through a reproducible lock/constraints strategy.
 - Explicitly include `google-cloud-storage`; include `ffmpeg`/`ffprobe` only if the technical validator requires them.
 - Build from a minimal supported Python base matching repository policy (currently `.python-version` is 3.10).
-- Run as a non-root user with read-only application code and writable `/tmp` only.
+- Run as a non-root user with read-only application code and one configured writable job workspace containing the materialized logical `projects/<project-id>/`. Worker/tool outputs never use system temp.
 - Run the repository's required dependency/security checks before Cloud use. A generalized SBOM/vulnerability-policy pipeline is post-MVP unless existing release policy already mandates it.
 
 ## 14. Local/GCS storage abstraction
@@ -982,24 +1051,27 @@ Generic immutable-record APIs, pointer abstractions, renewable leases, fencing, 
 ### 14.2 Proposed namespace
 
 ```text
-projects/<project_id>/batch-v2/
+projects/<project-id>/.batch-v2/
   runs/<batch_id>/
     request.json                 # immutable, conditional create
-    state.json                   # revisioned; GCS generation is the write version
-    attempts/<item>/<attempt>.json
+    state.json                   # revisioned owner + item state; GCS generation is the write version
+    attempts/<item>/<attempt>/   # tool output_path subtree plus attempt record
+    ownership-evidence/<digest>.json
+    resume-authorizations/<digest>.json
     outputs/<item>/<sha256>
     result.json                  # immutable terminal executor result
 ```
 
-GCS object names include the validated project ID. LocalStore mirrors the logical layout under an explicitly configured durable root.
+The namespace above is relative to the logical project workspace; for GCS it maps to an equivalent private object prefix rather than implying a local filesystem. GCS object names include the validated project ID. LocalStore uses the exact hidden `.batch-v2` subtree inside the configured project root; it does not mirror execution state outside `projects/<project-id>/`.
 
 ### 14.3 Durable project/checkpoint integration
 
-Cloud execution starts from an immutable project/request snapshot whose manifest binds all required canonical files and generations. The job materializes and validates that snapshot before dispatch.
+Cloud execution starts from an immutable project/request snapshot whose manifest binds all required canonical files and generations. The job first materializes a logical `projects/<project-id>/` beneath its configured writable job workspace, validates its `project.json`, and then derives `.batch-v2/runs/.../attempts/...` inside that project root before dispatch.
 
 The recommended integration path is:
 
 - keep execution-run state in the dedicated V2 store;
+- pass every tool an `output_path` inside the materialized project-scoped attempt directory; never use a detached `/tmp`/cwd/repository path;
 - have the Agent authorize and sequentially publish the formal initial `in_progress` checkpoint before a Cloud task starts;
 - use GCS BatchState, not a new remote checkpoint backend, for Cloud per-item progress during MVP;
 - never treat ephemeral local checkpoint bytes as durable success;
@@ -1019,25 +1091,27 @@ GCS location belongs in `StorageReceipt`/execution provenance, not in current `a
 Proposed dedicated assets:
 
 - `Dockerfile.batch-v2` with pinned Python runtime and dependencies.
-- Non-root entrypoint running `python scripts/batch_execute.py run --profile cloud-run --request-uri ...`.
+- Non-root entrypoint running `python scripts/batch_execute.py run --profile cloud-run --request-uri ...` for first execution or an explicit `resume` command with a proof reference for takeover.
 - Image contains no `.env`, credential JSON, project media, or local cache.
-- Request URI, bucket, project/location, worker limit, and selected-provider cap/rate values are supplied as immutable arguments/config.
+- Request URI, bucket, project/location, writable logical-project workspace, worker limit, and selected-provider cap/rate values are supplied as immutable arguments/config.
+- The invocation obtains a unique `invocation_id` and a trusted Cloud Run execution identity from the launch contract/platform metadata; neither may be synthesized from batch ID alone.
 
 The CLI remains thin:
 
 1. load profile;
-2. resolve request bytes;
-3. validate/preflight;
-4. invoke the shared engine;
-5. return a stable exit code and result locator.
+2. establish invocation mode plus unique invocation/Cloud execution identities;
+3. resolve request bytes and any explicit resume-proof reference;
+4. validate workspace, ownership, request, and provider preflight;
+5. invoke the shared engine only after ownership acquisition;
+6. return a stable exit code and result locator.
 
 ### 15.2 Job shape
 
-- `task-count=1`, `parallelism=1`, platform task retries `0`. Paid-call retry/resume is controlled only by the executor's durable state.
+- `task-count=1`, `parallelism=1`, `max-retries=0`. These constrain one Cloud Run execution only; they do not authorize a second execution of the same request. Paid-call retry/resume is controlled by durable item state plus the ownership-proof protocol.
 - Internal bounded concurrency only.
 - Set timeout above the authorized batch worst case, including retry waits.
 - Size memory/CPU for the sum of staging buffers, probes, and configured workers.
-- Use ephemeral `/tmp` only for recoverable scratch.
+- Materialize the logical project under one configured writable job-workspace root and create all attempt staging beneath its `.batch-v2/` subtree. Do not pass system-temp paths to tools.
 - Attach the dedicated service account.
 - Send structured stdout to Cloud Logging.
 - On SIGTERM, stop dispatch, persist cancellation intent, reconcile in-flight calls, flush durable state, and exit before the platform deadline where possible.
@@ -1048,13 +1122,18 @@ Cloud preflight must fail before provider dispatch when any of these is absent o
 
 - request/schema/digest;
 - valid project snapshot and approval/checkpoint bindings;
+- a materialized and identity-validated logical `projects/<project-id>/` root plus a derived attempt `output_path` that remains inside `.batch-v2/runs/.../attempts/...` and outside all canonical paths;
 - exact qualified adapter/tool version and observed identity contract;
 - explicit provider route/model/project/location;
 - ambient identity and required scopes;
 - bucket access and conditional-write capability;
 - storage read-after-write verification;
+- a unique invocation ID and trusted Cloud Run execution identity;
+- the current `ExecutionOwner` and exact GCS state generation;
+- either no prior owner, the exact same valid active owner, or explicit `resume` mode with trusted terminal/cancelled evidence / a schema-valid human ResumeAuthorization bound to the prior owner and proposed successor; an ordinary `run` never takes over;
+- successful expected-generation owner acquisition followed by re-read verification; task topology, elapsed time, stale heartbeat, or missing logs alone never satisfies this check;
 - budget reservation capacity;
-- sufficient scratch capacity;
+- sufficient capacity in the materialized project-scoped staging workspace;
 - disabled legacy background sync/writers.
 
 ### 15.4 Stable exit codes
@@ -1063,7 +1142,7 @@ Proposed categories:
 
 - `0`: BatchResult durable; inspect outcome.
 - `2`: request/contract/authorization failure before side effects.
-- `3`: configuration/auth/storage preflight blocker.
+- `3`: configuration/auth/storage/ownership preflight blocker.
 - `4`: durable result with item failures.
 - `5`: durable result with at least one indeterminate paid call.
 - `6`: cancellation recorded durably.
@@ -1080,7 +1159,7 @@ Every event includes:
 - schema version;
 - timestamp and monotonic duration where relevant;
 - batch, request, item, attempt, project, pipeline, and stage IDs;
-- invocation ID, state revision, and attempt sequence;
+- invocation ID, platform execution identity, owner/proof digest, state revision, and attempt sequence;
 - exact tool/provider/route/model identifiers;
 - lifecycle transition;
 - queue wait, provider wait, validation, and storage latency;
@@ -1127,7 +1206,7 @@ MVP keeps this minimal ledger inside BatchState/BatchResult and does not write t
 
 MVP does not add a new Backlot execution dashboard or remote-progress bridge.
 
-- Worker scratch and execution drafts remain outside canonical artifact paths and therefore invisible to Backlot.
+- Worker staging and execution drafts live in the reserved project-scoped `.batch-v2/` subtree, outside canonical artifact/media/checkpoint/history paths. Backlot must ignore `.batch-v2/` recursively and must never treat its files as canonical assets or stage artifacts.
 - Local runs may continue using existing `metadata.partial_progress`; Cloud per-item progress lives in GCS BatchState until Agent reconciliation.
 - The checkpoint-embedded `asset_manifest` is authoritative; an optional loose mirror must be digest-identical or rebuilt before use.
 - If an existing loose-manifest precedence rule makes an old manifest override the new Batch V2 checkpoint, the only permitted MVP Backlot change is a narrow assets-specific preference keyed by Batch V2 checkpoint metadata. It must be demonstrated by a failing compatibility test first.
@@ -1165,9 +1244,10 @@ Every test in this table is an MVP gate and must pass without real credentials, 
 | Request schema/digest | valid/invalid request, unknown fields, key order, paths, full input digests | Stable full SHA-256; fail before tool resolution |
 | Request conflict | same `batch_id`, different digest or selected identity | Hard conflict; provider call count zero |
 | Project/source identity | traversal, symlink/junction, missing marker, changed checkpoint/artifact/input digest | Rejected before any side effect |
+| Workspace/output path | local and Cloud-materialized project roots; absolute/traversal/junction paths; attempts to target repo/cwd/system temp or canonical directories | Every fake tool receives only `<project-root>/.batch-v2/runs/<batch>/attempts/<item>/<attempt>/...`; invalid path yields zero calls |
 | Gate/authorization | wrong DAG, unapproved/stale `scene_plan`, invalid checkpoint, stale budget | Complete assets prerequisite chain validates; no dispatch otherwise |
 | Exact adapter identity | tool missing/version mismatch, observed provider/route/model mismatch, alternative available | Exact match only; selector/fallback call count zero |
-| Worker isolation | fake tool writes only its supplied unique scratch path | Worker shared/canonical write count zero |
+| Worker isolation | fake tool writes only its supplied unique project-scoped attempt path | Worker shared/canonical write count zero; all outputs remain outside `artifacts/`, `assets/`, `renders/`, `history/`, and checkpoints |
 | Bounded concurrency | deterministic blocking fake at W=1..4 plus selected-provider cap | Observed calls never exceed either cap |
 | Minimal rate control | fake clock, request spacing, submit 429 and Retry-After | Selected-provider limits exact; no real sleep |
 | Retry phase | submit-rejected, post-accept poll/download, acceptance-unknown, 5xx/auth/permanent failure | Only safe phase retries; generation submit stays one after acceptance |
@@ -1178,15 +1258,18 @@ Every test in this table is an MVP gate and must pass without real credentials, 
 | Local persistence | exclusive lock, atomic state replace, corrupt state, restart at key item boundaries | Second local invocation rejected; truthful resume without lost item state |
 | Fake GCS | private synchronous upload, `if_generation_match=0`, size/checksum/SHA/generation, transient error | No `committed` before verified receipt; typed failures |
 | GCS crash recovery | upload succeeds then state write fails; state generation conflict; corrupt download | Resume reuses verified blob and never regenerates solely for storage failure |
+| Cloud first-owner acquisition | two fake Cloud executions start the same request concurrently | Exactly one expected-generation CAS wins; loser records `EXECUTION_OWNER_ACTIVE` and provider call count stays zero |
+| Cloud resume ownership proof | ordinary run versus explicit resume; prior owner active/terminal/cancelled; authenticated exact/mismatched platform evidence; untrusted caller JSON; exact/stale/wrong-request human authorization; CAS race | Ordinary run blocks; resume dispatches only after exact stop/authorization proof and successful owner CAS; self-written status/topology/age/heartbeat/log silence never count as stop proof |
+| Owner release/recovery | normal terminal/cancelled release, crash before release, proof verifier unavailable | Normal release is generation-bound; crash remains active until trusted evidence or explicit bound authorization; unavailable evidence fails closed |
 | Checkpoint progress | formal local `in_progress`; Cloud BatchState progress | Official writer locally; workers never write checkpoints |
 | Canonical publication | valid/invalid `asset_manifest`, `awaiting_agent_review`, later gate reply | `validate_artifact` + `write_checkpoint` + validating read; executor never resolves gate |
 | Hidden writer suppression | BaseTool and terminal checkpoint legacy auto-sync otherwise enabled | No legacy future and no post-return `gcs_url` mutation |
-| Minimal Backlot visibility | staging/draft plus optional old loose manifest | Staging invisible; narrow fix only if a test proves stale loose precedence |
+| Minimal Backlot visibility | `.batch-v2/` staging/draft plus optional old loose manifest | Backlot ignores `.batch-v2/` recursively; narrow fix only if a test proves stale loose precedence |
 | ADC/credential isolation | no creds, fake ambient ADC, explicit fake API-key route, hard-coded path probe | No developer path/project leakage; auth cannot alter route/model |
 | Output validation | empty/truncated/wrong container/duration/audio facts | Invalid bytes never become committed |
 | Redaction | secret-shaped headers/errors/signed URLs/prompt data | No secret in state/result/log output |
-| CLI/profile parity | local and cloud-profile fake success/failure/cancel; Cloud task retry config zero | Same semantic result and stable exit codes |
-| Container smoke | Linux non-root/read-only app, `/tmp` scratch, FakeGCS | Same request digest/state semantics as local |
+| CLI/profile parity | local and cloud-profile fake success/failure/cancel plus Cloud owner-block/explicit-resume; Cloud task retry config zero | Same semantic result and stable exit codes, including ownership preflight blocker |
+| Container smoke | Linux non-root/read-only app, writable materialized `projects/<project-id>/`, project-scoped staging, FakeGCS | Same request digest/state/ownership semantics as local; no tool output uses system temp |
 | Performance harness | 40 fake 46-second-equivalent waits | Meets bounded-concurrency target without network/cost |
 
 The fake provider exposes counters, barriers, scripted acceptance phases, remote IDs, charges, and key crash points. FakeGCS models object generations, checksums, and precondition failures rather than merely returning URLs.
@@ -1195,7 +1278,7 @@ The fake provider exposes counters, barriers, scripted acceptance phases, remote
 
 | Follow-on area | Deferred tests |
 |---|---|
-| Distributed ownership | renewable lease, fencing token, coordinator failover, multi-task contention |
+| Distributed ownership | renewable lease, fencing token, automatic coordinator failover, multi-task/region contention beyond the MVP proof-and-CAS handoff |
 | Cross-file transaction | atomic bundle across decision log/artifact/checkpoint/mirror; current-pointer recovery |
 | Broad Backlot | new `awaiting_agent_review` UI, remote progress/dashboard, generalized authority rules |
 | Generic provider platform | mixed-provider fairness, multi-dimensional quota/resource policies, universal `batch_safe` support envelope |
@@ -1213,7 +1296,7 @@ None of these are authorized by approval of this Plan alone.
 |---|---|---|---|
 | MVP qualification | Real GCS integration | Creates/reads cloud objects | Project, bucket, prefix, region, IAM identity, retention/cleanup plan |
 | MVP qualification | Cloud image push | Creates registry artifact and may incur storage | Project/region/repository/image tag |
-| MVP qualification | Cloud Run fake-tool job | Deploys/runs cloud resource without provider spend | Project/region/service account/resources/max runtime/cleanup |
+| MVP qualification | Cloud Run fake-tool job | Deploys/runs cloud resources without provider spend | Project/region/service account/resources/max runtime, execution count, exact owner-block/resume-proof scenarios, cleanup |
 | MVP qualification | Real provider single sample | May charge and store provider-side data | Exact tool/provider/route/model, prompt/input class, duration, max USD, retention setting |
 | MVP qualification | Real provider concurrency pilot | Multiple charges/quota impact | Item count, W1/W2/W3 comparison plan, max attempts, total max USD |
 | Optional benchmark | Full 40-shot benchmark | Material spend and time | Exact frozen request, reuse policy, provider quota, total cap, stop conditions |
@@ -1280,16 +1363,19 @@ Correctness, cost safety, and truthful ambiguity handling take precedence over t
 
 ## 19. Phases, milestones, and acceptance criteria
 
-No implementation phase, including M0, begins until the user approves this revised Plan. M0–M4 are the sequential, no-cost gates for an **MVP code-complete** result. M5 contains external qualification tiers that always require fresh, test-specific approval. Post-MVP tracks are deliberately excluded from every M0–M6 acceptance gate unless a concrete failing MVP safety/correctness test proves one is indispensable.
+This revision remains planning-only. M0 begins only after the coordinating main task accepts this revision and schedules the offline phase under the user's delegated M0–M4 authority. M0–M4 are the sequential, no-cost gates for an **MVP code-complete** result. M5 contains external qualification tiers that always require fresh, test-specific user approval. Post-MVP tracks are deliberately excluded from every M0–M6 acceptance gate unless a concrete failing MVP safety/correctness test proves one is indispensable.
 
 ### M0 — Freeze the MVP contracts and safety specification
 
 Deliverables:
 
-- versioned BatchRequest, BatchState, BatchResult, attempt, and storage-receipt schemas for the `assets` video-generation slice;
+- versioned BatchRequest, BatchState, BatchResult, attempt, storage-receipt, ExecutionOwner, ExecutionStatusEvidence, and ResumeAuthorization schemas for the `assets` video-generation slice;
 - canonical digest and exact tool/provider/route/model binding rules;
 - an explicit MVP support declaration and allowlisted adapter contract for one selected concrete tool/provider/route/model; no environment-derived route choice;
-- test-first Agent-Native, authorization, hidden-writer, ambiguity, validation, and credential-isolation cases.
+- a deterministic workspace-path contract that derives tool `output_path` beneath the project-scoped non-canonical `.batch-v2/runs/.../attempts/...` subtree for both profiles;
+- Cloud ownership rules that bind invocation/execution identity, trusted terminal/cancelled evidence, one-time human resume authorization, and expected-generation takeover CAS;
+- a narrow ADC-authenticated Cloud Run execution-status verifier contract; caller-provided status text is never authoritative;
+- test-first Agent-Native, authorization, workspace containment, ownership, hidden-writer, ambiguity, validation, and credential-isolation cases.
 
 Acceptance criteria:
 
@@ -1297,6 +1383,9 @@ Acceptance criteria:
 - an unavailable or mismatched identity fails before dispatch and invokes no fallback;
 - the selected MVP adapter identity is recorded before its implementation begins and is not inferred from ambient credentials;
 - responsibility tests prove the engine has no stage choice, prompt derivation, creative review, selector, or Human Gate decision behavior;
+- schema/semantic validation rejects a tool path outside `projects/<project-id>/`, inside a canonical path, or outside the exact attempt subtree;
+- schema/semantic validation rejects an owner takeover without exact prior-owner stop evidence or explicit prior-owner-bound human authorization, before any provider dispatch;
+- an ordinary `run` encountering any different recorded owner fails closed; only an explicit `resume` invocation can present takeover proof;
 - existing canonical artifact/checkpoint validation remains green;
 - no network or real credential is used.
 
@@ -1305,7 +1394,7 @@ Acceptance criteria:
 Deliverables:
 
 - one coordinator process, bounded worker threads with default W=3 and range W=1–4;
-- isolated attempt scratch, typed retry/backoff, cancellation, and selected-provider quota controls;
+- project-scoped non-canonical attempt staging, typed retry/backoff, cancellation, and selected-provider quota controls;
 - durable per-item lifecycle, attempt journal, budget reservation, same-request reuse, and resume in LocalStore;
 - an OS-level exclusive local run lock and scoped suppression of hidden project/GCS/event writers;
 - scripted fake provider and deterministic media validation.
@@ -1315,6 +1404,7 @@ Acceptance criteria:
 - a complete fake assets batch runs locally and BatchResult accounts for every item;
 - barrier/counter tests prove concurrency never exceeds global or selected-provider limits;
 - a second local coordinator is rejected by the run lock;
+- every fake tool receives only the coordinator-derived `<project-root>/.batch-v2/runs/<batch-id>/attempts/<item-id>/<attempt-id>/...` output path, with canonical and out-of-project targets rejected;
 - crash tests at every local state/output boundary resume the same frozen request without duplicate accepted work;
 - an acceptance-ambiguous paid attempt becomes `indeterminate` and is never auto-replayed;
 - workers cannot mutate shared state, canonical artifacts, checkpoints, cost files, or event streams;
@@ -1347,7 +1437,10 @@ Deliverables:
 - synchronous upload completion plus size, client SHA-256, GCS checksum, object generation, and metadata verification before an item becomes committed;
 - one shared engine exposed through Local and Cloud profiles;
 - one production assets-video adapter for the M0-selected exact route/model, covered with a fake transport and exact observed-identity assertions;
-- a reproducible non-root container and a Cloud Run Job definition/runbook fixed to `task-count=1`, `parallelism=1`, and platform retries `0`;
+- a reproducible non-root container and a Cloud Run Job definition/runbook fixed to `task-count=1`, `parallelism=1`, and `max-retries=0`;
+- durable Cloud ExecutionOwner acquisition/release plus proof-gated resume takeover using expected GCS generation CAS;
+- the minimal ADC-authenticated Cloud Run status verifier used only to prove the exact previous execution is terminal/cancelled;
+- a materialized logical `projects/<project-id>/` workspace whose attempt staging uses the same relative path and containment rules as Local;
 - service identity/ADC for GCS and Vertex/Gemini; no machine path, implicit project fallback, or baked credential;
 - pinned runtime dependency required by the supported Cloud path.
 
@@ -1356,10 +1449,13 @@ Acceptance criteria:
 - FakeGCS generation/checksum/precondition tests and the LocalStore/GCSStore MVP conformance suite pass;
 - upload-success/state-write-failure recovery verifies and reuses the existing blob rather than regenerating it;
 - a state-generation conflict fails closed and is not treated as a renewable lease/failover protocol;
+- an active prior Cloud owner blocks a second ordinary execution; topology, elapsed time, self-written terminal status, stale heartbeat, missing logs, or untrusted status JSON cannot authorize takeover;
+- resume dispatch occurs only after exact trusted terminal/cancelled evidence or a one-time human ResumeAuthorization bound to the prior and proposed invocations is validated, the owner CAS wins, and the new owner is re-read successfully;
+- concurrent successor tests prove one CAS winner and zero provider calls from every loser or insufficient-evidence invocation;
 - success cannot be returned before synchronous GCS verification, and no background upload remains in the success path;
 - the local container completes the fake 40-item request with both LocalStore and FakeGCS;
 - Local and Cloud profiles produce the same request digest, per-item transitions, result semantics, and exit codes;
-- the image contains no secret or project media and writes only to configured scratch/durable storage;
+- the image contains no secret or bundled project media; at runtime it writes worker/tool output only under the configured materialized project workspace and persists durable records through GCSStore;
 - no real deployment, GCS mutation, or provider call is required for this phase.
 
 ### M4 — Offline MVP release gate
@@ -1394,7 +1490,8 @@ Acceptance criteria for any tier that is authorized:
 - the recorded approval fixes project/region/identity/route/model, scope, attempts, retention, cleanup, and cost/time cap as applicable;
 - exact announced route/model equals the observed attempt record;
 - GCS objects are private, checksummed, generation-bound, synchronously verified, and resumable;
-- Cloud uses attached service identity/ADC and one task with platform retries disabled;
+- Cloud uses attached service identity/ADC with `task-count=1`, `parallelism=1`, and `max-retries=0`;
+- an approved Cloud fake-provider tier confirms the materialized project-scoped staging path, active-owner rejection across separate executions, authenticated terminal-status verification, and proof-before-CAS resume behavior;
 - no storage/retry failure causes a duplicate accepted paid call;
 - any indeterminate outcome stops escalation until the Agent reports it and the user gives new direction.
 
@@ -1468,9 +1565,10 @@ Each track receives its own proposal, tests, risk review, and approval. Architec
 | Paid duplicate after timeout/crash | Unexpected spend and duplicate assets | Pre-dispatch journal; accepted/unknown phase; `indeterminate` no-auto-replay |
 | Provider quota burst | 429s, bans, low throughput | Global plus selected-provider permits/rate limit, Retry-After, provider-specific qualification |
 | Gemini global-state race | Credential/DNS instability | Cap=1 until global mutation removed and concurrency tests/live pilot pass |
-| Hidden GCS/event writer | Lost updates and premature publication | Scoped suppression; workers outside project tree; coordinator-only persistence |
+| Hidden GCS/event writer | Lost updates and premature publication | Scoped suppression; workers confined to the project-scoped non-canonical attempt subtree; coordinator-only persistence |
 | GCS upload acknowledged too late | Cloud task exits with lost result | Synchronous receipt barrier, checksum, generation, no background success path |
-| Accidental second Cloud invocation | Stale or mixed results | One task/parallelism one/platform retries zero plus conditional request/state generations; fail closed |
+| Accidental second Cloud execution | Duplicate paid calls or split ownership | Durable invocation/execution identity; active-owner rejection; trusted stop or bound human authorization; one-winner expected-generation CAS; task settings are defense-in-depth only |
+| False Cloud takeover from stale heartbeat/timeout | Live execution is superseded | Neither age nor silence is proof; fail closed until exact trusted terminal/cancelled evidence or explicit prior-owner-bound human authorization exists |
 | Schema-invalid `gcs_url` mutation | Checkpoint/read failure and Backlot inconsistency | Locator sidecar; schema validation after every publication |
 | Backlot loose-artifact precedence | New artifact shown with old approval | Keep staging outside canonical paths; checkpoint authority; allow only a failing-test-driven assets-specific fix |
 | Cost race or invalid canonical cost log | Budget oversubscription or invalid canonical state | Coordinator-owned MVP reservation ledger; do not write canonical `cost_log`; migrate post-MVP |
@@ -1493,7 +1591,10 @@ Each track receives its own proposal, tests, risk review, and approval. Architec
 - [ ] Each immutable BatchRequest binds one exact tool/provider/route/model identity, and the observed adapter identity must match before dispatch.
 - [ ] One process provides bounded concurrency (default W=3, supported W=1–4) with selected-provider rate/quota controls.
 - [ ] Every item has durable state, attempt phase, receipt, error classification, budget exposure, and restart behavior; acceptance-ambiguous calls become `indeterminate` and are not auto-replayed.
-- [ ] Workers only write isolated scratch; one coordinator serializes shared execution state. Local uses an exclusive run lock; Cloud is fixed to one task, parallelism one, and platform retries zero.
+- [ ] Every tool `output_path` is coordinator-derived beneath `projects/<project-id>/.batch-v2/runs/<batch-id>/attempts/<item-id>/<attempt-id>/`; Local and Cloud-materialized workspaces enforce the same post-resolution containment, and workers cannot target canonical paths, the repository/cwd, or system temp.
+- [ ] Backlot ignores the `.batch-v2/` subtree and never presents its staging or execution records as canonical.
+- [ ] One coordinator serializes shared execution state. Local uses an exclusive run lock. Cloud records exact invocation/execution ownership; `task-count=1`, `parallelism=1`, and `max-retries=0` do not replace cross-execution ownership checks.
+- [ ] A second ordinary Cloud execution fails closed while another owner is recorded. Explicit resume requires ADC-authenticated terminal/cancelled evidence for the exact prior Cloud Run execution or one-time explicit human authorization bound to the prior and proposed invocations, then a successful expected-generation owner CAS and re-read, before dispatch; self-written status or caller JSON alone is insufficient.
 - [ ] Same-request reuse verifies the full identity digest, media bytes/probe, and storage receipt; no global or cross-project cache service is required.
 - [ ] LocalStore and the minimal GCSStore pass the MVP conformance suite.
 - [ ] GCS output writes are private, content-addressed, synchronous, generation-bound, and verified by size, client SHA-256, GCS checksum, generation, and metadata before commit.
@@ -1559,7 +1660,9 @@ The following do not block Sections 22.1 or 22.2 unless a documented failing MVP
 | Is resume a persistence concern rather than orchestration? | Yes | Resume only reconstructs the same frozen request/stage |
 | Could concurrency change creative semantics? | No | Independent exact items; no selector or re-planning |
 | Does Cloud become a second business implementation? | No | Same engine and contracts; storage/profile adapters only |
-| Could workers become competing writers? | No | Worker scratch isolation, coordinator-only shared state, and sequential post-execution publication |
+| Could workers become competing writers? | No | Project-scoped attempt isolation, coordinator-only shared state, and sequential post-execution publication |
+| Does staging obey the workspace contract? | Yes | Tool paths are derived inside `projects/<project-id>/.batch-v2/...`, outside canonical subtrees, under identical Local/Cloud logical roots |
+| Can task settings or a stale heartbeat steal Cloud ownership? | No | Exact owner identity plus trusted stop/bound human authorization and expected-generation CAS are required before dispatch |
 | Is an ambiguous paid outcome represented honestly? | Yes | `indeterminate`, retained cost exposure, explicit re-approval |
 | Does the plan preserve the assets Human Gate? | Yes | Agent review, then `awaiting_human`; only a later explicit human reply permits MVP completion |
 | Is Cloud a second orchestrator? | No | One engine and contract; Cloud only selects the GCS/ADC/single-task execution profile |
@@ -1567,24 +1670,24 @@ The following do not block Sections 22.1 or 22.2 unless a documented failing MVP
 
 Self-review conclusion: the proposed executor stays within **tools + persistence**. It accelerates and hardens execution of an Agent-authored decision; it does not replace the Agent as orchestrator, creative director, reviewer, or gatekeeper.
 
-## 25. MVP defaults submitted for user approval
+## 25. MVP defaults submitted for coordinating main-task acceptance
 
-Approval of the overall Plan is requested before implementation. The following defaults are recommended; changes can be recorded as Plan revisions:
+The coordinating main task has delegated authority to accept or revise the M0–M4 offline development sequence. The following defaults remain binding unless that task records a Plan revision:
 
 1. **Initial scope:** `assets` stage, independent video-generation work items only.
 2. **Global concurrency:** default 3, configurable 1–4.
 3. **Provider binding:** one exact allowlisted tool/provider/route/model per MVP batch; no fallback or registry-wide platform contract.
 4. **Gemini concurrency:** cap the selected Gemini route at 1 for MVP; raising it is post-MVP qualification.
-5. **Cloud topology:** one process in one Cloud Run Job task, `task-count=1`, `parallelism=1`, platform retries `0`; no array jobs.
+5. **Cloud topology and ownership:** one process in one Cloud Run Job task, `task-count=1`, `parallelism=1`, `max-retries=0`; additionally record invocation/execution identity, reject an active prior owner, and require trusted stop or prior-owner-bound human authorization plus expected-generation CAS before resume. No array jobs or renewable lease.
 6. **Cloud identity:** attached service account/ADC for GCS and the supported Vertex/Gemini route; no local credential path or implicit project fallback.
 7. **Storage:** private content-addressed GCS objects plus synchronous, checksum- and generation-verified receipts; no public-by-default URL and no undeclared `gcs_url` mutation.
-8. **Resume:** durable per-item phases and same-request verified reuse; paid acceptance ambiguity is never auto-replayed.
+8. **Workspace and resume:** all tool output paths use the project-scoped non-canonical `.batch-v2/runs/.../attempts/...` subtree in both profiles; durable per-item phases and same-request verified reuse apply, while paid acceptance ambiguity is never auto-replayed.
 9. **Writer/lifecycle:** one execution coordinator writes shared state; after it stops, one sequential publication process writes validated canonical state. MVP uses normal `awaiting_human` plus a later explicit human reply, not broad pre-authorization.
 10. **Deferred scope:** distributed leases/fencing, array jobs, cross-file transactions, broad Backlot work, canonical `approval_policy`/CostTracker migration, and generic platform/cache/provider capabilities are post-MVP unless a concrete failing MVP test proves a blocker.
 11. **Live validation:** each real GCS, image push, Cloud Run, and provider tier receives separate exact approval and applicable cost/time cap.
 
-Approval of this Plan approves the boundary, not an unnamed execution path. The exact initial tool/provider/route/model must be recorded as an M0 input before its adapter is implemented and must never be inferred from credentials. Cloud project/region, bucket/prefix/retention, and live-test dollar caps remain deferred until the corresponding M5 approval.
+Acceptance of this Plan approves the boundary, not an unnamed execution path. The exact initial tool/provider/route/model must be recorded as an M0 input before its adapter is implemented and must never be inferred from credentials. Cloud project/region, bucket/prefix/retention, and live-test dollar caps remain deferred until the corresponding M5 user approval.
 
 ---
 
-**Planning stop condition:** after this document is committed, work stops. Batch V2 implementation, Cloud Run deployment, real GCS mutation, and real/paid provider calls require subsequent user approval under the phase gates above.
+**Planning stop condition:** after this document is committed, this task stops and waits for coordinating main-task acceptance. Batch V2 implementation proceeds only when that task schedules an M0–M4 offline phase. Cloud Run deployment, real GCS mutation, container push, and real/paid provider calls remain prohibited without the separate M5 user approvals above.
