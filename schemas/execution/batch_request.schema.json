@@ -151,6 +151,7 @@
         "manifest_sha256",
         "prerequisite_checkpoints",
         "immediate_predecessor_stage",
+        "authorization_basis",
         "approval_status",
         "approval_reference",
         "approved_budget_usd",
@@ -173,6 +174,10 @@
           "items": { "$ref": "#/$defs/checkpoint_evidence" }
         },
         "immediate_predecessor_stage": { "$ref": "#/$defs/id" },
+        "authorization_basis": {
+          "enum": ["validated_proposal_checkpoint", "explicit_per_batch"],
+          "description": "Whether paid authority is authenticated from a proposal checkpoint or from the legacy pipeline's exact per-batch approval contract"
+        },
         "approval_status": { "enum": ["approved", "approved_with_changes"] },
         "approval_reference": { "type": "string", "minLength": 1, "maxLength": 512 },
         "approved_budget_usd": { "type": "number", "minimum": 0 },

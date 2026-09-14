@@ -96,8 +96,8 @@ class M0ContractError(ValueError):
 
 
 @lru_cache(maxsize=None)
-def load_execution_schema(name: str) -> dict[str, Any]:
-    """Load one allowlisted execution schema."""
+def _load_execution_schema_cached(name: str) -> dict[str, Any]:
+    """Load one allowlisted execution schema for internal read-only use."""
 
     if name not in SCHEMA_NAMES:
         raise M0ContractError("UNKNOWN_SCHEMA", f"Unknown execution schema {name!r}")
@@ -111,11 +111,17 @@ def load_execution_schema(name: str) -> dict[str, Any]:
     return value
 
 
+def load_execution_schema(name: str) -> dict[str, Any]:
+    """Return a caller-owned copy of one allowlisted execution schema."""
+
+    return deepcopy(_load_execution_schema_cached(name))
+
+
 @lru_cache(maxsize=1)
 def _schema_registry() -> Registry:
     resources = []
     for name in sorted(SCHEMA_NAMES):
-        schema = load_execution_schema(name)
+        schema = _load_execution_schema_cached(name)
         Draft202012Validator.check_schema(schema)
         resources.append((schema["$id"], Resource.from_contents(schema)))
     return Registry().with_resources(resources)
@@ -124,7 +130,7 @@ def _schema_registry() -> Registry:
 @lru_cache(maxsize=None)
 def _validator(name: str) -> Draft202012Validator:
     return Draft202012Validator(
-        load_execution_schema(name),
+        _load_execution_schema_cached(name),
         registry=_schema_registry(),
         format_checker=FormatChecker(),
     )
@@ -686,6 +692,19 @@ def validate_storage_receipt(document: Mapping[str, Any]) -> None:
             "INVALID_STORAGE_RECEIPT",
             "MVP execution receipt logical_path must remain in .batch-v2/runs staging",
         )
+    expected_prefix = (
+        ".batch-v2",
+        "runs",
+        document["batch_id"],
+        "attempts",
+        document["item_id"],
+        document["attempt_id"],
+    )
+    if logical_parts[:6] != expected_prefix or len(logical_parts) < 7:
+        raise M0ContractError(
+            "INVALID_STORAGE_RECEIPT",
+            "StorageReceipt path must bind its batch, item, and attempt identity",
+        )
     locator = document["locator"]
     if "?" in locator:
         raise M0ContractError("SIGNED_URL_FORBIDDEN", "StorageReceipt locator cannot be signed")
@@ -738,19 +757,88 @@ def validate_attempt(document: Mapping[str, Any]) -> None:
     )
     if document["idempotency_digest"] != expected_idempotency:
         raise M0ContractError("IDEMPOTENCY_DIGEST_MISMATCH", "Attempt identity was changed")
+    output = document.get("output")
+    error = document.get("error")
+    if (
+        isinstance(output, Mapping)
+        and output.get("storage_receipt_id") is not None
+        and phase != "durably_committed"
+    ):
+        raise M0ContractError(
+            "INVALID_ATTEMPT_STATE",
+            "Only a durably committed attempt may claim a StorageReceipt",
+        )
     if phase == "durably_committed":
-        if acceptance != "accepted" or "output" not in document:
+        if (
+            acceptance != "accepted"
+            or not isinstance(output, Mapping)
+            or not output.get("storage_receipt_id")
+            or retry != "none"
+            or error is not None
+        ):
             raise M0ContractError(
-                "INVALID_ATTEMPT_STATE", "Committed attempt requires accepted output"
+                "INVALID_ATTEMPT_STATE",
+                "Committed attempt requires one accepted, receipted output with no error or retry",
             )
-    if phase == "indeterminate" and retry != "indeterminate":
+    elif phase == "failed":
+        if error is None or output is not None or retry not in {"retry", "do_not_retry"}:
+            raise M0ContractError(
+                "INVALID_ATTEMPT_STATE",
+                "Failed attempt requires an error, no output, and an explicit retry decision",
+            )
+    elif phase == "indeterminate":
+        if error is None or output is not None or retry != "indeterminate":
+            raise M0ContractError(
+                "INVALID_ATTEMPT_STATE",
+                "Indeterminate attempt requires an error, no output, and no automatic retry",
+            )
+    elif phase == "cancelled":
+        if output is not None or error is not None or retry not in {"none", "do_not_retry"}:
+            raise M0ContractError(
+                "INVALID_ATTEMPT_STATE",
+                "Cancelled attempt cannot claim output, error, or retry work",
+            )
+    elif error is not None:
         raise M0ContractError(
-            "INVALID_ATTEMPT_STATE", "Indeterminate attempt must prohibit automatic retry"
+            "INVALID_ATTEMPT_STATE", "Only failed or indeterminate attempts may carry errors"
         )
-    if acceptance == "unknown" and document["billing_mode"] == "paid" and retry == "retry":
+    if acceptance == "unknown" and document["billing_mode"] == "paid" and (
+        retry == "retry" or phase in {"failed", "cancelled"}
+    ):
         raise M0ContractError(
-            "PAID_AMBIGUITY", "Unknown paid acceptance cannot be automatically retried"
+            "PAID_AMBIGUITY",
+            "Unknown paid acceptance must remain indeterminate and cannot be retried",
         )
+    if retry == "retry" and (phase != "failed" or acceptance != "not_accepted"):
+        raise M0ContractError(
+            "INVALID_ATTEMPT_STATE", "Retry requires a known-not-accepted failed attempt"
+        )
+
+
+def _validate_cost_exposure(cost: Mapping[str, Any], *, code: str) -> None:
+    exposure = (
+        _decimal(cost["reserved_usd"])
+        + _decimal(cost["known_actual_usd"])
+        + _decimal(cost["indeterminate_exposure_usd"])
+    )
+    if exposure > _decimal(cost["authorized_cap_usd"]):
+        raise M0ContractError(
+            code,
+            "Reserved, known-actual, and indeterminate exposure exceeds the authorized cap",
+        )
+
+
+def _mechanical_outcome(states: list[str]) -> str:
+    if "indeterminate" in states:
+        return "indeterminate"
+    successful = sum(state in {"committed", "cache_hit"} for state in states)
+    if successful == len(states):
+        return "all_succeeded"
+    if states and all(state == "cancelled" for state in states):
+        return "cancelled"
+    if successful:
+        return "partial_failure"
+    return "failed"
 
 
 def validate_batch_state(document: Mapping[str, Any]) -> None:
@@ -762,7 +850,27 @@ def validate_batch_state(document: Mapping[str, Any]) -> None:
     item_ids = [item["item_id"] for item in document["items"]]
     if len(item_ids) != len(set(item_ids)):
         raise M0ContractError("DUPLICATE_WORK_ITEM", "BatchState item IDs must be unique")
+    receipts_by_id: dict[str, Mapping[str, Any]] = {}
+    known_item_ids = set(item_ids)
+    for receipt in document["storage_receipts"]:
+        receipt_id = receipt["receipt_id"]
+        if receipt_id in receipts_by_id:
+            raise M0ContractError(
+                "DUPLICATE_STORAGE_RECEIPT", "StorageReceipt IDs must be unique"
+            )
+        if receipt["batch_id"] != document["batch_id"] or receipt["item_id"] not in known_item_ids:
+            raise M0ContractError(
+                "STORAGE_RECEIPT_IDENTITY_MISMATCH",
+                "StorageReceipt does not bind this batch and a known item",
+            )
+        receipts_by_id[receipt_id] = receipt
+
     attempt_ids: set[str] = set()
+    dispatch_sequences: set[int] = set()
+    attempts_by_id: dict[str, Mapping[str, Any]] = {}
+    attempts_for_item: dict[str, list[Mapping[str, Any]]] = {
+        item_id: [] for item_id in item_ids
+    }
     attempts_by_item: dict[str, int] = {item_id: 0 for item_id in item_ids}
     for attempt in document["attempts"]:
         validate_attempt(attempt)
@@ -771,22 +879,118 @@ def validate_batch_state(document: Mapping[str, Any]) -> None:
         if attempt["attempt_id"] in attempt_ids:
             raise M0ContractError("DUPLICATE_ATTEMPT", "Attempt IDs must be unique")
         attempt_ids.add(attempt["attempt_id"])
+        sequence = attempt["dispatch_sequence"]
+        if sequence in dispatch_sequences:
+            raise M0ContractError(
+                "DUPLICATE_ATTEMPT_SEQUENCE", "dispatch_sequence values must be globally unique"
+            )
+        dispatch_sequences.add(sequence)
         if attempt["item_id"] not in attempts_by_item:
             raise M0ContractError("UNKNOWN_ATTEMPT_ITEM", "Attempt references unknown item")
+        attempts_by_id[attempt["attempt_id"]] = attempt
+        attempts_for_item[attempt["item_id"]].append(attempt)
         attempts_by_item[attempt["item_id"]] += 1
+
+    expected_last_sequence = max(dispatch_sequences, default=0)
+    if document["last_attempt_sequence"] != expected_last_sequence:
+        raise M0ContractError(
+            "ATTEMPT_SEQUENCE_MISMATCH",
+            f"last_attempt_sequence must equal {expected_last_sequence}",
+        )
+
+    for receipt in receipts_by_id.values():
+        attempt = attempts_by_id.get(receipt["attempt_id"])
+        if attempt is None or attempt["item_id"] != receipt["item_id"]:
+            raise M0ContractError(
+                "STORAGE_RECEIPT_IDENTITY_MISMATCH",
+                "StorageReceipt does not bind a known attempt for its item",
+            )
+        validate_storage_receipt(receipt)
+
+    referenced_receipt_ids: set[str] = set()
+    for attempt_id, attempt in attempts_by_id.items():
+        output = attempt.get("output")
+        if not isinstance(output, Mapping) or "storage_receipt_id" not in output:
+            continue
+        receipt_id = output["storage_receipt_id"]
+        receipt = receipts_by_id.get(receipt_id)
+        if receipt is None:
+            raise M0ContractError(
+                "ATTEMPT_RECEIPT_MISMATCH", f"Attempt {attempt_id} references no durable receipt"
+            )
+        if (
+            receipt["batch_id"] != attempt["batch_id"]
+            or receipt["item_id"] != attempt["item_id"]
+            or receipt["attempt_id"] != attempt_id
+            or receipt["sha256"] != output["sha256"]
+            or receipt["size_bytes"] != output["size_bytes"]
+            or canonical_json_bytes(receipt["probe"])
+            != canonical_json_bytes(output["probe"])
+        ):
+            raise M0ContractError(
+                "ATTEMPT_RECEIPT_MISMATCH",
+                f"Attempt {attempt_id} output differs from its StorageReceipt",
+            )
+        referenced_receipt_ids.add(receipt_id)
+
+    for receipt_id, receipt in receipts_by_id.items():
+        attempt = attempts_by_id.get(receipt["attempt_id"])
+        if attempt is None or receipt_id not in referenced_receipt_ids:
+            raise M0ContractError(
+                "STORAGE_RECEIPT_IDENTITY_MISMATCH",
+                f"StorageReceipt {receipt_id} is not bound by its attempt output",
+            )
+
     for item in document["items"]:
         if item["attempt_count"] != attempts_by_item[item["item_id"]]:
             raise M0ContractError("ATTEMPT_COUNT_MISMATCH", f"Wrong count for {item['item_id']}")
-    cost = document["cost"]
-    if _decimal(cost["reserved_usd"]) > _decimal(cost["authorized_cap_usd"]):
-        raise M0ContractError("BUDGET_STATE_INVALID", "Reserved cost exceeds cap")
+        receipt_id = item.get("storage_receipt_id")
+        if item["state"] == "committed":
+            receipt = receipts_by_id.get(receipt_id)
+            if receipt_id is None:
+                raise M0ContractError(
+                    "COMMITTED_ITEM_INCOMPLETE",
+                    f"Committed item {item['item_id']} lacks a StorageReceipt ID",
+                )
+            if receipt is None or receipt["item_id"] != item["item_id"]:
+                raise M0ContractError(
+                    "ITEM_RECEIPT_MISMATCH",
+                    f"Item {item['item_id']} references no matching StorageReceipt",
+                )
+            durable_attempts = [
+                attempt
+                for attempt in attempts_for_item[item["item_id"]]
+                if attempt["phase"] == "durably_committed"
+                and attempt.get("output", {}).get("storage_receipt_id") == receipt_id
+            ]
+            if not durable_attempts:
+                raise M0ContractError(
+                    "COMMITTED_ITEM_INCOMPLETE",
+                    f"Committed item {item['item_id']} lacks one matching durable attempt/receipt",
+                )
+        elif receipt_id is not None:
+            raise M0ContractError(
+                "ITEM_RECEIPT_MISMATCH",
+                f"Non-committed item {item['item_id']} cannot claim a committed receipt",
+            )
+    _validate_cost_exposure(document["cost"], code="BUDGET_STATE_INVALID")
     if document["status"] == "awaiting_agent_review" and "outcome" not in document:
         raise M0ContractError("INVALID_BATCH_STATE", "Terminal mechanical state requires outcome")
+    if document["status"] == "awaiting_agent_review":
+        expected_outcome = _mechanical_outcome([item["state"] for item in document["items"]])
+        if document["outcome"] != expected_outcome:
+            raise M0ContractError(
+                "INVALID_BATCH_STATE",
+                f"Terminal state outcome must be {expected_outcome}",
+            )
 
 
 def validate_batch_result(document: Mapping[str, Any]) -> None:
     validate_contract("batch_result", document)
     _assert_no_sensitive_values(document)
+    item_ids = [item["item_id"] for item in document["items"]]
+    if len(item_ids) != len(set(item_ids)):
+        raise M0ContractError("DUPLICATE_RESULT_ITEM", "BatchResult item IDs must be unique")
     states = [item["state"] for item in document["items"]]
     expected = {
         "successful": states.count("committed"),
@@ -797,17 +1001,47 @@ def validate_batch_result(document: Mapping[str, Any]) -> None:
     }
     if dict(document["counts"]) != expected:
         raise M0ContractError("RESULT_COUNT_MISMATCH", f"Expected counts {expected}")
+    expected_outcome = _mechanical_outcome(states)
+    if document["outcome"] != expected_outcome:
+        raise M0ContractError(
+            "RESULT_OUTCOME_MISMATCH", f"Outcome must be {expected_outcome} for item states"
+        )
+    receipt_ids: set[str] = set()
     for item in document["items"]:
         if item["state"] in {"committed", "cache_hit"}:
             if "storage_receipt" not in item:
                 raise M0ContractError(
                     "INVALID_BATCH_RESULT", f"{item['item_id']} lacks a storage receipt"
                 )
-            validate_storage_receipt(item["storage_receipt"])
-        elif item["state"] in {"failed_terminal", "indeterminate"} and "error" not in item:
-            raise M0ContractError(
-                "INVALID_BATCH_RESULT", f"{item['item_id']} lacks a structured error"
-            )
+            receipt = item["storage_receipt"]
+            if receipt["receipt_id"] in receipt_ids:
+                raise M0ContractError(
+                    "DUPLICATE_STORAGE_RECEIPT", "BatchResult receipt IDs must be unique"
+                )
+            if receipt["batch_id"] != document["batch_id"] or receipt["item_id"] != item[
+                "item_id"
+            ]:
+                raise M0ContractError(
+                    "RESULT_RECEIPT_IDENTITY_MISMATCH",
+                    f"Receipt does not bind result item {item['item_id']}",
+                )
+            validate_storage_receipt(receipt)
+            receipt_ids.add(receipt["receipt_id"])
+            if "error" in item:
+                raise M0ContractError(
+                    "INVALID_BATCH_RESULT", f"Successful item {item['item_id']} cannot carry an error"
+                )
+        else:
+            if "storage_receipt" in item:
+                raise M0ContractError(
+                    "INVALID_BATCH_RESULT",
+                    f"Non-success item {item['item_id']} cannot carry a success receipt",
+                )
+            if item["state"] in {"failed_terminal", "indeterminate"} and "error" not in item:
+                raise M0ContractError(
+                    "INVALID_BATCH_RESULT", f"{item['item_id']} lacks a structured error"
+                )
+    _validate_cost_exposure(document["cost"], code="BUDGET_RESULT_INVALID")
 
 
 __all__ = [

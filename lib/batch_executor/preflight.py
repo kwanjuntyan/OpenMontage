@@ -6,10 +6,11 @@ import hashlib
 import json
 import os
 from dataclasses import dataclass
+from decimal import Decimal
 from pathlib import Path, PurePosixPath
 from typing import Any, Callable, Mapping
 
-from lib.checkpoint import CheckpointValidationError, read_checkpoint
+from lib.checkpoint import CheckpointValidationError, read_checkpoint, validate_checkpoint
 from lib.identity import InvalidProjectIdError, resolve_project_dir
 from lib.pipeline_loader import load_pipeline_readonly
 from schemas.artifacts import validate_artifact
@@ -38,6 +39,10 @@ class PreflightFacts:
 
 ManifestLoader = Callable[[str], Mapping[str, Any]]
 CheckpointReader = Callable[[Path, str, str], Mapping[str, Any] | None]
+
+_PROPOSAL_AUTHORIZATION_CATEGORIES = frozenset(
+    {"provider_selection", "budget_tradeoff"}
+)
 
 
 def _same_path(left: Path, right: Path) -> bool:
@@ -135,6 +140,13 @@ def _load_authenticated_checkpoints(
             ) from exc
         if checkpoint is None:
             raise M0ContractError("CHECKPOINT_REQUIRED", f"Missing checkpoint for {stage}")
+        try:
+            validate_checkpoint(dict(checkpoint), pipeline_dir=projects_root)
+        except (CheckpointValidationError, OSError, ValueError) as exc:
+            raise M0ContractError(
+                "CHECKPOINT_VALIDATION_FAILED",
+                f"Cannot independently validate prerequisite {stage}: {exc}",
+            ) from exc
         if checkpoint.get("pipeline_type") != pipeline_type:
             raise M0ContractError(
                 "CHECKPOINT_IDENTITY_MISMATCH", f"Checkpoint {stage} has wrong pipeline"
@@ -261,32 +273,192 @@ def _validate_proposal_approval(
 ) -> None:
     """Bind a pipeline proposal/cost gate when one exists in the chain."""
 
-    proposal_packets = [
-        checkpoint["artifacts"]["proposal_packet"]
-        for checkpoint in checkpoints.values()
+    proposal_records = [
+        (stage, checkpoint, checkpoint["artifacts"]["proposal_packet"])
+        for stage, checkpoint in checkpoints.items()
         if isinstance(checkpoint.get("artifacts"), dict)
         and isinstance(checkpoint["artifacts"].get("proposal_packet"), dict)
     ]
-    if len(proposal_packets) > 1:
+    if len(proposal_records) > 1:
         raise M0ContractError(
             "PROPOSAL_APPROVAL_AMBIGUOUS", "More than one proposal_packet is present"
         )
-    if proposal_packets:
-        proposal_status = (proposal_packets[0].get("approval") or {}).get("status")
-        if proposal_status not in {"approved", "approved_with_changes"}:
+
+    basis = authorization.get("authorization_basis")
+    if not proposal_records:
+        if basis != "explicit_per_batch":
             raise M0ContractError(
-                "PROPOSAL_NOT_APPROVED", f"Proposal status is {proposal_status!r}"
+                "PROPOSAL_AUTHORIZATION_REQUIRED",
+                "validated_proposal_checkpoint authority requires a proposal in the authenticated chain",
             )
-        if authorization["approval_status"] != proposal_status:
+        if not str(authorization.get("approval_reference", "")).startswith(
+            "explicit-per-batch:"
+        ):
             raise M0ContractError(
-                "PROPOSAL_APPROVAL_MISMATCH", "Frozen approval status differs from proposal"
+                "EXPLICIT_BATCH_AUTHORIZATION_INVALID",
+                "Legacy no-proposal authority requires an explicit-per-batch reference",
             )
-    if authorization["approval_status"] == "approved_with_changes" and not authorization[
-        "decision_refs"
-    ]:
+        if authorization.get("approval_status") != "approved" or authorization.get(
+            "decision_refs"
+        ):
+            raise M0ContractError(
+                "APPROVAL_CHANGE_UNBOUND",
+                "Legacy explicit-per-batch authority cannot claim proposal changes or decision refs",
+            )
+        return
+
+    if basis != "validated_proposal_checkpoint":
+        raise M0ContractError(
+            "PROPOSAL_AUTHORIZATION_REQUIRED",
+            "A proposal-bearing chain must use validated_proposal_checkpoint authority",
+        )
+
+    proposal_stage, proposal_checkpoint, proposal_packet = proposal_records[0]
+    if authorization.get("approval_reference") != (
+        f"checkpoint:{proposal_stage}:proposal_packet"
+    ):
+        raise M0ContractError(
+            "PROPOSAL_REFERENCE_MISMATCH",
+            "Approval reference does not identify the authenticated proposal checkpoint",
+        )
+
+    proposal_approval = proposal_packet.get("approval") or {}
+    proposal_status = proposal_approval.get("status")
+    if proposal_status not in {"approved", "approved_with_changes"}:
+        raise M0ContractError(
+            "PROPOSAL_NOT_APPROVED", f"Proposal status is {proposal_status!r}"
+        )
+    if authorization["approval_status"] != proposal_status:
+        raise M0ContractError(
+            "PROPOSAL_APPROVAL_MISMATCH", "Frozen approval status differs from proposal"
+        )
+
+    authenticated_budget: Decimal | None = None
+    if not authorization.get("no_cost"):
+        proposal_budget = proposal_approval.get("approved_budget_usd")
+        if isinstance(proposal_budget, bool) or not isinstance(proposal_budget, (int, float)):
+            raise M0ContractError(
+                "PROPOSAL_BUDGET_REQUIRED",
+                "A paid batch requires approved_budget_usd in the authenticated proposal",
+            )
+        authenticated_budget = Decimal(str(proposal_budget))
+        if (
+            Decimal(str(authorization["approved_budget_usd"])) > authenticated_budget
+            or Decimal(str(authorization["max_authorized_spend_usd"]))
+            > authenticated_budget
+        ):
+            raise M0ContractError(
+                "PROPOSAL_BUDGET_EXCEEDED",
+                "Frozen request budget or spend cap exceeds the authenticated proposal budget",
+            )
+
+    decision_refs = list(authorization.get("decision_refs") or [])
+    if authorization["approval_status"] == "approved_with_changes" and not decision_refs:
         raise M0ContractError(
             "APPROVAL_CHANGE_UNBOUND", "approved_with_changes requires immutable decision refs"
         )
+
+    decision_log = (proposal_checkpoint.get("artifacts") or {}).get("decision_log")
+    if not isinstance(decision_log, Mapping) or not isinstance(
+        decision_log.get("decisions"), list
+    ):
+        raise M0ContractError(
+            "DECISION_LOG_REQUIRED",
+            "Proposal authorization refs must resolve in the proposal checkpoint decision_log",
+        )
+    decisions_by_id: dict[str, Mapping[str, Any]] = {}
+    for decision in decision_log["decisions"]:
+        if not isinstance(decision, Mapping) or not isinstance(decision.get("decision_id"), str):
+            raise M0ContractError("DECISION_LOG_INVALID", "Decision entry lacks an ID")
+        decision_id = decision["decision_id"]
+        if decision_id in decisions_by_id:
+            raise M0ContractError(
+                "DECISION_LOG_INVALID", f"Duplicate decision ID {decision_id!r}"
+            )
+        decisions_by_id[decision_id] = decision
+
+    referenced_ids: set[str] = set()
+    referenced_categories: set[str] = set()
+    for reference in decision_refs:
+        decision_id = reference["decision_id"]
+        if decision_id in referenced_ids:
+            raise M0ContractError(
+                "DECISION_REFERENCE_DUPLICATE", f"Decision {decision_id!r} is referenced twice"
+            )
+        referenced_ids.add(decision_id)
+        decision = decisions_by_id.get(decision_id)
+        if decision is None:
+            raise M0ContractError(
+                "DECISION_REFERENCE_UNKNOWN",
+                f"Decision {decision_id!r} is absent from the proposal checkpoint",
+            )
+        if reference["sha256"] != canonical_sha256(decision):
+            raise M0ContractError(
+                "DECISION_DIGEST_MISMATCH", f"Decision {decision_id!r} digest changed"
+            )
+        category = decision.get("category")
+        if category not in _PROPOSAL_AUTHORIZATION_CATEGORIES:
+            raise M0ContractError(
+                "DECISION_CATEGORY_MISMATCH",
+                f"Decision {decision_id!r} is not a provider or budget authorization",
+            )
+        if decision.get("stage") != proposal_stage:
+            raise M0ContractError(
+                "DECISION_STAGE_MISMATCH",
+                f"Decision {decision_id!r} was not made at the proposal gate",
+            )
+        if decision.get("user_approved") is not True:
+            raise M0ContractError(
+                "DECISION_NOT_USER_APPROVED",
+                f"Decision {decision_id!r} lacks explicit user approval",
+            )
+        if category == "provider_selection":
+            expected_selection = (
+                f"identity-sha256:{canonical_sha256(authorization['allowed_identity'])}"
+            )
+            selected = decision.get("selected")
+            selected_options = [
+                option
+                for option in decision.get("options_considered", [])
+                if isinstance(option, Mapping) and option.get("option_id") == selected
+            ]
+            if selected != expected_selection or len(selected_options) != 1:
+                raise M0ContractError(
+                    "DECISION_SELECTION_MISMATCH",
+                    "Provider decision does not select the exact frozen adapter identity",
+                )
+        elif category == "budget_tradeoff":
+            if authenticated_budget is None:
+                raise M0ContractError(
+                    "DECISION_CATEGORY_MISMATCH",
+                    "A no-cost batch cannot use a paid budget authorization decision",
+                )
+            budget_text = format(authenticated_budget.normalize(), "f")
+            expected_selection = f"approved-budget-usd:{budget_text}"
+            selected = decision.get("selected")
+            selected_options = [
+                option
+                for option in decision.get("options_considered", [])
+                if isinstance(option, Mapping) and option.get("option_id") == selected
+            ]
+            if selected != expected_selection or len(selected_options) != 1:
+                raise M0ContractError(
+                    "DECISION_SELECTION_MISMATCH",
+                    "Budget decision does not select the authenticated proposal budget",
+                )
+        referenced_categories.add(category)
+
+    required_categories = {"provider_selection"}
+    if not authorization.get("no_cost"):
+        required_categories.add("budget_tradeoff")
+    missing_categories = sorted(required_categories - referenced_categories)
+    if missing_categories:
+        raise M0ContractError(
+            "REQUIRED_DECISION_UNBOUND",
+            f"Missing approved proposal decisions for {missing_categories}",
+        )
+
+
 def preflight_batch_request(
     request: Mapping[str, Any],
     *,

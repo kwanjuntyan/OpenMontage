@@ -127,8 +127,9 @@ def batch_request(authorized_project, source_revision):
                 for stage in ("idea", "scene_plan")
             ],
             "immediate_predecessor_stage": "scene_plan",
+            "authorization_basis": "explicit_per_batch",
             "approval_status": "approved",
-            "approval_reference": "delegation:batch-v2-m0",
+            "approval_reference": "explicit-per-batch:delegation:batch-v2-m0",
             "approved_budget_usd": 1.0,
             "no_cost": False,
             "decision_refs": [],
