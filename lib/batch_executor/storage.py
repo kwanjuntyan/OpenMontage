@@ -10,7 +10,7 @@ import tempfile
 import threading
 from decimal import Decimal
 from pathlib import Path, PurePosixPath
-from typing import Any, Mapping
+from typing import Any, Callable, Mapping
 
 from .contracts import (
     M0ContractError,
@@ -69,19 +69,72 @@ def _atomic_write(path: Path, payload: bytes) -> None:
             temporary_path.unlink()
 
 
-def _write_immutable(path: Path, payload: bytes, *, conflict_code: str) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
+def _cleanup_immutable_temps(path: Path) -> None:
+    # The run lock makes this directory single-writer. Cleaning all files with
+    # the private immutable-temp shape also recovers a journal temp whose
+    # revisioned final name changes on the next state save.
+    for orphan in path.parent.glob(".*.tmp"):
+        try:
+            orphan.unlink()
+        except FileNotFoundError:
+            continue
+
+
+def _publish_temp_no_replace(temporary_path: Path, final_path: Path) -> bool:
+    """Atomically publish a completed same-filesystem file without replacement."""
+
     try:
-        descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
+        os.link(temporary_path, final_path)
     except FileExistsError:
+        return False
+    except OSError as exc:
+        raise M1ExecutionError(
+            "IMMUTABLE_PUBLISH_UNAVAILABLE",
+            f"Atomic no-replace publication is unavailable for {final_path}",
+        ) from exc
+    _fsync_directory(final_path.parent)
+    return True
+
+
+def _write_immutable(
+    path: Path,
+    payload: bytes,
+    *,
+    conflict_code: str,
+    publish_hook: Callable[[Path, Path], None] | None = None,
+) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    if path.exists():
         if path.read_bytes() != payload:
             raise StorageConflict(conflict_code, f"Immutable record differs: {path}")
+        _cleanup_immutable_temps(path)
         return
-    with os.fdopen(descriptor, "wb") as handle:
-        handle.write(payload)
-        handle.flush()
-        os.fsync(handle.fileno())
-    _fsync_directory(path.parent)
+    _cleanup_immutable_temps(path)
+    descriptor, temporary = tempfile.mkstemp(
+        prefix=f".{path.name}.", suffix=".tmp", dir=path.parent
+    )
+    temporary_path = Path(temporary)
+    preserve_orphan = False
+    try:
+        with os.fdopen(descriptor, "wb") as handle:
+            handle.write(payload)
+            handle.flush()
+            os.fsync(handle.fileno())
+        if publish_hook is not None:
+            try:
+                publish_hook(path, temporary_path)
+            except BaseException:
+                preserve_orphan = True
+                raise
+        created = _publish_temp_no_replace(temporary_path, path)
+        if not created and path.read_bytes() != payload:
+            raise StorageConflict(conflict_code, f"Immutable record differs: {path}")
+    finally:
+        if not preserve_orphan:
+            try:
+                temporary_path.unlink()
+            except FileNotFoundError:
+                pass
 
 
 class LocalRunLock:
@@ -138,7 +191,13 @@ class LocalRunLock:
 class LocalStore:
     """Minimal M1 store; every mutating method is coordinator-thread-only."""
 
-    def __init__(self, project_dir: str | Path, batch_id: str):
+    def __init__(
+        self,
+        project_dir: str | Path,
+        batch_id: str,
+        *,
+        immutable_publish_hook: Callable[[Path, Path], None] | None = None,
+    ):
         self.project_dir = Path(project_dir).resolve(strict=True)
         self.batch_id = batch_id
         self.run_dir = self.project_dir / ".batch-v2" / "runs" / batch_id
@@ -149,6 +208,7 @@ class LocalStore:
         self.lock_path = self.run_dir / "run.lock"
         self._writer_thread_id = threading.get_ident()
         self._journal_digests: dict[str, str] = {}
+        self._immutable_publish_hook = immutable_publish_hook
         self._assert_project_scoped_path(self.run_dir)
         self._assert_project_scoped_path(self.blob_root)
 
@@ -207,7 +267,10 @@ class LocalStore:
         digest = str(request["request_digest"])
         self.run_dir.mkdir(parents=True, exist_ok=True)
         _write_immutable(
-            self.request_path, payload, conflict_code="REQUEST_CONFLICT"
+            self.request_path,
+            payload,
+            conflict_code="REQUEST_CONFLICT",
+            publish_hook=self._immutable_publish_hook,
         )
         return digest
 
@@ -300,6 +363,7 @@ class LocalStore:
                 journal_path,
                 attempt_payload,
                 conflict_code="ATTEMPT_JOURNAL_CONFLICT",
+                publish_hook=self._immutable_publish_hook,
             )
             self._journal_digests[attempt["attempt_id"]] = attempt_digest
         return revision
@@ -356,8 +420,14 @@ class LocalStore:
                     raise M1ExecutionError(
                         "LOCAL_STORAGE_TRANSIENT", "Copied blob failed digest verification"
                     )
-                os.replace(temporary_path, destination)
-                _fsync_directory(destination.parent)
+                created = _publish_temp_no_replace(temporary_path, destination)
+                if not created:
+                    stored_sha, stored_size = _digest_file(destination)
+                    if stored_sha != output.sha256 or stored_size != output.size_bytes:
+                        raise StorageConflict(
+                            "BLOB_DIGEST_CONFLICT",
+                            "Concurrent content-addressed blob differs",
+                        )
             finally:
                 if temporary_path.exists():
                     temporary_path.unlink()
@@ -435,7 +505,12 @@ class LocalStore:
         validate_batch_result(result)
         payload = canonical_json_bytes(result)
         digest = canonical_sha256(result)
-        _write_immutable(self.result_path, payload, conflict_code="RESULT_CONFLICT")
+        _write_immutable(
+            self.result_path,
+            payload,
+            conflict_code="RESULT_CONFLICT",
+            publish_hook=self._immutable_publish_hook,
+        )
         return digest
 
     def load_result(self) -> tuple[dict[str, Any], str] | None:

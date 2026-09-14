@@ -7,6 +7,7 @@ import pytest
 
 from lib.batch_executor.contracts import (
     canonical_json_bytes,
+    canonical_sha256,
     compute_idempotency_digest,
     freeze_batch_request,
     validate_batch_result,
@@ -17,6 +18,8 @@ from lib.batch_executor.errors import InjectedCrash
 from lib.batch_executor.media_validation import DeterministicFakeMediaValidator
 from lib.batch_executor.storage import LocalStore
 from lib.batch_executor.testing import FakeClock, FakeProviderStep, ScriptedFakeProvider
+from lib.batch_executor.testing import fake_video_bytes
+from lib.batch_executor.tool_adapter import ProviderFacts
 
 
 def _request(batch_request, *, count=1, max_attempts=1, allowance=0, budget=None):
@@ -244,6 +247,192 @@ def test_crash_resume_boundaries_never_duplicate_an_accepted_generation(
         assert result["outcome"] == "all_succeeded"
 
 
+def test_result_written_crash_repairs_the_durable_state_link_without_reexecution(
+    batch_request, authorized_project, source_revision, qualified_adapter_observation
+):
+    request = _request(batch_request)
+    provider = ScriptedFakeProvider()
+
+    def crash(name, _facts):
+        if name == "result_written":
+            raise InjectedCrash(name)
+
+    with pytest.raises(InjectedCrash, match="result_written"):
+        _run(
+            _executor(authorized_project, provider, crash_hook=crash),
+            request,
+            source_revision,
+            qualified_adapter_observation,
+        )
+
+    store = LocalStore(authorized_project["project_dir"], request["batch_id"])
+    state_before, _ = store.load_batch_state()
+    result_before, result_digest = store.load_result()
+    assert "result_ref" not in state_before
+
+    resumed = _run(
+        _executor(authorized_project, provider),
+        request,
+        source_revision,
+        qualified_adapter_observation,
+        invocation_id="invocation-result-link-repair",
+    )
+    state_after, _ = store.load_batch_state()
+
+    assert resumed == result_before
+    assert state_after["result_ref"] == {
+        "logical_path": ".batch-v2/runs/batch-001/result.json",
+        "sha256": result_digest,
+    }
+    assert provider.submit_calls == 1
+
+
+@pytest.mark.parametrize("field", ["logical_path", "sha256"])
+def test_existing_result_requires_the_exact_state_result_reference(
+    field,
+    batch_request,
+    authorized_project,
+    source_revision,
+    qualified_adapter_observation,
+):
+    request = _request(batch_request)
+    provider = ScriptedFakeProvider()
+    _run(
+        _executor(authorized_project, provider),
+        request,
+        source_revision,
+        qualified_adapter_observation,
+    )
+    store = LocalStore(authorized_project["project_dir"], request["batch_id"])
+    state, _ = store.load_batch_state()
+    state["result_ref"][field] = (
+        ".batch-v2/runs/batch-001/other-result.json"
+        if field == "logical_path"
+        else "f" * 64
+    )
+    store.state_path.write_bytes(canonical_json_bytes(state))
+
+    with pytest.raises(Exception, match="RESULT_REF_MISMATCH"):
+        _run(
+            _executor(authorized_project, provider),
+            request,
+            source_revision,
+            qualified_adapter_observation,
+            invocation_id=f"invocation-wrong-{field}",
+        )
+    assert provider.submit_calls == 1
+
+
+@pytest.mark.parametrize(
+    "mutate",
+    [
+        pytest.param(
+            lambda result: result["invocations"][0].update(
+                {"execution_id": "pid-schema-valid-tamper"}
+            ),
+            id="invocation",
+        ),
+        pytest.param(
+            lambda result: result["cost"].update({"estimated_usd": 0.7}),
+            id="cost",
+        ),
+        pytest.param(
+            lambda result: result["statistics"].update({"retries": 1}),
+            id="retry-statistics",
+        ),
+        pytest.param(
+            lambda result: (
+                result["items"][0].update({"state": "cache_hit"}),
+                result["counts"].update({"successful": 0, "cache_hit": 1}),
+                result["statistics"].update({"cache_hits": 1}),
+            ),
+            id="item-and-counts",
+        ),
+        pytest.param(
+            lambda result: result["items"][0]["storage_receipt"].update(
+                {"created_at": "2026-09-14T08:09:00Z"}
+            ),
+            id="receipt",
+        ),
+        pytest.param(
+            lambda result: result["source_bindings"][0].update(
+                {"sha256": "e" * 64}
+            ),
+            id="source-binding",
+        ),
+    ],
+)
+def test_schema_valid_result_tamper_is_rejected_even_if_ref_digest_is_also_changed(
+    mutate,
+    batch_request,
+    authorized_project,
+    source_revision,
+    qualified_adapter_observation,
+):
+    request = _request(batch_request)
+    provider = ScriptedFakeProvider()
+    _run(
+        _executor(authorized_project, provider),
+        request,
+        source_revision,
+        qualified_adapter_observation,
+    )
+    store = LocalStore(authorized_project["project_dir"], request["batch_id"])
+    state, _ = store.load_batch_state()
+    result, _ = store.load_result()
+    mutate(result)
+    validate_batch_result(result)
+    store.result_path.write_bytes(canonical_json_bytes(result))
+    state["result_ref"]["sha256"] = canonical_sha256(result)
+    store.state_path.write_bytes(canonical_json_bytes(state))
+
+    with pytest.raises(Exception, match="RESULT_STATE_MISMATCH"):
+        _run(
+            _executor(authorized_project, provider),
+            request,
+            source_revision,
+            qualified_adapter_observation,
+            invocation_id="invocation-result-tamper",
+        )
+    assert provider.submit_calls == 1
+
+
+def test_resume_preserves_the_complete_invocation_chain_in_state_and_result(
+    batch_request, authorized_project, source_revision, qualified_adapter_observation
+):
+    request = _request(batch_request)
+    provider = ScriptedFakeProvider()
+
+    def crash(name, _facts):
+        if name == "item_committed":
+            raise InjectedCrash(name)
+
+    with pytest.raises(InjectedCrash, match="item_committed"):
+        _run(
+            _executor(authorized_project, provider, crash_hook=crash),
+            request,
+            source_revision,
+            qualified_adapter_observation,
+            invocation_id="invocation-before-crash",
+        )
+
+    result = _run(
+        _executor(authorized_project, provider),
+        request,
+        source_revision,
+        qualified_adapter_observation,
+        invocation_id="invocation-after-crash",
+    )
+    state, _ = LocalStore(
+        authorized_project["project_dir"], request["batch_id"]
+    ).load_batch_state()
+    expected_ids = ["invocation-before-crash", "invocation-after-crash"]
+
+    assert [entry["invocation_id"] for entry in state["invocations"]] == expected_ids
+    assert [entry["invocation_id"] for entry in result["invocations"]] == expected_ids
+    assert provider.submit_calls == 1
+
+
 @pytest.mark.parametrize(
     ("boundary", "phase", "acceptance"),
     [
@@ -342,6 +531,8 @@ def test_typed_retry_never_turns_poll_or_storage_into_generation_replay(
     assert provider.submit_calls == 1
     assert provider.poll_calls == 1
     assert result["statistics"]["retries"] == 1
+    assert result["cost"]["reserved_usd"] == 0
+    assert result["cost"]["known_actual_usd"] == pytest.approx(0.8)
 
 
 def test_known_not_accepted_submit_retries_with_fake_backoff_only(
@@ -728,6 +919,372 @@ def test_systemic_auth_failure_stops_all_new_dispatch_without_fallback(
     assert provider.submit_calls == 1
     assert {item["error"]["error_class"] for item in result["items"]} == {
         "AUTH_CONFIGURATION"
+    }
+
+
+def test_durable_auth_blocker_survives_crash_and_resume_with_zero_new_calls(
+    batch_request, authorized_project, source_revision, qualified_adapter_observation
+):
+    request = _request(batch_request, count=3)
+    provider = ScriptedFakeProvider(
+        scripts={
+            "item-001": [
+                FakeProviderStep.error(
+                    "AUTH_CONFIGURATION",
+                    acceptance="not_accepted",
+                    retry_action="do_not_retry",
+                )
+            ]
+        }
+    )
+
+    def crash(name, _facts):
+        if name == "systemic_blocker_persisted":
+            raise InjectedCrash(name)
+
+    with pytest.raises(InjectedCrash, match="systemic_blocker_persisted"):
+        _run(
+            _executor(authorized_project, provider, crash_hook=crash),
+            request,
+            source_revision,
+            qualified_adapter_observation,
+        )
+    store = LocalStore(authorized_project["project_dir"], request["batch_id"])
+    blocked_state, _ = store.load_batch_state()
+    assert blocked_state["dispatch_blocker"]["error_class"] == "AUTH_CONFIGURATION"
+    calls_before_resume = (provider.submit_calls, provider.poll_calls)
+
+    result = _run(
+        _executor(authorized_project, provider),
+        request,
+        source_revision,
+        qualified_adapter_observation,
+        invocation_id="invocation-auth-blocker-resume",
+    )
+
+    assert (provider.submit_calls, provider.poll_calls) == calls_before_resume
+    assert result["counts"]["failed"] == 3
+    assert {
+        item["error"]["error_class"]
+        for item in result["items"]
+        if item["state"] == "failed_terminal"
+    } == {"AUTH_CONFIGURATION"}
+
+
+def test_durable_blocker_terminalizes_provider_retry_without_poll_or_internal_bug(
+    batch_request, authorized_project, source_revision, qualified_adapter_observation
+):
+    request = _request(batch_request, count=2, max_attempts=2)
+    provider = ScriptedFakeProvider(
+        scripts={
+            "item-001": [
+                FakeProviderStep.error(
+                    "REMOTE_JOB_RECOVERABLE",
+                    acceptance="accepted",
+                    retry_action="poll_remote_operation",
+                    provider_operation_id="remote-blocked-1",
+                )
+            ]
+        }
+    )
+
+    def crash(name, _facts):
+        if name == "retry_wait_persisted":
+            raise InjectedCrash(name)
+
+    with pytest.raises(InjectedCrash, match="retry_wait_persisted"):
+        _run(
+            _executor(authorized_project, provider, crash_hook=crash),
+            request,
+            source_revision,
+            qualified_adapter_observation,
+        )
+    store = LocalStore(authorized_project["project_dir"], request["batch_id"])
+    state, _ = store.load_batch_state()
+    state["dispatch_blocker"] = {
+        "error_class": "AUTH_CONFIGURATION",
+        "provider_dispatch": "forbidden",
+        "storage_reconciliation": "existing_staged_bytes_only",
+        "source_item_id": "item-002",
+        "set_at": "2026-09-14T08:00:01Z",
+        "reason": "Injected durable systemic blocker fixture.",
+    }
+    store.state_path.write_bytes(canonical_json_bytes(state))
+
+    result = _run(
+        _executor(authorized_project, provider),
+        request,
+        source_revision,
+        qualified_adapter_observation,
+        invocation_id="invocation-poll-blocked-resume",
+    )
+
+    assert provider.submit_calls == 1
+    assert provider.poll_calls == 0
+    assert result["counts"] == {
+        "successful": 0,
+        "cache_hit": 0,
+        "failed": 1,
+        "blocked": 0,
+        "indeterminate": 1,
+        "cancelled": 0,
+    }
+    assert all(
+        item.get("error", {}).get("error_class") != "INTERNAL_BUG"
+        for item in result["items"]
+    )
+
+
+def test_durable_blocker_allows_only_existing_staged_bytes_to_commit(
+    batch_request, authorized_project, source_revision, qualified_adapter_observation
+):
+    request = _request(batch_request, count=2)
+    provider = ScriptedFakeProvider()
+
+    def crash(name, _facts):
+        if name == "media_validated":
+            raise InjectedCrash(name)
+
+    with pytest.raises(InjectedCrash, match="media_validated"):
+        _run(
+            _executor(authorized_project, provider, crash_hook=crash),
+            request,
+            source_revision,
+            qualified_adapter_observation,
+        )
+    store = LocalStore(authorized_project["project_dir"], request["batch_id"])
+    state, _ = store.load_batch_state()
+    state["dispatch_blocker"] = {
+        "error_class": "AUTH_CONFIGURATION",
+        "provider_dispatch": "forbidden",
+        "storage_reconciliation": "existing_staged_bytes_only",
+        "source_item_id": "item-002",
+        "set_at": "2026-09-14T08:00:01Z",
+        "reason": "Injected durable systemic blocker fixture.",
+    }
+    store.state_path.write_bytes(canonical_json_bytes(state))
+
+    result = _run(
+        _executor(authorized_project, provider),
+        request,
+        source_revision,
+        qualified_adapter_observation,
+        invocation_id="invocation-storage-only-resume",
+    )
+
+    assert provider.submit_calls == 1
+    assert provider.poll_calls == 0
+    assert result["counts"]["cache_hit"] + result["counts"]["successful"] == 1
+    assert result["counts"]["failed"] == 1
+
+
+def test_terminal_local_storage_blocker_is_durable_across_crash_and_resume(
+    monkeypatch,
+    batch_request,
+    authorized_project,
+    source_revision,
+    qualified_adapter_observation,
+):
+    from lib.batch_executor.errors import M1ExecutionError
+
+    request = _request(batch_request, count=2)
+    provider = ScriptedFakeProvider()
+
+    def always_transient(self, **kwargs):
+        raise M1ExecutionError("LOCAL_STORAGE_TRANSIENT", "scripted terminal fault")
+
+    monkeypatch.setattr(LocalStore, "put_verified_blob", always_transient)
+
+    def crash(name, _facts):
+        if name == "systemic_blocker_persisted":
+            raise InjectedCrash(name)
+
+    with pytest.raises(InjectedCrash, match="systemic_blocker_persisted"):
+        _run(
+            _executor(authorized_project, provider, crash_hook=crash),
+            request,
+            source_revision,
+            qualified_adapter_observation,
+        )
+    calls_before_resume = (provider.submit_calls, provider.poll_calls)
+
+    result = _run(
+        _executor(authorized_project, provider),
+        request,
+        source_revision,
+        qualified_adapter_observation,
+        invocation_id="invocation-storage-blocker-resume",
+    )
+
+    assert (provider.submit_calls, provider.poll_calls) == calls_before_resume
+    assert result["counts"]["failed"] == 2
+    assert {item["error"]["error_class"] for item in result["items"]} == {
+        "LOCAL_STORAGE_TRANSIENT"
+    }
+
+
+def test_accepted_but_unpriced_cost_retains_exposure_and_budget_blocker_on_resume(
+    batch_request, authorized_project, source_revision, qualified_adapter_observation
+):
+    request = _request(batch_request, count=2, budget=1.6)
+    provider = ScriptedFakeProvider(
+        scripts={
+            "item-001": [
+                FakeProviderStep(
+                    success_value=True,
+                    acceptance="accepted",
+                    known_actual_usd=0.0,
+                    potentially_charged_usd=1.0,
+                )
+            ]
+        }
+    )
+
+    def crash(name, _facts):
+        if name == "systemic_blocker_persisted":
+            raise InjectedCrash(name)
+
+    with pytest.raises(InjectedCrash, match="systemic_blocker_persisted"):
+        _run(
+            _executor(authorized_project, provider, crash_hook=crash),
+            request,
+            source_revision,
+            qualified_adapter_observation,
+        )
+    store = LocalStore(authorized_project["project_dir"], request["batch_id"])
+    state, _ = store.load_batch_state()
+    assert state["cost"]["reserved_usd"] == pytest.approx(1.0)
+    assert state["cost"]["known_actual_usd"] == 0
+    assert state["dispatch_blocker"]["error_class"] == "BUDGET_EXCEEDED"
+
+    result = _run(
+        _executor(authorized_project, provider),
+        request,
+        source_revision,
+        qualified_adapter_observation,
+        invocation_id="invocation-unpriced-budget-resume",
+    )
+
+    assert provider.submit_calls == 1
+    assert result["cost"]["reserved_usd"] == pytest.approx(1.0)
+    assert result["counts"]["failed"] == 1
+
+
+def test_no_cost_success_does_not_create_budget_exposure(
+    batch_request, authorized_project, source_revision, qualified_adapter_observation
+):
+    request = deepcopy(batch_request)
+    request["batch_id"] = "batch-no-cost"
+    request["work_items"][0]["estimated_cost_usd"] = 0
+    request["work_items"][0]["work_item_digest"] = "0" * 64
+    request["authorization"].update(
+        {
+            "no_cost": True,
+            "approved_budget_usd": 0,
+            "max_authorized_spend_usd": 0,
+        }
+    )
+    request["execution_policy"]["max_attempt_cost_usd"] = 0
+    request = freeze_batch_request(request)
+    provider = ScriptedFakeProvider(
+        scripts={"item-001": [FakeProviderStep.success(known_actual_usd=0.0)]}
+    )
+
+    result = _run(
+        _executor(authorized_project, provider),
+        request,
+        source_revision,
+        qualified_adapter_observation,
+    )
+
+    assert result["outcome"] == "all_succeeded"
+    assert result["cost"] == {
+        "estimated_usd": 0.0,
+        "reserved_usd": 0.0,
+        "known_actual_usd": 0.0,
+        "indeterminate_exposure_usd": 0.0,
+        "authorized_cap_usd": 0,
+    }
+
+
+@pytest.mark.parametrize("invalid_cost", [-0.01, float("inf"), float("nan")])
+def test_invalid_provider_cost_facts_fail_closed_without_more_dispatch(
+    invalid_cost,
+    batch_request,
+    authorized_project,
+    source_revision,
+    qualified_adapter_observation,
+):
+    request = _request(batch_request, count=2)
+
+    class InvalidCostProvider:
+        def __init__(self):
+            self.calls = 0
+
+        def invoke(self, call, cancellation):
+            self.calls += 1
+            call.output_path.write_bytes(fake_video_bytes())
+            return ProviderFacts(
+                success=True,
+                acceptance="accepted",
+                known_actual_usd=invalid_cost,
+            )
+
+    provider = InvalidCostProvider()
+    result = _run(
+        _executor(authorized_project, provider),
+        request,
+        source_revision,
+        qualified_adapter_observation,
+    )
+
+    assert provider.calls == 1
+    assert result["outcome"] == "indeterminate"
+    assert result["counts"]["indeterminate"] == 1
+    assert all(
+        item.get("error", {}).get("error_class") != "INTERNAL_BUG"
+        or item["state"] in {"indeterminate", "failed_terminal"}
+        for item in result["items"]
+    )
+
+
+def test_provider_acceptance_action_mismatch_fails_closed_before_state_mutation(
+    batch_request, authorized_project, source_revision, qualified_adapter_observation
+):
+    request = _request(batch_request, count=2)
+
+    class InvalidActionProvider:
+        def __init__(self):
+            self.calls = 0
+
+        def invoke(self, call, cancellation):
+            self.calls += 1
+            return ProviderFacts(
+                success=False,
+                acceptance="accepted",
+                error_class="PROVIDER_PERMANENT_REJECT",
+                retry_action="do_not_retry",
+                known_actual_usd=0.8,
+                sanitized_message="Contradictory scripted facts.",
+            )
+
+    provider = InvalidActionProvider()
+    result = _run(
+        _executor(authorized_project, provider),
+        request,
+        source_revision,
+        qualified_adapter_observation,
+    )
+
+    assert provider.calls == 1
+    assert result["outcome"] == "indeterminate"
+    assert result["counts"] == {
+        "successful": 0,
+        "cache_hit": 0,
+        "failed": 1,
+        "blocked": 0,
+        "indeterminate": 1,
+        "cancelled": 0,
     }
 
 

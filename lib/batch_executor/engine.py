@@ -27,7 +27,12 @@ from .retry import RandomSource, full_jitter_delay
 from .scheduler import BoundedScheduler, Clock
 from .side_effects import worker_execution_scope
 from .storage import LocalStore
-from .tool_adapter import ProviderAdapter, ProviderCall, ProviderFacts
+from .tool_adapter import (
+    ProviderAdapter,
+    ProviderCall,
+    ProviderFacts,
+    validate_provider_facts,
+)
 
 
 TERMINAL_ITEM_STATES = {
@@ -85,7 +90,6 @@ class LocalBatchExecutor:
         self._reused_item_ids: set[str] = set()
         self._rate_limit_wait_seconds = 0.0
         self._cancellation = threading.Event()
-        self._dispatch_blocker: str | None = None
 
     def _now(self) -> str:
         now_method = getattr(self.clock, "now", None)
@@ -154,9 +158,21 @@ class LocalBatchExecutor:
                 "base_state_generation": 0,
             },
             "ownership_proof_digests": [],
+            "invocations": [
+                {
+                    "invocation_id": invocation_id,
+                    "execution_id": f"pid-{os.getpid()}",
+                    "profile": "local",
+                }
+            ],
             "status": "ready",
             "items": [
-                {"item_id": item["item_id"], "state": "pending", "attempt_count": 0}
+                {
+                    "item_id": item["item_id"],
+                    "state": "pending",
+                    "attempt_count": 0,
+                    "reuse_verified": False,
+                }
                 for item in request["work_items"]
             ],
             "attempts": [],
@@ -185,6 +201,7 @@ class LocalBatchExecutor:
             "reuse": {"verified_hits": 0, "misses": len(request["work_items"])},
             "created_at": created_at,
             "updated_at": created_at,
+            "rate_limit_wait_seconds": 0.0,
             "last_attempt_sequence": 0,
             "storage_receipts": [],
         }
@@ -259,6 +276,33 @@ class LocalBatchExecutor:
         assert self._state is not None and self._request is not None
         previous = self._state["owner"]
         acquired_at = self._now()
+        self._state.setdefault(
+            "invocations",
+            [
+                {
+                    "invocation_id": previous["invocation_id"],
+                    "execution_id": previous["execution_id"],
+                    "profile": previous["profile"],
+                }
+            ],
+        )
+        for record in self._state["items"]:
+            record.setdefault("reuse_verified", record["state"] == "committed")
+        verified_hits = sum(
+            bool(record["reuse_verified"]) for record in self._state["items"]
+        )
+        self._state["reuse"] = {
+            "verified_hits": verified_hits,
+            "misses": len(self._state["items"]) - verified_hits,
+        }
+        self._state.setdefault("rate_limit_wait_seconds", 0.0)
+        self._state["invocations"].append(
+            {
+                "invocation_id": invocation_id,
+                "execution_id": f"pid-{os.getpid()}",
+                "profile": "local",
+            }
+        )
         self._state["owner"] = {
             "version": "1.0",
             "batch_id": self._request["batch_id"],
@@ -277,8 +321,8 @@ class LocalBatchExecutor:
                 "execution_id": previous["execution_id"],
             },
         }
-        self._state.pop("result_ref", None)
         self._state.pop("outcome", None)
+        self._state.pop("completed_at", None)
         self._state["status"] = "running"
         self._save_state()
 
@@ -336,7 +380,13 @@ class LocalBatchExecutor:
                     output_spec=self._output_spec(work_item),
                 )
                 self._reused_item_ids.add(item_id)
+                if not record.get("reuse_verified", False):
+                    record["reuse_verified"] = True
+                    changed = True
                 continue
+            if record.get("reuse_verified", False):
+                record["reuse_verified"] = False
+                changed = True
             if record["state"] in TERMINAL_ITEM_STATES:
                 continue
             if latest is None:
@@ -567,21 +617,182 @@ class LocalBatchExecutor:
         )
         return exposure > float(self._state["cost"]["authorized_cap_usd"]) + 1e-9
 
-    def _apply_dispatch_blocker(self) -> bool:
-        """Fail undispatched work after a systemic M1 blocker."""
+    def _set_dispatch_blocker(
+        self,
+        error_class: str,
+        *,
+        item_id: str,
+        attempt_id: str | None,
+        reason: str,
+    ) -> bool:
+        """Record the first system-wide provider stop in durable BatchState."""
 
-        if self._dispatch_blocker is None:
+        assert self._state is not None
+        if "dispatch_blocker" in self._state:
+            return False
+        blocker = {
+            "error_class": error_class,
+            "provider_dispatch": "forbidden",
+            "storage_reconciliation": "existing_staged_bytes_only",
+            "source_item_id": item_id,
+            "set_at": self._now(),
+            "reason": reason[:4096],
+        }
+        if attempt_id is not None:
+            blocker["source_attempt_id"] = attempt_id
+        self._state["dispatch_blocker"] = blocker
+        return True
+
+    def _release_reservation(self, attempt: dict[str, Any]) -> float:
+        assert self._state is not None
+        reserved = float(attempt["cost"]["reserved_usd"])
+        if reserved:
+            self._state["cost"]["reserved_usd"] = _money_sum(
+                self._state["cost"]["reserved_usd"], -reserved
+            )
+            attempt["cost"]["reserved_usd"] = 0.0
+        return reserved
+
+    def _indeterminate_remote_poll(
+        self, record: dict[str, Any], attempt: dict[str, Any]
+    ) -> None:
+        assert self._state is not None
+        reserved = self._release_reservation(attempt)
+        known = float(attempt["cost"]["known_actual_usd"])
+        potential = 0.0
+        if known <= 0:
+            potential = max(
+                reserved,
+                float(attempt["cost"]["estimated_usd"]),
+                float(attempt["cost"]["potentially_charged_usd"]),
+            )
+            self._state["cost"]["indeterminate_exposure_usd"] = _money_sum(
+                self._state["cost"]["indeterminate_exposure_usd"], potential
+            )
+        attempt["cost"]["potentially_charged_usd"] = potential
+        attempt.update({"phase": "indeterminate", "retry_action": "mark_indeterminate"})
+        record.update(
+            {
+                "state": "indeterminate",
+                "error_class": attempt["error"]["error_class"],
+            }
+        )
+        record.pop("next_eligible_at", None)
+
+    def _reconcile_staged_under_dispatch_blocker(self) -> bool:
+        """Commit only bytes produced before the durable provider stop marker."""
+
+        assert self._state is not None
+        changed = False
+        for item_id, item in self._work_items.items():
+            record = self._item_record(item_id)
+            latest = self._latest_attempt(item_id)
+            storage_continuation = latest is not None and latest.get(
+                "retry_action"
+            ) in {"retry_storage_commit", "reconcile_storage_precondition"}
+            if record["state"] != "succeeded_staged" and not storage_continuation:
+                continue
+            if record["state"] == "retry_wait":
+                self._wait_for_retry_deadline(record)
+            self._commit_staged(item, latest)
+            changed = True
+        return changed
+
+    def _apply_dispatch_blocker(self) -> bool:
+        """Terminalize every non-storage continuation without submit or poll."""
+
+        assert self._state is not None
+        blocker = self._state.get("dispatch_blocker")
+        if blocker is None:
             return False
         changed = False
+        blocker_class = blocker["error_class"]
         for record in self._state["items"]:
-            if record["state"] not in {"pending", "eligible"}:
+            if record["state"] in TERMINAL_ITEM_STATES:
                 continue
-            record.update(
-                {
-                    "state": "failed_terminal",
-                    "error_class": self._dispatch_blocker,
-                }
-            )
+            latest = self._latest_attempt(record["item_id"])
+            if record["state"] == "succeeded_staged" or (
+                latest is not None
+                and latest.get("retry_action")
+                in {"retry_storage_commit", "reconcile_storage_precondition"}
+            ):
+                continue
+            if latest is None:
+                record.update(
+                    {"state": "failed_terminal", "error_class": blocker_class}
+                )
+            elif latest.get("retry_action") == "poll_remote_operation":
+                self._indeterminate_remote_poll(record, latest)
+            elif latest.get("retry_action") in {
+                "resubmit_generation",
+                "await_charged_generation_authorization",
+            }:
+                latest["retry_action"] = "do_not_retry"
+                record.update(
+                    {
+                        "state": "failed_terminal",
+                        "error_class": latest["error"]["error_class"],
+                    }
+                )
+            elif latest["phase"] == "prepared":
+                self._release_reservation(latest)
+                latest["cost"]["potentially_charged_usd"] = 0.0
+                if blocker_class == "LOCAL_STORAGE_TRANSIENT":
+                    latest.update(
+                        {
+                            "phase": "cancelled",
+                            "acceptance_knowledge": "not_accepted",
+                            "retry_action": "do_not_retry",
+                            "error": {
+                                "error_class": "CANCELLED",
+                                "sanitized_message": "Provider dispatch stopped by a durable storage blocker.",
+                            },
+                        }
+                    )
+                    record["state"] = "cancelled"
+                else:
+                    latest.update(
+                        {
+                            "phase": "failed",
+                            "acceptance_knowledge": "not_accepted",
+                            "retry_action": "do_not_retry",
+                            "error": {
+                                "error_class": blocker_class,
+                                "sanitized_message": "Provider dispatch stopped by the durable systemic blocker.",
+                            },
+                        }
+                    )
+                    record.update(
+                        {"state": "failed_terminal", "error_class": blocker_class}
+                    )
+            elif latest["phase"] == "dispatched":
+                if latest["billing_mode"] == "paid":
+                    self._mark_indeterminate(
+                        latest,
+                        "Provider dispatch was in flight when a systemic blocker stopped reconciliation",
+                    )
+                else:
+                    self._release_reservation(latest)
+                    latest.update(
+                        {
+                            "phase": "indeterminate",
+                            "acceptance_knowledge": "unknown",
+                            "retry_action": "mark_indeterminate",
+                            "error": {
+                                "error_class": "INTERNAL_BUG",
+                                "sanitized_message": "No-cost in-flight provider outcome could not be reconciled.",
+                            },
+                        }
+                    )
+                    latest["cost"]["potentially_charged_usd"] = 0.0
+                    record.update(
+                        {"state": "indeterminate", "error_class": "INTERNAL_BUG"}
+                    )
+            else:
+                raise M1ExecutionError(
+                    "INVALID_DISPATCH_BLOCKER_STATE",
+                    f"Cannot safely stop {record['item_id']} from {latest['phase']}/{latest['retry_action']}",
+                )
             record.pop("next_eligible_at", None)
             changed = True
         return changed
@@ -604,10 +815,22 @@ class LocalBatchExecutor:
             and latest.get("retry_action") == "await_charged_generation_authorization"
         )
         if not self._can_start_attempt(item, charged_retry=charged_retry):
+            blocker_set = False
             if self._budget_would_exceed_cap(item):
-                self._dispatch_blocker = "BUDGET_EXCEEDED"
+                blocker_set = self._set_dispatch_blocker(
+                    "BUDGET_EXCEEDED",
+                    item_id=item["item_id"],
+                    attempt_id=latest["attempt_id"] if latest is not None else None,
+                    reason="A new provider attempt would exceed the frozen batch cap.",
+                )
             self._fail_retry_candidate(record, latest)
             self._save_state()
+            if blocker_set:
+                self._crash(
+                    "systemic_blocker_persisted",
+                    error_class="BUDGET_EXCEEDED",
+                    item_id=item["item_id"],
+                )
             return None
         sequence = self._state["last_attempt_sequence"] + 1
         attempt_id = f"attempt-{sequence:06d}"
@@ -702,29 +925,130 @@ class LocalBatchExecutor:
         with worker_execution_scope(call.output_path.parent):
             return self.provider.invoke(call, cancellation)
 
+    def _validate_worker_facts(
+        self,
+        call: ProviderCall,
+        attempt: Mapping[str, Any],
+        facts: ProviderFacts,
+    ) -> None:
+        """Apply the frozen M0 attempt matrix before mutating shared state."""
+
+        validate_provider_facts(
+            facts,
+            billing_mode=attempt["billing_mode"],
+            call_kind=call.kind,
+        )
+        candidate = deepcopy(dict(attempt))
+        known = max(
+            float(candidate["cost"]["known_actual_usd"]),
+            float(facts.known_actual_usd),
+        )
+        candidate["cost"]["known_actual_usd"] = known
+        if facts.success:
+            candidate.update(
+                {
+                    "phase": "result_received",
+                    "acceptance_knowledge": "accepted",
+                    "retry_action": "none",
+                }
+            )
+            candidate.pop("error", None)
+        else:
+            error_class = facts.error_class or "INTERNAL_BUG"
+            retry_action = facts.retry_action
+            acceptance = facts.acceptance
+            if acceptance == "unknown" and candidate["billing_mode"] == "paid":
+                retry_action = "mark_indeterminate"
+                error_class = (
+                    error_class
+                    if error_class
+                    in {
+                        "RATE_LIMITED_ACCEPTANCE_UNKNOWN",
+                        "TIMEOUT_OR_NETWORK_UNKNOWN",
+                        "INTERNAL_BUG",
+                        "CANCELLED",
+                    }
+                    else "INTERNAL_BUG"
+                )
+            phase_by_action = {
+                "resubmit_generation": "failed",
+                "poll_remote_operation": "provider_accepted",
+                "do_not_retry": "failed",
+                "mark_indeterminate": "indeterminate",
+            }
+            candidate.update(
+                {
+                    "phase": phase_by_action[retry_action],
+                    "acceptance_knowledge": acceptance,
+                    "retry_action": retry_action,
+                    "error": {
+                        "error_class": error_class,
+                        "sanitized_message": facts.sanitized_message
+                        or "Provider adapter returned no error details",
+                    },
+                }
+            )
+            if facts.provider_operation_id:
+                candidate["provider_operation_id"] = facts.provider_operation_id
+            if facts.retry_after_seconds:
+                candidate["error"]["retry_after_seconds"] = facts.retry_after_seconds
+        if facts.acceptance == "not_accepted":
+            candidate["cost"].update(
+                {"known_actual_usd": 0.0, "potentially_charged_usd": 0.0}
+            )
+        elif facts.acceptance == "unknown":
+            candidate["cost"]["potentially_charged_usd"] = max(
+                float(candidate["cost"]["potentially_charged_usd"]),
+                float(candidate["cost"]["estimated_usd"]),
+                float(facts.potentially_charged_usd),
+            )
+        elif known > 0:
+            candidate["cost"]["potentially_charged_usd"] = 0.0
+        else:
+            candidate["cost"]["potentially_charged_usd"] = max(
+                float(candidate["cost"]["potentially_charged_usd"]),
+                float(facts.potentially_charged_usd),
+            )
+        validate_attempt(candidate)
+
     def _reconcile_cost(self, attempt: dict[str, Any], facts: ProviderFacts) -> None:
         assert self._state is not None
         prior_reserved = float(attempt["cost"]["reserved_usd"])
         prior_known = float(attempt["cost"]["known_actual_usd"])
         known = max(prior_known, float(facts.known_actual_usd))
-        if facts.acceptance == "not_accepted" or (
-            facts.acceptance == "accepted" and known > 0
-        ):
+        if attempt["billing_mode"] == "no_cost":
+            retained_reserve = 0.0
             potential = 0.0
+            known = 0.0
+        elif facts.acceptance == "not_accepted":
+            retained_reserve = 0.0
+            potential = 0.0
+        elif facts.acceptance == "accepted" and known > 0:
+            retained_reserve = 0.0
+            potential = 0.0
+        elif facts.acceptance == "accepted":
+            retained_reserve = max(
+                prior_reserved,
+                float(attempt["cost"]["estimated_usd"]),
+                float(attempt["cost"]["potentially_charged_usd"]),
+                float(facts.potentially_charged_usd),
+            )
+            potential = retained_reserve
         else:
+            retained_reserve = 0.0
             potential = max(
                 float(attempt["cost"]["potentially_charged_usd"]),
                 float(facts.potentially_charged_usd),
             )
         self._state["cost"]["reserved_usd"] = _money_sum(
-            self._state["cost"]["reserved_usd"], -prior_reserved
+            self._state["cost"]["reserved_usd"], retained_reserve, -prior_reserved
         )
         self._state["cost"]["known_actual_usd"] = _money_sum(
             self._state["cost"]["known_actual_usd"], known, -prior_known
         )
         attempt["cost"].update(
             {
-                "reserved_usd": 0.0,
+                "reserved_usd": retained_reserve,
                 "known_actual_usd": known,
                 "potentially_charged_usd": potential,
             }
@@ -834,9 +1158,22 @@ class LocalBatchExecutor:
             else:
                 record["next_eligible_at"] = self._retry_deadline(delay)
         validate_attempt(attempt)
-        self._save_state()
+        blocker_set = False
         if error_class == "AUTH_CONFIGURATION":
-            self._dispatch_blocker = error_class
+            blocker_set = self._set_dispatch_blocker(
+                error_class,
+                item_id=item["item_id"],
+                attempt_id=attempt["attempt_id"],
+                reason="The selected provider authentication configuration failed.",
+            )
+        self._save_state()
+        if blocker_set:
+            self._crash(
+                "systemic_blocker_persisted",
+                error_class=error_class,
+                item_id=item["item_id"],
+                attempt_id=attempt["attempt_id"],
+            )
         if record["state"] == "retry_wait":
             self._crash(
                 "retry_wait_persisted",
@@ -975,6 +1312,7 @@ class LocalBatchExecutor:
             )
             record = self._item_record(item["item_id"])
             record["state"] = "retry_wait"
+            blocker_set = False
             if (
                 continuation_count >= 3
                 or self._elapsed_seconds()
@@ -985,7 +1323,12 @@ class LocalBatchExecutor:
                     {"state": "failed_terminal", "error_class": "LOCAL_STORAGE_TRANSIENT"}
                 )
                 record.pop("next_eligible_at", None)
-                self._dispatch_blocker = "LOCAL_STORAGE_TRANSIENT"
+                blocker_set = self._set_dispatch_blocker(
+                    "LOCAL_STORAGE_TRANSIENT",
+                    item_id=item["item_id"],
+                    attempt_id=attempt["attempt_id"],
+                    reason="Durable local blob commit exhausted its bounded retry policy.",
+                )
             else:
                 delay = full_jitter_delay(
                     continuation_count - 1,
@@ -995,6 +1338,13 @@ class LocalBatchExecutor:
                 )
                 record["next_eligible_at"] = self._retry_deadline(delay)
             self._save_state()
+            if blocker_set:
+                self._crash(
+                    "systemic_blocker_persisted",
+                    error_class="LOCAL_STORAGE_TRANSIENT",
+                    item_id=item["item_id"],
+                    attempt_id=attempt["attempt_id"],
+                )
             if record["state"] == "retry_wait":
                 self._crash(
                     "retry_wait_persisted",
@@ -1033,9 +1383,12 @@ class LocalBatchExecutor:
         future: Future[ProviderFacts],
     ) -> None:
         item = self._work_items[call.item_id]
+        systemic_worker_failure = False
         try:
             facts = future.result()
+            self._validate_worker_facts(call, attempt, facts)
         except BaseException as exc:
+            systemic_worker_failure = True
             facts = ProviderFacts(
                 success=False,
                 acceptance="unknown",
@@ -1043,6 +1396,14 @@ class LocalBatchExecutor:
                 error_class="INTERNAL_BUG",
                 retry_action="mark_indeterminate",
                 sanitized_message=f"Worker failed after dispatch: {type(exc).__name__}",
+            )
+        blocker_set = False
+        if systemic_worker_failure:
+            blocker_set = self._set_dispatch_blocker(
+                "INTERNAL_BUG",
+                item_id=item["item_id"],
+                attempt_id=attempt["attempt_id"],
+                reason="Provider worker returned invalid facts or raised outside its typed contract.",
             )
         if facts.success:
             if facts.acceptance != "accepted":
@@ -1052,6 +1413,13 @@ class LocalBatchExecutor:
             self._record_provider_success(item, attempt, facts)
         else:
             self._record_worker_failure(item, attempt, facts)
+        if blocker_set:
+            self._crash(
+                "systemic_blocker_persisted",
+                error_class="INTERNAL_BUG",
+                item_id=item["item_id"],
+                attempt_id=attempt["attempt_id"],
+            )
 
     def _final_outcome(self) -> str:
         assert self._state is not None
@@ -1067,19 +1435,23 @@ class LocalBatchExecutor:
             return "partial_failure"
         return "failed"
 
-    def _terminalize(self, invocation_id: str, cancellation: threading.Event) -> dict[str, Any]:
-        assert self._state is not None and self._request is not None and self._store is not None
-        self._state["status"] = "awaiting_agent_review"
-        self._state["outcome"] = self._final_outcome()
-        self._state["owner"]["owner_status"] = (
-            "cancelled" if cancellation.is_set() else "terminal"
-        )
-        self._save_state()
-
+    def _derive_result_from_terminal_state(self) -> dict[str, Any]:
+        assert self._state is not None and self._request is not None
+        if (
+            self._state["status"] != "awaiting_agent_review"
+            or "outcome" not in self._state
+            or "completed_at" not in self._state
+            or "invocations" not in self._state
+            or "rate_limit_wait_seconds" not in self._state
+        ):
+            raise M1ExecutionError(
+                "RESULT_STATE_MISMATCH",
+                "BatchResult can only be derived from complete durable terminal state",
+            )
         result_items = []
         for record in self._state["items"]:
             item_id = record["item_id"]
-            state = "cache_hit" if item_id in self._reused_item_ids else record["state"]
+            state = "cache_hit" if record.get("reuse_verified", False) else record["state"]
             result_item: dict[str, Any] = {"item_id": item_id, "state": state}
             if state in {"committed", "cache_hit"}:
                 result_item["storage_receipt"] = deepcopy(
@@ -1106,17 +1478,6 @@ class LocalBatchExecutor:
             "indeterminate": states.count("indeterminate"),
             "cancelled": states.count("cancelled"),
         }
-        outcome = (
-            "indeterminate"
-            if counts["indeterminate"]
-            else "all_succeeded"
-            if counts["successful"] + counts["cache_hit"] == len(states)
-            else "cancelled"
-            if counts["cancelled"] == len(states)
-            else "partial_failure"
-            if counts["successful"] + counts["cache_hit"]
-            else "failed"
-        )
         attempted_items = {attempt["item_id"] for attempt in self._state["attempts"]}
         generation_retries = max(
             0, len(self._state["attempts"]) - len(attempted_items)
@@ -1125,7 +1486,7 @@ class LocalBatchExecutor:
             attempt.get("operation_retry_count", 0)
             for attempt in self._state["attempts"]
         )
-        result = {
+        return {
             "version": "1.0",
             "batch_id": self._request["batch_id"],
             "request_digest": self._request["request_digest"],
@@ -1133,16 +1494,12 @@ class LocalBatchExecutor:
                 {"binding_id": binding["binding_id"], "sha256": binding["sha256"]}
                 for binding in self._request["source_bindings"]
             ],
-            "invocations": [
-                {
-                    "invocation_id": invocation_id,
-                    "execution_id": self._state["owner"]["execution_id"],
-                    "profile": "local",
-                }
-            ],
-            "ownership_proof_digests": [],
+            "invocations": deepcopy(self._state["invocations"]),
+            "ownership_proof_digests": deepcopy(
+                self._state.get("ownership_proof_digests", [])
+            ),
             "status": "awaiting_agent_review",
-            "outcome": outcome,
+            "outcome": self._state["outcome"],
             "counts": counts,
             "items": result_items,
             "cost": deepcopy(self._state["cost"]),
@@ -1150,13 +1507,62 @@ class LocalBatchExecutor:
                 "attempts": len(self._state["attempts"]),
                 "retries": generation_retries + operation_retries,
                 "cache_hits": counts["cache_hit"],
-                "rate_limit_wait_seconds": self._rate_limit_wait_seconds,
+                "rate_limit_wait_seconds": self._state[
+                    "rate_limit_wait_seconds"
+                ],
             },
             "agent_review_hints": [
                 "Review mechanical outputs and receipts before M2 canonical publication."
             ],
-            "created_at": self._now(),
+            "created_at": self._state["completed_at"],
         }
+
+    def _reconcile_existing_result(
+        self, result: Mapping[str, Any], result_digest: str
+    ) -> dict[str, Any]:
+        assert self._state is not None and self._request is not None and self._store is not None
+        if result["request_digest"] != self._request["request_digest"]:
+            raise M1ExecutionError(
+                "REQUEST_CONFLICT", "BatchResult binds another request digest"
+            )
+        expected_path = self._store.result_path.relative_to(
+            self._store.project_dir
+        ).as_posix()
+        result_ref = self._state.get("result_ref")
+        if result_ref is not None and (
+            result_ref["logical_path"] != expected_path
+            or result_ref["sha256"] != result_digest
+        ):
+            raise M1ExecutionError(
+                "RESULT_REF_MISMATCH",
+                "BatchState result reference does not bind the exact durable result",
+            )
+        expected_result = self._derive_result_from_terminal_state()
+        if canonical_json_bytes(result) != canonical_json_bytes(expected_result):
+            raise M1ExecutionError(
+                "RESULT_STATE_MISMATCH",
+                "BatchResult facts differ from the durable terminal BatchState",
+            )
+        self._verify_result_receipts(result)
+        if result_ref is None:
+            self._state["result_ref"] = {
+                "logical_path": expected_path,
+                "sha256": result_digest,
+            }
+            self._save_state()
+        return deepcopy(dict(result))
+
+    def _terminalize(self, cancellation: threading.Event) -> dict[str, Any]:
+        assert self._state is not None and self._store is not None
+        self._state["status"] = "awaiting_agent_review"
+        self._state["outcome"] = self._final_outcome()
+        self._state["owner"]["owner_status"] = (
+            "cancelled" if cancellation.is_set() else "terminal"
+        )
+        self._state["completed_at"] = self._now()
+        self._save_state()
+
+        result = self._derive_result_from_terminal_state()
         digest = self._store.write_result_if_absent(result)
         self._crash("result_written", result_digest=digest)
         self._state["result_ref"] = {
@@ -1190,13 +1596,13 @@ class LocalBatchExecutor:
                 )
             existing_result = self._store.load_result()
             if existing_result is not None:
-                result, _ = existing_result
-                if result["request_digest"] != self._request["request_digest"]:
-                    raise M1ExecutionError(
-                        "REQUEST_CONFLICT", "BatchResult binds another request digest"
-                    )
-                self._verify_result_receipts(result)
-                return result
+                result, result_digest = existing_result
+                return self._reconcile_existing_result(result, result_digest)
+            if "result_ref" in self._state:
+                raise M1ExecutionError(
+                    "RESULT_REF_MISMATCH",
+                    "BatchState references a missing durable BatchResult",
+                )
             self._take_local_ownership(invocation_id)
             self._recover_state()
         else:
@@ -1218,21 +1624,26 @@ class LocalBatchExecutor:
             inflight: dict[Future[ProviderFacts], tuple[ProviderCall, dict[str, Any]]] = {}
             while True:
                 state_changed = False
-                if self._apply_dispatch_blocker():
-                    state_changed = True
+                dispatch_blocked = "dispatch_blocker" in self._state
+                if dispatch_blocked:
+                    if self._reconcile_staged_under_dispatch_blocker():
+                        state_changed = True
+                    if self._apply_dispatch_blocker():
+                        state_changed = True
                 if cancellation.is_set():
-                    state_changed = self._settle_cancellation()
-                    if state_changed:
+                    cancellation_changed = self._settle_cancellation()
+                    state_changed = cancellation_changed or state_changed
+                    if cancellation_changed:
                         self._save_state()
 
                 capacity = policy["provider_concurrency_cap"] - len(inflight)
                 if (
                     not cancellation.is_set()
-                    and self._dispatch_blocker is None
+                    and "dispatch_blocker" not in self._state
                     and capacity > 0
                 ):
                     for item_id, item in self._work_items.items():
-                        if capacity <= 0:
+                        if capacity <= 0 or "dispatch_blocker" in self._state:
                             break
                         record = self._item_record(item_id)
                         if record["state"] in TERMINAL_ITEM_STATES or record["state"] == "running":
@@ -1285,6 +1696,11 @@ class LocalBatchExecutor:
 
                 if state_changed:
                     self._save_state()
+                    if not inflight and not all(
+                        record["state"] in TERMINAL_ITEM_STATES
+                        for record in self._state["items"]
+                    ):
+                        continue
                 if inflight:
                     done, _ = wait(tuple(inflight), return_when=FIRST_COMPLETED)
                     for future in done:
@@ -1310,8 +1726,12 @@ class LocalBatchExecutor:
                         )
                     self._save_state()
                     break
-            self._rate_limit_wait_seconds = scheduler.rate_limit_wait_seconds
-        return self._terminalize(invocation_id, cancellation)
+            self._rate_limit_wait_seconds = _money_sum(
+                self._state.get("rate_limit_wait_seconds", 0.0),
+                scheduler.rate_limit_wait_seconds,
+            )
+            self._state["rate_limit_wait_seconds"] = self._rate_limit_wait_seconds
+        return self._terminalize(cancellation)
 
     def run(
         self,
@@ -1328,7 +1748,6 @@ class LocalBatchExecutor:
         self._state_version = None
         self._reused_item_ids = set()
         self._rate_limit_wait_seconds = 0.0
-        self._dispatch_blocker = None
         frozen = deepcopy(dict(request))
         facts = preflight_batch_request(
             frozen,

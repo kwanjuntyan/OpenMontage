@@ -1151,6 +1151,23 @@ def validate_batch_state(document: Mapping[str, Any]) -> None:
     owner = document["owner"]
     if owner["batch_id"] != document["batch_id"] or owner["request_digest"] != document["request_digest"]:
         raise M0ContractError("OWNER_IDENTITY_MISMATCH", "Owner does not bind this BatchState")
+    invocations = document.get("invocations")
+    if invocations is not None:
+        invocation_ids = [entry["invocation_id"] for entry in invocations]
+        if len(invocation_ids) != len(set(invocation_ids)):
+            raise M0ContractError(
+                "DUPLICATE_INVOCATION", "BatchState invocation IDs must be unique"
+            )
+        latest_invocation = invocations[-1]
+        if (
+            latest_invocation["invocation_id"] != owner["invocation_id"]
+            or latest_invocation["execution_id"] != owner["execution_id"]
+            or latest_invocation["profile"] != owner["profile"]
+        ):
+            raise M0ContractError(
+                "INVOCATION_OWNER_MISMATCH",
+                "Latest BatchState invocation must bind the active/current owner",
+            )
     item_ids = [item["item_id"] for item in document["items"]]
     if len(item_ids) != len(set(item_ids)):
         raise M0ContractError("DUPLICATE_WORK_ITEM", "BatchState item IDs must be unique")
@@ -1194,6 +1211,23 @@ def validate_batch_state(document: Mapping[str, Any]) -> None:
         attempts_by_id[attempt["attempt_id"]] = attempt
         attempts_for_item[attempt["item_id"]].append(attempt)
         attempts_by_item[attempt["item_id"]] += 1
+
+    dispatch_blocker = document.get("dispatch_blocker")
+    if dispatch_blocker is not None:
+        source_item_id = dispatch_blocker["source_item_id"]
+        if source_item_id not in known_item_ids:
+            raise M0ContractError(
+                "DISPATCH_BLOCKER_IDENTITY_MISMATCH",
+                "Durable dispatch blocker references an unknown source item",
+            )
+        source_attempt_id = dispatch_blocker.get("source_attempt_id")
+        if source_attempt_id is not None:
+            source_attempt = attempts_by_id.get(source_attempt_id)
+            if source_attempt is None or source_attempt["item_id"] != source_item_id:
+                raise M0ContractError(
+                    "DISPATCH_BLOCKER_IDENTITY_MISMATCH",
+                    "Durable dispatch blocker attempt does not bind its source item",
+                )
 
     expected_last_sequence = max(dispatch_sequences, default=0)
     if document["last_attempt_sequence"] != expected_last_sequence:
@@ -1290,6 +1324,30 @@ def validate_batch_state(document: Mapping[str, Any]) -> None:
                 "ITEM_RECEIPT_MISMATCH",
                 f"Non-committed item {item['item_id']} cannot claim a committed receipt",
             )
+    reuse_flags_present = any("reuse_verified" in item for item in document["items"])
+    if reuse_flags_present:
+        if any("reuse_verified" not in item for item in document["items"]):
+            raise M0ContractError(
+                "REUSE_ACCOUNTING_MISMATCH",
+                "M1 reuse provenance must be present for every item or none",
+            )
+        verified_hits = sum(bool(item["reuse_verified"]) for item in document["items"])
+        if any(
+            item["reuse_verified"] and item["state"] != "committed"
+            for item in document["items"]
+        ):
+            raise M0ContractError(
+                "REUSE_ACCOUNTING_MISMATCH",
+                "Only a verified committed item may be marked as reused",
+            )
+        if (
+            document["reuse"]["verified_hits"] != verified_hits
+            or document["reuse"]["misses"] != len(document["items"]) - verified_hits
+        ):
+            raise M0ContractError(
+                "REUSE_ACCOUNTING_MISMATCH",
+                "BatchState reuse totals differ from per-item provenance",
+            )
     _validate_cost_exposure(document["cost"], code="BUDGET_STATE_INVALID")
     if document["status"] == "awaiting_agent_review" and "outcome" not in document:
         raise M0ContractError("INVALID_BATCH_STATE", "Terminal mechanical state requires outcome")
@@ -1300,6 +1358,27 @@ def validate_batch_state(document: Mapping[str, Any]) -> None:
                 "INVALID_BATCH_STATE",
                 f"Terminal state outcome must be {expected_outcome}",
             )
+    if invocations is not None:
+        if "rate_limit_wait_seconds" not in document:
+            raise M0ContractError(
+                "M1_STATE_PROVENANCE_INCOMPLETE",
+                "M1 BatchState requires durable rate-limit accounting",
+            )
+        if document["status"] == "awaiting_agent_review" and "completed_at" not in document:
+            raise M0ContractError(
+                "M1_STATE_PROVENANCE_INCOMPLETE",
+                "Terminal M1 BatchState requires a stable completion timestamp",
+            )
+        if document["status"] != "awaiting_agent_review" and "completed_at" in document:
+            raise M0ContractError(
+                "M1_STATE_PROVENANCE_INCOMPLETE",
+                "Non-terminal M1 BatchState cannot claim completion",
+            )
+    if "result_ref" in document and document["status"] != "awaiting_agent_review":
+        raise M0ContractError(
+            "INVALID_RESULT_REFERENCE",
+            "Only terminal mechanical state may reference BatchResult",
+        )
 
 
 def validate_batch_result(document: Mapping[str, Any]) -> None:
@@ -1308,6 +1387,11 @@ def validate_batch_result(document: Mapping[str, Any]) -> None:
     item_ids = [item["item_id"] for item in document["items"]]
     if len(item_ids) != len(set(item_ids)):
         raise M0ContractError("DUPLICATE_RESULT_ITEM", "BatchResult item IDs must be unique")
+    invocation_ids = [entry["invocation_id"] for entry in document["invocations"]]
+    if len(invocation_ids) != len(set(invocation_ids)):
+        raise M0ContractError(
+            "DUPLICATE_INVOCATION", "BatchResult invocation IDs must be unique"
+        )
     states = [item["state"] for item in document["items"]]
     expected = {
         "successful": states.count("committed"),

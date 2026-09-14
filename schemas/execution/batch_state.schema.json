@@ -32,6 +32,42 @@
       "uniqueItems": true,
       "items": { "$ref": "#/$defs/digest" }
     },
+    "dispatch_blocker": {
+      "description": "Durable M1 system-wide stop marker. It forbids submit and poll while permitting only reconciliation of bytes already staged before the marker.",
+      "type": "object",
+      "required": [
+        "error_class",
+        "provider_dispatch",
+        "storage_reconciliation",
+        "source_item_id",
+        "set_at",
+        "reason"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "error_class": {
+          "enum": [
+            "AUTH_CONFIGURATION",
+            "BUDGET_EXCEEDED",
+            "LOCAL_STORAGE_TRANSIENT",
+            "INTERNAL_BUG"
+          ]
+        },
+        "provider_dispatch": { "const": "forbidden" },
+        "storage_reconciliation": { "const": "existing_staged_bytes_only" },
+        "source_item_id": { "$ref": "#/$defs/id" },
+        "source_attempt_id": { "$ref": "#/$defs/id" },
+        "set_at": { "type": "string", "format": "date-time" },
+        "reason": { "type": "string", "minLength": 1, "maxLength": 4096 }
+      }
+    },
+    "invocations": {
+      "description": "M1+ durable invocation provenance. Optional for backward compatibility with frozen M0 fixtures.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 128,
+      "items": { "$ref": "#/$defs/invocation" }
+    },
     "status": {
       "enum": ["received", "validating", "ready", "running", "blocked", "cancelled", "awaiting_agent_review"]
     },
@@ -66,7 +102,8 @@
           "next_eligible_at": { "type": "string", "format": "date-time" },
           "storage_receipt_id": { "$ref": "#/$defs/id" },
           "error_class": { "$ref": "attempt.schema.json#/$defs/error_class" },
-          "blocker": { "$ref": "#/$defs/dependency_blocker" }
+          "blocker": { "$ref": "#/$defs/dependency_blocker" },
+          "reuse_verified": { "type": "boolean" }
         }
       }
     },
@@ -99,6 +136,8 @@
     },
     "created_at": { "type": "string", "format": "date-time" },
     "updated_at": { "type": "string", "format": "date-time" },
+    "completed_at": { "type": "string", "format": "date-time" },
+    "rate_limit_wait_seconds": { "type": "number", "minimum": 0 },
     "last_attempt_sequence": { "type": "integer", "minimum": 0 },
     "storage_receipts": {
       "type": "array",
@@ -123,6 +162,16 @@
       "maxLength": 128
     },
     "digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "invocation": {
+      "type": "object",
+      "required": ["invocation_id", "execution_id", "profile"],
+      "additionalProperties": false,
+      "properties": {
+        "invocation_id": { "$ref": "#/$defs/id" },
+        "execution_id": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "profile": { "enum": ["local", "cloud_run"] }
+      }
+    },
     "dependency_blocker": {
       "type": "object",
       "required": ["kind", "dependency_item_ids", "reason"],

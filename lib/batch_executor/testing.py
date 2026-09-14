@@ -179,6 +179,7 @@ class ScriptedFakeProvider:
                     success=True,
                     acceptance="accepted",
                     known_actual_usd=step.known_actual_usd,
+                    potentially_charged_usd=step.potentially_charged_usd,
                     provider_operation_id=step.provider_operation_id
                     or f"fake-operation-{call.item_id}-{call.attempt_id}",
                 )

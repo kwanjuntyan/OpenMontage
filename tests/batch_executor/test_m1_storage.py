@@ -12,13 +12,14 @@ import pytest
 from lib.batch_executor.contracts import canonical_json_bytes, freeze_batch_request
 from lib.batch_executor.errors import (
     CoordinatorWriterViolation,
+    InjectedCrash,
     LocalRunLocked,
     StorageConflict,
 )
 from lib.batch_executor.media_validation import DeterministicFakeMediaValidator
 from lib.batch_executor.storage import LocalStore
 from lib.batch_executor.testing import fake_video_bytes
-from tests.batch_executor.test_m0_integrity import _valid_state
+from tests.batch_executor.test_m0_integrity import _valid_result, _valid_state
 from tests.batch_executor.test_m0_workspace import _make_directory_link
 
 
@@ -144,6 +145,109 @@ def test_request_and_result_files_are_canonical_json(authorized_project, batch_r
     store.write_request_if_absent(batch_request)
     raw = store.request_path.read_bytes()
     assert raw == canonical_json_bytes(json.loads(raw))
+
+
+def test_immutable_record_publish_recovers_from_an_orphaned_fsynced_temp(
+    authorized_project, batch_request
+):
+    observed = []
+
+    def interrupt(final_path, temporary_path):
+        observed.append((final_path, temporary_path))
+        raise InjectedCrash("immutable_temp_fsynced")
+
+    interrupted = LocalStore(
+        authorized_project["project_dir"],
+        batch_request["batch_id"],
+        immutable_publish_hook=interrupt,
+    )
+    with pytest.raises(InjectedCrash, match="immutable_temp_fsynced"):
+        interrupted.write_request_if_absent(batch_request)
+
+    assert len(observed) == 1
+    final_path, temporary_path = observed[0]
+    assert final_path == interrupted.request_path
+    assert not final_path.exists()
+    assert temporary_path.is_file()
+    assert temporary_path.read_bytes() == canonical_json_bytes(batch_request)
+
+    recovered = _store(authorized_project)
+    recovered.write_request_if_absent(batch_request)
+    assert recovered.request_path.read_bytes() == canonical_json_bytes(batch_request)
+    assert not list(recovered.request_path.parent.glob(".request.json.*.tmp"))
+
+
+def test_immutable_record_never_overwrites_a_partial_final_file(
+    authorized_project, batch_request
+):
+    store = _store(authorized_project)
+    store.request_path.parent.mkdir(parents=True, exist_ok=True)
+    store.request_path.write_bytes(b'{"version":')
+
+    with pytest.raises(StorageConflict, match="REQUEST_CONFLICT"):
+        store.write_request_if_absent(batch_request)
+
+    assert store.request_path.read_bytes() == b'{"version":'
+
+
+def test_result_immutable_publish_recovers_from_interrupted_temp(
+    authorized_project,
+):
+    result = _valid_result()
+
+    def interrupt(final_path, temporary_path):
+        if final_path.name == "result.json":
+            raise InjectedCrash("result_immutable_temp_fsynced")
+
+    interrupted = LocalStore(
+        authorized_project["project_dir"],
+        result["batch_id"],
+        immutable_publish_hook=interrupt,
+    )
+    with pytest.raises(InjectedCrash, match="result_immutable_temp_fsynced"):
+        interrupted.write_result_if_absent(result)
+    assert not interrupted.result_path.exists()
+    assert list(interrupted.result_path.parent.glob(".result.json.*.tmp"))
+
+    recovered = _store(authorized_project)
+    recovered.write_result_if_absent(result)
+    assert recovered.load_result()[0] == result
+    assert not list(recovered.result_path.parent.glob(".*.tmp"))
+
+
+def test_attempt_journal_recovers_after_state_wins_then_publish_is_interrupted(
+    authorized_project,
+):
+    state = _valid_state()
+    state["revision"] = 0
+    state["owner"]["state_revision"] = 0
+
+    def interrupt(final_path, temporary_path):
+        if "attempt-journal" in final_path.parts:
+            raise InjectedCrash("attempt_journal_temp_fsynced")
+
+    interrupted = LocalStore(
+        authorized_project["project_dir"],
+        state["batch_id"],
+        immutable_publish_hook=interrupt,
+    )
+    with pytest.raises(InjectedCrash, match="attempt_journal_temp_fsynced"):
+        interrupted.save_batch_state(state, expected_version=None)
+    loaded, version = interrupted.load_batch_state()
+    assert loaded == state
+    assert version == 0
+    journal_dir = interrupted.run_dir / "attempt-journal" / "item-001" / "attempt-001"
+    assert list(journal_dir.glob(".state-00000000.json.*.tmp"))
+
+    recovered = _store(authorized_project)
+    next_state = deepcopy(state)
+    next_state["revision"] = 1
+    next_state["owner"]["state_revision"] = 1
+    next_state["updated_at"] = "2026-09-14T08:02:03Z"
+    recovered.save_batch_state(next_state, expected_version=0)
+
+    assert not list(journal_dir.glob(".*.tmp"))
+    assert (journal_dir / "state-00000001.json").is_file()
 
 
 def test_local_store_rejects_blob_namespace_symlink_or_junction(
