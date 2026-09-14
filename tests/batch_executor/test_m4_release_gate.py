@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import hashlib
+import os
 from pathlib import Path
 
 import pytest
@@ -45,6 +46,7 @@ def test_ci_uses_python_310_and_has_fail_closed_linux_no_egress_gate():
 
     job = workflow["jobs"]["batch-v2-linux-offline"]
     assert job["runs-on"] == "ubuntu-latest"
+    assert job["timeout-minutes"] == 45
     steps = job["steps"]
     names = [step["name"] for step in steps]
     assert names.index("Install offline-gate dependencies") < names.index(
@@ -65,12 +67,23 @@ def test_linux_gate_is_os_level_fail_closed_and_covers_required_suites():
         "set -euo pipefail",
         "unshare --net",
         "setpriv",
+        "--no-new-privs",
+        "--bounding-set=-all",
+        "--inh-caps=-all",
+        "--ambient-caps=-all",
         "ip link set lo up",
         "ip route show default",
         "ip -o link show up",
         "env -i",
         "OPENMONTAGE_ALLOW_NETWORK=0",
-        "--basetemp=.pytest-tmp/batch-v2-linux",
+        'gate_uid="65532"',
+        'gate_home="$gate_root/home"',
+        'gate_tmp="$gate_root/os-temp"',
+        'gate_pytest="$gate_root/pytest"',
+        '--basetemp="$BATCH_V2_GATE_PYTEST"',
+        "batch_v2_ci_runtime_assert.py",
+        "git-metadata",
+        "sudo -n true",
         "tests/batch_executor",
         "tests/contracts/test_phase0_contracts.py",
         "tests/contracts/test_checkpoint_read_gate.py",
@@ -89,12 +102,27 @@ def test_linux_gate_is_os_level_fail_closed_and_covers_required_suites():
     assert "batch_v2_ci_preflight.py" in gate
     assert "exit 64" in gate
     assert "OPENMONTAGE_ALLOW_NETWORK=1" not in gate
+    assert 'default_routes="$(ip route show default 2>&1)"' in gate
+    assert 'active_links="$(ip -o link show up 2>&1)"' in gate
+    assert "ip route show default |" not in gate
+    assert "ip -o link show up |" not in gate
+    assert "grep_status=$?" in gate
+    assert gate.count("gate-runtime") == 2
+    assert "git_metadata_before" in gate
+    assert "git_metadata_after" in gate
+    assert "Git metadata changed during legacy --help" in gate
+    assert "host_uid" not in gate
     namespace_launch = gate.index("sudo -n unshare --net -- bash")
-    legacy_help = gate.index(
-        '"$5" -B scripts/batch_run_intent_sequences.py --help'
+    privilege_drop = gate.index("--no-new-privs")
+    dropped_handoff = gate.index(
+        'bash "$7/scripts/run_batch_v2_linux_offline_gate.sh" --dropped-payload'
     )
-    pytest_launch = gate.index('"$5" -m pytest')
-    assert namespace_launch < legacy_help < pytest_launch
+    legacy_help = gate.index(
+        '"$BATCH_V2_GATE_PYTHON" -B scripts/batch_run_intent_sequences.py --help'
+    )
+    pytest_launch = gate.index('"$BATCH_V2_GATE_PYTHON" -m pytest')
+    assert namespace_launch < privilege_drop < dropped_handoff
+    assert legacy_help < pytest_launch
     assert "scripts/batch_run_intent_sequences.py --seq" not in gate
 
 
@@ -103,6 +131,8 @@ def test_linux_gate_is_os_level_fail_closed_and_covers_required_suites():
     (
         ".env",
         ".env.local",
+        ".youtube-token.json",
+        "private/gcp-production.json",
         "private/service-account-prod.json",
         "private/service_account.json",
         "private/credentials-prod.json",
@@ -146,6 +176,33 @@ def test_ci_workspace_preflight_accepts_documentation_only(tmp_path, monkeypatch
     assert main(["--workspace", str(tmp_path)]) == 0
 
 
+def test_ci_workspace_preflight_scans_gitignored_untracked_names(tmp_path, capsys):
+    from scripts.batch_v2_ci_preflight import main
+
+    (tmp_path / ".gitignore").write_text("ignored/\n", encoding="utf-8")
+    candidate = tmp_path / "ignored" / "gcp-production.json"
+    candidate.parent.mkdir()
+    candidate.write_text("must-not-be-read", encoding="utf-8")
+
+    assert main(["--workspace", str(tmp_path)]) == 64
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert "sensitive credential material exists" in captured.err
+    assert "gcp-production.json" not in captured.err
+
+
+def test_ci_workspace_preflight_safely_prunes_test_sandbox(tmp_path):
+    from scripts.batch_v2_ci_preflight import main
+
+    sandbox = tmp_path / ".pytest-tmp"
+    sandbox.mkdir()
+    (sandbox / "gcp-adversarial-fixture.json").write_text(
+        "fixture-only", encoding="utf-8"
+    )
+
+    assert main(["--workspace", str(tmp_path)]) == 0
+
+
 def test_ci_workspace_preflight_fails_closed_without_path_disclosure(tmp_path, capsys):
     from scripts.batch_v2_ci_preflight import main
 
@@ -154,6 +211,75 @@ def test_ci_workspace_preflight_fails_closed_without_path_disclosure(tmp_path, c
     captured = capsys.readouterr()
     assert str(missing) not in captured.err
     assert "sensitive credential material exists in the test workspace" in captured.err
+
+
+def test_ci_runtime_temp_layout_is_dynamically_checked(tmp_path, monkeypatch):
+    from scripts.batch_v2_ci_runtime_assert import (
+        GateRuntimeContractError,
+        assert_repo_local_temp_layout,
+    )
+
+    repository = tmp_path / "repository"
+    gate = repository / ".pytest-tmp" / "batch-v2-linux.dynamic"
+    gate_home = gate / "home"
+    gate_tmp = gate / "os-temp"
+    gate_pytest = gate / "pytest"
+    for directory in (gate_home, gate_tmp, gate_pytest):
+        directory.mkdir(parents=True, exist_ok=True)
+    monkeypatch.setenv("HOME", str(gate_home))
+    monkeypatch.setenv("TMPDIR", str(gate_tmp))
+
+    assert_repo_local_temp_layout(
+        repository=repository,
+        home=gate_home,
+        os_temp=gate_tmp,
+        pytest_basetemp=gate_pytest,
+    )
+    assert any(gate_tmp.iterdir()) is False
+
+    nested_home = gate_pytest / "nested-home"
+    nested_home.mkdir()
+    with pytest.raises(GateRuntimeContractError):
+        assert_repo_local_temp_layout(
+            repository=repository,
+            home=nested_home,
+            os_temp=gate_tmp,
+            pytest_basetemp=gate_pytest,
+        )
+
+
+def test_ci_git_metadata_digest_detects_config_and_hook_mutation(tmp_path):
+    from scripts.batch_v2_ci_runtime_assert import git_metadata_digest
+
+    git_dir = tmp_path / ".git"
+    hooks = git_dir / "hooks"
+    hooks.mkdir(parents=True)
+    config = git_dir / "config"
+    config.write_text("[core]\n", encoding="utf-8")
+    baseline = git_metadata_digest(tmp_path)
+
+    config.write_text("[core]\n\thooksPath = .githooks\n", encoding="utf-8")
+    assert git_metadata_digest(tmp_path) != baseline
+    config.write_text("[core]\n", encoding="utf-8")
+    assert git_metadata_digest(tmp_path) == baseline
+
+    (hooks / "commit-msg").write_text("#!/bin/sh\n", encoding="utf-8")
+    assert git_metadata_digest(tmp_path) != baseline
+
+
+@pytest.mark.skipif(
+    os.environ.get("BATCH_V2_LINUX_GATE") != "1",
+    reason="dynamic dropped-context proof runs only inside the Linux gate",
+)
+def test_linux_gate_dynamically_proves_dropped_context_and_temp_layout():
+    from scripts.batch_v2_ci_runtime_assert import assert_gate_runtime
+
+    assert_gate_runtime(
+        repository=Path(os.environ["BATCH_V2_REPOSITORY_ROOT"]),
+        home=Path(os.environ["HOME"]),
+        os_temp=Path(os.environ["TMPDIR"]),
+        pytest_basetemp=Path(os.environ["BATCH_V2_GATE_PYTEST"]),
+    )
 
 
 def test_clean_install_declares_legacy_imageio_ffmpeg_dependency():
@@ -206,6 +332,9 @@ def test_migration_and_evidence_docs_preserve_release_boundaries():
         REPOSITORY_ROOT / "docs" / "batch-v2-m4-offline-evidence.md"
     ).read_text(encoding="utf-8")
     evidence_words = " ".join(evidence.split())
+    cloud_run = (
+        REPOSITORY_ROOT / "docs" / "batch-v2-cloud-run.md"
+    ).read_text(encoding="utf-8")
     for required in (
         "V2 remains opt-in",
         "batch_run_intent_sequences.py",
@@ -235,6 +364,13 @@ def test_migration_and_evidence_docs_preserve_release_boundaries():
         "No production qualification is claimed",
     ):
         assert required in evidence_words
+    assert "installing pinned test dependencies" not in cloud_run
+    assert "lower-bound test dependencies" in cloud_run
+
+
+def test_ci_gate_temp_artifacts_are_ignored():
+    ignore = (REPOSITORY_ROOT / ".gitignore").read_text(encoding="utf-8")
+    assert ".pytest-tmp/" in ignore.splitlines()
 
 
 def test_m4_release_slice_does_not_modify_forbidden_runtime_surfaces():

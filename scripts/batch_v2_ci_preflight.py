@@ -27,9 +27,13 @@ def _sensitive_name(name: str) -> bool:
     lower = name.lower()
     if lower == ".env.example":
         return False
+    if lower == ".youtube-token.json":
+        return True
     if lower == ".env" or lower.startswith(".env."):
         return True
     if lower.endswith(_SECRET_SUFFIXES):
+        return True
+    if lower.startswith("gcp-") and lower.endswith(".json"):
         return True
     return lower.endswith(".json") and any(
         marker in lower for marker in _JSON_SECRET_MARKERS

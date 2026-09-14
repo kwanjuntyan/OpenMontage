@@ -203,19 +203,34 @@ pull one merely to run this command, and the container gate remains pending.
 ## M4 Linux test-execution isolation
 
 The dedicated Linux CI job may use network while checking out source and
-installing pinned test dependencies. After setup, it invokes
-`scripts/run_batch_v2_linux_offline_gate.sh`; only that test execution is
-described as offline. The launcher refuses to run if credential-like files are
-present in the workspace or if `sudo`, `unshare`, `setpriv`, or network
-inspection tools are unavailable. It creates a fresh network namespace,
-enables loopback for Backlot, proves there is no default route or active
-non-loopback interface, clears the inherited environment and user config home,
-executes the real legacy entrypoint with only `-B` and `--help`, then starts
-pytest with a repository-local temp root. The help smoke must exit zero and is
-never given a sequence selector. This OS-level boundary also contains child
-processes, unlike the in-process pytest socket guard. A failed isolation
-preflight fails the gate; it never falls back to an ordinary networked test
-process.
+installing the lower-bound test dependencies declared by `requirements.txt`
+and `requirements-dev.txt`; those files are not a resolved lock. After setup,
+it invokes `scripts/run_batch_v2_linux_offline_gate.sh`; only that test
+execution is described as offline. The launcher contract scans tracked,
+untracked, and gitignored workspace names while pruning only dependency/test
+sandboxes; it never reads or prints candidate credential contents or paths. It
+refuses to run if credential-like files are present or if required
+isolation/network inspection tools are unavailable.
+
+The gate creates a fresh network namespace, captures and validates every `ip`
+inspection result, enables only loopback for Backlot, and proves there is no
+default route or active non-loopback interface. It then changes to dedicated
+numeric UID/GID `65532:65532`, sets `no_new_privs`, clears bounding,
+inheritable, effective, permitted, and ambient capabilities, and dynamically
+requires passwordless `sudo` to fail. The inherited environment is cleared.
+`HOME`, `TMPDIR`, and pytest's basetemp are three disjoint repository-local
+siblings; dynamic checks run before and after pytest and create a real temp
+file to prove `TMPDIR` routing. Pytest may prune only its own sibling.
+
+Within the same dropped context, the launcher hashes `.git/config` and hook
+state, executes the real legacy entrypoint with only `-B` and `--help`, and
+fails if Git metadata changed. `-B` only disables bytecode and is not treated
+as a general side-effect barrier. The help smoke is never given a sequence
+selector. This OS-level boundary is inherited by child processes, unlike the
+in-process pytest socket guard. Any failed isolation assertion fails the gate;
+it never falls back to an ordinary networked or privileged test process. This
+behavior remains pending actual GitHub Linux execution and is not claimed as
+observed qualification evidence yet.
 
 ## First run and resume
 

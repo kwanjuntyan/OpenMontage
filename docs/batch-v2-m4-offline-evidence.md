@@ -74,16 +74,28 @@ all provider credential names declared by `.env.example`, removed known Google
 route/project aliases, set `OPENMONTAGE_ALLOW_NETWORK=0`, and ran under the
 repository pytest socket guard.
 
-The dedicated Linux workflow installs dependencies first, then invokes
-`scripts/run_batch_v2_linux_offline_gate.sh`. That launcher fail-closes unless
-`unshare`, `setpriv`, and the required network tools work; refuses a workspace
-containing `.env`/credential material; establishes a network namespace with no
-default route or non-loopback interface; clears the process environment; and
-uses a repository-local writable temp/home. Before pytest it runs the actual
-legacy entrypoint with only `-B` and `--help`, requiring exit zero without a
-sequence dispatch. This is test-process isolation, including subprocesses. The
-checkout and dependency installation may use network; the repository does not
-claim the complete CI lifecycle is offline.
+The dedicated Linux workflow installs lower-bound test requirements first,
+then invokes `scripts/run_batch_v2_linux_offline_gate.sh`. Those requirements
+are not a resolved dependency lock. The launcher contract fail-closes unless
+`unshare`, `setpriv`, and the required network tools work; name-scans tracked,
+untracked, and gitignored workspace content while safely pruning dependency and
+test sandboxes; and rejects `.env`, known credential names, and key material
+without reading or printing candidate contents or paths.
+
+The isolated test process uses dedicated UID/GID `65532:65532`,
+`no_new_privs`, and empty bounding/inheritable/permitted/effective/ambient
+capability sets. It dynamically requires `sudo -n true` to fail. Route and
+interface commands must themselves succeed before their captured output is
+evaluated. `HOME`, `TMPDIR`, and pytest basetemp are separately created sibling
+directories beneath one fresh repository-local gate root, and a real tempfile
+plus before/after runtime checks prove pytest cannot prune the other two.
+Before pytest the dropped process hashes Git config/hook state around the
+actual legacy `-B ... --help` invocation and fails on mutation; `-B` is not
+claimed to suppress non-bytecode side effects. This test-process isolation is
+inherited by subprocesses. The checkout and dependency installation may use
+network; the repository does not claim the complete CI lifecycle is offline.
+All Linux namespace/drop assertions remain unobserved until the GitHub Linux
+job runs, so M4 remains in progress.
 
 ## Agent-Native responsibility review
 

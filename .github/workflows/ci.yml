@@ -52,6 +52,7 @@ jobs:
   batch-v2-linux-offline:
     name: Batch V2 Linux Offline Gate
     runs-on: ubuntu-latest
+    timeout-minutes: 45
 
     steps:
       - name: Checkout repository
