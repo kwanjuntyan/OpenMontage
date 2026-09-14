@@ -1,4 +1,4 @@
-"""Project-scoped local storage for M1 execution and M2 publication."""
+"""Project-scoped Local Store plus the narrow shared execution protocol."""
 
 from __future__ import annotations
 
@@ -13,17 +13,19 @@ import threading
 import unicodedata
 from decimal import Decimal
 from pathlib import Path, PurePosixPath
-from typing import Any, Callable, Mapping
+from typing import Any, Callable, ContextManager, Mapping, Protocol, runtime_checkable
 
 from .contracts import (
     M0ContractError,
     canonical_json_bytes,
     canonical_sha256,
     derive_attempt_output_path,
+    freeze_self_digest,
     validate_batch_request,
     validate_batch_result,
     validate_batch_state,
     validate_canonical_asset_path,
+    validate_contract,
     validate_publication_command,
     validate_storage_receipt,
 )
@@ -35,6 +37,120 @@ from .errors import (
     StorageConflict,
 )
 from .media_validation import MediaValidator, OutputFacts
+
+
+StoreVersion = str | int
+
+
+def _validate_ownership_record(
+    kind: str, document: Mapping[str, Any], digest: str
+) -> None:
+    contracts = {
+        "execution_status": ("execution_status_evidence", "evidence_digest"),
+        "resume_authorization": ("resume_authorization", "authorization_digest"),
+    }
+    try:
+        schema_name, digest_field = contracts[kind]
+    except KeyError as exc:
+        raise M1ExecutionError(
+            "OWNERSHIP_RECORD_INVALID", f"Unsupported ownership record kind: {kind}"
+        ) from exc
+    validate_contract(schema_name, document)
+    frozen = freeze_self_digest(
+        document, schema_name=schema_name, digest_field=digest_field
+    )
+    if document.get(digest_field) != digest or frozen[digest_field] != digest:
+        raise M1ExecutionError(
+            "OWNERSHIP_RECORD_INVALID", "Ownership record digest does not match"
+        )
+
+
+@runtime_checkable
+class ExecutionStore(Protocol):
+    """Minimal durable interface consumed by the shared M1/M3 engine.
+
+    Store versions are deliberately opaque to the engine.  LocalStore uses a
+    logical revision for mutable state and content digests for immutable
+    records; GCSStore uses object generations for all three.
+    """
+
+    project_dir: Path
+    batch_id: str
+    run_dir: Path
+
+    @property
+    def result_logical_path(self) -> str: ...
+
+    def acquire_run_lock(self) -> ContextManager[object]: ...
+
+    def batch_state_exists(self) -> bool: ...
+
+    def attempt_output_path(
+        self, item_id: str, attempt_id: str, output_name: str
+    ) -> Path: ...
+
+    def prepare_attempt_directory(self, output_path: Path) -> None: ...
+
+    def write_request_if_absent(
+        self, request: Mapping[str, Any]
+    ) -> StoreVersion: ...
+
+    def load_request(self) -> tuple[dict[str, Any], StoreVersion]: ...
+
+    def save_batch_state(
+        self, state: Mapping[str, Any], *, expected_version: StoreVersion | None
+    ) -> StoreVersion: ...
+
+    def load_batch_state(self) -> tuple[dict[str, Any], StoreVersion]: ...
+
+    def put_verified_blob(
+        self,
+        *,
+        source: Path,
+        logical_path: str,
+        batch_id: str,
+        item_id: str,
+        attempt_id: str,
+        output: OutputFacts,
+        created_at: str,
+    ) -> dict[str, Any]: ...
+
+    def get_verified_blob(
+        self, receipt: Mapping[str, Any], destination: Path
+    ) -> Path: ...
+
+    def restore_staged_blob(
+        self,
+        *,
+        destination: Path,
+        batch_id: str,
+        item_id: str,
+        output: OutputFacts,
+    ) -> bool: ...
+
+    def verify_receipt(
+        self,
+        receipt: Mapping[str, Any],
+        *,
+        validator: MediaValidator,
+        output_spec: Mapping[str, Any],
+    ) -> bool: ...
+
+    def write_result_if_absent(
+        self, result: Mapping[str, Any]
+    ) -> StoreVersion: ...
+
+    def load_result(
+        self,
+    ) -> tuple[dict[str, Any], StoreVersion] | None: ...
+
+    def write_ownership_record_if_absent(
+        self,
+        *,
+        kind: str,
+        document: Mapping[str, Any],
+        digest: str,
+    ) -> StoreVersion: ...
 
 
 def _digest_file(path: Path) -> tuple[str, int]:
@@ -341,6 +457,10 @@ class LocalStore:
         self._assert_project_scoped_path(self.publication_command_dir)
         self._assert_project_scoped_path(self.publication_lock_path)
 
+    @property
+    def result_logical_path(self) -> str:
+        return self.result_path.relative_to(self.project_dir).as_posix()
+
     def _assert_project_scoped_path(self, path: Path) -> Path:
         resolved = path.resolve(strict=False)
         try:
@@ -371,6 +491,9 @@ class LocalStore:
 
         self._assert_writer()
         return LocalRunLock(self.publication_lock_path)
+
+    def batch_state_exists(self) -> bool:
+        return self.state_path.is_file()
 
     def attempt_output_path(
         self, item_id: str, attempt_id: str, output_name: str
@@ -635,6 +758,64 @@ class LocalStore:
             ) from exc
         return True
 
+    def get_verified_blob(
+        self, receipt: Mapping[str, Any], destination: Path
+    ) -> Path:
+        """Materialize a verified local CAS object inside the hidden V2 tree."""
+
+        self._assert_writer()
+        validate_storage_receipt(receipt)
+        destination = self._assert_project_scoped_path(Path(destination))
+        try:
+            relative_destination = destination.relative_to(self.project_dir)
+        except ValueError as exc:  # pragma: no cover - guarded above
+            raise M1ExecutionError(
+                "WORKSPACE_ESCAPE", "Blob materialization escaped the project"
+            ) from exc
+        if not relative_destination.parts or relative_destination.parts[0] != ".batch-v2":
+            raise M1ExecutionError(
+                "WORKSPACE_ESCAPE",
+                "Execution blob materialization must remain in the hidden .batch-v2 tree",
+            )
+        locator = PurePosixPath(str(receipt["locator"]))
+        source = self.project_dir / Path(*locator.parts)
+        source = self._assert_project_scoped_path(source)
+        digest, size = _digest_file(source)
+        if digest != receipt["sha256"] or size != receipt["size_bytes"]:
+            raise M1ExecutionError(
+                "REUSE_RECEIPT_INVALID", "Local CAS object differs from its receipt"
+            )
+        if destination == source:
+            return destination
+        _atomic_write(destination, source.read_bytes())
+        materialized_digest, materialized_size = _digest_file(destination)
+        if (
+            materialized_digest != receipt["sha256"]
+            or materialized_size != receipt["size_bytes"]
+        ):
+            raise M1ExecutionError(
+                "REUSE_RECEIPT_INVALID", "Materialized local blob failed verification"
+            )
+        return destination
+
+    def restore_staged_blob(
+        self,
+        *,
+        destination: Path,
+        batch_id: str,
+        item_id: str,
+        output: OutputFacts,
+    ) -> bool:
+        """LocalStore has no remote provisional blob to restore."""
+
+        self._assert_writer()
+        self._assert_project_scoped_path(Path(destination))
+        if batch_id != self.batch_id or not item_id or not output.sha256:
+            raise M1ExecutionError(
+                "REUSE_RECEIPT_INVALID", "Invalid provisional local blob identity"
+            )
+        return False
+
     def write_result_if_absent(self, result: Mapping[str, Any]) -> str:
         self._assert_writer()
         validate_batch_result(result)
@@ -659,6 +840,37 @@ class LocalStore:
                 "RESULT_RECORD_INVALID", "Durable BatchResult is corrupt"
             ) from exc
         return result, canonical_sha256(result)
+
+    def write_ownership_record_if_absent(
+        self,
+        *,
+        kind: str,
+        document: Mapping[str, Any],
+        digest: str,
+    ) -> str:
+        """Persist immutable proof bytes for Store protocol parity.
+
+        Local execution does not use takeover proofs, but keeping this narrow
+        operation on both stores lets the shared ownership path remain free of
+        backend-specific writes.
+        """
+
+        self._assert_writer()
+        _validate_ownership_record(kind, document, digest)
+        directories = {
+            "execution_status": "ownership-evidence",
+            "resume_authorization": "resume-authorizations",
+        }
+        directory = directories[kind]
+        path = self.run_dir / directory / f"{digest}.json"
+        self._assert_project_scoped_path(path)
+        _write_immutable(
+            path,
+            canonical_json_bytes(document),
+            conflict_code="OWNERSHIP_RECORD_CONFLICT",
+            publish_hook=self._immutable_publish_hook,
+        )
+        return digest
 
     def publication_command_path(self, command_id: str) -> Path:
         if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}", command_id):
@@ -845,4 +1057,4 @@ class LocalStore:
         return destination
 
 
-__all__ = ["LocalRunLock", "LocalStore"]
+__all__ = ["ExecutionStore", "LocalRunLock", "LocalStore", "StoreVersion"]

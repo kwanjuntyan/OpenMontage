@@ -26,6 +26,7 @@ class TakeoverPlan:
     new_owner: dict[str, Any]
     proof_kind: str
     proof_digest: str
+    proof_document: dict[str, Any]
     indeterminate_item_ids: tuple[str, ...]
 
 
@@ -62,6 +63,7 @@ def assert_dispatch_owner(
     *,
     invocation_id: str,
     execution_id: str,
+    task_id: str,
     invocation_mode: str,
 ) -> None:
     """Allow only the same active owner; a different owner fails closed."""
@@ -70,6 +72,7 @@ def assert_dispatch_owner(
     same_owner = (
         recorded_owner["invocation_id"] == invocation_id
         and recorded_owner["execution_id"] == execution_id
+        and recorded_owner["task_id"] == task_id
     )
     if same_owner and recorded_owner["owner_status"] == "active":
         return
@@ -110,11 +113,20 @@ def resumed_item_state(attempt: Mapping[str, Any]) -> str:
     }
     if phase in terminal_states:
         return terminal_states[phase]
-    if attempt["billing_mode"] == "paid" and (
-        phase != "prepared" or attempt["acceptance_knowledge"] in {"accepted", "unknown"}
+    if attempt["acceptance_knowledge"] == "unknown" or (
+        attempt["billing_mode"] == "paid" and phase == "dispatched"
     ):
         return "indeterminate"
-    if attempt["acceptance_knowledge"] == "accepted":
+    safely_reconcilable = {
+        "provider_accepted",
+        "result_received",
+        "bytes_staged",
+        "technically_valid",
+    }
+    if (
+        attempt["acceptance_knowledge"] == "accepted"
+        and phase not in safely_reconcilable
+    ):
         return "indeterminate"
     return "pending"
 
@@ -200,6 +212,14 @@ def prepare_cloud_takeover(
             raise M0ContractError(
                 "TAKEOVER_PROOF_MISMATCH", "ResumeAuthorization names another successor"
             )
+        if (
+            resume_authorization["intended_new_execution_id"] != new_execution_id
+            or resume_authorization["intended_new_task_id"] != new_task_id
+        ):
+            raise M0ContractError(
+                "TAKEOVER_PROOF_MISMATCH",
+                "ResumeAuthorization does not bind the successor execution/task",
+            )
         if resume_authorization["expected_state_generation"] != current_state_generation:
             raise M0ContractError(
                 "TAKEOVER_PROOF_MISMATCH", "ResumeAuthorization is stale for this generation"
@@ -235,6 +255,7 @@ def prepare_cloud_takeover(
         new_owner=deepcopy(new_owner),
         proof_kind=proof_kind,
         proof_digest=proof_digest,
+        proof_document=deepcopy(dict(execution_status_evidence if execution_status_verifier is not None else resume_authorization)),
         indeterminate_item_ids=_indeterminate_items(prior_attempts),
     )
 

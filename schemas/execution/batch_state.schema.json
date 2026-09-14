@@ -50,6 +50,8 @@
             "AUTH_CONFIGURATION",
             "BUDGET_EXCEEDED",
             "LOCAL_STORAGE_TRANSIENT",
+            "GCS_TRANSIENT",
+            "GCS_PRECONDITION_CONFLICT",
             "INTERNAL_BUG"
           ]
         },

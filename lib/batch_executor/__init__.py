@@ -1,9 +1,10 @@
-"""Batch Executor V2 contracts, M1 local execution, and M2 publication.
+"""Batch Executor V2 contracts and the shared Local/Cloud execution core.
 
-The local executor is deliberately mechanical: it executes only an already
-frozen, authorized assets request through one injected exact adapter. M2 then
-applies an immutable Agent-authored command through the official checkpoint
-contracts. The production Gemini transport remains an M3 milestone.
+The executor is deliberately mechanical: it executes only an already frozen,
+authorized assets request through one injected exact adapter. M2 applies an
+immutable Agent-authored command through the official checkpoint contracts.
+M3 adds a generation-CAS GCS Store and the one exact Vertex adapter without
+giving Python responsibility for pipeline, review, or Human Gate decisions.
 """
 
 from .contracts import (
@@ -28,15 +29,20 @@ from .contracts import (
     validate_publication_command,
     validate_storage_receipt,
 )
-from .engine import LocalBatchExecutor
+from .engine import BatchExecutor, CloudBatchExecutor, LocalBatchExecutor
+from .gcs_storage import GCSStore
 from .publication import LocalAssetsPublisher
-from .storage import LocalStore
+from .storage import ExecutionStore, LocalStore
 
 __all__ = [
     "CANONICAL_JSON_VERSION",
     "INITIAL_ADAPTER_IDENTITY",
     "MVP_ADAPTER_SUPPORT",
     "M0ContractError",
+    "BatchExecutor",
+    "CloudBatchExecutor",
+    "ExecutionStore",
+    "GCSStore",
     "LocalBatchExecutor",
     "LocalAssetsPublisher",
     "LocalStore",

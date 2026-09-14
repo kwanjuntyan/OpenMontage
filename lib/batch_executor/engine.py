@@ -1,4 +1,4 @@
-"""M1 Local-first, single-coordinator Batch Executor."""
+"""Shared single-coordinator Batch Executor for Local and Cloud profiles."""
 
 from __future__ import annotations
 
@@ -9,24 +9,33 @@ import time
 import uuid
 from concurrent.futures import FIRST_COMPLETED, Future, wait
 from copy import deepcopy
+from dataclasses import dataclass
 from datetime import datetime, timedelta, timezone
 from decimal import Decimal
 from pathlib import Path
-from typing import Any, Callable, Mapping
+from typing import Any, Callable, Literal, Mapping
 
 from .contracts import (
+    M0ContractError,
     canonical_json_bytes,
+    canonical_sha256,
     compute_idempotency_digest,
+    validate_contract,
     validate_attempt,
     validate_attempt_output_path,
 )
 from .errors import M1ExecutionError
 from .media_validation import MediaValidator, OutputFacts
+from .ownership import (
+    ExecutionStatusVerifier,
+    assert_dispatch_owner,
+    prepare_cloud_takeover,
+)
 from .preflight import preflight_batch_request
 from .retry import RandomSource, full_jitter_delay
 from .scheduler import BoundedScheduler, Clock
 from .side_effects import worker_execution_scope
-from .storage import LocalStore
+from .storage import ExecutionStore, LocalStore, StoreVersion
 from .tool_adapter import (
     ProviderAdapter,
     ProviderCall,
@@ -63,8 +72,18 @@ class RealClock:
         time.sleep(seconds)
 
 
-class LocalBatchExecutor:
-    """Execute approved assets work items without owning pipeline decisions."""
+@dataclass(frozen=True)
+class ExecutionInvocation:
+    """Runtime identity fixed before the shared engine may touch durable state."""
+
+    invocation_id: str
+    execution_id: str
+    task_id: str
+    mode: Literal["run", "resume"]
+
+
+class BatchExecutor:
+    """Execute approved assets work through one backend-neutral state machine."""
 
     def __init__(
         self,
@@ -75,6 +94,8 @@ class LocalBatchExecutor:
         clock: Clock | None = None,
         random_source: RandomSource | None = None,
         crash_hook: Callable[[str, Mapping[str, Any]], None] | None = None,
+        execution_profile: Literal["local", "cloud_run"] = "local",
+        store_factory: Callable[[Path, str], ExecutionStore] | None = None,
     ):
         self.projects_root = Path(projects_root)
         self.provider = provider
@@ -82,14 +103,21 @@ class LocalBatchExecutor:
         self.clock = clock or RealClock()
         self.random_source = random_source or random.Random()
         self.crash_hook = crash_hook
-        self._store: LocalStore | None = None
+        self.execution_profile = execution_profile
+        self.store_factory = store_factory or (
+            lambda project_dir, batch_id: LocalStore(project_dir, batch_id)
+        )
+        self._store: ExecutionStore | None = None
         self._state: dict[str, Any] | None = None
-        self._state_version: int | None = None
+        self._state_version: StoreVersion | None = None
         self._request: dict[str, Any] | None = None
         self._work_items: dict[str, dict[str, Any]] = {}
         self._reused_item_ids: set[str] = set()
         self._rate_limit_wait_seconds = 0.0
         self._cancellation = threading.Event()
+        self._invocation: ExecutionInvocation | None = None
+        self._execution_status_verifier: ExecutionStatusVerifier | None = None
+        self._resume_authorization: Mapping[str, Any] | None = None
 
     def _now(self) -> str:
         now_method = getattr(self.clock, "now", None)
@@ -127,7 +155,9 @@ class LocalBatchExecutor:
     def _save_state(self) -> None:
         assert self._store is not None and self._state is not None
         expected = self._state_version
-        next_revision = 0 if expected is None else expected + 1
+        # Store versions are opaque: a GCS generation is not the BatchState's
+        # logical revision.  Increment the contract field independently.
+        next_revision = 0 if expected is None else int(self._state["revision"]) + 1
         self._state["revision"] = next_revision
         self._state["updated_at"] = self._now()
         self._state["owner"]["state_revision"] = next_revision
@@ -135,9 +165,11 @@ class LocalBatchExecutor:
             self._state, expected_version=expected
         )
 
-    def _initial_state(self, request: Mapping[str, Any], invocation_id: str) -> dict[str, Any]:
+    def _initial_state(self, request: Mapping[str, Any]) -> dict[str, Any]:
+        assert self._invocation is not None
         created_at = self._now()
         identity = request["work_items"][0]["identity"]
+        invocation = self._invocation
         return {
             "version": "1.0",
             "batch_id": request["batch_id"],
@@ -147,11 +179,11 @@ class LocalBatchExecutor:
                 "version": "1.0",
                 "batch_id": request["batch_id"],
                 "request_digest": request["request_digest"],
-                "invocation_id": invocation_id,
-                "invocation_mode": "run",
-                "profile": "local",
-                "execution_id": f"pid-{os.getpid()}",
-                "task_id": "main",
+                "invocation_id": invocation.invocation_id,
+                "invocation_mode": invocation.mode,
+                "profile": self.execution_profile,
+                "execution_id": invocation.execution_id,
+                "task_id": invocation.task_id,
                 "owner_status": "active",
                 "acquired_at": created_at,
                 "state_revision": 0,
@@ -160,9 +192,9 @@ class LocalBatchExecutor:
             "ownership_proof_digests": [],
             "invocations": [
                 {
-                    "invocation_id": invocation_id,
-                    "execution_id": f"pid-{os.getpid()}",
-                    "profile": "local",
+                    "invocation_id": invocation.invocation_id,
+                    "execution_id": invocation.execution_id,
+                    "profile": self.execution_profile,
                 }
             ],
             "status": "ready",
@@ -326,6 +358,136 @@ class LocalBatchExecutor:
         self._state["status"] = "running"
         self._save_state()
 
+    def _verify_cloud_owner_reread(
+        self,
+        expected_owner: Mapping[str, Any],
+        expected_version: StoreVersion,
+        *,
+        require_active: bool = True,
+    ) -> None:
+        assert self._store is not None
+        durable_state, durable_version = self._store.load_batch_state()
+        if (
+            durable_version != expected_version
+            or canonical_json_bytes(durable_state["owner"])
+            != canonical_json_bytes(expected_owner)
+        ):
+            raise M1ExecutionError(
+                "RESUME_OWNERSHIP_PROOF_INVALID",
+                "Cloud owner CAS winner could not be re-read exactly",
+            )
+        if require_active:
+            assert self._invocation is not None
+            try:
+                assert_dispatch_owner(
+                    durable_state["owner"],
+                    invocation_id=self._invocation.invocation_id,
+                    execution_id=self._invocation.execution_id,
+                    task_id=self._invocation.task_id,
+                    invocation_mode=self._invocation.mode,
+                )
+            except M0ContractError as exc:
+                raise M1ExecutionError(
+                    "RESUME_OWNERSHIP_PROOF_INVALID", str(exc)
+                ) from exc
+        self._state = durable_state
+        self._state_version = durable_version
+
+    def _take_cloud_ownership(self) -> None:
+        """Persist proof, CAS one successor, and re-read before dispatch."""
+
+        assert (
+            self._state is not None
+            and self._store is not None
+            and self._request is not None
+            and self._invocation is not None
+        )
+        invocation = self._invocation
+        recorded_owner = deepcopy(self._state["owner"])
+        if invocation.mode == "run":
+            try:
+                assert_dispatch_owner(
+                    recorded_owner,
+                    invocation_id=invocation.invocation_id,
+                    execution_id=invocation.execution_id,
+                    task_id=invocation.task_id,
+                    invocation_mode="run",
+                )
+            except M0ContractError as exc:
+                raise M1ExecutionError("EXECUTION_OWNER_ACTIVE", str(exc)) from exc
+            return
+
+        if not isinstance(self._state_version, int) or isinstance(
+            self._state_version, bool
+        ):
+            raise M1ExecutionError(
+                "RESUME_OWNERSHIP_PROOF_INVALID",
+                "Cloud takeover requires an exact positive GCS state generation",
+            )
+        try:
+            plan = prepare_cloud_takeover(
+                recorded_owner,
+                current_state_generation=self._state_version,
+                new_invocation_id=invocation.invocation_id,
+                new_execution_id=invocation.execution_id,
+                new_task_id=invocation.task_id,
+                acquired_at=self._now(),
+                prior_attempts=self._state["attempts"],
+                execution_status_verifier=self._execution_status_verifier,
+                resume_authorization=self._resume_authorization,
+            )
+        except M0ContractError as exc:
+            raise M1ExecutionError(
+                "RESUME_OWNERSHIP_PROOF_INVALID", str(exc)
+            ) from exc
+        proof_digests = self._state.setdefault("ownership_proof_digests", [])
+        if plan.proof_digest in proof_digests:
+            raise M1ExecutionError(
+                "RESUME_OWNERSHIP_PROOF_INVALID",
+                "Takeover proof was already consumed by an earlier owner transition",
+            )
+        record_kind = (
+            "execution_status"
+            if plan.proof_kind == "trusted_execution_status"
+            else "resume_authorization"
+        )
+        self._store.write_ownership_record_if_absent(
+            kind=record_kind,
+            document=plan.proof_document,
+            digest=plan.proof_digest,
+        )
+        for item_id in plan.indeterminate_item_ids:
+            latest = self._latest_attempt(item_id)
+            if latest is not None and latest["phase"] != "indeterminate":
+                self._mark_indeterminate(
+                    latest,
+                    "Prior Cloud execution stopped with paid acceptance unresolved",
+                )
+        self._state.setdefault("invocations", []).append(
+            {
+                "invocation_id": invocation.invocation_id,
+                "execution_id": invocation.execution_id,
+                "profile": "cloud_run",
+            }
+        )
+        proof_digests.append(plan.proof_digest)
+        self._state["owner"] = deepcopy(plan.new_owner)
+        self._state["status"] = "running"
+        self._state.pop("outcome", None)
+        self._state.pop("completed_at", None)
+        self._state.pop("result_ref", None)
+        self._save_state()
+        assert self._state_version is not None
+        expected_owner = deepcopy(self._state["owner"])
+        expected_version = self._state_version
+        self._verify_cloud_owner_reread(expected_owner, expected_version)
+        self._crash(
+            "cloud_owner_acquired",
+            invocation_id=invocation.invocation_id,
+            execution_id=invocation.execution_id,
+            state_generation=expected_version,
+        )
+
     def _mark_indeterminate(self, attempt: dict[str, Any], message: str) -> None:
         assert self._state is not None
         reserved = float(attempt["cost"]["reserved_usd"])
@@ -425,6 +587,22 @@ class LocalBatchExecutor:
                 output_path = self._store.attempt_output_path(
                     item_id, latest["attempt_id"], work_item["output_spec"]["output_name"]
                 )
+                recorded_output = latest.get("output")
+                if (
+                    not output_path.is_file()
+                    and phase == "technically_valid"
+                    and isinstance(recorded_output, Mapping)
+                ):
+                    self._store.restore_staged_blob(
+                        destination=output_path,
+                        batch_id=self._request["batch_id"],
+                        item_id=item_id,
+                        output=OutputFacts(
+                            sha256=recorded_output["sha256"],
+                            size_bytes=recorded_output["size_bytes"],
+                            probe=deepcopy(recorded_output["probe"]),
+                        ),
+                    )
                 if output_path.is_file():
                     record["state"] = "succeeded_staged"
                     record.pop("next_eligible_at", None)
@@ -1296,16 +1474,21 @@ class LocalBatchExecutor:
                 created_at=self._now(),
             )
         except M1ExecutionError as exc:
-            if exc.code != "LOCAL_STORAGE_TRANSIENT":
+            storage_errors = {
+                "LOCAL_STORAGE_TRANSIENT": "retry_storage_commit",
+                "GCS_TRANSIENT": "retry_storage_commit",
+                "GCS_PRECONDITION_CONFLICT": "reconcile_storage_precondition",
+            }
+            if exc.code not in storage_errors:
                 raise
             continuation_count = attempt.get("operation_retry_count", 0) + 1
             attempt["operation_retry_count"] = continuation_count
             attempt.update(
                 {
                     "phase": "technically_valid",
-                    "retry_action": "retry_storage_commit",
+                    "retry_action": storage_errors[exc.code],
                     "error": {
-                        "error_class": "LOCAL_STORAGE_TRANSIENT",
+                        "error_class": exc.code,
                         "sanitized_message": str(exc)[:4096],
                     },
                 }
@@ -1320,14 +1503,14 @@ class LocalBatchExecutor:
             ):
                 attempt.update({"phase": "failed", "retry_action": "do_not_retry"})
                 record.update(
-                    {"state": "failed_terminal", "error_class": "LOCAL_STORAGE_TRANSIENT"}
+                    {"state": "failed_terminal", "error_class": exc.code}
                 )
                 record.pop("next_eligible_at", None)
                 blocker_set = self._set_dispatch_blocker(
-                    "LOCAL_STORAGE_TRANSIENT",
+                    exc.code,
                     item_id=item["item_id"],
                     attempt_id=attempt["attempt_id"],
-                    reason="Durable local blob commit exhausted its bounded retry policy.",
+                    reason="Durable blob commit exhausted its bounded retry policy.",
                 )
             else:
                 delay = full_jitter_delay(
@@ -1341,7 +1524,7 @@ class LocalBatchExecutor:
             if blocker_set:
                 self._crash(
                     "systemic_blocker_persisted",
-                    error_class="LOCAL_STORAGE_TRANSIENT",
+                    error_class=exc.code,
                     item_id=item["item_id"],
                     attempt_id=attempt["attempt_id"],
                 )
@@ -1518,16 +1701,15 @@ class LocalBatchExecutor:
         }
 
     def _reconcile_existing_result(
-        self, result: Mapping[str, Any], result_digest: str
+        self, result: Mapping[str, Any]
     ) -> dict[str, Any]:
         assert self._state is not None and self._request is not None and self._store is not None
+        result_digest = canonical_sha256(result)
         if result["request_digest"] != self._request["request_digest"]:
             raise M1ExecutionError(
                 "REQUEST_CONFLICT", "BatchResult binds another request digest"
             )
-        expected_path = self._store.result_path.relative_to(
-            self._store.project_dir
-        ).as_posix()
+        expected_path = self._store.result_logical_path
         result_ref = self._state.get("result_ref")
         if result_ref is not None and (
             result_ref["logical_path"] != expected_path
@@ -1563,15 +1745,21 @@ class LocalBatchExecutor:
         self._save_state()
 
         result = self._derive_result_from_terminal_state()
-        digest = self._store.write_result_if_absent(result)
+        self._store.write_result_if_absent(result)
+        digest = canonical_sha256(result)
         self._crash("result_written", result_digest=digest)
         self._state["result_ref"] = {
-            "logical_path": self._store.result_path.relative_to(
-                self._store.project_dir
-            ).as_posix(),
+            "logical_path": self._store.result_logical_path,
             "sha256": digest,
         }
         self._save_state()
+        if self.execution_profile == "cloud_run":
+            assert self._state_version is not None
+            self._verify_cloud_owner_reread(
+                deepcopy(self._state["owner"]),
+                self._state_version,
+                require_active=False,
+            )
         return result
 
     def _run_locked(
@@ -1582,33 +1770,67 @@ class LocalBatchExecutor:
         assert self._store is not None and self._request is not None
         self._store.write_request_if_absent(self._request)
         self._crash("request_persisted", request_digest=self._request["request_digest"])
-        durable_request, durable_digest = self._store.load_request()
-        if durable_digest != self._request["request_digest"] or durable_request != self._request:
+        durable_request, _ = self._store.load_request()
+        if durable_request != self._request:
             raise M1ExecutionError(
                 "REQUEST_CONFLICT", "Durable request differs from the preflight request"
             )
 
-        if self._store.state_path.exists():
+        if self._store.batch_state_exists():
             self._state, self._state_version = self._store.load_batch_state()
             if self._state["request_digest"] != self._request["request_digest"]:
                 raise M1ExecutionError(
                     "REQUEST_CONFLICT", "BatchState binds another request digest"
                 )
+            if self.execution_profile == "cloud_run":
+                recorded_owner = self._state["owner"]
+                same_active_owner = (
+                    recorded_owner["owner_status"] == "active"
+                    and recorded_owner["invocation_id"] == invocation_id
+                    and self._invocation is not None
+                    and recorded_owner["execution_id"] == self._invocation.execution_id
+                    and recorded_owner["task_id"] == self._invocation.task_id
+                )
+                if (
+                    recorded_owner["owner_status"] == "active"
+                    and not same_active_owner
+                    and self._invocation is not None
+                    and self._invocation.mode == "run"
+                ):
+                    raise M1ExecutionError(
+                        "EXECUTION_OWNER_ACTIVE",
+                        "A different active Cloud execution owns this request",
+                    )
             existing_result = self._store.load_result()
             if existing_result is not None:
-                result, result_digest = existing_result
-                return self._reconcile_existing_result(result, result_digest)
+                result, _ = existing_result
+                return self._reconcile_existing_result(result)
             if "result_ref" in self._state:
                 raise M1ExecutionError(
                     "RESULT_REF_MISMATCH",
                     "BatchState references a missing durable BatchResult",
                 )
-            self._take_local_ownership(invocation_id)
+            if self.execution_profile == "local":
+                self._take_local_ownership(invocation_id)
+            else:
+                self._take_cloud_ownership()
             self._recover_state()
         else:
-            self._state = self._initial_state(self._request, invocation_id)
+            if self.execution_profile == "cloud_run" and (
+                self._invocation is None or self._invocation.mode != "run"
+            ):
+                raise M1ExecutionError(
+                    "RESUME_OWNERSHIP_PROOF_INVALID",
+                    "Cloud resume cannot create a missing initial BatchState",
+                )
+            self._state = self._initial_state(self._request)
             self._state_version = None
             self._save_state()
+            if self.execution_profile == "cloud_run":
+                assert self._state_version is not None
+                self._verify_cloud_owner_reread(
+                    deepcopy(self._state["owner"]), self._state_version
+                )
             self._crash("state_initialized", invocation_id=invocation_id)
 
         policy = self._request["execution_policy"]
@@ -1741,8 +1963,13 @@ class LocalBatchExecutor:
         adapter_observation: Mapping[str, Any],
         invocation_id: str | None = None,
         cancellation: threading.Event | None = None,
+        invocation_mode: Literal["run", "resume"] = "run",
+        execution_id: str | None = None,
+        task_id: str | None = None,
+        execution_status_verifier: ExecutionStatusVerifier | None = None,
+        resume_authorization: Mapping[str, Any] | None = None,
     ) -> dict[str, Any]:
-        """Preflight and execute one immutable local assets BatchRequest."""
+        """Preflight and execute one immutable assets BatchRequest."""
 
         self._state = None
         self._state_version = None
@@ -1755,9 +1982,25 @@ class LocalBatchExecutor:
             observed_source_revision=observed_source_revision,
             adapter_observation=adapter_observation,
         )
-        if frozen["execution_policy"]["storage_profile"] != "local":
+        qualify_request = getattr(self.provider, "qualify_request", None)
+        if callable(qualify_request):
+            qualified_observation = qualify_request(frozen)
+            if canonical_json_bytes(qualified_observation) != canonical_json_bytes(
+                adapter_observation
+            ):
+                raise M1ExecutionError(
+                    "AUTH_CONFIGURATION",
+                    "Runtime adapter qualification differs from preflight observation",
+                )
+        requested_profile = frozen["execution_policy"]["storage_profile"]
+        compatible_profiles = {
+            "local": {"local", "portable"},
+            "cloud_run": {"cloud_run", "portable"},
+        }
+        if requested_profile not in compatible_profiles[self.execution_profile]:
             raise M1ExecutionError(
-                "INVALID_STORAGE_PROFILE", "M1 LocalBatchExecutor accepts only local profile"
+                "INVALID_STORAGE_PROFILE",
+                f"Request profile {requested_profile!r} cannot run as {self.execution_profile}",
             )
         if frozen["execution_policy"]["provider_concurrency_cap"] != 1:
             raise M1ExecutionError(
@@ -1765,12 +2008,122 @@ class LocalBatchExecutor:
             )
         self._request = frozen
         self._work_items = {item["item_id"]: item for item in frozen["work_items"]}
-        self._store = LocalStore(facts.project_dir, frozen["batch_id"])
-        invocation = invocation_id or f"local-{uuid.uuid4().hex}"
+        self._store = self.store_factory(facts.project_dir, frozen["batch_id"])
+        if self.execution_profile == "local":
+            if invocation_mode != "run" or execution_status_verifier is not None or resume_authorization is not None:
+                raise M1ExecutionError(
+                    "INVALID_INVOCATION_MODE",
+                    "Local ownership is controlled by the OS run lock and local resume path",
+                )
+            invocation = invocation_id or f"local-{uuid.uuid4().hex}"
+            runtime_execution_id = execution_id or f"pid-{os.getpid()}"
+            runtime_task_id = task_id or "main"
+        else:
+            if not invocation_id or not execution_id or not task_id:
+                raise M1ExecutionError(
+                    "AUTH_CONFIGURATION",
+                    "Cloud execution requires explicit trusted invocation, execution, and task identities",
+                )
+            invocation = invocation_id
+            runtime_execution_id = execution_id
+            runtime_task_id = task_id
+            if invocation_mode == "run" and (
+                execution_status_verifier is not None or resume_authorization is not None
+            ):
+                raise M1ExecutionError(
+                    "RESUME_OWNERSHIP_PROOF_INVALID",
+                    "Ordinary Cloud run must not carry takeover proof",
+                )
+        self._invocation = ExecutionInvocation(
+            invocation_id=invocation,
+            execution_id=runtime_execution_id,
+            task_id=runtime_task_id,
+            mode=invocation_mode,
+        )
+        validate_contract(
+            "execution_owner",
+            {
+                "version": "1.0",
+                "batch_id": frozen["batch_id"],
+                "request_digest": frozen["request_digest"],
+                "invocation_id": invocation,
+                "invocation_mode": invocation_mode,
+                "profile": self.execution_profile,
+                "execution_id": runtime_execution_id,
+                "task_id": runtime_task_id,
+                "owner_status": "active",
+                "acquired_at": self._now(),
+                "state_revision": 0,
+                "base_state_generation": 0,
+            },
+        )
+        self._execution_status_verifier = execution_status_verifier
+        self._resume_authorization = resume_authorization
         cancellation_event = cancellation or threading.Event()
         self._cancellation = cancellation_event
         with self._store.acquire_run_lock():
             return self._run_locked(invocation, cancellation_event)
 
 
-__all__ = ["LocalBatchExecutor", "RealClock"]
+class LocalBatchExecutor(BatchExecutor):
+    """Backward-compatible M1 Local profile using the shared engine."""
+
+    def __init__(self, **kwargs: Any):
+        super().__init__(execution_profile="local", **kwargs)
+
+
+class CloudBatchExecutor(BatchExecutor):
+    """Single-task Cloud profile; durable ownership is established before dispatch."""
+
+    def __init__(
+        self,
+        *,
+        store_factory: Callable[[Path, str], ExecutionStore],
+        **kwargs: Any,
+    ):
+        super().__init__(
+            execution_profile="cloud_run", store_factory=store_factory, **kwargs
+        )
+
+    def run(
+        self,
+        request: Mapping[str, Any],
+        *,
+        observed_source_revision: Mapping[str, Any],
+        adapter_observation: Mapping[str, Any],
+        trusted_invocation: Any,
+        cancellation: threading.Event | None = None,
+        execution_status_verifier: ExecutionStatusVerifier | None = None,
+        resume_authorization: Mapping[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        from .runtime import CloudInvocationIdentity
+
+        if not isinstance(trusted_invocation, CloudInvocationIdentity) or (
+            trusted_invocation.trust_source != "cloud_run_launch_contract"
+            or trusted_invocation.task_id != "0"
+        ):
+            raise M1ExecutionError(
+                "AUTH_CONFIGURATION",
+                "Cloud execution requires a trusted launch-contract identity",
+            )
+        return super().run(
+            request,
+            observed_source_revision=observed_source_revision,
+            adapter_observation=adapter_observation,
+            invocation_id=trusted_invocation.invocation_id,
+            cancellation=cancellation,
+            invocation_mode=trusted_invocation.mode,
+            execution_id=trusted_invocation.execution_resource,
+            task_id=trusted_invocation.task_id,
+            execution_status_verifier=execution_status_verifier,
+            resume_authorization=resume_authorization,
+        )
+
+
+__all__ = [
+    "BatchExecutor",
+    "CloudBatchExecutor",
+    "ExecutionInvocation",
+    "LocalBatchExecutor",
+    "RealClock",
+]

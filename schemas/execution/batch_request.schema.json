@@ -231,7 +231,10 @@
         "reuse_policy": { "const": "verified_same_request_only" },
         "failure_mode": { "const": "continue_independent" },
         "heartbeat_interval_seconds": { "type": "number", "exclusiveMinimum": 0, "maximum": 300 },
-        "storage_profile": { "enum": ["local", "cloud_run"] },
+        "storage_profile": {
+          "enum": ["local", "cloud_run", "portable"],
+          "description": "portable freezes one backend-neutral request digest for LocalStore/FakeGCS profile-parity qualification; legacy explicit local/cloud_run values remain valid"
+        },
         "cancellation_policy": { "const": "stop_new_dispatch" },
         "side_effect_policy": {
           "type": "object",

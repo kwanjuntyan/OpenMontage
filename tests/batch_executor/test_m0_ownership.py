@@ -42,6 +42,8 @@ def _authorization(owner, *, successor="invocation-new", generation=22):
             "prior_invocation_id": owner["invocation_id"],
             "prior_execution_id": owner["execution_id"],
             "intended_new_invocation_id": successor,
+            "intended_new_execution_id": "projects/p/locations/r/jobs/j/executions/new",
+            "intended_new_task_id": "0",
             "expected_state_generation": generation,
             "reason": "Operator verified the prior execution cannot continue and forces ownership only.",
             "decision_reference": "user-reply:resume-001",
@@ -83,6 +85,7 @@ def test_same_active_owner_may_dispatch_but_different_ordinary_run_fails_closed(
         cloud_owner,
         invocation_id=cloud_owner["invocation_id"],
         execution_id=cloud_owner["execution_id"],
+        task_id=cloud_owner["task_id"],
         invocation_mode="run",
     )
     with pytest.raises(M0ContractError, match="ACTIVE_OWNER_CONFLICT"):
@@ -90,6 +93,15 @@ def test_same_active_owner_may_dispatch_but_different_ordinary_run_fails_closed(
             cloud_owner,
             invocation_id="invocation-new",
             execution_id="execution-new",
+            task_id="0",
+            invocation_mode="run",
+        )
+    with pytest.raises(M0ContractError, match="ACTIVE_OWNER_CONFLICT"):
+        assert_dispatch_owner(
+            cloud_owner,
+            invocation_id=cloud_owner["invocation_id"],
+            execution_id=cloud_owner["execution_id"],
+            task_id="1",
             invocation_mode="run",
         )
 
@@ -104,6 +116,7 @@ def test_self_written_terminal_owner_is_not_stop_proof_for_another_run(cloud_own
             terminal,
             invocation_id="invocation-new",
             execution_id="execution-new",
+            task_id="0",
             invocation_mode="run",
         )
     with pytest.raises(M0ContractError, match="TAKEOVER_PROOF_REQUIRED"):
@@ -111,6 +124,7 @@ def test_self_written_terminal_owner_is_not_stop_proof_for_another_run(cloud_own
             terminal,
             invocation_id="invocation-new",
             execution_id="execution-new",
+            task_id="0",
             invocation_mode="resume",
         )
 
@@ -173,6 +187,14 @@ def test_human_resume_authorization_is_bound_to_prior_successor_and_generation(c
             new_invocation_id="another-successor",
             resume_authorization=authorization,
         )
+    with pytest.raises(M0ContractError, match="TAKEOVER_PROOF_MISMATCH"):
+        _takeover(
+            cloud_owner,
+            new_execution_id="projects/p/locations/r/jobs/j/executions/other",
+            resume_authorization=authorization,
+        )
+    with pytest.raises(M0ContractError, match="TAKEOVER_PROOF_MISMATCH"):
+        _takeover(cloud_owner, new_task_id="1", resume_authorization=authorization)
 
 
 def test_exactly_one_takeover_proof_is_required(cloud_owner):
