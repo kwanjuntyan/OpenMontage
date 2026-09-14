@@ -51,6 +51,23 @@ _POLL_INTERVAL_SECONDS = 5
 _MAX_POLL_SECONDS = 900
 
 
+class _DeveloperRemoteFailure(RuntimeError):
+    """A redacted Developer API failure safe to map into a ToolResult."""
+
+
+def _http_status_code(response: Any) -> int | None:
+    try:
+        status_code = int(response.status_code)
+    except Exception:
+        return None
+    return status_code
+
+
+def _is_http_2xx(response: Any) -> bool:
+    status_code = _http_status_code(response)
+    return status_code is not None and 200 <= status_code < 300
+
+
 class GeminiHTTPTransport(Protocol):
     """Small injectable HTTP boundary used by both Interactions routes."""
 
@@ -382,56 +399,97 @@ class GeminiOmniVideo(BaseTool):
             mime_type = "video/mp4"
         video_bytes = path.read_bytes()
 
-        start_resp = requests_mod.post(
-            _UPLOAD_URL,
-            headers={
-                "x-goog-api-key": api_key,
-                "X-Goog-Upload-Protocol": "resumable",
-                "X-Goog-Upload-Command": "start",
-                "X-Goog-Upload-Header-Content-Length": str(len(video_bytes)),
-                "X-Goog-Upload-Header-Content-Type": mime_type,
-                "Content-Type": "application/json",
-            },
-            json={"file": {"display_name": path.name}},
-            timeout=30,
-        )
-        start_resp.raise_for_status()
-        upload_url = start_resp.headers.get("X-Goog-Upload-URL")
-        if not upload_url:
-            raise RuntimeError("Files API did not return an upload URL")
+        try:
+            start_resp = requests_mod.post(
+                _UPLOAD_URL,
+                headers={
+                    "x-goog-api-key": api_key,
+                    "X-Goog-Upload-Protocol": "resumable",
+                    "X-Goog-Upload-Command": "start",
+                    "X-Goog-Upload-Header-Content-Length": str(len(video_bytes)),
+                    "X-Goog-Upload-Header-Content-Type": mime_type,
+                    "Content-Type": "application/json",
+                },
+                json={"file": {"display_name": path.name}},
+                timeout=30,
+                allow_redirects=False,
+            )
+        except Exception as exc:
+            raise _DeveloperRemoteFailure from exc
+        if not _is_http_2xx(start_resp):
+            raise _DeveloperRemoteFailure
+        try:
+            upload_url = start_resp.headers.get("X-Goog-Upload-URL")
+        except Exception as exc:
+            raise _DeveloperRemoteFailure from exc
+        if not isinstance(upload_url, str) or not upload_url:
+            raise _DeveloperRemoteFailure
+        try:
+            upload_url = self._validated_googleapis_https_uri(upload_url)
+        except ValueError as exc:
+            raise _DeveloperRemoteFailure from exc
 
-        upload_resp = requests_mod.post(
-            upload_url,
-            headers={
-                "X-Goog-Upload-Command": "upload, finalize",
-                "X-Goog-Upload-Offset": "0",
-                "Content-Length": str(len(video_bytes)),
-            },
-            data=video_bytes,
-            timeout=300,
+        try:
+            upload_resp = requests_mod.post(
+                upload_url,
+                headers={
+                    "X-Goog-Upload-Command": "upload, finalize",
+                    "X-Goog-Upload-Offset": "0",
+                    "Content-Length": str(len(video_bytes)),
+                },
+                data=video_bytes,
+                timeout=300,
+                allow_redirects=False,
+            )
+        except Exception as exc:
+            raise _DeveloperRemoteFailure from exc
+        if not _is_http_2xx(upload_resp):
+            raise _DeveloperRemoteFailure
+        try:
+            upload_payload = upload_resp.json()
+        except Exception as exc:
+            raise _DeveloperRemoteFailure from exc
+        file_info = (
+            upload_payload.get("file")
+            if isinstance(upload_payload, dict)
+            else None
         )
-        upload_resp.raise_for_status()
-        file_info = upload_resp.json().get("file", {})
+        if not isinstance(file_info, dict):
+            raise _DeveloperRemoteFailure
 
         # Wait until the uploaded video is processed before referencing it.
         deadline = time.time() + _MAX_POLL_SECONDS
         while str(file_info.get("state", "")).upper() == "PROCESSING":
             if time.time() > deadline:
-                raise TimeoutError("Uploaded video did not finish processing in time")
+                raise _DeveloperRemoteFailure
             time.sleep(_POLL_INTERVAL_SECONDS)
-            status_resp = requests_mod.get(
-                f"{_BASE_URL}/{file_info.get('name')}",
-                headers={"x-goog-api-key": api_key},
-                timeout=15,
-            )
-            status_resp.raise_for_status()
-            file_info = status_resp.json()
+            try:
+                file_id = self._validated_file_id(str(file_info.get("name", "")))
+                status_resp = requests_mod.get(
+                    f"{_BASE_URL}/files/{file_id}",
+                    headers={"x-goog-api-key": api_key},
+                    timeout=15,
+                    allow_redirects=False,
+                )
+            except _DeveloperRemoteFailure:
+                raise
+            except Exception as exc:
+                raise _DeveloperRemoteFailure from exc
+            if not _is_http_2xx(status_resp):
+                raise _DeveloperRemoteFailure
+            try:
+                status_payload = status_resp.json()
+            except Exception as exc:
+                raise _DeveloperRemoteFailure from exc
+            if not isinstance(status_payload, dict):
+                raise _DeveloperRemoteFailure
+            file_info = status_payload
         if str(file_info.get("state", "")).upper() == "FAILED":
-            raise RuntimeError("Files API failed to process the uploaded video")
+            raise _DeveloperRemoteFailure
 
         uri = file_info.get("uri")
-        if not uri:
-            raise RuntimeError(f"Files API response missing uri: {file_info}")
+        if not isinstance(uri, str) or not uri:
+            raise _DeveloperRemoteFailure
         return uri
 
     @staticmethod
@@ -466,23 +524,36 @@ class GeminiOmniVideo(BaseTool):
         tail = path[idx + len(marker):] if idx != -1 else path.split("/")[-1]
         return tail.split(":", 1)[0]
 
+    @classmethod
+    def _validated_file_id(cls, uri: str) -> str:
+        file_id = cls._file_id_from_uri(uri)
+        if not file_id or not all(
+            character.isalnum() or character in "-._~" for character in file_id
+        ):
+            raise _DeveloperRemoteFailure
+        return file_id
+
     def _download_via_uri(self, requests_mod: Any, api_key: str, uri: str) -> bytes:
         """Poll a Files API entry until ACTIVE, then download its bytes."""
-        file_id = self._file_id_from_uri(uri)
+        file_id = self._validated_file_id(uri)
         headers = {"x-goog-api-key": api_key}
         deadline = time.time() + _MAX_POLL_SECONDS
         while True:
             status_resp = requests_mod.get(
-                f"{_BASE_URL}/files/{file_id}", headers=headers, timeout=15
+                f"{_BASE_URL}/files/{file_id}",
+                headers=headers,
+                timeout=15,
+                allow_redirects=False,
             )
-            status_resp.raise_for_status()
+            if not _is_http_2xx(status_resp):
+                raise _DeveloperRemoteFailure
             state = str(status_resp.json().get("state", "")).upper()
             if state == "ACTIVE":
                 break
             if state == "FAILED":
-                raise RuntimeError("Gemini Omni video generation failed during processing")
+                raise _DeveloperRemoteFailure
             if time.time() > deadline:
-                raise TimeoutError("Timed out waiting for Gemini Omni video to become ACTIVE")
+                raise _DeveloperRemoteFailure
             time.sleep(_POLL_INTERVAL_SECONDS)
 
         download_resp = requests_mod.get(
@@ -490,15 +561,17 @@ class GeminiOmniVideo(BaseTool):
             params={"alt": "media"},
             headers=headers,
             timeout=300,
+            allow_redirects=False,
         )
-        download_resp.raise_for_status()
+        if not _is_http_2xx(download_resp):
+            raise _DeveloperRemoteFailure
         return download_resp.content
 
     @staticmethod
-    def _validated_vertex_download_uri(uri: str) -> str:
-        """Accept only direct HTTPS downloads hosted by Google APIs.
+    def _validated_googleapis_https_uri(uri: str) -> str:
+        """Accept only direct HTTPS requests hosted by Google APIs.
 
-        Vertex response data is untrusted. In particular, a Bearer token must
+        Remote response data is untrusted. A credential or local file must
         never be forwarded to an arbitrary URI or across an HTTP redirect.
         """
         try:
@@ -506,7 +579,7 @@ class GeminiOmniVideo(BaseTool):
             hostname = (parsed.hostname or "").rstrip(".").lower()
             port = parsed.port
         except (TypeError, ValueError) as exc:
-            raise ValueError("Vertex output URI is not trusted") from exc
+            raise ValueError("Google APIs URI is not trusted") from exc
         googleapis_host = hostname == "googleapis.com" or hostname.endswith(
             ".googleapis.com"
         )
@@ -517,8 +590,12 @@ class GeminiOmniVideo(BaseTool):
             or parsed.password is not None
             or port not in {None, 443}
         ):
-            raise ValueError("Vertex output URI is not trusted")
+            raise ValueError("Google APIs URI is not trusted")
         return uri
+
+    @classmethod
+    def _validated_vertex_download_uri(cls, uri: str) -> str:
+        return cls._validated_googleapis_https_uri(uri)
 
     def execute(self, inputs: dict[str, Any]) -> ToolResult:
         try:
@@ -571,8 +648,16 @@ class GeminiOmniVideo(BaseTool):
                     self._transport, api_key, inputs["input_video_path"]
                 )
                 parts.append({"type": "document", "uri": video_uri})
-        except Exception as e:
-            return ToolResult(success=False, error=f"Gemini Omni input preparation failed: {e}")
+        except _DeveloperRemoteFailure:
+            return ToolResult(
+                success=False,
+                error="Gemini Omni Developer file operation failed",
+            )
+        except Exception as exc:
+            return ToolResult(
+                success=False,
+                error=f"Gemini Omni input preparation failed: {exc}",
+            )
 
         if use_vertex:
             try:
@@ -634,23 +719,26 @@ class GeminiOmniVideo(BaseTool):
                 "headers": headers,
                 "json": payload,
                 "timeout": 600,
+                "allow_redirects": False,
             }
-            if use_vertex:
-                post_options["allow_redirects"] = False
             resp = self._transport.post(endpoint, **post_options)
-            if not resp.ok:
+            if not _is_http_2xx(resp):
+                status_code = _http_status_code(resp)
+                status_label = str(status_code) if status_code is not None else "unknown"
                 if use_vertex:
                     return ToolResult(
                         success=False,
                         error=(
                             "Gemini Omni Vertex interaction failed "
-                            f"(HTTP {resp.status_code})"
+                            f"(HTTP {status_label})"
                         ),
                     )
-                detail = resp.text[:1000]
                 return ToolResult(
                     success=False,
-                    error=f"Gemini Omni interaction failed ({resp.status_code}): {detail}",
+                    error=(
+                        "Gemini Omni Developer interaction failed "
+                        f"(HTTP {status_label})"
+                    ),
                 )
             data = resp.json()
 
@@ -664,7 +752,7 @@ class GeminiOmniVideo(BaseTool):
                     )
                 return ToolResult(
                     success=False,
-                    error=f"Gemini Omni response did not include an output video: {str(data)[:1000]}",
+                    error="Gemini Omni Developer response contained no output video",
                 )
 
             if video.get("data"):
@@ -688,13 +776,16 @@ class GeminiOmniVideo(BaseTool):
             output_path = Path(inputs.get("output_path", "gemini_omni_output.mp4"))
             output_path.parent.mkdir(parents=True, exist_ok=True)
             output_path.write_bytes(video_bytes)
-        except Exception as e:
+        except Exception:
             if use_vertex:
                 return ToolResult(
                     success=False,
                     error="Gemini Omni Vertex request or download failed",
                 )
-            return ToolResult(success=False, error=f"Gemini Omni video generation failed: {e}")
+            return ToolResult(
+                success=False,
+                error="Gemini Omni Developer request or download failed",
+            )
 
         editable = inputs.get("store") is not False
         return ToolResult(

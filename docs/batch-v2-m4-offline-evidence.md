@@ -111,6 +111,11 @@ claim the complete CI lifecycle is offline.
   disabled for both the initial POST and output GET, and response
   URI/token/body data is redacted from failures. Malicious URI tests assert
   zero download calls.
+- Developer API key and local-video calls also disable redirects and require an
+  explicit 2xx response. The resumable upload URL is accepted only as HTTPS on
+  a `googleapis.com` host with no userinfo and no non-443 port before any local
+  bytes are sent. Remote response bodies, payload data, URIs, and exception
+  text are mapped to redacted route/operation errors.
 - The Gemini provider concurrency cap remains one. No charged request ran, and
   no budget/cost semantics changed.
 - CI checkout does not persist Git credentials; the isolated test process

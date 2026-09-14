@@ -20,6 +20,7 @@ class FakeResponse:
         payload,
         *,
         content=b"",
+        headers=None,
         ok=True,
         status_code=200,
         text="",
@@ -28,7 +29,7 @@ class FakeResponse:
         self.content = content
         self.ok = ok
         self.status_code = status_code
-        self.headers = {}
+        self.headers = headers or {}
         self.text = text
 
     def json(self):
@@ -59,6 +60,31 @@ class RecordingTransport:
         if self._get_response is not None:
             return self._get_response
         raise AssertionError("inline fake response must not download")
+
+
+class ScriptedTransport:
+    def __init__(self, *, post_responses=(), get_responses=()):
+        self.posts = []
+        self.gets = []
+        self._post_responses = list(post_responses)
+        self._get_responses = list(get_responses)
+
+    @staticmethod
+    def _next(responses, kind):
+        if not responses:
+            raise AssertionError(f"unexpected {kind} call")
+        response = responses.pop(0)
+        if isinstance(response, BaseException):
+            raise response
+        return response
+
+    def post(self, url, **kwargs):
+        self.posts.append((url, kwargs))
+        return self._next(self._post_responses, "POST")
+
+    def get(self, url, **kwargs):
+        self.gets.append((url, kwargs))
+        return self._next(self._get_responses, "GET")
 
 
 class ForbiddenResolver:
@@ -161,6 +187,291 @@ def test_ambient_credentials_cannot_switch_developer_default(tmp_path):
     assert result.data["observed_identity"]["route"] == "developer_api"
 
 
+def test_developer_interaction_redirect_is_not_success_or_sensitive_output(
+    tmp_path,
+):
+    secret = "developer-secret-key"
+    hostile_uri = "https://attacker.example/redirect-target"
+    hostile_body = f"private response body {secret} {hostile_uri}"
+    inline = base64.b64encode(b"must not be accepted").decode("ascii")
+    transport = RecordingTransport(
+        post_response=FakeResponse(
+            {"id": "redirect", "output_video": {"data": inline}},
+            ok=True,
+            status_code=302,
+            text=hostile_body,
+        )
+    )
+
+    result = GeminiOmniVideo(
+        environment={"GEMINI_API_KEY": secret}, transport=transport
+    ).execute(
+        {"prompt": "offline", "output_path": str(tmp_path / "never.mp4")}
+    )
+
+    assert not result.success
+    assert result.error == "Gemini Omni Developer interaction failed (HTTP 302)"
+    assert transport.posts[0][1]["allow_redirects"] is False
+    assert not (tmp_path / "never.mp4").exists()
+    for sensitive in (secret, hostile_uri, hostile_body):
+        assert sensitive not in result.error
+
+
+def test_developer_interaction_exception_and_response_data_are_redacted(tmp_path):
+    secret = "developer-secret-key"
+    hostile_uri = "https://attacker.example/private"
+    hostile_body = f"private response body {secret} {hostile_uri}"
+
+    throwing_transport = ScriptedTransport(
+        post_responses=[RuntimeError(hostile_body)]
+    )
+    thrown = GeminiOmniVideo(
+        environment={"GEMINI_API_KEY": secret}, transport=throwing_transport
+    ).execute(
+        {"prompt": "offline", "output_path": str(tmp_path / "never-a.mp4")}
+    )
+
+    data_transport = RecordingTransport(
+        post_response=FakeResponse(
+            {"id": "no-video", "private": hostile_body}, status_code=200
+        )
+    )
+    missing = GeminiOmniVideo(
+        environment={"GEMINI_API_KEY": secret}, transport=data_transport
+    ).execute(
+        {"prompt": "offline", "output_path": str(tmp_path / "never-b.mp4")}
+    )
+
+    assert thrown.error == "Gemini Omni Developer request or download failed"
+    assert missing.error == "Gemini Omni Developer response contained no output video"
+    for result in (thrown, missing):
+        assert not result.success
+        for sensitive in (secret, hostile_uri, hostile_body):
+            assert sensitive not in result.error
+
+
+def test_developer_rejects_untrusted_files_upload_url_before_sending_bytes(
+    tmp_path,
+):
+    secret = "developer-secret-key"
+    hostile_uri = "https://attacker.example/upload-session?private=1"
+    video_bytes = b"private local video bytes"
+    source = tmp_path / "source.mp4"
+    source.write_bytes(video_bytes)
+    transport = ScriptedTransport(
+        post_responses=[
+            FakeResponse(
+                {},
+                headers={"X-Goog-Upload-URL": hostile_uri},
+                status_code=200,
+            )
+        ]
+    )
+
+    result = GeminiOmniVideo(
+        environment={"GEMINI_API_KEY": secret}, transport=transport
+    ).execute(
+        {
+            "prompt": "offline edit",
+            "operation": "edit_video",
+            "input_video_path": str(source),
+            "output_path": str(tmp_path / "never.mp4"),
+        }
+    )
+
+    assert not result.success
+    assert result.error == "Gemini Omni Developer file operation failed"
+    assert len(transport.posts) == 1
+    start_url, start_call = transport.posts[0]
+    assert start_url == "https://generativelanguage.googleapis.com/upload/v1beta/files"
+    assert start_call["allow_redirects"] is False
+    assert start_call["headers"]["x-goog-api-key"] == secret
+    assert start_call.get("data") is None
+    assert hostile_uri not in result.error
+    assert secret not in result.error
+    assert video_bytes.decode() not in result.error
+
+
+@pytest.mark.parametrize("redirect_status", [307, 308])
+def test_developer_files_upload_redirect_never_resubmits_local_bytes(
+    tmp_path, redirect_status
+):
+    secret = "developer-secret-key"
+    upload_uri = (
+        "https://generativelanguage.googleapis.com/upload/session/private-token"
+    )
+    hostile_body = f"redirect body {secret} https://attacker.example/collect"
+    video_bytes = b"private local video bytes"
+    source = tmp_path / "source.mp4"
+    source.write_bytes(video_bytes)
+    transport = ScriptedTransport(
+        post_responses=[
+            FakeResponse(
+                {},
+                headers={"X-Goog-Upload-URL": upload_uri},
+                status_code=200,
+            ),
+            FakeResponse(
+                {"private": hostile_body},
+                ok=True,
+                status_code=redirect_status,
+                text=hostile_body,
+            ),
+        ]
+    )
+
+    result = GeminiOmniVideo(
+        environment={"GEMINI_API_KEY": secret}, transport=transport
+    ).execute(
+        {
+            "prompt": "offline edit",
+            "operation": "edit_video",
+            "input_video_path": str(source),
+            "output_path": str(tmp_path / "never.mp4"),
+        }
+    )
+
+    assert not result.success
+    assert result.error == "Gemini Omni Developer file operation failed"
+    assert len(transport.posts) == 2
+    assert transport.posts[0][1]["allow_redirects"] is False
+    upload_call = transport.posts[1]
+    assert upload_call[0] == upload_uri
+    assert upload_call[1]["allow_redirects"] is False
+    assert upload_call[1]["data"] == video_bytes
+    assert "x-goog-api-key" not in upload_call[1]["headers"]
+    for sensitive in (secret, upload_uri, hostile_body):
+        assert sensitive not in result.error
+
+
+def test_developer_uploaded_file_processing_redirect_fails_closed(
+    tmp_path, monkeypatch
+):
+    secret = "developer-secret-key"
+    upload_uri = "https://generativelanguage.googleapis.com/upload/session/one"
+    hostile_body = f"redirect body {secret} https://attacker.example/collect"
+    source = tmp_path / "source.mp4"
+    source.write_bytes(b"private local video bytes")
+    monkeypatch.setattr("tools.video.gemini_omni_video.time.sleep", lambda _seconds: None)
+    transport = ScriptedTransport(
+        post_responses=[
+            FakeResponse(
+                {},
+                headers={"X-Goog-Upload-URL": upload_uri},
+                status_code=200,
+            ),
+            FakeResponse(
+                {"file": {"name": "files/input-1", "state": "PROCESSING"}},
+                status_code=200,
+            ),
+        ],
+        get_responses=[
+            FakeResponse(
+                {"state": "ACTIVE", "uri": "files/input-1"},
+                ok=True,
+                status_code=302,
+                text=hostile_body,
+            )
+        ],
+    )
+
+    result = GeminiOmniVideo(
+        environment={"GEMINI_API_KEY": secret}, transport=transport
+    ).execute(
+        {
+            "prompt": "offline edit",
+            "operation": "edit_video",
+            "input_video_path": str(source),
+            "output_path": str(tmp_path / "never.mp4"),
+        }
+    )
+
+    assert not result.success
+    assert result.error == "Gemini Omni Developer file operation failed"
+    assert len(transport.posts) == 2
+    assert len(transport.gets) == 1
+    assert transport.gets[0][1]["allow_redirects"] is False
+    assert transport.gets[0][1]["headers"]["x-goog-api-key"] == secret
+    for sensitive in (secret, upload_uri, hostile_body):
+        assert sensitive not in result.error
+
+
+def test_developer_output_poll_redirect_fails_without_download(tmp_path):
+    secret = "developer-secret-key"
+    remote_uri = "files/private-output"
+    hostile_body = f"redirect body {secret} https://attacker.example/collect"
+    transport = ScriptedTransport(
+        post_responses=[
+            FakeResponse(
+                {"id": "interaction", "output_video": {"uri": remote_uri}}
+            )
+        ],
+        get_responses=[
+            FakeResponse(
+                {"state": "ACTIVE"},
+                ok=True,
+                status_code=302,
+                text=hostile_body,
+            )
+        ],
+    )
+
+    result = GeminiOmniVideo(
+        environment={"GEMINI_API_KEY": secret}, transport=transport
+    ).execute(
+        {"prompt": "offline", "output_path": str(tmp_path / "never.mp4")}
+    )
+
+    assert not result.success
+    assert result.error == "Gemini Omni Developer request or download failed"
+    assert len(transport.gets) == 1
+    assert transport.gets[0][1]["allow_redirects"] is False
+    assert transport.gets[0][1]["headers"]["x-goog-api-key"] == secret
+    for sensitive in (secret, remote_uri, hostile_body):
+        assert sensitive not in result.error
+
+
+def test_developer_output_download_redirect_fails_without_writing_bytes(tmp_path):
+    secret = "developer-secret-key"
+    remote_uri = "files/private-output"
+    hostile_uri = "https://attacker.example/collect"
+    hostile_body = f"redirect body {secret} {hostile_uri}"
+    transport = ScriptedTransport(
+        post_responses=[
+            FakeResponse(
+                {"id": "interaction", "output_video": {"uri": remote_uri}}
+            )
+        ],
+        get_responses=[
+            FakeResponse({"state": "ACTIVE"}, status_code=200),
+            FakeResponse(
+                {},
+                content=b"must not be written",
+                ok=True,
+                status_code=302,
+                text=hostile_body,
+            ),
+        ],
+    )
+    output = tmp_path / "never.mp4"
+
+    result = GeminiOmniVideo(
+        environment={"GEMINI_API_KEY": secret}, transport=transport
+    ).execute({"prompt": "offline", "output_path": str(output)})
+
+    assert not result.success
+    assert result.error == "Gemini Omni Developer request or download failed"
+    assert len(transport.gets) == 2
+    assert all(call[1]["allow_redirects"] is False for call in transport.gets)
+    assert all(
+        call[1]["headers"]["x-goog-api-key"] == secret
+        for call in transport.gets
+    )
+    assert not output.exists()
+    for sensitive in (secret, remote_uri, hostile_uri, hostile_body):
+        assert sensitive not in result.error
+
+
 def test_explicit_vertex_route_uses_injected_adc_and_exact_payload(tmp_path):
     resolver = FakeResolver()
     transport = RecordingTransport()
@@ -212,6 +523,38 @@ def test_explicit_vertex_route_uses_injected_adc_and_exact_payload(tmp_path):
         "model": "gemini-omni-1.1-flash-preview",
         "operation": "text_to_video",
     }
+
+
+def test_vertex_interaction_redirect_with_inline_video_is_not_success(tmp_path):
+    inline = base64.b64encode(b"must not be accepted").decode("ascii")
+    transport = RecordingTransport(
+        post_response=FakeResponse(
+            {"id": "redirect", "output_video": {"data": inline}},
+            ok=True,
+            status_code=302,
+        )
+    )
+    output = tmp_path / "never.mp4"
+
+    result = GeminiOmniVideo(
+        credential_resolver=FakeResolver(),
+        transport=transport,
+        environment={},
+    ).execute(
+        {
+            "prompt": "offline vertex",
+            "route": "vertex_interactions",
+            "model": "gemini-omni-1.1-flash-preview",
+            "vertex_project": "explicit-project",
+            "vertex_location": "global",
+            "output_path": str(output),
+        }
+    )
+
+    assert not result.success
+    assert result.error == "Gemini Omni Vertex interaction failed (HTTP 302)"
+    assert transport.posts[0][1]["allow_redirects"] is False
+    assert not output.exists()
 
 
 def test_vertex_download_allows_only_https_googleapis_and_disables_redirects(
