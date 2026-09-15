@@ -19,6 +19,14 @@ from .assets import (
     compile_asset_batch_request,
     run_asset_units,
 )
+from .edit_merge import build_edit_units, merge_edit_units, run_edit_units
+from .render import (
+    build_assembly_command,
+    build_unit_render_commands,
+    make_assembly_receipt,
+    make_unit_render_receipt,
+    run_render_units,
+)
 
 __all__ = [
     "ProductionUnitError",
@@ -36,4 +44,12 @@ __all__ = [
     "build_asset_units",
     "compile_asset_batch_request",
     "run_asset_units",
+    "build_edit_units",
+    "merge_edit_units",
+    "run_edit_units",
+    "build_unit_render_commands",
+    "make_unit_render_receipt",
+    "build_assembly_command",
+    "make_assembly_receipt",
+    "run_render_units",
 ]

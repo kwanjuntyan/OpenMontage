@@ -28,6 +28,19 @@ Read `edit_decisions.render_runtime` before anything else. It was locked at prop
 | Tools | `video_compose`, `audio_mixer` | Rendering capabilities |
 | Media profiles | `lib/media_profiles.py` | Output format specs (resolution, codec, bitrate) |
 
+## Optional Production Unit route
+
+Use this route only when the approved proposal explicitly enables Production
+Units and the canonical edit checkpoint came from a validated unit merge. Read
+`skills/meta/production-unit-protocol.md` first. Freeze commands with
+`lib.production_units.render`, execute them through the already selected render
+runtime, and accept receipts only after complete probe/decode evidence passes.
+Re-render only missing, failed, or stale unit commands; assemble in authoritative
+ordinal order. The assembled `render_report` remains a candidate and must still
+pass all post-render review steps below plus the existing checkpoint and Human
+Gate. PUP never authorizes a runtime swap or media call. Missing policy or
+`mode=off` follows the monolithic route unchanged.
+
 ## Process
 
 ### Step 1: Choose Render Strategy

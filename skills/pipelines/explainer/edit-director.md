@@ -14,6 +14,17 @@ This is where raw assets become a coherent video. Good editing makes average ass
 | Prior artifacts | `state.artifacts["assets"]["asset_manifest"]`, `state.artifacts["scene_plan"]["scene_plan"]`, `state.artifacts["script"]["script"]` | Assets, visual plan, timing |
 | Playbook | Active style playbook | Transitions, pacing rules, overlay styles |
 
+## Optional Production Unit route
+
+Use this route only when the approved proposal explicitly enables Production
+Units. Read `skills/meta/production-unit-protocol.md` first. Build and merge
+unit fragments through `lib.production_units.edit_merge`; do not treat a unit
+as a checkpoint or let a worker rewrite global audio, subtitle, renderer, or
+composition settings. The merged result is only an `edit_decisions` candidate:
+run every normal verification and persist it through this director's existing
+checkpoint path. Missing policy or `mode=off` uses the monolithic process below
+unchanged.
+
 ## Process
 
 ### Step 1: Map Assets to Timeline

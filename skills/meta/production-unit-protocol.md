@@ -1,8 +1,9 @@
-# Production Unit Protocol — Lean M2 planning profile
+# Production Unit Protocol — Lean M2–M4 profile
 
-Status: experimental and opt-in. Scene planning remains compare-only; course
-script and CLP support in-memory compare or publication candidates whose only
-publisher is the existing checkpoint workflow.
+Status: experimental and opt-in. Planning, editing, and render preparation
+remain in-memory candidates whose only publisher is the existing checkpoint
+workflow. Render commands require an explicitly injected executor and do not
+grant media, provider, filesystem, checkpoint, or publication authority.
 
 This protocol tests whether a long approved script can be planned in bounded
 units without changing OpenMontage's canonical pipeline. It does not claim
@@ -30,8 +31,8 @@ For an approved `content_form=course_form` proposal, M2b may additionally:
   Agent-authored resolution map bound to the exact combined candidate digest;
 - merge that resolution into the one existing course-wide `clp_manifest`.
 
-M2 does not run assets, edit, compose, Backlot, provider calls, or media
-generation. A Production Unit is never a lesson, checkpoint, or nested project.
+No PUP helper runs Backlot, providers, or media by itself. A Production Unit is
+never a lesson, checkpoint, or nested project.
 
 ## M3 Batch V2 asset boundary
 
@@ -47,6 +48,26 @@ storage receipts, resume, review state, cost accounting, PublicationCommand,
 and canonical asset publication. PUP may bind an exact BatchResult for later
 review; it never publishes an `asset_manifest`. Unsupported asset/provider
 routes stay unsupported until separately qualified.
+
+## M4 edit and render boundary
+
+PUP may derive edit units from the approved global scene timeline and merge
+validated fragments into one ordinary `edit_decisions` candidate. Global
+timestamps remain authoritative. Every primary cut must remain inside its unit,
+reference an asset owned by that unit, and cover the unit without gaps or
+overlap. Global audio/subtitle configuration and the proposal-locked
+`renderer_family`, `render_runtime`, and `composition_mode` are supplied once;
+unit workers cannot replace or silently swap them.
+
+After normal edit review, PUP may freeze one unit-render command per edit unit.
+An executor must return a content digest, byte size, and complete probe evidence.
+Duration, resolution, fps, codecs, required audio, sample rate, A/V sync,
+decode-to-null, and timestamp monotonicity are hard gates. Only exact unit
+receipts may form the deterministic assembly command; the assembled master must
+pass the same profile before PUP can return an ordinary `render_report`
+candidate. Failed or stale units can be regenerated independently, but neither
+receipts nor candidates are canonical artifacts until the existing director,
+checkpoint writer, final review, and Human Gate accept them.
 
 ## Modes
 
