@@ -57,6 +57,7 @@ def _validated_sections(script: Mapping[str, Any]) -> list[dict[str, Any]]:
 
     sections = deepcopy(script["sections"])
     seen: set[str] = set()
+    total = _number(script.get("total_duration_seconds"), field="total_duration_seconds")
     previous_end: float | None = None
     for index, section in enumerate(sections):
         section_id = section.get("id")
@@ -69,18 +70,123 @@ def _validated_sections(script: Mapping[str, Any]) -> list[dict[str, Any]]:
         end = _number(section.get("end_seconds"), field=f"sections[{index}].end_seconds")
         if end <= start:
             _fail("INVALID_SECTION_TIME", f"section {section_id!r} must end after it starts")
-        if previous_end is None:
-            if abs(start) > _TIME_TOLERANCE:
-                _fail("SECTION_TIMELINE_COVERAGE", "the first script section must start at 0")
-        elif abs(start - previous_end) > _TIME_TOLERANCE:
-            relation = "gap" if start > previous_end else "overlap"
-            _fail("SECTION_TIMELINE_COVERAGE", f"script sections contain a {relation} at {previous_end}")
+        if end > total:
+            _fail(
+                "SECTION_TIMELINE_COVERAGE",
+                f"section {section_id!r} ends after total_duration_seconds",
+            )
+        if previous_end is not None and start < previous_end:
+            _fail(
+                "SECTION_TIMELINE_COVERAGE",
+                f"script sections overlap at {start}",
+            )
         previous_end = end
-
-    total = _number(script.get("total_duration_seconds"), field="total_duration_seconds")
-    if sections and abs(float(sections[-1]["end_seconds"]) - total) > _TIME_TOLERANCE:
-        _fail("SECTION_TIMELINE_COVERAGE", "script sections must end at total_duration_seconds")
     return sections
+
+
+def _timeline_spans(
+    script: Mapping[str, Any],
+    sections: Sequence[Mapping[str, Any]] | None = None,
+) -> list[dict[str, Any]]:
+    """Derive complete visual time from narration sections and legal silent gaps."""
+
+    validated = list(sections) if sections is not None else _validated_sections(script)
+    total = _number(script.get("total_duration_seconds"), field="total_duration_seconds")
+    spans: list[dict[str, Any]] = []
+    cursor = 0.0
+    visual_ordinal = 0
+    for section in validated:
+        start = float(section["start_seconds"])
+        end = float(section["end_seconds"])
+        if start > cursor:
+            visual_ordinal += 1
+            spans.append(
+                {
+                    "id": f"visual-only-{visual_ordinal:04d}",
+                    "kind": "visual_only",
+                    "start_seconds": cursor,
+                    "end_seconds": section["start_seconds"],
+                }
+            )
+        spans.append(
+            {
+                "id": f"narration:{section['id']}",
+                "kind": "narration",
+                "start_seconds": section["start_seconds"],
+                "end_seconds": section["end_seconds"],
+                "script_section_id": section["id"],
+            }
+        )
+        cursor = end
+    if cursor < total:
+        visual_ordinal += 1
+        spans.append(
+            {
+                "id": f"visual-only-{visual_ordinal:04d}",
+                "kind": "visual_only",
+                "start_seconds": cursor,
+                "end_seconds": script["total_duration_seconds"],
+            }
+        )
+    return spans
+
+
+def _boundary_span(span: Mapping[str, Any]) -> dict[str, Any]:
+    result = {
+        "id": span["id"],
+        "kind": span["kind"],
+        "start_seconds": span["start_seconds"],
+        "end_seconds": span["end_seconds"],
+    }
+    if "script_section_id" in span:
+        result["script_section_id"] = span["script_section_id"]
+    return result
+
+
+def _context_capsule(
+    *,
+    script: Mapping[str, Any],
+    clp_manifest: Mapping[str, Any],
+    style_context: Mapping[str, Any],
+    sections: Sequence[Mapping[str, Any]],
+    spans: Sequence[Mapping[str, Any]],
+    group: Sequence[Mapping[str, Any]],
+    script_digest: str,
+    clp_digest: str,
+    style_context_digest: str,
+) -> dict[str, Any]:
+    section_by_id = {section["id"]: section for section in sections}
+    selected_sections = [
+        section_by_id[span["script_section_id"]]
+        for span in group
+        if span["kind"] == "narration"
+    ]
+    first_index = next(index for index, span in enumerate(spans) if span["id"] == group[0]["id"])
+    last_index = next(index for index, span in enumerate(spans) if span["id"] == group[-1]["id"])
+    return {
+        "version": "0.2",
+        "course": {
+            "title": script.get("title"),
+            "total_duration_seconds": script["total_duration_seconds"],
+        },
+        "timeline_spans": deepcopy(list(group)),
+        "script_sections": deepcopy(selected_sections),
+        "boundary_context": {
+            "previous_timeline_span": (
+                _boundary_span(spans[first_index - 1]) if first_index > 0 else None
+            ),
+            "next_timeline_span": (
+                _boundary_span(spans[last_index + 1])
+                if last_index + 1 < len(spans)
+                else None
+            ),
+        },
+        "clp_manifest": deepcopy(dict(clp_manifest)),
+        "style_context": deepcopy(dict(style_context)),
+        "source_script_sha256": script_digest,
+        "clp_manifest_sha256": clp_digest,
+        "style_context_sha256": style_context_digest,
+    }
 
 
 def _validate_clp(clp_manifest: Mapping[str, Any]) -> None:
@@ -129,11 +235,10 @@ def build_scene_plan_units(
     hard_max_duration_seconds: float = DEFAULT_HARD_MAX_DURATION_SECONDS,
     max_capsule_bytes: int = DEFAULT_MAX_CAPSULE_BYTES,
 ) -> list[dict[str, Any]]:
-    """Partition an approved script only at existing section boundaries.
+    """Partition complete visual time only at derived timeline boundaries.
 
-    Each unit carries the exact selected script sections, compact boundary
-    hints, and the canonical CLP.  The byte limit makes the context bound
-    explicit instead of relying on total course duration.
+    Narration sections stay authoritative. Gaps before, between, or after
+    them become explicit visual-only spans so unit ownership remains total.
     """
 
     target = _number(target_duration_seconds, field="target_duration_seconds")
@@ -144,6 +249,7 @@ def build_scene_plan_units(
         _fail("INVALID_UNIT_POLICY", "max_capsule_bytes must be a positive integer")
 
     sections = _validated_sections(script)
+    spans = _timeline_spans(script, sections)
     _validate_clp(clp_manifest)
     approved_style_context = _validated_style_context(style_context)
     script_digest = canonical_digest(dict(script))
@@ -152,61 +258,36 @@ def build_scene_plan_units(
 
     groups: list[list[dict[str, Any]]] = []
     current: list[dict[str, Any]] = []
-    for section in sections:
-        start = float(section["start_seconds"])
-        end = float(section["end_seconds"])
+    for span in spans:
+        start = float(span["start_seconds"])
+        end = float(span["end_seconds"])
         if end - start > hard_max + _TIME_TOLERANCE:
             _fail(
-                "SECTION_EXCEEDS_HARD_MAX",
-                f"section {section['id']!r} cannot be split safely at a declared boundary",
+                "TIMELINE_SPAN_EXCEEDS_HARD_MAX",
+                f"span {span['id']!r} cannot be split safely at a declared boundary",
             )
         if current and end - float(current[0]["start_seconds"]) > target + _TIME_TOLERANCE:
             groups.append(current)
             current = []
-        current.append(section)
+        current.append(span)
         if end - float(current[0]["start_seconds"]) > hard_max + _TIME_TOLERANCE:
-            _fail("UNIT_EXCEEDS_HARD_MAX", f"unit ending at section {section['id']!r} is too long")
+            _fail("UNIT_EXCEEDS_HARD_MAX", f"unit ending at span {span['id']!r} is too long")
     if current:
         groups.append(current)
 
     units: list[dict[str, Any]] = []
     for ordinal, group in enumerate(groups):
-        first_index = sections.index(group[0])
-        last_index = sections.index(group[-1])
-        boundary_context = {
-            "previous_section": (
-                {
-                    "id": sections[first_index - 1]["id"],
-                    "label": sections[first_index - 1].get("label"),
-                    "end_seconds": sections[first_index - 1]["end_seconds"],
-                }
-                if first_index > 0
-                else None
-            ),
-            "next_section": (
-                {
-                    "id": sections[last_index + 1]["id"],
-                    "label": sections[last_index + 1].get("label"),
-                    "start_seconds": sections[last_index + 1]["start_seconds"],
-                }
-                if last_index + 1 < len(sections)
-                else None
-            ),
-        }
-        capsule = {
-            "version": "0.1",
-            "course": {
-                "title": script.get("title"),
-                "total_duration_seconds": script["total_duration_seconds"],
-            },
-            "script_sections": deepcopy(group),
-            "boundary_context": boundary_context,
-            "clp_manifest": deepcopy(dict(clp_manifest)),
-            "style_context": deepcopy(approved_style_context),
-            "source_script_sha256": script_digest,
-            "clp_manifest_sha256": clp_digest,
-            "style_context_sha256": style_context_digest,
-        }
+        capsule = _context_capsule(
+            script=script,
+            clp_manifest=clp_manifest,
+            style_context=approved_style_context,
+            sections=sections,
+            spans=spans,
+            group=group,
+            script_digest=script_digest,
+            clp_digest=clp_digest,
+            style_context_digest=style_context_digest,
+        )
         capsule_size = len(canonical_json_bytes(capsule))
         if capsule_size > max_capsule_bytes:
             _fail(
@@ -219,7 +300,12 @@ def build_scene_plan_units(
                 "ordinal": ordinal,
                 "start_seconds": group[0]["start_seconds"],
                 "end_seconds": group[-1]["end_seconds"],
-                "section_ids": [section["id"] for section in group],
+                "timeline_span_ids": [span["id"] for span in group],
+                "section_ids": [
+                    span["script_section_id"]
+                    for span in group
+                    if span["kind"] == "narration"
+                ],
                 "source_script_sha256": script_digest,
                 "clp_manifest_sha256": clp_digest,
                 "style_context_sha256": style_context_digest,
@@ -237,14 +323,17 @@ def _validate_unit_plan(
     units: Sequence[Mapping[str, Any]],
 ) -> dict[str, dict[str, Any]]:
     script_sections = _validated_sections(script)
+    timeline_spans = _timeline_spans(script, script_sections)
     expected_sections = [section["id"] for section in script_sections]
-    section_by_id = {section["id"]: section for section in script_sections}
+    expected_span_ids = [span["id"] for span in timeline_spans]
+    span_by_id = {span["id"]: span for span in timeline_spans}
     script_digest = canonical_digest(dict(script))
     clp_digest = canonical_digest(dict(clp_manifest))
     approved_style_context = _validated_style_context(style_context)
     style_context_digest = canonical_digest(approved_style_context)
     by_id: dict[str, dict[str, Any]] = {}
     actual_sections: list[str] = []
+    actual_span_ids: list[str] = []
     for expected_ordinal, raw_unit in enumerate(units):
         unit = dict(raw_unit)
         unit_id = unit.get("unit_id")
@@ -263,107 +352,131 @@ def _validate_unit_plan(
         capsule = unit.get("context_capsule")
         if not isinstance(capsule, dict) or unit.get("context_capsule_sha256") != canonical_digest(capsule):
             _fail("CAPSULE_DIGEST_MISMATCH", f"unit {unit_id!r} capsule was changed")
+        span_ids = unit.get("timeline_span_ids")
+        if not isinstance(span_ids, list) or not span_ids:
+            _fail("INVALID_UNIT_SPANS", f"unit {unit_id!r} has no timeline spans")
+        if any(span_id not in span_by_id for span_id in span_ids):
+            _fail("INVALID_UNIT_SPANS", f"unit {unit_id!r} references an unknown timeline span")
+        selected_spans = [span_by_id[span_id] for span_id in span_ids]
         section_ids = unit.get("section_ids")
-        if not isinstance(section_ids, list) or not section_ids:
-            _fail("INVALID_UNIT_SECTIONS", f"unit {unit_id!r} has no sections")
-        if any(section_id not in section_by_id for section_id in section_ids):
-            _fail("INVALID_UNIT_SECTIONS", f"unit {unit_id!r} references an unknown section")
-        selected_sections = [section_by_id[section_id] for section_id in section_ids]
-        first_index = expected_sections.index(section_ids[0])
-        last_index = expected_sections.index(section_ids[-1])
-        expected_capsule = {
-            "version": "0.1",
-            "course": {
-                "title": script.get("title"),
-                "total_duration_seconds": script["total_duration_seconds"],
-            },
-            "script_sections": deepcopy(selected_sections),
-            "boundary_context": {
-                "previous_section": (
-                    {
-                        "id": script_sections[first_index - 1]["id"],
-                        "label": script_sections[first_index - 1].get("label"),
-                        "end_seconds": script_sections[first_index - 1]["end_seconds"],
-                    }
-                    if first_index > 0
-                    else None
-                ),
-                "next_section": (
-                    {
-                        "id": script_sections[last_index + 1]["id"],
-                        "label": script_sections[last_index + 1].get("label"),
-                        "start_seconds": script_sections[last_index + 1]["start_seconds"],
-                    }
-                    if last_index + 1 < len(script_sections)
-                    else None
-                ),
-            },
-            "clp_manifest": deepcopy(dict(clp_manifest)),
-            "style_context": deepcopy(approved_style_context),
-            "source_script_sha256": script_digest,
-            "clp_manifest_sha256": clp_digest,
-            "style_context_sha256": style_context_digest,
-        }
+        expected_unit_sections = [
+            span["script_section_id"]
+            for span in selected_spans
+            if span["kind"] == "narration"
+        ]
+        if not isinstance(section_ids, list) or section_ids != expected_unit_sections:
+            _fail(
+                "INVALID_UNIT_SECTIONS",
+                f"unit {unit_id!r} section ids do not match its narration spans",
+            )
+        expected_capsule = _context_capsule(
+            script=script,
+            clp_manifest=clp_manifest,
+            style_context=approved_style_context,
+            sections=script_sections,
+            spans=timeline_spans,
+            group=selected_spans,
+            script_digest=script_digest,
+            clp_digest=clp_digest,
+            style_context_digest=style_context_digest,
+        )
         if canonical_json_bytes(capsule) != canonical_json_bytes(expected_capsule):
             _fail("CAPSULE_CONTENT_MISMATCH", f"unit {unit_id!r} capsule is not derived from its sources")
         if (
-            unit.get("start_seconds") != selected_sections[0]["start_seconds"]
-            or unit.get("end_seconds") != selected_sections[-1]["end_seconds"]
+            unit.get("start_seconds") != selected_spans[0]["start_seconds"]
+            or unit.get("end_seconds") != selected_spans[-1]["end_seconds"]
         ):
-            _fail("UNIT_BOUNDARY_MISMATCH", f"unit {unit_id!r} timing does not match its sections")
+            _fail("UNIT_BOUNDARY_MISMATCH", f"unit {unit_id!r} timing does not match its spans")
         actual_sections.extend(section_ids)
+        actual_span_ids.extend(span_ids)
         by_id[unit_id] = unit
+    if actual_span_ids != expected_span_ids:
+        _fail("TIMELINE_COVERAGE", "units must cover every timeline span exactly once and in order")
     if actual_sections != expected_sections:
         _fail("SECTION_COVERAGE", "units must cover every script section exactly once and in order")
     return by_id
 
 
-def _validate_section_scene_coverage(
-    sections: Sequence[Mapping[str, Any]],
+def _containing_span(
+    spans: Sequence[Mapping[str, Any]],
+    *,
+    scene_id: Any,
+    start: float,
+    end: float,
+) -> Mapping[str, Any]:
+    matches = [
+        span
+        for span in spans
+        if start >= float(span["start_seconds"]) - _TIME_TOLERANCE
+        and end <= float(span["end_seconds"]) + _TIME_TOLERANCE
+    ]
+    if len(matches) != 1:
+        _fail(
+            "SCENE_TIMELINE_OWNERSHIP",
+            f"scene {scene_id!r} must fit wholly inside one narration or visual-only span",
+        )
+    return matches[0]
+
+
+def _validate_timeline_scene_coverage(
+    script: Mapping[str, Any],
     scenes: Sequence[Mapping[str, Any]],
 ) -> None:
-    section_order = {str(section["id"]): index for index, section in enumerate(sections)}
-    scenes_by_section: dict[str, list[Mapping[str, Any]]] = {
-        str(section["id"]): [] for section in sections
+    sections = _validated_sections(script)
+    spans = _timeline_spans(script, sections)
+    known_section_ids = {str(section["id"]) for section in sections}
+    scenes_by_span: dict[str, list[Mapping[str, Any]]] = {
+        str(span["id"]): [] for span in spans
     }
-    order_keys: list[tuple[int, float, float, str]] = []
+    order_keys: list[tuple[float, float, str]] = []
     for scene in scenes:
+        scene_id = scene.get("id")
+        start = _number(scene.get("start_seconds"), field=f"scene {scene_id}.start_seconds")
+        end = _number(scene.get("end_seconds"), field=f"scene {scene_id}.end_seconds")
+        if end <= start:
+            _fail("INVALID_SCENE_TIME", f"scene {scene_id!r} must end after it starts")
+        order_keys.append((start, end, str(scene_id)))
+        span = _containing_span(spans, scene_id=scene_id, start=start, end=end)
         section_id = scene.get("script_section_id")
-        if not isinstance(section_id, str) or not section_id:
-            _fail("MISSING_SECTION_REF", f"scene {scene.get('id')!r} has no script_section_id")
-        if section_id not in scenes_by_section:
-            _fail("UNKNOWN_SECTION_REF", f"scene {scene.get('id')!r} references {section_id!r}")
-        scenes_by_section[section_id].append(scene)
-        order_keys.append(
-            (
-                section_order[section_id],
-                _number(scene.get("start_seconds"), field=f"scene {scene.get('id')}.start_seconds"),
-                _number(scene.get("end_seconds"), field=f"scene {scene.get('id')}.end_seconds"),
-                str(scene.get("id")),
+        if section_id is not None and (not isinstance(section_id, str) or not section_id):
+            _fail("INVALID_SECTION_REF", f"scene {scene_id!r} has an invalid script_section_id")
+        if isinstance(section_id, str) and section_id not in known_section_ids:
+            _fail("UNKNOWN_SECTION_REF", f"scene {scene_id!r} references {section_id!r}")
+        if span["kind"] == "narration":
+            expected_section_id = span["script_section_id"]
+            if section_id is None:
+                _fail("MISSING_SECTION_REF", f"scene {scene_id!r} has no script_section_id")
+            if section_id != expected_section_id:
+                _fail(
+                    "SECTION_REF_MISMATCH",
+                    f"scene {scene_id!r} occurs in {expected_section_id!r}, not {section_id!r}",
+                )
+        elif section_id is not None:
+            _fail(
+                "VISUAL_ONLY_SECTION_REF",
+                f"scene {scene_id!r} is in a visual-only span and must omit script_section_id",
             )
-        )
-    if order_keys != sorted(order_keys):
-        _fail("SCENE_ORDER", "scenes must be in canonical chronological section order")
+        scenes_by_span[str(span["id"])].append(scene)
 
-    for section in sections:
-        section_id = str(section["id"])
-        ordered = scenes_by_section[section_id]
+    if order_keys != sorted(order_keys):
+        _fail("SCENE_ORDER", "scenes must be in canonical chronological order")
+
+    for span in spans:
+        span_id = str(span["id"])
+        ordered = scenes_by_span[span_id]
         if not ordered:
-            _fail("MISSING_SECTION_COVERAGE", f"section {section_id!r} has no scene")
-        expected_start = float(section["start_seconds"])
-        expected_end = float(section["end_seconds"])
-        cursor = expected_start
+            _fail("MISSING_TIMELINE_COVERAGE", f"timeline span {span_id!r} has no scene")
+        cursor = float(span["start_seconds"])
+        expected_end = float(span["end_seconds"])
         for scene in ordered:
             start = _number(scene.get("start_seconds"), field=f"scene {scene.get('id')}.start_seconds")
             end = _number(scene.get("end_seconds"), field=f"scene {scene.get('id')}.end_seconds")
-            if end <= start:
-                _fail("INVALID_SCENE_TIME", f"scene {scene.get('id')!r} must end after it starts")
             if abs(start - cursor) > _TIME_TOLERANCE:
                 relation = "gap" if start > cursor else "overlap"
-                _fail("SCENE_TIMELINE_COVERAGE", f"{relation} in section {section_id!r} at {cursor}")
+                _fail("SCENE_TIMELINE_COVERAGE", f"{relation} in span {span_id!r} at {cursor}")
             cursor = end
         if abs(cursor - expected_end) > _TIME_TOLERANCE:
-            _fail("SCENE_TIMELINE_COVERAGE", f"section {section_id!r} does not end at {expected_end}")
+            _fail("SCENE_TIMELINE_COVERAGE", f"span {span_id!r} does not end at {expected_end}")
 
 
 def merge_scene_plan_units(
@@ -380,6 +493,7 @@ def merge_scene_plan_units(
     approved_style_context = _validated_style_context(style_context)
     approved_style = approved_style_context["style_playbook"]
     script_sections = _validated_sections(script)
+    timeline_spans = _timeline_spans(script, script_sections)
     known_section_ids = {section["id"] for section in script_sections}
     unit_by_id = _validate_unit_plan(script, clp_manifest, approved_style_context, units)
     result_by_id: dict[str, dict[str, Any]] = {}
@@ -419,6 +533,7 @@ def merge_scene_plan_units(
         if not isinstance(scenes, list) or not scenes:
             _fail("INVALID_UNIT_SCENE_PLAN", f"unit {unit_id!r} contains no scenes")
         owned_sections = set(unit["section_ids"])
+        owned_span_ids = set(unit["timeline_span_ids"])
         ordered_scenes = sorted(
             deepcopy(scenes),
             key=lambda scene: (
@@ -434,15 +549,38 @@ def merge_scene_plan_units(
                 _fail("INVALID_SCENE_ID", f"unit {unit_id!r} produced a scene without an id")
             if scene_id in seen_scene_ids:
                 _fail("DUPLICATE_SCENE_REF", f"scene {scene_id!r} occurs more than once")
-            section_id = scene.get("script_section_id")
-            if not isinstance(section_id, str) or not section_id:
-                _fail("MISSING_SECTION_REF", f"scene {scene_id!r} has no script_section_id")
-            if section_id not in known_section_ids:
-                _fail("UNKNOWN_SECTION_REF", f"scene {scene_id!r} references {section_id!r}")
-            if section_id not in owned_sections:
+            start = _number(scene.get("start_seconds"), field=f"scene {scene_id}.start_seconds")
+            end = _number(scene.get("end_seconds"), field=f"scene {scene_id}.end_seconds")
+            if end <= start:
+                _fail("INVALID_SCENE_TIME", f"scene {scene_id!r} must end after it starts")
+            span = _containing_span(timeline_spans, scene_id=scene_id, start=start, end=end)
+            if span["id"] not in owned_span_ids:
                 _fail(
                     "UNIT_OWNERSHIP_VIOLATION",
-                    f"unit {unit_id!r} cannot produce section {section_id!r}",
+                    f"unit {unit_id!r} cannot produce timeline span {span['id']!r}",
+                )
+            section_id = scene.get("script_section_id")
+            if section_id is not None and (not isinstance(section_id, str) or not section_id):
+                _fail("INVALID_SECTION_REF", f"scene {scene_id!r} has an invalid script_section_id")
+            if isinstance(section_id, str) and section_id not in known_section_ids:
+                _fail("UNKNOWN_SECTION_REF", f"scene {scene_id!r} references {section_id!r}")
+            if span["kind"] == "narration":
+                if section_id is None:
+                    _fail("MISSING_SECTION_REF", f"scene {scene_id!r} has no script_section_id")
+                if section_id not in owned_sections:
+                    _fail(
+                        "UNIT_OWNERSHIP_VIOLATION",
+                        f"unit {unit_id!r} cannot produce section {section_id!r}",
+                    )
+                if section_id != span["script_section_id"]:
+                    _fail(
+                        "SECTION_REF_MISMATCH",
+                        f"scene {scene_id!r} is not inside section {section_id!r}",
+                    )
+            elif section_id is not None:
+                _fail(
+                    "VISUAL_ONLY_SECTION_REF",
+                    f"scene {scene_id!r} is visual-only and must omit script_section_id",
                 )
             seen_scene_ids.add(scene_id)
             unit_scene_ids.add(scene_id)
@@ -467,7 +605,7 @@ def merge_scene_plan_units(
 
     if len(style_playbooks) > 1:
         _fail("STYLE_PLAYBOOK_DRIFT", "unit scene plans disagree on style_playbook")
-    _validate_section_scene_coverage(script_sections, merged_scenes)
+    _validate_timeline_scene_coverage(script, merged_scenes)
 
     scene_plan: dict[str, Any] = {"version": "1.0", "scenes": merged_scenes}
     if style_playbooks:
@@ -527,7 +665,7 @@ def _validate_complete_bundle(
         _fail("STYLE_PLAYBOOK_DRIFT", f"{label} does not use the approved style_playbook")
     try:
         validate_artifact("scene_plan", scene_plan)
-        _validate_section_scene_coverage(_validated_sections(script), scene_plan["scenes"])
+        _validate_timeline_scene_coverage(script, scene_plan["scenes"])
         validate_artifact("clp_shot_bindings", bindings)
         validate_clp_shot_bindings_or_raise(bindings, dict(clp_manifest), scene_plan)
     except ProductionUnitError:

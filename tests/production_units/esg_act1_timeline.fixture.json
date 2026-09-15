@@ -1,0 +1,112 @@
+{
+  "source_project": "projects/esg-act1-crisis",
+  "provenance": "Sanitized timing and reference topology from an existing schema-valid OM project.",
+  "script": {
+    "version": "1.0",
+    "title": "Real-project visual-gap regression",
+    "total_duration_seconds": 149,
+    "sections": [
+      {"id": "sec_1_1_3", "label": "Beat 03", "text": "Narration 03", "start_seconds": 15, "end_seconds": 30},
+      {"id": "sec_1_1_4", "label": "Beat 04", "text": "Narration 04", "start_seconds": 30, "end_seconds": 35},
+      {"id": "sec_1_1_6", "label": "Beat 06", "text": "Narration 06", "start_seconds": 42, "end_seconds": 57},
+      {"id": "sec_1_1_8", "label": "Beat 08", "text": "Narration 08", "start_seconds": 65, "end_seconds": 73},
+      {"id": "sec_1_1_9", "label": "Beat 09", "text": "Narration 09", "start_seconds": 73, "end_seconds": 78},
+      {"id": "sec_1_1_10", "label": "Beat 10", "text": "Narration 10", "start_seconds": 78, "end_seconds": 86},
+      {"id": "sec_1_2_2", "label": "Beat 12", "text": "Narration 12", "start_seconds": 101, "end_seconds": 106},
+      {"id": "sec_1_2_3", "label": "Beat 13", "text": "Narration 13", "start_seconds": 106, "end_seconds": 110},
+      {"id": "sec_1_2_4", "label": "Beat 14", "text": "Narration 14", "start_seconds": 110, "end_seconds": 115},
+      {"id": "sec_1_2_5", "label": "Beat 15", "text": "Narration 15", "start_seconds": 115, "end_seconds": 120},
+      {"id": "sec_1_2_6", "label": "Beat 16", "text": "Narration 16", "start_seconds": 120, "end_seconds": 125},
+      {"id": "sec_1_2_7", "label": "Beat 17", "text": "Narration 17", "start_seconds": 125, "end_seconds": 130},
+      {"id": "sec_1_2_8", "label": "Beat 18", "text": "Narration 18", "start_seconds": 130, "end_seconds": 138},
+      {"id": "sec_1_3_1", "label": "Beat 21", "text": "Narration 21", "start_seconds": 141, "end_seconds": 149}
+    ]
+  },
+  "clp_manifest": {
+    "version": "2.0",
+    "project_id": "esg-act1-regression",
+    "characters": [
+      {
+        "id": "char-guide",
+        "name": "Guide",
+        "visual_traits": "A consistent illustrated course guide",
+        "prompt_anchor": "illustrated course guide in a navy jacket",
+        "policy": "text_anchor_only"
+      }
+    ],
+    "locations": [
+      {
+        "id": "loc-studio",
+        "name": "Studio",
+        "environment_description": "A consistent abstract teaching studio",
+        "prompt_anchor": "navy and amber abstract teaching studio",
+        "policy": "text_anchor_only"
+      }
+    ],
+    "props": [
+      {
+        "id": "prop-board",
+        "name": "Teaching board",
+        "description": "A consistent information board",
+        "prompt_anchor": "clean modular information board",
+        "policy": "text_anchor_only"
+      }
+    ]
+  },
+  "style_context": {
+    "style_playbook": "clean-professional",
+    "proposal_packet_sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "scene_plan": {
+    "version": "1.0",
+    "style_playbook": "clean-professional",
+    "scenes": [
+      {"id": "shot_1_1_1", "type": "text_card", "description": "Visual-only opening A", "start_seconds": 0, "end_seconds": 8},
+      {"id": "shot_1_1_2", "type": "text_card", "description": "Visual-only opening B", "start_seconds": 8, "end_seconds": 15},
+      {"id": "shot_1_1_3", "type": "text_card", "description": "Narrated visual 03", "start_seconds": 15, "end_seconds": 30, "script_section_id": "sec_1_1_3"},
+      {"id": "shot_1_1_4", "type": "text_card", "description": "Narrated visual 04", "start_seconds": 30, "end_seconds": 35, "script_section_id": "sec_1_1_4"},
+      {"id": "shot_1_1_5", "type": "text_card", "description": "Visual-only bridge 05", "start_seconds": 35, "end_seconds": 42},
+      {"id": "shot_1_1_6", "type": "text_card", "description": "Narrated visual 06", "start_seconds": 42, "end_seconds": 57, "script_section_id": "sec_1_1_6"},
+      {"id": "shot_1_1_7", "type": "text_card", "description": "Visual-only bridge 07", "start_seconds": 57, "end_seconds": 65},
+      {"id": "shot_1_1_8", "type": "text_card", "description": "Narrated visual 08", "start_seconds": 65, "end_seconds": 73, "script_section_id": "sec_1_1_8"},
+      {"id": "shot_1_1_9", "type": "text_card", "description": "Narrated visual 09", "start_seconds": 73, "end_seconds": 78, "script_section_id": "sec_1_1_9"},
+      {"id": "shot_1_1_10", "type": "text_card", "description": "Narrated visual 10", "start_seconds": 78, "end_seconds": 86, "script_section_id": "sec_1_1_10"},
+      {"id": "shot_1_1_11", "type": "text_card", "description": "Visual-only bridge 11", "start_seconds": 86, "end_seconds": 91},
+      {"id": "shot_1_1_12", "type": "text_card", "description": "Visual-only bridge 12", "start_seconds": 91, "end_seconds": 94},
+      {"id": "shot_1_2_1", "type": "text_card", "description": "Visual-only bridge 13", "start_seconds": 94, "end_seconds": 101},
+      {"id": "shot_1_2_2", "type": "text_card", "description": "Narrated visual 12", "start_seconds": 101, "end_seconds": 106, "script_section_id": "sec_1_2_2"},
+      {"id": "shot_1_2_3", "type": "text_card", "description": "Narrated visual 13", "start_seconds": 106, "end_seconds": 110, "script_section_id": "sec_1_2_3"},
+      {"id": "shot_1_2_4", "type": "text_card", "description": "Narrated visual 14", "start_seconds": 110, "end_seconds": 115, "script_section_id": "sec_1_2_4"},
+      {"id": "shot_1_2_5", "type": "text_card", "description": "Narrated visual 15", "start_seconds": 115, "end_seconds": 120, "script_section_id": "sec_1_2_5"},
+      {"id": "shot_1_2_6", "type": "text_card", "description": "Narrated visual 16", "start_seconds": 120, "end_seconds": 125, "script_section_id": "sec_1_2_6"},
+      {"id": "shot_1_2_7", "type": "text_card", "description": "Narrated visual 17", "start_seconds": 125, "end_seconds": 130, "script_section_id": "sec_1_2_7"},
+      {"id": "shot_1_2_8", "type": "text_card", "description": "Narrated visual 18", "start_seconds": 130, "end_seconds": 138, "script_section_id": "sec_1_2_8"},
+      {"id": "shot_1_2_9", "type": "text_card", "description": "Visual-only bridge 19", "start_seconds": 138, "end_seconds": 141},
+      {"id": "shot_1_3_1", "type": "text_card", "description": "Narrated visual 21", "start_seconds": 141, "end_seconds": 149, "script_section_id": "sec_1_3_1"}
+    ]
+  },
+  "bindings": [
+    {"shot_id": "shot_1_1_1", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_1_2", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_1_3", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_1_4", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_1_5", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_1_6", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_1_7", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_1_8", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_1_9", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_1_10", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_1_11", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_1_12", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_2_1", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_2_2", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_2_3", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_2_4", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_2_5", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_2_6", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_2_7", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_2_8", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_2_9", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]},
+    {"shot_id": "shot_1_3_1", "character_refs": ["char-guide"], "location_ref": "loc-studio", "prop_refs": ["prop-board"]}
+  ]
+}

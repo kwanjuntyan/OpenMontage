@@ -38,17 +38,24 @@ through the checkpoint API, then use
 The helper only returns a candidate/report and always reports
 `publish_allowed: false`.
 
-1. Build units at declared script-section boundaries. Unit size is
+1. Treat script sections as narration intervals, not as proof that every
+   second contains narration. Derive a complete ordered timeline from those
+   intervals plus explicit `visual_only` spans for legal head, inter-section,
+   and tail gaps. Build units only at those derived boundaries. Unit size is
    configurable; 180 seconds is only the experimental default.
 2. Give each planning invocation only its `context_capsule`. The capsule
-   contains the assigned script sections, compact previous/next boundary
-   hints, and the canonical CLP with source digests.
+   contains the assigned timeline spans and narration sections, compact
+   previous/next span hints, and the canonical CLP with source digests.
 3. Return the exact `context_capsule_sha256`, one version 1.0 scene-plan
    fragment using the approved style playbook, and CLP binding rows for that
-   unit. A stale result or a unit claiming another unit's content is rejected.
+   unit. Scenes inside narration spans must carry the matching
+   `script_section_id`; scenes inside `visual_only` spans must omit it and are
+   owned by their time range. A stale result or a unit claiming another
+   unit's span is rejected.
 4. Merge by authoritative unit ordinal, never by completion order.
-5. Require exact section/timeline coverage, unique scene IDs, resolvable CLP
-   references, exact binding coverage, and deterministic canonical digests.
+5. Require exact narration-section and complete visual-timeline coverage,
+   unique scene IDs, resolvable CLP references, exact binding coverage, and
+   deterministic canonical digests.
 6. Validate the independent monolithic baseline by the same coverage, style,
    schema, and CLP rules. Record both digests, scene counts, count delta, and
    whether scene IDs/order match.
@@ -63,11 +70,12 @@ become canonical artifacts.
 
 Stop the compare-only attempt when:
 
-- a section has no safe declared boundary or exceeds the configured hard max;
+- a derived narration or visual-only span exceeds the configured hard max;
 - a context capsule exceeds its byte limit;
 - source or capsule digests are stale;
 - a unit result is missing, duplicated, or owns foreign content;
-- scene timings have a gap, overlap, invalid order, or incomplete coverage;
+- a scene crosses a span boundary, claims a mismatched narration section, or
+  scene timings have a gap, overlap, invalid order, or incomplete coverage;
 - scene IDs, bindings, or CLP references are missing, duplicated, or dangling;
 - unit style playbooks disagree.
 

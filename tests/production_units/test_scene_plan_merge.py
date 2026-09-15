@@ -2,11 +2,16 @@ from __future__ import annotations
 
 from copy import deepcopy
 from itertools import permutations
+import json
+from pathlib import Path
 
 import pytest
 
 from lib.clp_validator import canonical_digest, canonical_json_bytes
 from lib.production_units import scene_plan_merge as m2a
+
+
+_FIXTURE_PATH = Path(__file__).parent / "esg_act1_timeline.fixture.json"
 
 
 def _script() -> dict:
@@ -175,25 +180,100 @@ def test_capsule_cannot_be_rehashed_after_source_tampering() -> None:
     assert _error_code(exc) == "CAPSULE_CONTENT_MISMATCH"
 
 
-@pytest.mark.parametrize(
-    ("index", "field", "value"),
-    [
-        (0, "start_seconds", 1),
-        (1, "start_seconds", 61),
-        (1, "start_seconds", 59),
-        (5, "end_seconds", 359),
-    ],
-)
-def test_source_sections_must_cover_the_complete_course_timeline(
-    index: int,
-    field: str,
-    value: int,
-) -> None:
+def test_source_sections_may_have_visual_only_gaps_but_must_not_overlap() -> None:
     script = _script()
-    script["sections"][index][field] = value
+    script["sections"][0]["start_seconds"] = 1
+    script["sections"][1]["start_seconds"] = 61
+    script["sections"][5]["end_seconds"] = 359
+    units = m2a.build_scene_plan_units(
+        script,
+        _clp(),
+        style_context=_style_context(),
+        target_duration_seconds=120,
+    )
+    spans = [span for unit in units for span in unit["context_capsule"]["timeline_spans"]]
+    assert [(span["start_seconds"], span["end_seconds"]) for span in spans if span["kind"] == "visual_only"] == [
+        (0.0, 1),
+        (60.0, 61),
+        (359.0, 360),
+    ]
+
+    script["sections"][1]["start_seconds"] = 59
     with pytest.raises(m2a.ProductionUnitError) as exc:
         m2a.build_scene_plan_units(script, _clp(), style_context=_style_context())
     assert _error_code(exc) == "SECTION_TIMELINE_COVERAGE"
+
+
+def test_visual_only_unit_needs_no_script_section_but_still_needs_clp_binding() -> None:
+    script = {
+        "version": "1.0",
+        "title": "Visual-only lead-in",
+        "total_duration_seconds": 160,
+        "sections": [
+            {
+                "id": "narration",
+                "text": "Narration begins after the visual opening.",
+                "start_seconds": 100,
+                "end_seconds": 160,
+            }
+        ],
+    }
+    units = m2a.build_scene_plan_units(
+        script,
+        _clp(),
+        style_context=_style_context(),
+        target_duration_seconds=60,
+        hard_max_duration_seconds=180,
+    )
+    assert units[0]["section_ids"] == []
+    results = [
+        {
+            "unit_id": units[0]["unit_id"],
+            "context_capsule_sha256": units[0]["context_capsule_sha256"],
+            "scene_plan": {
+                "version": "1.0",
+                "style_playbook": "clean-professional",
+                "scenes": [
+                    {
+                        "id": "visual-opening",
+                        "type": "text_card",
+                        "description": "Silent visual opening",
+                        "start_seconds": 0,
+                        "end_seconds": 100,
+                    }
+                ],
+            },
+            "bindings": [
+                {"shot_id": "visual-opening", "character_refs": [], "prop_refs": []}
+            ],
+        },
+        {
+            "unit_id": units[1]["unit_id"],
+            "context_capsule_sha256": units[1]["context_capsule_sha256"],
+            "scene_plan": {
+                "version": "1.0",
+                "style_playbook": "clean-professional",
+                "scenes": [
+                    {
+                        "id": "narrated-scene",
+                        "type": "text_card",
+                        "description": "Narrated scene",
+                        "start_seconds": 100,
+                        "end_seconds": 160,
+                        "script_section_id": "narration",
+                    }
+                ],
+            },
+            "bindings": [
+                {"shot_id": "narrated-scene", "character_refs": [], "prop_refs": []}
+            ],
+        },
+    ]
+    merged = _merge(script, _clp(), units, results)
+    assert [scene["id"] for scene in merged["scene_plan"]["scenes"]] == [
+        "visual-opening",
+        "narrated-scene",
+    ]
 
 
 def test_stale_result_cannot_be_replayed_against_new_context() -> None:
@@ -418,6 +498,120 @@ def test_strict_clp_is_checked_in_memory_without_resolving_asset_paths() -> None
         _script(), clp, style_context=_style_context(), target_duration_seconds=120
     )
     assert len(units) == 3
+
+
+def _real_regression_case() -> dict:
+    return json.loads(_FIXTURE_PATH.read_text(encoding="utf-8"))
+
+
+def _real_unit_results(case: dict, units: list[dict]) -> list[dict]:
+    scene_by_id = {scene["id"]: scene for scene in case["scene_plan"]["scenes"]}
+    binding_by_id = {row["shot_id"]: row for row in case["bindings"]}
+    results = []
+    for unit in units:
+        scenes = [
+            deepcopy(scene)
+            for scene in scene_by_id.values()
+            if scene["start_seconds"] >= unit["start_seconds"]
+            and scene["end_seconds"] <= unit["end_seconds"]
+        ]
+        results.append(
+            {
+                "unit_id": unit["unit_id"],
+                "context_capsule_sha256": unit["context_capsule_sha256"],
+                "scene_plan": {
+                    "version": "1.0",
+                    "style_playbook": case["style_context"]["style_playbook"],
+                    "scenes": scenes,
+                },
+                "bindings": [deepcopy(binding_by_id[scene["id"]]) for scene in scenes],
+            }
+        )
+    return results
+
+
+def test_real_project_regression_supports_visual_only_scenes_and_clp() -> None:
+    case = _real_regression_case()
+    script = case["script"]
+    clp = case["clp_manifest"]
+    style_context = case["style_context"]
+    units = m2a.build_scene_plan_units(
+        script,
+        clp,
+        style_context=style_context,
+        target_duration_seconds=60,
+        hard_max_duration_seconds=180,
+    )
+    results = _real_unit_results(case, units)
+    merged = m2a.merge_scene_plan_units(
+        script,
+        clp,
+        units,
+        reversed(results),
+        style_context=style_context,
+    )
+
+    script_ids = {section["id"] for section in script["sections"]}
+    referenced_ids = {
+        scene["script_section_id"]
+        for scene in merged["scene_plan"]["scenes"]
+        if "script_section_id" in scene
+    }
+    visual_only = [
+        scene for scene in merged["scene_plan"]["scenes"] if "script_section_id" not in scene
+    ]
+    assert referenced_ids == script_ids
+    assert len(visual_only) == 8
+    assert merged["scene_plan"] == case["scene_plan"]
+    assert len(merged["clp_shot_bindings"]["bindings"]) == len(case["scene_plan"]["scenes"])
+    assert all(unit["context_capsule"]["clp_manifest"] == clp for unit in units)
+
+
+def test_visual_only_scene_ownership_is_derived_from_unit_time() -> None:
+    case = _real_regression_case()
+    units = m2a.build_scene_plan_units(
+        case["script"],
+        case["clp_manifest"],
+        style_context=case["style_context"],
+        target_duration_seconds=60,
+        hard_max_duration_seconds=180,
+    )
+    results = _real_unit_results(case, units)
+    visual_scene = results[0]["scene_plan"]["scenes"][0]
+    assert "script_section_id" not in visual_scene
+    visual_scene["start_seconds"] = 57
+    visual_scene["end_seconds"] = 65
+    with pytest.raises(m2a.ProductionUnitError) as exc:
+        m2a.merge_scene_plan_units(
+            case["script"],
+            case["clp_manifest"],
+            units,
+            results,
+            style_context=case["style_context"],
+        )
+    assert _error_code(exc) == "UNIT_OWNERSHIP_VIOLATION"
+
+
+def test_visual_only_scene_must_not_claim_a_narration_section() -> None:
+    case = _real_regression_case()
+    units = m2a.build_scene_plan_units(
+        case["script"],
+        case["clp_manifest"],
+        style_context=case["style_context"],
+        target_duration_seconds=60,
+        hard_max_duration_seconds=180,
+    )
+    results = _real_unit_results(case, units)
+    results[0]["scene_plan"]["scenes"][0]["script_section_id"] = "sec_1_1_3"
+    with pytest.raises(m2a.ProductionUnitError) as exc:
+        m2a.merge_scene_plan_units(
+            case["script"],
+            case["clp_manifest"],
+            units,
+            results,
+            style_context=case["style_context"],
+        )
+    assert _error_code(exc) == "VISUAL_ONLY_SECTION_REF"
 
 
 def test_sixty_minute_fixture_merges_with_three_minute_default_units() -> None:

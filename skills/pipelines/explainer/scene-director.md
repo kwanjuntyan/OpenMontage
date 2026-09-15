@@ -224,6 +224,8 @@ The style playbook constrains your visual choices:
 **Coverage check:**
 - [ ] Scenes span the full script duration (first scene starts at 0s, last scene ends at total_duration)
 - [ ] Every script section has at least one corresponding scene
+- [ ] A script section is a narration interval, so uncovered head, inter-section, or tail time is a legitimate visual-only interval; scenes wholly inside it omit `script_section_id`
+- [ ] A visual-only scene belongs to the Production Unit whose derived timeline span contains its full time range; it must not cross a unit/span boundary
 - [ ] No gaps > 1s between scenes (unless intentional beat)
 - [ ] All enhancement cues from the script are addressed by a scene or required_asset
 
