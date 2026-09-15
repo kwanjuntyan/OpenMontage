@@ -215,9 +215,12 @@ accounting, and stable exit category. The Cloud qualification uses process-only
 FakeGCS, deliberately emits no durable result locator, and cannot be mistaken
 for a production run. The production Job template does not carry
 `--offline-qualification`; a Cloud fake config without that explicit test-only
-boundary fails before FakeGCS/provider construction. M3 records the static
-container checks when no approved base image is locally available; it does not
-pull one merely to run this command, and the container gate remains pending.
+boundary fails before FakeGCS/provider construction. When no approved base
+image is locally available, M3 records only the static container checks and
+does not pull one merely to run this command. The M3 local-container gate passed at
+`b471851eac6ab3bfea399d874e3f6c8116188d8d`; the exact accepted image and
+dual-profile observations are recorded in
+`docs/batch-v2-m4-offline-evidence.md`.
 
 ## M4 Linux test-execution isolation
 

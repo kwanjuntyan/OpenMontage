@@ -368,8 +368,16 @@ def test_migration_and_evidence_docs_preserve_release_boundaries():
     assert "--seq all" not in migration
 
     for required in (
-        "M3: in_progress",
+        "M3: completed",
         "M4: in_progress",
+        "b471851eac6ab3bfea399d874e3f6c8116188d8d",
+        "sha256:6c16f916ab2b07a53e166022cfbf73b4698520dc6ec14fa8b234b403bb017717",
+        "febe67479a3ff3ad75c40385a4829e02eb506158c0b6f50dd0ce8e112b962d42",
+        "Config.User `65532:65532`",
+        "No broken requirements found",
+        "LocalStore",
+        "FakeGCS",
+        "GitHub Linux namespace/drop gate remains pending",
         "test-process isolation",
         "The checkout and dependency installation may use network",
         "unique writer",
@@ -384,11 +392,12 @@ def test_migration_and_evidence_docs_preserve_release_boundaries():
         "rpds-py==2026.5.1",
         "rpds-py==0.30.0",
         "ResolutionImpossible",
-        "rebuild remains pending",
     ):
         assert required in evidence_words
+    assert "M3: in_progress" not in evidence_words
     assert "installing pinned test dependencies" not in cloud_run
     assert "lower-bound test dependencies" in cloud_run
+    assert "M3 local-container gate passed at" in cloud_run
 
 
 def test_ci_gate_temp_artifacts_are_ignored():

@@ -1,12 +1,14 @@
 # Batch Executor V2 M4 offline evidence
 
-Accepted M3 baseline: `9a171db03bdeb52400571d671d259db8e3d8eddc`.
+Accepted M3 functional baseline: `9a171db03bdeb52400571d671d259db8e3d8eddc`.
+M3 completion was accepted at
+`b471851eac6ab3bfea399d874e3f6c8116188d8d` after the real resolver, image,
+and dual-profile local-container gates described below.
 
-The Windows offline matrix was observed on committed parent
+The original Windows M4 offline matrix was observed on committed parent
 `8e298cbb068131452cb82bfc44c66cdca05dbe7a` plus the final local-path
-redaction implementation/test blobs below. The final corrective commit that
-contains this record must contain those exact blobs; its post-commit focused
-rerun and clean status are reported in the handoff.
+redaction implementation/test blobs below. Those blobs were committed before
+the M3 lock correction and remain as the historical binding for that run.
 
 ```text
 tools/video/gemini_omni_video.py
@@ -19,15 +21,16 @@ tests/batch_executor/test_m4_release_gate.py
   SHA-256 fe725fa327132a0a2a2745d2c4ff0836daa1c3c8c6f28a83d73b969d093f5a5c
 ```
 
-- M3: in_progress
+- M3: completed
 - M4: in_progress
 - No production qualification is claimed.
 
-This record covers only offline code preparation. Linux CI and the actual
-dual-profile 40-item local-container run have not yet executed, so neither M3
-nor M4 is complete or code-complete under the approved Plan.
+M3 completion covers the reviewed code plus local, fake-only container
+qualification. M4 remains `in_progress`: the GitHub Linux namespace/drop gate
+remains pending. Nothing here qualifies a real provider, ADC identity, GCS
+bucket, Cloud Run deployment, image push, or paid operation.
 
-### M3 CPython 3.10 lock blocker and correction candidate
+### M3 CPython 3.10 lock correction and completed container qualification
 
 The coordinating root performed the first real M3 image build from committed
 `2f9beca81d20a432dc5a1f0102c10b35f63b8047` with these frozen inputs:
@@ -58,21 +61,52 @@ network-enabled dependency-resolution gate precedes, and is distinct from, the
 later no-egress pytest process. Offline tests validate the report checker and
 workflow contract; they do not claim current package-index availability.
 
-The coordinating root then ran the initial candidate verifier with real
-package-index access in the same digest-locked CPython 3.10.18/Linux amd64
-container. It completed successfully with
-`Batch V2 lock resolved ...: 27 distributions`; all 27 selected artifacts were
-binary wheels. That run established Python 3.10 resolver compatibility, but it
-predated the follow-up `--no-cache-dir` hardening. The current offline contract
-requires that flag; its real network-enabled invocation remains part of the
-next CI/image rerun. This is resolver evidence for the candidate lock, not
-evidence that the corrected image, its runtime, or the dual-profile container
-qualification passed.
+At `b471851eac6ab3bfea399d874e3f6c8116188d8d`, the coordinating root reran
+the hardened verifier with real package-index access in the digest-pinned
+CPython 3.10.18/Linux amd64 container. The exact command included
+`--no-cache-dir`; it completed with
+`Batch V2 lock resolved ...: 27 distributions`, and all 27 selected artifacts
+were binary wheels.
 
-The corrected image rebuild remains pending. Until that exact build succeeds
-and the LocalStore/FakeGCS 40-item runs complete in the resulting local image,
-M3 and M4 remain `in_progress`. No provider, ADC, GCS, Cloud Run, or paid action
-was involved in this packaging diagnosis.
+The corrected image then built successfully with these observed facts:
+
+| Image/build fact | Accepted observation |
+|---|---|
+| Base index digest | `sha256:445b9efb2c047a7ccdb30d293fd6b1aa0f62a55062dc2b69051df91e10848749` |
+| Linux amd64 base manifest | `sha256:b4d66d07136c546f1765eae2bfcce9a64fa95f37c717c02bedd06d0476d1dbbd` |
+| ffmpeg build argument and container dpkg version | `7:5.1.9-0+deb12u1` |
+| Local image ID / RepoDigest binding | `sha256:6c16f916ab2b07a53e166022cfbf73b4698520dc6ec14fa8b234b403bb017717` |
+| Runtime platform | `linux/amd64` |
+| Declared user | Config.User `65532:65532` |
+| Dynamic identity | UID/GID `65532:65532` |
+| Entrypoint | `batch_execute.py` |
+| Python dependency health | `pip check`: `No broken requirements found.` |
+| Docker build context | `7.11 kB` |
+
+The image filename inventory contained no credential or environment files,
+project media, or project assets. The `7.11 kB` application build-context
+payload contained only the allowed `lib/`, `schemas/`, `pipeline_defs/`,
+`batch_execute.py`, `batch_publish.py`, and the two Batch V2 dependency files.
+
+The deterministic qualification fixture contained 40 items and request digest
+`febe67479a3ff3ad75c40385a4829e02eb506158c0b6f50dd0ce8e112b962d42`.
+Both container runs used `--network none`:
+
+- LocalStore exited `0` with `all_succeeded`: 40 successful, zero failed,
+  blocked, or indeterminate items; 40 attempts, zero retries; every item was
+  `committed`; status was `awaiting_agent_review`; durability was
+  `local_workspace`.
+- The FakeGCS Cloud profile exited `0` with the same request digest, counts,
+  cost facts, transitions, outcome, and stable exit semantics. Its deliberate
+  qualification-only durability was `process_memory` and `result_locator` was
+  null. It was rerun once with the same fixture solely to capture stdout; both
+  runs used no real external resource.
+
+This completes M3's approved local-container qualification boundary. The
+package/image build may use registry and package-index network, but the two
+runtime qualifications had no network. No provider, ADC, real GCS, Cloud Run,
+or paid action was involved, and the user's `team-main` changes remained
+untouched.
 
 ## Implementation-diff review
 
@@ -219,11 +253,13 @@ migration rather than reporting the new legacy-tool behavior under `0.1.0`.
 
 ## Pending environment evidence
 
-The current Windows environment can establish offline unit/fake evidence but
-cannot establish the repository-version Linux namespace result or the required
-local-container dual-profile 40-item result. Those gates remain pending, not
-waived. No Docker daemon, image dependency, external service, or credential was
-probed during this slice.
+The M3 local-container dual-profile 40-item gate is now accepted as recorded
+above. The GitHub Linux namespace/drop gate remains pending, not waived; the
+current Windows environment cannot establish that repository-version Linux
+isolation result. The image build used ordinary registry/package dependency
+access, while both qualification containers used `--network none`. No external
+provider, ADC credential, real GCS service, Cloud Run deployment, image push,
+or paid operation was used.
 
 ## M5 publication trust prerequisite
 
