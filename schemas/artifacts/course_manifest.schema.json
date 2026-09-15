@@ -1,0 +1,252 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "openmontage/artifacts/course_manifest",
+  "title": "Course Manifest",
+  "description": "Immutable proposal-stage learning design for a course-form project.",
+  "type": "object",
+  "required": [
+    "version",
+    "project_id",
+    "content_form",
+    "title",
+    "target_duration_seconds",
+    "course_promise",
+    "audience",
+    "entry_requirements",
+    "objectives",
+    "modules",
+    "assessments",
+    "sources",
+    "glossary",
+    "notation",
+    "style_intent",
+    "delivery_requirements"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": "1.0" },
+    "project_id": { "$ref": "#/$defs/id" },
+    "content_form": { "const": "course_form" },
+    "title": { "type": "string", "minLength": 1 },
+    "target_duration_seconds": { "type": "number", "exclusiveMinimum": 0 },
+    "course_promise": {
+      "type": "object",
+      "required": ["learner", "capability", "use_context", "success_evidence"],
+      "additionalProperties": false,
+      "properties": {
+        "learner": { "type": "string", "minLength": 1 },
+        "capability": { "type": "string", "minLength": 1 },
+        "use_context": { "type": "string", "minLength": 1 },
+        "success_evidence": { "type": "string", "minLength": 1 }
+      }
+    },
+    "audience": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "entry_requirements": {
+      "type": "array",
+      "items": { "type": "string", "minLength": 1 }
+    },
+    "objectives": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/objective" }
+    },
+    "modules": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/module" }
+    },
+    "assessments": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/assessment" }
+    },
+    "sources": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/source" }
+    },
+    "glossary": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/glossary_entry" }
+    },
+    "notation": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/notation_entry" }
+    },
+    "style_intent": {
+      "type": "object",
+      "required": ["tone", "visual_intent"],
+      "additionalProperties": false,
+      "properties": {
+        "tone": { "type": "string", "minLength": 1 },
+        "visual_intent": { "type": "string", "minLength": 1 }
+      }
+    },
+    "delivery_requirements": {
+      "type": "object",
+      "required": ["full_master", "lesson_export_ids", "chapter_markers", "captions", "bundle"],
+      "additionalProperties": false,
+      "properties": {
+        "full_master": { "type": "boolean" },
+        "lesson_export_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "chapter_markers": { "type": "boolean" },
+        "captions": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "enum": ["srt", "vtt", "burned_in"] }
+        },
+        "bundle": { "type": "boolean" }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "id_array": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/id" }
+    },
+    "objective": {
+      "type": "object",
+      "required": ["id", "actor", "observable_verb", "object", "success_evidence", "source_refs"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "actor": { "type": "string", "minLength": 1 },
+        "observable_verb": { "type": "string", "minLength": 1 },
+        "object": { "type": "string", "minLength": 1 },
+        "conditions": { "type": "string" },
+        "success_evidence": { "type": "string", "minLength": 1 },
+        "source_refs": { "$ref": "#/$defs/id_array" }
+      }
+    },
+    "teaching_beat": {
+      "type": "object",
+      "required": ["kind", "intent"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": ["activation", "hook", "explanation", "model", "worked_example", "demonstration", "practice", "recap", "assessment", "bridge"]
+        },
+        "intent": { "type": "string", "minLength": 1 },
+        "objective_ids": { "$ref": "#/$defs/id_array" }
+      }
+    },
+    "lesson": {
+      "type": "object",
+      "required": [
+        "id",
+        "title",
+        "target_duration_seconds",
+        "objective_ids",
+        "prerequisite_lesson_ids",
+        "prerequisite_objective_ids",
+        "expected_outcome",
+        "source_refs",
+        "teaching_beats",
+        "glossary_ids",
+        "notation_ids",
+        "export_required"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string", "minLength": 1 },
+        "target_duration_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "objective_ids": { "$ref": "#/$defs/id_array" },
+        "prerequisite_lesson_ids": { "$ref": "#/$defs/id_array" },
+        "prerequisite_objective_ids": { "$ref": "#/$defs/id_array" },
+        "expected_outcome": { "type": "string", "minLength": 1 },
+        "source_refs": { "$ref": "#/$defs/id_array" },
+        "teaching_beats": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/teaching_beat" }
+        },
+        "glossary_ids": { "$ref": "#/$defs/id_array" },
+        "notation_ids": { "$ref": "#/$defs/id_array" },
+        "export_required": { "type": "boolean" }
+      }
+    },
+    "module": {
+      "type": "object",
+      "required": ["id", "title", "intermediate_capability", "target_duration_seconds", "objective_ids", "lessons", "recap_intent"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "title": { "type": "string", "minLength": 1 },
+        "intermediate_capability": { "type": "string", "minLength": 1 },
+        "target_duration_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "objective_ids": { "$ref": "#/$defs/id_array" },
+        "lessons": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/lesson" }
+        },
+        "recap_intent": { "type": "string", "minLength": 1 }
+      }
+    },
+    "assessment": {
+      "type": "object",
+      "required": ["id", "type", "objective_ids", "prompt_intent", "expected_evidence", "pass_criteria"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "type": { "enum": ["diagnostic", "formative", "summative"] },
+        "objective_ids": { "$ref": "#/$defs/id_array" },
+        "lesson_id": { "$ref": "#/$defs/id" },
+        "prompt_intent": { "type": "string", "minLength": 1 },
+        "expected_evidence": { "type": "string", "minLength": 1 },
+        "pass_criteria": { "type": "string", "minLength": 1 }
+      }
+    },
+    "source": {
+      "type": "object",
+      "required": ["id", "uri"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "uri": { "type": "string", "minLength": 1 },
+        "title": { "type": "string" },
+        "locator": { "type": "string" },
+        "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" }
+      }
+    },
+    "glossary_entry": {
+      "type": "object",
+      "required": ["id", "preferred_term", "definition", "aliases", "forbidden_aliases"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "preferred_term": { "type": "string", "minLength": 1 },
+        "definition": { "type": "string", "minLength": 1 },
+        "aliases": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } },
+        "forbidden_aliases": { "type": "array", "uniqueItems": true, "items": { "type": "string", "minLength": 1 } }
+      }
+    },
+    "notation_entry": {
+      "type": "object",
+      "required": ["id", "symbol", "meaning"],
+      "additionalProperties": false,
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "symbol": { "type": "string", "minLength": 1 },
+        "meaning": { "type": "string", "minLength": 1 },
+        "first_lesson_id": { "$ref": "#/$defs/id" },
+        "units": { "type": "string" }
+      }
+    }
+  }
+}
