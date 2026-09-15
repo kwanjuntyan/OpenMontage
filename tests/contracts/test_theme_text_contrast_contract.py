@@ -175,21 +175,39 @@ def test_custom_palette_selects_the_highest_contrast_caption_bar(
 
 
 @pytest.mark.parametrize(
-    ("background", "text"),
+    ("text", "expected_bar"),
     [
-        ("paper-white", "#121212"),
-        ("#F5F4EF", "editorial-ink"),
+        ("#121212", LIGHT_CAPTION_BAR),
+        ("#F8FAFC", DARK_CAPTION_BAR),
     ],
 )
-def test_invalid_palette_color_uses_deterministic_caption_fallback(
+def test_invalid_background_uses_best_worst_case_caption_bar(
     monkeypatch,
-    background: str,
     text: str,
+    expected_bar: str,
 ) -> None:
     theme = _theme_for_custom_palette(
         monkeypatch,
-        background=background,
+        background="paper-white",
         text=text,
+    )
+
+    worst_case_ratios = {
+        candidate: min(
+            validate_contrast(text, _composite(candidate, backdrop))["ratio"]
+            for backdrop in ("#000000", "#FFFFFF")
+        )
+        for candidate in (LIGHT_CAPTION_BAR, DARK_CAPTION_BAR)
+    }
+    assert theme["captionBackgroundColor"] == expected_bar
+    assert worst_case_ratios[expected_bar] == max(worst_case_ratios.values())
+
+
+def test_invalid_text_uses_fixed_dark_caption_fallback(monkeypatch) -> None:
+    theme = _theme_for_custom_palette(
+        monkeypatch,
+        background="#F5F4EF",
+        text="editorial-ink",
     )
 
     assert theme["captionBackgroundColor"] == DARK_CAPTION_BAR

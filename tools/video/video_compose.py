@@ -1288,19 +1288,37 @@ class VideoCompose(BaseTool):
             )
 
         try:
+            _hex_rgb(text_color)
+        except (AttributeError, TypeError, ValueError):
+            return dark_bar[0]
+
+        try:
             from styles.playbook_loader import validate_contrast
 
-            background_rgb = _hex_rgb(background_color)
-            _hex_rgb(text_color)
+            try:
+                backdrop_colors = (_hex_rgb(background_color),)
+            except (AttributeError, TypeError, ValueError):
+                # Unknown imagery or an invalid background token can resolve to
+                # either luminance extreme. Pick the bar with the strongest
+                # worst-case contrast instead of assuming a dark backdrop.
+                backdrop_colors = ((0, 0, 0), (255, 255, 255))
+
             ranked_candidates = []
             for css_color, foreground_rgb, alpha in (light_bar, dark_bar):
-                composited_rgb = tuple(
-                    round(alpha * foreground + (1 - alpha) * background)
-                    for foreground, background in zip(foreground_rgb, background_rgb)
-                )
-                composited_hex = "#{:02X}{:02X}{:02X}".format(*composited_rgb)
-                ratio = validate_contrast(text_color, composited_hex)["ratio"]
-                ranked_candidates.append((ratio, css_color))
+                candidate_ratios = []
+                for backdrop_rgb in backdrop_colors:
+                    composited_rgb = tuple(
+                        round(alpha * foreground + (1 - alpha) * background)
+                        for foreground, background in zip(
+                            foreground_rgb,
+                            backdrop_rgb,
+                        )
+                    )
+                    composited_hex = "#{:02X}{:02X}{:02X}".format(*composited_rgb)
+                    candidate_ratios.append(
+                        validate_contrast(text_color, composited_hex)["ratio"]
+                    )
+                ranked_candidates.append((min(candidate_ratios), css_color))
             return max(ranked_candidates, key=lambda candidate: candidate[0])[1]
         except (AttributeError, KeyError, TypeError, ValueError):
             return dark_bar[0]
