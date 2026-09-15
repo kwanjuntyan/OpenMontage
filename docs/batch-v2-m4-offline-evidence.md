@@ -27,6 +27,53 @@ This record covers only offline code preparation. Linux CI and the actual
 dual-profile 40-item local-container run have not yet executed, so neither M3
 nor M4 is complete or code-complete under the approved Plan.
 
+### M3 CPython 3.10 lock blocker and correction candidate
+
+The coordinating root performed the first real M3 image build from committed
+`2f9beca81d20a432dc5a1f0102c10b35f63b8047` with these frozen inputs:
+
+```text
+python:3.10.18-slim-bookworm@sha256:445b9efb2c047a7ccdb30d293fd6b1aa0f62a55062dc2b69051df91e10848749
+linux/amd64 manifest sha256:b4d66d07136c546f1765eae2bfcce9a64fa95f37c717c02bedd06d0476d1dbbd
+ffmpeg 7:5.1.9-0+deb12u1
+```
+
+The base and ffmpeg steps succeeded, but pip stopped with
+`ResolutionImpossible`: `jsonschema==4.26.0` requires `rpds-py>=0.25.0`, while
+the original `rpds-py==2026.5.1` pin requires Python 3.11 or newer. Git history
+shows that the constraint file was introduced in `ec03ce8` without a generator
+or retained resolver report. Its complete 27-package set matches the current
+Python 3.13 development environment, so that host freeze was not valid Python
+3.10 provenance.
+
+A marker/dependency-closure audit of all exact pins found the other 26 pins
+compatible with Python 3.10 and no missing or incompatible runtime dependency.
+In a separate real dry-run without constraints on the same CPython 3.10/Linux
+amd64 base, pip selected the available `rpds-py==0.30.0` cp310 manylinux wheel.
+The correction candidate pins that version and adds a CI setup command that
+runs pip's real
+`--no-cache-dir --dry-run --ignore-installed --only-binary=:all:` resolver,
+then validates the complete exact report and every artifact SHA-256. This
+network-enabled dependency-resolution gate precedes, and is distinct from, the
+later no-egress pytest process. Offline tests validate the report checker and
+workflow contract; they do not claim current package-index availability.
+
+The coordinating root then ran the initial candidate verifier with real
+package-index access in the same digest-locked CPython 3.10.18/Linux amd64
+container. It completed successfully with
+`Batch V2 lock resolved ...: 27 distributions`; all 27 selected artifacts were
+binary wheels. That run established Python 3.10 resolver compatibility, but it
+predated the follow-up `--no-cache-dir` hardening. The current offline contract
+requires that flag; its real network-enabled invocation remains part of the
+next CI/image rerun. This is resolver evidence for the candidate lock, not
+evidence that the corrected image, its runtime, or the dual-profile container
+qualification passed.
+
+The corrected image rebuild remains pending. Until that exact build succeeds
+and the LocalStore/FakeGCS 40-item runs complete in the resulting local image,
+M3 and M4 remain `in_progress`. No provider, ADC, GCS, Cloud Run, or paid action
+was involved in this packaging diagnosis.
+
 ## Implementation-diff review
 
 The M4 slice is limited to:
@@ -35,6 +82,7 @@ The M4 slice is limited to:
   offline tests;
 - Python 3.10 CI configuration and a dedicated Linux test-process isolation
   launcher;
+- a fail-closed real CPython 3.10/Linux x86_64 dependency resolver/report gate;
 - one missing declared legacy dependency;
 - provider configuration documentation;
 - opt-in migration/rollback rehearsal and this evidence.

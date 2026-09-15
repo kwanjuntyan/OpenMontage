@@ -1,6 +1,7 @@
-# Fully resolved Python 3.10 constraint set for the M3 direct runtime lock.
-# A later authorized image build must verify wheel availability and retain its
-# install report; changing any version requires a reviewed lock refresh.
+# Exact candidate closure for CPython 3.10/Linux x86_64.
+# The network-enabled CI setup resolver and authorized image build must both
+# verify binary-wheel availability; offline tests validate that those gates
+# fail closed but do not claim package-index availability.
 PyYAML==6.0.3
 attrs==25.4.0
 certifi==2025.1.31
@@ -24,7 +25,7 @@ pyasn1_modules==0.4.2
 pycparser==3.0
 referencing==0.37.0
 requests==2.32.3
-rpds-py==2026.5.1
+rpds-py==0.30.0
 rsa==4.9.1
 typing_extensions==4.15.0
 urllib3==2.4.0

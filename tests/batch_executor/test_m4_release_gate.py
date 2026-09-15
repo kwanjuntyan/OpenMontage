@@ -52,6 +52,17 @@ def test_ci_uses_python_310_and_has_fail_closed_linux_no_egress_gate():
     assert names.index("Install offline-gate dependencies") < names.index(
         "Run Batch V2 test process without egress or credentials"
     )
+    resolver_step = next(
+        step
+        for step in steps
+        if step["name"] == "Resolve Batch V2 CPython 3.10 Linux lock"
+    )
+    assert resolver_step["run"] == (
+        "python -B scripts/batch_v2_verify_py310_lock.py resolve"
+    )
+    assert names.index("Install offline-gate dependencies") < names.index(
+        "Resolve Batch V2 CPython 3.10 Linux lock"
+    ) < names.index("Run Batch V2 test process without egress or credentials")
     gate_step = steps[
         names.index("Run Batch V2 test process without egress or credentials")
     ]
@@ -370,6 +381,10 @@ def test_migration_and_evidence_docs_preserve_release_boundaries():
         "immutable canonical objects plus a generation-CAS pointer",
         "protocol-external mutation invalidates qualification",
         "No production qualification is claimed",
+        "rpds-py==2026.5.1",
+        "rpds-py==0.30.0",
+        "ResolutionImpossible",
+        "rebuild remains pending",
     ):
         assert required in evidence_words
     assert "installing pinned test dependencies" not in cloud_run

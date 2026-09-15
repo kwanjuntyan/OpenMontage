@@ -77,6 +77,11 @@ jobs:
           sudo apt-get install -y ffmpeg iproute2 util-linux
           make install-dev
 
+      # This is intentionally before the no-egress boundary. It exercises pip's
+      # real CPython 3.10/Linux x86_64 binary-wheel resolver for every exact pin.
+      - name: Resolve Batch V2 CPython 3.10 Linux lock
+        run: python -B scripts/batch_v2_verify_py310_lock.py resolve
+
       - name: Run Batch V2 test process without egress or credentials
         run: bash scripts/run_batch_v2_linux_offline_gate.sh
 

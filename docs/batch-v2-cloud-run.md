@@ -41,11 +41,30 @@ that durable Interactions identity the adapter fails preflight before dispatch.
 `Dockerfile.batch-v2` intentionally has no default base image. An approved
 build must provide a Python 3.10 base by immutable registry digest and an exact
 Debian ffmpeg package version. Direct Python dependencies are pinned in
-`requirements-batch-v2.txt`; `constraints-batch-v2-py310.txt` freezes the full
-Python 3.10 resolution. The Dockerfile itself fails the build before package
-installation unless `PYTHON_BASE_IMAGE` ends in an exact lowercase, 64-hex
-`@sha256:` digest; a mutable tag alone is never accepted. The build record must
-retain the resolver's install report and image digest.
+`requirements-batch-v2.txt`; `constraints-batch-v2-py310.txt` is the exact
+candidate transitive closure. Git history contains no generator or CPython 3.10
+resolver report for the original constraint file, and its pins matched the
+development host's Python 3.13 environment. It is therefore not accepted as a
+Python 3.10 lock merely because every line uses `==`.
+
+During the network-enabled Linux CI dependency-setup phase, this command runs
+pip's real binary-wheel resolver on CPython 3.10/Linux x86_64 with pip's cache
+disabled and validates that the report contains every constraint exactly once,
+only wheel artifacts, and a SHA-256 for every selected distribution:
+
+```text
+python -B scripts/batch_v2_verify_py310_lock.py resolve
+```
+
+The later pytest process remains no-egress. Its offline tests exercise the
+report validator and fail-closed launch contract.
+The offline tests do not prove package-index availability.
+The Docker build independently installs the same candidate closure and remains
+the image-runtime gate. The Dockerfile itself
+fails the build before package installation unless `PYTHON_BASE_IMAGE` ends in
+an exact lowercase, 64-hex `@sha256:` digest; a mutable tag alone is never
+accepted. The build record must retain the resolver/install result and image
+digest.
 
 The repository-root `.dockerignore` is a default-deny build context. Only the Dockerfile inputs
 (`lib/`, `schemas/`, `pipeline_defs/`, `scripts/batch_execute.py`,

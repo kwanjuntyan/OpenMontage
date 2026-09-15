@@ -4,8 +4,10 @@ import ast
 import fnmatch
 import re
 import stat
+from copy import deepcopy
 from pathlib import Path
 
+import pytest
 import yaml
 
 
@@ -47,6 +49,116 @@ def test_batch_v2_runtime_dependencies_are_narrow_and_exactly_pinned():
         line.split("==", 1)[0].lower() for line in requirement_lines
     } <= constrained_names
     assert len(constrained_names) == len(constraints)
+
+
+def _synthetic_cp310_linux_resolver_report() -> dict:
+    from scripts.batch_v2_verify_py310_lock import load_exact_pins
+
+    pins = load_exact_pins(REPOSITORY_ROOT / "constraints-batch-v2-py310.txt")
+    return {
+        "version": "1",
+        "pip_version": "26.2.1",
+        "install": [
+            {
+                "download_info": {
+                    "url": (
+                        "https://files.pythonhosted.org/packages/"
+                        f"{name}-{version}-py3-none-any.whl"
+                    ),
+                    "archive_info": {"hashes": {"sha256": "a" * 64}},
+                },
+                "metadata": {"name": name, "version": version},
+            }
+            for name, version in pins.items()
+        ],
+        "environment": {
+            "implementation_name": "cpython",
+            "platform_machine": "x86_64",
+            "python_full_version": "3.10.18",
+            "sys_platform": "linux",
+        },
+    }
+
+
+def test_py310_linux_lock_has_a_real_resolver_report_gate():
+    from scripts.batch_v2_verify_py310_lock import (
+        build_resolver_command,
+        load_exact_pins,
+        validate_resolver_report,
+    )
+
+    constraints = REPOSITORY_ROOT / "constraints-batch-v2-py310.txt"
+    requirements = REPOSITORY_ROOT / "requirements-batch-v2.txt"
+    pins = load_exact_pins(constraints)
+    assert pins["rpds-py"] == "0.30.0"
+
+    report = _synthetic_cp310_linux_resolver_report()
+    validate_resolver_report(
+        report,
+        requirements_path=requirements,
+        constraints_path=constraints,
+    )
+    command = build_resolver_command(
+        report_path=Path("resolver-report.json"),
+        requirements_path=requirements,
+        constraints_path=constraints,
+        python_executable="python",
+    )
+    for required in (
+        "--no-cache-dir",
+        "--dry-run",
+        "--ignore-installed",
+        "--only-binary=:all:",
+        "--report",
+        "--constraint",
+        "--requirement",
+    ):
+        assert required in command
+
+
+@pytest.mark.parametrize(
+    ("mutation", "expected_message"),
+    [
+        ("wrong_python", "CPython 3.10"),
+        ("wrong_platform", "Linux x86_64"),
+        ("missing_pin", "complete exact constraint closure"),
+        ("wrong_version", "complete exact constraint closure"),
+        ("source_archive", "binary wheel"),
+        ("missing_hash", "SHA-256"),
+    ],
+)
+def test_py310_linux_lock_report_validation_fails_closed(
+    mutation: str, expected_message: str
+):
+    from scripts.batch_v2_verify_py310_lock import (
+        LockVerificationError,
+        validate_resolver_report,
+    )
+
+    report = _synthetic_cp310_linux_resolver_report()
+    if mutation == "wrong_python":
+        report["environment"]["python_full_version"] = "3.13.3"
+    elif mutation == "wrong_platform":
+        report["environment"]["platform_machine"] = "aarch64"
+    elif mutation == "missing_pin":
+        report["install"].pop()
+    elif mutation == "wrong_version":
+        report["install"][0]["metadata"]["version"] = "0.0.0"
+    elif mutation == "source_archive":
+        report["install"][0]["download_info"]["url"] = (
+            "https://files.pythonhosted.org/packages/source.tar.gz"
+        )
+    else:
+        del report["install"][0]["download_info"]["archive_info"]["hashes"][
+            "sha256"
+        ]
+
+    with pytest.raises(LockVerificationError, match=expected_message):
+        validate_resolver_report(
+            deepcopy(report),
+            requirements_path=REPOSITORY_ROOT / "requirements-batch-v2.txt",
+            constraints_path=REPOSITORY_ROOT / "constraints-batch-v2-py310.txt",
+        )
 
 
 def test_dedicated_container_requires_immutable_base_and_runs_non_root():
@@ -352,6 +464,8 @@ def test_runbook_keeps_external_actions_behind_m5_and_project_scoped_workspace()
     assert "--offline-qualification" in runbook
     assert "does not compute a Merkle digest" in runbook
     assert "python -m scripts.batch_v2_prepare_offline_qualification" in runbook
+    assert "real binary-wheel resolver" in runbook
+    assert "offline tests do not prove package-index availability" in runbook
 
 
 def test_offline_qualification_fixture_prepares_forty_portable_items(tmp_path):
