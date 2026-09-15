@@ -33,6 +33,21 @@ For an approved `content_form=course_form` proposal, M2b may additionally:
 M2 does not run assets, edit, compose, Backlot, provider calls, or media
 generation. A Production Unit is never a lesson, checkpoint, or nested project.
 
+## M3 Batch V2 asset boundary
+
+The first asset route is `batch_v2_owned` for the exact qualified generated-
+video identity only. PUP may group the validated global scene timeline, check
+100% coverage of video requirements assigned to this route, and compile
+Agent-authored immutable specs into a normal frozen Batch V2 request. It must
+preserve every authenticated source binding, existing budget/attempt limits,
+and exact scene-plan-to-CLP-binding digest.
+
+Batch V2 remains the sole owner of dispatch, retry, ambiguous-charge handling,
+storage receipts, resume, review state, cost accounting, PublicationCommand,
+and canonical asset publication. PUP may bind an exact BatchResult for later
+review; it never publishes an `asset_manifest`. Unsupported asset/provider
+routes stay unsupported until separately qualified.
+
 ## Modes
 
 ### `off` (default)

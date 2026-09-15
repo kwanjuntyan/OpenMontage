@@ -12,6 +12,13 @@ from .scene_plan_merge import (
 )
 from .script_merge import build_script_units, merge_script_units, run_script_units
 from .clp_merge import build_clp_candidate_units, merge_clp_candidates, run_clp_units
+from .assets import (
+    AssetBatchIntegrationError,
+    bind_batch_result,
+    build_asset_units,
+    compile_asset_batch_request,
+    run_asset_units,
+)
 
 __all__ = [
     "ProductionUnitError",
@@ -24,4 +31,9 @@ __all__ = [
     "build_clp_candidate_units",
     "merge_clp_candidates",
     "run_clp_units",
+    "AssetBatchIntegrationError",
+    "bind_batch_result",
+    "build_asset_units",
+    "compile_asset_batch_request",
+    "run_asset_units",
 ]

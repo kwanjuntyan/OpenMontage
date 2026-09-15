@@ -34,6 +34,21 @@ Quick routing for common explainer needs:
 | Tools | `tts_selector`, `image_selector`, `video_selector`, `diagram_gen`, `code_snippet`, `music_gen` — selectors auto-discover all available providers from the registry | Generation capabilities |
 | Cost tracker | `tools/cost_tracker.py` | Budget governance |
 
+When the approved proposal explicitly enables Production Units, also read
+`skills/meta/production-unit-protocol.md`. The initial M3 adapter supports only
+generated-video requirements on the exact `batch_v2_owned` identity. The Agent
+must author each prompt, output intent, dependency, duration, and cost estimate;
+the adapter performs validation/compilation only. It must bind the complete
+authenticated script, CLP, scene-plan, and shot-binding source set. Continue to
+use the existing process for unsupported asset kinds only when the approved
+production plan assigns them to that owner; never silently route them into
+Batch V2.
+
+After execution, review the exact BatchResult and resulting asset-manifest
+candidate under the existing Batch V2 lifecycle. Do not create PUP attempts,
+retry state, cost reservations, publication commands, or a second publisher.
+The existing assets checkpoint and Human Gate remain the only canonical path.
+
 ## Process
 
 ### Step 1: Inventory Required Assets & Resolve CLP Policies
