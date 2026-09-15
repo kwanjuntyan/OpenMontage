@@ -497,7 +497,7 @@ edit_decisions = {
     },
     "subtitles": {
         "enabled": True,
-        "style": "clean-professional",
+        "style": "sentence",
     },
 }
 

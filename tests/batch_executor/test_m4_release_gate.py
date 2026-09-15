@@ -296,6 +296,223 @@ def test_ci_runtime_temp_layout_is_dynamically_checked(tmp_path, monkeypatch):
         )
 
 
+def test_ci_runtime_failure_reports_only_stable_category(monkeypatch, capsys):
+    import scripts.batch_v2_ci_runtime_assert as runtime_assert
+
+    def fail_with_known_category(**_kwargs):
+        raise runtime_assert.GateRuntimeContractError(
+            runtime_assert.GateFailureCategory.TEMP_WRITE
+        )
+
+    monkeypatch.setattr(runtime_assert, "assert_gate_runtime", fail_with_known_category)
+    result = runtime_assert.main(
+        [
+            "gate-runtime",
+            "--repository",
+            "/sensitive/repository-name",
+            "--home",
+            "/sensitive/home-name",
+            "--os-temp",
+            "/sensitive/temp-name",
+            "--pytest-basetemp",
+            "/sensitive/pytest-name",
+        ]
+    )
+
+    assert result == 64
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert captured.err == "ERROR: Batch V2 CI assertion failed [temp_write]\n"
+    assert "sensitive" not in captured.err
+
+
+def test_ci_runtime_failure_never_exposes_underlying_exception(monkeypatch, capsys):
+    import scripts.batch_v2_ci_runtime_assert as runtime_assert
+
+    def fail_with_secret_bearing_exception(**_kwargs):
+        raise OSError("/private/token-path: super-secret-value")
+
+    monkeypatch.setattr(
+        runtime_assert, "assert_gate_runtime", fail_with_secret_bearing_exception
+    )
+    result = runtime_assert.main(
+        [
+            "gate-runtime",
+            "--repository",
+            "/repository",
+            "--home",
+            "/home",
+            "--os-temp",
+            "/temp",
+            "--pytest-basetemp",
+            "/pytest",
+        ]
+    )
+
+    assert result == 64
+    captured = capsys.readouterr()
+    assert captured.out == ""
+    assert captured.err == "ERROR: Batch V2 CI assertion failed [internal]\n"
+    assert "private" not in captured.err
+    assert "secret" not in captured.err
+
+
+@pytest.mark.parametrize(
+    ("field", "expected_category"),
+    (
+        ("CapInh", "cap_inh"),
+        ("CapPrm", "cap_prm"),
+        ("CapEff", "cap_eff"),
+        ("CapBnd", "cap_bnd"),
+        ("CapAmb", "cap_amb"),
+    ),
+)
+def test_ci_runtime_capability_failures_have_field_categories(
+    monkeypatch, field, expected_category
+):
+    import scripts.batch_v2_ci_runtime_assert as runtime_assert
+
+    monkeypatch.setattr(runtime_assert.sys, "platform", "linux")
+    monkeypatch.setattr(runtime_assert.os, "geteuid", lambda: 65532, raising=False)
+    monkeypatch.setattr(runtime_assert.os, "getegid", lambda: 65532, raising=False)
+    monkeypatch.setenv("BATCH_V2_GATE_UID", "65532")
+    monkeypatch.setenv("BATCH_V2_GATE_GID", "65532")
+    privilege_state = {
+        "NoNewPrivs": "1",
+        "CapInh": "0",
+        "CapPrm": "0",
+        "CapEff": "0",
+        "CapBnd": "0",
+        "CapAmb": "0",
+    }
+    privilege_state[field] = "1"
+    monkeypatch.setattr(
+        runtime_assert, "_linux_privilege_state", lambda: privilege_state
+    )
+    monkeypatch.setattr(
+        runtime_assert, "assert_repo_local_temp_layout", lambda **_kwargs: None
+    )
+
+    with pytest.raises(runtime_assert.GateRuntimeContractError) as failure:
+        runtime_assert.assert_gate_runtime(
+            repository=Path("repository"),
+            home=Path("home"),
+            os_temp=Path("temp"),
+            pytest_basetemp=Path("pytest"),
+        )
+
+    assert failure.value.category.value == expected_category
+
+
+def test_ci_runtime_missing_capability_field_is_proc_status(monkeypatch):
+    import scripts.batch_v2_ci_runtime_assert as runtime_assert
+
+    monkeypatch.setattr(runtime_assert.sys, "platform", "linux")
+    monkeypatch.setattr(runtime_assert.os, "geteuid", lambda: 65532, raising=False)
+    monkeypatch.setattr(runtime_assert.os, "getegid", lambda: 65532, raising=False)
+    monkeypatch.setenv("BATCH_V2_GATE_UID", "65532")
+    monkeypatch.setenv("BATCH_V2_GATE_GID", "65532")
+    monkeypatch.setattr(
+        runtime_assert,
+        "_linux_privilege_state",
+        lambda: {"NoNewPrivs": "1"},
+    )
+
+    with pytest.raises(runtime_assert.GateRuntimeContractError) as failure:
+        runtime_assert.assert_gate_runtime(
+            repository=Path("repository"),
+            home=Path("home"),
+            os_temp=Path("temp"),
+            pytest_basetemp=Path("pytest"),
+        )
+
+    assert failure.value.category is runtime_assert.GateFailureCategory.PROC_STATUS
+
+
+def test_ci_runtime_proc_parser_ignores_empty_supplementary_groups():
+    import scripts.batch_v2_ci_runtime_assert as runtime_assert
+
+    parsed = runtime_assert._parse_linux_privilege_state(
+        [
+            "Name:\tpython",
+            "Groups:\t",
+            "NoNewPrivs:\t1",
+            "CapInh:\t0000000000000000",
+            "CapPrm:\t0000000000000000",
+            "CapEff:\t0000000000000000",
+            "CapBnd:\t0000000000000000",
+            "CapAmb:\t0000000000000000",
+        ]
+    )
+
+    assert parsed == {
+        "NoNewPrivs": "1",
+        "CapInh": "0000000000000000",
+        "CapPrm": "0000000000000000",
+        "CapEff": "0000000000000000",
+        "CapBnd": "0000000000000000",
+        "CapAmb": "0000000000000000",
+    }
+
+
+@pytest.mark.parametrize(
+    "mutate_lines",
+    (
+        lambda lines: lines[:-1],
+        lambda lines: [*lines, lines[-1]],
+        lambda lines: [*lines[:-1], "CapAmb:\t"],
+    ),
+)
+def test_ci_runtime_proc_parser_rejects_invalid_required_fields(mutate_lines):
+    import scripts.batch_v2_ci_runtime_assert as runtime_assert
+
+    valid_lines = [
+        "NoNewPrivs:\t1",
+        "CapInh:\t0",
+        "CapPrm:\t0",
+        "CapEff:\t0",
+        "CapBnd:\t0",
+        "CapAmb:\t0",
+    ]
+    with pytest.raises(runtime_assert.GateRuntimeContractError) as failure:
+        runtime_assert._parse_linux_privilege_state(mutate_lines(valid_lines))
+
+    assert failure.value.category is runtime_assert.GateFailureCategory.PROC_STATUS
+
+
+def test_ci_runtime_environment_path_errors_are_categorized(tmp_path, monkeypatch):
+    import scripts.batch_v2_ci_runtime_assert as runtime_assert
+
+    repository = tmp_path / "repository"
+    gate = repository / ".pytest-tmp" / "batch-v2-linux.dynamic"
+    roots = [gate / name for name in ("home", "os-temp", "pytest")]
+    for root in roots:
+        root.mkdir(parents=True, exist_ok=True)
+    invalid_home = tmp_path / "sensitive-home-path"
+    monkeypatch.setenv("HOME", str(invalid_home))
+    monkeypatch.setenv("TMPDIR", str(roots[1]))
+    original_resolve = Path.resolve
+
+    def fail_only_for_configured_home(path, *args, **kwargs):
+        if path == invalid_home:
+            raise OSError("must not be disclosed")
+        return original_resolve(path, *args, **kwargs)
+
+    monkeypatch.setattr(Path, "resolve", fail_only_for_configured_home)
+    with pytest.raises(runtime_assert.GateRuntimeContractError) as failure:
+        runtime_assert.assert_repo_local_temp_layout(
+            repository=repository,
+            home=roots[0],
+            os_temp=roots[1],
+            pytest_basetemp=roots[2],
+        )
+
+    assert (
+        failure.value.category
+        is runtime_assert.GateFailureCategory.TEMP_ENVIRONMENT
+    )
+
+
 def test_ci_git_metadata_digest_detects_config_and_hook_mutation(tmp_path):
     from scripts.batch_v2_ci_runtime_assert import git_metadata_digest
 

@@ -2865,7 +2865,10 @@ class VideoCompose(BaseTool):
     ) -> dict:
         """Resolve subtitle style with layered priority.
 
-        Priority: explicit_style > edit_decisions.subtitles.style > playbook > defaults.
+        Priority: explicit_style > edit_decisions subtitle visual fields >
+        legacy mapping-style input > playbook > defaults. The canonical
+        ``subtitles.style`` field is a display-mode string (sentence,
+        word-by-word, karaoke), not a visual-style mapping.
         This prevents every video from looking identical (Arial bold white).
         """
         # Start with minimal fallback defaults
@@ -2893,12 +2896,51 @@ class VideoCompose(BaseTool):
                 bg = colors["background"]
                 resolved["back_color"] = bg
 
-        # Layer 2: edit_decisions subtitle style
+        # Layer 2: edit_decisions subtitle visual fields. Older direct callers
+        # supplied a mapping in `subtitles.style`; retain that bounded input
+        # shape, but never iterate the schema-valid display-mode string.
         if edit_decisions:
-            ed_style = edit_decisions.get("subtitles", {}).get("style", {})
-            for k, v in ed_style.items():
-                if v is not None:
-                    resolved[k] = v
+            subtitle_config = edit_decisions.get("subtitles", {})
+            if isinstance(subtitle_config, dict):
+                legacy_style = subtitle_config.get("style")
+                if isinstance(legacy_style, dict):
+                    legacy_visual_keys = {
+                        "font",
+                        "font_size",
+                        "bold",
+                        "primary_color",
+                        "outline_color",
+                        "back_color",
+                        "border_style",
+                        "outline_width",
+                        "shadow",
+                        "margin_v",
+                        "alignment",
+                    }
+                    for key, value in legacy_style.items():
+                        if key in legacy_visual_keys and value is not None:
+                            resolved[key] = value
+
+                visual_fields = {
+                    "font": "font",
+                    "font_size": "font_size",
+                    "color": "primary_color",
+                    "outline_color": "outline_color",
+                    "background": "back_color",
+                }
+                for source_key, resolved_key in visual_fields.items():
+                    value = subtitle_config.get(source_key)
+                    if value is not None:
+                        resolved[resolved_key] = value
+
+                position_alignment = {
+                    "top-center": 8,
+                    "center": 5,
+                    "bottom-center": 2,
+                }
+                position = subtitle_config.get("position")
+                if position in position_alignment:
+                    resolved["alignment"] = position_alignment[position]
 
         # Layer 3: Explicit override (highest priority)
         if explicit_style:
