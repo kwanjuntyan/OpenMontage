@@ -1,6 +1,23 @@
 # Batch Executor V2 M4 offline evidence
 
-Candidate baseline: `9a171db03bdeb52400571d671d259db8e3d8eddc`.
+Accepted M3 baseline: `9a171db03bdeb52400571d671d259db8e3d8eddc`.
+
+The Windows offline matrix was observed on committed parent
+`8e298cbb068131452cb82bfc44c66cdca05dbe7a` plus the final local-path
+redaction implementation/test blobs below. The final corrective commit that
+contains this record must contain those exact blobs; its post-commit focused
+rerun and clean status are reported in the handoff.
+
+```text
+tools/video/gemini_omni_video.py
+  SHA-256 035c8b3b6fa6d7516acc5686876c2a285226699a4690fe7b69ecef7c41c405a5
+tests/tools/test_gemini_omni_portability.py
+  SHA-256 54a87a2b0d7d79103caff4691663f17bec5976cafa863594261cb499188f5692
+scripts/batch_v2_ci_preflight.py
+  SHA-256 fc7de69166986b99dead01f9fb36e9f4e73a3210111f43b031f039d2fc3f7123
+tests/batch_executor/test_m4_release_gate.py
+  SHA-256 fe725fa327132a0a2a2745d2c4ff0836daa1c3c8c6f28a83d73b969d093f5a5c
+```
 
 - M3: in_progress
 - M4: in_progress
@@ -37,42 +54,51 @@ parser/dispatch stubs, and deterministic fixture media only. No test in this
 slice needs or authorizes real credentials, a provider, GCS, Cloud Run, Docker,
 or paid work.
 
-The handoff must attach exact results for these local commands:
+The handoff attaches exact results for these local commands:
 
 ```text
 python -m pytest tests/tools/test_gemini_omni_video.py tests/tools/test_gemini_omni_portability.py tests/batch_executor/test_m0_contracts.py -q --basetemp=.pytest-tmp/m4-gemini
 python -m pytest tests/batch_executor -q --basetemp=.pytest-tmp/m4-batch
-python -m pytest tests/batch_executor tests/contracts/test_phase0_contracts.py tests/contracts/test_checkpoint_read_gate.py tests/lib/test_checkpoint_prerequisites.py tests/lib/test_checkpoint_noncanonical_stage.py -q --basetemp=.pytest-tmp/m4-canonical
+python -m pytest tests/contracts/test_phase0_contracts.py tests/contracts/test_checkpoint_read_gate.py tests/lib/test_checkpoint_prerequisites.py tests/lib/test_checkpoint_noncanonical_stage.py -q --basetemp=.pytest-tmp/m4-canonical
 python -m pytest tests/tools/test_base_tool_dependencies.py tests/lib/test_gcs_auto_sync.py -q --basetemp=.pytest-tmp/m4-base-gcs
 python -m pytest tests/backlot tests/contracts/test_backlot_contract.py -q --basetemp=.pytest-tmp/m4-backlot
+python -m pytest tests/batch_executor/test_m4_release_gate.py tests/tools/test_gemini_omni_video.py tests/tools/test_gemini_omni_portability.py -q --basetemp=.pytest-tmp/m4-focused
 ```
 
-Observed in the uncredentialed Windows test process for this candidate:
+The complete combined command uses the union of all paths above (with the
+canonical, BaseTool/GCS, Backlot, and both Gemini paths added to
+`tests/batch_executor`). Observed in the uncredentialed Windows test process
+for the tested tree identified above:
 
 | Gate | Result |
 |---|---:|
-| Complete final combined offline matrix above, plus both Gemini test files | 605 passed, 4 platform-permission skips |
-| Earlier isolated `tests/batch_executor` harness classification | 453 passed, 3 platform-permission skips; final coverage repeated in the combined gate |
+| Complete final combined offline matrix | 625 passed, 5 platform/environment skips |
+| Isolated `tests/batch_executor` | 463 passed, 4 platform/environment skips |
 | Canonical checkpoint/artifact regression | 48 passed |
 | BaseTool/GCS legacy regression | 12 passed |
 | Backlot regression | 57 passed, 1 platform-permission skip |
-| Gemini tool + portability + M0 contracts | 55 passed |
-| Final M4 release + Gemini focused slice | 52 passed |
+| Gemini tool + portability + M0 contracts | 66 passed |
+| Final M4 release + Gemini focused slice | 72 passed, 1 Linux-gate-only skip |
 | Ruff on all touched Python | passed |
 | Execution schemas, Draft 2020-12 | 11 passed meta-validation |
 | Repository Git policy tree scan | passed |
 | Rollback parser/dispatch stub rehearsal | passed; zero provider/canonical calls |
-| Linux gate shell definition | syntax passed locally; namespace execution pending Linux CI |
+| Linux gate shell definition | Git Bash syntax passed locally; namespace/drop execution pending Linux CI |
 
-The first full Batch V2 attempt used a nested `--basetemp` before its
-repository-local parent existed. Pytest reported 144 passes and 312 setup
-errors, all the same Windows `WinError 3` parent-path failure and no product
-assertion failure. After explicitly creating `.pytest-tmp`, the unchanged test
-set produced 453 passes and three platform link-permission skips. This is a
-test-harness path issue, not a waived product failure. The combined run removed
-all provider credential names declared by `.env.example`, removed known Google
-route/project aliases, set `OPENMONTAGE_ALLOW_NETWORK=0`, and ran under the
-repository pytest socket guard.
+Immediately before adding the two case-insensitive `*.env` name-only
+regressions, the same candidate boundary produced 623 passed and 5 skips in
+the complete matrix, 461 passed and 4 skips for `tests/batch_executor`, and 70
+passed with 1 skip in the M4/Gemini slice. The final rows above supersede those
+intermediate counts and include both new tests; they are not Linux CI evidence.
+
+An earlier candidate's nested `--basetemp` run failed only because its
+repository-local parent did not exist. The current commands explicitly created
+that parent and completed without setup errors; the earlier condition remains
+classified as a Windows harness-path issue, not a waived product failure. The
+combined run removed all provider credential names declared by `.env.example`,
+removed known Google route/project aliases, set
+`OPENMONTAGE_ALLOW_NETWORK=0`, and ran under the repository pytest socket
+guard.
 
 The dedicated Linux workflow installs lower-bound test requirements first,
 then invokes `scripts/run_batch_v2_linux_offline_gate.sh`. Those requirements
@@ -128,6 +154,9 @@ job runs, so M4 remains in progress.
   a `googleapis.com` host with no userinfo and no non-443 port before any local
   bytes are sent. Remote response bodies, payload data, URIs, and exception
   text are mapped to redacted route/operation errors.
+- Missing or unreadable local video/reference inputs are also mapped to a fixed
+  local-input validation category; caller filesystem paths and underlying
+  exception text are not returned in `ToolResult.error`.
 - The Gemini provider concurrency cap remains one. No charged request ran, and
   no budget/cost semantics changed.
 - CI checkout does not persist Git credentials; the isolated test process

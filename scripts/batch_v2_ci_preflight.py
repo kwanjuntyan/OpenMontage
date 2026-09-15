@@ -29,7 +29,7 @@ def _sensitive_name(name: str) -> bool:
         return False
     if lower == ".youtube-token.json":
         return True
-    if lower == ".env" or lower.startswith(".env."):
+    if lower == ".env" or lower.startswith(".env.") or lower.endswith(".env"):
         return True
     if lower.endswith(_SECRET_SUFFIXES):
         return True

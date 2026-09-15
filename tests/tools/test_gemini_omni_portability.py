@@ -292,6 +292,52 @@ def test_developer_rejects_untrusted_files_upload_url_before_sending_bytes(
     assert video_bytes.decode() not in result.error
 
 
+def test_missing_input_video_path_is_redacted_before_remote_boundary(tmp_path):
+    sensitive_path = r"C:\private\customer-alpha\source-secret.mp4"
+    transport = RecordingTransport()
+
+    result = GeminiOmniVideo(
+        environment={"GEMINI_API_KEY": "offline-key"}, transport=transport
+    ).execute(
+        {
+            "prompt": "offline edit",
+            "operation": "edit_video",
+            "input_video_path": sensitive_path,
+            "output_path": str(tmp_path / "never.mp4"),
+        }
+    )
+
+    assert not result.success
+    assert result.error == "Gemini Omni local input validation failed"
+    assert transport.posts == []
+    assert transport.gets == []
+    for sensitive in (sensitive_path, "customer-alpha", "source-secret.mp4"):
+        assert sensitive not in result.error
+
+
+def test_missing_reference_image_path_is_redacted_before_remote_boundary(tmp_path):
+    sensitive_path = r"C:\private\customer-beta\reference-secret.png"
+    transport = RecordingTransport()
+
+    result = GeminiOmniVideo(
+        environment={"GEMINI_API_KEY": "offline-key"}, transport=transport
+    ).execute(
+        {
+            "prompt": "offline image animation",
+            "operation": "image_to_video",
+            "reference_image_path": sensitive_path,
+            "output_path": str(tmp_path / "never.mp4"),
+        }
+    )
+
+    assert not result.success
+    assert result.error == "Gemini Omni local input validation failed"
+    assert transport.posts == []
+    assert transport.gets == []
+    for sensitive in (sensitive_path, "customer-beta", "reference-secret.png"):
+        assert sensitive not in result.error
+
+
 @pytest.mark.parametrize("redirect_status", [307, 308])
 def test_developer_files_upload_redirect_never_resubmits_local_bytes(
     tmp_path, redirect_status

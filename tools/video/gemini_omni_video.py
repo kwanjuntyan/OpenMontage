@@ -653,10 +653,10 @@ class GeminiOmniVideo(BaseTool):
                 success=False,
                 error="Gemini Omni Developer file operation failed",
             )
-        except Exception as exc:
+        except Exception:
             return ToolResult(
                 success=False,
-                error=f"Gemini Omni input preparation failed: {exc}",
+                error="Gemini Omni local input validation failed",
             )
 
         if use_vertex:

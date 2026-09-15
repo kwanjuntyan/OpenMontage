@@ -131,6 +131,8 @@ def test_linux_gate_is_os_level_fail_closed_and_covers_required_suites():
     (
         ".env",
         ".env.local",
+        "production.env",
+        "private/PRODUCTION.ENV",
         ".youtube-token.json",
         "private/gcp-production.json",
         "private/service-account-prod.json",
@@ -143,7 +145,7 @@ def test_linux_gate_is_os_level_fail_closed_and_covers_required_suites():
     ),
 )
 def test_ci_workspace_preflight_rejects_credential_names_without_reading_or_leak(
-    tmp_path, capsys, relative_path
+    tmp_path, capsys, monkeypatch, relative_path
 ):
     from scripts.batch_v2_ci_preflight import main
 
@@ -153,6 +155,12 @@ def test_ci_workspace_preflight_rejects_credential_names_without_reading_or_leak
     candidate.parent.mkdir(parents=True, exist_ok=True)
     secret = "do-not-read-or-print-this-secret"
     candidate.write_text(secret, encoding="utf-8")
+
+    def forbid_content_read(*_args, **_kwargs):
+        raise AssertionError("workspace preflight must inspect names only")
+
+    monkeypatch.setattr(Path, "read_text", forbid_content_read)
+    monkeypatch.setattr(Path, "read_bytes", forbid_content_read)
 
     assert main(["--workspace", str(tmp_path)]) == 64
     captured = capsys.readouterr()
