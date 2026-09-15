@@ -626,6 +626,18 @@ class RequestsVertexInteractionsTransport:
                 provider_operation_id=operation_id,
             ) from exc
         retry_after = self._retry_after(response)
+        if response.status_code < 200 or 300 <= response.status_code < 400:
+            raise VertexTransportError(
+                "Vertex returned an unsupported non-2xx response",
+                acceptance="unknown" if method == "POST" else "accepted",
+                error_class=(
+                    "TIMEOUT_OR_NETWORK_UNKNOWN"
+                    if method == "POST"
+                    else "REMOTE_JOB_RECOVERABLE"
+                ),
+                provider_operation_id=operation_id,
+                retry_after_seconds=retry_after,
+            )
         if response.status_code in {401, 403}:
             raise VertexTransportError(
                 "Vertex ADC authorization failed",

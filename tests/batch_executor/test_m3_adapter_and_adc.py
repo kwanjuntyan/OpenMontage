@@ -481,6 +481,68 @@ def test_vertex_http_transport_parses_realistic_output_video_without_route_fallb
     assert allow_redirects is False
 
 
+@pytest.mark.parametrize("status_code", [199, 301, 302, 307, 308])
+def test_vertex_submit_non_success_with_inline_video_fails_closed(
+    status_code, batch_request
+):
+    response = FakeVertexHTTPResponse(
+        status_code,
+        {
+            "id": "redirect-body-must-not-be-trusted",
+            "output_video": {
+                "data": base64.b64encode(b"redirect-video-must-not-be-used").decode(
+                    "ascii"
+                )
+            },
+        },
+    )
+    session = FakeVertexHTTPSession(response)
+    transport = RequestsVertexInteractionsTransport()
+    transport._session = lambda: session
+
+    with pytest.raises(VertexTransportError) as raised:
+        transport.submit(**_vertex_transport_kwargs(batch_request))
+
+    assert str(raised.value) == "Vertex returned an unsupported non-2xx response"
+    assert raised.value.acceptance == "unknown"
+    assert raised.value.error_class == "TIMEOUT_OR_NETWORK_UNKNOWN"
+    assert raised.value.provider_operation_id is None
+    assert [call[0] for call in session.calls] == ["interaction"]
+    assert session.calls[0][-1] is False
+
+
+@pytest.mark.parametrize("status_code", [199, 301, 302, 307, 308])
+def test_vertex_poll_non_success_with_inline_video_preserves_remote_identity(
+    status_code, batch_request
+):
+    response = FakeVertexHTTPResponse(
+        status_code,
+        {
+            "id": "redirect-body-must-not-replace-operation",
+            "output_video": {
+                "data": base64.b64encode(b"redirect-video-must-not-be-used").decode(
+                    "ascii"
+                )
+            },
+        },
+    )
+    session = FakeVertexHTTPSession(response)
+    transport = RequestsVertexInteractionsTransport()
+    transport._session = lambda: session
+    kwargs = _vertex_transport_kwargs(batch_request)
+    kwargs["provider_operation_id"] = "interaction-existing"
+
+    with pytest.raises(VertexTransportError) as raised:
+        transport.poll(**kwargs)
+
+    assert str(raised.value) == "Vertex returned an unsupported non-2xx response"
+    assert raised.value.acceptance == "accepted"
+    assert raised.value.error_class == "REMOTE_JOB_RECOVERABLE"
+    assert raised.value.provider_operation_id == "interaction-existing"
+    assert [call[0] for call in session.calls] == ["interaction"]
+    assert session.calls[0][-1] is False
+
+
 def test_vertex_http_transport_never_defaults_a_missing_frozen_duration(
     batch_request,
 ):
