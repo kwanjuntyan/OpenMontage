@@ -1,8 +1,9 @@
 # Batch Executor V2 migration and rollback
 
-Status: M4 offline rehearsal only. This document does not authorize a provider
-call, credential lookup, GCS mutation, image build/push, Cloud Run execution,
-deployment, merge, or legacy retirement.
+Status: M4 completed. This document remains an offline-only rehearsal and
+rollback runbook; it does not authorize a provider call, credential lookup,
+GCS mutation, image build/push, Cloud Run execution, deployment, merge, or
+legacy retirement.
 
 ## Coexistence invariant
 
@@ -36,9 +37,11 @@ inside the same OS no-egress namespace as pytest, uses `-B`, and must exit zero;
 it never supplies a sequence selector. The AST rehearsal remains the safe test
 of dispatch mapping without entering any production sequence body.
 
-The rehearsal also confirms that V2 has a separate explicit entrypoint. It is
-not evidence for the still-pending Linux or local-container 40-item gates and
-is not production qualification.
+The rehearsal also confirms that V2 has a separate explicit entrypoint. The
+rehearsal alone is not evidence for either platform gate; the observed Linux
+and local-container 40-item results are recorded in
+`docs/batch-v2-m4-offline-evidence.md`. This rehearsal is not production
+qualification.
 
 ## Opt-in migration sequence
 

@@ -603,6 +603,9 @@ def test_migration_and_evidence_docs_preserve_release_boundaries():
     cloud_run = (
         REPOSITORY_ROOT / "docs" / "batch-v2-cloud-run.md"
     ).read_text(encoding="utf-8")
+    plan = (
+        REPOSITORY_ROOT / "docs" / "batch-v2-implementation-plan.md"
+    ).read_text(encoding="utf-8")
     for required in (
         "V2 remains opt-in",
         "batch_run_intent_sequences.py",
@@ -615,6 +618,35 @@ def test_migration_and_evidence_docs_preserve_release_boundaries():
         assert required in migration
     assert "--seq 4" not in migration
     assert "--seq all" not in migration
+    assert "still-pending Linux or local-container 40-item gates" not in migration
+    assert "behavior remains pending actual GitHub Linux execution" not in cloud_run
+
+    assert (
+        "Pre-merge release-gate status: **M4 offline-qualified; "
+        "Section 22.1 MVP code-complete; "
+        "awaiting opt-in merge"
+    ) in plan
+    assert "M5: **Not authorized or performed" in plan
+    assert "M6 pre-merge snapshot: **Not claimed complete" in plan
+    assert "M6 is not a Section 22.1 prerequisite" in plan
+    section_22_1 = plan.split(
+        "### 22.1 MVP code-complete — required for opt-in merge", 1
+    )[1].split("### 22.2 MVP production-qualified", 1)[0]
+    section_22_1_items = [
+        line for line in section_22_1.splitlines() if line.startswith("- [")
+    ]
+    assert len(section_22_1_items) == 21
+    assert all(line.startswith("- [x]") for line in section_22_1_items)
+    section_22_2 = plan.split(
+        "### 22.2 MVP production-qualified", 1
+    )[1].split("### 22.3 Post-MVP enhancements", 1)[0]
+    section_22_4 = plan.split(
+        "### 22.4 Legacy retirement gate", 1
+    )[1].split("## 23. Merge and retirement workflow", 1)[0]
+    assert "- [x]" not in section_22_2
+    assert "- [x]" not in section_22_4
+    assert "- [ ]" in section_22_2
+    assert "- [ ]" in section_22_4
 
     for required in (
         "M3: completed",

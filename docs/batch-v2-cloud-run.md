@@ -251,8 +251,8 @@ as a general side-effect barrier. The help smoke is never given a sequence
 selector. This OS-level boundary is inherited by child processes, unlike the
 in-process pytest socket guard. Any failed isolation assertion fails the gate;
 it never falls back to an ordinary networked or privileged test process. This
-behavior remains pending actual GitHub Linux execution and is not claimed as
-observed qualification evidence yet.
+behavior was observed by the GitHub Linux qualification recorded in
+`docs/batch-v2-m4-offline-evidence.md`.
 
 ## First run and resume
 

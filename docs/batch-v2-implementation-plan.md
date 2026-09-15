@@ -1,12 +1,14 @@
 # OpenMontage Batch Executor V2 — Implementation Plan
 
-> - Status: **Revised — awaiting coordinating main-task acceptance**
+> - Pre-merge release-gate status: **M4 offline-qualified; Section 22.1 MVP code-complete; awaiting opt-in merge**
+> - M5: **Not authorized or performed; no production qualification is claimed**
+> - M6 pre-merge snapshot: **Not claimed complete by this pre-merge gate; M6 is not a Section 22.1 prerequisite, and merge plus post-merge offline/fake validation remain**
 > - Planning branch: `codex/batch-v2`
 > - Baseline commit: `aa4dbd42e0f0c05b7029198793c2e52041c24a47`
 > - Safety tag: `team-main-pre-batch-v2` (annotated tag; peels to the baseline commit)
 > - Audit date: 2026-09-14
 > - Scope revision: MVP boundary plus workspace and Cloud resume-ownership contracts clarified on 2026-09-14
-> - Scope of this commit: planning only; no Batch V2 implementation, deployment, or paid/live API call
+> - Original plan-commit scope: planning only; no deployment or paid/live API call was authorized
 
 ## 1. Decision summary
 
@@ -1367,7 +1369,7 @@ Correctness, cost safety, and truthful ambiguity handling take precedence over t
 
 ## 19. Phases, milestones, and acceptance criteria
 
-This revision remains planning-only. M0 begins only after the coordinating main task accepts this revision and schedules the offline phase under the user's delegated M0–M4 authority. M0–M4 are the sequential, no-cost gates for an **MVP code-complete** result. M5 contains external qualification tiers that always require fresh, test-specific user approval. Post-MVP tracks are deliberately excluded from every M0–M6 acceptance gate unless a concrete failing MVP safety/correctness test proves one is indispensable.
+This section records the planning-only revision accepted before implementation. M0 began only after the coordinating main task accepted that revision and scheduled the offline phase under the user's delegated M0–M4 authority. M0–M4 are the sequential, no-cost gates for an **MVP code-complete** result. M5 contains external qualification tiers that always require fresh, test-specific user approval. Post-MVP tracks are deliberately excluded from every M0–M6 acceptance gate unless a concrete failing MVP safety/correctness test proves one is indispensable.
 
 ### M0 — Freeze the MVP contracts and safety specification
 
@@ -1590,27 +1592,27 @@ Each track receives its own proposal, tests, risk review, and approval. Architec
 
 ### 22.1 MVP code-complete — required for opt-in merge
 
-- [ ] Scope is limited to schema-valid `assets`-stage independent video-generation work items.
-- [ ] One shared engine powers Local and single-task Cloud Run profiles; Python does not choose stages, create prompts, review creatively, select fallbacks, or resolve Human Gates.
-- [ ] Each immutable BatchRequest binds one exact tool/provider/route/model identity, and the observed adapter identity must match before dispatch.
-- [ ] One process provides bounded concurrency (default W=3, supported W=1–4) with selected-provider rate/quota controls.
-- [ ] Every item has durable state, attempt phase, receipt, error classification, budget exposure, and restart behavior; acceptance-ambiguous calls become `indeterminate` and are not auto-replayed.
-- [ ] Every tool `output_path` is coordinator-derived beneath `projects/<project-id>/.batch-v2/runs/<batch-id>/attempts/<item-id>/<attempt-id>/`; Local and Cloud-materialized workspaces enforce the same post-resolution containment, and workers cannot target canonical paths, the repository/cwd, or system temp.
-- [ ] Backlot ignores the `.batch-v2/` subtree and never presents its staging or execution records as canonical.
-- [ ] One coordinator serializes shared execution state. Local uses an exclusive run lock. Cloud records exact invocation/execution ownership; `task-count=1`, `parallelism=1`, and `max-retries=0` do not replace cross-execution ownership checks.
-- [ ] A second ordinary Cloud execution fails closed while another owner is recorded. Explicit resume requires ADC-authenticated terminal/cancelled evidence for the exact prior Cloud Run execution or one-time explicit human authorization bound to the prior and proposed invocations, then a successful expected-generation owner CAS and re-read, before dispatch; self-written status or caller JSON alone is insufficient.
-- [ ] Same-request reuse verifies the full identity digest, media bytes/probe, and storage receipt; no global or cross-project cache service is required.
-- [ ] LocalStore and the minimal GCSStore pass the MVP conformance suite.
-- [ ] GCS output writes are private, content-addressed, synchronous, generation-bound, and verified by size, client SHA-256, GCS checksum, generation, and metadata before commit.
-- [ ] GCS and the supported Vertex/Gemini route use attached service identity/ADC with no hard-coded credential path or implicit project fallback.
-- [ ] Canonical `asset_manifest` publication passes `validate_artifact`; checkpoints use the existing official writer/reader and validate after write.
-- [ ] Execution success stops at BatchState `awaiting_agent_review`; after Agent review the assets gate uses `awaiting_human`, and only a later explicit human reply permits `completed` with `human_approved=true`.
-- [ ] Canonical publication begins only after execution stops and has one writer; hidden legacy/background writers are suppressed in V2 scope and no mutation occurs after return.
-- [ ] Interrupted ordered publication is idempotently repairable with the checkpoint-embedded artifact as authority; no cross-file transaction is claimed.
-- [ ] The container is reproducible, pinned, non-root, contains no credentials/media, and has stable signal/exit behavior and redacted logs.
-- [ ] All Section 17.2 no-cost tests pass on Windows, repository-version Linux CI, and the local container; after checkout/dependency setup, the CI test process and its children run in a fail-closed no-egress environment with no real credential.
-- [ ] The writable-temp baseline passes, the Gemini credential portability defect is fixed rather than suppressed, and the 40-item fake performance criteria pass.
-- [ ] Migration and rollback are documented/tested, V2 remains opt-in, the legacy runner is untouched, and `team-main-pre-batch-v2` plus normal Git history remain intact.
+- [x] Scope is limited to schema-valid `assets`-stage independent video-generation work items.
+- [x] One shared engine powers Local and single-task Cloud Run profiles; Python does not choose stages, create prompts, review creatively, select fallbacks, or resolve Human Gates.
+- [x] Each immutable BatchRequest binds one exact tool/provider/route/model identity, and the observed adapter identity must match before dispatch.
+- [x] One process provides bounded concurrency (default W=3, supported W=1–4) with selected-provider rate/quota controls.
+- [x] Every item has durable state, attempt phase, receipt, error classification, budget exposure, and restart behavior; acceptance-ambiguous calls become `indeterminate` and are not auto-replayed.
+- [x] Every tool `output_path` is coordinator-derived beneath `projects/<project-id>/.batch-v2/runs/<batch-id>/attempts/<item-id>/<attempt-id>/`; Local and Cloud-materialized workspaces enforce the same post-resolution containment, and workers cannot target canonical paths, the repository/cwd, or system temp.
+- [x] Backlot ignores the `.batch-v2/` subtree and never presents its staging or execution records as canonical.
+- [x] One coordinator serializes shared execution state. Local uses an exclusive run lock. Cloud records exact invocation/execution ownership; `task-count=1`, `parallelism=1`, and `max-retries=0` do not replace cross-execution ownership checks.
+- [x] A second ordinary Cloud execution fails closed while another owner is recorded. Explicit resume requires ADC-authenticated terminal/cancelled evidence for the exact prior Cloud Run execution or one-time explicit human authorization bound to the prior and proposed invocations, then a successful expected-generation owner CAS and re-read, before dispatch; self-written status or caller JSON alone is insufficient.
+- [x] Same-request reuse verifies the full identity digest, media bytes/probe, and storage receipt; no global or cross-project cache service is required.
+- [x] LocalStore and the minimal GCSStore pass the MVP conformance suite.
+- [x] GCS output writes are private, content-addressed, synchronous, generation-bound, and verified by size, client SHA-256, GCS checksum, generation, and metadata before commit.
+- [x] GCS and the supported Vertex/Gemini route use attached service identity/ADC with no hard-coded credential path or implicit project fallback.
+- [x] Canonical `asset_manifest` publication passes `validate_artifact`; checkpoints use the existing official writer/reader and validate after write.
+- [x] Execution success stops at BatchState `awaiting_agent_review`; after Agent review the assets gate uses `awaiting_human`, and only a later explicit human reply permits `completed` with `human_approved=true`.
+- [x] Canonical publication begins only after execution stops and has one writer; hidden legacy/background writers are suppressed in V2 scope and no mutation occurs after return.
+- [x] Interrupted ordered publication is idempotently repairable with the checkpoint-embedded artifact as authority; no cross-file transaction is claimed.
+- [x] The container is reproducible, pinned, non-root, contains no credentials/media, and has stable signal/exit behavior and redacted logs.
+- [x] All Section 17.2 no-cost tests pass on Windows, repository-version Linux CI, and the local container; after checkout/dependency setup, the CI test process and its children run in a fail-closed no-egress environment with no real credential.
+- [x] The writable-temp baseline passes, the Gemini credential portability defect is fixed rather than suppressed, and the 40-item fake performance criteria pass.
+- [x] Migration and rollback are documented/tested, V2 remains opt-in, the legacy runner is untouched, and `team-main-pre-batch-v2` plus normal Git history remain intact.
 
 These criteria require the Cloud profile, GCS implementation, and container to exist and be verified with fakes; they do not silently authorize a real bucket mutation, image push, Cloud Run deployment, or provider charge.
 
@@ -1694,4 +1696,4 @@ Acceptance of this Plan approves the boundary, not an unnamed execution path. Th
 
 ---
 
-**Planning stop condition:** after this document is committed, this task stops and waits for coordinating main-task acceptance. Batch V2 implementation proceeds only when that task schedules an M0–M4 offline phase. Cloud Run deployment, real GCS mutation, container push, and real/paid provider calls remain prohibited without the separate M5 user approvals above.
+**Historical planning stop condition:** after the original plan commit, this task stopped and waited for coordinating main-task acceptance. Batch V2 implementation later proceeded only after that task scheduled the M0–M4 offline phase. Cloud Run deployment, real GCS mutation, container push, and real/paid provider calls remain prohibited without the separate M5 user approvals above.
