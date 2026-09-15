@@ -2,10 +2,8 @@
 
 from __future__ import annotations
 
-from pathlib import Path, PurePosixPath
+from pathlib import PurePosixPath
 from typing import Any, Optional
-
-from backlot.state import _read_contained_project_json
 
 
 def _safe_delivery_path(value: Any, prefix: str) -> Optional[str]:
@@ -239,10 +237,10 @@ def _course_delivery_projection(
 
 
 def derive_course_projection(
-    project_dir: Path,
     checkpoints: dict[str, dict],
     stages: list[dict[str, Any]],
     diagnostics: list[dict[str, str]],
+    loose_cache: Optional[dict[str, Any]] = None,
 ) -> Optional[dict[str, Any]]:
     """Return a course view only from the approved proposal checkpoint."""
 
@@ -264,9 +262,7 @@ def derive_course_projection(
         ):
             authoritative = course
 
-    loose = _read_contained_project_json(
-        project_dir, project_dir / "artifacts" / "course_manifest.json"
-    )
+    loose = loose_cache
     if authoritative is None:
         if loose is not None:
             diagnostics.append(

@@ -1216,11 +1216,14 @@ def load_board_state(project_dir: Path) -> dict[str, Any]:
     }
     from backlot.course_projection import derive_course_projection
 
+    loose_course_cache = _read_contained_project_json(
+        project_dir, project_dir / "artifacts" / "course_manifest.json"
+    )
     course = derive_course_projection(
-        project_dir,
         checkpoints,
         stages,
         artifact_diagnostics,
+        loose_course_cache,
     )
     if course is not None:
         state["course"] = course
