@@ -1,6 +1,8 @@
-# Production Unit Protocol — Lean M2a
+# Production Unit Protocol — Lean M2 planning profile
 
-Status: experimental, opt-in, scene-plan compare-only proof.
+Status: experimental and opt-in. Scene planning remains compare-only; course
+script and CLP support in-memory compare or publication candidates whose only
+publisher is the existing checkpoint workflow.
 
 This protocol tests whether a long approved script can be planned in bounded
 units without changing OpenMontage's canonical pipeline. It does not claim
@@ -9,7 +11,7 @@ publication.
 
 ## Hard boundary
 
-Lean M2a applies only to `scene_plan` and consumes:
+The scene-plan M2a slice consumes:
 
 - the approved canonical `script` from its completed checkpoint;
 - the canonical `clp_manifest` from its completed checkpoint;
@@ -18,8 +20,18 @@ Lean M2a applies only to `scene_plan` and consumes:
 - a separately generated, schema-valid monolithic scene-plan baseline when a
   completed comparison is requested.
 
-It does not segment script or CLP creation. It does not run assets, edit,
-compose, Backlot, provider calls, or media generation.
+For an approved `content_form=course_form` proposal, M2b may additionally:
+
+- build script units from complete, approved lesson boundaries in the
+  proposal checkpoint's canonical `course_manifest`;
+- merge script fragments only after exact lesson/section ownership, timing,
+  stable IDs, source digests, and global voice-performance agreement pass;
+- extract CLP candidates per inherited script unit and require one
+  Agent-authored resolution map bound to the exact combined candidate digest;
+- merge that resolution into the one existing course-wide `clp_manifest`.
+
+M2 does not run assets, edit, compose, Backlot, provider calls, or media
+generation. A Production Unit is never a lesson, checkpoint, or nested project.
 
 ## Modes
 
@@ -37,6 +49,18 @@ through the checkpoint API, then use
 `lib.production_units.scene_plan_merge.run_scene_plan_compare` in memory.
 The helper only returns a candidate/report and always reports
 `publish_allowed: false`.
+
+Script and CLP use `run_script_units` and `run_clp_units`. They accept the same
+default-off contract. Their `publish_candidate` mode only returns a validated
+in-memory candidate; it grants no checkpoint, gate, provider, or filesystem
+authority. The normal stage director must still review and pass the candidate
+to the existing checkpoint writer.
+
+For script, every approved lesson is owned once, every narration section maps
+to exactly one owned lesson, global timestamps remain authoritative, and legal
+non-narration gaps are preserved. For CLP, worker completion order is ignored;
+every local candidate is either mapped to a same-category final entity or
+explicitly ignored, and every final entity must be sourced by a candidate.
 
 1. Treat script sections as narration intervals, not as proof that every
    second contains narration. Derive a complete ordered timeline from those
@@ -61,10 +85,10 @@ The helper only returns a candidate/report and always reports
    whether scene IDs/order match.
 7. Present the comparison result as experimental evidence only.
 
-Do not call `write_checkpoint`, replace `scene_plan.json`, update checkpoint
-status, or advance the scene-plan Human Gate from this path. A future reviewed
-milestone must add an explicit publication contract before candidates can
-become canonical artifacts.
+Production Unit helpers never call `write_checkpoint`, replace artifacts,
+update checkpoint status, or advance a Human Gate. Publication candidates can
+become canonical only through the existing stage director, schema/semantic
+validation, checkpoint writer, and original Human Gate.
 
 ## Fail closed
 

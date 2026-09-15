@@ -32,6 +32,17 @@ Unlike narrative cinematic films which almost always require characters and loca
   `lib.clp_validator.canonical_digest(script)`; never hash pretty-printed file
   bytes or use another JSON serialization convention.
 
+For an approved course-form proposal with explicit Production Unit mode, read
+`skills/meta/production-unit-protocol.md`. Extract candidates only from the
+assigned script-unit capsule and return the unchanged capsule digest. After
+deterministic aggregation, the Agent must resolve every digest-bound local
+candidate to a same-category final entity or explicitly ignore it. Duplicate
+mentions may resolve to one entity; workers never resolve conflicts or publish
+per-unit CLP manifests. The result is still exactly one course-wide
+`clp_candidates` plus one canonical `clp_manifest`, reviewed and published by
+the existing CLP checkpoint/Human Gate rules (including the unchanged literal
+zero-entity auto path).
+
 ## Quality Bar
 
 - Zero-entity explainers must emit schema-valid empty arrays (never omitting required fields).
