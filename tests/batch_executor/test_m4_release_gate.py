@@ -651,6 +651,23 @@ def test_migration_and_evidence_docs_preserve_release_boundaries():
     for required in (
         "M3: completed",
         "M4: completed",
+        "c77b2793876e3ee80f25a5d5233ed3d1f150ea67",
+        "run 34934501232",
+        "job 104269410842",
+        "2599 passed, 12 skipped, 3 xfailed, 1 warning, 1 subtest",
+        "job 104269410637",
+        "659 passed, 1 skipped, 2 warnings",
+        "job 104269410858",
+        "4f71bb53987cd3cc4bf424838b8699ebaf277676",
+        "Transparent post-qualification security correction",
+        "3xx response with an inline-video JSON body could be parsed as success",
+        "TIMEOUT_OR_NETWORK_UNKNOWN",
+        "mark_indeterminate",
+        "never automatically submitted again",
+        "found no remaining P0, P1, or merge-blocking P2",
+        "non-blocking P2 test-coverage backlog",
+        "tree-wide audit found no current default V2 route",
+        "Earlier accepted candidate (historical, superseded)",
         "c5bc88e2fefa4db22b4e662fa52012d43586eab6",
         "pull/1",
         "run 34931811296",
@@ -670,7 +687,6 @@ def test_migration_and_evidence_docs_preserve_release_boundaries():
         "The final GitHub job observed all of these checks on Linux",
         "test-process isolation",
         "The checkout and dependency installation may use network",
-        "reported no P0, P1, or P2 finding",
         "Active-word highlight contrast remains a pre-existing",
         "not production-qualified",
         "legacy runner must not be retired",
@@ -689,6 +705,14 @@ def test_migration_and_evidence_docs_preserve_release_boundaries():
     ):
         assert required in evidence_words
     assert "M3: in_progress" not in evidence_words
+    assert (
+        "Final M4 candidate: "
+        "`c5bc88e2fefa4db22b4e662fa52012d43586eab6`"
+    ) not in evidence_words
+    assert (
+        "Final independent review of the candidate plus successful workflow "
+        "evidence reported no P0, P1, or P2 finding"
+    ) not in evidence_words
     assert "M4: in_progress" not in current_evidence_words
     assert "remains pending" not in current_evidence_words
     assert "remain unobserved" not in current_evidence_words
@@ -706,4 +730,6 @@ def test_m4_release_slice_does_not_modify_forbidden_runtime_surfaces():
     evidence = (
         REPOSITORY_ROOT / "docs" / "batch-v2-m4-offline-evidence.md"
     ).read_text(encoding="utf-8")
+    assert "The only Batch V2 runtime modification" in evidence
+    assert "narrow Vertex interaction transport non-2xx response check" in evidence
     assert "No engine, execution schema, publication, or Cloud Run template change" in evidence

@@ -5,11 +5,12 @@ M3 completion was accepted at
 `b471851eac6ab3bfea399d874e3f6c8116188d8d` after the real resolver, image,
 and dual-profile local-container gates retained as historical evidence below.
 
-Final M4 candidate:
-`c5bc88e2fefa4db22b4e662fa52012d43586eab6`.
+Final M4 candidate after the transparent post-qualification security
+correction:
+`c77b2793876e3ee80f25a5d5233ed3d1f150ea67`.
 
 - Pull request: [kwanjuntyan/OpenMontage#1](https://github.com/kwanjuntyan/OpenMontage/pull/1)
-- Final successful workflow: [run 34931811296](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34931811296)
+- Final successful workflow: [run 34934501232](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34934501232)
 - M3: completed
 - M4: completed
 - M5: not performed and not authorized
@@ -29,9 +30,9 @@ request above:
 
 | Job | GitHub evidence | Accepted result |
 |---|---|---|
-| Validate Python | [job 104261401724](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34931811296/job/104261401724) | success: 2589 passed, 12 skipped, 3 xfailed, 1 warning, 1 subtest; 366.55s |
-| Batch V2 Linux Offline Gate | [job 104261401886](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34931811296/job/104261401886) | success: 649 passed, 1 skipped, 2 warnings; 217.47s; real CPython 3.10/Linux x86_64 resolver accepted 27 distributions |
-| Repository Policy & Binary Shield Guard | [job 104261401871](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34931811296/job/104261401871) | success |
+| Validate Python | [job 104269410842](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34934501232/job/104269410842) | success: 2599 passed, 12 skipped, 3 xfailed, 1 warning, 1 subtest; 427.09s |
+| Batch V2 Linux Offline Gate | [job 104269410637](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34934501232/job/104269410637) | success: 659 passed, 1 skipped, 2 warnings; 260.30s; real CPython 3.10/Linux x86_64 resolver accepted 27 distributions |
+| Repository Policy & Binary Shield Guard | [job 104269410858](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34934501232/job/104269410858) | success |
 
 The Linux job's dependency setup and real resolver ran before the isolation
 boundary. The test process itself then ran under the repository's no-egress,
@@ -39,11 +40,26 @@ credential-free namespace and dropped-privilege contract. The successful job
 is direct Linux evidence for those dynamic assertions, not an inference from
 the historical Windows checks.
 
+### Earlier accepted candidate (historical, superseded)
+
+The earlier accepted M4 candidate was
+`c5bc88e2fefa4db22b4e662fa52012d43586eab6`, with successful
+[run 34931811296](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34931811296).
+It established the Linux isolation and M4 behavior available at that tree, but
+it predates the post-qualification security correction below and is not the
+exact final-candidate evidence.
+
+| Job | Historical GitHub evidence | Historical result |
+|---|---|---|
+| Validate Python | [job 104261401724](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34931811296/job/104261401724) | success: 2589 passed, 12 skipped, 3 xfailed, 1 warning, 1 subtest; 366.55s |
+| Batch V2 Linux Offline Gate | [job 104261401886](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34931811296/job/104261401886) | success: 649 passed, 1 skipped, 2 warnings; 217.47s; real CPython 3.10/Linux x86_64 resolver accepted 27 distributions |
+| Repository Policy & Binary Shield Guard | [job 104261401871](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34931811296/job/104261401871) | success |
+
 ### Fail-closed diagnosis chain
 
 The three earlier workflow runs failed closed and were corrected before the
-successful final rerun; none of their failures was skipped, waived, or
-reclassified as success:
+earlier accepted candidate, and their fixes remained covered by the final c77
+rerun. None of their failures was skipped, waived, or reclassified as success:
 
 - [Run 34926832790](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34926832790)
   stopped when UID/GID `65532:65532` could not traverse/read the checkout, and
@@ -66,14 +82,36 @@ reclassified as success:
   Validate Python stopped on those plus two pre-existing Vox caption-contrast
   regressions. The correction installed test-local fake
   `google.cloud.storage` modules, selected caption bars by actual composited
-  contrast, and hardened invalid-background selection with the final candidate's
+  contrast, and hardened invalid-background selection with the c5 candidate's
   worst-case black/white maximin rule.
 
-Final independent review of the candidate plus successful workflow evidence
-reported no P0, P1, or P2 finding. Active-word highlight contrast remains a
-pre-existing, byte-identical non-regression backlog item: the old and new
-caption-bar selection is identical for the affected themes. It did not block
-M4, and it was not hidden or treated as fixed by this qualification.
+### Transparent post-qualification security correction
+
+An independent full-diff audit after the c5 acceptance found one P2 in the
+independently frozen Batch V2 M3 Vertex transport. Although redirects were not
+followed, an interaction POST or polling GET returning a 3xx response with an
+inline-video JSON body could be parsed as success. Commit
+`4f71bb53987cd3cc4bf424838b8699ebaf277676` corrected that fail-open path:
+only 2xx responses reach body parsing, and the focused in-memory regressions
+cover `199`, `301`, `302`, `307`, and `308` for both submit and poll.
+Unsupported `<200` or 3xx POST responses retain unknown provider acceptance as
+`TIMEOUT_OR_NETWORK_UNKNOWN` with `mark_indeterminate`, so a possibly accepted
+paid request is never automatically submitted again. Polling retains the exact
+existing operation identity and uses `REMOTE_JOB_RECOVERABLE` rather than
+starting another generation.
+
+The final c77 candidate includes that correction and its tests. Run
+34934501232 then passed all three final jobs with the exact results above. A
+final independent security/cost/scope re-review of c77 found no remaining P0,
+P1, or merge-blocking P2 in the reviewed runtime/security correction. One
+non-blocking P2 test-coverage backlog remains: the rollback rehearsal's
+automated opt-in guard checks only the legacy runner's direct string
+references. A tree-wide audit found no current default V2 route; broadening
+that automated guard remains follow-up hardening rather than an observed
+runtime defect. Active-word highlight contrast remains a pre-existing,
+byte-identical non-regression backlog item: the old and new caption-bar
+selection is identical for the affected themes. Neither backlog blocked M4,
+and neither was hidden or treated as fixed by this qualification.
 
 ## Historical Windows M4 evidence
 
@@ -81,7 +119,7 @@ The original Windows M4 offline matrix was observed on committed parent
 `8e298cbb068131452cb82bfc44c66cdca05dbe7a` plus the final local-path
 redaction implementation/test blobs below. Those blobs were committed before
 the M3 lock correction and remain only as the historical binding for that run;
-they are not the final Linux or final-candidate evidence.
+they are not the final Linux or c77 final-candidate evidence.
 
 ```text
 tools/video/gemini_omni_video.py
@@ -174,7 +212,7 @@ untouched.
 
 ## Implementation-diff review
 
-The M4 slice is limited to:
+The completed M4 and final-correction slice is limited to:
 
 - the legacy-facing Gemini Omni credential/routing/download boundary and its
   offline tests;
@@ -185,9 +223,14 @@ The M4 slice is limited to:
 - provider configuration documentation;
 - opt-in migration/rollback rehearsal and this evidence.
 
+The only Batch V2 runtime modification after the earlier accepted candidate is
+the narrow Vertex interaction transport non-2xx response check and its offline
+tests. It does not change provider identity, concurrency, budget, or retry
+contracts.
+
 No engine, execution schema, publication, or Cloud Run template change is in
-the Batch V2 runtime slice. The accepted legacy runner remains byte-identical
-and must remain available; M4 completion does not authorize its retirement.
+that final correction. The accepted legacy runner remains byte-identical and
+must remain available; M4 completion does not authorize its retirement.
 The change does not add a scheduler, provider selector, generic transport
 platform, distributed lease, cross-file transaction, or wider Backlot
 behavior.
@@ -307,6 +350,11 @@ successfully with the result bound above.
 - Missing or unreadable local video/reference inputs are also mapped to a fixed
   local-input validation category; caller filesystem paths and underlying
   exception text are not returned in `ToolResult.error`.
+- The independently frozen Batch V2 Vertex transport accepts only 2xx
+  interaction responses for body parsing. Unsupported informational/redirect
+  responses use fixed redacted error facts; ambiguous paid POST acceptance is
+  durable `indeterminate` state and cannot become an automatic generation
+  replay.
 - The Gemini provider concurrency cap remains one. No charged request ran, and
   no budget/cost semantics changed.
 - CI checkout does not persist Git credentials; the isolated test process
