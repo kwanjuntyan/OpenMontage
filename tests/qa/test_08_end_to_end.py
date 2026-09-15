@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """QA Test 08: End-to-end animated-explainer pipeline simulation.
 
-Walks through all 7 stages (idea -> publish) with synthetic artifacts,
+Walks through all 9 stages (research -> publish) with synthetic artifacts,
 validating checkpoints, artifact schemas, and cost tracking at each step.
 The compose stage runs real tools (audio_mixer + video_compose) to produce
 an actual output video. All other stages use synthetic data.
@@ -24,7 +24,7 @@ from lib.checkpoint import (
     read_checkpoint,
     get_completed_stages,
     get_next_stage,
-    STAGES,
+    get_pipeline_stages,
     CANONICAL_STAGE_ARTIFACTS,
 )
 from tools.cost_tracker import CostTracker, BudgetMode
@@ -204,13 +204,14 @@ proposal_packet = {
     "production_plan": {
         "pipeline": "animated-explainer",
         "playbook": "clean-professional",
-        "render_runtime": "remotion",
+        "renderer_family": "explainer-data",
+        "render_runtime": "ffmpeg",
         "stages": [
             {"stage": "script", "tools": [{"tool_name": "tts_selector", "role": "narration", "available": True}], "approach": "AI-written script with TTS narration"},
             {"stage": "scene_plan", "tools": [], "approach": "5 scenes with motion graphics"},
             {"stage": "assets", "tools": [{"tool_name": "image_selector", "role": "visuals", "available": True}], "approach": "AI-generated images"},
             {"stage": "edit", "tools": [], "approach": "Automated edit decisions"},
-            {"stage": "compose", "tools": [{"tool_name": "video_compose", "role": "render", "available": True}], "approach": "Remotion render"},
+            {"stage": "compose", "tools": [{"tool_name": "video_compose", "role": "render", "available": True}], "approach": "FFmpeg render"},
         ],
     },
     "cost_estimate": {
@@ -381,7 +382,7 @@ write_checkpoint(
 # ===================================================================
 # Stage 5: assets (generate fixtures)
 # ===================================================================
-print("\n--- Stage 4: assets ---")
+print("\n--- Stage 5: assets ---")
 
 # Generate TTS fixtures (one per section)
 tts_files = {}
@@ -459,9 +460,9 @@ write_checkpoint(
 )
 
 # ===================================================================
-# Stage 5: edit (edit_decisions)
+# Stage 6: edit (edit_decisions)
 # ===================================================================
-print("\n--- Stage 5: edit ---")
+print("\n--- Stage 6: edit ---")
 
 # Create video clips for the compose step
 colors = ["darkblue", "darkgreen", "darkorange", "darkred", "purple"]
@@ -475,6 +476,7 @@ for i, scene in enumerate(scene_plan["scenes"]):
 
 edit_decisions = {
     "version": "1.0",
+    "renderer_family": proposal_packet["production_plan"]["renderer_family"],
     "render_runtime": proposal_packet["production_plan"]["render_runtime"],
     "cuts": [
         {
@@ -512,9 +514,9 @@ write_checkpoint(
 )
 
 # ===================================================================
-# Stage 6: compose (REAL tool execution)
+# Stage 7: compose (REAL tool execution)
 # ===================================================================
-print("\n--- Stage 6: compose (real tools) ---")
+print("\n--- Stage 7: compose (real tools) ---")
 
 from tools.audio.audio_mixer import AudioMixer
 from tools.video.video_compose import VideoCompose
@@ -555,13 +557,10 @@ composer = VideoCompose()
 final_video = str(Path(OUT) / "e2e_final_output.mp4")
 
 compose_result = composer.execute({
-    "operation": "compose",
-    "edit_decisions": {
-        "cuts": [
-            {"source": c["source"], "in_seconds": c["in_seconds"], "out_seconds": c["out_seconds"], "speed": c.get("speed", 1.0)}
-            for c in edit_decisions["cuts"]
-        ],
-    },
+    "operation": "render",
+    "edit_decisions": edit_decisions,
+    "asset_manifest": asset_manifest,
+    "proposal_packet": proposal_packet,
     "audio_path": mix_output,
     "codec": "libx264",
     "crf": 23,
@@ -570,6 +569,20 @@ compose_result = composer.execute({
 })
 check("Video compose succeeded", compose_result.success, compose_result.error or "")
 check("Output video exists", os.path.exists(final_video))
+if not compose_result.success:
+    raise AssertionError(f"Video render failed: {compose_result.error}")
+if not os.path.exists(final_video):
+    raise AssertionError("Video render reported success without producing its output")
+if not isinstance(compose_result.data, dict):
+    raise AssertionError("Video render did not return structured result data")
+final_review = compose_result.data.get("final_review")
+if not isinstance(final_review, dict):
+    raise AssertionError("Video render did not return the required final_review artifact")
+validate_artifact("final_review", final_review)
+check("Final review validates against schema", True)
+if final_review.get("status") != "pass":
+    raise AssertionError(f"Final review did not pass: {final_review.get('status', 'missing')}")
+check("Final review passed", True)
 
 # Probe the output
 duration = 0.0
@@ -616,6 +629,13 @@ render_report = {
     ],
     "render_time_seconds": compose_result.duration_seconds,
 }
+resolved_outputs = {
+    Path(final_video).resolve(),
+    Path(final_review["output_path"]).resolve(),
+    Path(render_report["outputs"][0]["path"]).resolve(),
+}
+if len(resolved_outputs) != 1:
+    raise AssertionError("Final review output does not match the render report output")
 
 try:
     validate_artifact("render_report", render_report)
@@ -625,15 +645,15 @@ except Exception as e:
 
 write_checkpoint(
     PIPELINE_DIR, PROJECT_ID, "compose", "completed",
-    artifacts={"render_report": render_report},
+    artifacts={"render_report": render_report, "final_review": final_review},
     pipeline_type="animated-explainer",
     cost_snapshot=tracker.cost_snapshot(),
 )
 
 # ===================================================================
-# Stage 7: publish
+# Stage 8: publish
 # ===================================================================
-print("\n--- Stage 7: publish ---")
+print("\n--- Stage 8: publish ---")
 
 publish_log = {
     "version": "1.0",
@@ -676,9 +696,9 @@ write_checkpoint(
 # ===================================================================
 print("\n--- Final validation ---")
 
-E2E_STAGES = ["research", "proposal", "script", "scene_plan", "assets", "edit", "compose", "publish"]
+E2E_STAGES = get_pipeline_stages("animated-explainer")
 completed = get_completed_stages(PIPELINE_DIR, PROJECT_ID)
-check("All 8 stages completed", len(completed) == 8, f"completed={completed}")
+check(f"All {len(E2E_STAGES)} stages completed", len(completed) == len(E2E_STAGES), f"completed={completed}")
 check("Next stage is None (done)", get_next_stage(PIPELINE_DIR, PROJECT_ID, "animated-explainer") is None)
 check("Stages in correct order", completed == E2E_STAGES, f"{completed}")
 
@@ -689,6 +709,12 @@ for stage in E2E_STAGES:
     if cp:
         expected_artifact = CANONICAL_STAGE_ARTIFACTS[stage]
         check(f"  Has canonical artifact '{expected_artifact}'", expected_artifact in cp.get("artifacts", {}))
+
+compose_checkpoint = read_checkpoint(PIPELINE_DIR, PROJECT_ID, "compose")
+check(
+    "Compose checkpoint has required final_review",
+    "final_review" in (compose_checkpoint or {}).get("artifacts", {}),
+)
 
 # Cost summary
 print(f"\n  Final cost: {tracker.cost_snapshot()}")
@@ -703,3 +729,6 @@ print(f"{'='*60}")
 if os.path.exists(final_video):
     print(f"\nFinal video: {final_video}")
     print("INSPECT: Open in VLC/media player to verify A/V sync, transitions, and content.")
+
+if FAIL:
+    raise SystemExit(1)

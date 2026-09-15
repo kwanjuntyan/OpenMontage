@@ -14,6 +14,9 @@ if [[ "${1:-}" == "--dropped-payload" ]]; then
     BATCH_V2_GATE_TMP \
     BATCH_V2_GATE_PYTEST \
     BATCH_V2_GATE_PYTHON \
+    BATCH_V2_GATE_ROOT \
+    BATCH_V2_GATE_GIT_DIRECTORY \
+    BATCH_V2_GATE_GIT_COMMON_DIRECTORY \
     BATCH_V2_REPOSITORY_ROOT; do
     if [[ -z "${!required_variable:-}" ]]; then
       echo "ERROR: isolated gate launch contract is incomplete" >&2
@@ -28,6 +31,49 @@ if [[ "${1:-}" == "--dropped-payload" ]]; then
     echo "ERROR: isolated gate process retained sudo elevation" >&2
     exit 64
   fi
+
+  gate_entrypoint="$BATCH_V2_REPOSITORY_ROOT/scripts/run_batch_v2_linux_offline_gate.sh"
+  if [[ ! -r "$gate_entrypoint" || ! -x "$gate_entrypoint" || \
+        ! -r "$BATCH_V2_GATE_PYTHON" || ! -x "$BATCH_V2_GATE_PYTHON" ]]; then
+    echo "ERROR: isolated gate cannot execute its read-only dependencies" >&2
+    exit 64
+  fi
+  for protected_directory in \
+    "$BATCH_V2_REPOSITORY_ROOT" \
+    "$BATCH_V2_GATE_GIT_DIRECTORY" \
+    "$BATCH_V2_GATE_GIT_COMMON_DIRECTORY"; do
+    if [[ -w "$protected_directory" ]]; then
+      echo "ERROR: isolated gate retained write access to protected metadata" >&2
+      exit 64
+    fi
+  done
+  for protected_config in \
+    "$BATCH_V2_GATE_GIT_DIRECTORY/config" \
+    "$BATCH_V2_GATE_GIT_COMMON_DIRECTORY/config"; do
+    if [[ -e "$protected_config" && -w "$protected_config" ]]; then
+      echo "ERROR: isolated gate retained write access to Git config" >&2
+      exit 64
+    fi
+  done
+
+  # NUL-delimited output keeps the access proof correct for every legal path.
+  # The exact gate root is the sole repository subtree this identity may write.
+  writable_scan="$BATCH_V2_GATE_TMP/repository-writable-nodes"
+  if ! find "$BATCH_V2_REPOSITORY_ROOT" -xdev \
+      \( -type d -o -type f \) -writable -print0 >"$writable_scan"; then
+    echo "ERROR: unable to inspect isolated checkout write access" >&2
+    exit 64
+  fi
+  while IFS= read -r -d '' writable_node; do
+    case "$writable_node" in
+      "$BATCH_V2_GATE_ROOT"|"$BATCH_V2_GATE_ROOT/"*) ;;
+      *)
+        echo "ERROR: isolated gate can write outside its exact temp root" >&2
+        exit 64
+        ;;
+    esac
+  done <"$writable_scan"
+  rm -f -- "$writable_scan"
 
   "$BATCH_V2_GATE_PYTHON" -B scripts/batch_v2_ci_runtime_assert.py \
     gate-runtime \
@@ -79,14 +125,51 @@ if [[ "$(uname -s)" != "Linux" ]]; then
   exit 64
 fi
 
-for required_command in sudo unshare setpriv ip grep mktemp; do
+for required_command in sudo unshare setpriv ip grep mktemp git find findmnt setfacl; do
   if ! command -v "$required_command" >/dev/null 2>&1; then
     echo "ERROR: required isolation command is unavailable: $required_command" >&2
     exit 64
   fi
 done
 
-if [[ ! -x "$repository_root/.venv/bin/python" ]]; then
+gate_script_relative="scripts/run_batch_v2_linux_offline_gate.sh"
+gate_script_path="$repository_root/$gate_script_relative"
+if ! gate_script_index_record="$(
+  git -C "$repository_root" ls-files --stage -- "$gate_script_relative"
+)"; then
+  echo "ERROR: unable to inspect the Linux gate executable mode" >&2
+  exit 64
+fi
+if [[ -z "$gate_script_index_record" || "$gate_script_index_record" == *$'\n'* ]]; then
+  echo "ERROR: Linux gate executable has an invalid Git index entry" >&2
+  exit 64
+fi
+gate_script_index_mode="${gate_script_index_record%% *}"
+if [[ "$gate_script_index_mode" != "100755" || ! -x "$gate_script_path" ]]; then
+  echo "ERROR: Linux gate must be tracked and checked out as executable" >&2
+  exit 64
+fi
+
+if ! git_directory="$(
+  git -C "$repository_root" rev-parse --path-format=absolute --git-dir
+)" || ! git_common_directory="$(
+  git -C "$repository_root" rev-parse --path-format=absolute --git-common-dir
+)"; then
+  echo "ERROR: unable to resolve Git metadata directories" >&2
+  exit 64
+fi
+for git_metadata_directory in "$git_directory" "$git_common_directory"; do
+  case "$git_metadata_directory" in
+    "$repository_root/.git"|"$repository_root/.git/"*) ;;
+    *)
+      echo "ERROR: Git metadata directories are not checkout-local" >&2
+      exit 64
+      ;;
+  esac
+done
+
+python_executable="$repository_root/.venv/bin/python"
+if [[ ! -x "$python_executable" ]]; then
   echo "ERROR: install dependencies into .venv before running this gate" >&2
   exit 64
 fi
@@ -110,7 +193,90 @@ if ! sudo -n unshare --net -- true >/dev/null 2>&1; then
   exit 64
 fi
 
+# ACL setup and the later writable-node proof intentionally stay on one
+# filesystem. Reject nested mounts rather than skipping or mutating them.
+if ! mount_targets="$(findmnt -rn -o TARGET)" || [[ -z "$mount_targets" ]]; then
+  echo "ERROR: unable to inspect checkout mount boundaries" >&2
+  exit 64
+fi
+while IFS= read -r mount_target; do
+  case "$mount_target" in
+    "$repository_root/"*)
+      echo "ERROR: nested mounts inside the checkout are unsupported" >&2
+      exit 64
+      ;;
+  esac
+done <<<"$mount_targets"
+
+gate_uid="65532"
+gate_gid="65532"
+
+# The dropped test identity gets only the access required to traverse the
+# runner-owned checkout and read its contents. Execute access is preserved
+# only for files that are already executable; the gate entrypoint is also
+# independently verified as mode 100755 in the Git index.
+grant_ancestor_traverse() {
+  local current="$1"
+  while [[ "$current" != "/" ]]; do
+    sudo -n setfacl -m "u:${gate_uid}:--x" -- "$current" || return 1
+    current="$(dirname -- "$current")"
+  done
+}
+
+if ! grant_ancestor_traverse "$(dirname -- "$repository_root")" || \
+   ! sudo -n find "$repository_root" -xdev -type d \
+       -exec setfacl -m "u:${gate_uid}:r-x" -- {} + || \
+   ! sudo -n find "$repository_root" -xdev -type f \
+       -exec setfacl -m "u:${gate_uid}:r--" -- {} + || \
+   ! sudo -n find "$repository_root" -xdev -type f -perm /111 \
+       -exec setfacl -m "u:${gate_uid}:r-x" -- {} + || \
+   ! sudo -n setfacl -m "u:${gate_uid}:r-x" -- "$gate_script_path"; then
+  echo "ERROR: unable to grant least-privilege checkout access" >&2
+  exit 64
+fi
+
+# Prove the effective access contract as the exact identity that will run the
+# payload. The checkout and both resolved Git metadata roots must remain
+# non-writable even though the script itself is readable and executable.
+if ! sudo -n setpriv \
+    --reuid="$gate_uid" \
+    --regid="$gate_gid" \
+    --clear-groups \
+    --no-new-privs \
+    --bounding-set=-all \
+    --inh-caps=-all \
+    --ambient-caps=-all \
+    -- \
+    bash -ceu '
+      gate_script="$1"
+      repository="$2"
+      git_directory="$3"
+      git_common_directory="$4"
+      python_executable="$5"
+      [[ -r "$gate_script" && -x "$gate_script" ]]
+      [[ -r "$python_executable" && -x "$python_executable" ]]
+      [[ -r "$repository" && -x "$repository" && ! -w "$repository" ]]
+      [[ -r "$git_directory" && -x "$git_directory" && ! -w "$git_directory" ]]
+      [[ -r "$git_common_directory" && -x "$git_common_directory" && ! -w "$git_common_directory" ]]
+      writable_node="$(
+        find "$repository" -xdev \( -type d -o -type f \) -writable -print -quit
+      )"
+      [[ -z "$writable_node" ]]
+    ' batch-v2-checkout-access \
+      "$gate_script_path" \
+      "$repository_root" \
+      "$git_directory" \
+      "$git_common_directory" \
+      "$python_executable"; then
+  echo "ERROR: isolated gate checkout access contract failed" >&2
+  exit 64
+fi
+
 mkdir -p "$repository_root/.pytest-tmp"
+if ! sudo -n setfacl -m "u:${gate_uid}:r-x" -- "$repository_root/.pytest-tmp"; then
+  echo "ERROR: unable to protect the gate temp parent" >&2
+  exit 64
+fi
 gate_root="$(mktemp -d "$repository_root/.pytest-tmp/batch-v2-linux.XXXXXX")"
 gate_home="$gate_root/home"
 gate_tmp="$gate_root/os-temp"
@@ -130,9 +296,6 @@ cleanup_gate_root() {
 }
 trap cleanup_gate_root EXIT
 
-gate_uid="65532"
-gate_gid="65532"
-python_executable="$repository_root/.venv/bin/python"
 if ! sudo -n chown -R "$gate_uid:$gate_gid" "$gate_root"; then
   echo "ERROR: unable to prepare the isolated gate temp root" >&2
   exit 64
@@ -185,6 +348,9 @@ sudo -n unshare --net -- bash -ceu '
       BATCH_V2_GATE_PYTEST="$5" \
       BATCH_V2_GATE_PYTHON="$6" \
       BATCH_V2_REPOSITORY_ROOT="$7" \
+      BATCH_V2_GATE_ROOT="$8" \
+      BATCH_V2_GATE_GIT_DIRECTORY="$9" \
+      BATCH_V2_GATE_GIT_COMMON_DIRECTORY="${10}" \
       BATCH_V2_GATE_UID="$1" \
       BATCH_V2_GATE_GID="$2" \
       BATCH_V2_LINUX_GATE=1 \
@@ -198,7 +364,7 @@ sudo -n unshare --net -- bash -ceu '
       PYTHONDONTWRITEBYTECODE=1 \
       PYTHONNOUSERSITE=1 \
       PYTHONHASHSEED=0 \
-      bash "$7/scripts/run_batch_v2_linux_offline_gate.sh" --dropped-payload
+      "$7/scripts/run_batch_v2_linux_offline_gate.sh" --dropped-payload
 ' batch-v2-no-egress \
   "$gate_uid" \
   "$gate_gid" \
@@ -206,4 +372,7 @@ sudo -n unshare --net -- bash -ceu '
   "$gate_tmp" \
   "$gate_pytest" \
   "$python_executable" \
-  "$repository_root"
+  "$repository_root" \
+  "$gate_root" \
+  "$git_directory" \
+  "$git_common_directory"

@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import os
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -67,17 +68,28 @@ def test_ci_uses_python_310_and_has_fail_closed_linux_no_egress_gate():
         names.index("Run Batch V2 test process without egress or credentials")
     ]
     assert gate_step["run"] == "bash scripts/run_batch_v2_linux_offline_gate.sh"
+    install_step = next(
+        step for step in steps if step["name"] == "Install offline-gate dependencies"
+    )
+    assert "acl" in install_step["run"].split()
     assert "OPENMONTAGE_ALLOW_NETWORK=1" not in workflow_source
 
 
 def test_linux_gate_is_os_level_fail_closed_and_covers_required_suites():
-    gate = (
-        REPOSITORY_ROOT / "scripts" / "run_batch_v2_linux_offline_gate.sh"
-    ).read_text(encoding="utf-8")
+    gate_path = REPOSITORY_ROOT / "scripts" / "run_batch_v2_linux_offline_gate.sh"
+    gate = gate_path.read_text(encoding="utf-8")
+    index_entry = subprocess.check_output(
+        ["git", "ls-files", "--stage", "--", gate_path.relative_to(REPOSITORY_ROOT)],
+        cwd=REPOSITORY_ROOT,
+        text=True,
+    ).strip()
+    assert index_entry.split(maxsplit=1)[0] == "100755"
     for required in (
         "set -euo pipefail",
         "unshare --net",
         "setpriv",
+        "setfacl",
+        "findmnt",
         "--no-new-privs",
         "--bounding-set=-all",
         "--inh-caps=-all",
@@ -88,6 +100,22 @@ def test_linux_gate_is_os_level_fail_closed_and_covers_required_suites():
         "env -i",
         "OPENMONTAGE_ALLOW_NETWORK=0",
         'gate_uid="65532"',
+        'gate_script_index_mode" != "100755"',
+        'BATCH_V2_GATE_ROOT',
+        'BATCH_V2_GATE_GIT_DIRECTORY',
+        'BATCH_V2_GATE_GIT_COMMON_DIRECTORY',
+        '[[ -r "$gate_script" && -x "$gate_script" ]]',
+        '[[ -r "$python_executable" && -x "$python_executable" ]]',
+        '[[ -r "$repository" && -x "$repository" && ! -w "$repository" ]]',
+        '[[ -r "$git_directory" && -x "$git_directory" && ! -w "$git_directory" ]]',
+        '[[ -r "$git_common_directory" && -x "$git_common_directory" && ! -w "$git_common_directory" ]]',
+        'find "$repository" -xdev \\( -type d -o -type f \\) -writable -print -quit',
+        '-type f -perm /111',
+        '-writable -print0',
+        '"$BATCH_V2_GATE_ROOT"|"$BATCH_V2_GATE_ROOT/"*',
+        '"$BATCH_V2_GATE_GIT_DIRECTORY/config"',
+        'findmnt -rn -o TARGET',
+        "nested mounts inside the checkout are unsupported",
         'gate_home="$gate_root/home"',
         'gate_tmp="$gate_root/os-temp"',
         'gate_pytest="$gate_root/pytest"',
@@ -124,9 +152,10 @@ def test_linux_gate_is_os_level_fail_closed_and_covers_required_suites():
     assert "Git metadata changed during legacy --help" in gate
     assert "host_uid" not in gate
     namespace_launch = gate.index("sudo -n unshare --net -- bash")
-    privilege_drop = gate.index("--no-new-privs")
+    assert gate.count("--no-new-privs") == 2
+    privilege_drop = gate.index("--no-new-privs", namespace_launch)
     dropped_handoff = gate.index(
-        'bash "$7/scripts/run_batch_v2_linux_offline_gate.sh" --dropped-payload'
+        '"$7/scripts/run_batch_v2_linux_offline_gate.sh" --dropped-payload'
     )
     legacy_help = gate.index(
         '"$BATCH_V2_GATE_PYTHON" -B scripts/batch_run_intent_sequences.py --help'
