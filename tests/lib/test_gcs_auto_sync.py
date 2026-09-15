@@ -4,9 +4,11 @@
 import concurrent.futures
 import json
 import os
+import sys
 import threading
 import time
 from pathlib import Path
+from types import ModuleType
 from unittest.mock import MagicMock, patch
 
 import pytest
@@ -15,6 +17,26 @@ from fastapi.testclient import TestClient
 from lib.checkpoint import write_checkpoint, init_project
 from lib.gcs_storage import GCSStorage, gcs_storage, atomic_update_json, flush_background_sync
 from backlot.server import create_app
+
+
+def _install_fake_google_storage(monkeypatch, client):
+    """Install a test-local SDK boundary independent of ambient packages."""
+    client_factory = MagicMock(return_value=client)
+    storage_module = ModuleType("google.cloud.storage")
+    storage_module.Client = client_factory
+    cloud_module = ModuleType("google.cloud")
+    cloud_module.__path__ = []
+    cloud_module.storage = storage_module
+    google_module = ModuleType("google")
+    google_module.__path__ = []
+    google_module.cloud = cloud_module
+
+    monkeypatch.setitem(sys.modules, "google", google_module)
+    monkeypatch.setitem(sys.modules, "google.cloud", cloud_module)
+    monkeypatch.setitem(sys.modules, "google.cloud.storage", storage_module)
+    monkeypatch.delenv("GCS_APPLICATION_CREDENTIALS", raising=False)
+    monkeypatch.delenv("GCS_PROJECT_ID", raising=False)
+    return client_factory
 
 
 def test_is_auto_sync_enabled_respects_env(monkeypatch):
@@ -225,11 +247,15 @@ def test_is_configured_checks_bucket_existence(monkeypatch):
     storage = GCSStorage(bucket_name="nonexistent-bucket")
     fake_bucket = MagicMock()
     fake_bucket.exists.return_value = False
-    storage._client = MagicMock()
-    storage._client.bucket.return_value = fake_bucket
+    fake_client = MagicMock()
+    fake_client.bucket.return_value = fake_bucket
+    client_factory = _install_fake_google_storage(monkeypatch, fake_client)
 
-    monkeypatch.setattr("google.cloud.storage.Client", lambda *a, **kw: storage._client)
     assert storage.is_configured() is False
+    client_factory.assert_called_once_with(project=None)
+    fake_client.bucket.assert_called_once_with("nonexistent-bucket")
+    fake_bucket.exists.assert_called_once_with(timeout=3)
+    assert storage._bucket is None
 
 
 def test_is_configured_returns_false_on_bucket_exists_exception(monkeypatch):
@@ -237,9 +263,12 @@ def test_is_configured_returns_false_on_bucket_exists_exception(monkeypatch):
     storage = GCSStorage(bucket_name="forbidden-bucket")
     fake_bucket = MagicMock()
     fake_bucket.exists.side_effect = PermissionError("Forbidden / Access Denied")
-    storage._client = MagicMock()
-    storage._client.bucket.return_value = fake_bucket
+    fake_client = MagicMock()
+    fake_client.bucket.return_value = fake_bucket
+    client_factory = _install_fake_google_storage(monkeypatch, fake_client)
 
-    monkeypatch.setattr("google.cloud.storage.Client", lambda *a, **kw: storage._client)
     assert storage.is_configured() is False
-
+    client_factory.assert_called_once_with(project=None)
+    fake_client.bucket.assert_called_once_with("forbidden-bucket")
+    fake_bucket.exists.assert_called_once_with(timeout=3)
+    assert storage._bucket is None

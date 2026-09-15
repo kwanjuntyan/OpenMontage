@@ -1262,6 +1262,50 @@ class VideoCompose(BaseTool):
         }
 
     @staticmethod
+    def _caption_background_for_palette(
+        text_color: str,
+        background_color: str,
+    ) -> str:
+        """Choose the existing caption bar with the stronger rendered contrast.
+
+        Caption bars are translucent, so contrast must be measured after each
+        candidate is composited over the actual playbook background. Invalid
+        palette colors fall back deterministically instead of aborting render.
+        """
+        light_bar = ("rgba(255, 255, 255, 0.85)", (255, 255, 255), 0.85)
+        dark_bar = ("rgba(15, 23, 42, 0.75)", (15, 23, 42), 0.75)
+
+        def _hex_rgb(value: str) -> tuple[int, int, int]:
+            if not isinstance(value, str) or not value.startswith("#"):
+                raise ValueError("palette colors must be hex strings")
+            digits = value[1:]
+            if len(digits) == 3:
+                digits = "".join(character * 2 for character in digits)
+            if len(digits) != 6:
+                raise ValueError("palette colors must contain three RGB channels")
+            return tuple(
+                int(digits[offset : offset + 2], 16) for offset in (0, 2, 4)
+            )
+
+        try:
+            from styles.playbook_loader import validate_contrast
+
+            background_rgb = _hex_rgb(background_color)
+            _hex_rgb(text_color)
+            ranked_candidates = []
+            for css_color, foreground_rgb, alpha in (light_bar, dark_bar):
+                composited_rgb = tuple(
+                    round(alpha * foreground + (1 - alpha) * background)
+                    for foreground, background in zip(foreground_rgb, background_rgb)
+                )
+                composited_hex = "#{:02X}{:02X}{:02X}".format(*composited_rgb)
+                ratio = validate_contrast(text_color, composited_hex)["ratio"]
+                ranked_candidates.append((ratio, css_color))
+            return max(ranked_candidates, key=lambda candidate: candidate[0])[1]
+        except (AttributeError, KeyError, TypeError, ValueError):
+            return dark_bar[0]
+
+    @staticmethod
     def _build_theme_from_playbook(
         playbook_name: str | None,
         composition_data: dict | None,
@@ -1333,10 +1377,8 @@ class VideoCompose(BaseTool):
 
             # Derive caption colors from the palette
             theme["captionHighlightColor"] = primary
-            # Caption background: semi-transparent version of the bg color
             theme["captionBackgroundColor"] = (
-                f"rgba(255, 255, 255, 0.85)" if bg.upper() in ("#FFFFFF", "#FAFAFA", "#F9FAFB")
-                else f"rgba(15, 23, 42, 0.75)"
+                VideoCompose._caption_background_for_palette(text, bg)
             )
 
             # Motion style from playbook. `pace` is an identity field in the
