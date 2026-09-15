@@ -43,6 +43,21 @@ A `render_runtime_selection` decision with only one option considered when both 
 | Meta skill | `skills/meta/taste-direction.md` | Design read, taste dials, reference strategy |
 | User input | Topic, any preferences expressed | Creative direction |
 
+## Course-form routing
+
+Do not infer a course from duration. When the user asks for a structured
+learning experience with explicit outcomes, prerequisite progression, practice,
+and assessment, read `skills/creative/course-form.md`. Set
+`production_plan.content_form="course_form"` and include the schema-valid
+`course_manifest` candidate in the same proposal checkpoint. Both are reviewed
+by the existing proposal Human Gate. Ordinary explainers omit them.
+
+Production Units are a separate, optional execution choice. If proposed, read
+`skills/meta/production-unit-protocol.md`, write a typed
+`production_unit_policy`, and explain that 180 seconds is only a configurable
+experimental target. Omitted policy is exactly `mode=off`; never enable PUP from
+duration, a Backlot control, or an unapproved chat assumption.
+
 ## Process
 
 ### Step 0: Check for Reference Video Context

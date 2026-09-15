@@ -96,6 +96,11 @@
             "items": { "type": "string" },
             "description": "Artifact names this stage produces"
           },
+          "optional_produces": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Artifact names this stage may conditionally produce without changing required outputs"
+          },
           "preferred_tools": {
             "type": "array",
             "items": { "type": "string" },
@@ -187,7 +192,22 @@
         "custom_scripts": { "type": "boolean", "default": true },
         "custom_playbooks": { "type": "boolean", "default": true },
         "custom_skills": { "type": "boolean", "default": true },
-        "custom_tools": { "type": "boolean", "default": false }
+        "custom_tools": { "type": "boolean", "default": false },
+        "production_units": {
+          "type": "object",
+          "description": "Opt-in PUP capability declaration. This never enables PUP for a project by itself.",
+          "required": ["supported", "default_mode", "supported_stages"],
+          "additionalProperties": false,
+          "properties": {
+            "supported": { "type": "boolean" },
+            "default_mode": { "type": "string", "const": "off" },
+            "supported_stages": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": { "type": "string", "enum": ["script", "clp", "scene_plan", "assets", "edit", "compose"] }
+            }
+          }
+        }
       },
       "additionalProperties": false
     }

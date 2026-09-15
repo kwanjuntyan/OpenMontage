@@ -99,6 +99,35 @@
             "additionalProperties": false
           }
         },
+        "content_form": {
+          "type": "string",
+          "enum": ["short_form", "long_form", "course_form"],
+          "description": "Explicit creative form. Duration alone must not select course_form."
+        },
+        "production_unit_policy": {
+          "type": "object",
+          "description": "Optional project-level PUP policy approved with the proposal. Absence is exactly mode=off.",
+          "required": ["mode"],
+          "additionalProperties": false,
+          "properties": {
+            "mode": { "type": "string", "enum": ["off", "auto", "fixed"] },
+            "target_seconds": { "type": "number", "exclusiveMinimum": 0 },
+            "hard_max_seconds": { "type": "number", "exclusiveMinimum": 0 },
+            "boundary_priority": { "type": "string", "const": "semantic_first" },
+            "oversize_policy": { "type": "string", "enum": ["allow_with_reason", "fail"] },
+            "enabled_stages": {
+              "type": "array",
+              "uniqueItems": true,
+              "items": { "type": "string", "enum": ["script", "clp", "scene_plan", "assets", "edit", "compose"] }
+            }
+          },
+          "allOf": [
+            {
+              "if": { "properties": { "mode": { "enum": ["auto", "fixed"] } } },
+              "then": { "required": ["target_seconds", "boundary_priority", "oversize_policy", "enabled_stages"] }
+            }
+          ]
+        },
         "quality_tradeoffs": {
           "type": "array",
           "items": {
