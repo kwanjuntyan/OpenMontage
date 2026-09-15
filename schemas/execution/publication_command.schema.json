@@ -1,0 +1,312 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmontage.local/schemas/execution/publication_command.schema.json",
+  "title": "Batch Executor V2 PublicationCommand",
+  "description": "Immutable Agent-authored authorization for one exact local or GCS-backed assets checkpoint transition.",
+  "type": "object",
+  "required": [
+    "version",
+    "canonical_json",
+    "command_id",
+    "command_digest",
+    "created_at",
+    "batch_id",
+    "request_digest",
+    "project_id",
+    "pipeline_type",
+    "stage",
+    "identity",
+    "result_ref",
+    "state_ref",
+    "execution_owner",
+    "asset_manifest",
+    "asset_manifest_sha256",
+    "asset_bindings",
+    "review_evidence",
+    "cost_snapshot",
+    "transition"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": "1.0" },
+    "canonical_json": { "const": "openmontage-canonical-json-v1" },
+    "command_id": { "$ref": "#/$defs/id" },
+    "command_digest": { "$ref": "#/$defs/digest" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "batch_id": { "$ref": "#/$defs/id" },
+    "request_digest": { "$ref": "#/$defs/digest" },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "pipeline_type": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "stage": { "const": "assets" },
+    "identity": { "$ref": "batch_request.schema.json#/$defs/identity" },
+    "result_ref": { "$ref": "#/$defs/content_ref" },
+    "state_ref": {
+      "type": "object",
+      "required": ["logical_path", "sha256", "revision"],
+      "additionalProperties": false,
+      "properties": {
+        "logical_path": { "$ref": "#/$defs/logical_path" },
+        "sha256": { "$ref": "#/$defs/digest" },
+        "revision": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "execution_owner": { "$ref": "execution_owner.schema.json" },
+    "cloud_source": { "$ref": "#/$defs/cloud_source" },
+    "asset_manifest": {
+      "type": "object",
+      "required": ["assets"],
+      "properties": {
+        "assets": {
+          "type": "array",
+          "minItems": 1
+        }
+      }
+    },
+    "asset_manifest_sha256": { "$ref": "#/$defs/digest" },
+    "asset_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1000,
+      "items": {
+        "type": "object",
+        "required": [
+          "item_id",
+          "asset_id",
+          "storage_receipt_id",
+          "sha256",
+          "size_bytes",
+          "source_locator",
+          "canonical_path"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "item_id": { "$ref": "#/$defs/id" },
+          "asset_id": { "$ref": "#/$defs/id" },
+          "storage_receipt_id": { "$ref": "#/$defs/id" },
+          "sha256": { "$ref": "#/$defs/digest" },
+          "size_bytes": { "type": "integer", "minimum": 1 },
+          "source_locator": { "$ref": "#/$defs/logical_path" },
+          "canonical_path": { "$ref": "#/$defs/logical_path" }
+        }
+      }
+    },
+    "review_evidence": {
+      "type": "object",
+      "required": [
+        "kind",
+        "reviewer_id",
+        "review_reference",
+        "reviewed_at",
+        "batch_result_sha256",
+        "asset_manifest_sha256"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "agent_review" },
+        "reviewer_id": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "review_reference": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "reviewed_at": { "type": "string", "format": "date-time" },
+        "batch_result_sha256": { "$ref": "#/$defs/digest" },
+        "asset_manifest_sha256": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "cost_snapshot": { "$ref": "#/$defs/cost" },
+    "transition": {
+      "type": "object",
+      "required": ["kind", "target_status", "human_approved"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": {
+          "enum": [
+            "agent_review_to_awaiting_human",
+            "human_approval_to_completed"
+          ]
+        },
+        "target_status": { "enum": ["awaiting_human", "completed"] },
+        "human_approved": { "type": "boolean" },
+        "prior_checkpoint_ref": {
+          "type": "object",
+          "required": ["logical_path", "sha256", "status"],
+          "additionalProperties": false,
+          "properties": {
+            "logical_path": { "$ref": "#/$defs/logical_path" },
+            "sha256": { "$ref": "#/$defs/digest" },
+            "status": { "const": "awaiting_human" },
+            "gcs_generation": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "prior_publication_command_ref": {
+          "type": "object",
+          "required": ["command_id", "logical_path", "sha256"],
+          "additionalProperties": false,
+          "properties": {
+            "command_id": { "$ref": "#/$defs/id" },
+            "logical_path": { "$ref": "#/$defs/logical_path" },
+            "sha256": { "$ref": "#/$defs/digest" },
+            "gcs_generation": { "type": "integer", "minimum": 1 }
+          }
+        },
+        "human_approval_evidence": {
+          "type": "object",
+          "required": [
+            "kind",
+            "approval_id",
+            "reply_reference",
+            "reply_sha256",
+            "approved_at",
+            "prior_checkpoint_sha256",
+            "prior_publication_command_digest",
+            "batch_result_sha256",
+            "asset_manifest_sha256"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "const": "explicit_human_reply" },
+            "approval_id": { "$ref": "#/$defs/id" },
+            "reply_reference": { "type": "string", "minLength": 1, "maxLength": 1024 },
+            "reply_sha256": { "$ref": "#/$defs/digest" },
+            "approved_at": { "type": "string", "format": "date-time" },
+            "prior_checkpoint_sha256": { "$ref": "#/$defs/digest" },
+            "prior_publication_command_digest": { "$ref": "#/$defs/digest" },
+            "batch_result_sha256": { "$ref": "#/$defs/digest" },
+            "asset_manifest_sha256": { "$ref": "#/$defs/digest" }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "kind": { "const": "agent_review_to_awaiting_human" }
+            },
+            "required": ["kind"]
+          },
+          "then": {
+            "properties": {
+              "target_status": { "const": "awaiting_human" },
+              "human_approved": { "const": false }
+            },
+            "not": {
+              "anyOf": [
+                { "required": ["prior_checkpoint_ref"] },
+                { "required": ["prior_publication_command_ref"] },
+                { "required": ["human_approval_evidence"] }
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "kind": { "const": "human_approval_to_completed" }
+            },
+            "required": ["kind"]
+          },
+          "then": {
+            "required": [
+              "prior_checkpoint_ref",
+              "prior_publication_command_ref",
+              "human_approval_evidence"
+            ],
+            "properties": {
+              "target_status": { "const": "completed" },
+              "human_approved": { "const": true }
+            }
+          }
+        }
+      ]
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "execution_owner": {
+            "properties": { "profile": { "const": "cloud_run" } },
+            "required": ["profile"]
+          }
+        },
+        "required": ["execution_owner"]
+      },
+      "then": { "required": ["cloud_source"] },
+      "else": { "not": { "required": ["cloud_source"] } }
+    }
+  ],
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "logical_path": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.\\.?/)(?!.*(?:^|/)\\.\\.?$)[^?\\u0000]+$",
+      "minLength": 1,
+      "maxLength": 1024
+    },
+    "content_ref": {
+      "type": "object",
+      "required": ["logical_path", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "logical_path": { "$ref": "#/$defs/logical_path" },
+        "sha256": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "gcs_content_ref": {
+      "type": "object",
+      "required": ["logical_path", "object_name", "generation", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "logical_path": { "$ref": "#/$defs/logical_path" },
+        "object_name": { "$ref": "#/$defs/logical_path" },
+        "generation": { "type": "integer", "minimum": 1 },
+        "sha256": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "cloud_source": {
+      "type": "object",
+      "required": ["bucket", "request", "state", "result"],
+      "additionalProperties": false,
+      "properties": {
+        "bucket": {
+          "type": "string",
+          "pattern": "^[a-z0-9][a-z0-9._-]{1,220}[a-z0-9]$"
+        },
+        "request": { "$ref": "#/$defs/gcs_content_ref" },
+        "state": { "$ref": "#/$defs/gcs_content_ref" },
+        "result": { "$ref": "#/$defs/gcs_content_ref" }
+      }
+    },
+    "cost": {
+      "type": "object",
+      "required": [
+        "estimated_usd",
+        "reserved_usd",
+        "known_actual_usd",
+        "indeterminate_exposure_usd",
+        "authorized_cap_usd"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "estimated_usd": { "type": "number", "minimum": 0 },
+        "reserved_usd": { "type": "number", "minimum": 0 },
+        "known_actual_usd": { "type": "number", "minimum": 0 },
+        "indeterminate_exposure_usd": { "type": "number", "minimum": 0 },
+        "authorized_cap_usd": { "type": "number", "minimum": 0 }
+      }
+    }
+  }
+}

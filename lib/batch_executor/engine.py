@@ -1,0 +1,2129 @@
+"""Shared single-coordinator Batch Executor for Local and Cloud profiles."""
+
+from __future__ import annotations
+
+import os
+import random
+import threading
+import time
+import uuid
+from concurrent.futures import FIRST_COMPLETED, Future, wait
+from copy import deepcopy
+from dataclasses import dataclass
+from datetime import datetime, timedelta, timezone
+from decimal import Decimal
+from pathlib import Path
+from typing import Any, Callable, Literal, Mapping
+
+from .contracts import (
+    M0ContractError,
+    canonical_json_bytes,
+    canonical_sha256,
+    compute_idempotency_digest,
+    validate_contract,
+    validate_attempt,
+    validate_attempt_output_path,
+)
+from .errors import M1ExecutionError
+from .media_validation import MediaValidator, OutputFacts
+from .ownership import (
+    ExecutionStatusVerifier,
+    assert_dispatch_owner,
+    prepare_cloud_takeover,
+)
+from .preflight import preflight_batch_request
+from .retry import RandomSource, full_jitter_delay
+from .scheduler import BoundedScheduler, Clock
+from .side_effects import worker_execution_scope
+from .storage import ExecutionStore, LocalStore, StoreVersion
+from .tool_adapter import (
+    ProviderAdapter,
+    ProviderCall,
+    ProviderFacts,
+    validate_provider_facts,
+)
+
+
+TERMINAL_ITEM_STATES = {
+    "committed",
+    "failed_terminal",
+    "blocked_by_dependency",
+    "indeterminate",
+    "cancelled",
+}
+
+
+def _money(value: float | int | str | Decimal) -> float:
+    return float(Decimal(str(value)).quantize(Decimal("0.000001")))
+
+
+def _money_sum(*values: float | int | str | Decimal) -> float:
+    return _money(sum((Decimal(str(value)) for value in values), Decimal("0")))
+
+
+class RealClock:
+    def now(self) -> datetime:
+        return datetime.now(timezone.utc)
+
+    def monotonic(self) -> float:
+        return time.monotonic()
+
+    def sleep(self, seconds: float) -> None:
+        time.sleep(seconds)
+
+
+@dataclass(frozen=True)
+class ExecutionInvocation:
+    """Runtime identity fixed before the shared engine may touch durable state."""
+
+    invocation_id: str
+    execution_id: str
+    task_id: str
+    mode: Literal["run", "resume"]
+
+
+class BatchExecutor:
+    """Execute approved assets work through one backend-neutral state machine."""
+
+    def __init__(
+        self,
+        *,
+        projects_root: str | Path,
+        provider: ProviderAdapter,
+        media_validator: MediaValidator,
+        clock: Clock | None = None,
+        random_source: RandomSource | None = None,
+        crash_hook: Callable[[str, Mapping[str, Any]], None] | None = None,
+        execution_profile: Literal["local", "cloud_run"] = "local",
+        store_factory: Callable[[Path, str], ExecutionStore] | None = None,
+    ):
+        self.projects_root = Path(projects_root)
+        self.provider = provider
+        self.media_validator = media_validator
+        self.clock = clock or RealClock()
+        self.random_source = random_source or random.Random()
+        self.crash_hook = crash_hook
+        self.execution_profile = execution_profile
+        self.store_factory = store_factory or (
+            lambda project_dir, batch_id: LocalStore(project_dir, batch_id)
+        )
+        self._store: ExecutionStore | None = None
+        self._state: dict[str, Any] | None = None
+        self._state_version: StoreVersion | None = None
+        self._request: dict[str, Any] | None = None
+        self._work_items: dict[str, dict[str, Any]] = {}
+        self._reused_item_ids: set[str] = set()
+        self._rate_limit_wait_seconds = 0.0
+        self._cancellation = threading.Event()
+        self._invocation: ExecutionInvocation | None = None
+        self._execution_status_verifier: ExecutionStatusVerifier | None = None
+        self._resume_authorization: Mapping[str, Any] | None = None
+
+    def _now(self) -> str:
+        now_method = getattr(self.clock, "now", None)
+        value = now_method() if callable(now_method) else datetime.now(timezone.utc)
+        return value.astimezone(timezone.utc).isoformat().replace("+00:00", "Z")
+
+    def _elapsed_seconds(self) -> float:
+        assert self._state is not None
+        created = datetime.fromisoformat(self._state["created_at"].replace("Z", "+00:00"))
+        now_method = getattr(self.clock, "now", None)
+        now = now_method() if callable(now_method) else datetime.now(timezone.utc)
+        return max(0.0, (now - created).total_seconds())
+
+    def _retry_deadline(self, delay_seconds: float) -> str:
+        now_method = getattr(self.clock, "now", None)
+        now = now_method() if callable(now_method) else datetime.now(timezone.utc)
+        return (now + timedelta(seconds=delay_seconds)).astimezone(timezone.utc).isoformat().replace(
+            "+00:00", "Z"
+        )
+
+    def _wait_for_retry_deadline(self, record: Mapping[str, Any]) -> None:
+        deadline = datetime.fromisoformat(
+            str(record["next_eligible_at"]).replace("Z", "+00:00")
+        )
+        now_method = getattr(self.clock, "now", None)
+        now = now_method() if callable(now_method) else datetime.now(timezone.utc)
+        remaining = max(0.0, (deadline - now).total_seconds())
+        if remaining and not self._cancellation.is_set():
+            self.clock.sleep(remaining)
+
+    def _crash(self, boundary: str, **facts: Any) -> None:
+        if self.crash_hook is not None:
+            self.crash_hook(boundary, facts)
+
+    def _save_state(self) -> None:
+        assert self._store is not None and self._state is not None
+        expected = self._state_version
+        # Store versions are opaque: a GCS generation is not the BatchState's
+        # logical revision.  Increment the contract field independently.
+        next_revision = 0 if expected is None else int(self._state["revision"]) + 1
+        self._state["revision"] = next_revision
+        self._state["updated_at"] = self._now()
+        self._state["owner"]["state_revision"] = next_revision
+        self._state_version = self._store.save_batch_state(
+            self._state, expected_version=expected
+        )
+
+    def _initial_state(self, request: Mapping[str, Any]) -> dict[str, Any]:
+        assert self._invocation is not None
+        created_at = self._now()
+        identity = request["work_items"][0]["identity"]
+        invocation = self._invocation
+        return {
+            "version": "1.0",
+            "batch_id": request["batch_id"],
+            "request_digest": request["request_digest"],
+            "revision": 0,
+            "owner": {
+                "version": "1.0",
+                "batch_id": request["batch_id"],
+                "request_digest": request["request_digest"],
+                "invocation_id": invocation.invocation_id,
+                "invocation_mode": invocation.mode,
+                "profile": self.execution_profile,
+                "execution_id": invocation.execution_id,
+                "task_id": invocation.task_id,
+                "owner_status": "active",
+                "acquired_at": created_at,
+                "state_revision": 0,
+                "base_state_generation": 0,
+            },
+            "ownership_proof_digests": [],
+            "invocations": [
+                {
+                    "invocation_id": invocation.invocation_id,
+                    "execution_id": invocation.execution_id,
+                    "profile": self.execution_profile,
+                }
+            ],
+            "status": "ready",
+            "items": [
+                {
+                    "item_id": item["item_id"],
+                    "state": "pending",
+                    "attempt_count": 0,
+                    "reuse_verified": False,
+                }
+                for item in request["work_items"]
+            ],
+            "attempts": [],
+            "provider_policy": {
+                "provider": identity["provider"],
+                "route": identity["route"],
+                "model": identity["model"],
+                "concurrency_cap": request["execution_policy"][
+                    "provider_concurrency_cap"
+                ],
+                "min_request_spacing_seconds": request["execution_policy"][
+                    "min_request_spacing_seconds"
+                ],
+            },
+            "cost": {
+                "estimated_usd": _money_sum(
+                    *(item["estimated_cost_usd"] for item in request["work_items"])
+                ),
+                "reserved_usd": 0.0,
+                "known_actual_usd": 0.0,
+                "indeterminate_exposure_usd": 0.0,
+                "authorized_cap_usd": request["authorization"][
+                    "max_authorized_spend_usd"
+                ],
+            },
+            "reuse": {"verified_hits": 0, "misses": len(request["work_items"])},
+            "created_at": created_at,
+            "updated_at": created_at,
+            "rate_limit_wait_seconds": 0.0,
+            "last_attempt_sequence": 0,
+            "storage_receipts": [],
+        }
+
+    def _item_record(self, item_id: str) -> dict[str, Any]:
+        assert self._state is not None
+        return next(item for item in self._state["items"] if item["item_id"] == item_id)
+
+    def _item_attempts(self, item_id: str) -> list[dict[str, Any]]:
+        assert self._state is not None
+        return sorted(
+            [attempt for attempt in self._state["attempts"] if attempt["item_id"] == item_id],
+            key=lambda attempt: attempt["dispatch_sequence"],
+        )
+
+    def _latest_attempt(self, item_id: str) -> dict[str, Any] | None:
+        attempts = self._item_attempts(item_id)
+        return attempts[-1] if attempts else None
+
+    def _receipt(self, receipt_id: str) -> dict[str, Any]:
+        assert self._state is not None
+        return next(
+            receipt
+            for receipt in self._state["storage_receipts"]
+            if receipt["receipt_id"] == receipt_id
+        )
+
+    def _output_spec(self, item: Mapping[str, Any]) -> dict[str, Any]:
+        output_spec = dict(item["output_spec"])
+        output_spec["duration"] = item["inputs"]["duration"]
+        return output_spec
+
+    def _verify_result_receipts(self, result: Mapping[str, Any]) -> None:
+        assert self._store is not None and self._state is not None and self._request is not None
+        for result_item in result["items"]:
+            if result_item["state"] not in {"committed", "cache_hit"}:
+                continue
+            work_item = self._work_items[result_item["item_id"]]
+            receipt = result_item["storage_receipt"]
+            state_item = self._item_record(result_item["item_id"])
+            latest = self._latest_attempt(result_item["item_id"])
+            state_receipt = (
+                self._receipt(state_item["storage_receipt_id"])
+                if state_item.get("storage_receipt_id")
+                else None
+            )
+            if (
+                state_item["state"] != "committed"
+                or latest is None
+                or latest["phase"] != "durably_committed"
+                or latest["work_item_digest"] != work_item["work_item_digest"]
+                or latest["identity"] != work_item["identity"]
+                or latest["idempotency_digest"]
+                != compute_idempotency_digest(
+                    self._request["request_digest"], work_item["work_item_digest"]
+                )
+                or receipt["batch_id"] != self._request["batch_id"]
+                or state_receipt is None
+                or canonical_json_bytes(receipt) != canonical_json_bytes(state_receipt)
+            ):
+                raise M1ExecutionError(
+                    "REUSE_RECEIPT_INVALID",
+                    "Committed reuse facts do not bind the exact request, item, attempt, and receipt",
+                )
+            self._store.verify_receipt(
+                receipt,
+                validator=self.media_validator,
+                output_spec=self._output_spec(work_item),
+            )
+
+    def _take_local_ownership(self, invocation_id: str) -> None:
+        assert self._state is not None and self._request is not None
+        previous = self._state["owner"]
+        acquired_at = self._now()
+        self._state.setdefault(
+            "invocations",
+            [
+                {
+                    "invocation_id": previous["invocation_id"],
+                    "execution_id": previous["execution_id"],
+                    "profile": previous["profile"],
+                }
+            ],
+        )
+        for record in self._state["items"]:
+            record.setdefault("reuse_verified", record["state"] == "committed")
+        verified_hits = sum(
+            bool(record["reuse_verified"]) for record in self._state["items"]
+        )
+        self._state["reuse"] = {
+            "verified_hits": verified_hits,
+            "misses": len(self._state["items"]) - verified_hits,
+        }
+        self._state.setdefault("rate_limit_wait_seconds", 0.0)
+        self._state["invocations"].append(
+            {
+                "invocation_id": invocation_id,
+                "execution_id": f"pid-{os.getpid()}",
+                "profile": "local",
+            }
+        )
+        self._state["owner"] = {
+            "version": "1.0",
+            "batch_id": self._request["batch_id"],
+            "request_digest": self._request["request_digest"],
+            "invocation_id": invocation_id,
+            "invocation_mode": "resume",
+            "profile": "local",
+            "execution_id": f"pid-{os.getpid()}",
+            "task_id": "main",
+            "owner_status": "active",
+            "acquired_at": acquired_at,
+            "state_revision": self._state["revision"],
+            "base_state_generation": self._state["revision"],
+            "predecessor": {
+                "invocation_id": previous["invocation_id"],
+                "execution_id": previous["execution_id"],
+            },
+        }
+        self._state.pop("outcome", None)
+        self._state.pop("completed_at", None)
+        self._state["status"] = "running"
+        self._save_state()
+
+    def _verify_cloud_owner_reread(
+        self,
+        expected_owner: Mapping[str, Any],
+        expected_version: StoreVersion,
+        *,
+        require_active: bool = True,
+    ) -> None:
+        assert self._store is not None
+        durable_state, durable_version = self._store.load_batch_state()
+        if (
+            durable_version != expected_version
+            or canonical_json_bytes(durable_state["owner"])
+            != canonical_json_bytes(expected_owner)
+        ):
+            raise M1ExecutionError(
+                "RESUME_OWNERSHIP_PROOF_INVALID",
+                "Cloud owner CAS winner could not be re-read exactly",
+            )
+        if require_active:
+            assert self._invocation is not None
+            try:
+                assert_dispatch_owner(
+                    durable_state["owner"],
+                    invocation_id=self._invocation.invocation_id,
+                    execution_id=self._invocation.execution_id,
+                    task_id=self._invocation.task_id,
+                    invocation_mode=self._invocation.mode,
+                )
+            except M0ContractError as exc:
+                raise M1ExecutionError(
+                    "RESUME_OWNERSHIP_PROOF_INVALID", str(exc)
+                ) from exc
+        self._state = durable_state
+        self._state_version = durable_version
+
+    def _take_cloud_ownership(self) -> None:
+        """Persist proof, CAS one successor, and re-read before dispatch."""
+
+        assert (
+            self._state is not None
+            and self._store is not None
+            and self._request is not None
+            and self._invocation is not None
+        )
+        invocation = self._invocation
+        recorded_owner = deepcopy(self._state["owner"])
+        if invocation.mode == "run":
+            try:
+                assert_dispatch_owner(
+                    recorded_owner,
+                    invocation_id=invocation.invocation_id,
+                    execution_id=invocation.execution_id,
+                    task_id=invocation.task_id,
+                    invocation_mode="run",
+                )
+            except M0ContractError as exc:
+                raise M1ExecutionError("EXECUTION_OWNER_ACTIVE", str(exc)) from exc
+            return
+
+        if not isinstance(self._state_version, int) or isinstance(
+            self._state_version, bool
+        ):
+            raise M1ExecutionError(
+                "RESUME_OWNERSHIP_PROOF_INVALID",
+                "Cloud takeover requires an exact positive GCS state generation",
+            )
+        try:
+            plan = prepare_cloud_takeover(
+                recorded_owner,
+                current_state_generation=self._state_version,
+                new_invocation_id=invocation.invocation_id,
+                new_execution_id=invocation.execution_id,
+                new_task_id=invocation.task_id,
+                acquired_at=self._now(),
+                prior_attempts=self._state["attempts"],
+                execution_status_verifier=self._execution_status_verifier,
+                resume_authorization=self._resume_authorization,
+            )
+        except M0ContractError as exc:
+            raise M1ExecutionError(
+                "RESUME_OWNERSHIP_PROOF_INVALID", str(exc)
+            ) from exc
+        proof_digests = self._state.setdefault("ownership_proof_digests", [])
+        if plan.proof_digest in proof_digests:
+            raise M1ExecutionError(
+                "RESUME_OWNERSHIP_PROOF_INVALID",
+                "Takeover proof was already consumed by an earlier owner transition",
+            )
+        record_kind = (
+            "execution_status"
+            if plan.proof_kind == "trusted_execution_status"
+            else "resume_authorization"
+        )
+        self._store.write_ownership_record_if_absent(
+            kind=record_kind,
+            document=plan.proof_document,
+            digest=plan.proof_digest,
+        )
+        for item_id in plan.indeterminate_item_ids:
+            latest = self._latest_attempt(item_id)
+            if latest is not None and latest["phase"] != "indeterminate":
+                self._mark_indeterminate(
+                    latest,
+                    "Prior Cloud execution stopped with paid acceptance unresolved",
+                )
+        self._state.setdefault("invocations", []).append(
+            {
+                "invocation_id": invocation.invocation_id,
+                "execution_id": invocation.execution_id,
+                "profile": "cloud_run",
+            }
+        )
+        proof_digests.append(plan.proof_digest)
+        self._state["owner"] = deepcopy(plan.new_owner)
+        self._state["status"] = "running"
+        self._state.pop("outcome", None)
+        self._state.pop("completed_at", None)
+        self._state.pop("result_ref", None)
+        self._save_state()
+        assert self._state_version is not None
+        expected_owner = deepcopy(self._state["owner"])
+        expected_version = self._state_version
+        self._verify_cloud_owner_reread(expected_owner, expected_version)
+        self._crash(
+            "cloud_owner_acquired",
+            invocation_id=invocation.invocation_id,
+            execution_id=invocation.execution_id,
+            state_generation=expected_version,
+        )
+
+    def _mark_indeterminate(self, attempt: dict[str, Any], message: str) -> None:
+        assert self._state is not None
+        reserved = float(attempt["cost"]["reserved_usd"])
+        potential = max(
+            float(attempt["cost"]["potentially_charged_usd"]),
+            reserved,
+            float(attempt["cost"]["estimated_usd"]),
+        )
+        self._state["cost"]["reserved_usd"] = _money_sum(
+            self._state["cost"]["reserved_usd"], -reserved
+        )
+        self._state["cost"]["indeterminate_exposure_usd"] = _money_sum(
+            self._state["cost"]["indeterminate_exposure_usd"], potential
+        )
+        attempt["phase"] = "indeterminate"
+        attempt["acceptance_knowledge"] = "unknown"
+        attempt["retry_action"] = "mark_indeterminate"
+        attempt["cost"]["reserved_usd"] = 0.0
+        attempt["cost"]["potentially_charged_usd"] = potential
+        attempt["error"] = {
+            "error_class": "TIMEOUT_OR_NETWORK_UNKNOWN",
+            "sanitized_message": message,
+        }
+        record = self._item_record(attempt["item_id"])
+        record.pop("next_eligible_at", None)
+        record.update({"state": "indeterminate", "error_class": attempt["error"]["error_class"]})
+
+    def _recover_state(self) -> None:
+        assert self._state is not None and self._store is not None
+        changed = False
+        for item_id, work_item in self._work_items.items():
+            record = self._item_record(item_id)
+            latest = self._latest_attempt(item_id)
+            if record["state"] == "committed":
+                if (
+                    latest is None
+                    or latest["work_item_digest"] != work_item["work_item_digest"]
+                    or latest["identity"] != work_item["identity"]
+                    or latest["idempotency_digest"]
+                    != compute_idempotency_digest(
+                        self._request["request_digest"], work_item["work_item_digest"]
+                    )
+                ):
+                    raise M1ExecutionError(
+                        "REUSE_RECEIPT_INVALID",
+                        "Committed attempt does not bind the exact frozen work item",
+                    )
+                receipt = self._receipt(record["storage_receipt_id"])
+                self._store.verify_receipt(
+                    receipt,
+                    validator=self.media_validator,
+                    output_spec=self._output_spec(work_item),
+                )
+                self._reused_item_ids.add(item_id)
+                if not record.get("reuse_verified", False):
+                    record["reuse_verified"] = True
+                    changed = True
+                continue
+            if record.get("reuse_verified", False):
+                record["reuse_verified"] = False
+                changed = True
+            if record["state"] in TERMINAL_ITEM_STATES:
+                continue
+            if latest is None:
+                record["state"] = "eligible"
+                record.pop("next_eligible_at", None)
+                changed = True
+                continue
+            phase = latest["phase"]
+            latest.setdefault("operation_retry_count", 0)
+            if phase == "prepared":
+                record["state"] = "eligible"
+                record.pop("next_eligible_at", None)
+                changed = True
+            elif phase == "dispatched":
+                if latest["billing_mode"] == "paid":
+                    self._mark_indeterminate(
+                        latest,
+                        "Prior local process stopped after dispatch; provider acceptance is unknown",
+                    )
+                else:
+                    latest.update(
+                        {
+                            "phase": "failed",
+                            "acceptance_knowledge": "not_accepted",
+                            "retry_action": "resubmit_generation",
+                            "error": {
+                                "error_class": "PROVIDER_TRANSIENT_PRE_ACCEPT",
+                                "sanitized_message": "No-cost dispatch interrupted before response",
+                            },
+                        }
+                    )
+                    record["state"] = "retry_wait"
+                    record["next_eligible_at"] = self._now()
+                changed = True
+            elif phase in {"result_received", "bytes_staged", "technically_valid"}:
+                output_path = self._store.attempt_output_path(
+                    item_id, latest["attempt_id"], work_item["output_spec"]["output_name"]
+                )
+                recorded_output = latest.get("output")
+                if (
+                    not output_path.is_file()
+                    and phase == "technically_valid"
+                    and isinstance(recorded_output, Mapping)
+                ):
+                    self._store.restore_staged_blob(
+                        destination=output_path,
+                        batch_id=self._request["batch_id"],
+                        item_id=item_id,
+                        output=OutputFacts(
+                            sha256=recorded_output["sha256"],
+                            size_bytes=recorded_output["size_bytes"],
+                            probe=deepcopy(recorded_output["probe"]),
+                        ),
+                    )
+                if output_path.is_file():
+                    record["state"] = "succeeded_staged"
+                    record.pop("next_eligible_at", None)
+                elif latest.get("provider_operation_id"):
+                    latest.update(
+                        {
+                            "phase": "provider_accepted",
+                            "retry_action": "poll_remote_operation",
+                            "error": {
+                                "error_class": "REMOTE_JOB_RECOVERABLE",
+                                "sanitized_message": "Resume must reconcile the accepted operation",
+                            },
+                        }
+                    )
+                    record["state"] = "retry_wait"
+                    record["next_eligible_at"] = self._now()
+                else:
+                    latest["acceptance_knowledge"] = "unknown"
+                    self._mark_indeterminate(
+                        latest, "Accepted output is missing and cannot be reconciled"
+                    )
+                changed = True
+            elif phase == "provider_accepted":
+                if latest.get("provider_operation_id"):
+                    latest["retry_action"] = "poll_remote_operation"
+                    latest["error"] = {
+                        "error_class": "REMOTE_JOB_RECOVERABLE",
+                        "sanitized_message": "Resume will poll the same accepted operation",
+                    }
+                    record["state"] = "retry_wait"
+                    record["next_eligible_at"] = self._now()
+                else:
+                    latest["acceptance_knowledge"] = "unknown"
+                    self._mark_indeterminate(
+                        latest, "Accepted operation lacks a durable provider operation ID"
+                    )
+                changed = True
+            elif latest["retry_action"] in {
+                "resubmit_generation",
+                "poll_remote_operation",
+                "retry_storage_commit",
+                "reconcile_storage_precondition",
+                "await_charged_generation_authorization",
+            }:
+                record["state"] = "retry_wait"
+                record.setdefault("next_eligible_at", self._now())
+                changed = True
+        verified_hits = len(self._reused_item_ids)
+        if (
+            self._state["reuse"]["verified_hits"] != verified_hits
+            or self._state["reuse"]["misses"]
+            != len(self._work_items) - verified_hits
+        ):
+            self._state["reuse"] = {
+                "verified_hits": verified_hits,
+                "misses": len(self._work_items) - verified_hits,
+            }
+            changed = True
+        if changed:
+            self._save_state()
+
+    def _settle_cancellation(self) -> bool:
+        """Stop new dispatch without hiding accepted or prior failure facts."""
+
+        changed = False
+        for item_id, item in self._work_items.items():
+            record = self._item_record(item_id)
+            if record["state"] == "succeeded_staged":
+                latest = self._latest_attempt(item_id)
+                self._commit_staged(item, latest)
+                changed = True
+                continue
+            if record["state"] not in {"pending", "eligible", "retry_wait"}:
+                continue
+            latest = self._latest_attempt(item_id)
+            if latest is None:
+                record["state"] = "cancelled"
+            elif latest["phase"] == "prepared":
+                reserved = float(latest["cost"]["reserved_usd"])
+                self._state["cost"]["reserved_usd"] = _money_sum(
+                    self._state["cost"]["reserved_usd"], -reserved
+                )
+                latest.update(
+                    {
+                        "phase": "cancelled",
+                        "acceptance_knowledge": "not_accepted",
+                        "retry_action": "do_not_retry",
+                        "error": {
+                            "error_class": "CANCELLED",
+                            "sanitized_message": "Cancelled before provider dispatch.",
+                        },
+                    }
+                )
+                latest["cost"].update(
+                    {"reserved_usd": 0.0, "potentially_charged_usd": 0.0}
+                )
+                record["state"] = "cancelled"
+            elif latest["retry_action"] == "poll_remote_operation":
+                latest.update(
+                    {"phase": "indeterminate", "retry_action": "mark_indeterminate"}
+                )
+                record.update(
+                    {
+                        "state": "indeterminate",
+                        "error_class": latest["error"]["error_class"],
+                    }
+                )
+            elif latest["retry_action"] in {
+                "resubmit_generation",
+                "await_charged_generation_authorization",
+            }:
+                latest["retry_action"] = "do_not_retry"
+                record.update(
+                    {
+                        "state": "failed_terminal",
+                        "error_class": latest["error"]["error_class"],
+                    }
+                )
+            elif latest["retry_action"] in {
+                "retry_storage_commit",
+                "reconcile_storage_precondition",
+            }:
+                latest.update({"phase": "failed", "retry_action": "do_not_retry"})
+                record.update(
+                    {
+                        "state": "failed_terminal",
+                        "error_class": latest["error"]["error_class"],
+                    }
+                )
+            else:
+                raise M1ExecutionError(
+                    "INVALID_CANCELLATION_STATE",
+                    f"Cannot safely cancel {item_id} from {latest['phase']}/{latest['retry_action']}",
+                )
+            record.pop("next_eligible_at", None)
+            changed = True
+        return changed
+
+    def _dependency_blocked_or_waiting(self, item: Mapping[str, Any]) -> str:
+        dependencies = item["dependency_item_ids"]
+        if not dependencies:
+            return "ready"
+        records = [self._item_record(dependency) for dependency in dependencies]
+        failed = [record["item_id"] for record in records if record["state"] in TERMINAL_ITEM_STATES - {"committed"}]
+        if failed:
+            record = self._item_record(item["item_id"])
+            record["state"] = "blocked_by_dependency"
+            record["blocker"] = {
+                "kind": "dependency_failure",
+                "dependency_item_ids": failed,
+                "reason": "One or more required work items did not commit.",
+            }
+            return "blocked"
+        if any(record["state"] != "committed" for record in records):
+            return "waiting"
+        return "ready"
+
+    def _can_start_attempt(self, item: Mapping[str, Any], *, charged_retry: bool) -> bool:
+        assert self._state is not None and self._request is not None
+        policy = self._request["execution_policy"]
+        attempts = self._item_attempts(item["item_id"])
+        if len(attempts) >= policy["max_attempts_per_item"]:
+            return False
+        if len(self._state["attempts"]) >= self._request["authorization"]["max_total_attempts"]:
+            return False
+        if self._elapsed_seconds() >= policy["max_elapsed_seconds"]:
+            return False
+        if charged_retry:
+            charged_failures = sum(
+                attempt.get("error", {}).get("error_class")
+                == "OUTPUT_TECHNICALLY_INVALID"
+                for attempt in attempts
+            )
+            if charged_failures > item["charged_retry_allowance"]:
+                return False
+        exposure = (
+            float(self._state["cost"]["reserved_usd"])
+            + float(self._state["cost"]["known_actual_usd"])
+            + float(self._state["cost"]["indeterminate_exposure_usd"])
+            + float(item["estimated_cost_usd"])
+        )
+        return exposure <= float(self._state["cost"]["authorized_cap_usd"]) + 1e-9
+
+    def _budget_would_exceed_cap(self, item: Mapping[str, Any]) -> bool:
+        exposure = (
+            float(self._state["cost"]["reserved_usd"])
+            + float(self._state["cost"]["known_actual_usd"])
+            + float(self._state["cost"]["indeterminate_exposure_usd"])
+            + float(item["estimated_cost_usd"])
+        )
+        return exposure > float(self._state["cost"]["authorized_cap_usd"]) + 1e-9
+
+    def _set_dispatch_blocker(
+        self,
+        error_class: str,
+        *,
+        item_id: str,
+        attempt_id: str | None,
+        reason: str,
+    ) -> bool:
+        """Record the first system-wide provider stop in durable BatchState."""
+
+        assert self._state is not None
+        if "dispatch_blocker" in self._state:
+            return False
+        blocker = {
+            "error_class": error_class,
+            "provider_dispatch": "forbidden",
+            "storage_reconciliation": "existing_staged_bytes_only",
+            "source_item_id": item_id,
+            "set_at": self._now(),
+            "reason": reason[:4096],
+        }
+        if attempt_id is not None:
+            blocker["source_attempt_id"] = attempt_id
+        self._state["dispatch_blocker"] = blocker
+        return True
+
+    def _release_reservation(self, attempt: dict[str, Any]) -> float:
+        assert self._state is not None
+        reserved = float(attempt["cost"]["reserved_usd"])
+        if reserved:
+            self._state["cost"]["reserved_usd"] = _money_sum(
+                self._state["cost"]["reserved_usd"], -reserved
+            )
+            attempt["cost"]["reserved_usd"] = 0.0
+        return reserved
+
+    def _indeterminate_remote_poll(
+        self, record: dict[str, Any], attempt: dict[str, Any]
+    ) -> None:
+        assert self._state is not None
+        reserved = self._release_reservation(attempt)
+        known = float(attempt["cost"]["known_actual_usd"])
+        potential = 0.0
+        if known <= 0:
+            potential = max(
+                reserved,
+                float(attempt["cost"]["estimated_usd"]),
+                float(attempt["cost"]["potentially_charged_usd"]),
+            )
+            self._state["cost"]["indeterminate_exposure_usd"] = _money_sum(
+                self._state["cost"]["indeterminate_exposure_usd"], potential
+            )
+        attempt["cost"]["potentially_charged_usd"] = potential
+        attempt.update({"phase": "indeterminate", "retry_action": "mark_indeterminate"})
+        record.update(
+            {
+                "state": "indeterminate",
+                "error_class": attempt["error"]["error_class"],
+            }
+        )
+        record.pop("next_eligible_at", None)
+
+    def _reconcile_staged_under_dispatch_blocker(self) -> bool:
+        """Commit only bytes produced before the durable provider stop marker."""
+
+        assert self._state is not None
+        changed = False
+        for item_id, item in self._work_items.items():
+            record = self._item_record(item_id)
+            latest = self._latest_attempt(item_id)
+            storage_continuation = latest is not None and latest.get(
+                "retry_action"
+            ) in {"retry_storage_commit", "reconcile_storage_precondition"}
+            if record["state"] != "succeeded_staged" and not storage_continuation:
+                continue
+            if record["state"] == "retry_wait":
+                self._wait_for_retry_deadline(record)
+            self._commit_staged(item, latest)
+            changed = True
+        return changed
+
+    def _apply_dispatch_blocker(self) -> bool:
+        """Terminalize every non-storage continuation without submit or poll."""
+
+        assert self._state is not None
+        blocker = self._state.get("dispatch_blocker")
+        if blocker is None:
+            return False
+        changed = False
+        blocker_class = blocker["error_class"]
+        for record in self._state["items"]:
+            if record["state"] in TERMINAL_ITEM_STATES:
+                continue
+            latest = self._latest_attempt(record["item_id"])
+            if record["state"] == "succeeded_staged" or (
+                latest is not None
+                and latest.get("retry_action")
+                in {"retry_storage_commit", "reconcile_storage_precondition"}
+            ):
+                continue
+            if latest is None:
+                record.update(
+                    {"state": "failed_terminal", "error_class": blocker_class}
+                )
+            elif latest.get("retry_action") == "poll_remote_operation":
+                self._indeterminate_remote_poll(record, latest)
+            elif latest.get("retry_action") in {
+                "resubmit_generation",
+                "await_charged_generation_authorization",
+            }:
+                latest["retry_action"] = "do_not_retry"
+                record.update(
+                    {
+                        "state": "failed_terminal",
+                        "error_class": latest["error"]["error_class"],
+                    }
+                )
+            elif latest["phase"] == "prepared":
+                self._release_reservation(latest)
+                latest["cost"]["potentially_charged_usd"] = 0.0
+                if blocker_class == "LOCAL_STORAGE_TRANSIENT":
+                    latest.update(
+                        {
+                            "phase": "cancelled",
+                            "acceptance_knowledge": "not_accepted",
+                            "retry_action": "do_not_retry",
+                            "error": {
+                                "error_class": "CANCELLED",
+                                "sanitized_message": "Provider dispatch stopped by a durable storage blocker.",
+                            },
+                        }
+                    )
+                    record["state"] = "cancelled"
+                else:
+                    latest.update(
+                        {
+                            "phase": "failed",
+                            "acceptance_knowledge": "not_accepted",
+                            "retry_action": "do_not_retry",
+                            "error": {
+                                "error_class": blocker_class,
+                                "sanitized_message": "Provider dispatch stopped by the durable systemic blocker.",
+                            },
+                        }
+                    )
+                    record.update(
+                        {"state": "failed_terminal", "error_class": blocker_class}
+                    )
+            elif latest["phase"] == "dispatched":
+                if latest["billing_mode"] == "paid":
+                    self._mark_indeterminate(
+                        latest,
+                        "Provider dispatch was in flight when a systemic blocker stopped reconciliation",
+                    )
+                else:
+                    self._release_reservation(latest)
+                    latest.update(
+                        {
+                            "phase": "indeterminate",
+                            "acceptance_knowledge": "unknown",
+                            "retry_action": "mark_indeterminate",
+                            "error": {
+                                "error_class": "INTERNAL_BUG",
+                                "sanitized_message": "No-cost in-flight provider outcome could not be reconciled.",
+                            },
+                        }
+                    )
+                    latest["cost"]["potentially_charged_usd"] = 0.0
+                    record.update(
+                        {"state": "indeterminate", "error_class": "INTERNAL_BUG"}
+                    )
+            else:
+                raise M1ExecutionError(
+                    "INVALID_DISPATCH_BLOCKER_STATE",
+                    f"Cannot safely stop {record['item_id']} from {latest['phase']}/{latest['retry_action']}",
+                )
+            record.pop("next_eligible_at", None)
+            changed = True
+        return changed
+
+    def _fail_retry_candidate(self, record: dict[str, Any], latest: dict[str, Any] | None) -> None:
+        record.pop("next_eligible_at", None)
+        record["state"] = "failed_terminal"
+        if latest is None:
+            record["error_class"] = "BUDGET_EXCEEDED"
+            return
+        latest["retry_action"] = "do_not_retry"
+        record["error_class"] = latest["error"]["error_class"]
+
+    def _prepare_attempt(self, item: Mapping[str, Any]) -> dict[str, Any] | None:
+        assert self._state is not None and self._request is not None
+        record = self._item_record(item["item_id"])
+        latest = self._latest_attempt(item["item_id"])
+        charged_retry = bool(
+            latest
+            and latest.get("retry_action") == "await_charged_generation_authorization"
+        )
+        if not self._can_start_attempt(item, charged_retry=charged_retry):
+            blocker_set = False
+            if self._budget_would_exceed_cap(item):
+                blocker_set = self._set_dispatch_blocker(
+                    "BUDGET_EXCEEDED",
+                    item_id=item["item_id"],
+                    attempt_id=latest["attempt_id"] if latest is not None else None,
+                    reason="A new provider attempt would exceed the frozen batch cap.",
+                )
+            self._fail_retry_candidate(record, latest)
+            self._save_state()
+            if blocker_set:
+                self._crash(
+                    "systemic_blocker_persisted",
+                    error_class="BUDGET_EXCEEDED",
+                    item_id=item["item_id"],
+                )
+            return None
+        sequence = self._state["last_attempt_sequence"] + 1
+        attempt_id = f"attempt-{sequence:06d}"
+        estimated = float(item["estimated_cost_usd"])
+        attempt = {
+            "version": "1.0",
+            "batch_id": self._request["batch_id"],
+            "request_digest": self._request["request_digest"],
+            "item_id": item["item_id"],
+            "attempt_id": attempt_id,
+            "work_item_digest": item["work_item_digest"],
+            "idempotency_digest": compute_idempotency_digest(
+                self._request["request_digest"], item["work_item_digest"]
+            ),
+            "identity": dict(item["identity"]),
+            "dispatch_sequence": sequence,
+            "phase": "prepared",
+            "timestamps": {"queued_at": self._now()},
+            "acceptance_knowledge": "not_accepted",
+            "billing_mode": "no_cost" if self._request["authorization"]["no_cost"] else "paid",
+            "retry_action": "none",
+            "operation_retry_count": 0,
+            "cost": {
+                "estimated_usd": estimated,
+                "reserved_usd": estimated,
+                "known_actual_usd": 0.0,
+                "potentially_charged_usd": 0.0,
+            },
+        }
+        validate_attempt(attempt)
+        self._state["attempts"].append(attempt)
+        self._state["last_attempt_sequence"] = sequence
+        self._state["cost"]["reserved_usd"] = _money_sum(
+            self._state["cost"]["reserved_usd"], estimated
+        )
+        record.update({"state": "running", "attempt_count": record["attempt_count"] + 1})
+        record.pop("next_eligible_at", None)
+        record.pop("error_class", None)
+        self._save_state()
+        self._crash("attempt_reserved", item_id=item["item_id"], attempt_id=attempt_id)
+        return attempt
+
+    def _dispatch_attempt(self, item: Mapping[str, Any], attempt: dict[str, Any]) -> ProviderCall:
+        assert self._store is not None and self._request is not None
+        output_path = self._store.attempt_output_path(
+            item["item_id"], attempt["attempt_id"], item["output_spec"]["output_name"]
+        )
+        validate_attempt_output_path(
+            output_path,
+            projects_root=self.projects_root,
+            project_id=self._request["project_id"],
+            batch_id=self._request["batch_id"],
+            item_id=item["item_id"],
+            attempt_id=attempt["attempt_id"],
+            output_name=item["output_spec"]["output_name"],
+        )
+        self._store.prepare_attempt_directory(output_path)
+        attempt["phase"] = "dispatched"
+        attempt["acceptance_knowledge"] = "unknown"
+        attempt["timestamps"]["dispatched_at"] = self._now()
+        attempt["cost"]["potentially_charged_usd"] = attempt["cost"]["estimated_usd"]
+        self._save_state()
+        self._crash("dispatch_recorded", item_id=item["item_id"], attempt_id=attempt["attempt_id"])
+        return ProviderCall(
+            kind="submit",
+            item_id=item["item_id"],
+            attempt_id=attempt["attempt_id"],
+            identity=deepcopy(item["identity"]),
+            inputs=deepcopy(item["inputs"]),
+            output_path=output_path,
+            idempotency_digest=attempt["idempotency_digest"],
+        )
+
+    def _poll_call(self, item: Mapping[str, Any], attempt: dict[str, Any]) -> ProviderCall:
+        assert self._store is not None
+        output_path = self._store.attempt_output_path(
+            item["item_id"], attempt["attempt_id"], item["output_spec"]["output_name"]
+        )
+        self._store.prepare_attempt_directory(output_path)
+        return ProviderCall(
+            kind="poll",
+            item_id=item["item_id"],
+            attempt_id=attempt["attempt_id"],
+            identity=deepcopy(item["identity"]),
+            inputs=deepcopy(item["inputs"]),
+            output_path=output_path,
+            idempotency_digest=attempt["idempotency_digest"],
+            provider_operation_id=attempt["provider_operation_id"],
+        )
+
+    def _worker(self, call: ProviderCall, cancellation: threading.Event) -> ProviderFacts:
+        with worker_execution_scope(call.output_path.parent):
+            return self.provider.invoke(call, cancellation)
+
+    def _validate_worker_facts(
+        self,
+        call: ProviderCall,
+        attempt: Mapping[str, Any],
+        facts: ProviderFacts,
+    ) -> None:
+        """Apply the frozen M0 attempt matrix before mutating shared state."""
+
+        validate_provider_facts(
+            facts,
+            billing_mode=attempt["billing_mode"],
+            call_kind=call.kind,
+        )
+        candidate = deepcopy(dict(attempt))
+        known = max(
+            float(candidate["cost"]["known_actual_usd"]),
+            float(facts.known_actual_usd),
+        )
+        candidate["cost"]["known_actual_usd"] = known
+        if facts.success:
+            candidate.update(
+                {
+                    "phase": "result_received",
+                    "acceptance_knowledge": "accepted",
+                    "retry_action": "none",
+                }
+            )
+            candidate.pop("error", None)
+        else:
+            error_class = facts.error_class or "INTERNAL_BUG"
+            retry_action = facts.retry_action
+            acceptance = facts.acceptance
+            if acceptance == "unknown" and candidate["billing_mode"] == "paid":
+                retry_action = "mark_indeterminate"
+                error_class = (
+                    error_class
+                    if error_class
+                    in {
+                        "RATE_LIMITED_ACCEPTANCE_UNKNOWN",
+                        "TIMEOUT_OR_NETWORK_UNKNOWN",
+                        "INTERNAL_BUG",
+                        "CANCELLED",
+                    }
+                    else "INTERNAL_BUG"
+                )
+            phase_by_action = {
+                "resubmit_generation": "failed",
+                "poll_remote_operation": "provider_accepted",
+                "do_not_retry": "failed",
+                "mark_indeterminate": "indeterminate",
+            }
+            candidate.update(
+                {
+                    "phase": phase_by_action[retry_action],
+                    "acceptance_knowledge": acceptance,
+                    "retry_action": retry_action,
+                    "error": {
+                        "error_class": error_class,
+                        "sanitized_message": facts.sanitized_message
+                        or "Provider adapter returned no error details",
+                    },
+                }
+            )
+            if facts.provider_operation_id:
+                candidate["provider_operation_id"] = facts.provider_operation_id
+            if facts.retry_after_seconds:
+                candidate["error"]["retry_after_seconds"] = facts.retry_after_seconds
+        if facts.acceptance == "not_accepted":
+            candidate["cost"].update(
+                {"known_actual_usd": 0.0, "potentially_charged_usd": 0.0}
+            )
+        elif facts.acceptance == "unknown":
+            candidate["cost"]["potentially_charged_usd"] = max(
+                float(candidate["cost"]["potentially_charged_usd"]),
+                float(candidate["cost"]["estimated_usd"]),
+                float(facts.potentially_charged_usd),
+            )
+        elif known > 0:
+            candidate["cost"]["potentially_charged_usd"] = 0.0
+        else:
+            candidate["cost"]["potentially_charged_usd"] = max(
+                float(candidate["cost"]["potentially_charged_usd"]),
+                float(facts.potentially_charged_usd),
+            )
+        validate_attempt(candidate)
+
+    def _reconcile_cost(self, attempt: dict[str, Any], facts: ProviderFacts) -> None:
+        assert self._state is not None
+        prior_reserved = float(attempt["cost"]["reserved_usd"])
+        prior_known = float(attempt["cost"]["known_actual_usd"])
+        known = max(prior_known, float(facts.known_actual_usd))
+        if attempt["billing_mode"] == "no_cost":
+            retained_reserve = 0.0
+            potential = 0.0
+            known = 0.0
+        elif facts.acceptance == "not_accepted":
+            retained_reserve = 0.0
+            potential = 0.0
+        elif facts.acceptance == "accepted" and known > 0:
+            retained_reserve = 0.0
+            potential = 0.0
+        elif facts.acceptance == "accepted":
+            retained_reserve = max(
+                prior_reserved,
+                float(attempt["cost"]["estimated_usd"]),
+                float(attempt["cost"]["potentially_charged_usd"]),
+                float(facts.potentially_charged_usd),
+            )
+            potential = retained_reserve
+        else:
+            retained_reserve = 0.0
+            potential = max(
+                float(attempt["cost"]["potentially_charged_usd"]),
+                float(facts.potentially_charged_usd),
+            )
+        self._state["cost"]["reserved_usd"] = _money_sum(
+            self._state["cost"]["reserved_usd"], retained_reserve, -prior_reserved
+        )
+        self._state["cost"]["known_actual_usd"] = _money_sum(
+            self._state["cost"]["known_actual_usd"], known, -prior_known
+        )
+        attempt["cost"].update(
+            {
+                "reserved_usd": retained_reserve,
+                "known_actual_usd": known,
+                "potentially_charged_usd": potential,
+            }
+        )
+
+    def _record_worker_failure(
+        self, item: Mapping[str, Any], attempt: dict[str, Any], facts: ProviderFacts
+    ) -> None:
+        assert self._state is not None
+        self._reconcile_cost(attempt, facts)
+        record = self._item_record(item["item_id"])
+        error_class = facts.error_class or "INTERNAL_BUG"
+        message = facts.sanitized_message or "Provider adapter returned no error details"
+        if facts.acceptance == "unknown" and attempt["billing_mode"] == "paid":
+            potential = max(
+                float(attempt["cost"]["potentially_charged_usd"]),
+                float(attempt["cost"]["estimated_usd"]),
+            )
+            self._state["cost"]["indeterminate_exposure_usd"] = _money_sum(
+                self._state["cost"]["indeterminate_exposure_usd"], potential
+            )
+            attempt.update(
+                {
+                    "phase": "indeterminate",
+                    "acceptance_knowledge": "unknown",
+                    "retry_action": "mark_indeterminate",
+                    "error": {
+                        "error_class": error_class
+                        if error_class
+                        in {"RATE_LIMITED_ACCEPTANCE_UNKNOWN", "TIMEOUT_OR_NETWORK_UNKNOWN", "INTERNAL_BUG", "CANCELLED"}
+                        else "INTERNAL_BUG",
+                        "sanitized_message": message,
+                    },
+                }
+            )
+            attempt["cost"]["potentially_charged_usd"] = potential
+            record.update(
+                {"state": "indeterminate", "error_class": attempt["error"]["error_class"]}
+            )
+            record.pop("next_eligible_at", None)
+        else:
+            attempt["acceptance_knowledge"] = facts.acceptance
+            attempt["retry_action"] = facts.retry_action
+            attempt["error"] = {
+                "error_class": error_class,
+                "sanitized_message": message,
+            }
+            if facts.retry_after_seconds:
+                attempt["error"]["retry_after_seconds"] = facts.retry_after_seconds
+            if facts.provider_operation_id:
+                attempt["provider_operation_id"] = facts.provider_operation_id
+            if facts.retry_action == "poll_remote_operation":
+                attempt["phase"] = "provider_accepted"
+                record["state"] = "retry_wait"
+            elif facts.retry_action == "resubmit_generation":
+                attempt["phase"] = "failed"
+                record["state"] = "retry_wait"
+            elif facts.retry_action == "do_not_retry":
+                attempt["phase"] = "failed"
+                record["state"] = "failed_terminal"
+                record["error_class"] = error_class
+                record.pop("next_eligible_at", None)
+            elif facts.retry_action == "mark_indeterminate":
+                attempt["phase"] = "indeterminate"
+                record["state"] = "indeterminate"
+                record["error_class"] = error_class
+                record.pop("next_eligible_at", None)
+            else:
+                raise M1ExecutionError(
+                    "INVALID_PROVIDER_FACTS",
+                    f"Provider failure supplied unsafe action {facts.retry_action}",
+                )
+        if record["state"] == "retry_wait":
+            if facts.retry_action == "poll_remote_operation":
+                continuation_count = attempt.get("operation_retry_count", 0) + 1
+                attempt["operation_retry_count"] = continuation_count
+                if continuation_count >= 3:
+                    attempt.update(
+                        {"phase": "indeterminate", "retry_action": "mark_indeterminate"}
+                    )
+                    record.update(
+                        {"state": "indeterminate", "error_class": error_class}
+                    )
+                    record.pop("next_eligible_at", None)
+                    validate_attempt(attempt)
+                    self._save_state()
+                    return
+            retry_index = max(0, record["attempt_count"] - 1)
+            delay = full_jitter_delay(
+                retry_index,
+                base_seconds=1.0,
+                cap_seconds=30.0,
+                random_source=self.random_source,
+                retry_after_seconds=facts.retry_after_seconds,
+            )
+            if self._elapsed_seconds() + delay >= self._request["execution_policy"]["max_elapsed_seconds"]:
+                if facts.retry_action == "poll_remote_operation":
+                    attempt.update(
+                        {"phase": "indeterminate", "retry_action": "mark_indeterminate"}
+                    )
+                    record.update(
+                        {"state": "indeterminate", "error_class": error_class}
+                    )
+                    record.pop("next_eligible_at", None)
+                else:
+                    self._fail_retry_candidate(record, attempt)
+            else:
+                record["next_eligible_at"] = self._retry_deadline(delay)
+        validate_attempt(attempt)
+        blocker_set = False
+        if error_class == "AUTH_CONFIGURATION":
+            blocker_set = self._set_dispatch_blocker(
+                error_class,
+                item_id=item["item_id"],
+                attempt_id=attempt["attempt_id"],
+                reason="The selected provider authentication configuration failed.",
+            )
+        self._save_state()
+        if blocker_set:
+            self._crash(
+                "systemic_blocker_persisted",
+                error_class=error_class,
+                item_id=item["item_id"],
+                attempt_id=attempt["attempt_id"],
+            )
+        if record["state"] == "retry_wait":
+            self._crash(
+                "retry_wait_persisted",
+                item_id=item["item_id"],
+                attempt_id=attempt["attempt_id"],
+            )
+            self._wait_for_retry_deadline(record)
+
+    def _record_provider_success(
+        self, item: Mapping[str, Any], attempt: dict[str, Any], facts: ProviderFacts
+    ) -> None:
+        self._reconcile_cost(attempt, facts)
+        attempt.update(
+            {
+                "phase": "result_received",
+                "acceptance_knowledge": "accepted",
+                "retry_action": "none",
+            }
+        )
+        attempt.pop("error", None)
+        if facts.provider_operation_id:
+            attempt["provider_operation_id"] = facts.provider_operation_id
+        attempt["timestamps"]["response_received_at"] = self._now()
+        self._save_state()
+        self._crash(
+            "provider_result_recorded",
+            item_id=item["item_id"],
+            attempt_id=attempt["attempt_id"],
+        )
+        self._validate_and_commit(item, attempt)
+
+    def _validate_and_commit(self, item: Mapping[str, Any], attempt: dict[str, Any]) -> None:
+        assert self._store is not None and self._state is not None
+        output_path = self._store.attempt_output_path(
+            item["item_id"], attempt["attempt_id"], item["output_spec"]["output_name"]
+        )
+        try:
+            facts = self.media_validator.validate(output_path, self._output_spec(item))
+        except M1ExecutionError as exc:
+            attempt.update(
+                {
+                    "phase": "failed",
+                    "acceptance_knowledge": "accepted",
+                    "retry_action": "await_charged_generation_authorization",
+                    "error": {
+                        "error_class": "OUTPUT_TECHNICALLY_INVALID",
+                        "sanitized_message": str(exc)[:4096],
+                    },
+                }
+            )
+            attempt.pop("output", None)
+            record = self._item_record(item["item_id"])
+            if self._can_start_attempt(item, charged_retry=True):
+                record["state"] = "retry_wait"
+                record["next_eligible_at"] = self._now()
+            else:
+                attempt["retry_action"] = "do_not_retry"
+                record.update(
+                    {"state": "failed_terminal", "error_class": "OUTPUT_TECHNICALLY_INVALID"}
+                )
+                record.pop("next_eligible_at", None)
+            validate_attempt(attempt)
+            self._save_state()
+            return
+        attempt.update(
+            {
+                "phase": "technically_valid",
+                "retry_action": "none",
+                "output": {
+                    "sha256": facts.sha256,
+                    "size_bytes": facts.size_bytes,
+                    "probe": dict(facts.probe),
+                },
+            }
+        )
+        attempt.pop("error", None)
+        attempt["timestamps"]["bytes_verified_at"] = self._now()
+        record = self._item_record(item["item_id"])
+        record["state"] = "succeeded_staged"
+        record.pop("next_eligible_at", None)
+        self._save_state()
+        self._crash("media_validated", item_id=item["item_id"], attempt_id=attempt["attempt_id"])
+        self._commit_staged(item, attempt, facts)
+
+    def _commit_staged(
+        self,
+        item: Mapping[str, Any],
+        attempt: dict[str, Any],
+        facts: OutputFacts | None = None,
+    ) -> None:
+        assert self._store is not None and self._state is not None
+        output_path = self._store.attempt_output_path(
+            item["item_id"], attempt["attempt_id"], item["output_spec"]["output_name"]
+        )
+        if facts is None:
+            facts = self.media_validator.validate(output_path, self._output_spec(item))
+            recorded = attempt.get("output")
+            if recorded and (
+                recorded["sha256"] != facts.sha256
+                or recorded["size_bytes"] != facts.size_bytes
+                or canonical_json_bytes(recorded["probe"])
+                != canonical_json_bytes(facts.probe)
+            ):
+                raise M1ExecutionError(
+                    "REUSE_RECEIPT_INVALID", "Staged bytes changed after validation"
+                )
+            attempt["output"] = {
+                "sha256": facts.sha256,
+                "size_bytes": facts.size_bytes,
+                "probe": dict(facts.probe),
+            }
+        try:
+            receipt = self._store.put_verified_blob(
+                source=output_path,
+                logical_path=output_path.relative_to(self._store.project_dir).as_posix(),
+                batch_id=self._request["batch_id"],
+                item_id=item["item_id"],
+                attempt_id=attempt["attempt_id"],
+                output=facts,
+                created_at=self._now(),
+            )
+        except M1ExecutionError as exc:
+            storage_errors = {
+                "LOCAL_STORAGE_TRANSIENT": "retry_storage_commit",
+                "GCS_TRANSIENT": "retry_storage_commit",
+                "GCS_PRECONDITION_CONFLICT": "reconcile_storage_precondition",
+            }
+            if exc.code not in storage_errors:
+                raise
+            continuation_count = attempt.get("operation_retry_count", 0) + 1
+            attempt["operation_retry_count"] = continuation_count
+            attempt.update(
+                {
+                    "phase": "technically_valid",
+                    "retry_action": storage_errors[exc.code],
+                    "error": {
+                        "error_class": exc.code,
+                        "sanitized_message": str(exc)[:4096],
+                    },
+                }
+            )
+            record = self._item_record(item["item_id"])
+            record["state"] = "retry_wait"
+            blocker_set = False
+            if (
+                continuation_count >= 3
+                or self._elapsed_seconds()
+                >= self._request["execution_policy"]["max_elapsed_seconds"]
+            ):
+                attempt.update({"phase": "failed", "retry_action": "do_not_retry"})
+                record.update(
+                    {"state": "failed_terminal", "error_class": exc.code}
+                )
+                record.pop("next_eligible_at", None)
+                blocker_set = self._set_dispatch_blocker(
+                    exc.code,
+                    item_id=item["item_id"],
+                    attempt_id=attempt["attempt_id"],
+                    reason="Durable blob commit exhausted its bounded retry policy.",
+                )
+            else:
+                delay = full_jitter_delay(
+                    continuation_count - 1,
+                    base_seconds=0.25,
+                    cap_seconds=5.0,
+                    random_source=self.random_source,
+                )
+                record["next_eligible_at"] = self._retry_deadline(delay)
+            self._save_state()
+            if blocker_set:
+                self._crash(
+                    "systemic_blocker_persisted",
+                    error_class=exc.code,
+                    item_id=item["item_id"],
+                    attempt_id=attempt["attempt_id"],
+                )
+            if record["state"] == "retry_wait":
+                self._crash(
+                    "retry_wait_persisted",
+                    item_id=item["item_id"],
+                    attempt_id=attempt["attempt_id"],
+                )
+                self._wait_for_retry_deadline(record)
+            return
+        self._crash("blob_committed", item_id=item["item_id"], attempt_id=attempt["attempt_id"])
+        attempt["phase"] = "durably_committed"
+        attempt["retry_action"] = "none"
+        attempt.pop("error", None)
+        attempt["output"]["storage_receipt_id"] = receipt["receipt_id"]
+        attempt["timestamps"]["committed_at"] = self._now()
+        if not any(
+            existing["receipt_id"] == receipt["receipt_id"]
+            for existing in self._state["storage_receipts"]
+        ):
+            self._state["storage_receipts"].append(receipt)
+        record = self._item_record(item["item_id"])
+        record.update(
+            {
+                "state": "committed",
+                "storage_receipt_id": receipt["receipt_id"],
+            }
+        )
+        record.pop("error_class", None)
+        record.pop("next_eligible_at", None)
+        self._save_state()
+        self._crash("item_committed", item_id=item["item_id"], attempt_id=attempt["attempt_id"])
+
+    def _handle_future(
+        self,
+        call: ProviderCall,
+        attempt: dict[str, Any],
+        future: Future[ProviderFacts],
+    ) -> None:
+        item = self._work_items[call.item_id]
+        systemic_worker_failure = False
+        try:
+            facts = future.result()
+            self._validate_worker_facts(call, attempt, facts)
+        except BaseException as exc:
+            systemic_worker_failure = True
+            facts = ProviderFacts(
+                success=False,
+                acceptance="unknown",
+                potentially_charged_usd=float(attempt["cost"]["estimated_usd"]),
+                error_class="INTERNAL_BUG",
+                retry_action="mark_indeterminate",
+                sanitized_message=f"Worker failed after dispatch: {type(exc).__name__}",
+            )
+        blocker_set = False
+        if systemic_worker_failure:
+            blocker_set = self._set_dispatch_blocker(
+                "INTERNAL_BUG",
+                item_id=item["item_id"],
+                attempt_id=attempt["attempt_id"],
+                reason="Provider worker returned invalid facts or raised outside its typed contract.",
+            )
+        if facts.success:
+            if facts.acceptance != "accepted":
+                raise M1ExecutionError(
+                    "INVALID_PROVIDER_FACTS", "Successful provider result must be accepted"
+                )
+            self._record_provider_success(item, attempt, facts)
+        else:
+            self._record_worker_failure(item, attempt, facts)
+        if blocker_set:
+            self._crash(
+                "systemic_blocker_persisted",
+                error_class="INTERNAL_BUG",
+                item_id=item["item_id"],
+                attempt_id=attempt["attempt_id"],
+            )
+
+    def _final_outcome(self) -> str:
+        assert self._state is not None
+        states = [item["state"] for item in self._state["items"]]
+        if "indeterminate" in states:
+            return "indeterminate"
+        successful = sum(state == "committed" for state in states)
+        if successful == len(states):
+            return "all_succeeded"
+        if states and all(state == "cancelled" for state in states):
+            return "cancelled"
+        if successful:
+            return "partial_failure"
+        return "failed"
+
+    def _derive_result_from_terminal_state(self) -> dict[str, Any]:
+        assert self._state is not None and self._request is not None
+        if (
+            self._state["status"] != "awaiting_agent_review"
+            or "outcome" not in self._state
+            or "completed_at" not in self._state
+            or "invocations" not in self._state
+            or "rate_limit_wait_seconds" not in self._state
+        ):
+            raise M1ExecutionError(
+                "RESULT_STATE_MISMATCH",
+                "BatchResult can only be derived from complete durable terminal state",
+            )
+        result_items = []
+        for record in self._state["items"]:
+            item_id = record["item_id"]
+            state = "cache_hit" if record.get("reuse_verified", False) else record["state"]
+            result_item: dict[str, Any] = {"item_id": item_id, "state": state}
+            if state in {"committed", "cache_hit"}:
+                result_item["storage_receipt"] = deepcopy(
+                    self._receipt(record["storage_receipt_id"])
+                )
+            elif state == "blocked_by_dependency":
+                result_item["blocker"] = deepcopy(record["blocker"])
+            elif state in {"failed_terminal", "indeterminate"}:
+                latest = self._latest_attempt(item_id)
+                if latest is not None:
+                    result_item["error"] = deepcopy(latest["error"])
+                else:
+                    result_item["error"] = {
+                        "error_class": record.get("error_class", "INTERNAL_BUG"),
+                        "sanitized_message": "Item could not be dispatched within frozen limits.",
+                    }
+            result_items.append(result_item)
+        states = [item["state"] for item in result_items]
+        counts = {
+            "successful": states.count("committed"),
+            "cache_hit": states.count("cache_hit"),
+            "failed": states.count("failed_terminal"),
+            "blocked": states.count("blocked_by_dependency"),
+            "indeterminate": states.count("indeterminate"),
+            "cancelled": states.count("cancelled"),
+        }
+        attempted_items = {attempt["item_id"] for attempt in self._state["attempts"]}
+        generation_retries = max(
+            0, len(self._state["attempts"]) - len(attempted_items)
+        )
+        operation_retries = sum(
+            attempt.get("operation_retry_count", 0)
+            for attempt in self._state["attempts"]
+        )
+        return {
+            "version": "1.0",
+            "batch_id": self._request["batch_id"],
+            "request_digest": self._request["request_digest"],
+            "source_bindings": [
+                {"binding_id": binding["binding_id"], "sha256": binding["sha256"]}
+                for binding in self._request["source_bindings"]
+            ],
+            "invocations": deepcopy(self._state["invocations"]),
+            "ownership_proof_digests": deepcopy(
+                self._state.get("ownership_proof_digests", [])
+            ),
+            "status": "awaiting_agent_review",
+            "outcome": self._state["outcome"],
+            "counts": counts,
+            "items": result_items,
+            "cost": deepcopy(self._state["cost"]),
+            "statistics": {
+                "attempts": len(self._state["attempts"]),
+                "retries": generation_retries + operation_retries,
+                "cache_hits": counts["cache_hit"],
+                "rate_limit_wait_seconds": self._state[
+                    "rate_limit_wait_seconds"
+                ],
+            },
+            "agent_review_hints": [
+                "Review mechanical outputs and receipts before M2 canonical publication."
+            ],
+            "created_at": self._state["completed_at"],
+        }
+
+    def _reconcile_existing_result(
+        self, result: Mapping[str, Any]
+    ) -> dict[str, Any]:
+        assert self._state is not None and self._request is not None and self._store is not None
+        result_digest = canonical_sha256(result)
+        if result["request_digest"] != self._request["request_digest"]:
+            raise M1ExecutionError(
+                "REQUEST_CONFLICT", "BatchResult binds another request digest"
+            )
+        expected_path = self._store.result_logical_path
+        result_ref = self._state.get("result_ref")
+        if result_ref is not None and (
+            result_ref["logical_path"] != expected_path
+            or result_ref["sha256"] != result_digest
+        ):
+            raise M1ExecutionError(
+                "RESULT_REF_MISMATCH",
+                "BatchState result reference does not bind the exact durable result",
+            )
+        expected_result = self._derive_result_from_terminal_state()
+        if canonical_json_bytes(result) != canonical_json_bytes(expected_result):
+            raise M1ExecutionError(
+                "RESULT_STATE_MISMATCH",
+                "BatchResult facts differ from the durable terminal BatchState",
+            )
+        self._verify_result_receipts(result)
+        if result_ref is None:
+            self._state["result_ref"] = {
+                "logical_path": expected_path,
+                "sha256": result_digest,
+            }
+            self._save_state()
+        return deepcopy(dict(result))
+
+    def _terminalize(self, cancellation: threading.Event) -> dict[str, Any]:
+        assert self._state is not None and self._store is not None
+        self._state["status"] = "awaiting_agent_review"
+        self._state["outcome"] = self._final_outcome()
+        self._state["owner"]["owner_status"] = (
+            "cancelled" if cancellation.is_set() else "terminal"
+        )
+        self._state["completed_at"] = self._now()
+        self._save_state()
+
+        result = self._derive_result_from_terminal_state()
+        self._store.write_result_if_absent(result)
+        digest = canonical_sha256(result)
+        self._crash("result_written", result_digest=digest)
+        self._state["result_ref"] = {
+            "logical_path": self._store.result_logical_path,
+            "sha256": digest,
+        }
+        self._save_state()
+        if self.execution_profile == "cloud_run":
+            assert self._state_version is not None
+            self._verify_cloud_owner_reread(
+                deepcopy(self._state["owner"]),
+                self._state_version,
+                require_active=False,
+            )
+        return result
+
+    def _run_locked(
+        self,
+        invocation_id: str,
+        cancellation: threading.Event,
+    ) -> dict[str, Any]:
+        assert self._store is not None and self._request is not None
+        self._store.write_request_if_absent(self._request)
+        self._crash("request_persisted", request_digest=self._request["request_digest"])
+        durable_request, _ = self._store.load_request()
+        if durable_request != self._request:
+            raise M1ExecutionError(
+                "REQUEST_CONFLICT", "Durable request differs from the preflight request"
+            )
+
+        if self._store.batch_state_exists():
+            self._state, self._state_version = self._store.load_batch_state()
+            if self._state["request_digest"] != self._request["request_digest"]:
+                raise M1ExecutionError(
+                    "REQUEST_CONFLICT", "BatchState binds another request digest"
+                )
+            if self.execution_profile == "cloud_run":
+                recorded_owner = self._state["owner"]
+                same_active_owner = (
+                    recorded_owner["owner_status"] == "active"
+                    and recorded_owner["invocation_id"] == invocation_id
+                    and self._invocation is not None
+                    and recorded_owner["execution_id"] == self._invocation.execution_id
+                    and recorded_owner["task_id"] == self._invocation.task_id
+                )
+                if (
+                    recorded_owner["owner_status"] == "active"
+                    and not same_active_owner
+                    and self._invocation is not None
+                    and self._invocation.mode == "run"
+                ):
+                    raise M1ExecutionError(
+                        "EXECUTION_OWNER_ACTIVE",
+                        "A different active Cloud execution owns this request",
+                    )
+            existing_result = self._store.load_result()
+            if existing_result is not None:
+                result, _ = existing_result
+                return self._reconcile_existing_result(result)
+            if "result_ref" in self._state:
+                raise M1ExecutionError(
+                    "RESULT_REF_MISMATCH",
+                    "BatchState references a missing durable BatchResult",
+                )
+            if self.execution_profile == "local":
+                self._take_local_ownership(invocation_id)
+            else:
+                self._take_cloud_ownership()
+            self._recover_state()
+        else:
+            if self.execution_profile == "cloud_run" and (
+                self._invocation is None or self._invocation.mode != "run"
+            ):
+                raise M1ExecutionError(
+                    "RESUME_OWNERSHIP_PROOF_INVALID",
+                    "Cloud resume cannot create a missing initial BatchState",
+                )
+            self._state = self._initial_state(self._request)
+            self._state_version = None
+            self._save_state()
+            if self.execution_profile == "cloud_run":
+                assert self._state_version is not None
+                self._verify_cloud_owner_reread(
+                    deepcopy(self._state["owner"]), self._state_version
+                )
+            self._crash("state_initialized", invocation_id=invocation_id)
+
+        policy = self._request["execution_policy"]
+        provider = self._request["work_items"][0]["identity"]["provider"]
+        with BoundedScheduler(
+            max_workers=policy["global_worker_cap"],
+            provider_caps={provider: policy["provider_concurrency_cap"]},
+            provider_spacing_seconds={
+                provider: policy["min_request_spacing_seconds"]
+            },
+            clock=self.clock,
+        ) as scheduler:
+            inflight: dict[Future[ProviderFacts], tuple[ProviderCall, dict[str, Any]]] = {}
+            while True:
+                state_changed = False
+                dispatch_blocked = "dispatch_blocker" in self._state
+                if dispatch_blocked:
+                    if self._reconcile_staged_under_dispatch_blocker():
+                        state_changed = True
+                    if self._apply_dispatch_blocker():
+                        state_changed = True
+                if cancellation.is_set():
+                    cancellation_changed = self._settle_cancellation()
+                    state_changed = cancellation_changed or state_changed
+                    if cancellation_changed:
+                        self._save_state()
+
+                capacity = policy["provider_concurrency_cap"] - len(inflight)
+                if (
+                    not cancellation.is_set()
+                    and "dispatch_blocker" not in self._state
+                    and capacity > 0
+                ):
+                    for item_id, item in self._work_items.items():
+                        if capacity <= 0 or "dispatch_blocker" in self._state:
+                            break
+                        record = self._item_record(item_id)
+                        if record["state"] in TERMINAL_ITEM_STATES or record["state"] == "running":
+                            continue
+                        dependency = self._dependency_blocked_or_waiting(item)
+                        if dependency == "blocked":
+                            state_changed = True
+                            continue
+                        if dependency == "waiting":
+                            continue
+                        latest = self._latest_attempt(item_id)
+                        if record["state"] == "retry_wait":
+                            self._wait_for_retry_deadline(record)
+                            if cancellation.is_set():
+                                continue
+                        if record["state"] == "succeeded_staged" or (
+                            latest
+                            and latest["retry_action"]
+                            in {"retry_storage_commit", "reconcile_storage_precondition"}
+                        ):
+                            self._commit_staged(item, latest)
+                            state_changed = True
+                            continue
+                        if latest and latest["retry_action"] == "poll_remote_operation":
+                            call = self._poll_call(item, latest)
+                            record["state"] = "running"
+                            record.pop("next_eligible_at", None)
+                            self._save_state()
+                            future = scheduler.submit(
+                                provider,
+                                lambda call=call: self._worker(call, cancellation),
+                            )
+                            inflight[future] = (call, latest)
+                            capacity -= 1
+                            continue
+                        if latest and latest["phase"] == "prepared":
+                            attempt = latest
+                        else:
+                            attempt = self._prepare_attempt(item)
+                        if attempt is None:
+                            state_changed = True
+                            continue
+                        call = self._dispatch_attempt(item, attempt)
+                        future = scheduler.submit(
+                            provider,
+                            lambda call=call: self._worker(call, cancellation),
+                        )
+                        inflight[future] = (call, attempt)
+                        capacity -= 1
+
+                if state_changed:
+                    self._save_state()
+                    if not inflight and not all(
+                        record["state"] in TERMINAL_ITEM_STATES
+                        for record in self._state["items"]
+                    ):
+                        continue
+                if inflight:
+                    done, _ = wait(tuple(inflight), return_when=FIRST_COMPLETED)
+                    for future in done:
+                        call, attempt = inflight.pop(future)
+                        self._handle_future(call, attempt, future)
+                    continue
+                if all(
+                    record["state"] in TERMINAL_ITEM_STATES
+                    for record in self._state["items"]
+                ):
+                    break
+                # No in-flight or mechanically ready item means frozen dependencies
+                # or limits left the state inconsistent. Fail closed without calls.
+                unresolved = [
+                    record
+                    for record in self._state["items"]
+                    if record["state"] not in TERMINAL_ITEM_STATES
+                ]
+                if unresolved:
+                    for record in unresolved:
+                        record.update(
+                            {"state": "failed_terminal", "error_class": "INTERNAL_BUG"}
+                        )
+                    self._save_state()
+                    break
+            self._rate_limit_wait_seconds = _money_sum(
+                self._state.get("rate_limit_wait_seconds", 0.0),
+                scheduler.rate_limit_wait_seconds,
+            )
+            self._state["rate_limit_wait_seconds"] = self._rate_limit_wait_seconds
+        return self._terminalize(cancellation)
+
+    def run(
+        self,
+        request: Mapping[str, Any],
+        *,
+        observed_source_revision: Mapping[str, Any],
+        adapter_observation: Mapping[str, Any],
+        invocation_id: str | None = None,
+        cancellation: threading.Event | None = None,
+        invocation_mode: Literal["run", "resume"] = "run",
+        execution_id: str | None = None,
+        task_id: str | None = None,
+        execution_status_verifier: ExecutionStatusVerifier | None = None,
+        resume_authorization: Mapping[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        """Preflight and execute one immutable assets BatchRequest."""
+
+        self._state = None
+        self._state_version = None
+        self._reused_item_ids = set()
+        self._rate_limit_wait_seconds = 0.0
+        frozen = deepcopy(dict(request))
+        facts = preflight_batch_request(
+            frozen,
+            projects_root=self.projects_root,
+            observed_source_revision=observed_source_revision,
+            adapter_observation=adapter_observation,
+        )
+        qualify_request = getattr(self.provider, "qualify_request", None)
+        if callable(qualify_request):
+            qualified_observation = qualify_request(frozen)
+            if canonical_json_bytes(qualified_observation) != canonical_json_bytes(
+                adapter_observation
+            ):
+                raise M1ExecutionError(
+                    "AUTH_CONFIGURATION",
+                    "Runtime adapter qualification differs from preflight observation",
+                )
+        requested_profile = frozen["execution_policy"]["storage_profile"]
+        compatible_profiles = {
+            "local": {"local", "portable"},
+            "cloud_run": {"cloud_run", "portable"},
+        }
+        if requested_profile not in compatible_profiles[self.execution_profile]:
+            raise M1ExecutionError(
+                "INVALID_STORAGE_PROFILE",
+                f"Request profile {requested_profile!r} cannot run as {self.execution_profile}",
+            )
+        if frozen["execution_policy"]["provider_concurrency_cap"] != 1:
+            raise M1ExecutionError(
+                "INVALID_PROVIDER_CAP", "Selected Gemini provider cap must remain one"
+            )
+        self._request = frozen
+        self._work_items = {item["item_id"]: item for item in frozen["work_items"]}
+        self._store = self.store_factory(facts.project_dir, frozen["batch_id"])
+        if self.execution_profile == "local":
+            if invocation_mode != "run" or execution_status_verifier is not None or resume_authorization is not None:
+                raise M1ExecutionError(
+                    "INVALID_INVOCATION_MODE",
+                    "Local ownership is controlled by the OS run lock and local resume path",
+                )
+            invocation = invocation_id or f"local-{uuid.uuid4().hex}"
+            runtime_execution_id = execution_id or f"pid-{os.getpid()}"
+            runtime_task_id = task_id or "main"
+        else:
+            if not invocation_id or not execution_id or not task_id:
+                raise M1ExecutionError(
+                    "AUTH_CONFIGURATION",
+                    "Cloud execution requires explicit trusted invocation, execution, and task identities",
+                )
+            invocation = invocation_id
+            runtime_execution_id = execution_id
+            runtime_task_id = task_id
+            if invocation_mode == "run" and (
+                execution_status_verifier is not None or resume_authorization is not None
+            ):
+                raise M1ExecutionError(
+                    "RESUME_OWNERSHIP_PROOF_INVALID",
+                    "Ordinary Cloud run must not carry takeover proof",
+                )
+        self._invocation = ExecutionInvocation(
+            invocation_id=invocation,
+            execution_id=runtime_execution_id,
+            task_id=runtime_task_id,
+            mode=invocation_mode,
+        )
+        validate_contract(
+            "execution_owner",
+            {
+                "version": "1.0",
+                "batch_id": frozen["batch_id"],
+                "request_digest": frozen["request_digest"],
+                "invocation_id": invocation,
+                "invocation_mode": invocation_mode,
+                "profile": self.execution_profile,
+                "execution_id": runtime_execution_id,
+                "task_id": runtime_task_id,
+                "owner_status": "active",
+                "acquired_at": self._now(),
+                "state_revision": 0,
+                "base_state_generation": 0,
+            },
+        )
+        self._execution_status_verifier = execution_status_verifier
+        self._resume_authorization = resume_authorization
+        cancellation_event = cancellation or threading.Event()
+        self._cancellation = cancellation_event
+        with self._store.acquire_run_lock():
+            return self._run_locked(invocation, cancellation_event)
+
+
+class LocalBatchExecutor(BatchExecutor):
+    """Backward-compatible M1 Local profile using the shared engine."""
+
+    def __init__(self, **kwargs: Any):
+        super().__init__(execution_profile="local", **kwargs)
+
+
+class CloudBatchExecutor(BatchExecutor):
+    """Single-task Cloud profile; durable ownership is established before dispatch."""
+
+    def __init__(
+        self,
+        *,
+        store_factory: Callable[[Path, str], ExecutionStore],
+        **kwargs: Any,
+    ):
+        super().__init__(
+            execution_profile="cloud_run", store_factory=store_factory, **kwargs
+        )
+
+    def run(
+        self,
+        request: Mapping[str, Any],
+        *,
+        observed_source_revision: Mapping[str, Any],
+        adapter_observation: Mapping[str, Any],
+        trusted_invocation: Any,
+        cancellation: threading.Event | None = None,
+        execution_status_verifier: ExecutionStatusVerifier | None = None,
+        resume_authorization: Mapping[str, Any] | None = None,
+    ) -> dict[str, Any]:
+        from .runtime import CloudInvocationIdentity
+
+        if not isinstance(trusted_invocation, CloudInvocationIdentity) or (
+            trusted_invocation.trust_source != "cloud_run_launch_contract"
+            or trusted_invocation.task_id != "0"
+        ):
+            raise M1ExecutionError(
+                "AUTH_CONFIGURATION",
+                "Cloud execution requires a trusted launch-contract identity",
+            )
+        return super().run(
+            request,
+            observed_source_revision=observed_source_revision,
+            adapter_observation=adapter_observation,
+            invocation_id=trusted_invocation.invocation_id,
+            cancellation=cancellation,
+            invocation_mode=trusted_invocation.mode,
+            execution_id=trusted_invocation.execution_resource,
+            task_id=trusted_invocation.task_id,
+            execution_status_verifier=execution_status_verifier,
+            resume_authorization=resume_authorization,
+        )
+
+
+__all__ = [
+    "BatchExecutor",
+    "CloudBatchExecutor",
+    "ExecutionInvocation",
+    "LocalBatchExecutor",
+    "RealClock",
+]

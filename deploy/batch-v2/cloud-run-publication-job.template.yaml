@@ -1,0 +1,53 @@
+# Offline-reviewed template only. M5 approval is required before substitution
+# or deployment. The GCS FUSE mount exposes immutable inputs only; /workspace
+# is the non-root container's ephemeral writable layer.
+apiVersion: run.googleapis.com/v1
+kind: Job
+metadata:
+  name: ${CLOUD_RUN_PUBLICATION_JOB}
+spec:
+  template:
+    metadata:
+      annotations:
+        run.googleapis.com/execution-environment: gen2
+    spec:
+      taskCount: 1
+      parallelism: 1
+      template:
+        spec:
+          maxRetries: 0
+          timeoutSeconds: ${TIMEOUT_SECONDS}
+          serviceAccountName: ${BATCH_V2_PUBLICATION_SERVICE_ACCOUNT}
+          containers:
+            - image: ${BATCH_V2_IMAGE_DIGEST}
+              command:
+                - python
+                - /opt/openmontage/scripts/batch_publish.py
+              args:
+                - publish
+                - --config
+                - /input-snapshot/config/publication-runtime-config.json
+                - --command-uri
+                - ${PRIVATE_PUBLICATION_COMMAND_URI}
+                - --command-generation
+                - ${PUBLICATION_COMMAND_GENERATION}
+                - --command-sha256
+                - ${PUBLICATION_COMMAND_BYTES_SHA256}
+                - --command-digest
+                - ${PUBLICATION_COMMAND_DIGEST}
+              resources:
+                limits:
+                  cpu: ${CPU_LIMIT}
+                  memory: ${MEMORY_LIMIT}
+              volumeMounts:
+                - name: immutable-input-snapshot
+                  mountPath: /input-snapshot
+                  readOnly: true
+          volumes:
+            - name: immutable-input-snapshot
+              csi:
+                driver: gcsfuse.run.googleapis.com
+                readOnly: true
+                volumeAttributes:
+                  bucketName: ${PRIVATE_WORKSPACE_BUCKET}
+                  mountOptions: "only-dir=batch-v2-input-snapshots/sha256/${INPUT_SNAPSHOT_SHA256},uid=65532,gid=65532"

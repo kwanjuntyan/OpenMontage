@@ -23,7 +23,9 @@ Marked tests are **skipped by default** and only run with the env flag set:
 
 Limitation: this guards the pytest process. A test that shells out to a
 subprocess (node, ffmpeg, npx) is outside its reach — don't call paid APIs
-from a subprocess in tests.
+from a subprocess in tests. The dedicated M4 Linux gate wraps this process and
+its children in the fail-closed network namespace established by
+``scripts/run_batch_v2_linux_offline_gate.sh``.
 """
 
 from __future__ import annotations

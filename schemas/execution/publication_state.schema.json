@@ -1,0 +1,156 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmontage.local/schemas/execution/publication_state.schema.json",
+  "title": "Batch Executor V2 Cloud PublicationState",
+  "description": "Generation-CAS protected ownership and completion journal for canonical Cloud assets publication.",
+  "type": "object",
+  "required": [
+    "version",
+    "canonical_json",
+    "project_id",
+    "batch_id",
+    "request_digest",
+    "revision",
+    "source",
+    "owner",
+    "completed_commands",
+    "consumed_authorization_digests"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": "1.0" },
+    "canonical_json": { "const": "openmontage-canonical-json-v1" },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "batch_id": { "$ref": "#/$defs/id" },
+    "request_digest": { "$ref": "#/$defs/digest" },
+    "revision": { "type": "integer", "minimum": 0 },
+    "source": { "$ref": "publication_command.schema.json#/$defs/cloud_source" },
+    "owner": {
+      "type": "object",
+      "required": [
+        "invocation_id",
+        "execution_id",
+        "task_id",
+        "owner_status",
+        "command_id",
+        "command_digest",
+        "acquired_at",
+        "proof"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "invocation_id": { "$ref": "#/$defs/id" },
+        "execution_id": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "task_id": { "type": "string", "minLength": 1, "maxLength": 256 },
+        "owner_status": { "enum": ["active", "repairing", "completed"] },
+        "command_id": { "$ref": "#/$defs/id" },
+        "command_digest": { "$ref": "#/$defs/digest" },
+        "acquired_at": { "type": "string", "format": "date-time" },
+        "completed_at": { "type": "string", "format": "date-time" },
+        "proof": {
+          "type": "object",
+          "required": ["kind", "scope", "digest"],
+          "additionalProperties": false,
+          "properties": {
+            "kind": { "enum": ["trusted_execution_status", "human_publication_authorization"] },
+            "scope": { "enum": ["source_execution", "publication_takeover"] },
+            "digest": { "$ref": "#/$defs/digest" }
+          }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "owner_status": { "const": "completed" } },
+            "required": ["owner_status"]
+          },
+          "then": { "required": ["completed_at"] },
+          "else": { "not": { "required": ["completed_at"] } }
+        }
+      ]
+    },
+    "completed_commands": {
+      "type": "array",
+      "maxItems": 2,
+      "items": {
+        "type": "object",
+        "required": [
+          "command_id",
+          "command_digest",
+          "command_generation",
+          "transition",
+          "checkpoint",
+          "checkpoint_snapshot",
+          "checkpoint_document_sha256",
+          "asset_objects",
+          "completed_at"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "command_id": { "$ref": "#/$defs/id" },
+          "command_digest": { "$ref": "#/$defs/digest" },
+          "command_generation": { "type": "integer", "minimum": 1 },
+          "transition": { "enum": ["agent_review_to_awaiting_human", "human_approval_to_completed"] },
+          "checkpoint": { "$ref": "#/$defs/workspace_object" },
+          "checkpoint_snapshot": { "$ref": "#/$defs/workspace_object" },
+          "checkpoint_document_sha256": { "$ref": "#/$defs/digest" },
+          "asset_objects": {
+            "type": "array",
+            "minItems": 1,
+            "maxItems": 1000,
+            "items": { "$ref": "#/$defs/workspace_object" }
+          },
+          "completed_at": { "type": "string", "format": "date-time" },
+          "human_approval_id": { "$ref": "#/$defs/id" },
+          "human_approval_digest": { "$ref": "#/$defs/digest" }
+        }
+      }
+    },
+    "consumed_authorization_digests": {
+      "type": "array",
+      "uniqueItems": true,
+      "maxItems": 1000,
+      "items": { "$ref": "#/$defs/digest" }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "logical_path": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.\\.?/)(?!.*(?:^|/)\\.\\.?$)[^?\\u0000]+$",
+      "minLength": 1,
+      "maxLength": 1024
+    },
+    "workspace_object": {
+      "type": "object",
+      "required": [
+        "logical_path",
+        "object_name",
+        "generation",
+        "sha256",
+        "size_bytes",
+        "crc32c"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "logical_path": { "$ref": "#/$defs/logical_path" },
+        "object_name": { "$ref": "#/$defs/logical_path" },
+        "generation": { "type": "integer", "minimum": 1 },
+        "sha256": { "$ref": "#/$defs/digest" },
+        "size_bytes": { "type": "integer", "minimum": 1 },
+        "crc32c": { "type": "string", "pattern": "^[A-Za-z0-9+/]{6}==$" }
+      }
+    }
+  }
+}

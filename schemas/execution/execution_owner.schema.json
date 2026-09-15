@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmontage.local/schemas/execution/execution_owner.schema.json",
+  "title": "Batch Executor V2 ExecutionOwner",
+  "type": "object",
+  "required": [
+    "version",
+    "batch_id",
+    "request_digest",
+    "invocation_id",
+    "invocation_mode",
+    "profile",
+    "execution_id",
+    "task_id",
+    "owner_status",
+    "acquired_at",
+    "state_revision",
+    "base_state_generation"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": "1.0" },
+    "batch_id": { "$ref": "#/$defs/id" },
+    "request_digest": { "$ref": "#/$defs/digest" },
+    "invocation_id": { "$ref": "#/$defs/id" },
+    "invocation_mode": { "enum": ["run", "resume"] },
+    "profile": { "enum": ["local", "cloud_run"] },
+    "execution_id": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "task_id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "owner_status": { "enum": ["active", "terminal", "cancelled"] },
+    "acquired_at": { "type": "string", "format": "date-time" },
+    "state_revision": { "type": "integer", "minimum": 0 },
+    "base_state_generation": { "type": "integer", "minimum": 0 },
+    "release_evidence_digest": { "$ref": "#/$defs/digest" },
+    "release_observation_source": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "predecessor": {
+      "type": "object",
+      "required": ["invocation_id", "execution_id"],
+      "additionalProperties": false,
+      "properties": {
+        "invocation_id": { "$ref": "#/$defs/id" },
+        "execution_id": { "type": "string", "minLength": 1, "maxLength": 512 }
+      }
+    },
+    "takeover_proof": {
+      "type": "object",
+      "required": ["kind", "digest"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "enum": ["trusted_execution_status", "human_resume_authorization"] },
+        "digest": { "$ref": "#/$defs/digest" }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  }
+}

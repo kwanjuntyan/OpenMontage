@@ -434,7 +434,9 @@ If any dimension scores below 3, investigate and re-render.
 
 ### Step 9: Submit
 
-Validate the render_report against the schema and persist via checkpoint.
+Validate both `render_report` and the returned `final_review` against their
+schemas, then persist both artifacts in the compose checkpoint. A compose
+checkpoint without `final_review` is incomplete and must fail closed.
 
 ## Common Pitfalls
 

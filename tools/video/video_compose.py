@@ -1262,6 +1262,68 @@ class VideoCompose(BaseTool):
         }
 
     @staticmethod
+    def _caption_background_for_palette(
+        text_color: str,
+        background_color: str,
+    ) -> str:
+        """Choose the existing caption bar with the stronger rendered contrast.
+
+        Caption bars are translucent, so contrast must be measured after each
+        candidate is composited over the actual playbook background. Invalid
+        palette colors fall back deterministically instead of aborting render.
+        """
+        light_bar = ("rgba(255, 255, 255, 0.85)", (255, 255, 255), 0.85)
+        dark_bar = ("rgba(15, 23, 42, 0.75)", (15, 23, 42), 0.75)
+
+        def _hex_rgb(value: str) -> tuple[int, int, int]:
+            if not isinstance(value, str) or not value.startswith("#"):
+                raise ValueError("palette colors must be hex strings")
+            digits = value[1:]
+            if len(digits) == 3:
+                digits = "".join(character * 2 for character in digits)
+            if len(digits) != 6:
+                raise ValueError("palette colors must contain three RGB channels")
+            return tuple(
+                int(digits[offset : offset + 2], 16) for offset in (0, 2, 4)
+            )
+
+        try:
+            _hex_rgb(text_color)
+        except (AttributeError, TypeError, ValueError):
+            return dark_bar[0]
+
+        try:
+            from styles.playbook_loader import validate_contrast
+
+            try:
+                backdrop_colors = (_hex_rgb(background_color),)
+            except (AttributeError, TypeError, ValueError):
+                # Unknown imagery or an invalid background token can resolve to
+                # either luminance extreme. Pick the bar with the strongest
+                # worst-case contrast instead of assuming a dark backdrop.
+                backdrop_colors = ((0, 0, 0), (255, 255, 255))
+
+            ranked_candidates = []
+            for css_color, foreground_rgb, alpha in (light_bar, dark_bar):
+                candidate_ratios = []
+                for backdrop_rgb in backdrop_colors:
+                    composited_rgb = tuple(
+                        round(alpha * foreground + (1 - alpha) * background)
+                        for foreground, background in zip(
+                            foreground_rgb,
+                            backdrop_rgb,
+                        )
+                    )
+                    composited_hex = "#{:02X}{:02X}{:02X}".format(*composited_rgb)
+                    candidate_ratios.append(
+                        validate_contrast(text_color, composited_hex)["ratio"]
+                    )
+                ranked_candidates.append((min(candidate_ratios), css_color))
+            return max(ranked_candidates, key=lambda candidate: candidate[0])[1]
+        except (AttributeError, KeyError, TypeError, ValueError):
+            return dark_bar[0]
+
+    @staticmethod
     def _build_theme_from_playbook(
         playbook_name: str | None,
         composition_data: dict | None,
@@ -1333,10 +1395,8 @@ class VideoCompose(BaseTool):
 
             # Derive caption colors from the palette
             theme["captionHighlightColor"] = primary
-            # Caption background: semi-transparent version of the bg color
             theme["captionBackgroundColor"] = (
-                f"rgba(255, 255, 255, 0.85)" if bg.upper() in ("#FFFFFF", "#FAFAFA", "#F9FAFB")
-                else f"rgba(15, 23, 42, 0.75)"
+                VideoCompose._caption_background_for_palette(text, bg)
             )
 
             # Motion style from playbook. `pace` is an identity field in the
@@ -2865,7 +2925,10 @@ class VideoCompose(BaseTool):
     ) -> dict:
         """Resolve subtitle style with layered priority.
 
-        Priority: explicit_style > edit_decisions.subtitles.style > playbook > defaults.
+        Priority: explicit_style > edit_decisions subtitle visual fields >
+        legacy mapping-style input > playbook > defaults. The canonical
+        ``subtitles.style`` field is a display-mode string (sentence,
+        word-by-word, karaoke), not a visual-style mapping.
         This prevents every video from looking identical (Arial bold white).
         """
         # Start with minimal fallback defaults
@@ -2893,12 +2956,51 @@ class VideoCompose(BaseTool):
                 bg = colors["background"]
                 resolved["back_color"] = bg
 
-        # Layer 2: edit_decisions subtitle style
+        # Layer 2: edit_decisions subtitle visual fields. Older direct callers
+        # supplied a mapping in `subtitles.style`; retain that bounded input
+        # shape, but never iterate the schema-valid display-mode string.
         if edit_decisions:
-            ed_style = edit_decisions.get("subtitles", {}).get("style", {})
-            for k, v in ed_style.items():
-                if v is not None:
-                    resolved[k] = v
+            subtitle_config = edit_decisions.get("subtitles", {})
+            if isinstance(subtitle_config, dict):
+                legacy_style = subtitle_config.get("style")
+                if isinstance(legacy_style, dict):
+                    legacy_visual_keys = {
+                        "font",
+                        "font_size",
+                        "bold",
+                        "primary_color",
+                        "outline_color",
+                        "back_color",
+                        "border_style",
+                        "outline_width",
+                        "shadow",
+                        "margin_v",
+                        "alignment",
+                    }
+                    for key, value in legacy_style.items():
+                        if key in legacy_visual_keys and value is not None:
+                            resolved[key] = value
+
+                visual_fields = {
+                    "font": "font",
+                    "font_size": "font_size",
+                    "color": "primary_color",
+                    "outline_color": "outline_color",
+                    "background": "back_color",
+                }
+                for source_key, resolved_key in visual_fields.items():
+                    value = subtitle_config.get(source_key)
+                    if value is not None:
+                        resolved[resolved_key] = value
+
+                position_alignment = {
+                    "top-center": 8,
+                    "center": 5,
+                    "bottom-center": 2,
+                }
+                position = subtitle_config.get("position")
+                if position in position_alignment:
+                    resolved["alignment"] = position_alignment[position]
 
         # Layer 3: Explicit override (highest priority)
         if explicit_style:

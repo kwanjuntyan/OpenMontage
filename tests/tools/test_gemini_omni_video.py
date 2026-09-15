@@ -6,7 +6,6 @@ import base64
 import json
 import sys
 import types
-from pathlib import Path
 
 import pytest
 
@@ -36,12 +35,41 @@ def _install_fake_requests(monkeypatch, post_responses, get_responses):
 
     fake = types.ModuleType("requests")
 
-    def fake_post(url, headers=None, json=None, data=None, timeout=None, params=None):
-        calls["post"].append({"url": url, "headers": headers, "json": json, "data": data})
+    def fake_post(
+        url,
+        headers=None,
+        json=None,
+        data=None,
+        timeout=None,
+        params=None,
+        allow_redirects=None,
+    ):
+        calls["post"].append(
+            {
+                "url": url,
+                "headers": headers,
+                "json": json,
+                "data": data,
+                "allow_redirects": allow_redirects,
+            }
+        )
         return post_responses.pop(0)
 
-    def fake_get(url, headers=None, timeout=None, params=None):
-        calls["get"].append({"url": url, "headers": headers, "params": params})
+    def fake_get(
+        url,
+        headers=None,
+        timeout=None,
+        params=None,
+        allow_redirects=None,
+    ):
+        calls["get"].append(
+            {
+                "url": url,
+                "headers": headers,
+                "params": params,
+                "allow_redirects": allow_redirects,
+            }
+        )
         return get_responses.pop(0)
 
     fake.post = fake_post

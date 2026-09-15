@@ -1,0 +1,360 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmontage.local/schemas/execution/batch_request.schema.json",
+  "title": "Batch Executor V2 BatchRequest",
+  "type": "object",
+  "required": [
+    "version",
+    "canonical_json",
+    "batch_id",
+    "created_at",
+    "project_id",
+    "pipeline_type",
+    "stage",
+    "request_digest",
+    "source_revision",
+    "source_bindings",
+    "authorization",
+    "execution_policy",
+    "work_items"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": "1.0" },
+    "canonical_json": { "const": "openmontage-canonical-json-v1" },
+    "batch_id": { "$ref": "#/$defs/id" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "project_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "pipeline_type": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "stage": { "const": "assets" },
+    "request_digest": { "$ref": "#/$defs/digest" },
+    "source_revision": {
+      "type": "object",
+      "required": ["kind", "revision"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "enum": ["git_commit", "content_snapshot"] },
+        "revision": { "type": "string", "minLength": 1, "maxLength": 256 }
+      }
+    },
+    "source_bindings": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 512,
+      "items": { "$ref": "#/$defs/source_binding" }
+    },
+    "authorization": { "$ref": "#/$defs/authorization" },
+    "execution_policy": { "$ref": "#/$defs/execution_policy" },
+    "work_items": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1000,
+      "items": { "$ref": "#/$defs/work_item" }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "logical_path": {
+      "type": "string",
+      "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.\\.?/)(?!.*(?:^|/)\\.\\.?$)[^?\\u0000]+$",
+      "minLength": 1,
+      "maxLength": 1024
+    },
+    "identity": {
+      "type": "object",
+      "required": [
+        "tool_name",
+        "tool_contract_version",
+        "provider",
+        "route",
+        "model",
+        "operation"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "tool_name": { "const": "gemini_omni_video" },
+        "tool_contract_version": { "const": "0.1.0" },
+        "provider": { "const": "gemini_omni" },
+        "route": {
+          "const": "vertex_interactions",
+          "description": "Stable OpenMontage ID for the Vertex AI global Interactions route; never the Gemini Developer API"
+        },
+        "model": { "const": "gemini-omni-1.1-flash-preview" },
+        "operation": { "const": "text_to_video" }
+      }
+    },
+    "source_binding": {
+      "type": "object",
+      "required": [
+        "binding_id",
+        "source_type",
+        "logical_path",
+        "sha256",
+        "size_bytes"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "binding_id": { "$ref": "#/$defs/id" },
+        "source_type": { "enum": ["checkpoint", "checkpoint_artifact", "project_file"] },
+        "logical_path": { "$ref": "#/$defs/logical_path" },
+        "sha256": { "$ref": "#/$defs/digest" },
+        "size_bytes": { "type": "integer", "minimum": 0 },
+        "checkpoint_stage": { "$ref": "#/$defs/id" },
+        "artifact_name": { "$ref": "#/$defs/id" },
+        "checkpoint_status": { "enum": ["completed", "awaiting_human"] },
+        "human_approved": { "type": "boolean" },
+        "clp_binding_digest": { "$ref": "#/$defs/digest" },
+        "storage": {
+          "type": "object",
+          "required": ["store_type", "locator"],
+          "additionalProperties": false,
+          "properties": {
+            "store_type": { "enum": ["local", "gcs"] },
+            "locator": { "type": "string", "minLength": 1, "maxLength": 2048 },
+            "generation": { "type": "integer", "minimum": 1 }
+          }
+        }
+      }
+    },
+    "checkpoint_evidence": {
+      "type": "object",
+      "required": ["stage", "logical_path", "sha256", "status", "human_approved"],
+      "additionalProperties": false,
+      "properties": {
+        "stage": { "$ref": "#/$defs/id" },
+        "logical_path": { "$ref": "#/$defs/logical_path" },
+        "sha256": { "$ref": "#/$defs/digest" },
+        "status": { "const": "completed" },
+        "human_approved": { "type": "boolean" }
+      }
+    },
+    "authorization": {
+      "type": "object",
+      "required": [
+        "authorization_digest",
+        "manifest_sha256",
+        "prerequisite_checkpoints",
+        "immediate_predecessor_stage",
+        "authorization_basis",
+        "approval_status",
+        "approval_reference",
+        "approved_budget_usd",
+        "no_cost",
+        "decision_refs",
+        "allowed_identity",
+        "max_total_attempts",
+        "max_authorized_spend_usd",
+        "authorized_at",
+        "scope"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "authorization_digest": { "$ref": "#/$defs/digest" },
+        "manifest_sha256": { "$ref": "#/$defs/digest" },
+        "prerequisite_checkpoints": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "items": { "$ref": "#/$defs/checkpoint_evidence" }
+        },
+        "immediate_predecessor_stage": { "$ref": "#/$defs/id" },
+        "authorization_basis": {
+          "enum": ["validated_proposal_checkpoint", "explicit_per_batch"],
+          "description": "Whether paid authority is authenticated from a proposal checkpoint or from the legacy pipeline's exact per-batch approval contract"
+        },
+        "approval_status": { "enum": ["approved", "approved_with_changes"] },
+        "approval_reference": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "approved_budget_usd": { "type": "number", "minimum": 0 },
+        "no_cost": { "type": "boolean" },
+        "decision_refs": {
+          "type": "array",
+          "maxItems": 64,
+          "items": {
+            "type": "object",
+            "required": ["decision_id", "sha256"],
+            "additionalProperties": false,
+            "properties": {
+              "decision_id": { "$ref": "#/$defs/id" },
+              "sha256": { "$ref": "#/$defs/digest" }
+            }
+          }
+        },
+        "allowed_identity": { "$ref": "#/$defs/identity" },
+        "max_total_attempts": { "type": "integer", "minimum": 1, "maximum": 10000 },
+        "max_authorized_spend_usd": { "type": "number", "minimum": 0 },
+        "authorized_at": { "type": "string", "format": "date-time" },
+        "scope": { "const": "assets_video_batch" }
+      }
+    },
+    "execution_policy": {
+      "type": "object",
+      "required": [
+        "global_worker_cap",
+        "provider_concurrency_cap",
+        "min_request_spacing_seconds",
+        "retry_policy_version",
+        "max_attempts_per_item",
+        "max_elapsed_seconds",
+        "max_attempt_cost_usd",
+        "reuse_policy",
+        "failure_mode",
+        "heartbeat_interval_seconds",
+        "storage_profile",
+        "cancellation_policy",
+        "side_effect_policy"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "global_worker_cap": { "type": "integer", "minimum": 1, "maximum": 4 },
+        "provider_concurrency_cap": { "type": "integer", "minimum": 1, "maximum": 1 },
+        "min_request_spacing_seconds": { "type": "number", "minimum": 0 },
+        "retry_policy_version": { "const": "batch-v2-retry-v1" },
+        "max_attempts_per_item": { "type": "integer", "minimum": 1, "maximum": 3 },
+        "max_elapsed_seconds": { "type": "integer", "minimum": 1, "maximum": 86400 },
+        "max_attempt_cost_usd": { "type": "number", "minimum": 0 },
+        "reuse_policy": { "const": "verified_same_request_only" },
+        "failure_mode": { "const": "continue_independent" },
+        "heartbeat_interval_seconds": { "type": "number", "exclusiveMinimum": 0, "maximum": 300 },
+        "storage_profile": {
+          "enum": ["local", "cloud_run", "portable"],
+          "description": "portable freezes one backend-neutral request digest for LocalStore/FakeGCS profile-parity qualification; legacy explicit local/cloud_run values remain valid"
+        },
+        "cancellation_policy": { "const": "stop_new_dispatch" },
+        "side_effect_policy": {
+          "type": "object",
+          "required": [
+            "tool_output_mode",
+            "legacy_gcs_auto_sync",
+            "project_event_writes",
+            "canonical_writes"
+          ],
+          "additionalProperties": false,
+          "properties": {
+            "tool_output_mode": { "const": "project_scoped_attempt_staging_only" },
+            "legacy_gcs_auto_sync": { "const": false },
+            "project_event_writes": { "const": false },
+            "canonical_writes": { "const": false }
+          }
+        }
+      }
+    },
+    "tool_inputs": {
+      "type": "object",
+      "required": ["prompt", "operation", "aspect_ratio", "duration", "store"],
+      "additionalProperties": false,
+      "properties": {
+        "prompt": { "type": "string", "minLength": 1, "maxLength": 65536 },
+        "operation": { "const": "text_to_video" },
+        "aspect_ratio": { "enum": ["16:9", "9:16"] },
+        "duration": { "type": "string", "pattern": "^(?:[3-9]|10)s?$" },
+        "store": { "type": "boolean" }
+      }
+    },
+    "input_reference": {
+      "type": "object",
+      "required": ["binding_id", "sha256", "size_bytes", "media_type", "locator"],
+      "additionalProperties": false,
+      "properties": {
+        "binding_id": { "$ref": "#/$defs/id" },
+        "sha256": { "$ref": "#/$defs/digest" },
+        "size_bytes": { "type": "integer", "minimum": 0 },
+        "media_type": { "type": "string", "minLength": 1, "maxLength": 255 },
+        "locator": { "type": "string", "minLength": 1, "maxLength": 2048 }
+      }
+    },
+    "output_spec": {
+      "type": "object",
+      "required": [
+        "output_name",
+        "media_kind",
+        "container",
+        "allowed_video_codecs",
+        "audio_expected",
+        "canonical_destination_intent"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "output_name": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*\\.mp4$",
+          "maxLength": 255
+        },
+        "media_kind": { "const": "video" },
+        "container": { "const": "mp4" },
+        "allowed_video_codecs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "enum": ["h264", "h265", "av1", "vp9"] }
+        },
+        "audio_expected": { "type": "boolean" },
+        "canonical_destination_intent": { "$ref": "#/$defs/logical_path" }
+      }
+    },
+    "work_item": {
+      "type": "object",
+      "required": [
+        "item_id",
+        "scene_id",
+        "asset_id",
+        "work_item_digest",
+        "identity",
+        "inputs",
+        "source_binding_ids",
+        "input_references",
+        "output_spec",
+        "estimated_cost_usd",
+        "estimated_duration_seconds",
+        "charged_retry_allowance",
+        "dependency_item_ids"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "item_id": { "$ref": "#/$defs/id" },
+        "scene_id": { "$ref": "#/$defs/id" },
+        "asset_id": { "$ref": "#/$defs/id" },
+        "work_item_digest": { "$ref": "#/$defs/digest" },
+        "identity": { "$ref": "#/$defs/identity" },
+        "inputs": { "$ref": "#/$defs/tool_inputs" },
+        "source_binding_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "input_references": {
+          "type": "array",
+          "maxItems": 64,
+          "items": { "$ref": "#/$defs/input_reference" }
+        },
+        "output_spec": { "$ref": "#/$defs/output_spec" },
+        "estimated_cost_usd": { "type": "number", "minimum": 0 },
+        "estimated_duration_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "charged_retry_allowance": { "type": "integer", "minimum": 0, "maximum": 2 },
+        "dependency_item_ids": {
+          "type": "array",
+          "maxItems": 64,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/id" }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmontage.local/schemas/execution/batch_state.schema.json",
+  "title": "Batch Executor V2 BatchState",
+  "type": "object",
+  "required": [
+    "version",
+    "batch_id",
+    "request_digest",
+    "revision",
+    "owner",
+    "status",
+    "items",
+    "attempts",
+    "provider_policy",
+    "cost",
+    "reuse",
+    "created_at",
+    "updated_at",
+    "last_attempt_sequence",
+    "storage_receipts"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": "1.0" },
+    "batch_id": { "$ref": "#/$defs/id" },
+    "request_digest": { "$ref": "#/$defs/digest" },
+    "revision": { "type": "integer", "minimum": 0 },
+    "owner": { "$ref": "execution_owner.schema.json" },
+    "ownership_proof_digests": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/digest" }
+    },
+    "dispatch_blocker": {
+      "description": "Durable M1 system-wide stop marker. It forbids submit and poll while permitting only reconciliation of bytes already staged before the marker.",
+      "type": "object",
+      "required": [
+        "error_class",
+        "provider_dispatch",
+        "storage_reconciliation",
+        "source_item_id",
+        "set_at",
+        "reason"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "error_class": {
+          "enum": [
+            "AUTH_CONFIGURATION",
+            "BUDGET_EXCEEDED",
+            "LOCAL_STORAGE_TRANSIENT",
+            "GCS_TRANSIENT",
+            "GCS_PRECONDITION_CONFLICT",
+            "INTERNAL_BUG"
+          ]
+        },
+        "provider_dispatch": { "const": "forbidden" },
+        "storage_reconciliation": { "const": "existing_staged_bytes_only" },
+        "source_item_id": { "$ref": "#/$defs/id" },
+        "source_attempt_id": { "$ref": "#/$defs/id" },
+        "set_at": { "type": "string", "format": "date-time" },
+        "reason": { "type": "string", "minLength": 1, "maxLength": 4096 }
+      }
+    },
+    "invocations": {
+      "description": "M1+ durable invocation provenance. Optional for backward compatibility with frozen M0 fixtures.",
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 128,
+      "items": { "$ref": "#/$defs/invocation" }
+    },
+    "status": {
+      "enum": ["received", "validating", "ready", "running", "blocked", "cancelled", "awaiting_agent_review"]
+    },
+    "outcome": {
+      "enum": ["all_succeeded", "partial_failure", "failed", "cancelled", "indeterminate"]
+    },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 1000,
+      "items": {
+        "type": "object",
+        "required": ["item_id", "state", "attempt_count"],
+        "additionalProperties": false,
+        "properties": {
+          "item_id": { "$ref": "#/$defs/id" },
+          "state": {
+            "enum": [
+              "pending",
+              "eligible",
+              "running",
+              "retry_wait",
+              "succeeded_staged",
+              "committed",
+              "failed_terminal",
+              "blocked_by_dependency",
+              "indeterminate",
+              "cancelled"
+            ]
+          },
+          "attempt_count": { "type": "integer", "minimum": 0 },
+          "next_eligible_at": { "type": "string", "format": "date-time" },
+          "storage_receipt_id": { "$ref": "#/$defs/id" },
+          "error_class": { "$ref": "attempt.schema.json#/$defs/error_class" },
+          "blocker": { "$ref": "#/$defs/dependency_blocker" },
+          "reuse_verified": { "type": "boolean" }
+        }
+      }
+    },
+    "attempts": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": { "$ref": "attempt.schema.json" }
+    },
+    "provider_policy": {
+      "type": "object",
+      "required": ["provider", "route", "model", "concurrency_cap", "min_request_spacing_seconds"],
+      "additionalProperties": false,
+      "properties": {
+        "provider": { "const": "gemini_omni" },
+        "route": { "const": "vertex_interactions" },
+        "model": { "const": "gemini-omni-1.1-flash-preview" },
+        "concurrency_cap": { "type": "integer", "minimum": 1, "maximum": 1 },
+        "min_request_spacing_seconds": { "type": "number", "minimum": 0 }
+      }
+    },
+    "cost": { "$ref": "#/$defs/cost" },
+    "reuse": {
+      "type": "object",
+      "required": ["verified_hits", "misses"],
+      "additionalProperties": false,
+      "properties": {
+        "verified_hits": { "type": "integer", "minimum": 0 },
+        "misses": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "created_at": { "type": "string", "format": "date-time" },
+    "updated_at": { "type": "string", "format": "date-time" },
+    "completed_at": { "type": "string", "format": "date-time" },
+    "rate_limit_wait_seconds": { "type": "number", "minimum": 0 },
+    "last_attempt_sequence": { "type": "integer", "minimum": 0 },
+    "storage_receipts": {
+      "type": "array",
+      "maxItems": 10000,
+      "items": { "$ref": "storage_receipt.schema.json" }
+    },
+    "result_ref": {
+      "type": "object",
+      "required": ["logical_path", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "logical_path": { "type": "string", "minLength": 1, "maxLength": 1024 },
+        "sha256": { "$ref": "#/$defs/digest" }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+    "invocation": {
+      "type": "object",
+      "required": ["invocation_id", "execution_id", "profile"],
+      "additionalProperties": false,
+      "properties": {
+        "invocation_id": { "$ref": "#/$defs/id" },
+        "execution_id": { "type": "string", "minLength": 1, "maxLength": 512 },
+        "profile": { "enum": ["local", "cloud_run"] }
+      }
+    },
+    "dependency_blocker": {
+      "type": "object",
+      "required": ["kind", "dependency_item_ids", "reason"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "const": "dependency_failure" },
+        "dependency_item_ids": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 1000,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/id" }
+        },
+        "reason": { "type": "string", "minLength": 1, "maxLength": 4096 }
+      }
+    },
+    "cost": {
+      "type": "object",
+      "required": ["estimated_usd", "reserved_usd", "known_actual_usd", "indeterminate_exposure_usd", "authorized_cap_usd"],
+      "additionalProperties": false,
+      "properties": {
+        "estimated_usd": { "type": "number", "minimum": 0 },
+        "reserved_usd": { "type": "number", "minimum": 0 },
+        "known_actual_usd": { "type": "number", "minimum": 0 },
+        "indeterminate_exposure_usd": { "type": "number", "minimum": 0 },
+        "authorized_cap_usd": { "type": "number", "minimum": 0 }
+      }
+    }
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmontage.local/schemas/execution/resume_authorization.schema.json",
+  "title": "Batch Executor V2 ResumeAuthorization",
+  "type": "object",
+  "required": [
+    "version",
+    "authorization_id",
+    "authorization_digest",
+    "batch_id",
+    "request_digest",
+    "prior_invocation_id",
+    "prior_execution_id",
+    "intended_new_invocation_id",
+    "intended_new_execution_id",
+    "intended_new_task_id",
+    "expected_state_generation",
+    "reason",
+    "decision_reference",
+    "authorized_at"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": "1.0" },
+    "authorization_id": { "$ref": "#/$defs/id" },
+    "authorization_digest": { "$ref": "#/$defs/digest" },
+    "batch_id": { "$ref": "#/$defs/id" },
+    "request_digest": { "$ref": "#/$defs/digest" },
+    "prior_invocation_id": { "$ref": "#/$defs/id" },
+    "prior_execution_id": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "intended_new_invocation_id": { "$ref": "#/$defs/id" },
+    "intended_new_execution_id": { "type": "string", "minLength": 1, "maxLength": 512 },
+    "intended_new_task_id": { "type": "string", "minLength": 1, "maxLength": 256 },
+    "expected_state_generation": { "type": "integer", "minimum": 1 },
+    "reason": { "type": "string", "minLength": 1, "maxLength": 2048 },
+    "decision_reference": { "type": "string", "minLength": 1, "maxLength": 1024 },
+    "authorized_at": { "type": "string", "format": "date-time" }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "digest": { "type": "string", "pattern": "^[0-9a-f]{64}$" }
+  }
+}

@@ -12,11 +12,12 @@ values that wiring actually delivers.
 """
 
 import re
+from copy import deepcopy
 from pathlib import Path
 
 import pytest
 
-from styles.playbook_loader import list_playbooks, validate_contrast
+from styles.playbook_loader import list_playbooks, load_playbook, validate_contrast
 from tools.video.video_compose import VideoCompose
 
 REPO_ROOT = Path(__file__).resolve().parents[2]
@@ -24,6 +25,8 @@ COMPOSER = REPO_ROOT / "remotion-composer" / "src"
 
 # WCAG 2.1 AA for normal-size text.
 MIN_CONTRAST = 4.5
+LIGHT_CAPTION_BAR = "rgba(255, 255, 255, 0.85)"
+DARK_CAPTION_BAR = "rgba(15, 23, 42, 0.75)"
 
 
 def _read(relative: str) -> str:
@@ -56,6 +59,20 @@ def _composite(foreground: str, backdrop: str) -> str:
         round(alpha * fb + (1 - alpha) * bb),
     )
     return "#%02X%02X%02X" % blended
+
+
+def _theme_for_custom_palette(monkeypatch, *, background: str, text: str) -> dict:
+    playbook = deepcopy(load_playbook("clean-professional"))
+    palette = playbook["visual_language"]["color_palette"]
+    palette["background"] = background
+    palette["text"] = text
+    monkeypatch.setattr(
+        "styles.playbook_loader.load_playbook",
+        lambda _name: playbook,
+    )
+    theme = VideoCompose()._build_theme_from_playbook("custom", {})
+    assert theme is not None
+    return theme
 
 
 def test_explainer_gives_captions_the_theme_text_color() -> None:
@@ -128,3 +145,69 @@ def test_every_playbook_theme_keeps_captions_legible(playbook: str) -> None:
         f"{playbook}: caption text {theme['textColor']} on bar {caption_bar} "
         f"is {ratio}:1, below WCAG AA {MIN_CONTRAST}:1"
     )
+
+
+@pytest.mark.parametrize(
+    ("background", "text", "expected_bar"),
+    [
+        ("#F5F4EF", "#121212", LIGHT_CAPTION_BAR),
+        ("#101827", "#F8FAFC", DARK_CAPTION_BAR),
+    ],
+)
+def test_custom_palette_selects_the_highest_contrast_caption_bar(
+    monkeypatch,
+    background: str,
+    text: str,
+    expected_bar: str,
+) -> None:
+    theme = _theme_for_custom_palette(
+        monkeypatch,
+        background=background,
+        text=text,
+    )
+
+    ratios = {
+        candidate: validate_contrast(text, _composite(candidate, background))["ratio"]
+        for candidate in (LIGHT_CAPTION_BAR, DARK_CAPTION_BAR)
+    }
+    assert theme["captionBackgroundColor"] == expected_bar
+    assert ratios[expected_bar] == max(ratios.values())
+
+
+@pytest.mark.parametrize(
+    ("text", "expected_bar"),
+    [
+        ("#121212", LIGHT_CAPTION_BAR),
+        ("#F8FAFC", DARK_CAPTION_BAR),
+    ],
+)
+def test_invalid_background_uses_best_worst_case_caption_bar(
+    monkeypatch,
+    text: str,
+    expected_bar: str,
+) -> None:
+    theme = _theme_for_custom_palette(
+        monkeypatch,
+        background="paper-white",
+        text=text,
+    )
+
+    worst_case_ratios = {
+        candidate: min(
+            validate_contrast(text, _composite(candidate, backdrop))["ratio"]
+            for backdrop in ("#000000", "#FFFFFF")
+        )
+        for candidate in (LIGHT_CAPTION_BAR, DARK_CAPTION_BAR)
+    }
+    assert theme["captionBackgroundColor"] == expected_bar
+    assert worst_case_ratios[expected_bar] == max(worst_case_ratios.values())
+
+
+def test_invalid_text_uses_fixed_dark_caption_fallback(monkeypatch) -> None:
+    theme = _theme_for_custom_palette(
+        monkeypatch,
+        background="#F5F4EF",
+        text="editorial-ink",
+    )
+
+    assert theme["captionBackgroundColor"] == DARK_CAPTION_BAR
