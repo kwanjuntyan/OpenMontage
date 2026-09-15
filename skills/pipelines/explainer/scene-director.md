@@ -15,6 +15,23 @@ This is where words become visuals. A great script with a bad scene plan produce
 | Playbook | Active style playbook | Visual language, transitions, motion rules |
 | Layer 3 | `.agents/skills/flux-best-practices/`, `.agents/skills/beautiful-mermaid/`, `.agents/skills/manim-composer/` | Image gen, diagram, animation knowledge |
 
+## Optional Lean M2a compare-only path
+
+The default remains the existing monolithic process below. If Production Unit
+policy is missing or `mode: off`, do not import/call Production Unit helpers,
+create sidecars, or change any artifact, checkpoint, or gate behavior.
+
+Only when the user explicitly selects `mode: compare_only`, first read
+`skills/meta/production-unit-protocol.md`. Use the approved checkpoint script
+and canonical CLP plus the digest-bound approved style context to create one
+independent monolithic baseline and bounded scene fragments. Every unit result
+must echo its exact `context_capsule_sha256`; then merge, validate, and compare
+the candidates with
+`lib.production_units.scene_plan_merge`. The result is experimental evidence:
+it must not replace the canonical `scene_plan` or `clp_shot_bindings`, call
+`write_checkpoint`, or advance this stage's Human Gate. No assets, provider
+calls, or media generation are part of this path.
+
 ## Process
 
 ### Step 1: Analyze the Script
