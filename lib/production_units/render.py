@@ -256,6 +256,7 @@ def build_assembly_command(
     *,
     media_profile: Mapping[str, Any],
     final_output_intent: str,
+    platform_target: str | None = None,
 ) -> dict[str, Any]:
     """Freeze ordered unit receipts into one re-entrant assembly command."""
 
@@ -287,17 +288,22 @@ def build_assembly_command(
             }
         )
         expected_duration += float(command["end_seconds"]) - float(command["start_seconds"])
-    return _freeze(
-        {
-            "version": "1.0",
-            "assembly_mode": "ordered_concat",
-            "inputs": ordered,
-            "expected_duration_seconds": expected_duration,
-            "media_profile_sha256": canonical_digest(profile),
-            "final_output_intent": _safe_path(final_output_intent, prefix="renders/"),
-        },
-        "command_sha256",
-    )
+    if platform_target is not None and (
+        not isinstance(platform_target, str)
+        or not re.fullmatch(r"[A-Za-z0-9._:-]+", platform_target)
+    ):
+        _fail("INVALID_PLATFORM_TARGET", "platform_target is invalid")
+    candidate = {
+        "version": "1.0",
+        "assembly_mode": "ordered_concat",
+        "inputs": ordered,
+        "expected_duration_seconds": expected_duration,
+        "media_profile_sha256": canonical_digest(profile),
+        "final_output_intent": _safe_path(final_output_intent, prefix="renders/"),
+    }
+    if platform_target is not None:
+        candidate["platform_target"] = platform_target
+    return _freeze(candidate, "command_sha256")
 
 
 def make_assembly_receipt(
@@ -340,20 +346,21 @@ def make_assembly_receipt(
         },
         "receipt_sha256",
     )
+    report_output = {
+        "path": path,
+        "format": "mp4",
+        "codec": profile["video_codec"],
+        "audio_codec": profile["audio_codec"] if profile["audio_required"] else "none",
+        "resolution": f"{profile['width']}x{profile['height']}",
+        "fps": profile["fps"],
+        "duration_seconds": probe["duration_seconds"],
+        "file_size_bytes": output_size_bytes,
+    }
+    if command.get("platform_target") is not None:
+        report_output["platform_target"] = command["platform_target"]
     report = {
         "version": "1.0",
-        "outputs": [
-            {
-                "path": path,
-                "format": "mp4",
-                "codec": profile["video_codec"],
-                "audio_codec": profile["audio_codec"] if profile["audio_required"] else "none",
-                "resolution": f"{profile['width']}x{profile['height']}",
-                "fps": profile["fps"],
-                "duration_seconds": probe["duration_seconds"],
-                "file_size_bytes": output_size_bytes,
-            }
-        ],
+        "outputs": [report_output],
         "warnings": [],
         "verification_notes": ["PUP unit and master full-decode evidence passed"],
         "metadata": {

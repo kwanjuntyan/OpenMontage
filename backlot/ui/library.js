@@ -57,6 +57,9 @@ function card(p) {
 
   const meta = el("div", { class: "lb-meta" },
     el("span", { class: "chip" }, p.pipeline_type || "unknown"),
+    p.is_course && p.course
+      ? el("span", { class: "chip" }, `${p.course.lesson_count} lesson course`)
+      : null,
     p.scene_count ? el("span", { class: "chip" }, `${p.scene_count} scenes`) : null,
     p.render_count ? el("span", { class: "chip" }, `${p.render_count} renders`) : null,
     el("span", { class: "when" }, fmtAgo(p.last_activity)),

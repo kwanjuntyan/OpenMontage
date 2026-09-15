@@ -84,6 +84,7 @@ def test_synthetic_unit_render_and_master_assembly_contracts() -> None:
         reversed(receipts),
         media_profile=PROFILE,
         final_output_intent="renders/course-master.mp4",
+        platform_target="course_master",
     )
     master_probe = FakeProbe({"renders/course-master.mp4": 20})
     result = make_assembly_receipt(
@@ -96,6 +97,7 @@ def test_synthetic_unit_render_and_master_assembly_contracts() -> None:
     assert len(probe.calls) == 2
     assert assembly["expected_duration_seconds"] == 20
     assert result["render_report"]["outputs"][0]["duration_seconds"] == 20
+    assert result["render_report"]["outputs"][0]["platform_target"] == "course_master"
     assert result["render_report"]["metadata"]["production_units"]["unit_count"] == 2
 
 

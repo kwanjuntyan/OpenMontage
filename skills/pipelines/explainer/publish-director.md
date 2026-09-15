@@ -137,6 +137,30 @@ provider.
 }
 ```
 
+For an approved course-form project, consume `course_manifest` from the exact
+proposal checkpoint and reconcile every `delivery_requirements` item. Keep the
+normal entry shape unchanged. Add trace evidence only under the publish log's
+open `metadata.course_delivery` object:
+
+```json
+{
+  "version": "1.0",
+  "render_report_sha256": "sha256:<canonical render_report digest>",
+  "full_master": {"path": "renders/course-master.mp4"},
+  "lesson_exports": [{"lesson_id": "lesson-2", "path": "renders/lesson-2.mp4"}],
+  "chapter_markers": {"count": 6, "path": "exports/chapters.txt"},
+  "captions": [{"format": "vtt", "path": "exports/course.vtt"}],
+  "bundle": {"path": "exports/course"}
+}
+```
+
+`full_master.path` and lesson export paths must match outputs in the exact
+render report (`platform_target="course_master"` and
+`platform_target="lesson:<lesson_id>"`, respectively). Record only files that
+were actually produced and verified. A missing required delivery remains
+missing/failed; metadata must never upgrade it into success. Publication and
+external upload still use the existing Human Gate and provider authorization.
+
 ### Step 7: Self-Evaluate
 
 Score (1-5):
