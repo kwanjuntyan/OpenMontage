@@ -597,6 +597,9 @@ def test_migration_and_evidence_docs_preserve_release_boundaries():
         REPOSITORY_ROOT / "docs" / "batch-v2-m4-offline-evidence.md"
     ).read_text(encoding="utf-8")
     evidence_words = " ".join(evidence.split())
+    current_evidence_words = " ".join(
+        evidence.split("## Historical Windows M4 evidence", 1)[0].split()
+    )
     cloud_run = (
         REPOSITORY_ROOT / "docs" / "batch-v2-cloud-run.md"
     ).read_text(encoding="utf-8")
@@ -615,7 +618,16 @@ def test_migration_and_evidence_docs_preserve_release_boundaries():
 
     for required in (
         "M3: completed",
-        "M4: in_progress",
+        "M4: completed",
+        "c5bc88e2fefa4db22b4e662fa52012d43586eab6",
+        "pull/1",
+        "run 34931811296",
+        "job 104261401724",
+        "2589 passed, 12 skipped, 3 xfailed, 1 warning, 1 subtest",
+        "job 104261401886",
+        "649 passed, 1 skipped, 2 warnings",
+        "real CPython 3.10/Linux x86_64 resolver accepted 27 distributions",
+        "job 104261401871",
         "b471851eac6ab3bfea399d874e3f6c8116188d8d",
         "sha256:6c16f916ab2b07a53e166022cfbf73b4698520dc6ec14fa8b234b403bb017717",
         "febe67479a3ff3ad75c40385a4829e02eb506158c0b6f50dd0ce8e112b962d42",
@@ -623,9 +635,13 @@ def test_migration_and_evidence_docs_preserve_release_boundaries():
         "No broken requirements found",
         "LocalStore",
         "FakeGCS",
-        "GitHub Linux namespace/drop gate remains pending",
+        "The final GitHub job observed all of these checks on Linux",
         "test-process isolation",
         "The checkout and dependency installation may use network",
+        "reported no P0, P1, or P2 finding",
+        "Active-word highlight contrast remains a pre-existing",
+        "not production-qualified",
+        "legacy runner must not be retired",
         "unique writer",
         "legacy and executor identities have no write permission",
         "recorded generations",
@@ -641,6 +657,9 @@ def test_migration_and_evidence_docs_preserve_release_boundaries():
     ):
         assert required in evidence_words
     assert "M3: in_progress" not in evidence_words
+    assert "M4: in_progress" not in current_evidence_words
+    assert "remains pending" not in current_evidence_words
+    assert "remain unobserved" not in current_evidence_words
     assert "installing pinned test dependencies" not in cloud_run
     assert "lower-bound test dependencies" in cloud_run
     assert "M3 local-container gate passed at" in cloud_run

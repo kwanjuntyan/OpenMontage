@@ -3,12 +3,85 @@
 Accepted M3 functional baseline: `9a171db03bdeb52400571d671d259db8e3d8eddc`.
 M3 completion was accepted at
 `b471851eac6ab3bfea399d874e3f6c8116188d8d` after the real resolver, image,
-and dual-profile local-container gates described below.
+and dual-profile local-container gates retained as historical evidence below.
+
+Final M4 candidate:
+`c5bc88e2fefa4db22b4e662fa52012d43586eab6`.
+
+- Pull request: [kwanjuntyan/OpenMontage#1](https://github.com/kwanjuntyan/OpenMontage/pull/1)
+- Final successful workflow: [run 34931811296](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34931811296)
+- M3: completed
+- M4: completed
+- M5: not performed and not authorized
+- No production qualification is claimed.
+
+M4 completion covers the repository-version Python 3.10 validation and the
+observed Linux namespace/privilege-drop/no-egress test-process gate. It does
+not qualify a real provider, attached ADC identity, real GCS bucket, image
+push, Cloud Run execution/deployment, or paid operation. Those are M5 actions
+and remain outside this evidence. Batch V2 is therefore not production-qualified,
+remains opt-in, and the legacy runner must not be retired.
+
+## Final M4 GitHub evidence
+
+All three jobs completed successfully for the exact final candidate and pull
+request above:
+
+| Job | GitHub evidence | Accepted result |
+|---|---|---|
+| Validate Python | [job 104261401724](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34931811296/job/104261401724) | success: 2589 passed, 12 skipped, 3 xfailed, 1 warning, 1 subtest; 366.55s |
+| Batch V2 Linux Offline Gate | [job 104261401886](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34931811296/job/104261401886) | success: 649 passed, 1 skipped, 2 warnings; 217.47s; real CPython 3.10/Linux x86_64 resolver accepted 27 distributions |
+| Repository Policy & Binary Shield Guard | [job 104261401871](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34931811296/job/104261401871) | success |
+
+The Linux job's dependency setup and real resolver ran before the isolation
+boundary. The test process itself then ran under the repository's no-egress,
+credential-free namespace and dropped-privilege contract. The successful job
+is direct Linux evidence for those dynamic assertions, not an inference from
+the historical Windows checks.
+
+### Fail-closed diagnosis chain
+
+The three earlier workflow runs failed closed and were corrected before the
+successful final rerun; none of their failures was skipped, waived, or
+reclassified as success:
+
+- [Run 34926832790](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34926832790)
+  stopped when UID/GID `65532:65532` could not traverse/read the checkout, and
+  Validate Python exposed an end-to-end fixture that checkpointed compose
+  without the manifest-required real `final_review`. The correction granted
+  least-privilege ACL traversal/read only, strengthened non-writable checkout
+  and Git-metadata preflight, and exercised high-level render with its returned,
+  schema-valid passing `final_review` and exact output-path binding.
+- [Run 34928462269](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34928462269)
+  reached the dropped runtime assertion and stopped with only a generic exit
+  `64`. Offline diagnosis and reproduction identified parsing of the valid
+  blank Linux `Groups:` field. The correction then parsed only required
+  `/proc/self/status` fields and added stable redacted diagnostic categories
+  without exposing paths or values. Validate Python also exposed schema-valid
+  `subtitles.style` strings being treated as mappings; the same correction made
+  subtitle visual-style resolution compatible with the canonical string
+  display mode.
+- [Run 34929547674](https://github.com/kwanjuntyan/OpenMontage/actions/runs/34929547674)
+  passed Linux isolation but stopped on two non-hermetic legacy GCS unit tests;
+  Validate Python stopped on those plus two pre-existing Vox caption-contrast
+  regressions. The correction installed test-local fake
+  `google.cloud.storage` modules, selected caption bars by actual composited
+  contrast, and hardened invalid-background selection with the final candidate's
+  worst-case black/white maximin rule.
+
+Final independent review of the candidate plus successful workflow evidence
+reported no P0, P1, or P2 finding. Active-word highlight contrast remains a
+pre-existing, byte-identical non-regression backlog item: the old and new
+caption-bar selection is identical for the affected themes. It did not block
+M4, and it was not hidden or treated as fixed by this qualification.
+
+## Historical Windows M4 evidence
 
 The original Windows M4 offline matrix was observed on committed parent
 `8e298cbb068131452cb82bfc44c66cdca05dbe7a` plus the final local-path
 redaction implementation/test blobs below. Those blobs were committed before
-the M3 lock correction and remain as the historical binding for that run.
+the M3 lock correction and remain only as the historical binding for that run;
+they are not the final Linux or final-candidate evidence.
 
 ```text
 tools/video/gemini_omni_video.py
@@ -21,16 +94,7 @@ tests/batch_executor/test_m4_release_gate.py
   SHA-256 fe725fa327132a0a2a2745d2c4ff0836daa1c3c8c6f28a83d73b969d093f5a5c
 ```
 
-- M3: completed
-- M4: in_progress
-- No production qualification is claimed.
-
-M3 completion covers the reviewed code plus local, fake-only container
-qualification. M4 remains `in_progress`: the GitHub Linux namespace/drop gate
-remains pending. Nothing here qualifies a real provider, ADC identity, GCS
-bucket, Cloud Run deployment, image push, or paid operation.
-
-### M3 CPython 3.10 lock correction and completed container qualification
+## Historical M3 CPython 3.10 lock correction and container qualification
 
 The coordinating root performed the first real M3 image build from committed
 `2f9beca81d20a432dc5a1f0102c10b35f63b8047` with these frozen inputs:
@@ -122,11 +186,13 @@ The M4 slice is limited to:
 - opt-in migration/rollback rehearsal and this evidence.
 
 No engine, execution schema, publication, or Cloud Run template change is in
-scope. The accepted legacy runner remains byte-identical. The change does not
-add a scheduler, provider selector, generic transport platform, distributed
-lease, cross-file transaction, or wider Backlot behavior.
+the Batch V2 runtime slice. The accepted legacy runner remains byte-identical
+and must remain available; M4 completion does not authorize its retirement.
+The change does not add a scheduler, provider selector, generic transport
+platform, distributed lease, cross-file transaction, or wider Backlot
+behavior.
 
-## Test-first and mock/fake evidence
+## Historical Windows test-first and mock/fake evidence
 
 The Gemini and M4 release contracts were added before their implementations.
 The initial targeted runs failed on the absent injectable ADC contract and on
@@ -136,7 +202,7 @@ parser/dispatch stubs, and deterministic fixture media only. No test in this
 slice needs or authorizes real credentials, a provider, GCS, Cloud Run, Docker,
 or paid work.
 
-The handoff attaches exact results for these local commands:
+The historical Windows handoff attached exact results for these local commands:
 
 ```text
 python -m pytest tests/tools/test_gemini_omni_video.py tests/tools/test_gemini_omni_portability.py tests/batch_executor/test_m0_contracts.py -q --basetemp=.pytest-tmp/m4-gemini
@@ -147,10 +213,10 @@ python -m pytest tests/backlot tests/contracts/test_backlot_contract.py -q --bas
 python -m pytest tests/batch_executor/test_m4_release_gate.py tests/tools/test_gemini_omni_video.py tests/tools/test_gemini_omni_portability.py -q --basetemp=.pytest-tmp/m4-focused
 ```
 
-The complete combined command uses the union of all paths above (with the
+The complete combined command used the union of all paths above (with the
 canonical, BaseTool/GCS, Backlot, and both Gemini paths added to
 `tests/batch_executor`). Observed in the uncredentialed Windows test process
-for the tested tree identified above:
+for the historical tested tree identified above:
 
 | Gate | Result |
 |---|---:|
@@ -165,7 +231,7 @@ for the tested tree identified above:
 | Execution schemas, Draft 2020-12 | 11 passed meta-validation |
 | Repository Git policy tree scan | passed |
 | Rollback parser/dispatch stub rehearsal | passed; zero provider/canonical calls |
-| Linux gate shell definition | Git Bash syntax passed locally; namespace/drop execution pending Linux CI |
+| Linux gate shell definition | Git Bash syntax passed locally; final dynamic Linux execution is recorded separately above |
 
 Immediately before adding the two case-insensitive `*.env` name-only
 regressions, the same candidate boundary produced 623 passed and 5 skips in
@@ -182,13 +248,15 @@ removed known Google route/project aliases, set
 `OPENMONTAGE_ALLOW_NETWORK=0`, and ran under the repository pytest socket
 guard.
 
-The dedicated Linux workflow installs lower-bound test requirements first,
-then invokes `scripts/run_batch_v2_linux_offline_gate.sh`. Those requirements
-are not a resolved dependency lock. The launcher contract fail-closes unless
-`unshare`, `setpriv`, and the required network tools work; name-scans tracked,
-untracked, and gitignored workspace content while safely pruning dependency and
-test sandboxes; and rejects `.env`, known credential names, and key material
-without reading or printing candidate contents or paths.
+The successful dedicated Linux workflow installed lower-bound test requirements
+first, then invoked `scripts/run_batch_v2_linux_offline_gate.sh`. Those test
+requirements are not a resolved dependency lock; the separate real resolver
+accepted all 27 exact CPython 3.10/Linux x86_64 distributions. The launcher
+contract fail-closes unless `unshare`, `setpriv`, and the required network tools
+work; name-scans tracked, untracked, and gitignored workspace content while
+safely pruning dependency and test sandboxes; and rejects `.env`, known
+credential names, and key material without reading or printing candidate
+contents or paths.
 
 The isolated test process uses dedicated UID/GID `65532:65532`,
 `no_new_privs`, and empty bounding/inheritable/permitted/effective/ambient
@@ -202,8 +270,8 @@ actual legacy `-B ... --help` invocation and fails on mutation; `-B` is not
 claimed to suppress non-bytecode side effects. This test-process isolation is
 inherited by subprocesses. The checkout and dependency installation may use
 network; the repository does not claim the complete CI lifecycle is offline.
-All Linux namespace/drop assertions remain unobserved until the GitHub Linux
-job runs, so M4 remains in progress.
+The final GitHub job observed all of these checks on Linux and completed
+successfully with the result bound above.
 
 ## Agent-Native responsibility review
 
@@ -251,17 +319,28 @@ this M4 slice does not rewrite execution schemas or silently migrate frozen
 requests. Any future convergence requires an explicit versioned request/schema
 migration rather than reporting the new legacy-tool behavior under `0.1.0`.
 
-## Pending environment evidence
+## M4 completion boundary and excluded M5 actions
 
-The M3 local-container dual-profile 40-item gate is now accepted as recorded
-above. The GitHub Linux namespace/drop gate remains pending, not waived; the
-current Windows environment cannot establish that repository-version Linux
-isolation result. The image build used ordinary registry/package dependency
-access, while both qualification containers used `--network none`. No external
-provider, ADC credential, real GCS service, Cloud Run deployment, image push,
-or paid operation was used.
+The historical M3 local-container dual-profile 40-item gate and the final M4
+GitHub Linux gate are accepted only within the boundaries recorded above. The
+image build used ordinary registry/package dependency access, both historical
+M3 qualification containers used `--network none`, and the final M4 test
+process used the no-egress namespace boundary. No external provider, attached
+ADC credential, real GCS service, Cloud Run execution/deployment, image push,
+or paid operation was used or authorized.
+
+M4 is completed, but Batch V2 is still not production-qualified. M5 must
+separately qualify the real GCS/IAM, image-push, Cloud Run, ADC, and provider
+boundaries under immediate authorization. Until that work succeeds, V2 remains
+opt-in and `scripts/batch_run_intent_sequences.py` remains the required legacy
+rollback path; it must not be retired.
 
 ## M5 publication trust prerequisite
+
+This section is an unexecuted M5 prerequisite, not evidence that M5 occurred.
+Nothing in M3 or M4 authorizes real GCS mutation, an image push, Cloud Run, ADC,
+or a paid provider call, and none of those actions is production-qualified by
+the successful offline/fake gates.
 
 Production IAM/topology must make the publication identity the unique writer
 for the canonical asset/checkpoint, publication fence, and publication-state
@@ -281,3 +360,7 @@ and then repeat qualification. Recorded-generation retention remains a
 separate prerequisite: the recorded generations required by the recovery
 window must remain readable. These are external M5 prerequisites, not blockers
 attributable to the accepted M3 commit, and M4 does not implement them.
+
+Accordingly, M4 completion cannot retire the legacy runner or enable the Batch
+V2 production profile. Those transitions require separately authorized and
+successful M5 evidence.
