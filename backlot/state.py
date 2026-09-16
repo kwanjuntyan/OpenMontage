@@ -21,7 +21,14 @@ MEDIA_VIDEO_EXT = {".mp4", ".webm", ".mov"}
 MEDIA_AUDIO_EXT = {".mp3", ".wav", ".m4a", ".ogg"}
 
 # Directories inside a project we never scan for media (build noise).
-SCAN_EXCLUDE = {"node_modules", ".git", "__pycache__", "history", ".cache"}
+SCAN_EXCLUDE = {
+    "node_modules",
+    ".git",
+    "__pycache__",
+    "history",
+    ".cache",
+    ".production-units",
+}
 
 # Stages every pipeline shares (fallback rail when the manifest is unknown).
 FALLBACK_STAGES = [
@@ -1111,6 +1118,8 @@ def _last_activity(project_dir: Path) -> float:
     return latest
 
 
+
+
 # ---------------------------------------------------------------------------
 # Public API
 # ---------------------------------------------------------------------------
@@ -1205,6 +1214,19 @@ def load_board_state(project_dir: Path) -> dict[str, Any]:
         "last_activity": last_activity,
         "live": bool(last_activity and (now - last_activity) < LIVE_WINDOW_SECONDS),
     }
+    from backlot.course_projection import derive_course_projection
+
+    loose_course_cache = _read_contained_project_json(
+        project_dir, project_dir / "artifacts" / "course_manifest.json"
+    )
+    course = derive_course_projection(
+        checkpoints,
+        stages,
+        artifact_diagnostics,
+        loose_course_cache,
+    )
+    if course is not None:
+        state["course"] = course
     state["poster"] = _find_poster(project_dir, state)
     return state
 
@@ -1214,7 +1236,7 @@ def summarize_project(project_dir: Path) -> dict[str, Any]:
     state = load_board_state(project_dir)
     active = next((s for s in state["stages"] if s["status"] in ("in_progress", "awaiting_human")), None)
     done = [s for s in state["stages"] if s["status"] == "completed"]
-    return {
+    summary = {
         "project_id": state["project_id"],
         "title": state["title"],
         "pipeline_type": state["pipeline"]["pipeline_type"],
@@ -1232,6 +1254,15 @@ def summarize_project(project_dir: Path) -> dict[str, Any]:
         "render_count": len(state["media"]["renders"]),
         "scene_count": len((state["storyboard"] or {}).get("scenes", [])),
     }
+    course = state.get("course")
+    if isinstance(course, dict) and course.get("is_course") is True:
+        summary["is_course"] = True
+        summary["course"] = {
+            "module_count": course["module_count"],
+            "lesson_count": course["lesson_count"],
+            "target_duration_seconds": course["target_duration_seconds"],
+        }
+    return summary
 
 
 def list_projects(projects_dir: Optional[Path] = None) -> list[dict[str, Any]]:

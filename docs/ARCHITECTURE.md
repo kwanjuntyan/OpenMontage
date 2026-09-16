@@ -238,6 +238,26 @@ Specialized pipelines may insert domain-specific stages. For example,
 `scene_plan`, then emits a HyperFrames workspace and final deliverable at
 `projects/<project-name>/renders/final.mp4`.
 
+### Course form and Production Units (experimental)
+
+`animated-explainer` can optionally route a pedagogical course through the
+same project identity, stage progression, canonical CLP chain, checkpoints,
+and Human Gates. The approved proposal declares
+`production_plan.content_form="course_form"` and owns one static
+`course_manifest` containing modules, lessons, objectives, prerequisites,
+assessment, shared terminology, and delivery requirements. Modules and lessons
+are logical curriculum structure, not nested projects or pipeline stages.
+
+The optional Production Unit Protocol (PUP) partitions work inside a stage so
+Agent calls and render attempts remain bounded. It does not create another
+state machine or canonical artifact set: unit fragments are deterministically
+merged into the existing `script`, `clp_manifest`, `scene_plan`,
+`asset_manifest`, `edit_decisions`, and `render_report` contracts. Absent policy
+is exactly `mode=off`, and the legacy monolithic path remains unchanged. The
+initial 180-second target is configurable experimental policy, not an OM core
+invariant. M2–M5 provide offline/opt-in contracts; long-course quality and
+attention claims still require the separate M6 qualification matrix.
+
 ---
 
 ## Checkpoint System
@@ -269,12 +289,13 @@ Checkpoints persist pipeline state as JSON in the project's `pipeline/` director
 
 **Functions:** `write_checkpoint()`, `read_checkpoint()`, `get_latest_checkpoint()`, `get_completed_stages()`, `get_next_stage()`
 
-### Canonical Artifacts (11 types, all JSON-schema validated)
+### Canonical Artifacts (12 types, all JSON-schema validated)
 
 | Artifact | Stage | Contains |
 |----------|-------|----------|
 | `research_brief` | research | Landscape analysis, data points, audience insights, angles |
 | `proposal_packet` | proposal | Concept options, production plan, cost estimates, approval gate |
+| `course_manifest` | proposal (optional) | Static course objectives, module/lesson graph, shared language, assessment, and delivery requirements |
 | `brief` | idea | Title, hook, key points, tone, style, platform, duration |
 | `script` | script | Timestamped sections with enhancement cues, pronunciation guides |
 | `scene_plan` | scene_plan | Scene definitions with type, description, timing |

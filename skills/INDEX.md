@@ -135,6 +135,7 @@ Pipeline type skills provide production guidance for specific video formats, ind
 |-------|------|-------------|
 | Short-Form | `creative/short-form.md` | TikTok, Reels, Shorts â€" vertical 9:16, under 60s |
 | Long-Form | `creative/long-form.md` | YouTube 10+ min â€" chapters, retention, end screens |
+| Course Form | `creative/course-form.md` | Pedagogical course design with objectives, prerequisites, practice, assessment, and delivery requirements |
 | Screen Recording | `creative/screen-recording.md` | Code walkthroughs, tutorials, software demos |
 | Animation Pipeline | `creative/animation-pipeline.md` | Motion graphics, easing, transitions, composition |
 | 3D World Generation | `creative/3d-world-generation.md` | Continuous Three.js terrain worlds with semantic regions, explicit blockout/production tiers, licensed GLTF/PBR assets, diagnostics, and deterministic camera paths |

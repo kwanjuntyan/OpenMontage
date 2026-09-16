@@ -25,6 +25,10 @@ extensions:
   custom_playbooks: true
   custom_skills: true
   custom_tools: false
+  production_units:
+    supported: true
+    default_mode: "off"
+    supported_stages: [script, clp, scene_plan, assets, edit, compose]
 
 required_skills:
   - pipelines/explainer/executive-producer
@@ -91,6 +95,8 @@ stages:
     produces:
       - proposal_packet
       - decision_log
+    optional_produces:
+      - course_manifest
     tools_available: []
     checkpoint_required: true
     human_approval_default: true
@@ -126,6 +132,7 @@ stages:
       - proposal_packet
     optional_artifacts_in:
       - research_brief
+      - course_manifest
     produces:
       - script
     tools_available: []
@@ -148,6 +155,7 @@ stages:
       - script
     optional_artifacts_in:
       - proposal_packet
+      - course_manifest
     produces:
       - clp_manifest
       - clp_candidates
@@ -169,6 +177,7 @@ stages:
       - clp_manifest
     optional_artifacts_in:
       - proposal_packet
+      - course_manifest
     produces:
       - scene_plan
       - clp_shot_bindings
@@ -195,6 +204,7 @@ stages:
       - clp_shot_bindings
     optional_artifacts_in:
       - proposal_packet
+      - course_manifest
     produces:
       - asset_manifest
     required_tools:
@@ -233,6 +243,7 @@ stages:
       - asset_manifest
     optional_artifacts_in:
       - script
+      - course_manifest
     produces:
       - edit_decisions
     tools_available: []
@@ -254,6 +265,7 @@ stages:
       - asset_manifest
     optional_artifacts_in:
       - scene_plan
+      - course_manifest
     produces:
       - render_report
       - final_review
@@ -286,6 +298,7 @@ stages:
       - final_review
     optional_artifacts_in:
       - proposal_packet
+      - course_manifest
     produces:
       - publish_log
     tools_available: [export_bundle]

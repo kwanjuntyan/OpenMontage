@@ -577,6 +577,27 @@ aside .panel:nth-of-type(1) { animation-delay: .32s } aside .panel:nth-of-type(2
 .script-pending { color: #f0a83c; border: 1.5px solid #f0a83c; border-radius: 3px; background: rgba(240, 168, 60, 0.1); }
 .script-draft { color: #8e8e98; border: 1.5px solid #8e8e98; border-radius: 3px; background: rgba(142, 142, 152, 0.1); }
 
+/* ---------- course outline ---------- */
+.course-card {
+  background: var(--surface); border: 1px solid var(--border-soft); border-radius: 12px;
+  padding: 18px; width: 100%;
+}
+.course-summary { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 14px; }
+.course-summary span {
+  font-family: var(--mono); font-size: calc(10.5px * var(--fs-scale)); color: var(--text-2);
+  border: 1px solid var(--border-soft); border-radius: 999px; padding: 4px 8px;
+}
+.course-modules { display: grid; gap: 10px; }
+.course-module { border: 1px solid var(--border-soft); border-radius: 8px; overflow: hidden; }
+.course-module-head, .course-lesson {
+  display: flex; justify-content: space-between; gap: 16px; padding: 9px 11px;
+}
+.course-module-head { background: var(--surface-2); color: var(--text-1); }
+.course-module-head span, .course-lesson span:last-child {
+  color: var(--text-3); font-family: var(--mono); font-size: calc(10.5px * var(--fs-scale));
+}
+.course-lesson { border-top: 1px solid var(--border-soft); color: var(--text-2); }
+
 /* ---------- approval review surface ---------- */
 .approval-review {
   width: 100%; max-width: 1000px; margin: 0 auto;

@@ -297,6 +297,86 @@ def _validate_artifacts_for_stage(
         raise CheckpointValidationError(str(exc)) from exc
 
 
+def _validate_course_and_pup_routing(
+    *,
+    stage: str,
+    status: str,
+    artifacts: dict[str, Any],
+    pipeline_type: str,
+) -> None:
+    """Enforce additive course ownership and opt-in PUP capability routing."""
+
+    course_manifest = artifacts.get("course_manifest")
+    proposal = artifacts.get("proposal_packet")
+
+    if course_manifest is not None and stage != "proposal":
+        raise CheckpointValidationError(
+            "course_manifest is only valid at stage 'proposal'; later stages "
+            "must consume the approved predecessor without republishing it"
+        )
+
+    from lib.pipeline_loader import load_pipeline_readonly
+
+    manifest = load_pipeline_readonly(pipeline_type)
+    stage_definition = next(
+        (
+            item
+            for item in manifest.get("stages", [])
+            if isinstance(item, dict) and item.get("name") == stage
+        ),
+        {},
+    )
+    optional_outputs = set(stage_definition.get("optional_produces") or [])
+    if course_manifest is not None and "course_manifest" not in optional_outputs:
+        raise CheckpointValidationError(
+            f"Pipeline {pipeline_type!r} stage {stage!r} does not declare "
+            "course_manifest in optional_produces"
+        )
+
+    if stage != "proposal" or not isinstance(proposal, dict):
+        return
+
+    production_plan = proposal.get("production_plan")
+    if not isinstance(production_plan, dict):
+        return  # proposal schema validation reports the structural error
+
+    content_form = production_plan.get("content_form")
+    lifecycle_complete = status in {"completed", "awaiting_human"}
+    if lifecycle_complete and content_form == "course_form" and course_manifest is None:
+        raise CheckpointValidationError(
+            "content_form='course_form' requires course_manifest in the same "
+            "proposal checkpoint"
+        )
+    if course_manifest is not None and content_form != "course_form":
+        raise CheckpointValidationError(
+            "course_manifest requires production_plan.content_form='course_form'"
+        )
+
+    policy = production_plan.get("production_unit_policy")
+    if not isinstance(policy, dict) or policy.get("mode") in {None, "off"}:
+        return
+
+    capability = (manifest.get("extensions") or {}).get("production_units")
+    if not isinstance(capability, dict) or capability.get("supported") is not True:
+        raise CheckpointValidationError(
+            f"Pipeline {pipeline_type!r} does not support Production Units"
+        )
+    enabled_stages = set(policy.get("enabled_stages") or [])
+    supported_stages = set(capability.get("supported_stages") or [])
+    unsupported = enabled_stages - supported_stages
+    if unsupported:
+        raise CheckpointValidationError(
+            "Production Unit policy requests unsupported stages: "
+            f"{sorted(unsupported)}"
+        )
+    target = policy.get("target_seconds")
+    hard_max = policy.get("hard_max_seconds")
+    if hard_max is not None and target is not None and hard_max < target:
+        raise CheckpointValidationError(
+            "production_unit_policy.hard_max_seconds must be >= target_seconds"
+        )
+
+
 def _find_predecessor_checkpoint(
     stage: str,
     project_id: str,
@@ -677,6 +757,10 @@ def validate_checkpoint(
         raise CheckpointValidationError(
             "clp_manifest is only valid at stages 'clp' and 'scene_plan'"
         )
+    if "course_manifest" in artifacts and stage != "proposal":
+        raise CheckpointValidationError(
+            "course_manifest is only valid at stage 'proposal'"
+        )
 
     # Re-enforce every approval gate on reads as well as writes.  Otherwise a
     # hand-edited/legacy checkpoint could mark a manifest-gated stage completed
@@ -800,7 +884,19 @@ def validate_checkpoint(
             except CLPValidationError as exc:
                 raise CheckpointValidationError(str(exc)) from exc
 
-    _validate_artifacts_for_stage(stage, status, artifacts, pipeline_type=pipeline_type, project_dir=proj_dir)
+    _validate_artifacts_for_stage(
+        stage,
+        status,
+        artifacts,
+        pipeline_type=pipeline_type,
+        project_dir=proj_dir,
+    )
+    _validate_course_and_pup_routing(
+        stage=stage,
+        status=status,
+        artifacts=artifacts,
+        pipeline_type=pipeline_type,
+    )
 
     try:
         jsonschema.validate(

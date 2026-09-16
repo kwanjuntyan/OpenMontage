@@ -17,6 +17,19 @@ The script is the backbone of the video. Every visual, every scene, every audio 
 | Meta skill | `skills/meta/voice-performance-director.md` | Structured TTS delivery cues for natural, expressive narration |
 | Layer 3 | TTS provider skills (check `agent_skills` on the selected TTS tool) | TTS capabilities for speaker directions |
 
+For an approved `course_form` proposal with an explicit non-off Production
+Unit policy, also load the `course_manifest` from that same validated proposal
+checkpoint and read `skills/meta/production-unit-protocol.md`. Use its bounded
+script path only when explicitly selected. Missing policy is `off` and follows
+the unchanged monolithic process below.
+
+In the bounded path, author only the lessons in the supplied digest-bound
+context capsule. Return global timestamps, an exact section-to-lesson mapping,
+and the unchanged capsule digest. Do not privately edit course objectives,
+lesson order, glossary, style context, or voice performance. The pure merge
+helper returns a candidate; this director reviews the complete merged script
+and only the existing checkpoint workflow may publish it.
+
 ## Process
 
 ### Step 1: Absorb the Proposal and Research

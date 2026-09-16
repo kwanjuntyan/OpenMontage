@@ -51,6 +51,9 @@ function renderSlate(s) {
   const board = s.storyboard;
   const chips = [
     el("span", { class: "chip" }, `${s.pipeline.pipeline_type} pipeline`),
+    s.course && s.course.is_course
+      ? el("span", { class: "chip" }, `course · ${s.course.lesson_count} lessons · ${fmtDuration(s.course.target_duration_seconds)}`)
+      : null,
     board && board.total_duration_seconds
       ? el("span", { class: "chip" }, `${board.scenes.length} scenes · ${fmtDuration(board.total_duration_seconds)}`)
       : null,
@@ -113,6 +116,11 @@ function stageSub(st) {
     return `stalled? no activity for ${st.stalled_minutes}m\nask the agent for status`;
   }
   if (st.status === "in_progress" && st.partial_progress) {
+    const units = st.partial_progress.production_units;
+    if (units && Number.isInteger(units.total_units) && Array.isArray(units.completed_unit_ids)) {
+      const active = units.active_unit_id ? ` · ${units.active_unit_id}` : "";
+      return `${units.completed_unit_ids.length}/${units.total_units} units${active}`;
+    }
     const done = st.partial_progress.completed_scene_ids;
     if (Array.isArray(done)) return `${done.length} scene${done.length === 1 ? "" : "s"} done`;
     return "in progress";
@@ -295,6 +303,47 @@ function renderScriptCard(s) {
     el("span", { class: "sp-expand" }, "⤢ EXPAND SCRIPT"),
   );
   return card;
+}
+
+function renderCourseCard(s) {
+  const course = s.course;
+  if (!course || !course.is_course) return null;
+  const progress = course.production_units || { by_stage: [], active: null };
+  const latest = progress.by_stage.length
+    ? progress.by_stage[progress.by_stage.length - 1]
+    : null;
+  const delivery = course.delivery || {};
+  const deliveryItems = [
+    delivery.full_master,
+    ...(Array.isArray(delivery.lesson_exports) ? delivery.lesson_exports : []),
+    delivery.chapter_markers,
+    ...(Array.isArray(delivery.captions) ? delivery.captions : []),
+    delivery.bundle,
+  ].filter(Boolean);
+  const ready = deliveryItems.filter((item) => ["rendered", "published", "not_required"].includes(item.status)).length;
+
+  const modules = course.modules.map((module) =>
+    el("div", { class: "course-module" },
+      el("div", { class: "course-module-head" },
+        el("b", {}, module.title),
+        el("span", {}, fmtDuration(module.target_duration_seconds))),
+      ...module.lessons.map((lesson) =>
+        el("div", { class: "course-lesson" },
+          el("span", {}, lesson.title),
+          el("span", {}, `${fmtDuration(lesson.target_duration_seconds)}${lesson.export_required ? " · export" : ""}`))),
+    ));
+
+  return el("section", { class: "course-card", id: "course" },
+    el("div", { class: "section-title" }, "Course outline",
+      el("span", { class: "meta" }, `${course.module_count} modules · ${course.lesson_count} lessons · ${course.objective_count} objectives`)),
+    el("div", { class: "course-summary" },
+      el("span", {}, `stage · ${(course.overall_stage || {}).name || "proposal"}`),
+      latest ? el("span", {}, `units · ${latest.completed_units}/${latest.total_units} complete · ${latest.failed_units} failed · ${latest.stale_units} stale`) : null,
+      latest ? el("span", {}, `boundaries · ${latest.boundary_defects} defects · ${latest.repairs} repairs`) : null,
+      progress.active ? el("span", {}, `active · ${progress.active.stage}/${progress.active.unit_id}`) : null,
+      el("span", {}, `delivery · ${ready}/${deliveryItems.length} traced`)),
+    el("div", { class: "course-modules" }, ...modules),
+  );
 }
 
 function renderCLP(s) {
@@ -1115,6 +1164,10 @@ function stateAt(s, T) {
   if (!(composeStage && composeStage.status === "completed")) {
     view.media.renders = [];
   }
+  const proposalStage = view.stages.find((x) => x.name === "proposal");
+  if (!(proposalStage && proposalStage.status === "completed")) {
+    delete view.course;
+  }
   return view;
 }
 
@@ -1217,6 +1270,8 @@ function render() {
   const main = el("div", { class: "main-col" });
   const approvalReview = renderApprovalReview(s);
   if (approvalReview) main.append(approvalReview);
+  const course = renderCourseCard(s);
+  if (course) main.append(course);
   const script = renderScriptCard(s);
   if (script) main.append(script);
   const characters = renderCharacters(s);
@@ -1233,7 +1288,7 @@ function render() {
   const found = renderFoundMedia(s);
   const renders = renderRenders(s);
 
-  if (approvalReview || script || characters || decisions || activity) {
+  if (approvalReview || course || script || characters || decisions || activity) {
     for (const section of [storyboard, found, renders]) {
       if (section) main.append(section);
     }
@@ -1255,6 +1310,17 @@ function normalize(s) {
     stage.produces = Array.isArray(stage.produces) ? stage.produces : [];
   }
   s.artifacts = s.artifacts || {};
+  if (s.course && s.course.is_course) {
+    s.course.modules = Array.isArray(s.course.modules) ? s.course.modules : [];
+    for (const module of s.course.modules) {
+      module.lessons = Array.isArray(module.lessons) ? module.lessons : [];
+    }
+    s.course.production_units = s.course.production_units || { by_stage: [], active: null };
+    s.course.production_units.by_stage = Array.isArray(s.course.production_units.by_stage)
+      ? s.course.production_units.by_stage : [];
+  } else {
+    delete s.course;
+  }
   s.clp = s.clp || { characters: [], locations: [], props: [] };
   s.clp.characters = Array.isArray(s.clp.characters) ? s.clp.characters : [];
   s.clp.locations = Array.isArray(s.clp.locations) ? s.clp.locations : [];

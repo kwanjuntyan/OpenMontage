@@ -13,6 +13,7 @@ SCHEMA_DIR = Path(__file__).parent
 ARTIFACT_NAMES = [
     "research_brief",
     "proposal_packet",
+    "course_manifest",
     "brief",
     "script",
     "character_design",
@@ -57,6 +58,9 @@ def validate_artifact(
     if name == "clp_manifest":
         from lib.clp_validator import validate_clp_manifest_or_raise
         validate_clp_manifest_or_raise(data, project_dir=project_dir)
+    elif name == "course_manifest":
+        from lib.production_units.course import validate_course_manifest_or_raise
+        validate_course_manifest_or_raise(data)
     elif name == "clp_shot_bindings":
         from lib.clp_validator import validate_clp_shot_bindings_or_raise
         validate_clp_shot_bindings_or_raise(data)
