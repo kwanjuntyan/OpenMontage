@@ -1,8 +1,9 @@
 # Production Unit Protocol M6 qualification record
 
-> Current status (2026-09-16): **M6.0B review-ready candidate** on exact base
-> `df0f8ca616fceac056c8762a9b59193a2e822873`. This remains experimental,
-> opt-in work. It is not beta or production qualification.
+> Current status (2026-09-16): **M6.0B bounded review follow-up candidate** on
+> exact base `df0f8ca616fceac056c8762a9b59193a2e822873`; initial candidate
+> `77d286c9615b6997c6d9447ca1baf4fbb7fa8d71` remains its parent. This work
+> remains experimental and opt-in. It is not beta or production qualification.
 
 ## Scope completed in M6.0A
 
@@ -153,6 +154,10 @@ Restart is deterministic and checkpoint-last:
 - immutable records use atomic no-replace writes; identity reuse with
   different bytes is rejected;
 - one OS-level coordinator lock serializes each handoff;
+- a deterministic project/stage lock set covers every frozen predecessor and
+  target checkpoint while their digests are revalidated and the existing
+  writer commits; different handoff IDs and ordinary checkpoint writers
+  therefore cannot race the same source/target transition;
 - a crash before the official writer resumes only the frozen local intent;
 - a crash after the writer verifies the exact checkpoint and repairs only the
   missing receipt/projection;
@@ -165,14 +170,19 @@ The authority variants are intentionally not combined. M6.0B implements only
 `pup_json_merge` for `script`, `clp`, `scene_plan`, and `edit`. `assets` is
 rejected and remains solely under Batch V2 PublicationCommand/PublicationState.
 `compose`/render publication is rejected and deferred to M6.0C. Hybrid
-authority fields are invalid under the closed handoff schema.
+authority fields are invalid under the closed handoff schema. Each JSON
+candidate is additionally restricted to the owning manifest stage's
+`produces | optional_produces` allowlist, so a `script` handoff cannot smuggle
+an `asset_manifest` or any other foreign-stage artifact into its checkpoint.
 
 Manifest-gated candidates are written `awaiting_human` with
 `human_approved=false`. The handoff API has no parameter that can assert human
 approval. The normal checkpoint protocol remains the only owner of the later
-`awaiting_human -> completed` transition. That existing transition may carry
-forward the exact candidate bytes/provenance and is accepted only when the
-normal checkpoint has `status=completed` and `human_approved=true`.
+`awaiting_human -> completed` transition. Completion is accepted only after a
+matching durable awaiting checkpoint and handoff receipt exist. The official
+writer must carry forward the exact candidate artifacts and
+`candidate_handoff` provenance; removing provenance, replacing artifacts, or
+adding Batch V2/render publication authority fails closed.
 
 ### Explicit M6.0B deferrals
 
@@ -218,6 +228,15 @@ M6.0B review-ready candidate (exact base `df0f8ca`):
 - pipeline catalog + checkpoint/Backlot contract regression: 73 passed
 - Ruff on the new implementation/tests: passed
 - `git diff --check`: passed
+
+M6.0B consumer-boundary follow-up over initial candidate `77d286c`:
+
+- focused handoff ownership/gate/concurrency suite: 37 passed
+- `python -m pytest tests/production_units -q`: 147 passed
+- checkpoint/course-routing/Backlot contract regression: 103 passed
+- Backlot Human Gate scenarios: 4 passed
+- Batch V2 publication/release regression: 81 passed, 2 skipped
+- Ruff, `py_compile`, and `git diff --check`: passed
 
 All tests used explicit short `--basetemp` paths under
 `D:\kj-openMontage\.pytest-tmp`. No provider, network, deployment, GCS,

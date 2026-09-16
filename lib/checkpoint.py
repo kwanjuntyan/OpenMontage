@@ -6,12 +6,15 @@ checkpoints to resume pipelines and to present state at human checkpoints.
 
 from __future__ import annotations
 
+from contextlib import ExitStack, contextmanager
 import json
+import os
 import re
 from copy import deepcopy
-from functools import lru_cache
+from functools import lru_cache, wraps
 from datetime import datetime, timezone
 from pathlib import Path
+import threading
 from typing import Any, Optional
 
 import jsonschema
@@ -104,6 +107,10 @@ class CheckpointValidationError(ValueError):
     """Raised when a checkpoint or its canonical artifacts are invalid."""
 
 
+class CheckpointWriteLocked(CheckpointValidationError):
+    """Raised when another writer owns a canonical project/stage checkpoint."""
+
+
 STAGE_COMPONENT_PATTERN = r"^[a-zA-Z0-9_-]+$"
 STAGE_COMPONENT_RE = re.compile(STAGE_COMPONENT_PATTERN)
 CHECKPOINT_FORMAT_CHECKER = jsonschema.FormatChecker()
@@ -159,6 +166,124 @@ def _contained_project_path(project_dir: Path, *parts: str) -> Path:
             f"Path escapes exact project root {root}: {path}"
         ) from exc
     return path
+
+
+_CHECKPOINT_LOCK_GUARD = threading.Lock()
+_CHECKPOINT_LOCKS: dict[str, dict[str, Any]] = {}
+
+
+class _CheckpointStageWriteLock:
+    """Non-blocking, process-reentrant OS lock for one canonical stage file."""
+
+    def __init__(self, path: Path):
+        self.path = path
+        self._key: str | None = None
+        self._handle = None
+        self._reentrant = False
+
+    def __enter__(self) -> "_CheckpointStageWriteLock":
+        self.path.parent.mkdir(parents=True, exist_ok=True)
+        key = os.path.normcase(str(self.path.resolve(strict=False)))
+        owner = threading.get_ident()
+        with _CHECKPOINT_LOCK_GUARD:
+            state = _CHECKPOINT_LOCKS.get(key)
+            if state is not None:
+                if state["owner"] != owner:
+                    raise CheckpointWriteLocked(
+                        f"CHECKPOINT_STAGE_BUSY: another writer owns {self.path}"
+                    )
+                state["depth"] += 1
+                self._key = key
+                self._reentrant = True
+                return self
+            _CHECKPOINT_LOCKS[key] = {"owner": owner, "depth": 1}
+        self._key = key
+        handle = None
+        try:
+            handle = self.path.open("a+b")
+            if os.name == "nt":
+                import msvcrt
+
+                handle.seek(0, os.SEEK_END)
+                if handle.tell() == 0:
+                    handle.write(b"\0")
+                    handle.flush()
+                handle.seek(0)
+                msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+            else:
+                import fcntl
+
+                fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+        except (OSError, BlockingIOError) as exc:
+            if handle is not None:
+                handle.close()
+            with _CHECKPOINT_LOCK_GUARD:
+                _CHECKPOINT_LOCKS.pop(key, None)
+            self._key = None
+            raise CheckpointWriteLocked(
+                f"CHECKPOINT_STAGE_BUSY: another writer owns {self.path}"
+            ) from exc
+        self._handle = handle
+        return self
+
+    def __exit__(self, exc_type, exc, traceback) -> None:
+        key = self._key
+        if key is None:
+            return
+        if self._reentrant:
+            with _CHECKPOINT_LOCK_GUARD:
+                state = _CHECKPOINT_LOCKS[key]
+                state["depth"] -= 1
+            self._key = None
+            return
+        handle = self._handle
+        self._handle = None
+        try:
+            if handle is not None:
+                try:
+                    if os.name == "nt":
+                        import msvcrt
+
+                        handle.seek(0)
+                        msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
+                    else:
+                        import fcntl
+
+                        fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+                finally:
+                    handle.close()
+        finally:
+            with _CHECKPOINT_LOCK_GUARD:
+                _CHECKPOINT_LOCKS.pop(key, None)
+            self._key = None
+
+
+@contextmanager
+def checkpoint_write_locks(
+    pipeline_dir: Path,
+    project_id: str,
+    stages: list[str] | tuple[str, ...] | set[str],
+):
+    """Serialize canonical writes for a deterministic set of project stages."""
+
+    project_dir = _project_directory(Path(pipeline_dir), project_id)
+    safe_stages = sorted({_validate_stage_component(stage) for stage in stages})
+    with ExitStack() as stack:
+        for stage in safe_stages:
+            lock_path = _contained_project_path(
+                project_dir, ".checkpoint-locks", f"{stage}.lock"
+            )
+            stack.enter_context(_CheckpointStageWriteLock(lock_path))
+        yield
+
+
+def _serialize_checkpoint_write(function):
+    @wraps(function)
+    def locked(pipeline_dir, project_id, stage, *args, **kwargs):
+        with checkpoint_write_locks(pipeline_dir, project_id, {stage}):
+            return function(pipeline_dir, project_id, stage, *args, **kwargs)
+
+    return locked
 
 
 def _authenticate_project_marker(
@@ -1239,6 +1364,61 @@ def _merge_decision_log(
     os.replace(tmp_path, path)
 
 
+def _candidate_handoff_provenance(checkpoint: dict[str, Any] | None) -> Any:
+    if not isinstance(checkpoint, dict):
+        return None
+    metadata = checkpoint.get("metadata")
+    if not isinstance(metadata, dict):
+        return None
+    production_units = metadata.get("production_units")
+    if not isinstance(production_units, dict):
+        return None
+    return production_units.get("candidate_handoff")
+
+
+def _enforce_pup_human_gate_transition(
+    current: dict[str, Any] | None,
+    candidate: dict[str, Any],
+) -> None:
+    """Keep an existing PUP candidate exact across the original Human Gate."""
+
+    current_provenance = _candidate_handoff_provenance(current)
+    candidate_provenance = _candidate_handoff_provenance(candidate)
+    is_human_completion = (
+        candidate.get("status") == "completed"
+        and candidate.get("human_approved") is True
+    )
+    if not is_human_completion:
+        return
+    if candidate_provenance is not None and current_provenance is None:
+        raise CheckpointValidationError(
+            "PUP HUMAN GATE VIOLATION: completed candidate provenance requires "
+            "a matching durable awaiting_human checkpoint"
+        )
+    if current_provenance is None:
+        return
+    if (
+        current.get("status") != "awaiting_human"
+        or current.get("human_approved") is not False
+        or current.get("human_approval_required") is not True
+    ):
+        raise CheckpointValidationError(
+            "PUP HUMAN GATE VIOLATION: approval must transition the matching "
+            "awaiting_human checkpoint"
+        )
+    if candidate_provenance != current_provenance:
+        raise CheckpointValidationError(
+            "PUP HUMAN GATE VIOLATION: candidate_handoff provenance must be "
+            "preserved exactly"
+        )
+    if candidate.get("artifacts") != current.get("artifacts"):
+        raise CheckpointValidationError(
+            "PUP HUMAN GATE VIOLATION: approved artifacts must exactly match "
+            "the awaiting_human candidate"
+        )
+
+
+@_serialize_checkpoint_write
 def write_checkpoint(
     pipeline_dir: Path,
     project_id: str,
@@ -1430,6 +1610,9 @@ def write_checkpoint(
             "manifest_sha256": canonical_digest(clp_manifest),
             "resolved_at": datetime.now(timezone.utc).isoformat(),
         }
+
+    current_checkpoint = read_checkpoint(pipeline_dir, project_id, stage)
+    _enforce_pup_human_gate_transition(current_checkpoint, checkpoint)
 
     # Prepare decision-log references in the private candidate first.  No
     # durable audit state may change until the complete checkpoint validates.

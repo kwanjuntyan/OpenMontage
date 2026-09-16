@@ -119,6 +119,95 @@ def _validated(
     return coordinator
 
 
+def _stage_documents(project_id: str) -> dict[str, dict]:
+    script = sample_artifact("script")
+    clp_manifest = sample_artifact("clp_manifest")
+    clp_manifest["project_id"] = project_id
+    clp_candidates = sample_artifact("clp_candidates")
+    clp_candidates["project_id"] = project_id
+    clp_candidates["source_script_sha256"] = canonical_digest(script)
+    scene_plan = sample_artifact("scene_plan")
+    clp_shot_bindings = sample_artifact("clp_shot_bindings")
+    clp_shot_bindings["project_id"] = project_id
+    clp_shot_bindings["source_scene_plan_sha256"] = canonical_digest(scene_plan)
+    clp_shot_bindings["clp_manifest_sha256"] = canonical_digest(clp_manifest)
+    edit_decisions = sample_artifact("edit_decisions")
+    edit_decisions["render_runtime"] = "remotion"
+    return {
+        "script": script,
+        "clp_manifest": clp_manifest,
+        "clp_candidates": clp_candidates,
+        "scene_plan": scene_plan,
+        "clp_shot_bindings": clp_shot_bindings,
+        "asset_manifest": sample_artifact("asset_manifest"),
+        "edit_decisions": edit_decisions,
+    }
+
+
+def _stage_candidate(
+    tmp_path: Path,
+    stage: str,
+    *,
+    project_id: str | None = None,
+    handoff_id: str | None = None,
+) -> tuple[ProductionUnitHandoffCoordinator, dict[str, dict]]:
+    project_id = project_id or f"pup-{stage.replace('_', '-')}"
+    policy = deepcopy(POLICY)
+    policy["enabled_stages"] = [stage]
+    _setup_project(tmp_path, project_id=project_id, policy=policy)
+    docs = _stage_documents(project_id)
+    stages = ["script", "clp", "scene_plan", "assets", "edit"]
+    stage_artifacts = {
+        "script": {"script": docs["script"]},
+        "clp": {
+            "clp_manifest": docs["clp_manifest"],
+            "clp_candidates": docs["clp_candidates"],
+        },
+        "scene_plan": {
+            "scene_plan": docs["scene_plan"],
+            "clp_shot_bindings": docs["clp_shot_bindings"],
+        },
+        "assets": {"asset_manifest": docs["asset_manifest"]},
+        "edit": {"edit_decisions": docs["edit_decisions"]},
+    }
+    for predecessor in stages[: stages.index(stage)]:
+        write_checkpoint(
+            tmp_path,
+            project_id,
+            predecessor,
+            "completed",
+            stage_artifacts[predecessor],
+            pipeline_type="animated-explainer",
+            human_approved=True,
+        )
+    coordinator = ProductionUnitHandoffCoordinator(
+        tmp_path,
+        project_id,
+        handoff_id or f"{stage}-candidate-001",
+    )
+    return coordinator, stage_artifacts[stage]
+
+
+def _prepare_review_validate(
+    coordinator: ProductionUnitHandoffCoordinator,
+    stage: str,
+    artifacts: dict[str, dict],
+) -> None:
+    assert coordinator.prepare_candidate(
+        run_id="run-0001",
+        stage=stage,
+        execution_epoch=0,
+        control_chain=CONTROL,
+        plan=PLAN,
+        artifacts=artifacts,
+        merge_evidence=MERGE,
+    ) is not None
+    coordinator.record_review(
+        decision="accepted", review_evidence={"reviewer": "agent-reviewer"}
+    )
+    coordinator.validate_candidate()
+
+
 def _resign(document: dict, field: str = "record_sha256") -> dict:
     value = deepcopy(document)
     value.pop(field, None)
@@ -149,6 +238,65 @@ def test_normal_candidate_review_validation_and_checkpoint_handoff(tmp_path) -> 
     again = coordinator.resume_checkpoint()
     assert again["idempotent"] is True
     assert again["receipt"] == result["receipt"]
+
+
+@pytest.mark.parametrize("stage", ["clp", "scene_plan", "edit"])
+def test_other_json_stages_complete_basic_coordinator_handoff(tmp_path, stage) -> None:
+    coordinator, artifacts = _stage_candidate(tmp_path, stage)
+    _prepare_review_validate(coordinator, stage, artifacts)
+
+    result = coordinator.submit_checkpoint()
+
+    checkpoint = read_checkpoint(tmp_path, coordinator.project_id, stage)
+    assert result["idempotent"] is False
+    assert checkpoint["artifacts"] == artifacts
+    expected_status = "awaiting_human" if stage == "scene_plan" else "completed"
+    assert checkpoint["status"] == expected_status
+    assert checkpoint["metadata"]["production_units"]["candidate_handoff"][
+        "authority"
+    ] == "pup_json_merge"
+
+
+@pytest.mark.parametrize(
+    ("stage", "foreign_name"),
+    [
+        ("script", "asset_manifest"),
+        ("clp", "script"),
+        ("scene_plan", "edit_decisions"),
+        ("edit", "asset_manifest"),
+    ],
+)
+def test_stage_artifact_allowlist_rejects_cross_stage_authority(
+    tmp_path, stage, foreign_name
+) -> None:
+    project_id = f"pup-authority-{stage.replace('_', '-')}"
+    policy = deepcopy(POLICY)
+    policy["enabled_stages"] = [stage]
+    coordinator = _setup_project(tmp_path, project_id=project_id, policy=policy)
+    docs = _stage_documents(project_id)
+    primary = {
+        "script": "script",
+        "clp": "clp_manifest",
+        "scene_plan": "scene_plan",
+        "edit": "edit_decisions",
+    }[stage]
+
+    with pytest.raises(ProductionUnitHandoffError) as exc:
+        coordinator.prepare_candidate(
+            run_id="run-0001",
+            stage=stage,
+            execution_epoch=0,
+            control_chain=CONTROL,
+            plan=PLAN,
+            artifacts={
+                primary: docs[primary],
+                foreign_name: docs[foreign_name],
+            },
+            merge_evidence=MERGE,
+        )
+
+    assert exc.value.code == "STAGE_ARTIFACT_AUTHORITY_VIOLATION"
+    assert not (tmp_path / project_id / ".production-units").exists()
 
 
 def test_original_human_gate_is_not_bypassed(tmp_path) -> None:
@@ -194,6 +342,90 @@ def test_original_human_gate_transition_preserves_valid_provenance(tmp_path) -> 
     assert completed["status"] == "completed"
     assert completed["human_approved"] is True
     assert completed["metadata"] == awaiting["metadata"]
+
+
+def test_human_gate_cannot_complete_from_intent_without_awaiting_receipt(
+    tmp_path,
+) -> None:
+    coordinator = _validated(tmp_path)
+
+    def crash(name: str) -> None:
+        if name == "checkpoint_intent_persisted":
+            raise InjectedCrash(name)
+
+    with pytest.raises(InjectedCrash):
+        coordinator.submit_checkpoint(crash_hook=crash)
+    records = coordinator._load_chain()
+    metadata = coordinator._expected_checkpoint_metadata(
+        records["candidate"],
+        records["review"],
+        records["validation"],
+        records["checkpoint_intent"],
+    )
+
+    with pytest.raises(CheckpointValidationError, match="PUP HUMAN GATE VIOLATION"):
+        write_checkpoint(
+            tmp_path,
+            "pup-handoff",
+            "script",
+            "completed",
+            records["candidate"]["artifacts"],
+            pipeline_type="animated-explainer",
+            human_approved=True,
+            metadata=metadata,
+        )
+    assert read_checkpoint(tmp_path, "pup-handoff", "script") is None
+
+
+def test_human_gate_cannot_drop_provenance_replace_artifacts_or_mix_authority(
+    tmp_path,
+) -> None:
+    coordinator = _validated(tmp_path)
+    coordinator.submit_checkpoint()
+    awaiting = read_checkpoint(tmp_path, "pup-handoff", "script")
+
+    with pytest.raises(CheckpointValidationError, match="PUP HUMAN GATE VIOLATION"):
+        write_checkpoint(
+            tmp_path,
+            "pup-handoff",
+            "script",
+            "completed",
+            awaiting["artifacts"],
+            pipeline_type="animated-explainer",
+            human_approved=True,
+        )
+
+    changed_artifacts = deepcopy(awaiting["artifacts"])
+    changed_artifacts["script"]["title"] = "substituted after review"
+    with pytest.raises(CheckpointValidationError, match="PUP HUMAN GATE VIOLATION"):
+        write_checkpoint(
+            tmp_path,
+            "pup-handoff",
+            "script",
+            "completed",
+            changed_artifacts,
+            pipeline_type="animated-explainer",
+            human_approved=True,
+            metadata=awaiting["metadata"],
+        )
+
+    hybrid_metadata = deepcopy(awaiting["metadata"])
+    hybrid_metadata["batch_v2_publication"] = {
+        "command_digest": "sha256:" + "a" * 64
+    }
+    with pytest.raises(CheckpointValidationError, match="publication authority"):
+        write_checkpoint(
+            tmp_path,
+            "pup-handoff",
+            "script",
+            "completed",
+            awaiting["artifacts"],
+            pipeline_type="animated-explainer",
+            human_approved=True,
+            metadata=hybrid_metadata,
+        )
+
+    assert read_checkpoint(tmp_path, "pup-handoff", "script") == awaiting
 
 
 def test_official_reader_rejects_checkpoint_provenance_tamper(tmp_path) -> None:
@@ -477,6 +709,87 @@ def test_concurrent_coordinator_is_rejected_and_retry_is_idempotent(tmp_path) ->
     assert not thread.is_alive()
     assert errors == []
     assert coordinator.resume_checkpoint()["idempotent"] is True
+
+
+def test_different_handoffs_serialize_one_project_stage_commit(tmp_path) -> None:
+    first, artifacts = _stage_candidate(
+        tmp_path, "script", project_id="pup-shared-stage", handoff_id="handoff-a"
+    )
+    second = ProductionUnitHandoffCoordinator(
+        tmp_path, "pup-shared-stage", "handoff-b"
+    )
+    _prepare_review_validate(first, "script", artifacts)
+    _prepare_review_validate(second, "script", artifacts)
+    entered = threading.Event()
+    release = threading.Event()
+    errors: list[BaseException] = []
+
+    def block(name: str) -> None:
+        if name == "checkpoint_written":
+            entered.set()
+            assert release.wait(timeout=10)
+
+    def commit_first() -> None:
+        try:
+            first.submit_checkpoint(crash_hook=block)
+        except BaseException as exc:  # pragma: no cover - assertion surfaced below
+            errors.append(exc)
+
+    thread = threading.Thread(target=commit_first)
+    thread.start()
+    assert entered.wait(timeout=10)
+    with pytest.raises(ProductionUnitHandoffError) as exc:
+        second.submit_checkpoint()
+    assert exc.value.code == "CHECKPOINT_STAGE_BUSY"
+    release.set()
+    thread.join(timeout=10)
+    assert not thread.is_alive()
+    assert errors == []
+
+    checkpoint = read_checkpoint(tmp_path, "pup-shared-stage", "script")
+    assert checkpoint["metadata"]["production_units"]["candidate_handoff"][
+        "handoff_id"
+    ] == "handoff-a"
+    with pytest.raises(ProductionUnitHandoffError) as exc:
+        second.resume_checkpoint()
+    assert exc.value.code == "STALE_CHECKPOINT"
+
+
+def test_ordinary_writer_cannot_race_pup_stage_commit(tmp_path) -> None:
+    coordinator = _validated(tmp_path)
+    entered = threading.Event()
+    release = threading.Event()
+    errors: list[BaseException] = []
+
+    def block(name: str) -> None:
+        if name == "checkpoint_written":
+            entered.set()
+            assert release.wait(timeout=10)
+
+    def commit_candidate() -> None:
+        try:
+            coordinator.submit_checkpoint(crash_hook=block)
+        except BaseException as exc:  # pragma: no cover - assertion surfaced below
+            errors.append(exc)
+
+    thread = threading.Thread(target=commit_candidate)
+    thread.start()
+    assert entered.wait(timeout=10)
+    for competing_stage in ("script", "proposal"):
+        with pytest.raises(CheckpointValidationError, match="CHECKPOINT_STAGE_BUSY"):
+            write_checkpoint(
+                tmp_path,
+                "pup-handoff",
+                competing_stage,
+                "in_progress",
+                {},
+                pipeline_type="animated-explainer",
+            )
+    release.set()
+    thread.join(timeout=10)
+    assert not thread.is_alive()
+    assert errors == []
+    assert read_checkpoint(tmp_path, "pup-handoff", "script")["status"] == "awaiting_human"
 
 
 @pytest.mark.parametrize("policy", [None, {"mode": "off"}])

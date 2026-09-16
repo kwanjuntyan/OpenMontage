@@ -26,7 +26,9 @@ import jsonschema
 from lib.batch_executor.errors import LocalRunLocked
 from lib.batch_executor.storage import LocalRunLock
 from lib.checkpoint import (
+    CheckpointWriteLocked,
     CheckpointValidationError,
+    checkpoint_write_locks,
     get_pipeline_stages,
     read_checkpoint,
     write_checkpoint,
@@ -461,6 +463,9 @@ class ProductionUnitHandoffCoordinator:
         intent = records.get("checkpoint_intent")
         receipt = records.get("checkpoint_receipt")
         if candidate is not None:
+            self._assert_stage_artifact_authority(
+                identity["pipeline_type"], identity["stage"], candidate["artifacts"]
+            )
             if plan["plan_sha256"] != canonical_digest(plan["plan"]):
                 _fail("STALE_PLAN", "plan payload digest mismatch")
             contract = plan["execution_contract"]
@@ -610,6 +615,33 @@ class ProductionUnitHandoffCoordinator:
             _fail("STALE_POLICY", "approved policy bytes changed")
 
     @staticmethod
+    def _assert_stage_artifact_authority(
+        pipeline_type: str, stage: str, artifacts: Mapping[str, Any]
+    ) -> None:
+        manifest = load_pipeline_readonly(pipeline_type)
+        stage_definition = next(
+            (
+                item
+                for item in manifest.get("stages", [])
+                if isinstance(item, dict) and item.get("name") == stage
+            ),
+            None,
+        )
+        if stage_definition is None:
+            _fail("UNSUPPORTED_STAGE", f"stage {stage!r} is absent from manifest")
+        allowed = set(stage_definition.get("produces") or []) | set(
+            stage_definition.get("optional_produces") or []
+        )
+        artifact_names = set(artifacts)
+        foreign = sorted(artifact_names - allowed)
+        if foreign:
+            _fail(
+                "STAGE_ARTIFACT_AUTHORITY_VIOLATION",
+                f"stage {stage!r} may publish only {sorted(allowed)}; "
+                f"foreign artifacts: {foreign}",
+            )
+
+    @staticmethod
     def _checkpoint_target_status(
         pipeline_type: str, stage: str, artifacts: Mapping[str, Any]
     ) -> str:
@@ -670,6 +702,7 @@ class ProductionUnitHandoffCoordinator:
             )
         marker = self._project_marker()
         pipeline_type = marker["pipeline_type"]
+        self._assert_stage_artifact_authority(pipeline_type, stage, artifacts)
         identity = self._identity(
             handoff_id=self.handoff_id,
             project_id=self.project_id,
@@ -907,6 +940,27 @@ class ProductionUnitHandoffCoordinator:
         crash_hook: CrashHook | None,
     ) -> dict[str, Any]:
         candidate = records["candidate"]
+        stages = {
+            candidate["identity"]["stage"],
+            *(ref["stage"] for ref in candidate["source_checkpoints"]),
+        }
+        try:
+            with checkpoint_write_locks(
+                self.projects_root, self.project_id, stages
+            ):
+                return self._commit_intent_with_stage_locks(
+                    records, crash_hook=crash_hook
+                )
+        except CheckpointWriteLocked as exc:
+            _fail("CHECKPOINT_STAGE_BUSY", str(exc))
+
+    def _commit_intent_with_stage_locks(
+        self,
+        records: dict[str, dict[str, Any]],
+        *,
+        crash_hook: CrashHook | None,
+    ) -> dict[str, Any]:
+        candidate = records["candidate"]
         review = records["review"]
         validation = records["validation"]
         intent = records["checkpoint_intent"]
@@ -1078,6 +1132,16 @@ def validate_checkpoint_handoff_provenance(
         return
     if not isinstance(provenance, Mapping):
         _fail("CHECKPOINT_PROVENANCE_INVALID", "candidate_handoff must be an object")
+    conflicting = sorted(
+        key
+        for key in _CONFLICTING_METADATA_KEYS
+        if key != "production_units" and key in metadata
+    )
+    if conflicting:
+        _fail(
+            "HYBRID_PUBLICATION_AUTHORITY",
+            f"PUP JSON checkpoint mixes publication authority: {conflicting}",
+        )
     value = _validate_schema(_CHECKPOINT_PROVENANCE_SCHEMA, provenance)
     project_id = checkpoint.get("project_id")
     stage = checkpoint.get("stage")
@@ -1125,6 +1189,19 @@ def validate_checkpoint_handoff_provenance(
             "checkpoint status/approval is not the intent or original Human Gate transition",
         )
     receipt = records.get("checkpoint_receipt")
+    if original_human_gate_transition and receipt is None:
+        _fail(
+            "HUMAN_GATE_RECEIPT_MISSING",
+            "Human Gate completion requires the durable awaiting_human receipt",
+        )
+    if original_human_gate_transition and (
+        receipt["status"] != "awaiting_human"
+        or receipt["human_approved"] is not False
+    ):
+        _fail(
+            "HUMAN_GATE_RECEIPT_INVALID",
+            "Human Gate completion requires an awaiting_human/unapproved receipt",
+        )
     if receipt is not None and direct_transition:
         if canonical_digest(checkpoint) != receipt["checkpoint"]["sha256"]:
             _fail(

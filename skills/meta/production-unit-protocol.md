@@ -222,7 +222,9 @@ The bounded order is:
    human-approved proposal checkpoint. Missing or `off` policy returns `None`
    before creating `.production-units/`. It freezes the plan and candidate as
    non-canonical sidecar records bound to project, run, stage, source
-   checkpoints, policy, epoch, and control-chain digests.
+   checkpoints, policy, epoch, and control-chain digests. Candidate artifacts
+   must be a subset of that manifest stage's `produces | optional_produces`;
+   foreign-stage and publication artifacts fail before persistence.
 2. `record_review(...)` records the owning reviewer's explicit accepted or
    rejected decision. This is stage review evidence, never Human approval.
 3. `validate_candidate()` runs the registered canonical artifact validators
@@ -232,10 +234,12 @@ The bounded order is:
    `write_checkpoint`, reads the result back, and only then writes a receipt.
    A manifest-gated stage is always submitted as `awaiting_human` with
    `human_approved=false`; the original checkpoint protocol exclusively owns
-   the later Human Gate transition. When approval is later granted, the normal
-   checkpoint workflow should carry forward the exact candidate artifacts and
-   `metadata.production_units.candidate_handoff`; this handoff module does not
-   consume or manufacture the human response.
+   the later Human Gate transition. Approval requires the matching durable
+   awaiting checkpoint and receipt. The normal checkpoint workflow must carry
+   forward the exact candidate artifacts and
+   `metadata.production_units.candidate_handoff`; replacing artifacts,
+   removing provenance, or adding another publication authority fails closed.
+   This handoff module does not consume or manufacture the human response.
 5. `resume_checkpoint()` may resume only an already-frozen intent. It performs
    no provider dispatch or candidate selection. If a crash occurred after the
    official writer, it verifies the exact checkpoint and repairs only the
@@ -246,6 +250,13 @@ validator on write and read. Changing its candidate, receipt, authority,
 epoch, or control-chain binding therefore makes the checkpoint unreadable
 rather than merely producing a coordinator warning. Older checkpoints without
 this optional metadata take the unchanged legacy path.
+
+Canonical source/target validation and publication are serialized with the
+same contained project/stage locks used by the ordinary checkpoint writer.
+PUP acquires its frozen predecessor and target stage locks in deterministic
+order before revalidation and holds them through checkpoint write/receipt.
+This closes different-handoff and ordinary-writer races without creating a
+second coordinator or CAS protocol.
 
 The mutable handoff `state.json` is a non-authoritative projection of immutable
 record digests. A valid lagging projection may be repaired after a crash;

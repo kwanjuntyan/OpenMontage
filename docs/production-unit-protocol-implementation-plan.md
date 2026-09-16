@@ -3,7 +3,8 @@
 > 狀態（2026-09-16）：第一個支援輪廓的 Lean M0～M5 functional slice 已合併至
 > `team-main`。M6.0A contract closure 已合併於
 > `df0f8ca616fceac056c8762a9b59193a2e822873`；M6.0B durable candidate
-> handoff 目前是該基線上的 review-ready candidate。PUP 仍是
+> handoff 與 consumer-boundary follow-up 目前是該基線上的 review-ready
+> candidate。PUP 仍是
 > experimental、opt-in implementation；M6 qualification 與 rollout 尚未完成。
 > 本文件是實作紀錄與 rollout 邊界，不構成 production qualification、provider
 > 呼叫或部署授權。
@@ -32,7 +33,7 @@ qualification。
 | M3 | 完成（lean） | Asset units 已接入 Batch V2 的 request／attempt／receipt 邊界，維持既有 publication authority。 |
 | M4 | 完成（lean） | Edit merge、per-unit render contract、master assembly 與 resume／invalidation 邊界已落地。 |
 | M5 | 完成（lean） | Course routing、Backlot observer-only projection、progress 與 delivery projection 已落地。 |
-| M6 | 執行中（M6.0B review-ready） | M6.0A 已完成 vocabulary／consumer contract closure；M6.0B 新增 JSON candidate → review → canonical validation → existing checkpoint writer 的最小 durable handoff，以及 immutable receipts、epoch/control-chain binding、checkpoint-last crash recovery 與 fail-closed replay/tamper tests。Assets 仍由 Batch V2 唯一發布；render publication、cross-epoch adoption、live qualification discovery、跨 OS slow gate、真實 E2E、telemetry calibration 與 M6.0C～M6.3 尚未完成。 |
+| M6 | 執行中（M6.0B follow-up review-ready） | M6.0A 已完成 vocabulary／consumer contract closure；M6.0B 新增 JSON candidate → review → canonical validation → existing checkpoint writer 的最小 durable handoff，以及 immutable receipts、epoch/control-chain binding、checkpoint-last crash recovery、stage-owned artifact allowlist、exact Human Gate transition guard 與 project/stage source-target write serialization。Assets 仍由 Batch V2 唯一發布；render publication、cross-epoch adoption、live qualification discovery、跨 OS slow gate、真實 E2E、telemetry calibration 與 M6.0C～M6.3 尚未完成。 |
 
 目前可支持的陳述是：OM 已有可關閉、可回退的 bounded production-unit execution
 與 deterministic merge 能力，而且凍結的 30 分鐘比較中 PUP 勝過該次 baseline。
@@ -54,7 +55,10 @@ M6.0B 只落地本計畫中與 **JSON candidate handoff** 直接相關的最小�
 publication state machine。`.production-units/handoffs/<handoff_id>/state.json`
 只是 immutable record digests 的可修復 projection；它不代表 pipeline lifecycle、
 Human Gate 或 publication authority。跨 epoch reuse 一律拒絕，直到後續 milestone
-有獨立核准且 exact adoption contract 完成。
+有獨立核准且 exact adoption contract 完成。M6.0B 的 concurrency closure 只在既有
+checkpoint writer 加上 contained project/stage OS lock，並在 PUP commit 時依固定順序
+鎖住 frozen source/target stages；它不是 CAS、不是通用 multi-writer coordinator，也
+不建立新的 pipeline lifecycle authority。
 
 ## 1. 要交付的能力
 
