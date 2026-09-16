@@ -1,12 +1,14 @@
 # OpenMontage Production Unit Protocol 與長課程支援 — Implementation Plan
 
-> 狀態：Lean M2a～M5 functional slice 已在 `codex/pup-contracts` 形成
-> experimental、opt-in implementation；原始完整 M0～M6 roadmap 與 M6
-> qualification 尚未完成。本文件現在是實作紀錄與
-> rollout 邊界，不構成 production qualification、provider 呼叫、部署或 merge
-> 授權。
+> 狀態（2026-09-16）：第一個支援輪廓的 Lean M0～M5 functional slice 已合併至
+> `team-main` 並同步至 `team-fork/team-main`；整合 commit 為
+> `4d4c28c5cfed953d4cdd2cf5f0c5387b1daeeaa8`。PUP 目前仍是
+> experimental、opt-in implementation；M6 qualification 與 rollout 尚未完成。
+> 本文件是實作紀錄與 rollout 邊界，不構成 production qualification、provider
+> 呼叫或部署授權。
 >
-> 盤點基準：`team-main` @ `b5d75860b0561fab4b26584a5edefe40ac26dd2f`（2026-09-15 觀察值；開始實作時必須重新凍結）
+> 實作快照：`team-main` @ `4d4c28c5cfed953d4cdd2cf5f0c5387b1daeeaa8`
+>（2026-09-16；後續 M6 開始前必須重新凍結依賴、runtime 與 provider 輪廓）
 >
 > 第一個支援輪廓：單一 direct-child OM project、既有 pipeline DAG、40～60 分鐘課程、Production Unit opt-in
 >
@@ -14,6 +16,28 @@
 > `skills/creative/course-form.md`、`schemas/artifacts/course_manifest.schema.json`
 >
 > 實驗證據：[30 分鐘 PUP vs off benchmark](production-unit-benchmark-30m.md)
+
+### 目前 milestone 狀態
+
+這裡的「完成」只表示第一個支援輪廓的 lean functional slice 已實作、測試、合併；
+不表示原始 roadmap 中所有 aspirational gates 已滿足，也不等同 beta 或 production
+qualification。
+
+| Milestone | 狀態 | 已落地範圍／剩餘邊界 |
+|---|---|---|
+| M0 | 完成（lean） | 責任邊界、術語、Course Form 與 PUP 操作契約已收斂；未採用且狀態過時的大型 RFC 草稿未納入。 |
+| M1 | 完成（lean） | Course/PUP contracts、path safety、`mode=off` 相容路徑及相應離線測試已落地。 |
+| M2 | 完成（lean） | Script、CLP、scene plan 的 unit partition、context capsule、deterministic merge、coverage 與 boundary validation 已落地。 |
+| M3 | 完成（lean） | Asset units 已接入 Batch V2 的 request／attempt／receipt 邊界，維持既有 publication authority。 |
+| M4 | 完成（lean） | Edit merge、per-unit render contract、master assembly 與 resume／invalidation 邊界已落地。 |
+| M5 | 完成（lean） | Course routing、Backlot observer-only projection、progress 與 delivery projection 已落地。 |
+| M6 | 待執行 | 60 分鐘 qualification、versioned qualification profile、跨 OS slow gate、真實 E2E、故障恢復、telemetry calibration 與 rollout 決策尚未完成。 |
+
+目前可支持的陳述是：OM 已有可關閉、可回退的 bounded production-unit execution
+與 deterministic merge 能力，而且凍結的 30 分鐘比較中 PUP 勝過該次 baseline。
+目前仍不可宣稱所有 pipeline／runtime 都已支援 60 分鐘、180 秒是普遍最佳值，或
+PUP 已經 production-qualified。M6 的資格門檻與證據要求仍以本文件第 10、11、15
+節為準。
 
 ### 實作收斂說明
 
