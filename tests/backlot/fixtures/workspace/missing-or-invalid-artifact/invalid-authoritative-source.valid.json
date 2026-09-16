@@ -1,0 +1,90 @@
+{
+  "projection_version": "backlot.workspace.v1",
+  "projection_kind": "resource_summary",
+  "data_schema": "backlot.workspace.resource-summary.v1",
+  "resource_ref": {
+    "project_id": "course-invalid-clp",
+    "kind": "stage",
+    "stage": "clp",
+    "local_id": "clp",
+    "resource_key": "stage_clp_invalid_01",
+    "parent_refs": [],
+    "relation_refs": []
+  },
+  "revision_ref": {
+    "revision_kind": "artifact",
+    "revision_id": "clp-invalid-authoritative",
+    "sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "artifact_name": "clp_manifest"
+  },
+  "source_snapshot": {
+    "algorithm": "canonical-source-entries-v1",
+    "sources": [
+      {
+        "source_key": "clp:checkpoint",
+        "source_kind": "approved_checkpoint_artifact",
+        "sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "revision_ref": {
+          "revision_kind": "artifact",
+          "revision_id": "clp-invalid-authoritative",
+          "sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "artifact_name": "clp_manifest"
+        }
+      },
+      {
+        "source_key": "clp:legacy-cache",
+        "source_kind": "legacy_loose_file",
+        "sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    ],
+    "composite_sha256": "sha256:16314c91a0d35259455f4da55fa68930a8f740563dbf9691e0a54d653892247e"
+  },
+  "authority": {
+    "authority_state": "unavailable",
+    "validation_state": "invalid",
+    "source_kind": "approved_checkpoint_artifact",
+    "evidence_scope": "checkpoint_validated",
+    "source_stage": "clp",
+    "checkpoint_status": "completed",
+    "human_approved": true,
+    "historically_frozen": true,
+    "evidence_refs": [
+      {
+        "source_key": "clp:checkpoint",
+        "sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+      }
+    ],
+    "degraded_reasons": [
+      "authoritative_artifact_invalid",
+      "legacy_fallback_forbidden"
+    ]
+  },
+  "capabilities": {
+    "view": {
+      "available": false,
+      "reason": "authoritative_artifact_invalid"
+    },
+    "mutate": {
+      "available": false,
+      "reason": "observer_only"
+    }
+  },
+  "diagnostics": [
+    {
+      "code": "legacy_fallback_forbidden",
+      "severity": "error",
+      "message": "A loose cache exists but is not promoted after authoritative validation failed.",
+      "source_keys": [
+        "clp:checkpoint",
+        "clp:legacy-cache"
+      ],
+      "resource_refs": []
+    }
+  ],
+  "data": {
+    "version": "backlot.workspace.resource-summary.v1",
+    "label": "CLP unavailable",
+    "availability": "invalid",
+    "description": "The authoritative CLP failed validation; the loose cache remains diagnostic only."
+  }
+}

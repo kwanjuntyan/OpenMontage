@@ -1,0 +1,79 @@
+{
+  "projection_version": "backlot.workspace.v1",
+  "projection_kind": "resource_summary",
+  "data_schema": "backlot.workspace.resource-summary.v1",
+  "resource_ref": {
+    "project_id": "course-style-clp",
+    "kind": "stage",
+    "stage": "clp",
+    "local_id": "clp",
+    "resource_key": "stage_clp_zero_01",
+    "parent_refs": [
+      {
+        "project_id": "course-style-clp",
+        "kind": "project",
+        "stage": null,
+        "local_id": "course-style-clp",
+        "resource_key": "project_course_01"
+      }
+    ],
+    "relation_refs": []
+  },
+  "revision_ref": {
+    "revision_kind": "artifact",
+    "revision_id": "clp-empty-approved",
+    "sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+    "artifact_name": "clp_manifest"
+  },
+  "source_snapshot": {
+    "algorithm": "canonical-source-entries-v1",
+    "sources": [
+      {
+        "source_key": "clp:checkpoint",
+        "source_kind": "approved_checkpoint_artifact",
+        "sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+        "revision_ref": {
+          "revision_kind": "artifact",
+          "revision_id": "clp-empty-approved",
+          "sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+          "artifact_name": "clp_manifest"
+        }
+      }
+    ],
+    "composite_sha256": "sha256:b1480947a90670c3e2dd7883a6a097cb6096f0d87a6bdd30ff5c983172e3c6c5"
+  },
+  "authority": {
+    "authority_state": "canonical",
+    "validation_state": "validated",
+    "source_kind": "approved_checkpoint_artifact",
+    "evidence_scope": "checkpoint_validated",
+    "source_stage": "clp",
+    "checkpoint_status": "completed",
+    "human_approved": true,
+    "historically_frozen": true,
+    "evidence_refs": [
+      {
+        "source_key": "clp:checkpoint",
+        "sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444"
+      }
+    ],
+    "degraded_reasons": []
+  },
+  "capabilities": {
+    "view": {
+      "available": true,
+      "reason": null
+    },
+    "mutate": {
+      "available": false,
+      "reason": "observer_only"
+    }
+  },
+  "diagnostics": [],
+  "data": {
+    "version": "backlot.workspace.resource-summary.v1",
+    "label": "CLP: 0 entities",
+    "availability": "available",
+    "description": "An explicit, validated empty CLP is available and is not missing data."
+  }
+}

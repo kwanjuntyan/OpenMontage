@@ -516,7 +516,7 @@ def test_fixture_paths_reject_cross_platform_and_private_locations(
 def test_fixture_matrix_is_complete_and_honest_about_materialization() -> None:
     matrix = _load_json_without_duplicate_keys(FIXTURE_MATRIX)
     assert matrix["version"] == "backlot.workspace.fixture-matrix.v1"
-    assert matrix["status"] == "coverage_inventory_only"
+    assert matrix["status"] == "b0_1_consumer_fixtures_materialized"
     assert set(matrix["required_variants"]) == REQUIRED_VARIANTS
 
     scenarios = matrix["scenarios"]
@@ -542,11 +542,38 @@ def test_fixture_matrix_is_complete_and_honest_about_materialization() -> None:
                 assert evidence["gap"]
 
         consumer = scenario["consumer_fixture"]
-        assert consumer["status"] == "pending"
         assert consumer["owner_phase"] in {"B0.1", "B0.2"}
+        expected_status = (
+            "materialized" if consumer["owner_phase"] == "B0.1" else "pending"
+        )
+        assert consumer["status"] == expected_status
         fixture_path = _assert_safe_repo_relative(consumer["path"])
         if consumer["status"] == "materialized":
-            assert fixture_path.exists()
+            assert fixture_path.is_dir()
+            manifest_path = _assert_safe_repo_relative(consumer["manifest"])
+            assert manifest_path.is_file()
+            assert manifest_path.parent == fixture_path
+            manifest = _load_json_without_duplicate_keys(manifest_path)
+            assert manifest["version"] == "backlot.workspace.fixture-set.v1"
+            assert manifest["scenario_id"] == scenario["id"]
+            case_ids = [case["id"] for case in manifest["cases"]]
+            assert case_ids
+            assert len(case_ids) == len(set(case_ids))
+            fixture_covers: set[str] = set()
+            for case in manifest["cases"]:
+                assert case["expect"] == "valid"
+                assert case["domain_expectation"] in {"positive", "negative", "edge"}
+                projection_path = _assert_safe_repo_relative(
+                    f"{consumer['path']}/{case['projection']}"
+                )
+                assert projection_path.is_file()
+                assert projection_path.parent == fixture_path
+                fixture_covers.update(case["covers"])
+            assert set(scenario["variants"]).issubset(fixture_covers)
+            assert set(scenario["must_prove"]).issubset(fixture_covers)
+        else:
+            assert "manifest" not in consumer
+            assert not fixture_path.exists()
         assert scenario["runtime_acceptance"]
         assert scenario["must_prove"]
 
@@ -565,8 +592,15 @@ def test_agent_entry_points_name_the_governance_sources_and_test() -> None:
     for required in (
         "docs/backlot-workspace-architecture-contract.md",
         "docs/backlot-director-workspace-plan.md",
+        "docs/backlot-workspace-field-source-matrix.v1.md",
+        "docs/backlot-workspace-field-source-matrix.v1.json",
         "backlot/workspace/README.md",
+        "schemas/workspace/workspace_projection_v1.schema.json",
+        "backlot/workspace/projection/contracts.py",
+        "backlot/workspace/projection/types.py",
+        "tests/backlot/fixtures/workspace/fixture-matrix.v1.json",
         "tests/backlot/test_workspace_governance.py",
+        "tests/backlot/test_workspace_contracts.py",
     ):
         assert required in guide
 

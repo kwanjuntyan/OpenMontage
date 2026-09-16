@@ -1,0 +1,88 @@
+{
+  "projection_version": "backlot.workspace.v1",
+  "projection_kind": "production_unit_summary",
+  "data_schema": "backlot.workspace.production-unit-summary.v1",
+  "resource_ref": {
+    "project_id": "course-pup-off",
+    "kind": "project",
+    "stage": null,
+    "local_id": "course-pup-off",
+    "resource_key": "project_pup_off_01",
+    "parent_refs": [],
+    "relation_refs": []
+  },
+  "revision_ref": {
+    "revision_kind": "checkpoint",
+    "revision_id": "proposal-approved-off",
+    "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+    "stage": "proposal"
+  },
+  "source_snapshot": {
+    "algorithm": "canonical-source-entries-v1",
+    "sources": [
+      {
+        "source_key": "proposal:checkpoint",
+        "source_kind": "approved_checkpoint_artifact",
+        "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+        "revision_ref": {
+          "revision_kind": "checkpoint",
+          "revision_id": "proposal-approved-off",
+          "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "stage": "proposal"
+        },
+        "resource_ref": {
+          "project_id": "course-pup-off",
+          "kind": "project",
+          "stage": null,
+          "local_id": "course-pup-off",
+          "resource_key": "project_pup_off_01"
+        }
+      }
+    ],
+    "composite_sha256": "sha256:e237d90258b0140f3d448879e8e5f6225891cd728f836da892e533b6838a2038"
+  },
+  "authority": {
+    "authority_state": "canonical",
+    "validation_state": "validated",
+    "source_kind": "approved_checkpoint_artifact",
+    "evidence_scope": "checkpoint_validated",
+    "source_stage": "proposal",
+    "checkpoint_status": "completed",
+    "human_approved": true,
+    "historically_frozen": true,
+    "evidence_refs": [
+      {
+        "source_key": "proposal:checkpoint",
+        "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+      }
+    ],
+    "degraded_reasons": []
+  },
+  "capabilities": {
+    "view": {
+      "available": true,
+      "reason": null
+    },
+    "unit_details": {
+      "available": false,
+      "reason": "b3_inspection_contract_unavailable"
+    },
+    "mutate": {
+      "available": false,
+      "reason": "observer_only"
+    }
+  },
+  "diagnostics": [],
+  "data": {
+    "version": "backlot.workspace.production-unit-summary.v1",
+    "policy_mode": "off",
+    "execution_disposition": null,
+    "manifest_supported": null,
+    "qualification_status": "unknown",
+    "qualification_identity": null,
+    "progress_by_stage": [],
+    "candidate_handoff": null,
+    "unit_details_available": false,
+    "unit_details_unavailable_reason": "b3_inspection_contract_unavailable"
+  }
+}

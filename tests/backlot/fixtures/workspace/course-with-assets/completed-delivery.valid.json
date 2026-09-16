@@ -1,0 +1,89 @@
+{
+  "projection_version": "backlot.workspace.v1",
+  "projection_kind": "preview_timeline",
+  "data_schema": "backlot.workspace.preview-timeline.v1",
+  "resource_ref": {
+    "project_id": "course-assets",
+    "kind": "preview_timeline",
+    "stage": null,
+    "local_id": "final-youtube",
+    "resource_key": "preview_final_youtube_01",
+    "parent_refs": [],
+    "relation_refs": []
+  },
+  "revision_ref": {
+    "revision_kind": "artifact",
+    "revision_id": "render-report-001",
+    "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+    "artifact_name": "render_report"
+  },
+  "source_snapshot": {
+    "algorithm": "canonical-source-entries-v1",
+    "sources": [
+      {
+        "source_key": "render:report",
+        "source_kind": "render_report_output",
+        "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "render_output",
+          "stage": null,
+          "local_id": "youtube",
+          "resource_key": "render_youtube_01"
+        },
+        "revision_ref": {
+          "revision_kind": "artifact",
+          "revision_id": "render-report-001",
+          "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+          "artifact_name": "render_report"
+        }
+      }
+    ],
+    "composite_sha256": "sha256:37ae0b0e82777ddb41551d72c714c116269d2232b0643b02b286819e6d000502"
+  },
+  "authority": {
+    "authority_state": "canonical",
+    "validation_state": "validated",
+    "source_kind": "render_report_output",
+    "evidence_scope": "checkpoint_validated",
+    "source_stage": "render",
+    "checkpoint_status": "completed",
+    "human_approved": true,
+    "historically_frozen": true,
+    "evidence_refs": [
+      {
+        "source_key": "render:report",
+        "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+      }
+    ],
+    "degraded_reasons": []
+  },
+  "capabilities": {
+    "play": {
+      "available": true,
+      "reason": null
+    },
+    "mutate": {
+      "available": false,
+      "reason": "observer_only"
+    }
+  },
+  "diagnostics": [],
+  "data": {
+    "version": "backlot.workspace.preview-timeline.v1",
+    "fidelity": "final_render",
+    "duration_seconds": 30.0,
+    "segments": [],
+    "audio_tracks": [],
+    "unsupported_effects": [],
+    "preload_ahead_segments": 0,
+    "final_render_ref": {
+      "project_id": "course-assets",
+      "kind": "render_output",
+      "stage": null,
+      "local_id": "youtube",
+      "resource_key": "render_youtube_01"
+    },
+    "candidate_assignment_ref": null
+  }
+}

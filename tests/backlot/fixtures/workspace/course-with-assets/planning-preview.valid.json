@@ -1,0 +1,362 @@
+{
+  "projection_version": "backlot.workspace.v1",
+  "projection_kind": "preview_timeline",
+  "data_schema": "backlot.workspace.preview-timeline.v1",
+  "resource_ref": {
+    "project_id": "course-assets",
+    "kind": "preview_timeline",
+    "stage": null,
+    "local_id": "planning-preview",
+    "resource_key": "preview_planning_01",
+    "parent_refs": [],
+    "relation_refs": []
+  },
+  "revision_ref": {
+    "revision_kind": "projection",
+    "revision_id": "planning-preview-001",
+    "sha256": "sha256:8a9d7d3d6559c0b205c5507b156169c8a958a18cfac76774a1ba0d9c724424e9"
+  },
+  "source_snapshot": {
+    "algorithm": "canonical-source-entries-v1",
+    "sources": [
+      {
+        "source_key": "assets:publication",
+        "source_kind": "batch_v2_publication",
+        "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+      },
+      {
+        "source_key": "owner:planning-audio-001",
+        "source_kind": "batch_v2_publication",
+        "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "asset",
+          "stage": null,
+          "local_id": "published-narration",
+          "resource_key": "asset_remote_audio_01"
+        },
+        "revision_ref": {
+          "revision_kind": "artifact",
+          "revision_id": "assets-published-001",
+          "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "artifact_name": "asset_manifest"
+        }
+      },
+      {
+        "source_key": "owner:planning-image-001",
+        "source_kind": "batch_v2_publication",
+        "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "asset",
+          "stage": null,
+          "local_id": "scene-01-first-frame",
+          "resource_key": "asset_scene01_frame_01"
+        },
+        "revision_ref": {
+          "revision_kind": "artifact",
+          "revision_id": "assets-published-001",
+          "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "artifact_name": "asset_manifest"
+        }
+      },
+      {
+        "source_key": "scene-plan:scene-01",
+        "source_kind": "approved_checkpoint_artifact",
+        "sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "scene",
+          "stage": null,
+          "local_id": "scene-01",
+          "resource_key": "scene_course_assets_01"
+        },
+        "revision_ref": {
+          "revision_kind": "checkpoint",
+          "revision_id": "scene-plan-approved-001",
+          "sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+          "stage": "scene_plan"
+        }
+      },
+      {
+        "source_key": "scene-plan:shot-01",
+        "source_kind": "approved_checkpoint_artifact",
+        "sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "shot",
+          "stage": null,
+          "local_id": "shot-01",
+          "resource_key": "shot_scene01_01"
+        },
+        "revision_ref": {
+          "revision_kind": "checkpoint",
+          "revision_id": "scene-plan-approved-001",
+          "sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+          "stage": "scene_plan"
+        }
+      }
+    ],
+    "composite_sha256": "sha256:8a9d7d3d6559c0b205c5507b156169c8a958a18cfac76774a1ba0d9c724424e9"
+  },
+  "authority": {
+    "authority_state": "execution_evidence",
+    "validation_state": "validated",
+    "source_kind": "derived_projection",
+    "evidence_scope": "publication_validated",
+    "source_stage": "assets",
+    "checkpoint_status": "completed",
+    "human_approved": false,
+    "historically_frozen": false,
+    "evidence_refs": [
+      {
+        "source_key": "assets:publication",
+        "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+      },
+      {
+        "source_key": "scene-plan:scene-01",
+        "sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+      },
+      {
+        "source_key": "scene-plan:shot-01",
+        "sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+      }
+    ],
+    "degraded_reasons": [
+      "planning_preview_not_render_parity"
+    ]
+  },
+  "capabilities": {
+    "play": {
+      "available": true,
+      "reason": null
+    },
+    "mutate": {
+      "available": false,
+      "reason": "observer_only"
+    }
+  },
+  "diagnostics": [],
+  "data": {
+    "version": "backlot.workspace.preview-timeline.v1",
+    "fidelity": "planning_preview",
+    "duration_seconds": 8.5,
+    "segments": [
+      {
+        "segment_id": "segment-001",
+        "scene_ref": {
+          "project_id": "course-assets",
+          "kind": "scene",
+          "stage": null,
+          "local_id": "scene-01",
+          "resource_key": "scene_course_assets_01"
+        },
+        "shot_ref": {
+          "project_id": "course-assets",
+          "kind": "shot",
+          "stage": null,
+          "local_id": "shot-01",
+          "resource_key": "shot_scene01_01"
+        },
+        "start_seconds": 0.0,
+        "end_seconds": 8.5,
+        "visual_media": {
+          "media_id": "planning-image-001",
+          "owner_ref": {
+            "project_id": "course-assets",
+            "kind": "asset",
+            "stage": null,
+            "local_id": "scene-01-first-frame",
+            "resource_key": "asset_scene01_frame_01",
+            "parent_refs": [],
+            "relation_refs": []
+          },
+          "owner_revision": {
+            "revision_kind": "artifact",
+            "revision_id": "assets-published-001",
+            "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+            "artifact_name": "asset_manifest"
+          },
+          "media_kind": "image",
+          "purpose": "original",
+          "availability": "browser_playable",
+          "locator": {
+            "kind": "workspace_route",
+            "href": "/api/workspace/v1/projects/course-assets/media/planning-image-001"
+          },
+          "unavailable_reason": null,
+          "proxy_source_media_id": null,
+          "content_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "source_sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "declared_metadata": {
+            "evidence_kind": "producer_declared",
+            "evidence_refs": [
+              {
+                "source_key": "assets:publication",
+                "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+              }
+            ],
+            "mime_type": "image/png",
+            "width": 1920,
+            "height": 1080
+          },
+          "observed_metadata": null,
+          "review_metadata": null,
+          "authority": {
+            "authority_state": "canonical",
+            "validation_state": "validated",
+            "source_kind": "batch_v2_publication",
+            "evidence_scope": "publication_validated",
+            "source_stage": "assets",
+            "checkpoint_status": "completed",
+            "human_approved": false,
+            "historically_frozen": true,
+            "evidence_refs": [
+              {
+                "source_key": "assets:publication",
+                "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+              }
+            ],
+            "degraded_reasons": []
+          },
+          "source_snapshot": {
+            "algorithm": "canonical-source-entries-v1",
+            "sources": [
+              {
+                "source_key": "assets:publication",
+                "source_kind": "batch_v2_publication",
+                "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+              },
+              {
+                "source_key": "owner:planning-image-001",
+                "source_kind": "batch_v2_publication",
+                "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+                "resource_ref": {
+                  "project_id": "course-assets",
+                  "kind": "asset",
+                  "stage": null,
+                  "local_id": "scene-01-first-frame",
+                  "resource_key": "asset_scene01_frame_01"
+                },
+                "revision_ref": {
+                  "revision_kind": "artifact",
+                  "revision_id": "assets-published-001",
+                  "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+                  "artifact_name": "asset_manifest"
+                }
+              }
+            ],
+            "composite_sha256": "sha256:855662e9b1527d60cbdfc7454478d5a595de8966d7790a40752e07ed2d07a5e2"
+          },
+          "diagnostics": []
+        },
+        "availability": "available",
+        "degraded_reasons": []
+      }
+    ],
+    "audio_tracks": [
+      {
+        "track_id": "narration-001",
+        "kind": "narration",
+        "media_ref": {
+          "media_id": "planning-audio-001",
+          "owner_ref": {
+            "project_id": "course-assets",
+            "kind": "asset",
+            "stage": null,
+            "local_id": "published-narration",
+            "resource_key": "asset_remote_audio_01",
+            "parent_refs": [],
+            "relation_refs": []
+          },
+          "owner_revision": {
+            "revision_kind": "artifact",
+            "revision_id": "assets-published-001",
+            "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+            "artifact_name": "asset_manifest"
+          },
+          "media_kind": "audio",
+          "purpose": "detail",
+          "availability": "browser_playable",
+          "locator": {
+            "kind": "approved_remote",
+            "href": "https://media.example.test/planning-audio-001.mp3"
+          },
+          "unavailable_reason": null,
+          "proxy_source_media_id": null,
+          "content_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+          "source_sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "declared_metadata": {
+            "evidence_kind": "producer_declared",
+            "evidence_refs": [
+              {
+                "source_key": "assets:publication",
+                "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+              }
+            ],
+            "mime_type": "audio/mpeg",
+            "duration_seconds": 8.5
+          },
+          "observed_metadata": null,
+          "review_metadata": null,
+          "authority": {
+            "authority_state": "canonical",
+            "validation_state": "validated",
+            "source_kind": "batch_v2_publication",
+            "evidence_scope": "publication_validated",
+            "source_stage": "assets",
+            "checkpoint_status": "completed",
+            "human_approved": false,
+            "historically_frozen": true,
+            "evidence_refs": [
+              {
+                "source_key": "assets:publication",
+                "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+              }
+            ],
+            "degraded_reasons": []
+          },
+          "source_snapshot": {
+            "algorithm": "canonical-source-entries-v1",
+            "sources": [
+              {
+                "source_key": "assets:publication",
+                "source_kind": "batch_v2_publication",
+                "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+              },
+              {
+                "source_key": "owner:planning-audio-001",
+                "source_kind": "batch_v2_publication",
+                "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+                "resource_ref": {
+                  "project_id": "course-assets",
+                  "kind": "asset",
+                  "stage": null,
+                  "local_id": "published-narration",
+                  "resource_key": "asset_remote_audio_01"
+                },
+                "revision_ref": {
+                  "revision_kind": "artifact",
+                  "revision_id": "assets-published-001",
+                  "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+                  "artifact_name": "asset_manifest"
+                }
+              }
+            ],
+            "composite_sha256": "sha256:6f0bdafe8e6db0d79e100fc43f56b8e65746a714597de8ecd2ccaa96b63b3da9"
+          },
+          "diagnostics": []
+        },
+        "start_seconds": 0.0,
+        "end_seconds": 8.5,
+        "gain_db": 0.0
+      }
+    ],
+    "unsupported_effects": [
+      "crossfade"
+    ],
+    "preload_ahead_segments": 2,
+    "final_render_ref": null,
+    "candidate_assignment_ref": null
+  }
+}

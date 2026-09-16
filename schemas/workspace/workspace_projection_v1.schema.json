@@ -1,0 +1,1450 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmontage.local/schemas/workspace/workspace_projection_v1.schema.json",
+  "title": "OpenMontage Backlot Workspace v1 contract bundle",
+  "description": "Read-only common wire contracts. This schema does not grant project-read, provider, checkpoint, approval, or publication authority.",
+  "$ref": "#/$defs/workspace_projection",
+  "$defs": {
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._:-]{0,255}$"
+    },
+    "local_id": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 512,
+      "pattern": "^[^/\\\\\\u0000-\\u001f]+$"
+    },
+    "resource_key": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9_-]{8,256}$"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$"
+    },
+    "resource_kind": {
+      "enum": [
+        "workspace_catalog",
+        "project",
+        "stage",
+        "course",
+        "module",
+        "lesson",
+        "script_section",
+        "clp_entity",
+        "continuity_group",
+        "scene",
+        "shot",
+        "asset_slot",
+        "asset",
+        "render_output",
+        "generation_instruction",
+        "production_unit",
+        "candidate_set",
+        "candidate",
+        "candidate_assignment",
+        "preview_timeline"
+      ]
+    },
+    "resource_identity": {
+      "type": "object",
+      "required": ["project_id", "kind", "local_id", "resource_key"],
+      "additionalProperties": false,
+      "properties": {
+        "project_id": { "$ref": "#/$defs/identifier" },
+        "kind": { "$ref": "#/$defs/resource_kind" },
+        "stage": {
+          "anyOf": [
+            { "$ref": "#/$defs/identifier" },
+            { "type": "null" }
+          ]
+        },
+        "local_id": { "$ref": "#/$defs/local_id" },
+        "resource_key": { "$ref": "#/$defs/resource_key" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "kind": { "const": "workspace_catalog" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "properties": {
+              "project_id": { "const": "backlot-workspace" },
+              "local_id": { "const": "catalog" },
+              "stage": { "type": "null" }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "kind": { "const": "production_unit" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "required": ["stage"],
+            "properties": { "stage": { "$ref": "#/$defs/identifier" } }
+          }
+        }
+      ]
+    },
+    "revision_ref": {
+      "type": "object",
+      "required": ["revision_kind", "revision_id", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "revision_kind": {
+          "enum": ["checkpoint", "artifact", "content", "projection", "execution_epoch"]
+        },
+        "revision_id": { "$ref": "#/$defs/identifier" },
+        "sha256": { "$ref": "#/$defs/digest" },
+        "stage": { "$ref": "#/$defs/identifier" },
+        "artifact_name": { "$ref": "#/$defs/identifier" },
+        "execution_epoch": { "type": "integer", "minimum": 0 },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "revision_kind": { "const": "checkpoint" } },
+            "required": ["revision_kind"]
+          },
+          "then": { "required": ["stage"] }
+        },
+        {
+          "if": {
+            "properties": { "revision_kind": { "const": "artifact" } },
+            "required": ["revision_kind"]
+          },
+          "then": { "required": ["artifact_name"] }
+        },
+        {
+          "if": {
+            "properties": { "revision_kind": { "const": "execution_epoch" } },
+            "required": ["revision_kind"]
+          },
+          "then": { "required": ["stage", "execution_epoch"] }
+        }
+      ]
+    },
+    "evidence_ref": {
+      "type": "object",
+      "required": ["source_key", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "source_key": { "$ref": "#/$defs/identifier" },
+        "sha256": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "authority_descriptor": {
+      "type": "object",
+      "required": [
+        "authority_state",
+        "validation_state",
+        "source_kind",
+        "evidence_scope",
+        "evidence_refs",
+        "degraded_reasons"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "authority_state": {
+          "enum": ["canonical", "candidate", "execution_evidence", "display_only", "unavailable"]
+        },
+        "validation_state": { "enum": ["validated", "invalid", "unverified"] },
+        "source_kind": {
+          "enum": [
+            "project_marker",
+            "pipeline_manifest",
+            "approved_checkpoint_artifact",
+            "awaiting_checkpoint_artifact",
+            "working_checkpoint_artifact",
+            "failed_checkpoint_artifact",
+            "checkpoint_partial_progress",
+            "checkpoint_candidate_handoff",
+            "production_unit_qualification_profile",
+            "production_unit_capability_matrix",
+            "production_unit_execution_contract",
+            "batch_v2_publication",
+            "style_catalog_current",
+            "legacy_loose_file",
+            "legacy_scan",
+            "render_report_output",
+            "provider_request",
+            "provider_receipt",
+            "binary_observation",
+            "human_review_record",
+            "derived_projection",
+            "unavailable"
+          ]
+        },
+        "evidence_scope": {
+          "enum": [
+            "none",
+            "manifest_only",
+            "checkpoint_validated",
+            "publication_validated",
+            "provider_request",
+            "provider_receipt",
+            "binary_observed",
+            "human_reviewed"
+          ]
+        },
+        "source_stage": {
+          "anyOf": [
+            { "$ref": "#/$defs/identifier" },
+            { "type": "null" }
+          ]
+        },
+        "checkpoint_status": {
+          "enum": ["completed", "awaiting_human", "in_progress", "failed", "absent", null]
+        },
+        "human_approved": { "type": ["boolean", "null"] },
+        "historically_frozen": { "type": ["boolean", "null"] },
+        "evidence_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/evidence_ref" }
+        },
+        "degraded_reasons": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "authority_state": { "const": "canonical" } },
+            "required": ["authority_state"]
+          },
+          "then": {
+            "properties": { "validation_state": { "const": "validated" } }
+          }
+        },
+        {
+          "if": {
+            "properties": { "authority_state": { "const": "unavailable" } },
+            "required": ["authority_state"]
+          },
+          "then": {
+            "properties": { "degraded_reasons": { "minItems": 1 } }
+          }
+        },
+        {
+          "if": {
+            "properties": { "source_kind": { "const": "unavailable" } },
+            "required": ["source_kind"]
+          },
+          "then": {
+            "properties": {
+              "authority_state": { "const": "unavailable" },
+              "degraded_reasons": { "minItems": 1 }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "source_kind": { "enum": ["legacy_loose_file", "legacy_scan"] }
+            },
+            "required": ["source_kind"]
+          },
+          "then": {
+            "properties": {
+              "authority_state": { "const": "display_only" },
+              "validation_state": { "const": "unverified" }
+            }
+          }
+        }
+      ]
+    },
+    "source_entry": {
+      "type": "object",
+      "required": ["source_key", "source_kind", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "source_key": { "$ref": "#/$defs/identifier" },
+        "source_kind": {
+          "$ref": "#/$defs/authority_descriptor/properties/source_kind"
+        },
+        "sha256": { "$ref": "#/$defs/digest" },
+        "resource_ref": { "$ref": "#/$defs/resource_identity" },
+        "revision_ref": { "$ref": "#/$defs/revision_ref" }
+      }
+    },
+    "source_snapshot": {
+      "type": "object",
+      "required": ["algorithm", "sources", "composite_sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "algorithm": { "const": "canonical-source-entries-v1" },
+        "sources": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/source_entry" }
+        },
+        "composite_sha256": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "typed_relation": {
+      "type": "object",
+      "required": [
+        "relation_id",
+        "relation_type",
+        "source_refs",
+        "target_refs",
+        "authority",
+        "source_snapshot"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "relation_id": { "$ref": "#/$defs/identifier" },
+        "relation_type": {
+          "enum": [
+            "owns",
+            "targets",
+            "uses",
+            "references",
+            "covers",
+            "derived_from",
+            "creative_scope",
+            "execution_scope",
+            "assigned_to",
+            "corroborates"
+          ]
+        },
+        "source_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/resource_identity" }
+        },
+        "target_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/resource_identity" }
+        },
+        "authority": { "$ref": "#/$defs/authority_descriptor" },
+        "source_snapshot": { "$ref": "#/$defs/source_snapshot" }
+      }
+    },
+    "resource_ref": {
+      "type": "object",
+      "required": [
+        "project_id",
+        "kind",
+        "local_id",
+        "resource_key",
+        "parent_refs",
+        "relation_refs"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "project_id": { "$ref": "#/$defs/identifier" },
+        "kind": { "$ref": "#/$defs/resource_kind" },
+        "stage": {
+          "anyOf": [
+            { "$ref": "#/$defs/identifier" },
+            { "type": "null" }
+          ]
+        },
+        "local_id": { "$ref": "#/$defs/local_id" },
+        "resource_key": { "$ref": "#/$defs/resource_key" },
+        "parent_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/resource_identity" }
+        },
+        "relation_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/typed_relation" }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "kind": { "const": "workspace_catalog" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "properties": {
+              "project_id": { "const": "backlot-workspace" },
+              "local_id": { "const": "catalog" },
+              "stage": { "type": "null" },
+              "parent_refs": { "maxItems": 0 },
+              "relation_refs": { "maxItems": 0 }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "kind": { "const": "production_unit" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "required": ["stage"],
+            "properties": { "stage": { "$ref": "#/$defs/identifier" } }
+          }
+        }
+      ]
+    },
+    "capability_entry": {
+      "type": "object",
+      "required": ["available", "reason"],
+      "additionalProperties": false,
+      "properties": {
+        "available": { "type": "boolean" },
+        "reason": {
+          "anyOf": [
+            { "$ref": "#/$defs/identifier" },
+            { "type": "null" }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "available": { "const": true } },
+            "required": ["available"]
+          },
+          "then": { "properties": { "reason": { "type": "null" } } },
+          "else": { "properties": { "reason": { "$ref": "#/$defs/identifier" } } }
+        }
+      ]
+    },
+    "capability_map": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "pattern": "^[a-z][a-z0-9_]*$" },
+      "additionalProperties": { "$ref": "#/$defs/capability_entry" }
+    },
+    "diagnostic": {
+      "type": "object",
+      "required": ["code", "severity", "message", "source_keys", "resource_refs"],
+      "additionalProperties": false,
+      "properties": {
+        "code": { "$ref": "#/$defs/identifier" },
+        "severity": { "enum": ["info", "warning", "error"] },
+        "message": { "type": "string", "minLength": 1, "maxLength": 1000 },
+        "source_keys": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "resource_refs": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/resource_identity" }
+        }
+      }
+    },
+    "pagination_cursor": {
+      "type": "object",
+      "required": ["version", "snapshot_sha256", "sort_key", "last_resource_key", "direction"],
+      "additionalProperties": false,
+      "properties": {
+        "version": { "const": "backlot.workspace.cursor.v1" },
+        "snapshot_sha256": { "$ref": "#/$defs/digest" },
+        "sort_key": { "$ref": "#/$defs/identifier" },
+        "last_resource_key": { "$ref": "#/$defs/resource_key" },
+        "direction": { "enum": ["forward"] }
+      }
+    },
+    "pagination": {
+      "type": "object",
+      "required": ["limit", "has_more", "next_cursor"],
+      "additionalProperties": false,
+      "properties": {
+        "limit": { "type": "integer", "minimum": 1, "maximum": 200 },
+        "has_more": { "type": "boolean" },
+        "next_cursor": {
+          "anyOf": [
+            { "$ref": "#/$defs/pagination_cursor" },
+            { "type": "null" }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "has_more": { "const": false } },
+            "required": ["has_more"]
+          },
+          "then": { "properties": { "next_cursor": { "type": "null" } } },
+          "else": { "properties": { "next_cursor": { "$ref": "#/$defs/pagination_cursor" } } }
+        }
+      ]
+    },
+    "media_metadata": {
+      "type": "object",
+      "required": ["evidence_kind", "evidence_refs"],
+      "additionalProperties": false,
+      "properties": {
+        "evidence_kind": { "enum": ["producer_declared", "tool_observed", "human_reviewed"] },
+        "evidence_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/evidence_ref" }
+        },
+        "sha256": { "$ref": "#/$defs/digest" },
+        "mime_type": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "format": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "codec": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "width": { "type": "integer", "minimum": 1 },
+        "height": { "type": "integer", "minimum": 1 },
+        "duration_seconds": { "type": "number", "minimum": 0 },
+        "quality_score": { "type": "number" },
+        "observed_at": { "type": "string", "format": "date-time" }
+      }
+    },
+    "media_locator": {
+      "type": "object",
+      "required": ["kind", "href"],
+      "additionalProperties": false,
+      "properties": {
+        "kind": { "enum": ["workspace_route", "approved_remote"] },
+        "href": { "type": "string", "minLength": 1, "maxLength": 4096 }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "kind": { "const": "workspace_route" } },
+            "required": ["kind"]
+          },
+          "then": {
+            "properties": { "href": { "pattern": "^/api/workspace/v1/" } }
+          },
+          "else": {
+            "properties": { "href": { "format": "uri", "pattern": "^https://" } }
+          }
+        }
+      ]
+    },
+    "media_ref": {
+      "type": "object",
+      "required": [
+        "media_id",
+        "owner_ref",
+        "owner_revision",
+        "media_kind",
+        "purpose",
+        "availability",
+        "locator",
+        "unavailable_reason",
+        "proxy_source_media_id",
+        "content_sha256",
+        "source_sha256",
+        "declared_metadata",
+        "observed_metadata",
+        "review_metadata",
+        "authority",
+        "source_snapshot",
+        "diagnostics"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "media_id": { "$ref": "#/$defs/identifier" },
+        "owner_ref": {
+          "allOf": [
+            { "$ref": "#/$defs/resource_ref" },
+            {
+              "properties": {
+                "kind": { "enum": ["asset", "clp_entity", "render_output"] }
+              }
+            }
+          ]
+        },
+        "owner_revision": { "$ref": "#/$defs/revision_ref" },
+        "media_kind": { "enum": ["image", "audio", "video"] },
+        "purpose": { "enum": ["thumbnail", "detail", "original", "preview_proxy"] },
+        "availability": { "enum": ["browser_playable", "preview_proxy_required", "unavailable"] },
+        "locator": {
+          "anyOf": [
+            { "$ref": "#/$defs/media_locator" },
+            { "type": "null" }
+          ]
+        },
+        "unavailable_reason": {
+          "anyOf": [
+            { "$ref": "#/$defs/identifier" },
+            { "type": "null" }
+          ]
+        },
+        "proxy_source_media_id": {
+          "anyOf": [
+            { "$ref": "#/$defs/identifier" },
+            { "type": "null" }
+          ]
+        },
+        "content_sha256": {
+          "anyOf": [
+            { "$ref": "#/$defs/digest" },
+            { "type": "null" }
+          ]
+        },
+        "source_sha256": {
+          "anyOf": [
+            { "$ref": "#/$defs/digest" },
+            { "type": "null" }
+          ]
+        },
+        "declared_metadata": {
+          "anyOf": [
+            { "$ref": "#/$defs/media_metadata" },
+            { "type": "null" }
+          ]
+        },
+        "observed_metadata": {
+          "anyOf": [
+            { "$ref": "#/$defs/media_metadata" },
+            { "type": "null" }
+          ]
+        },
+        "review_metadata": {
+          "anyOf": [
+            { "$ref": "#/$defs/media_metadata" },
+            { "type": "null" }
+          ]
+        },
+        "authority": { "$ref": "#/$defs/authority_descriptor" },
+        "source_snapshot": { "$ref": "#/$defs/source_snapshot" },
+        "diagnostics": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/diagnostic" }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "availability": { "const": "unavailable" } },
+            "required": ["availability"]
+          },
+          "then": {
+            "properties": {
+              "locator": { "type": "null" },
+              "unavailable_reason": { "$ref": "#/$defs/identifier" }
+            }
+          },
+          "else": {
+            "properties": {
+              "locator": { "$ref": "#/$defs/media_locator" },
+              "unavailable_reason": { "type": "null" }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "purpose": { "const": "preview_proxy" } },
+            "required": ["purpose"]
+          },
+          "then": {
+            "properties": {
+              "proxy_source_media_id": { "$ref": "#/$defs/identifier" }
+            }
+          },
+          "else": {
+            "properties": { "proxy_source_media_id": { "type": "null" } }
+          }
+        },
+        {
+          "properties": {
+            "declared_metadata": {
+              "anyOf": [
+                {
+                  "allOf": [
+                    { "$ref": "#/$defs/media_metadata" },
+                    { "properties": { "evidence_kind": { "const": "producer_declared" } } }
+                  ]
+                },
+                { "type": "null" }
+              ]
+            },
+            "observed_metadata": {
+              "anyOf": [
+                {
+                  "allOf": [
+                    { "$ref": "#/$defs/media_metadata" },
+                    { "properties": { "evidence_kind": { "const": "tool_observed" } } }
+                  ]
+                },
+                { "type": "null" }
+              ]
+            },
+            "review_metadata": {
+              "anyOf": [
+                {
+                  "allOf": [
+                    { "$ref": "#/$defs/media_metadata" },
+                    { "properties": { "evidence_kind": { "const": "human_reviewed" } } }
+                  ]
+                },
+                { "type": "null" }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "instruction_source_locator": {
+      "type": "object",
+      "required": ["source_key", "field_pointer"],
+      "additionalProperties": false,
+      "properties": {
+        "source_key": { "$ref": "#/$defs/identifier" },
+        "field_pointer": { "type": "string", "pattern": "^/", "maxLength": 1024 }
+      }
+    },
+    "generation_instruction": {
+      "type": "object",
+      "required": [
+        "instruction_id",
+        "resource_ref",
+        "creative_scope_ref",
+        "target_refs",
+        "revision_ref",
+        "instruction_kind",
+        "application_scope",
+        "display_content",
+        "source_locator",
+        "authority",
+        "source_snapshot",
+        "unavailable_reason"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "instruction_id": { "$ref": "#/$defs/identifier" },
+        "resource_ref": {
+          "allOf": [
+            { "$ref": "#/$defs/resource_ref" },
+            { "properties": { "kind": { "const": "generation_instruction" } } }
+          ]
+        },
+        "creative_scope_ref": { "$ref": "#/$defs/resource_identity" },
+        "target_refs": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/resource_identity" }
+        },
+        "revision_ref": { "$ref": "#/$defs/revision_ref" },
+        "instruction_kind": {
+          "enum": [
+            "creative_specification",
+            "provider_input",
+            "negative_prompt",
+            "narration_text",
+            "delivery_contract",
+            "music_intent",
+            "sfx_intent",
+            "search_query"
+          ]
+        },
+        "application_scope": { "enum": ["single_target", "shared_scene", "per_target_delta", "composite_sheet"] },
+        "display_content": { "type": ["string", "null"], "maxLength": 50000 },
+        "source_locator": {
+          "anyOf": [
+            { "$ref": "#/$defs/instruction_source_locator" },
+            { "type": "null" }
+          ]
+        },
+        "authority": { "$ref": "#/$defs/authority_descriptor" },
+        "source_snapshot": { "$ref": "#/$defs/source_snapshot" },
+        "unavailable_reason": {
+          "anyOf": [
+            { "$ref": "#/$defs/identifier" },
+            { "type": "null" }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "display_content": { "type": "null" } },
+            "required": ["display_content"]
+          },
+          "then": {
+            "properties": {
+              "source_locator": { "type": "null" },
+              "unavailable_reason": { "$ref": "#/$defs/identifier" }
+            }
+          },
+          "else": {
+            "properties": {
+              "source_locator": { "$ref": "#/$defs/instruction_source_locator" },
+              "unavailable_reason": { "type": "null" }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "instruction_kind": { "const": "provider_input" },
+              "display_content": { "type": "string" }
+            },
+            "required": ["instruction_kind", "display_content"]
+          },
+          "then": {
+            "properties": {
+              "authority": {
+                "allOf": [
+                  { "$ref": "#/$defs/authority_descriptor" },
+                  {
+                    "properties": {
+                      "source_kind": { "enum": ["provider_request", "provider_receipt"] },
+                      "evidence_scope": { "enum": ["provider_request", "provider_receipt"] }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "resource_summary_data": {
+      "type": "object",
+      "required": ["version", "label", "availability"],
+      "additionalProperties": false,
+      "properties": {
+        "version": { "const": "backlot.workspace.resource-summary.v1" },
+        "label": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "availability": { "enum": ["available", "display_only", "invalid", "unavailable"] },
+        "description": { "type": "string", "maxLength": 2000 }
+      }
+    },
+    "projected_revision": {
+      "type": "object",
+      "required": [
+        "resource_ref",
+        "revision_ref",
+        "source_snapshot",
+        "authority",
+        "capabilities",
+        "diagnostics",
+        "data"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "resource_ref": { "$ref": "#/$defs/resource_ref" },
+        "revision_ref": { "$ref": "#/$defs/revision_ref" },
+        "source_snapshot": { "$ref": "#/$defs/source_snapshot" },
+        "authority": { "$ref": "#/$defs/authority_descriptor" },
+        "capabilities": { "$ref": "#/$defs/capability_map" },
+        "diagnostics": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/diagnostic" }
+        },
+        "data": { "$ref": "#/$defs/resource_summary_data" }
+      }
+    },
+    "revision_set_data": {
+      "type": "object",
+      "required": [
+        "version",
+        "current_canonical",
+        "current_canonical_unavailable_reason",
+        "pending_candidates",
+        "historical_revisions"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "version": { "const": "backlot.workspace.revision-set.v1" },
+        "current_canonical": {
+          "anyOf": [
+            { "$ref": "#/$defs/projected_revision" },
+            { "type": "null" }
+          ]
+        },
+        "current_canonical_unavailable_reason": {
+          "anyOf": [
+            { "$ref": "#/$defs/identifier" },
+            { "type": "null" }
+          ]
+        },
+        "pending_candidates": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/projected_revision" }
+        },
+        "historical_revisions": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/projected_revision" }
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "current_canonical": { "type": "null" } },
+            "required": ["current_canonical"]
+          },
+          "then": {
+            "properties": { "current_canonical_unavailable_reason": { "$ref": "#/$defs/identifier" } }
+          },
+          "else": {
+            "properties": { "current_canonical_unavailable_reason": { "type": "null" } }
+          }
+        }
+      ]
+    },
+    "catalog_item": {
+      "type": "object",
+      "required": [
+        "project_ref",
+        "title",
+        "classification",
+        "pipeline_type",
+        "revision_ref",
+        "source_snapshot",
+        "authority",
+        "capabilities",
+        "diagnostics"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "project_ref": {
+          "allOf": [
+            { "$ref": "#/$defs/resource_ref" },
+            { "properties": { "kind": { "const": "project" } } }
+          ]
+        },
+        "title": { "type": "string", "minLength": 1, "maxLength": 500 },
+        "classification": {
+          "enum": ["ordinary", "approved_course", "awaiting_course_candidate", "legacy", "invalid", "unavailable"]
+        },
+        "pipeline_type": { "$ref": "#/$defs/identifier" },
+        "revision_ref": {
+          "anyOf": [
+            { "$ref": "#/$defs/revision_ref" },
+            { "type": "null" }
+          ]
+        },
+        "source_snapshot": { "$ref": "#/$defs/source_snapshot" },
+        "authority": { "$ref": "#/$defs/authority_descriptor" },
+        "capabilities": { "$ref": "#/$defs/capability_map" },
+        "diagnostics": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/diagnostic" }
+        }
+      }
+    },
+    "catalog_data": {
+      "type": "object",
+      "required": ["version", "items", "pagination"],
+      "additionalProperties": false,
+      "properties": {
+        "version": { "const": "backlot.workspace.catalog.v1" },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/catalog_item" }
+        },
+        "pagination": { "$ref": "#/$defs/pagination" }
+      }
+    },
+    "stage_summary": {
+      "type": "object",
+      "required": ["name", "status", "human_approval_default"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "$ref": "#/$defs/identifier" },
+        "status": { "enum": ["pending", "in_progress", "awaiting_human", "completed", "failed", "invalid"] },
+        "human_approval_default": { "type": "boolean" }
+      }
+    },
+    "shell_data": {
+      "type": "object",
+      "required": [
+        "version",
+        "pipeline_type",
+        "classification",
+        "stages",
+        "current_stage",
+        "gate_state"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "version": { "const": "backlot.workspace.shell.v1" },
+        "pipeline_type": { "$ref": "#/$defs/identifier" },
+        "classification": {
+          "enum": ["ordinary", "approved_course", "awaiting_course_candidate", "legacy", "invalid", "unavailable"]
+        },
+        "stages": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/stage_summary" }
+        },
+        "current_stage": {
+          "anyOf": [
+            { "$ref": "#/$defs/identifier" },
+            { "type": "null" }
+          ]
+        },
+        "gate_state": {
+          "enum": ["none", "awaiting_human", "approved", "failed", "invalid", "unavailable"]
+        }
+      }
+    },
+    "media_collection_data": {
+      "type": "object",
+      "required": ["version", "items", "pagination"],
+      "additionalProperties": false,
+      "properties": {
+        "version": { "const": "backlot.workspace.media-collection.v1" },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/media_ref" }
+        },
+        "pagination": { "$ref": "#/$defs/pagination" }
+      }
+    },
+    "generation_instruction_collection_data": {
+      "type": "object",
+      "required": ["version", "items", "pagination"],
+      "additionalProperties": false,
+      "properties": {
+        "version": { "const": "backlot.workspace.generation-instruction-collection.v1" },
+        "items": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/generation_instruction" }
+        },
+        "pagination": { "$ref": "#/$defs/pagination" }
+      }
+    },
+    "qualification_identity": {
+      "type": "object",
+      "required": ["profile_id", "profile_version", "profile_sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "profile_id": { "$ref": "#/$defs/identifier" },
+        "profile_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+        "profile_sha256": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "candidate_handoff_provenance": {
+      "type": "object",
+      "required": [
+        "version",
+        "authority",
+        "handoff_id",
+        "run_id",
+        "execution_epoch",
+        "control_chain",
+        "policy_checkpoint_sha256",
+        "policy_sha256",
+        "plan_record_sha256",
+        "candidate_record_sha256",
+        "candidate_sha256",
+        "review_record_sha256",
+        "validation_record_sha256",
+        "checkpoint_intent_sha256"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "version": { "const": "1.0" },
+        "authority": { "const": "pup_json_merge" },
+        "handoff_id": { "$ref": "#/$defs/identifier" },
+        "run_id": { "$ref": "#/$defs/identifier" },
+        "execution_epoch": { "type": "integer", "minimum": 0 },
+        "control_chain": {
+          "type": "object",
+          "required": ["chain_id", "event_sequence", "sha256"],
+          "additionalProperties": false,
+          "properties": {
+            "chain_id": { "$ref": "#/$defs/identifier" },
+            "event_sequence": { "type": "integer", "minimum": 0 },
+            "sha256": { "$ref": "#/$defs/digest" }
+          }
+        },
+        "policy_checkpoint_sha256": { "$ref": "#/$defs/digest" },
+        "policy_sha256": { "$ref": "#/$defs/digest" },
+        "plan_record_sha256": { "$ref": "#/$defs/digest" },
+        "candidate_record_sha256": { "$ref": "#/$defs/digest" },
+        "candidate_sha256": { "$ref": "#/$defs/digest" },
+        "review_record_sha256": { "$ref": "#/$defs/digest" },
+        "validation_record_sha256": { "$ref": "#/$defs/digest" },
+        "checkpoint_intent_sha256": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "production_unit_progress": {
+      "type": "object",
+      "required": [
+        "stage",
+        "total_units",
+        "completed_units",
+        "failed_units",
+        "stale_units",
+        "active_unit_id",
+        "boundary_defects",
+        "repairs"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "stage": { "$ref": "#/$defs/identifier" },
+        "total_units": { "type": "integer", "minimum": 0 },
+        "completed_units": { "type": "integer", "minimum": 0 },
+        "failed_units": { "type": "integer", "minimum": 0 },
+        "stale_units": { "type": "integer", "minimum": 0 },
+        "active_unit_id": {
+          "anyOf": [
+            { "$ref": "#/$defs/identifier" },
+            { "type": "null" }
+          ]
+        },
+        "boundary_defects": { "type": "integer", "minimum": 0 },
+        "repairs": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "production_unit_summary_data": {
+      "type": "object",
+      "required": [
+        "version",
+        "policy_mode",
+        "execution_disposition",
+        "manifest_supported",
+        "qualification_status",
+        "qualification_identity",
+        "progress_by_stage",
+        "candidate_handoff",
+        "unit_details_available",
+        "unit_details_unavailable_reason"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "version": { "const": "backlot.workspace.production-unit-summary.v1" },
+        "policy_mode": { "enum": ["off", "auto", "fixed"] },
+        "execution_disposition": { "enum": ["compare_only", "publish_candidate", null] },
+        "manifest_supported": { "type": ["boolean", "null"] },
+        "qualification_status": {
+          "enum": ["unknown", "unsupported", "experimental", "code_complete", "beta_qualified", "production_qualified", "disabled", "invalid"]
+        },
+        "qualification_identity": {
+          "anyOf": [
+            { "$ref": "#/$defs/qualification_identity" },
+            { "type": "null" }
+          ]
+        },
+        "progress_by_stage": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/production_unit_progress" }
+        },
+        "candidate_handoff": {
+          "anyOf": [
+            { "$ref": "#/$defs/candidate_handoff_provenance" },
+            { "type": "null" }
+          ]
+        },
+        "unit_details_available": { "const": false },
+        "unit_details_unavailable_reason": { "const": "b3_inspection_contract_unavailable" }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "policy_mode": { "const": "off" } },
+            "required": ["policy_mode"]
+          },
+          "then": {
+            "properties": { "execution_disposition": { "type": "null" } }
+          }
+        },
+        {
+          "if": {
+            "properties": { "qualification_status": { "enum": ["unknown", "disabled", "invalid"] } },
+            "required": ["qualification_status"]
+          },
+          "then": {
+            "properties": { "qualification_identity": { "type": "null" } }
+          }
+        }
+      ]
+    },
+    "timeline_segment": {
+      "type": "object",
+      "required": [
+        "segment_id",
+        "scene_ref",
+        "shot_ref",
+        "start_seconds",
+        "end_seconds",
+        "visual_media",
+        "availability",
+        "degraded_reasons"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "segment_id": { "$ref": "#/$defs/identifier" },
+        "scene_ref": { "$ref": "#/$defs/resource_identity" },
+        "shot_ref": {
+          "anyOf": [
+            { "$ref": "#/$defs/resource_identity" },
+            { "type": "null" }
+          ]
+        },
+        "start_seconds": { "type": "number", "minimum": 0 },
+        "end_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "visual_media": {
+          "anyOf": [
+            { "$ref": "#/$defs/media_ref" },
+            { "type": "null" }
+          ]
+        },
+        "availability": { "enum": ["available", "degraded", "unavailable"] },
+        "degraded_reasons": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        }
+      }
+    },
+    "audio_track": {
+      "type": "object",
+      "required": ["track_id", "kind", "media_ref", "start_seconds", "end_seconds", "gain_db"],
+      "additionalProperties": false,
+      "properties": {
+        "track_id": { "$ref": "#/$defs/identifier" },
+        "kind": { "enum": ["narration", "dialogue", "music", "sfx"] },
+        "media_ref": { "$ref": "#/$defs/media_ref" },
+        "start_seconds": { "type": "number", "minimum": 0 },
+        "end_seconds": { "type": "number", "exclusiveMinimum": 0 },
+        "gain_db": { "type": "number" }
+      }
+    },
+    "preview_timeline_data": {
+      "type": "object",
+      "required": [
+        "version",
+        "fidelity",
+        "duration_seconds",
+        "segments",
+        "audio_tracks",
+        "unsupported_effects",
+        "preload_ahead_segments",
+        "final_render_ref",
+        "candidate_assignment_ref"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "version": { "const": "backlot.workspace.preview-timeline.v1" },
+        "fidelity": { "enum": ["planning_preview", "edit_preview", "final_render", "candidate_preview"] },
+        "duration_seconds": { "type": "number", "minimum": 0 },
+        "segments": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/timeline_segment" }
+        },
+        "audio_tracks": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/audio_track" }
+        },
+        "unsupported_effects": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/identifier" }
+        },
+        "preload_ahead_segments": { "type": "integer", "minimum": 0, "maximum": 20 },
+        "final_render_ref": {
+          "anyOf": [
+            { "$ref": "#/$defs/resource_identity" },
+            { "type": "null" }
+          ]
+        },
+        "candidate_assignment_ref": {
+          "anyOf": [
+            { "$ref": "#/$defs/resource_identity" },
+            { "type": "null" }
+          ]
+        }
+      },
+      "allOf": [
+        {
+          "if": {
+            "properties": { "fidelity": { "const": "final_render" } },
+            "required": ["fidelity"]
+          },
+          "then": {
+            "properties": {
+              "final_render_ref": {
+                "allOf": [
+                  { "$ref": "#/$defs/resource_identity" },
+                  { "properties": { "kind": { "const": "render_output" } } }
+                ]
+              },
+              "candidate_assignment_ref": { "type": "null" }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": { "fidelity": { "const": "candidate_preview" } },
+            "required": ["fidelity"]
+          },
+          "then": {
+            "properties": {
+              "candidate_assignment_ref": {
+                "allOf": [
+                  { "$ref": "#/$defs/resource_identity" },
+                  { "properties": { "kind": { "const": "candidate_assignment" } } }
+                ]
+              },
+              "final_render_ref": { "type": "null" }
+            }
+          }
+        }
+      ]
+    },
+    "workspace_projection": {
+      "type": "object",
+      "required": [
+        "projection_version",
+        "projection_kind",
+        "data_schema",
+        "resource_ref",
+        "revision_ref",
+        "source_snapshot",
+        "authority",
+        "capabilities",
+        "diagnostics",
+        "data"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "projection_version": { "const": "backlot.workspace.v1" },
+        "projection_kind": {
+          "enum": [
+            "catalog",
+            "shell",
+            "resource_summary",
+            "revision_set",
+            "media_collection",
+            "generation_instruction_collection",
+            "production_unit_summary",
+            "preview_timeline"
+          ]
+        },
+        "data_schema": {
+          "enum": [
+            "backlot.workspace.catalog.v1",
+            "backlot.workspace.shell.v1",
+            "backlot.workspace.resource-summary.v1",
+            "backlot.workspace.revision-set.v1",
+            "backlot.workspace.media-collection.v1",
+            "backlot.workspace.generation-instruction-collection.v1",
+            "backlot.workspace.production-unit-summary.v1",
+            "backlot.workspace.preview-timeline.v1"
+          ]
+        },
+        "resource_ref": { "$ref": "#/$defs/resource_ref" },
+        "revision_ref": {
+          "anyOf": [
+            { "$ref": "#/$defs/revision_ref" },
+            { "type": "null" }
+          ]
+        },
+        "source_snapshot": { "$ref": "#/$defs/source_snapshot" },
+        "authority": { "$ref": "#/$defs/authority_descriptor" },
+        "capabilities": { "$ref": "#/$defs/capability_map" },
+        "diagnostics": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/diagnostic" }
+        },
+        "data": { "type": "object" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "projection_kind": { "const": "catalog" } }, "required": ["projection_kind"] },
+          "then": {
+            "properties": {
+              "data_schema": { "const": "backlot.workspace.catalog.v1" },
+              "data": { "$ref": "#/$defs/catalog_data" }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "projection_kind": { "const": "shell" } }, "required": ["projection_kind"] },
+          "then": {
+            "properties": {
+              "data_schema": { "const": "backlot.workspace.shell.v1" },
+              "data": { "$ref": "#/$defs/shell_data" }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "projection_kind": { "const": "resource_summary" } }, "required": ["projection_kind"] },
+          "then": {
+            "properties": {
+              "data_schema": { "const": "backlot.workspace.resource-summary.v1" },
+              "data": { "$ref": "#/$defs/resource_summary_data" }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "projection_kind": { "const": "revision_set" } }, "required": ["projection_kind"] },
+          "then": {
+            "properties": {
+              "data_schema": { "const": "backlot.workspace.revision-set.v1" },
+              "data": { "$ref": "#/$defs/revision_set_data" }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "projection_kind": { "const": "media_collection" } }, "required": ["projection_kind"] },
+          "then": {
+            "properties": {
+              "data_schema": { "const": "backlot.workspace.media-collection.v1" },
+              "data": { "$ref": "#/$defs/media_collection_data" }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "projection_kind": { "const": "generation_instruction_collection" } }, "required": ["projection_kind"] },
+          "then": {
+            "properties": {
+              "data_schema": { "const": "backlot.workspace.generation-instruction-collection.v1" },
+              "data": { "$ref": "#/$defs/generation_instruction_collection_data" }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "projection_kind": { "const": "production_unit_summary" } }, "required": ["projection_kind"] },
+          "then": {
+            "properties": {
+              "data_schema": { "const": "backlot.workspace.production-unit-summary.v1" },
+              "data": { "$ref": "#/$defs/production_unit_summary_data" }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "projection_kind": { "const": "preview_timeline" } }, "required": ["projection_kind"] },
+          "then": {
+            "properties": {
+              "data_schema": { "const": "backlot.workspace.preview-timeline.v1" },
+              "data": { "$ref": "#/$defs/preview_timeline_data" }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "projection_kind": { "const": "preview_timeline" },
+              "data": {
+                "properties": { "fidelity": { "const": "candidate_preview" } },
+                "required": ["fidelity"]
+              }
+            },
+            "required": ["projection_kind", "data"]
+          },
+          "then": {
+            "properties": {
+              "authority": {
+                "allOf": [
+                  { "$ref": "#/$defs/authority_descriptor" },
+                  { "properties": { "authority_state": { "const": "candidate" } } }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

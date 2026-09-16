@@ -1,0 +1,81 @@
+{
+  "projection_version": "backlot.workspace.v1",
+  "projection_kind": "resource_summary",
+  "data_schema": "backlot.workspace.resource-summary.v1",
+  "resource_ref": {
+    "project_id": "course-style-clp",
+    "kind": "course",
+    "stage": null,
+    "local_id": "course-style-clp",
+    "resource_key": "course_style_clp_01",
+    "parent_refs": [],
+    "relation_refs": []
+  },
+  "revision_ref": {
+    "revision_kind": "content",
+    "revision_id": "style-catalog-current",
+    "sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+  },
+  "source_snapshot": {
+    "algorithm": "canonical-source-entries-v1",
+    "sources": [
+      {
+        "source_key": "style:catalog",
+        "source_kind": "style_catalog_current",
+        "sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+        "revision_ref": {
+          "revision_kind": "content",
+          "revision_id": "style-catalog-current",
+          "sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+        }
+      }
+    ],
+    "composite_sha256": "sha256:95bc248fa2d7b73e023716c8eee5c5e3befa065bf0687bdec1b75c5402654caa"
+  },
+  "authority": {
+    "authority_state": "canonical",
+    "validation_state": "validated",
+    "source_kind": "style_catalog_current",
+    "evidence_scope": "manifest_only",
+    "source_stage": null,
+    "checkpoint_status": null,
+    "human_approved": null,
+    "historically_frozen": false,
+    "evidence_refs": [
+      {
+        "source_key": "style:catalog",
+        "sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333"
+      }
+    ],
+    "degraded_reasons": [
+      "current_catalog_not_historically_frozen"
+    ]
+  },
+  "capabilities": {
+    "view": {
+      "available": true,
+      "reason": null
+    },
+    "mutate": {
+      "available": false,
+      "reason": "observer_only"
+    }
+  },
+  "diagnostics": [
+    {
+      "code": "current_catalog_not_historically_frozen",
+      "severity": "info",
+      "message": "The current Style catalog is validated but is not a historical revision authority.",
+      "source_keys": [
+        "style:catalog"
+      ],
+      "resource_refs": []
+    }
+  ],
+  "data": {
+    "version": "backlot.workspace.resource-summary.v1",
+    "label": "Editorial Paper Collage",
+    "availability": "available",
+    "description": "Current validated Style playbook; historical freeze is not claimed."
+  }
+}

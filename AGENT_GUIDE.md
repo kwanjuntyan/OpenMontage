@@ -53,7 +53,9 @@ When a request asks to design, audit, or modify Backlot, the Director Workspace,
 1. `docs/backlot-workspace-architecture-contract.md`
 2. `docs/backlot-director-workspace-plan.md`
 3. `backlot/workspace/README.md`
-4. The relevant current Backlot code and tests
+4. `docs/backlot-workspace-field-source-matrix.v1.md` and `docs/backlot-workspace-field-source-matrix.v1.json` for B0.1-or-later work
+5. `schemas/workspace/workspace_projection_v1.schema.json`, `backlot/workspace/projection/types.py`, `backlot/workspace/projection/contracts.py`, and `tests/backlot/test_workspace_contracts.py` for B0.1-or-later work
+6. `tests/backlot/fixtures/workspace/fixture-matrix.v1.json` and the relevant current Backlot code and tests
 
 If the work touches course semantics, Production Units, checkpoints, qualification, Human Gates, or publication authority, also read the owning skill, schema, validator, and implementation plan named by those two documents.
 

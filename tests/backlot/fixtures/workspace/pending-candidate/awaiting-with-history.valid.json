@@ -1,0 +1,245 @@
+{
+  "projection_version": "backlot.workspace.v1",
+  "projection_kind": "revision_set",
+  "data_schema": "backlot.workspace.revision-set.v1",
+  "resource_ref": {
+    "project_id": "course-rerun",
+    "kind": "stage",
+    "stage": "script",
+    "local_id": "script",
+    "resource_key": "stage_script_rerun_01",
+    "parent_refs": [],
+    "relation_refs": []
+  },
+  "revision_ref": {
+    "revision_kind": "projection",
+    "revision_id": "script-revision-set",
+    "sha256": "sha256:2824a9a4155313f7aed84c592ebbd54f88df009e0b8b2763f1588f85f90c4981"
+  },
+  "source_snapshot": {
+    "algorithm": "canonical-source-entries-v1",
+    "sources": [
+      {
+        "source_key": "script:awaiting",
+        "source_kind": "awaiting_checkpoint_artifact",
+        "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+        "revision_ref": {
+          "revision_kind": "checkpoint",
+          "revision_id": "script-awaiting-002",
+          "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+          "stage": "script"
+        }
+      },
+      {
+        "source_key": "script:history",
+        "source_kind": "approved_checkpoint_artifact",
+        "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "revision_ref": {
+          "revision_kind": "checkpoint",
+          "revision_id": "script-completed-001",
+          "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "stage": "script"
+        }
+      }
+    ],
+    "composite_sha256": "sha256:2824a9a4155313f7aed84c592ebbd54f88df009e0b8b2763f1588f85f90c4981"
+  },
+  "authority": {
+    "authority_state": "candidate",
+    "validation_state": "validated",
+    "source_kind": "derived_projection",
+    "evidence_scope": "checkpoint_validated",
+    "source_stage": "script",
+    "checkpoint_status": "awaiting_human",
+    "human_approved": false,
+    "historically_frozen": false,
+    "evidence_refs": [
+      {
+        "source_key": "script:awaiting",
+        "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+      },
+      {
+        "source_key": "script:history",
+        "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    ],
+    "degraded_reasons": [
+      "not_identifiable_from_current_contract"
+    ]
+  },
+  "capabilities": {
+    "view_candidate": {
+      "available": true,
+      "reason": null
+    },
+    "view_history": {
+      "available": true,
+      "reason": null
+    },
+    "view_current_canonical": {
+      "available": false,
+      "reason": "not_identifiable_from_current_contract"
+    },
+    "mutate": {
+      "available": false,
+      "reason": "observer_only"
+    }
+  },
+  "diagnostics": [
+    {
+      "code": "not_identifiable_from_current_contract",
+      "severity": "warning",
+      "message": "The producer does not expose an active-canonical pointer during this awaiting rerun.",
+      "source_keys": [
+        "script:awaiting",
+        "script:history"
+      ],
+      "resource_refs": []
+    }
+  ],
+  "data": {
+    "version": "backlot.workspace.revision-set.v1",
+    "current_canonical": null,
+    "current_canonical_unavailable_reason": "not_identifiable_from_current_contract",
+    "pending_candidates": [
+      {
+        "resource_ref": {
+          "project_id": "course-rerun",
+          "kind": "stage",
+          "stage": "script",
+          "local_id": "script",
+          "resource_key": "stage_script_rerun_01",
+          "parent_refs": [],
+          "relation_refs": []
+        },
+        "revision_ref": {
+          "revision_kind": "checkpoint",
+          "revision_id": "script-awaiting-002",
+          "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+          "stage": "script"
+        },
+        "source_snapshot": {
+          "algorithm": "canonical-source-entries-v1",
+          "sources": [
+            {
+              "source_key": "script:awaiting",
+              "source_kind": "awaiting_checkpoint_artifact",
+              "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+              "revision_ref": {
+                "revision_kind": "checkpoint",
+                "revision_id": "script-awaiting-002",
+                "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+                "stage": "script"
+              }
+            }
+          ],
+          "composite_sha256": "sha256:34cc89c8f4be1322c7a611b457c5daa39a077d07b638f28fda511499df6d3aa5"
+        },
+        "authority": {
+          "authority_state": "candidate",
+          "validation_state": "validated",
+          "source_kind": "awaiting_checkpoint_artifact",
+          "evidence_scope": "checkpoint_validated",
+          "source_stage": "script",
+          "checkpoint_status": "awaiting_human",
+          "human_approved": false,
+          "historically_frozen": false,
+          "evidence_refs": [
+            {
+              "source_key": "script:awaiting",
+              "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+            }
+          ],
+          "degraded_reasons": []
+        },
+        "capabilities": {
+          "view": {
+            "available": true,
+            "reason": null
+          },
+          "mutate": {
+            "available": false,
+            "reason": "observer_only"
+          }
+        },
+        "diagnostics": [],
+        "data": {
+          "version": "backlot.workspace.resource-summary.v1",
+          "label": "Pending script candidate",
+          "availability": "available"
+        }
+      }
+    ],
+    "historical_revisions": [
+      {
+        "resource_ref": {
+          "project_id": "course-rerun",
+          "kind": "stage",
+          "stage": "script",
+          "local_id": "script",
+          "resource_key": "stage_script_rerun_01",
+          "parent_refs": [],
+          "relation_refs": []
+        },
+        "revision_ref": {
+          "revision_kind": "checkpoint",
+          "revision_id": "script-completed-001",
+          "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+          "stage": "script"
+        },
+        "source_snapshot": {
+          "algorithm": "canonical-source-entries-v1",
+          "sources": [
+            {
+              "source_key": "script:history",
+              "source_kind": "approved_checkpoint_artifact",
+              "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+              "revision_ref": {
+                "revision_kind": "checkpoint",
+                "revision_id": "script-completed-001",
+                "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                "stage": "script"
+              }
+            }
+          ],
+          "composite_sha256": "sha256:b8315ceb26f40f0a3eca0b6b30fd579d217301a72f3906254a0705514c0b8ca4"
+        },
+        "authority": {
+          "authority_state": "display_only",
+          "validation_state": "validated",
+          "source_kind": "approved_checkpoint_artifact",
+          "evidence_scope": "checkpoint_validated",
+          "source_stage": "script",
+          "checkpoint_status": "completed",
+          "human_approved": true,
+          "historically_frozen": true,
+          "evidence_refs": [
+            {
+              "source_key": "script:history",
+              "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ],
+          "degraded_reasons": [
+            "history_not_active_canonical"
+          ]
+        },
+        "capabilities": {
+          "view": {
+            "available": true,
+            "reason": null
+          },
+          "mutate": {
+            "available": false,
+            "reason": "observer_only"
+          }
+        },
+        "diagnostics": [],
+        "data": {
+          "version": "backlot.workspace.resource-summary.v1",
+          "label": "Historical completed script",
+          "availability": "display_only"
+        }
+      }
+    ]
+  }
+}

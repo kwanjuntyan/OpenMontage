@@ -1,0 +1,17 @@
+{
+  "version": "backlot.workspace.fixture-set.v1",
+  "scenario_id": "missing-or-invalid-artifact",
+  "cases": [
+    {
+      "id": "invalid-authoritative-source-no-fallback",
+      "expect": "valid",
+      "domain_expectation": "negative",
+      "projection": "invalid-authoritative-source.valid.json",
+      "covers": [
+        "invalid authoritative evidence fails closed",
+        "loose or mismatched cache is never promoted",
+        "absence and invalidity have explicit reasons"
+      ]
+    }
+  ]
+}

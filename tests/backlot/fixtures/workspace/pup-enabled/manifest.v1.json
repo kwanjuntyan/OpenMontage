@@ -1,0 +1,19 @@
+{
+  "version": "backlot.workspace.fixture-set.v1",
+  "scenario_id": "pup-enabled",
+  "cases": [
+    {
+      "id": "experimental-summary",
+      "expect": "valid",
+      "domain_expectation": "negative",
+      "projection": "experimental-summary.valid.json",
+      "covers": [
+        "failed-progress",
+        "stale-progress",
+        "policy mode and qualification are separate",
+        "unknown qualification is not upgraded from policy, progress, or handoff",
+        "private recovery state remains unavailable"
+      ]
+    }
+  ]
+}

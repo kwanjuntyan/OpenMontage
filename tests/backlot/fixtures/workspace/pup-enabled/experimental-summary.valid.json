@@ -1,0 +1,151 @@
+{
+  "projection_version": "backlot.workspace.v1",
+  "projection_kind": "production_unit_summary",
+  "data_schema": "backlot.workspace.production-unit-summary.v1",
+  "resource_ref": {
+    "project_id": "course-pup-on",
+    "kind": "project",
+    "stage": null,
+    "local_id": "course-pup-on",
+    "resource_key": "project_pup_on_01",
+    "parent_refs": [],
+    "relation_refs": []
+  },
+  "revision_ref": {
+    "revision_kind": "projection",
+    "revision_id": "pup-summary-script-0",
+    "sha256": "sha256:43bba5f21024537bafbcc80f67edb6a7f34b4aaefdc567a1cbef620d722159df"
+  },
+  "source_snapshot": {
+    "algorithm": "canonical-source-entries-v1",
+    "sources": [
+      {
+        "source_key": "proposal:checkpoint",
+        "source_kind": "approved_checkpoint_artifact",
+        "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+        "resource_ref": {
+          "project_id": "course-pup-on",
+          "kind": "project",
+          "stage": null,
+          "local_id": "course-pup-on",
+          "resource_key": "project_pup_on_01"
+        },
+        "revision_ref": {
+          "revision_kind": "checkpoint",
+          "revision_id": "pup-policy-approved-001",
+          "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+          "stage": "proposal"
+        }
+      },
+      {
+        "source_key": "script:candidate-handoff",
+        "source_kind": "checkpoint_candidate_handoff",
+        "sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+      },
+      {
+        "source_key": "script:checkpoint",
+        "source_kind": "checkpoint_partial_progress",
+        "sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+      }
+    ],
+    "composite_sha256": "sha256:43bba5f21024537bafbcc80f67edb6a7f34b4aaefdc567a1cbef620d722159df"
+  },
+  "authority": {
+    "authority_state": "execution_evidence",
+    "validation_state": "validated",
+    "source_kind": "derived_projection",
+    "evidence_scope": "checkpoint_validated",
+    "source_stage": "script",
+    "checkpoint_status": "in_progress",
+    "human_approved": false,
+    "historically_frozen": false,
+    "evidence_refs": [
+      {
+        "source_key": "proposal:checkpoint",
+        "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+      },
+      {
+        "source_key": "script:candidate-handoff",
+        "sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+      },
+      {
+        "source_key": "script:checkpoint",
+        "sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+      }
+    ],
+    "degraded_reasons": [
+      "aggregate_progress_track_b_validated_only"
+    ]
+  },
+  "capabilities": {
+    "view": {
+      "available": true,
+      "reason": null
+    },
+    "unit_details": {
+      "available": false,
+      "reason": "b3_inspection_contract_unavailable"
+    },
+    "recovery_control": {
+      "available": false,
+      "reason": "private_coordinator_state_forbidden"
+    },
+    "mutate": {
+      "available": false,
+      "reason": "observer_only"
+    }
+  },
+  "diagnostics": [
+    {
+      "code": "aggregate_progress_track_b_validated_only",
+      "severity": "warning",
+      "message": "Aggregate counts are a sanitized observation and not a producer-owned unit-detail contract.",
+      "source_keys": [
+        "script:checkpoint"
+      ],
+      "resource_refs": []
+    }
+  ],
+  "data": {
+    "version": "backlot.workspace.production-unit-summary.v1",
+    "policy_mode": "auto",
+    "execution_disposition": null,
+    "manifest_supported": null,
+    "qualification_status": "unknown",
+    "qualification_identity": null,
+    "progress_by_stage": [
+      {
+        "stage": "script",
+        "total_units": 5,
+        "completed_units": 2,
+        "failed_units": 1,
+        "stale_units": 1,
+        "active_unit_id": "unit-005",
+        "boundary_defects": 1,
+        "repairs": 1
+      }
+    ],
+    "candidate_handoff": {
+      "version": "1.0",
+      "authority": "pup_json_merge",
+      "handoff_id": "script-candidate-001",
+      "run_id": "run-0001",
+      "execution_epoch": 0,
+      "control_chain": {
+        "chain_id": "chain-001",
+        "event_sequence": 4,
+        "sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      },
+      "policy_checkpoint_sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+      "policy_sha256": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "plan_record_sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+      "candidate_record_sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+      "candidate_sha256": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "review_record_sha256": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+      "validation_record_sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+      "checkpoint_intent_sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+    },
+    "unit_details_available": false,
+    "unit_details_unavailable_reason": "b3_inspection_contract_unavailable"
+  }
+}

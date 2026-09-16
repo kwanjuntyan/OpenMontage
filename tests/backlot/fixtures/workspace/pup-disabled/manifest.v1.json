@@ -1,0 +1,17 @@
+{
+  "version": "backlot.workspace.fixture-set.v1",
+  "scenario_id": "pup-disabled",
+  "cases": [
+    {
+      "id": "approved-policy-off",
+      "expect": "valid",
+      "domain_expectation": "edge",
+      "projection": "approved-policy-off.valid.json",
+      "covers": [
+        "missing and off remain disabled",
+        "no Production Unit details are inferred",
+        "ordinary and course views still degrade cleanly"
+      ]
+    }
+  ]
+}

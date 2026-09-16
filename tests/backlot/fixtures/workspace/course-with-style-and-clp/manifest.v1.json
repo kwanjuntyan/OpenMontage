@@ -1,0 +1,20 @@
+{
+  "version": "backlot.workspace.fixture-set.v1",
+  "scenario_id": "course-with-style-and-clp",
+  "cases": [
+    {
+      "id": "current-style",
+      "expect": "valid",
+      "domain_expectation": "positive",
+      "projection": "current-style.valid.json",
+      "covers": ["Style and CLP retain separate source authority"]
+    },
+    {
+      "id": "zero-entity-clp",
+      "expect": "valid",
+      "domain_expectation": "edge",
+      "projection": "zero-entity-clp.valid.json",
+      "covers": ["zero-entity-clp", "zero entities is distinct from unavailable", "missing corroboration is not fabricated"]
+    }
+  ]
+}

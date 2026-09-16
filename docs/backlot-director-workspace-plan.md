@@ -1,12 +1,12 @@
 # OpenMontage Backlot Director Workspace — Track B Architecture and Implementation Plan
 
-> **版本**：v1.1 B0.0 anti-drift governance baseline
+> **版本**：v1.3 B0.1 common projection contract review-ready
 > **日期**：2026-09-17
-> **狀態**：現行 Track B 主文件；B0.0 由 B0.0A 文件封條與 B0.0B enforcement scaffold 共同構成，兩者整合且測試通過後才完成
+> **狀態**：現行 Track B 主文件；B0.0 已整合，B0.1 schemas／types／consumer fixtures 已在獨立分支通過驗收並達 review-ready，尚未整合
 > **維護**：GPT B（Track B owner 與跨軌協調）
-> **目前程式基線**：`team-main @ 847cda0`；PUP M0～M5 整合點為 `4d4c28c`
+> **目前程式基線**：`team-main @ 661827b`；PUP M0～M5 整合點為 `4d4c28c`
 > **Track A dependency snapshot**：固定於 `847cda0`，包含已整合的 M6.0A／M6.0B consumer contracts；這不是 live milestone status。PUP 仍為 `experimental`／`opt-in`，最新進度只查 Track A implementation plan
-> **實作授權**：本文件定義架構與 rollout；本輪只授權 B0.0B 非 runtime package／test scaffold，不授權 B0.1 schemas、B0.2 runtime、PUP 或 canonical production data 修改
+> **實作授權**：使用者已授權 B0.1 versioned schemas／types／authority matrix／consumer fixtures／contract tests；未授權 B0.2 runtime resolver／API／UI、PUP producer contract或 canonical production data 修改
 
 ## 0. 如何閱讀這份文件
 
@@ -24,7 +24,7 @@
 - **OPEN**：尚未決定，不能被實作自行代答。
 - **BLOCKED**：依賴 Track A 契約、M6 qualification 或另一份正式 RFC 才能前進。
 
-討論過程應更新相關段落與末尾 decision log。B0.0A 凍結文件語意；B0.0B 以 tracked package seam、fixture coverage inventory 與 executable governance tests 實際封住依賴方向，但不聲稱 versioned schemas、consumer fixtures 或 runtime API 已完成。下一個經明確授權的 B0.1 才把 logical contract 落成 schemas 與 schema-valid fixtures；它通過 review 後，B0.2 才可開始 resolver、API 與 shell 實作。不得把尚未決定的欄位 shape 留給 UI 猜測。
+討論過程應更新相關段落與末尾 decision log。B0.0A 凍結文件語意；B0.0B 以 tracked package seam、fixture coverage inventory 與 executable governance tests 實際封住依賴方向，但不聲稱 versioned schemas、consumer fixtures 或 runtime API 已完成。經明確授權的 B0.1 把 logical contract 落成 schemas 與 schema-valid fixtures；它通過 review 並整合後，B0.2 才可開始 resolver、API 與 shell 實作。不得把尚未決定的欄位 shape 留給 UI 猜測。
 
 ## 1. 文件角色與來源優先序
 
@@ -74,7 +74,7 @@
 - GPT B 在 GPT A 產生 review-ready commit／versioned fixture 前，不依賴未定稿欄位，也不在 UI 端猜測其 shape。
 - 任何跨軌 interface change 先形成明確 handoff，再由各自 owner 在自己的範圍實作。
 
-目前 Track B 的規劃基線為已推送的 `847cda0`。所有未來 handoff 都必須記錄 exact base SHA，不能只以「最新版本」描述。
+目前 Track B 的實作基線為已推送的 `661827b`；Track A consumer dependency 仍固定於 `847cda0`。所有未來 handoff 都必須分別記錄 exact implementation base 與 dependency snapshot，不能只以「最新版本」描述。
 
 ## 3. 現況基線
 
@@ -119,6 +119,8 @@ PUP progress 只從 checkpoint 的 `metadata.partial_progress.production_units` 
 - total／completed／failed／stale unit counts；
 - active unit；
 - boundary defect 與 repair counts。
+
+B0.1 `ProductionUnitSummaryData` 進一步固定 consumer evidence 規則：每個非空axis的source都必須同時出現在projection AuthorityDescriptor evidence中；enabled policy綁定同project的approved proposal checkpoint；qualification綁定exact profile／matrix content revisions；execution disposition綁定同project且revision ID為`execution-disposition:<value>`、stage與projection `source_stage`相同的content revision。`policy_mode=off`不得保留disposition、progress或candidate handoff。這些只定義wire validation，不提供B0.2 trusted discovery或B3 unit details。
 
 Delivery projection 只追蹤有效 completed compose／publish checkpoints，並要求 exact `render_report` digest 與安全、相符的 project-relative path。這是 checkpoint evidence trace，不等於 Backlot 已重新確認實體檔案存在、可播放或內容正確。
 
@@ -359,13 +361,15 @@ Canonical checkpoints / artifacts / manifests / evidence
 | 欄位 | 語意 |
 |---|---|
 | `project_id` | direct-child OM project identity |
-| `kind` | `project|stage|course|module|lesson|script_section|clp_entity|continuity_group|scene|shot|asset_slot|asset|render_output|generation_instruction|production_unit|candidate_set|candidate|candidate_assignment|preview_timeline` |
+| `kind` | `workspace_catalog|project|stage|course|module|lesson|script_section|clp_entity|continuity_group|scene|shot|asset_slot|asset|render_output|generation_instruction|production_unit|candidate_set|candidate|candidate_assignment|preview_timeline` |
 | `stage` | owner stage；`production_unit` 必填，其他 resource 依需要填寫 |
 | `local_id` | producer 提供的 exact ID；不得由標題、時間或檔名猜測 |
 | `parent_refs` | 只保存 producer 明確提供且已驗證的 ownership 關係 |
 | `relation_refs` | 明確、typed、validated 的非 ownership 關係；可表達一對多／多對多，不能由相似名稱或時間重疊推論 |
 
 Production Unit identity 至少是 `project_id + stage + local_id`；單獨的 `unit_id` 不具全域意義。lesson／section／scene／asset／unit 的關聯沒有 exact mapping 時，UI 必須顯示 unavailable，而不是 fuzzy join。
+
+`workspace_catalog` 是唯一的非專案 service scope，只能使用保留 identity `backlot-workspace/catalog`，且不得帶 parent／relation。Catalog item 仍各自使用 direct-child project ResourceRef、自己的 source snapshot、authority 與 diagnostics；跨專案 catalog envelope 不會把一個專案的 authority 借給另一個專案。
 
 #### RevisionRef — 精確版本識別
 
@@ -386,7 +390,7 @@ Production Unit identity 至少是 `project_id + stage + local_id`；單獨的 `
 - owning `asset|clp_entity|render_output` ResourceRef／RevisionRef 與 media kind；
 - thumbnail、detail-quality、original 或 preview-proxy representation 的用途；
 - contained local route 或 authority-approved remote route；
-- declared metadata 與 optional tool-observed metadata；
+- declared metadata、optional tool-observed metadata 與 optional human-reviewed metadata；每個非空 bucket 都必須以 `evidence_refs[]` 綁定同一 MediaRef source snapshot，human review score不得覆寫 producer-declared 或 tool-observed值；
 - content digest／source digest（存在時）、MIME／codec／尺寸／時長；
 - `browser_playable|preview_proxy_required|unavailable` capability 與原因；
 - AuthorityDescriptor、source snapshot 與 degraded diagnostics。
@@ -402,7 +406,7 @@ Proxy 是可刪除、可重建的 server-owned cache，不是新的 canonical as
 - `authority_state`：`canonical|candidate|execution_evidence|display_only|unavailable`；
 - `validation_state`：`validated|invalid|unverified`；
 - `source_kind`：例如 `approved_checkpoint_artifact`、`awaiting_checkpoint_artifact`、`batch_v2_publication`、`project_marker`、`style_catalog_current`、`legacy_loose_file`、`legacy_scan`；
-- `evidence_scope`：例如 `manifest_only`、`provider_request`、`provider_receipt`、`binary_observed`、`human_reviewed`；它描述證據深度，不改變 authority state；
+- `evidence_scope`：例如 `manifest_only`、`provider_request`、`provider_receipt`、`binary_observed`、`human_reviewed`；它描述證據深度，不改變 authority state，但每個非 `none` scope 都必須由同一 AuthorityDescriptor 實際引用的相容 source family 支持；`none` 不得引用 evidence，且只允許 `unavailable + source_kind=unavailable`，任何可見資料都必須引用 digest-bound evidence；
 - source stage、checkpoint status、source refs／digests；
 - `degraded_reasons[]`。
 
@@ -410,32 +414,19 @@ PUP policy mode、execution disposition、manifest support、qualification statu
 
 #### WorkspaceProjection — versioned read model
 
-所有新 endpoint 回傳共同 envelope；B0.1 需落成 schema，而不是只依賴 TypeScript／JavaScript 慣例：
+所有新 endpoint 回傳共同 envelope。B0.1 review-ready contract 已將 exact wire
+shape 落在 `schemas/workspace/workspace_projection_v1.schema.json`，Python
+語意驗證落在 `backlot/workspace/projection/contracts.py`；不得再從本計畫
+另造示意 shape。完整 golden 以
+`tests/backlot/fixtures/workspace/fixture-matrix.v1.json` 指向的 projection
+files 為準。共同 envelope 固定包含 `projection_version`、
+`projection_kind`、與 kind 相符的 `data_schema`、完整 `resource_ref`、
+optional `revision_ref`、`source_snapshot`、`authority`、`capabilities`、
+`diagnostics` 與封閉的 `data` schema。
 
-```json
-{
-  "projection_version": "backlot.workspace.v1",
-  "projection_kind": "script",
-  "resource_ref": {},
-  "source_snapshot": {
-    "sources": [
-      {"source_kind": "checkpoint_artifact", "resource_ref": {}, "sha256": "sha256:..."}
-    ],
-    "composite_sha256": "sha256:..."
-  },
-  "authority": {},
-  "capabilities": {
-    "inspect": {"available": true},
-    "request_revision": {"available": false, "reason": "intent_protocol_unavailable"}
-  },
-  "diagnostics": [],
-  "data": {}
-}
-```
+`sources[]` 依 deterministic key 排序；`composite_sha256` 使用 `canonical-source-entries-v1` 綁定完整 source entries（包含 `source_kind` 與存在時的 ResourceRef／RevisionRef），作為 projection token／ETag 基礎。Catalog item、ProjectedRevision、MediaRef、GenerationInstruction 與 PreviewTimeline nested media 的完整 source entries 必須是外層 projection snapshot 的子集合；只有相同 `source_key + sha256` 不足以通過語意驗證，也不能在 token 不變時共同漂移 identity metadata。所有 non-projection RevisionRef 都必須由 snapshot 中 digest 相符的 exact RevisionRef source entry支撐。`derived_projection` 不能成為 canonical authority；candidate必須有 awaiting-checkpoint evidence，execution evidence則必須在自己的 authority evidence中引用至少一個非 legacy的producer／observation source，不能靠derived標籤或無關的trusted source洗白legacy資料。單一 artifact inspector 也使用同一結構，多來源 Style projection 因此能同時綁定 proposal、course、marker/checkpoint、current catalog 與 downstream observation，而不遺漏其中一項。
 
-`sources[]` 依 deterministic key 排序；`composite_sha256` 綁定完整 source set，作為 projection token／ETag 基礎。單一 artifact inspector 也使用同一結構，多來源 Style projection 因此能同時綁定 proposal、course、marker/checkpoint、current catalog 與 downstream observation，而不遺漏其中一項。
-
-同一 logical resource可能同時存在已核准版本與待審候選，但只有 producer-owned contract能指出 active canonical。B0.1 schema必須提供 `revision_set` projection kind；其 `data.current_canonical`、`data.pending_candidates[]` 與 `data.historical_revisions[]` 都是完整的 `ProjectedRevision`，各自帶 ResourceRef、RevisionRef、source snapshot、authority、capabilities、diagnostics與data。不得用 awaiting candidate覆蓋 producer仍承認的 current canonical，也不得要求 endpoint二選一後讓另一版本消失。
+同一 logical resource可能同時存在已核准版本與待審候選，但只有 producer-owned contract能指出 active canonical。B0.1 schema必須提供 `revision_set` projection kind；其 `data.current_canonical`、`data.pending_candidates[]` 與 `data.historical_revisions[]` 都是完整的 `ProjectedRevision`，各自帶 ResourceRef、RevisionRef、source snapshot、authority、capabilities、diagnostics與data。History一律是 `display_only`，projection revision digest必須等於該 member自己的 snapshot digest；不得用 awaiting candidate覆蓋 producer仍承認的 current canonical，也不得要求 endpoint二選一後讓另一版本消失。
 
 現行 checkpoint writer在 rerun 時會 archive舊 checkpoint並以 awaiting candidate覆寫 current file，卻沒有 producer-owned active-canonical pointer。因此在此情境下，Workspace只能顯示 pending candidate與historical revisions，`current_canonical` 必須是 `unavailable`／`not_identifiable_from_current_contract`；不得把「最近一次 completed history」自行提升為 current canonical。若未來 producer提供versioned active-canonical pointer，才能同時恢復 canonical＋pending 顯示。
 
@@ -450,6 +441,8 @@ UI 不綁定單一 `prompt: string`。B2 將不同 producer 資料正規化為 `
 - `instruction_digest`／RevisionRef；
 - instruction kind、display-safe content、source locator、AuthorityDescriptor、evidence scope 與 unavailable reason。
 
+非 projection 的 instruction RevisionRef 必須在 source snapshot 中以 exact RevisionRef 綁定，不能只比對 digest；非空 source locator也必須指向 AuthorityDescriptor實際引用、以 exact instruction owner ResourceRef＋RevisionRef 綁定，且符合該 instruction kind 的 governing source family及其對應 evidence scope。不能用無關的同類來源、`project_marker` 等錯誤族群、錯標 receipt／review scope或 legacy文字加入 evidence 後洗白。MediaRef 同樣必須綁定 exact owner ResourceRef＋RevisionRef；human review 使用獨立 `human_review_record`，preview proxy 則使用 `media-id:<source_media_id>` 綁定來源 media identity、exact owner revision與 source-content digest。
+
 支援的 instruction kind 包含：
 
 - `creative_specification`；
@@ -461,7 +454,7 @@ UI 不綁定單一 `prompt: string`。B2 將不同 producer 資料正規化為 `
 
 Scene-level coverage generation可同時存在一份 shared scene／spatial-continuity instruction 與多份 tile／shot delta。若 provider 實際只收到一份 composite-sheet request，projection 必須顯示該 shared provider input 與各格 declarative specification，不能捏造九份獨立 provider prompts。
 
-現有 `asset_manifest.assets[].prompt` 先投影為 `creative_specification`；其 authority state 跟隨 owning manifest，另以 `evidence_scope=manifest_only` 表示沒有 provider request/receipt 證據。`manifest_only` 不是 AuthorityDescriptor 的第六種 authority state。不能把 scene description、CLP prompt anchor 或 playbook prefix 猜成實際 provider input。未記錄就是 `unavailable`。
+現有 `asset_manifest.assets[].prompt` 先投影為 `creative_specification`；其 authority state 跟隨 owning manifest，而 evidence scope 跟隨 governing locator family：approved／awaiting checkpoint使用 `checkpoint_validated`、Batch V2 publication使用 `publication_validated`，只有 display-only legacy loose file使用 `manifest_only`。這些 scope 表示證據深度，不是 AuthorityDescriptor 的其他 authority state，也不表示已有 provider request／receipt。不能把 scene description、CLP prompt anchor 或 playbook prefix 猜成實際 provider input。未記錄就是 `unavailable`。
 
 #### PreviewTimelineProjection — 即時審片，不是 render authority
 
@@ -470,7 +463,7 @@ Preview Player 不直接拼接 loose files，而是消費一份 versioned、唯�
 Projection 必須明確標示 fidelity：
 
 - `planning_preview`：依 scene plan 與目前可用媒體形成的近似預覽；
-- `edit_preview`：納入 edit decisions 的 cuts、audio placement 與可支援的簡化 transition；
+- `edit_preview`：必須同時有 validated scene plan、asset manifest與 edit decisions，才納入 cuts、audio placement 與可支援的簡化 transition；
 - `final_render`：直接播放 validated render report 指向的正式輸出。
 
 B5 可沿用同一 player新增 `candidate_preview`：它綁定 exact Candidate Assignment revision與ordered candidate MediaRefs，timeline projection使用單一 `authority_state=candidate`，不是 edit truth、selected canonical或 published output。各 MediaRef保留自己的 AuthorityDescriptor；preview proxy只是representation，不新增複合authority state。
@@ -549,7 +542,7 @@ B0 依序分成四個 bounded slices：
 3. **B0.1 schema／real-fixture materialization**：完整 B0.0 reviewed／integrated且經使用者另行授權後，完成 authority matrix，將 common wire contracts落成 versioned schemas、types及 schema-valid positive／negative consumer fixtures；不新增 runtime route或 UI。
 4. **B0.2 resolver／API／shell foundation**：B0.1 reviewed／integrated且再獲授權後，才實作 source resolver、catalog、Workspace shell、feature flag、cache／ETag／SSE與相容性基線。
 
-完整 B0.0 只有在 B0.0A＋B0.0B 均 reviewed／integrated且 `tests/backlot/test_workspace_governance.py` 通過後才完成。`tests/backlot/fixtures/workspace/fixture-matrix.v1.json` 只記錄既有 baseline evidence、缺口及後續 materialization owner；不得冒充 B0.1 consumer golden或 B0.2 large-course runtime fixture。
+完整 B0.0 只有在 B0.0A＋B0.0B 均 reviewed／integrated且 `tests/backlot/test_workspace_governance.py` 通過後才完成。在 B0.0 基線中，`tests/backlot/fixtures/workspace/fixture-matrix.v1.json` 只記錄既有 evidence、缺口及 materialization owner；本次 B0.1 review-ready contract 已在同一 inventory 明確標記並連結 materialized consumer goldens，但 `large-course` 仍維持 B0.2 pending，不能冒充 runtime／performance fixture。
 
 因此，下列 Deliverables 是整個 B0 的成果，不是 B0.0 已完成事項。B0.1 與 B0.2 各自都必須通過 Architecture Contract 的 entry／exit gate，不能在同一個未審核切片中把 prose、schema 與 UI 一次定型。
 
@@ -679,7 +672,7 @@ B2 完成 CLP continuity context 與第一個 release 的媒體品質審閱。CL
 #### Preview Player
 
 - 新增 versioned、read-only `PreviewTimelineProjection`，不讓 browser 直接 join raw artifacts 或 loose files。
-- `planning_preview` 依 validated scene plan、resolved assets 與基本 timing 播放；`edit_preview` 在有 valid edit decisions 時加入 cuts、audio placement 與第一版可支援的簡化 transition；`final_render` 只播放 validated render output，且該 output 必須具有合法 `render_output` identity，否則 fail closed為 unavailable。
+- `planning_preview` 依 validated scene plan、resolved assets 與基本 timing 播放；`edit_preview` 只有在 validated scene plan、asset manifest與 edit decisions 三者同時存在時，才加入 cuts、audio placement 與第一版可支援的簡化 transition；`final_render` 只播放 validated render output，且該 output 必須具有合法 `render_output` identity，否則 fail closed為 unavailable。
 - 第一版支援一條主要 visual track（image／video）、narration／dialogue、單一 background-music track、hard cuts、play／pause／scrub、scene／shot seek，以及與 Script／CLP／Prompt／Asset inspectors 的同步 selection。
 - 每個模式都顯示 fidelity、source snapshot、stale／degraded reason 與未支援效果；不得把 planning/edit approximation 冒充 render parity。
 - 長課程只預載目前與接下來的 bounded scenes；瀏覽器不支援的 codec 可使用有 lineage 的 preview proxy，但 proxy 不是 canonical output。
@@ -1058,6 +1051,10 @@ Existing tests in `tests/backlot/` remain regression gates。Workspace tests sho
 | B-D022 | 2026-09-17 | implementation constraint | B0拆成B0.0文件封條、B0.1 schema／fixture物化與B0.2 resolver／API／shell；效能gate依擁有功能的phase驗收 | B0.0 independent source-contract review | — | 消除「schema必須先凍結、schema又是B0 deliverable」的循環，也不讓B0偷做B2播放器 |
 | B-D023 | 2026-09-17 | contract correction | MediaRef綁定logical owner revision，v1至少支援asset／clp_entity／render_output；candidate preview使用單一candidate authority | B0.0 independent source-contract review + current render-report schema audit | — | 避免把CLP/render硬冒充asset、以path/index充當identity，或發明複合authority enum |
 | B-D024 | 2026-09-17 | decided／scope correction | B0.0由B0.0A documentation seal與B0.0B enforcement scaffold共同構成；只有兩者reviewed／integrated且治理測試通過才算完整B0.0。B0.1仍負責versioned schemas與實體consumer fixtures；B0.2仍負責runtime foundation | User要求恢復原先五層防漂移承諾並明確授權解決 | B-D022（僅修正B0.0範圍） | 防止把文件完成誤報成治理完成，同時不提前實作wire contract或runtime |
+| B-D025 | 2026-09-17 | authorized | B0.0 已推送至 `team-main @ 661827b`；B0.1 在 `codex/backlot-b01-projection` 隔離分支實作並由 GPT B 依契約自主驗收 | User 授權夜間自主模式、指揮多 Agent、依既定規則持續完成 | B-D024 | 允許 schemas／types／matrix／fixtures／tests；不等於授權 merge、push 或 B0.2 runtime |
+| B-D026 | 2026-09-17 | scope enforcement | 本輪名稱校正為 B0.1 common projection **contract**，resolver／API／shell 仍屬 B0.2，必須在 B0.1 reviewed／integrated 後另行授權 | Architecture Contract §B0.1／§B0.2 + startup audit | B-D022 | 防止把「projection／resolver 底座」口語說法誤解為可提前實作 runtime |
+| B-D027 | 2026-09-17 | contract hardening／review correction | Workspace v1 snapshot改以完整canonical SourceEntry形成token；所有non-projection RevisionRef、MediaRef owner/proxy lineage、GenerationInstruction locator、PUP policy/profile/matrix/disposition及edit-preview source basis都採exact evidence binding；每個evidence scope須由相容的cited source family支持，GenerationInstruction locator另須符合instruction-kind governing source family及對應scope；`derived_projection`不得canonical，也不得用無關trusted evidence洗白legacy | B0.1獨立contract review反例 + positive／negative executable tests | — | 原先只雜湊`source_key + sha256`、只比source kind或只驗scope enum，允許identity metadata共同漂移、虛構證據深度與authority laundering；B0.1尚未整合且無既有consumer，故在同一v1候選內修正，不產生silent API reinterpretation。B0.2必須直接實作此收緊後契約 |
+| B-D028 | 2026-09-17 | review-ready status | B0.1 common projection contract已通過authority、fixture/schema與projection/phase-boundary三方獨立最終驗收，無P0/P1；此狀態僅表示branch可供review／整合，不表示已merge、push或授權B0.2 | 三方final ACCEPTED + focused／Backlot／PUP regression + static／JSON／diff gates | B-D025–B-D027 | B0.2仍須等待B0.1整合及使用者另行明確授權 |
 
 ## 14. Revision protocol
 

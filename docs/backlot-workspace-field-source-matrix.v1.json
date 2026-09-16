@@ -1,0 +1,858 @@
+{
+  "version": "backlot.workspace.field-source-matrix.v1",
+  "status": "b0.1_review_ready",
+  "scope": "Field-group source, reader, validator, authority, lifecycle, absence, degradation, and ownership matrix for Backlot Workspace v1. This document defines consumer semantics only; it does not authorize runtime readers, routes, UI, writes, provider calls, approval, or publication.",
+  "normative_refs": [
+    "AGENT_GUIDE.md",
+    "docs/backlot-workspace-architecture-contract.md",
+    "docs/backlot-director-workspace-plan.md",
+    "schemas/workspace/workspace_projection_v1.schema.json",
+    "skills/creative/course-form.md",
+    "skills/meta/production-unit-protocol.md",
+    "docs/production-unit-protocol-implementation-plan.md"
+  ],
+  "contract_precedence": [
+    "producer-owned schema, validator, manifest, director skill, and lib/checkpoint.py",
+    "docs/backlot-workspace-architecture-contract.md",
+    "schemas/workspace/workspace_projection_v1.schema.json and this matrix",
+    "docs/backlot-director-workspace-plan.md",
+    "consumer fixtures and UI presentation"
+  ],
+  "frozen_vocabulary": {
+    "projection_version": "backlot.workspace.v1",
+    "source_snapshot_algorithm": {
+      "name": "canonical-source-entries-v1",
+      "payload": "UTF-8 canonical JSON array of complete source entries sorted by source_key, with object keys sorted and separators comma and colon with no insignificant whitespace",
+      "digest_format": "sha256:<64 lowercase hex>",
+      "duplicate_source_keys": "rejected",
+      "excluded_from_digest": "none; the complete closed-schema source entry is hashed"
+    },
+    "authority_state": [
+      "canonical",
+      "candidate",
+      "execution_evidence",
+      "display_only",
+      "unavailable"
+    ],
+    "validation_state": [
+      "validated",
+      "invalid",
+      "unverified"
+    ],
+    "source_kind": [
+      "project_marker",
+      "pipeline_manifest",
+      "approved_checkpoint_artifact",
+      "awaiting_checkpoint_artifact",
+      "working_checkpoint_artifact",
+      "failed_checkpoint_artifact",
+      "checkpoint_partial_progress",
+      "checkpoint_candidate_handoff",
+      "production_unit_qualification_profile",
+      "production_unit_capability_matrix",
+      "production_unit_execution_contract",
+      "batch_v2_publication",
+      "style_catalog_current",
+      "legacy_loose_file",
+      "legacy_scan",
+      "render_report_output",
+      "provider_request",
+      "provider_receipt",
+      "binary_observation",
+      "human_review_record",
+      "derived_projection",
+      "unavailable"
+    ],
+    "evidence_scope": [
+      "none",
+      "manifest_only",
+      "checkpoint_validated",
+      "publication_validated",
+      "provider_request",
+      "provider_receipt",
+      "binary_observed",
+      "human_reviewed"
+    ],
+    "evidence_scope_source_kinds": {
+      "none": [],
+      "manifest_only": ["project_marker", "pipeline_manifest", "style_catalog_current", "legacy_loose_file", "legacy_scan"],
+      "checkpoint_validated": ["approved_checkpoint_artifact", "awaiting_checkpoint_artifact", "working_checkpoint_artifact", "failed_checkpoint_artifact", "checkpoint_partial_progress", "checkpoint_candidate_handoff", "production_unit_qualification_profile", "production_unit_capability_matrix", "production_unit_execution_contract", "render_report_output"],
+      "publication_validated": ["batch_v2_publication"],
+      "provider_request": ["provider_request"],
+      "provider_receipt": ["provider_receipt"],
+      "binary_observed": ["binary_observation"],
+      "human_reviewed": ["human_review_record"]
+    },
+    "none_scope_constraint": "evidence_scope=none requires authority_state=unavailable, source_kind=unavailable, and empty evidence_refs; visible authority-bearing data always cites digest-bound evidence",
+    "checkpoint_status": [
+      "completed",
+      "awaiting_human",
+      "in_progress",
+      "failed",
+      "absent",
+      null
+    ],
+    "pup_policy_mode": [
+      "off",
+      "auto",
+      "fixed"
+    ],
+    "pup_execution_disposition": [
+      "compare_only",
+      "publish_candidate",
+      null
+    ],
+    "pup_qualification_status": [
+      "unknown",
+      "unsupported",
+      "experimental",
+      "code_complete",
+      "beta_qualified",
+      "production_qualified",
+      "disabled",
+      "invalid"
+    ],
+    "media_availability": [
+      "browser_playable",
+      "preview_proxy_required",
+      "unavailable"
+    ],
+    "preview_fidelity": [
+      "planning_preview",
+      "edit_preview",
+      "final_render",
+      "candidate_preview"
+    ],
+    "resource_kind": [
+      "workspace_catalog",
+      "project",
+      "stage",
+      "course",
+      "module",
+      "lesson",
+      "script_section",
+      "clp_entity",
+      "continuity_group",
+      "scene",
+      "shot",
+      "asset_slot",
+      "asset",
+      "render_output",
+      "generation_instruction",
+      "production_unit",
+      "candidate_set",
+      "candidate",
+      "candidate_assignment",
+      "preview_timeline"
+    ]
+  },
+  "source_precedence": [
+    "Resolve the artifact family's producer-declared owner stage from a validated pipeline manifest.",
+    "Read the official checkpoint through read_checkpoint and validate_checkpoint; do not parse it as authority merely because it is JSON.",
+    "Classify completed, awaiting_human, in_progress, failed, invalid, missing, and history separately.",
+    "Validate each artifact with its official schema and semantic validator and compute its canonical digest.",
+    "Compare a loose cache only for diagnostics; a matching cache does not create authority.",
+    "Use an explicitly permitted legacy source only as display_only plus unverified when no modern authoritative claim exists.",
+    "An invalid authoritative claim fails closed and must not fall back to a loose or legacy source.",
+    "Do not promote archived history to current canonical without a producer-owned active-canonical pointer."
+  ],
+  "global_no_inference_rules": [
+    "A filesystem path, URL, array index, filename, title, time overlap, or latest-file heuristic is never logical identity.",
+    "A syntactically valid JSON document is not authoritative without its official reader, validator, owner stage, and lifecycle evidence.",
+    "Missing evidence is unavailable; it is not permission to infer a schema, relation, prompt, approval, publication, qualification, or selection.",
+    "The browser and API layer do not read producer files or decide source precedence; all inspectors consume the shared projection contract.",
+    "No consumer reads .production-units, .batch-v2, coordinator state, receipt directories, or opaque profile_ref targets.",
+    "Authority, validation, evidence depth, checkpoint status, Human Gate status, PUP policy, manifest support, execution disposition, and qualification remain separate axes.",
+    "A candidate, Candidate Set, Candidate Assignment, preferred selection, and canonical adoption are distinct states.",
+    "Every non-projection RevisionRef must occur exactly in its source snapshot with a matching source digest.",
+    "derived_projection never establishes canonical authority and cannot launder legacy-only evidence; its candidate or execution authority must cite the required awaiting or non-legacy producer/observation evidence.",
+    "B0.1 defines schemas, types, this matrix, and consumer fixtures only; it does not implement a resolver, route, UI, preview engine, or mutation."
+  ],
+  "reader_boundary": {
+    "currently_approved_workspace_symbols": [
+      "lib.checkpoint.CheckpointValidationError",
+      "lib.checkpoint.read_checkpoint",
+      "lib.checkpoint.validate_checkpoint",
+      "lib.batch_executor.publication.inspect_v2_asset_manifest_claim"
+    ],
+    "rule": "A reader named below but not present in currently_approved_workspace_symbols is an existing producer utility outside the current Workspace allowlist or an explicit gap. B0.2 must add the narrow read capability and matching governance tests through the Architecture Contract change protocol before importing it."
+  },
+  "rows": [
+    {
+      "field_group": "project.identity",
+      "wire_types": ["ResourceRef", "WorkspaceProjection", "CatalogData", "ShellData"],
+      "source_kind": ["project_marker", "unavailable"],
+      "producer_owner": "project initialization and lib.checkpoint project-marker contract",
+      "current_source": "contained direct-child project/project.json",
+      "official_reader_validator": {
+        "reader": null,
+        "validators": ["lib.checkpoint._authenticate_project_marker (private producer validator)"],
+        "resolution_status": "public_workspace_reader_gap"
+      },
+      "authority_lifecycle": "A validated marker may identify a project, but B0.1 fixtures do not prove that a live public reader exists.",
+      "absence": "Return unavailable/project_marker_unavailable; never infer a project from a nested directory or arbitrary path.",
+      "invalid_or_degraded": "Return unavailable/project_marker_invalid and fail the project shell closed.",
+      "phase_owner": "B0.2",
+      "forbidden_inference": "Do not treat directory name, route parameter, project title, or a child directory as authenticated identity."
+    },
+    {
+      "field_group": "catalog.project_summary",
+      "wire_types": ["CatalogData", "CatalogItem", "ResourceRef", "SourceSnapshot", "AuthorityDescriptor"],
+      "source_kind": ["project_marker", "pipeline_manifest", "derived_projection", "unavailable"],
+      "producer_owner": "project marker plus the validated selected pipeline manifest; Workspace owns only the derived catalog projection",
+      "current_source": "one project-scoped catalog item whose exact source snapshot is also covered by the workspace-catalog envelope snapshot",
+      "official_reader_validator": {
+        "reader": null,
+        "validators": ["future authenticated project catalog reader", "validated selected pipeline manifest"],
+        "resolution_status": "public_workspace_reader_gap"
+      },
+      "authority_lifecycle": "The catalog envelope uses the reserved backlot-workspace/catalog service scope; every item retains independent project authority and diagnostics.",
+      "absence": "Omit an undiscoverable project or return an explicitly unavailable item; never synthesize identity from a directory name.",
+      "invalid_or_degraded": "One invalid item degrades that item without lending or borrowing another project's authority.",
+      "phase_owner": "B0.2",
+      "forbidden_inference": "Do not apply the catalog envelope authority to every item or reuse one project's source snapshot for another project."
+    },
+    {
+      "field_group": "pipeline.stage_rail_and_gate_policy",
+      "wire_types": ["ShellData", "StageSummary", "AuthorityDescriptor", "SourceSnapshot"],
+      "source_kind": ["pipeline_manifest", "unavailable"],
+      "producer_owner": "pipeline_defs manifest and pipeline manifest schema",
+      "current_source": "pipeline_defs/<pipeline>.yaml selected by authenticated project/checkpoint pipeline_type",
+      "official_reader_validator": {
+        "reader": "lib.pipeline_loader.load_pipeline_readonly",
+        "validators": ["schemas/pipelines/pipeline_manifest.schema.json", "lib.pipeline_loader.get_stage_order", "lib.pipeline_loader.get_stage_human_approval_default"],
+        "resolution_status": "existing_reader_outside_workspace_allowlist"
+      },
+      "authority_lifecycle": "The validated manifest supplies stages, produces, optional_produces, gates, and declared PUP support; checkpoint state supplies lifecycle.",
+      "absence": "Return unavailable/pipeline_manifest_unavailable; no fixed six-tab or guessed stage rail.",
+      "invalid_or_degraded": "Return unavailable/pipeline_manifest_invalid; do not reuse a similarly named manifest.",
+      "phase_owner": "B0.2",
+      "forbidden_inference": "Do not derive the rail from artifact filenames, existing checkpoints alone, or UI constants."
+    },
+    {
+      "field_group": "course.approved_design",
+      "wire_types": ["RevisionSetData", "ProjectedRevision", "ResourceRef", "RevisionRef"],
+      "source_kind": ["approved_checkpoint_artifact", "unavailable"],
+      "producer_owner": "proposal stage and course-form contract",
+      "current_source": "completed, human-approved proposal checkpoint containing proposal_packet and course_manifest with content_form=course_form",
+      "official_reader_validator": {
+        "reader": "lib.checkpoint.read_checkpoint",
+        "validators": ["lib.checkpoint.validate_checkpoint", "schemas.artifacts.validate_artifact(course_manifest)", "lib.production_units.course.validate_course_manifest_or_raise"],
+        "resolution_status": "approved"
+      },
+      "authority_lifecycle": "Only the exact valid completed and human-approved proposal revision is canonical course truth.",
+      "absence": "Return unavailable/no_approved_course; an ordinary project remains ordinary.",
+      "invalid_or_degraded": "Return unavailable/approved_course_invalid and diagnostic; never use loose course_manifest as authority.",
+      "phase_owner": "B1",
+      "forbidden_inference": "Do not infer Course Form from duration, filenames, nested directories, or a loose course_manifest."
+    },
+    {
+      "field_group": "course.pending_candidate_and_history",
+      "wire_types": ["RevisionSetData", "ProjectedRevision"],
+      "source_kind": ["awaiting_checkpoint_artifact", "working_checkpoint_artifact", "failed_checkpoint_artifact", "unavailable"],
+      "producer_owner": "proposal checkpoint lifecycle and checkpoint history",
+      "current_source": "validated proposal checkpoint candidate plus separately classified archived checkpoint revisions",
+      "official_reader_validator": {
+        "reader": "lib.checkpoint.read_checkpoint",
+        "validators": ["lib.checkpoint.validate_checkpoint", "schemas.artifacts.validate_artifact(course_manifest)"],
+        "resolution_status": "approved_with_active_canonical_gap"
+      },
+      "authority_lifecycle": "awaiting_human is candidate; in_progress and failed are display snapshots; history remains historical.",
+      "absence": "An empty candidate/history list is valid. During an awaiting rerun without an active-canonical pointer, current_canonical is null with not_identifiable_from_current_contract.",
+      "invalid_or_degraded": "Invalid current evidence is unavailable; a recent completed history entry is not promoted.",
+      "phase_owner": "B0.2 and B1",
+      "forbidden_inference": "Do not overwrite canonical presentation with a candidate or choose latest completed history as current."
+    },
+    {
+      "field_group": "script.validated_revisions",
+      "wire_types": ["RevisionSetData", "ProjectedRevision", "ResourceRef", "RevisionRef"],
+      "source_kind": ["approved_checkpoint_artifact", "awaiting_checkpoint_artifact", "working_checkpoint_artifact", "failed_checkpoint_artifact", "unavailable"],
+      "producer_owner": "manifest-declared script owner stage",
+      "current_source": "script artifact embedded in the validated owner checkpoint",
+      "official_reader_validator": {
+        "reader": "lib.checkpoint.read_checkpoint",
+        "validators": ["lib.checkpoint.validate_checkpoint", "schemas.artifacts.validate_artifact(script)"],
+        "resolution_status": "approved_shape_validation_only"
+      },
+      "authority_lifecycle": "completed plus required Human Gate is canonical; awaiting is candidate; working/failed are display snapshots.",
+      "absence": "Return unavailable/script_missing without crashing the Workspace.",
+      "invalid_or_degraded": "Return unavailable/script_invalid. Do not claim section timing continuity, ID uniqueness, or duration-sum validation unless producer evidence is later added.",
+      "phase_owner": "B1",
+      "forbidden_inference": "Do not convert free-form source_ref into a typed lesson, objective, asset, or URL authority."
+    },
+    {
+      "field_group": "script.legacy_display",
+      "wire_types": ["ProjectedRevision", "AuthorityDescriptor"],
+      "source_kind": ["legacy_loose_file"],
+      "producer_owner": "legacy project layout",
+      "current_source": "contained artifacts/script.json only when no modern authoritative claim exists and the family explicitly permits legacy fallback",
+      "official_reader_validator": {
+        "reader": null,
+        "validators": ["schemas.artifacts.validate_artifact(script) for shape only"],
+        "resolution_status": "b0.2_contained_reader_gap"
+      },
+      "authority_lifecycle": "Always display_only plus unverified, even when schema-valid.",
+      "absence": "Return unavailable/script_missing.",
+      "invalid_or_degraded": "Return unavailable/legacy_script_invalid; do not show partially parsed content as canonical.",
+      "phase_owner": "B0.2 and B1",
+      "forbidden_inference": "A matching filename, mtime, or matching bytes do not create approval."
+    },
+    {
+      "field_group": "style.proposal_creative_direction",
+      "wire_types": ["ProjectedRevision", "SourceSnapshot", "AuthorityDescriptor"],
+      "source_kind": ["approved_checkpoint_artifact", "awaiting_checkpoint_artifact", "unavailable"],
+      "producer_owner": "proposal_packet selected concept and production_plan",
+      "current_source": "visual_approach, selected playbook, taste_profile, art_direction, renderer_family, render_runtime, and composition_mode in the validated proposal revision",
+      "official_reader_validator": {
+        "reader": "lib.checkpoint.read_checkpoint",
+        "validators": ["lib.checkpoint.validate_checkpoint", "schemas.artifacts.validate_artifact(proposal_packet)"],
+        "resolution_status": "approved"
+      },
+      "authority_lifecycle": "Authority follows the proposal checkpoint lifecycle. suggested_playbook remains a recommendation, not a selection.",
+      "absence": "Missing optional style fields remain unavailable by field group; do not synthesize defaults.",
+      "invalid_or_degraded": "Invalid proposal evidence makes this group unavailable.",
+      "phase_owner": "B1",
+      "forbidden_inference": "Do not promote concept_options[].suggested_playbook or catalog defaults to an approved selection."
+    },
+    {
+      "field_group": "style.course_intent",
+      "wire_types": ["ProjectedRevision", "SourceSnapshot", "AuthorityDescriptor"],
+      "source_kind": ["approved_checkpoint_artifact", "awaiting_checkpoint_artifact", "unavailable"],
+      "producer_owner": "course_manifest.style_intent at proposal stage",
+      "current_source": "style_intent within the same exact course_manifest revision",
+      "official_reader_validator": {
+        "reader": "lib.checkpoint.read_checkpoint",
+        "validators": ["lib.checkpoint.validate_checkpoint", "schemas.artifacts.validate_artifact(course_manifest)"],
+        "resolution_status": "approved"
+      },
+      "authority_lifecycle": "Authority follows the owning course revision; it remains distinct from the selected playbook and catalog content.",
+      "absence": "Non-course projects have no course style intent; return unavailable/not_applicable.",
+      "invalid_or_degraded": "Invalid course evidence makes this field group unavailable while other valid style groups may remain visible.",
+      "phase_owner": "B1",
+      "forbidden_inference": "Do not merge course tone or visual_intent into playbook rules and claim the result was producer-authored."
+    },
+    {
+      "field_group": "style.project_checkpoint_identity",
+      "wire_types": ["ProjectedRevision", "SourceSnapshot", "AuthorityDescriptor"],
+      "source_kind": ["project_marker", "approved_checkpoint_artifact", "awaiting_checkpoint_artifact", "unavailable"],
+      "producer_owner": "project marker and checkpoint style_playbook identity",
+      "current_source": "authenticated project marker plus validated checkpoint style_playbook fields",
+      "official_reader_validator": {
+        "reader": "lib.checkpoint.read_checkpoint for checkpoint; public project-marker reader is absent",
+        "validators": ["lib.checkpoint.validate_checkpoint", "lib.checkpoint._validate_style_playbook (private writer/read validator)"],
+        "resolution_status": "partial_public_reader_gap"
+      },
+      "authority_lifecycle": "The exact names are observations from their owning sources; agreement is required before a resolved-style claim.",
+      "absence": "Missing corroboration is not a conflict; report not_yet_corroborated.",
+      "invalid_or_degraded": "Name drift or invalid playbook identity makes resolved_style unavailable and preserves the separate observations.",
+      "phase_owner": "B0.2 and B1",
+      "forbidden_inference": "Do not choose one conflicting name, normalize by similarity, or silently use a fallback playbook."
+    },
+    {
+      "field_group": "style.current_catalog",
+      "wire_types": ["ProjectedRevision", "SourceSnapshot", "AuthorityDescriptor"],
+      "source_kind": ["style_catalog_current", "unavailable"],
+      "producer_owner": "tracked styles catalog",
+      "current_source": "current styles/<name>.yaml loaded through the strict style playbook loader",
+      "official_reader_validator": {
+        "reader": "styles.playbook_loader.load_playbook",
+        "validators": ["styles.playbook_loader.validate_playbook", "schemas/styles/playbook.schema.json"],
+        "resolution_status": "existing_reader_outside_workspace_allowlist"
+      },
+      "authority_lifecycle": "Valid current catalog content is displayable and validated, but historically_frozen is false unless a producer digest binds the exact historical bytes.",
+      "absence": "Return unavailable/style_catalog_entry_missing.",
+      "invalid_or_degraded": "Return unavailable/style_catalog_entry_invalid; do not fall back to a wider generator-side loader.",
+      "phase_owner": "B0.2 and B1",
+      "forbidden_inference": "Current catalog bytes do not prove the exact style bytes used by an earlier run."
+    },
+    {
+      "field_group": "style.downstream_observation",
+      "wire_types": ["ProjectedRevision", "AuthorityDescriptor", "Diagnostic"],
+      "source_kind": ["approved_checkpoint_artifact", "awaiting_checkpoint_artifact", "unavailable"],
+      "producer_owner": "scene_plan owner stage",
+      "current_source": "validated scene_plan.style_playbook as corroborating observation",
+      "official_reader_validator": {
+        "reader": "lib.checkpoint.read_checkpoint",
+        "validators": ["lib.checkpoint.validate_checkpoint", "schemas.artifacts.validate_artifact(scene_plan)"],
+        "resolution_status": "approved_observation_only"
+      },
+      "authority_lifecycle": "It corroborates or diagnoses drift; it does not own project style selection.",
+      "absence": "Before scene planning, return not_yet_corroborated without hiding valid proposal style.",
+      "invalid_or_degraded": "Conflicting validated observations make resolved_style unavailable and emit a drift diagnostic.",
+      "phase_owner": "B1",
+      "forbidden_inference": "Do not let a downstream observation overwrite proposal or project style authority."
+    },
+    {
+      "field_group": "clp.manifest_revisions",
+      "wire_types": ["RevisionSetData", "ProjectedRevision", "ResourceRef", "MediaRef"],
+      "source_kind": ["approved_checkpoint_artifact", "awaiting_checkpoint_artifact", "working_checkpoint_artifact", "failed_checkpoint_artifact", "unavailable"],
+      "producer_owner": "clp stage",
+      "current_source": "clp_manifest from the validated owning checkpoint",
+      "official_reader_validator": {
+        "reader": "lib.checkpoint.read_checkpoint",
+        "validators": ["lib.checkpoint.validate_checkpoint", "schemas.artifacts.validate_artifact(clp_manifest)", "lib.clp_validator.validate_clp_manifest_or_raise"],
+        "resolution_status": "approved"
+      },
+      "authority_lifecycle": "Completed plus Human Gate, or the typed zero-entity exception, is canonical; awaiting is candidate; working/failed are display snapshots.",
+      "absence": "Return unavailable/clp_missing, distinct from a valid empty manifest.",
+      "invalid_or_degraded": "Return unavailable/clp_invalid; ignore mismatched loose cache.",
+      "phase_owner": "B2",
+      "forbidden_inference": "policy=strict_reference alone does not mean an image was human-selected, locked, or digest-verified."
+    },
+    {
+      "field_group": "clp.zero_entity_state",
+      "wire_types": ["ProjectedRevision", "AuthorityDescriptor", "Diagnostic"],
+      "source_kind": ["approved_checkpoint_artifact"],
+      "producer_owner": "clp checkpoint gate_resolution",
+      "current_source": "valid completed CLP checkpoint with an empty clp_manifest and verified zero_entity_auto gate resolution",
+      "official_reader_validator": {
+        "reader": "lib.checkpoint.read_checkpoint",
+        "validators": ["lib.checkpoint.validate_checkpoint", "lib.checkpoint.verify_gate_resolution", "lib.clp_validator.validate_clp_manifest_or_raise"],
+        "resolution_status": "approved"
+      },
+      "authority_lifecycle": "Canonical CLP with verification_mode=zero_entity_auto_pass; this is not a new authority_state.",
+      "absence": "Not applicable when entities exist or CLP is missing.",
+      "invalid_or_degraded": "An unverified empty file is unavailable, not a zero-entity success.",
+      "phase_owner": "B2",
+      "forbidden_inference": "Do not equate empty arrays, a missing manifest, and a passed zero-entity gate."
+    },
+    {
+      "field_group": "clp.shot_bindings",
+      "wire_types": ["TypedRelation", "ResourceRef", "RevisionRef", "SourceSnapshot"],
+      "source_kind": ["approved_checkpoint_artifact", "awaiting_checkpoint_artifact", "unavailable"],
+      "producer_owner": "scene_plan stage clp_shot_bindings artifact",
+      "current_source": "validated bindings bound to exact scene_plan and predecessor clp_manifest digests",
+      "official_reader_validator": {
+        "reader": "lib.checkpoint.read_checkpoint",
+        "validators": ["lib.checkpoint.validate_checkpoint", "lib.clp_validator.validate_clp_shot_bindings_or_raise"],
+        "resolution_status": "approved"
+      },
+      "authority_lifecycle": "Bindings follow the owning scene-plan checkpoint lifecycle and retain typed many-to-many relations.",
+      "absence": "Return unavailable/clp_bindings_missing; do not infer entity use from prompt text or names.",
+      "invalid_or_degraded": "Digest mismatch, dangling entity, or missing shot relation makes bindings unavailable.",
+      "phase_owner": "B2",
+      "forbidden_inference": "Do not derive lesson, scene, shot, or unit ownership by filename, array position, name, or time overlap."
+    },
+    {
+      "field_group": "clp.legacy_display",
+      "wire_types": ["ProjectedRevision", "MediaRef", "AuthorityDescriptor"],
+      "source_kind": ["legacy_scan"],
+      "producer_owner": "legacy Backlot compatibility surface",
+      "current_source": "contained legacy character/design/image observations when no modern CLP claim exists",
+      "official_reader_validator": {
+        "reader": null,
+        "validators": [],
+        "resolution_status": "b2_bounded_legacy_reader_gap"
+      },
+      "authority_lifecycle": "Always display_only plus unverified.",
+      "absence": "Return unavailable/legacy_clp_missing.",
+      "invalid_or_degraded": "Unsafe or ambiguous paths are omitted with diagnostics.",
+      "phase_owner": "B2",
+      "forbidden_inference": "Filename matches and image availability do not create CLP entity identity, strict-reference policy, or canonical selection."
+    },
+    {
+      "field_group": "assets.checkpoint_manifest",
+      "wire_types": ["RevisionSetData", "ProjectedRevision", "ResourceRef", "MediaRef", "GenerationInstruction"],
+      "source_kind": ["approved_checkpoint_artifact", "awaiting_checkpoint_artifact", "working_checkpoint_artifact", "failed_checkpoint_artifact", "unavailable"],
+      "producer_owner": "manifest-declared assets stage",
+      "current_source": "asset_manifest embedded in the validated owner checkpoint when no Batch V2 publication claim changes the authority path",
+      "official_reader_validator": {
+        "reader": "lib.checkpoint.read_checkpoint",
+        "validators": ["lib.checkpoint.validate_checkpoint", "schemas.artifacts.validate_artifact(asset_manifest)"],
+        "resolution_status": "approved_shape_validation_with_b0.2_precedence_work"
+      },
+      "authority_lifecycle": "Authority follows checkpoint lifecycle; asset rows inherit manifest authority and retain their own stable IDs.",
+      "absence": "Return unavailable/asset_manifest_missing.",
+      "invalid_or_degraded": "Return unavailable/asset_manifest_invalid; an invalid owner checkpoint blocks loose fallback.",
+      "phase_owner": "B0.2 and B2",
+      "forbidden_inference": "Do not use list order, last renderable asset, path, or mtime as selected-take or asset identity."
+    },
+    {
+      "field_group": "assets.batch_v2_publication",
+      "wire_types": ["ProjectedRevision", "ResourceRef", "RevisionRef", "MediaRef"],
+      "source_kind": ["batch_v2_publication", "unavailable"],
+      "producer_owner": "Batch V2 publication authority",
+      "current_source": "exact asset_manifest authenticated by a valid Batch V2 publication claim in the checkpoint",
+      "official_reader_validator": {
+        "reader": "lib.batch_executor.publication.inspect_v2_asset_manifest_claim",
+        "validators": ["Batch V2 publication command/state/receipt validation", "schemas.artifacts.validate_artifact(asset_manifest)"],
+        "resolution_status": "approved_named_read"
+      },
+      "authority_lifecycle": "A valid publication claim is canonical publication evidence; PUP does not become a second asset publisher.",
+      "absence": "If no Batch V2 claim exists, use the family-specific ordinary-checkpoint resolution path, not Batch heuristics.",
+      "invalid_or_degraded": "A claimed but invalid Batch V2 publication makes assets unavailable and blocks loose fallback.",
+      "phase_owner": "B0.2 and B2",
+      "forbidden_inference": "Do not read .batch-v2 records or reconstruct publication from attempts, receipts, or successful files."
+    },
+    {
+      "field_group": "assets.legacy_manifest",
+      "wire_types": ["ProjectedRevision", "ResourceRef", "MediaRef", "GenerationInstruction"],
+      "source_kind": ["legacy_loose_file"],
+      "producer_owner": "legacy project compatibility",
+      "current_source": "contained artifacts/asset_manifest.json only when no modern authoritative claim exists and fallback is explicitly allowed",
+      "official_reader_validator": {
+        "reader": null,
+        "validators": ["schemas.artifacts.validate_artifact(asset_manifest) for shape only"],
+        "resolution_status": "b0.2_contained_reader_gap"
+      },
+      "authority_lifecycle": "Always display_only plus unverified.",
+      "absence": "Return unavailable/legacy_asset_manifest_missing.",
+      "invalid_or_degraded": "Return unavailable/legacy_asset_manifest_invalid; do not serve unsafe paths.",
+      "phase_owner": "B0.2 and B2",
+      "forbidden_inference": "A schema-valid loose asset_manifest is not checkpoint, Human Gate, or publication authority."
+    },
+    {
+      "field_group": "media.local_contained",
+      "wire_types": ["MediaRef", "ResourceRef", "RevisionRef", "SourceSnapshot"],
+      "source_kind": ["approved_checkpoint_artifact", "awaiting_checkpoint_artifact", "batch_v2_publication", "legacy_loose_file", "unavailable"],
+      "producer_owner": "owning asset, clp_entity, or render_output revision",
+      "current_source": "a project-relative locator declared by the exact owning source and resolved under project containment",
+      "official_reader_validator": {
+        "reader": null,
+        "validators": ["owner artifact validator", "project containment", "safe Workspace media route"],
+        "resolution_status": "b2_media_resolver_gap"
+      },
+      "authority_lifecycle": "Media authority follows its owner revision; browser_playable only describes representation capability.",
+      "absence": "Return availability=unavailable, locator=null, and a typed reason.",
+      "invalid_or_degraded": "Traversal, absolute paths, symlink/junction escape, wrong prefix, or owner mismatch are unavailable.",
+      "phase_owner": "B2",
+      "forbidden_inference": "A path is a locator, never identity, approval, selection, or publication."
+    },
+    {
+      "field_group": "media.approved_remote",
+      "wire_types": ["MediaRef", "SourceSnapshot"],
+      "source_kind": ["approved_checkpoint_artifact", "batch_v2_publication", "render_report_output", "unavailable"],
+      "producer_owner": "same authoritative owner as the local representation",
+      "current_source": "an HTTPS remote locator explicitly present in the authoritative owner contract and accepted by the future allowlist policy",
+      "official_reader_validator": {
+        "reader": null,
+        "validators": ["owner artifact validator", "approved remote scheme/host policy"],
+        "resolution_status": "b2_remote_policy_gap"
+      },
+      "authority_lifecycle": "Remote availability does not change owner authority; it is another controlled representation.",
+      "absence": "Return unavailable/remote_media_not_approved.",
+      "invalid_or_degraded": "Reject HTTP, credentials, unknown schemes/hosts, opaque URLs, or remote values found only in a loose competing source.",
+      "phase_owner": "B2",
+      "forbidden_inference": "Do not approve a remote URL merely because the browser can fetch it."
+    },
+    {
+      "field_group": "media.preview_proxy",
+      "wire_types": ["MediaRef", "SourceSnapshot"],
+      "source_kind": ["derived_projection", "binary_observation", "unavailable"],
+      "producer_owner": "Backlot disposable server cache derived from an authoritative media owner",
+      "current_source": "a lineage-bound proxy generated from a resolved MediaRef whose original bytes require transcoding or a safer representation",
+      "official_reader_validator": {
+        "reader": null,
+        "validators": ["source MediaRef binding", "content/source digest binding", "cache containment"],
+        "resolution_status": "b2_proxy_contract_gap"
+      },
+      "authority_lifecycle": "A proxy is derived and disposable; each owning media resource retains its original AuthorityDescriptor.",
+      "absence": "If no valid source MediaRef exists, return unavailable and do not create a proxy.",
+      "invalid_or_degraded": "A stale or digest-mismatched proxy is unavailable and may be discarded.",
+      "phase_owner": "B2",
+      "forbidden_inference": "Proxy existence does not create a canonical asset, render, selection, or compound authority state."
+    },
+    {
+      "field_group": "media.missing_or_unreadable_bytes",
+      "wire_types": ["MediaRef", "Diagnostic"],
+      "source_kind": ["unavailable", "binary_observation"],
+      "producer_owner": "owning logical resource remains the producer source; binary availability is observational",
+      "current_source": "validated metadata may exist while the referenced bytes are missing, unreadable, unsafe, or unsupported",
+      "official_reader_validator": {
+        "reader": null,
+        "validators": ["contained binary probe when authorized"],
+        "resolution_status": "b2_binary_probe_gap"
+      },
+      "authority_lifecycle": "Keep the logical owner/revision visible but set MediaRef availability=unavailable and locator=null.",
+      "absence": "Use a typed reason such as media_bytes_missing or codec_unsupported.",
+      "invalid_or_degraded": "Declared metadata remains producer_declared; failed observation does not silently replace it.",
+      "phase_owner": "B2",
+      "forbidden_inference": "Do not erase a valid logical asset merely because bytes are absent, and do not claim playable from declared format alone."
+    },
+    {
+      "field_group": "media.metadata_evidence",
+      "wire_types": ["MediaRef", "MediaMetadata", "EvidenceRef", "SourceSnapshot"],
+      "source_kind": ["approved_checkpoint_artifact", "batch_v2_publication", "render_report_output", "binary_observation", "human_review_record", "derived_projection", "unavailable"],
+      "producer_owner": "owning artifact for declared values, bounded binary probe for observed values, and explicit review evidence for human values",
+      "current_source": "separate producer_declared, tool_observed, and human_reviewed buckets whose evidence refs bind to the MediaRef snapshot",
+      "official_reader_validator": {
+        "reader": null,
+        "validators": ["owner artifact validator", "bounded binary probe", "future review-evidence reader"],
+        "resolution_status": "b2_metadata_resolver_gap"
+      },
+      "authority_lifecycle": "Metadata evidence depth never upgrades the owning media authority; human review scores remain review evidence only.",
+      "absence": "A missing bucket is null and does not erase other evidence buckets.",
+      "invalid_or_degraded": "Missing, stale, or digest-mismatched evidence refs invalidate only the affected metadata claim.",
+      "phase_owner": "B2",
+      "forbidden_inference": "Do not overwrite declared values with probes, treat a quality score as approval, or accept an unbound human-review score."
+    },
+    {
+      "field_group": "generation.creative_specification_and_declarative_instructions",
+      "wire_types": ["GenerationInstruction", "ResourceRef", "RevisionRef", "SourceSnapshot"],
+      "source_kind": ["approved_checkpoint_artifact", "awaiting_checkpoint_artifact", "batch_v2_publication", "legacy_loose_file", "derived_projection", "unavailable"],
+      "producer_owner": "owning artifact field, initially asset_manifest.assets[].prompt and other explicitly mapped producer fields",
+      "current_source": "exact display-safe source field with a stable source locator that identifies an AuthorityDescriptor evidence entry whose ResourceRef and RevisionRef exactly bind the GenerationInstruction owner and revision and whose v1 source family is approved_checkpoint_artifact, awaiting_checkpoint_artifact, batch_v2_publication, or display-only legacy_loose_file, plus exact target refs",
+      "official_reader_validator": {
+        "reader": "same reader as the owning artifact",
+        "validators": ["owning artifact validator", "GenerationInstruction schema"],
+        "resolution_status": "contract_defined_runtime_b2"
+      },
+      "authority_lifecycle": "Authority follows the owning artifact; evidence_scope must match the governing locator family: checkpoint_validated for approved/awaiting checkpoint evidence, publication_validated for batch-v2 publication, or manifest_only for display-only legacy evidence.",
+      "absence": "Emit an unavailable GenerationInstruction only when the inspector needs to state that the expected record is missing; never fill it with reconstructed text.",
+      "invalid_or_degraded": "Unsafe or unmappable source fields, or a locator that names an unrelated snapshot entry, are omitted or unavailable with diagnostics.",
+      "phase_owner": "B2",
+      "forbidden_inference": "Do not relabel creative specification, scene description, CLP anchor, style prefix, or negative prompt as actual provider input."
+    },
+    {
+      "field_group": "generation.provider_input",
+      "wire_types": ["GenerationInstruction", "AuthorityDescriptor"],
+      "source_kind": ["provider_request", "provider_receipt", "unavailable"],
+      "producer_owner": "provider request/receipt producer contract",
+      "current_source": "exact display-safe provider request or receipt evidence, when a public contract exposes it",
+      "official_reader_validator": {
+        "reader": null,
+        "validators": [],
+        "resolution_status": "public_provider_evidence_gap_except_separately_contracted_paths"
+      },
+      "authority_lifecycle": "Only exact provider evidence can populate provider_input; provider_request and provider_receipt scopes must match their governing locator family, and a shared composite request remains one shared provider input.",
+      "absence": "display_content=null and unavailable_reason=provider_input_not_recorded.",
+      "invalid_or_degraded": "Tampered, private, secret-bearing, or unvalidated evidence is unavailable.",
+      "phase_owner": "B2, with producer-owned contract when needed",
+      "forbidden_inference": "Never fabricate per-tile or per-shot provider prompts from one composite request or from nearby creative text."
+    },
+    {
+      "field_group": "render.output_identity_and_media",
+      "wire_types": ["ResourceRef", "RevisionRef", "MediaRef", "ProjectedRevision"],
+      "source_kind": ["render_report_output", "unavailable"],
+      "producer_owner": "compose-stage render_report",
+      "current_source": "validated completed compose checkpoint and render_report output with a producer-declared unique platform_target",
+      "official_reader_validator": {
+        "reader": "lib.checkpoint.read_checkpoint",
+        "validators": ["lib.checkpoint.validate_checkpoint", "schemas.artifacts.validate_artifact(render_report)", "Workspace uniqueness and path-containment check"],
+        "resolution_status": "producer_schema_lacks_required_unique_output_key"
+      },
+      "authority_lifecycle": "A stable render_output identity is the unique platform_target plus owning render-report revision.",
+      "absence": "Missing platform_target or no matching output makes that output unavailable to Workspace v1.",
+      "invalid_or_degraded": "Duplicate platform_target, unsafe path, invalid checkpoint, or invalid report makes final_render unavailable.",
+      "phase_owner": "B0.2 contract resolution and B2 player",
+      "forbidden_inference": "Do not use output path, array index, mtime, or latest file as render identity."
+    },
+    {
+      "field_group": "delivery.trace",
+      "wire_types": ["ProjectedRevision", "AuthorityDescriptor", "Diagnostic"],
+      "source_kind": ["approved_checkpoint_artifact", "render_report_output", "unavailable"],
+      "producer_owner": "compose render_report and publish publish_log course_delivery evidence",
+      "current_source": "validated completed compose/publish checkpoints with exact render_report digest and safe matching delivery paths",
+      "official_reader_validator": {
+        "reader": "lib.checkpoint.read_checkpoint",
+        "validators": ["lib.checkpoint.validate_checkpoint", "schemas.artifacts.validate_artifact(render_report)", "schemas.artifacts.validate_artifact(publish_log)", "backlot.course_projection delivery checks as existing evidence"],
+        "resolution_status": "existing_evidence_requires_workspace_normalization"
+      },
+      "authority_lifecycle": "This is checkpoint evidence trace; it does not prove binary existence, playback, or content quality.",
+      "absence": "Return missing/not_required per declared delivery requirement without inventing publication.",
+      "invalid_or_degraded": "Digest or path mismatch makes publish trace unavailable while valid render evidence may remain visible.",
+      "phase_owner": "B2",
+      "forbidden_inference": "Do not equate rendered, published, binary-observed, browser-playable, and human-approved."
+    },
+    {
+      "field_group": "preview.timeline",
+      "wire_types": ["PreviewTimelineData", "MediaRef", "ResourceRef", "SourceSnapshot"],
+      "source_kind": ["approved_checkpoint_artifact", "awaiting_checkpoint_artifact", "batch_v2_publication", "render_report_output", "derived_projection", "unavailable"],
+      "producer_owner": "Track B projection derived only from validated producer artifacts",
+      "current_source": "validated scene_plan plus asset_manifest, valid edit_decisions for edit_preview, resolved MediaRefs, and for final_render a validated stable render_output",
+      "official_reader_validator": {
+        "reader": null,
+        "validators": ["all source-family official validators", "PreviewTimeline schema", "snapshot and timing checks"],
+        "resolution_status": "b2_projection_gap"
+      },
+      "authority_lifecycle": "planning_preview, edit_preview, final_render, and candidate_preview are distinct fidelity values. edit_preview requires scene-plan, asset-manifest, and edit evidence together. Candidate preview is B5 and requires exact Candidate Assignment.",
+      "absence": "Return unavailable/preview_sources_incomplete or an explicitly degraded supported subset.",
+      "invalid_or_degraded": "Source snapshot changes stale the preview; unsupported effects and proxy requirements remain explicit.",
+      "phase_owner": "B2 for planning/edit/final; B5 for candidate_preview",
+      "forbidden_inference": "Do not claim render parity, codec, subtitle burn-in, A/V sync, delivery integrity, or canonical adoption from planning/edit/candidate preview."
+    },
+    {
+      "field_group": "pup.approved_policy",
+      "wire_types": ["ProductionUnitSummaryData", "AuthorityDescriptor", "SourceSnapshot"],
+      "source_kind": ["approved_checkpoint_artifact", "unavailable"],
+      "producer_owner": "proposal_packet.production_plan.production_unit_policy",
+      "current_source": "exact project-bound validated completed and human-approved proposal checkpoint with revision_kind=checkpoint and stage=proposal, cited by the projection AuthorityDescriptor",
+      "official_reader_validator": {
+        "reader": "lib.checkpoint.read_checkpoint",
+        "validators": ["lib.checkpoint.validate_checkpoint", "schemas.artifacts.validate_artifact(proposal_packet)"],
+        "resolution_status": "approved"
+      },
+      "authority_lifecycle": "Missing policy and explicit off both project as policy_mode=off. auto/fixed are project policy only.",
+      "absence": "Project policy_mode=off, not unknown and not null.",
+      "invalid_or_degraded": "Invalid, cross-project, non-checkpoint, or wrong-stage proposal evidence makes policy authority unavailable; do not use helper-local legacy aliases.",
+      "phase_owner": "B0.2",
+      "forbidden_inference": "Do not treat compare_only or publish_candidate as policy modes, or infer policy from sidecars or progress."
+    },
+    {
+      "field_group": "pup.manifest_support",
+      "wire_types": ["ProductionUnitSummaryData", "AuthorityDescriptor"],
+      "source_kind": ["pipeline_manifest", "unavailable"],
+      "producer_owner": "pipeline manifest extensions.production_units",
+      "current_source": "actual validated selected manifest bytes, not the capability matrix's unbound manifest_supported assertion",
+      "official_reader_validator": {
+        "reader": "lib.pipeline_loader.load_pipeline_readonly",
+        "validators": ["schemas/pipelines/pipeline_manifest.schema.json"],
+        "resolution_status": "existing_reader_outside_workspace_allowlist"
+      },
+      "authority_lifecycle": "manifest_supported states implementation support only and remains separate from project policy and qualification.",
+      "absence": "Use false only when the actual manifest contract says unsupported/absent; use null when trusted manifest resolution is unavailable.",
+      "invalid_or_degraded": "Invalid or unresolved manifest yields null plus diagnostic, never a qualification downgrade or upgrade.",
+      "phase_owner": "B0.2",
+      "forbidden_inference": "Do not trust or dereference capability-matrix profile_ref, and do not treat manifest support as effective enablement or qualification."
+    },
+    {
+      "field_group": "pup.qualification",
+      "wire_types": ["ProductionUnitSummaryData", "QualificationIdentity", "AuthorityDescriptor"],
+      "source_kind": ["production_unit_qualification_profile", "production_unit_capability_matrix", "unavailable"],
+      "producer_owner": "Track A qualification profile and capability matrix contracts",
+      "current_source": "caller-supplied, AuthorityDescriptor-cited, exact project-bound profile/matrix content revisions validated for profile_id, profile_version, profile_sha256, selector, and status agreement; the profile revision ID is profile_id:profile_version",
+      "official_reader_validator": {
+        "reader": null,
+        "validators": ["lib.production_units.contracts.validate_qualification_profile", "lib.production_units.contracts.validate_capability_matrix"],
+        "resolution_status": "shape_and_pair_validation_only_no_trusted_discovery"
+      },
+      "authority_lifecycle": "Status and identity may be displayed only for an exact validated pair supplied through a trusted future contract. M6.0A does not authenticate evidence or select profiles.",
+      "absence": "qualification_status=unknown and qualification_identity=null.",
+      "invalid_or_degraded": "Invalid pair projects status=invalid and identity=null; untrusted or opaque profile_ref is never followed.",
+      "phase_owner": "Track A trusted resolver contract, then Track B consumer projection",
+      "forbidden_inference": "Do not upgrade from policy, manifest support, checkpoint success, benchmark prose, or an unbound matrix assertion."
+    },
+    {
+      "field_group": "pup.execution_disposition",
+      "wire_types": ["ProductionUnitSummaryData", "AuthorityDescriptor"],
+      "source_kind": ["production_unit_execution_contract", "unavailable"],
+      "producer_owner": "bounded Production Unit execution contract",
+      "current_source": "an AuthorityDescriptor-cited, exact project-bound public producer content revision identified as execution-disposition:<value>, with revision stage equal to the projection authority source_stage, that explicitly records compare_only or publish_candidate",
+      "official_reader_validator": {
+        "reader": null,
+        "validators": ["producer execution contract validator when publicly exposed"],
+        "resolution_status": "general_public_projection_gap"
+      },
+      "authority_lifecycle": "Disposition is stage-internal intent and never publication. policy_mode=off requires disposition=null.",
+      "absence": "execution_disposition=null.",
+      "invalid_or_degraded": "A disposition without approved non-off policy, for an unlisted stage, or from a legacy alias is unavailable/non-authoritative.",
+      "phase_owner": "Track A producer contract and B0.2 consumer mapping",
+      "forbidden_inference": "Do not infer publish_candidate from candidate_handoff existence or compare_only from sidecar presence."
+    },
+    {
+      "field_group": "pup.aggregate_progress",
+      "wire_types": ["ProductionUnitSummaryData", "ProductionUnitProgress", "AuthorityDescriptor"],
+      "source_kind": ["checkpoint_partial_progress", "unavailable"],
+      "producer_owner": "checkpoint metadata.partial_progress.production_units producer",
+      "current_source": "validated checkpoint plus the currently supported typed aggregate subset",
+      "official_reader_validator": {
+        "reader": "lib.checkpoint.read_checkpoint",
+        "validators": ["lib.checkpoint.validate_checkpoint", "backlot.course_projection._validated_unit_progress as existing consumer evidence"],
+        "resolution_status": "consumer_validated_subset_not_producer_schema_backed"
+      },
+      "authority_lifecycle": "Aggregate progress is execution evidence only; it does not complete a stage, approve a candidate, or establish unit details.",
+      "absence": "progress_by_stage=[] is valid for ordinary, PUP-off, legacy, or stages without aggregate evidence; each present entry carries its exact stage.",
+      "invalid_or_degraded": "Invalid counts, duplicate/overlapping terminal IDs, or invalid active ID make progress unavailable without hiding a valid course.",
+      "phase_owner": "B0.2; Track A owns any stronger producer schema",
+      "forbidden_inference": "Do not infer unit list, prompts, selected attempts, epoch, receipts, recovery state, or qualification from aggregate counts."
+    },
+    {
+      "field_group": "pup.candidate_handoff_provenance",
+      "wire_types": ["ProductionUnitSummaryData", "CandidateHandoffProvenance", "AuthorityDescriptor"],
+      "source_kind": ["checkpoint_candidate_handoff", "unavailable"],
+      "producer_owner": "M6.0B JSON candidate handoff and official checkpoint validation",
+      "current_source": "metadata.production_units.candidate_handoff from a checkpoint that passes the official checkpoint reader and durable handoff provenance validation",
+      "official_reader_validator": {
+        "reader": "lib.checkpoint.read_checkpoint",
+        "validators": ["lib.checkpoint.validate_checkpoint", "lib.production_units.handoff.validate_checkpoint_handoff_provenance invoked by checkpoint validation"],
+        "resolution_status": "approved_only_through_official_checkpoint_reader"
+      },
+      "authority_lifecycle": "Display as checkpoint-validated JSON handoff provenance/execution evidence only.",
+      "absence": "candidate_handoff=null is normal for ordinary, legacy, PUP-off, and checkpoints without M6.0B provenance.",
+      "invalid_or_degraded": "Tampered, stale, cross-epoch, hybrid-authority, or missing durable records invalidate the checkpoint rather than degrading into a usable handoff.",
+      "phase_owner": "B0.2",
+      "forbidden_inference": "It is not a unit list, prompt record, asset, aggregate progress, Human approval, qualification, publication, adoption, or recovery authority."
+    },
+    {
+      "field_group": "pup.unit_details",
+      "wire_types": ["ProductionUnitSummaryData"],
+      "source_kind": ["unavailable"],
+      "producer_owner": "future versioned A-to-B sanitized inspection contract",
+      "current_source": null,
+      "official_reader_validator": {
+        "reader": null,
+        "validators": [],
+        "resolution_status": "blocked_pending_b3_inspection_contract"
+      },
+      "authority_lifecycle": "Workspace v1 sets unit_details_available=false and unit_details_unavailable_reason=b3_inspection_contract_unavailable.",
+      "absence": "Required fail-closed state until the separate contract, validator, and fixtures are reviewed and integrated.",
+      "invalid_or_degraded": "No private-state fallback is permitted.",
+      "phase_owner": "Track A contract then B3",
+      "forbidden_inference": "Do not scan .production-units, .batch-v2, state.json, receipts, attempts, or infer crosswalks from time/name/path."
+    },
+    {
+      "field_group": "decisions.display_context",
+      "wire_types": ["ProjectedRevision", "AuthorityDescriptor", "Diagnostic"],
+      "source_kind": ["legacy_loose_file", "unavailable"],
+      "producer_owner": "decision_log append-only producer workflow",
+      "current_source": "existing loose/root decision_log compatibility surface until provenance normalization exists",
+      "official_reader_validator": {
+        "reader": null,
+        "validators": ["schemas.artifacts.validate_artifact(decision_log) for shape when applicable"],
+        "resolution_status": "b6_provenance_normalization_deferred"
+      },
+      "authority_lifecycle": "B0-B2 may show decisions only as display_only plus unverified context.",
+      "absence": "Return unavailable/decision_history_unavailable without affecting other inspectors.",
+      "invalid_or_degraded": "Malformed entries are unavailable; do not silently deduplicate or rewrite history.",
+      "phase_owner": "B6",
+      "forbidden_inference": "Do not claim canonical decision status or current selection from the last loose entry without normalized provenance and the exact category+subject rule."
+    }
+  ],
+  "unresolved_contract_gaps": [
+    {
+      "id": "project-marker-public-reader",
+      "owner": "B0.2 plus existing checkpoint owner",
+      "effect": "Live Workspace project identity remains unavailable until a narrow contained public reader is approved."
+    },
+    {
+      "id": "pipeline-manifest-workspace-read-allowlist",
+      "owner": "B0.2",
+      "effect": "The existing read-only loader cannot be imported by Workspace readers until the governance allowlist and tests are changed under review."
+    },
+    {
+      "id": "style-catalog-workspace-read-allowlist",
+      "owner": "B0.2 and B1",
+      "effect": "Style catalog projection needs a narrow approved read seam; B0.1 does not authorize it."
+    },
+    {
+      "id": "generic-artifact-lifecycle-resolver",
+      "owner": "B0.2",
+      "effect": "Generic script, scene, asset, edit, render, and legacy precedence is not yet implemented as a shared resolver."
+    },
+    {
+      "id": "render-output-stable-key",
+      "owner": "producer schema owner plus B0.2",
+      "effect": "render_report permits missing or duplicate platform_target; such outputs are unavailable to Workspace v1."
+    },
+    {
+      "id": "media-and-preview-runtime",
+      "owner": "B2",
+      "effect": "Contained local, approved remote, proxy, binary probe, player, and PreviewTimeline runtime behavior remains unimplemented."
+    },
+    {
+      "id": "provider-input-public-evidence",
+      "owner": "producer contract owner plus B2",
+      "effect": "Actual provider input is unavailable unless a separate exact public request/receipt contract exists."
+    },
+    {
+      "id": "qualification-trusted-discovery",
+      "owner": "Track A",
+      "effect": "M6.0A validates supplied shapes and pair agreement only; Backlot cannot discover, select, authenticate, or dereference profiles."
+    },
+    {
+      "id": "production-unit-detail-inspection",
+      "owner": "Track A then B3",
+      "effect": "Unit input, prompts, work items, results, assets, selected attempts, and exact crosswalk remain unavailable."
+    }
+  ]
+}

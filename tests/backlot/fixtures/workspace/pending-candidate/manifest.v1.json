@@ -1,0 +1,17 @@
+{
+  "version": "backlot.workspace.fixture-set.v1",
+  "scenario_id": "pending-candidate",
+  "cases": [
+    {
+      "id": "awaiting-with-history-no-active-canonical",
+      "expect": "valid",
+      "domain_expectation": "negative",
+      "projection": "awaiting-with-history.valid.json",
+      "covers": [
+        "candidate never overwrites canonical",
+        "history is never promoted without producer authority",
+        "current canonical can be explicitly unavailable"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "projection_version": "backlot.workspace.v1",
+  "projection_kind": "shell",
+  "data_schema": "backlot.workspace.shell.v1",
+  "resource_ref": {
+    "project_id": "ordinary-project",
+    "kind": "project",
+    "stage": null,
+    "local_id": "ordinary-project",
+    "resource_key": "project_ordinary_01",
+    "parent_refs": [],
+    "relation_refs": []
+  },
+  "revision_ref": null,
+  "source_snapshot": {
+    "algorithm": "canonical-source-entries-v1",
+    "sources": [
+      {
+        "source_key": "pipeline:animated-explainer",
+        "source_kind": "pipeline_manifest",
+        "sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      }
+    ],
+    "composite_sha256": "sha256:909d29384f34fc5b1c6092bdcb546f902ce92e26bb0e15abdd5ea31640b7d2dd"
+  },
+  "authority": {
+    "authority_state": "canonical",
+    "validation_state": "validated",
+    "source_kind": "pipeline_manifest",
+    "evidence_scope": "manifest_only",
+    "source_stage": null,
+    "checkpoint_status": null,
+    "human_approved": null,
+    "historically_frozen": false,
+    "evidence_refs": [
+      {
+        "source_key": "pipeline:animated-explainer",
+        "sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      }
+    ],
+    "degraded_reasons": []
+  },
+  "capabilities": {
+    "view": {
+      "available": true,
+      "reason": null
+    },
+    "mutate": {
+      "available": false,
+      "reason": "observer_only"
+    }
+  },
+  "diagnostics": [],
+  "data": {
+    "version": "backlot.workspace.shell.v1",
+    "pipeline_type": "animated-explainer",
+    "classification": "ordinary",
+    "stages": [
+      {
+        "name": "script",
+        "status": "pending",
+        "human_approval_default": false
+      }
+    ],
+    "current_stage": null,
+    "gate_state": "none"
+  }
+}

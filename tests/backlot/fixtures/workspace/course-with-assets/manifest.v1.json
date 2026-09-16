@@ -1,0 +1,61 @@
+{
+  "version": "backlot.workspace.fixture-set.v1",
+  "scenario_id": "course-with-assets",
+  "cases": [
+    {
+      "id": "mixed-media-authority",
+      "expect": "valid",
+      "domain_expectation": "edge",
+      "projection": "mixed-media-authority.valid.json",
+      "covers": [
+        "validated-batch-v2-publication",
+        "legacy-asset-manifest",
+        "local-browser-playable-media",
+        "approved-remote-media",
+        "preview-proxy-required-media",
+        "missing-media-bytes",
+        "publication authority is not inferred",
+        "legacy sources are labeled",
+        "media locators never become identity"
+      ]
+    },
+    {
+      "id": "generation-instruction-provenance",
+      "expect": "valid",
+      "domain_expectation": "negative",
+      "projection": "generation-instructions.valid.json",
+      "covers": [
+        "creative specification is distinct from unavailable provider input",
+        "recorded provider input requires exact provider request evidence"
+      ]
+    },
+    {
+      "id": "completed-delivery",
+      "expect": "valid",
+      "domain_expectation": "positive",
+      "projection": "completed-delivery.valid.json",
+      "covers": ["completed-delivery", "final render uses a stable producer output key"]
+    },
+    {
+      "id": "planning-preview",
+      "expect": "valid",
+      "domain_expectation": "positive",
+      "projection": "planning-preview.valid.json",
+      "covers": ["planning preview carries visual and audio media", "planning preview is not render parity"]
+    },
+    {
+      "id": "edit-preview",
+      "expect": "valid",
+      "domain_expectation": "positive",
+      "projection": "edit-preview.valid.json",
+      "covers": ["edit preview has explicit fidelity"]
+    },
+    {
+      "id": "candidate-preview",
+      "expect": "valid",
+      "domain_expectation": "edge",
+      "projection": "candidate-preview.valid.json",
+      "covers": ["candidate preview remains candidate", "candidate assignment identity is explicit"]
+    }
+  ]
+}

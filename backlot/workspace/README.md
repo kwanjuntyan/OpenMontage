@@ -1,8 +1,25 @@
 # Director Workspace module boundary
 
-This directory is the tracked B0.0B enforcement seam. It is deliberately a
-non-runtime scaffold: it registers no route, reads no project, defines no wire
-schema, and changes no existing Board behavior.
+This directory contains the tracked B0.0B enforcement seam and the B0.1 common
+projection contract. It remains deliberately non-runtime: it registers no
+route, reads no project, resolves no live authority, and changes no existing
+Board behavior.
+
+The B0.1 contract surface is intentionally narrow:
+
+- `schemas/workspace/workspace_projection_v1.schema.json` is the normative
+  closed JSON wire-schema bundle;
+- `projection/types.py` mirrors those shapes for static Python consumers;
+- `projection/contracts.py` adds pure, no-I/O semantic checks for authority,
+  source snapshots, lifecycle, media, prompt, PUP, pagination, and preview
+  invariants;
+- `docs/backlot-workspace-field-source-matrix.v1.{md,json}` records producer
+  ownership, approved readers／validators, degradation, and B0.2 gaps;
+- `tests/backlot/fixtures/workspace/` contains B0.1 consumer wire goldens, not
+  canonical project trees or runtime fixtures.
+
+B0.1 does not authorize a resolver, API, feature flag, UI, filesystem reader,
+or preview-proxy generator. Those remain B0.2／B2 work behind their own gates.
 
 The allowed dependency direction is:
 
@@ -52,7 +69,9 @@ star, dynamic, provider, writer, and private Production Unit imports are
 rejected by the governance test.
 
 `tests/backlot/test_workspace_governance.py` enforces this direction and the
-forbidden authority imports. `tests/backlot/fixtures/workspace/fixture-matrix.v1.json`
-tracks the compatibility scenarios that later phases must materialize. The
-normative product boundary remains
+forbidden authority imports. `tests/backlot/test_workspace_contracts.py`
+enforces the B0.1 schema and semantic contract.
+`tests/backlot/fixtures/workspace/fixture-matrix.v1.json` distinguishes the
+materialized B0.1 consumer goldens from the still-pending B0.2 large-course
+runtime fixture. The normative product boundary remains
 `docs/backlot-workspace-architecture-contract.md`.

@@ -1,0 +1,89 @@
+{
+  "projection_version": "backlot.workspace.v1",
+  "projection_kind": "preview_timeline",
+  "data_schema": "backlot.workspace.preview-timeline.v1",
+  "resource_ref": {
+    "project_id": "course-assets",
+    "kind": "preview_timeline",
+    "stage": null,
+    "local_id": "candidate-preview",
+    "resource_key": "preview_candidate_01",
+    "parent_refs": [],
+    "relation_refs": []
+  },
+  "revision_ref": {
+    "revision_kind": "checkpoint",
+    "revision_id": "candidate-awaiting-001",
+    "sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "stage": "assets"
+  },
+  "source_snapshot": {
+    "algorithm": "canonical-source-entries-v1",
+    "sources": [
+      {
+        "source_key": "assets:candidate",
+        "source_kind": "awaiting_checkpoint_artifact",
+        "sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "candidate_assignment",
+          "stage": null,
+          "local_id": "assignment-001",
+          "resource_key": "assignment_0001"
+        },
+        "revision_ref": {
+          "revision_kind": "checkpoint",
+          "revision_id": "candidate-awaiting-001",
+          "sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+          "stage": "assets"
+        }
+      }
+    ],
+    "composite_sha256": "sha256:61c814011a46e0ce6b9037d888b281b70dec1e72ab9932812c045bf829f89ead"
+  },
+  "authority": {
+    "authority_state": "candidate",
+    "validation_state": "validated",
+    "source_kind": "awaiting_checkpoint_artifact",
+    "evidence_scope": "checkpoint_validated",
+    "source_stage": "assets",
+    "checkpoint_status": "awaiting_human",
+    "human_approved": false,
+    "historically_frozen": false,
+    "evidence_refs": [
+      {
+        "source_key": "assets:candidate",
+        "sha256": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+      }
+    ],
+    "degraded_reasons": []
+  },
+  "capabilities": {
+    "play": {
+      "available": true,
+      "reason": null
+    },
+    "mutate": {
+      "available": false,
+      "reason": "observer_only"
+    }
+  },
+  "diagnostics": [],
+  "data": {
+    "version": "backlot.workspace.preview-timeline.v1",
+    "fidelity": "candidate_preview",
+    "duration_seconds": 0.0,
+    "segments": [],
+    "audio_tracks": [],
+    "unsupported_effects": [],
+    "preload_ahead_segments": 0,
+    "final_render_ref": null,
+    "candidate_assignment_ref": {
+      "project_id": "course-assets",
+      "kind": "candidate_assignment",
+      "stage": null,
+      "local_id": "assignment-001",
+      "resource_key": "assignment_0001"
+    }
+  }
+}

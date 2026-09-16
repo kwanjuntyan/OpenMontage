@@ -1,0 +1,176 @@
+{
+  "projection_version": "backlot.workspace.v1",
+  "projection_kind": "catalog",
+  "data_schema": "backlot.workspace.catalog.v1",
+  "resource_ref": {
+    "project_id": "backlot-workspace",
+    "kind": "workspace_catalog",
+    "stage": null,
+    "local_id": "catalog",
+    "resource_key": "workspace_catalog_01",
+    "parent_refs": [],
+    "relation_refs": []
+  },
+  "revision_ref": {
+    "revision_kind": "projection",
+    "revision_id": "catalog-page-001",
+    "sha256": "sha256:92a68759818e3ddb64a70bc1ed7954cd116ff7b678179003564f7a38206f9a64"
+  },
+  "source_snapshot": {
+    "algorithm": "canonical-source-entries-v1",
+    "sources": [
+      {
+        "source_key": "pipeline:animated-explainer",
+        "source_kind": "pipeline_manifest",
+        "sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+        "resource_ref": {
+          "project_id": "ordinary-project",
+          "kind": "project",
+          "stage": null,
+          "local_id": "ordinary-project",
+          "resource_key": "project_ordinary_01"
+        }
+      },
+      {
+        "source_key": "project:ordinary-project:marker",
+        "source_kind": "project_marker",
+        "sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+        "resource_ref": {
+          "project_id": "ordinary-project",
+          "kind": "project",
+          "stage": null,
+          "local_id": "ordinary-project",
+          "resource_key": "project_ordinary_01"
+        }
+      }
+    ],
+    "composite_sha256": "sha256:92a68759818e3ddb64a70bc1ed7954cd116ff7b678179003564f7a38206f9a64"
+  },
+  "authority": {
+    "authority_state": "execution_evidence",
+    "validation_state": "validated",
+    "source_kind": "derived_projection",
+    "evidence_scope": "manifest_only",
+    "source_stage": null,
+    "checkpoint_status": null,
+    "human_approved": null,
+    "historically_frozen": false,
+    "evidence_refs": [
+      {
+        "source_key": "pipeline:animated-explainer",
+        "sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+      },
+      {
+        "source_key": "project:ordinary-project:marker",
+        "sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+      }
+    ],
+    "degraded_reasons": []
+  },
+  "capabilities": {
+    "view": {
+      "available": true,
+      "reason": null
+    },
+    "paginate": {
+      "available": true,
+      "reason": null
+    },
+    "mutate": {
+      "available": false,
+      "reason": "observer_only"
+    }
+  },
+  "diagnostics": [],
+  "data": {
+    "version": "backlot.workspace.catalog.v1",
+    "items": [
+      {
+        "project_ref": {
+          "project_id": "ordinary-project",
+          "kind": "project",
+          "stage": null,
+          "local_id": "ordinary-project",
+          "resource_key": "project_ordinary_01",
+          "parent_refs": [],
+          "relation_refs": []
+        },
+        "title": "Ordinary project",
+        "classification": "ordinary",
+        "pipeline_type": "animated-explainer",
+        "revision_ref": {
+          "revision_kind": "projection",
+          "revision_id": "catalog-item-ordinary-project-001",
+          "sha256": "sha256:92a68759818e3ddb64a70bc1ed7954cd116ff7b678179003564f7a38206f9a64"
+        },
+        "source_snapshot": {
+          "algorithm": "canonical-source-entries-v1",
+          "sources": [
+            {
+              "source_key": "pipeline:animated-explainer",
+              "source_kind": "pipeline_manifest",
+              "sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+              "resource_ref": {
+                "project_id": "ordinary-project",
+                "kind": "project",
+                "stage": null,
+                "local_id": "ordinary-project",
+                "resource_key": "project_ordinary_01"
+              }
+            },
+            {
+              "source_key": "project:ordinary-project:marker",
+              "source_kind": "project_marker",
+              "sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+              "resource_ref": {
+                "project_id": "ordinary-project",
+                "kind": "project",
+                "stage": null,
+                "local_id": "ordinary-project",
+                "resource_key": "project_ordinary_01"
+              }
+            }
+          ],
+          "composite_sha256": "sha256:92a68759818e3ddb64a70bc1ed7954cd116ff7b678179003564f7a38206f9a64"
+        },
+        "authority": {
+          "authority_state": "execution_evidence",
+          "validation_state": "validated",
+          "source_kind": "derived_projection",
+          "evidence_scope": "manifest_only",
+          "source_stage": null,
+          "checkpoint_status": null,
+          "human_approved": null,
+          "historically_frozen": false,
+          "evidence_refs": [
+            {
+              "source_key": "pipeline:animated-explainer",
+              "sha256": "sha256:1111111111111111111111111111111111111111111111111111111111111111"
+            },
+            {
+              "source_key": "project:ordinary-project:marker",
+              "sha256": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+            }
+          ],
+          "degraded_reasons": []
+        },
+        "capabilities": {
+          "view": {
+            "available": true,
+            "reason": null
+          },
+          "mutate": {
+            "available": false,
+            "reason": "observer_only"
+          }
+        },
+        "diagnostics": []
+      }
+    ],
+    "pagination": {
+      "limit": 50,
+      "has_more": false,
+      "next_cursor": null
+    }
+  }
+}

@@ -1,0 +1,1027 @@
+{
+  "projection_version": "backlot.workspace.v1",
+  "projection_kind": "media_collection",
+  "data_schema": "backlot.workspace.media-collection.v1",
+  "resource_ref": {
+    "project_id": "course-assets",
+    "kind": "stage",
+    "stage": "assets",
+    "local_id": "assets",
+    "resource_key": "stage_assets_course_01",
+    "parent_refs": [],
+    "relation_refs": []
+  },
+  "revision_ref": {
+    "revision_kind": "projection",
+    "revision_id": "media-page-001",
+    "sha256": "sha256:6bac934954a9de3122fd20bf37c2dc7a2e903a466685849e15dfa08ad92831d3"
+  },
+  "source_snapshot": {
+    "algorithm": "canonical-source-entries-v1",
+    "sources": [
+      {
+        "source_key": "assets:legacy",
+        "source_kind": "legacy_loose_file",
+        "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+      },
+      {
+        "source_key": "assets:publication",
+        "source_kind": "batch_v2_publication",
+        "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+      },
+      {
+        "source_key": "media-id:video-original-001",
+        "source_kind": "binary_observation",
+        "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "asset",
+          "stage": null,
+          "local_id": "scene-01-video",
+          "resource_key": "asset_scene01_video_01"
+        },
+        "revision_ref": {
+          "revision_kind": "artifact",
+          "revision_id": "assets-published-001",
+          "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "artifact_name": "asset_manifest"
+        }
+      },
+      {
+        "source_key": "media-observation:video-proxy-001",
+        "source_kind": "binary_observation",
+        "sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "asset",
+          "stage": null,
+          "local_id": "scene-01-video",
+          "resource_key": "asset_scene01_video_01"
+        },
+        "revision_ref": {
+          "revision_kind": "artifact",
+          "revision_id": "assets-published-001",
+          "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "artifact_name": "asset_manifest"
+        }
+      },
+      {
+        "source_key": "media:image-local",
+        "source_kind": "binary_observation",
+        "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      },
+      {
+        "source_key": "media:video-original",
+        "source_kind": "binary_observation",
+        "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+      },
+      {
+        "source_key": "media:video-proxy",
+        "source_kind": "derived_projection",
+        "sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+      },
+      {
+        "source_key": "owner:audio-legacy-001",
+        "source_kind": "legacy_loose_file",
+        "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "asset",
+          "stage": null,
+          "local_id": "legacy-narration",
+          "resource_key": "asset_legacy_audio_01"
+        },
+        "revision_ref": {
+          "revision_kind": "artifact",
+          "revision_id": "legacy-assets-001",
+          "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "artifact_name": "asset_manifest"
+        }
+      },
+      {
+        "source_key": "owner:audio-remote-001",
+        "source_kind": "batch_v2_publication",
+        "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "asset",
+          "stage": null,
+          "local_id": "published-narration",
+          "resource_key": "asset_remote_audio_01"
+        },
+        "revision_ref": {
+          "revision_kind": "artifact",
+          "revision_id": "assets-published-001",
+          "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "artifact_name": "asset_manifest"
+        }
+      },
+      {
+        "source_key": "owner:image-local-001",
+        "source_kind": "batch_v2_publication",
+        "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "asset",
+          "stage": null,
+          "local_id": "scene-01-first-frame",
+          "resource_key": "asset_scene01_frame_01"
+        },
+        "revision_ref": {
+          "revision_kind": "artifact",
+          "revision_id": "assets-published-001",
+          "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "artifact_name": "asset_manifest"
+        }
+      },
+      {
+        "source_key": "owner:missing-image-001",
+        "source_kind": "batch_v2_publication",
+        "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "asset",
+          "stage": null,
+          "local_id": "missing-image",
+          "resource_key": "asset_missing_image_01"
+        },
+        "revision_ref": {
+          "revision_kind": "artifact",
+          "revision_id": "assets-published-001",
+          "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "artifact_name": "asset_manifest"
+        }
+      },
+      {
+        "source_key": "owner:render-youtube-001",
+        "source_kind": "render_report_output",
+        "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "render_output",
+          "stage": null,
+          "local_id": "youtube",
+          "resource_key": "render_youtube_01"
+        },
+        "revision_ref": {
+          "revision_kind": "artifact",
+          "revision_id": "render-report-001",
+          "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+          "artifact_name": "render_report"
+        }
+      },
+      {
+        "source_key": "owner:video-original-001",
+        "source_kind": "batch_v2_publication",
+        "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "asset",
+          "stage": null,
+          "local_id": "scene-01-video",
+          "resource_key": "asset_scene01_video_01"
+        },
+        "revision_ref": {
+          "revision_kind": "artifact",
+          "revision_id": "assets-published-001",
+          "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "artifact_name": "asset_manifest"
+        }
+      },
+      {
+        "source_key": "owner:video-proxy-001",
+        "source_kind": "batch_v2_publication",
+        "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "asset",
+          "stage": null,
+          "local_id": "scene-01-video",
+          "resource_key": "asset_scene01_video_01"
+        },
+        "revision_ref": {
+          "revision_kind": "artifact",
+          "revision_id": "assets-published-001",
+          "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "artifact_name": "asset_manifest"
+        }
+      },
+      {
+        "source_key": "render:report",
+        "source_kind": "render_report_output",
+        "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+      },
+      {
+        "source_key": "review:image-local-001",
+        "source_kind": "human_review_record",
+        "sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "asset",
+          "stage": null,
+          "local_id": "scene-01-first-frame",
+          "resource_key": "asset_scene01_frame_01"
+        },
+        "revision_ref": {
+          "revision_kind": "artifact",
+          "revision_id": "assets-published-001",
+          "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "artifact_name": "asset_manifest"
+        }
+      }
+    ],
+    "composite_sha256": "sha256:6bac934954a9de3122fd20bf37c2dc7a2e903a466685849e15dfa08ad92831d3"
+  },
+  "authority": {
+    "authority_state": "execution_evidence",
+    "validation_state": "validated",
+    "source_kind": "derived_projection",
+    "evidence_scope": "publication_validated",
+    "source_stage": "assets",
+    "checkpoint_status": "completed",
+    "human_approved": false,
+    "historically_frozen": false,
+    "evidence_refs": [
+      {
+        "source_key": "assets:publication",
+        "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+      }
+    ],
+    "degraded_reasons": [
+      "mixed_authority_collection"
+    ]
+  },
+  "capabilities": {
+    "view": {
+      "available": true,
+      "reason": null
+    },
+    "paginate": {
+      "available": true,
+      "reason": null
+    },
+    "mutate": {
+      "available": false,
+      "reason": "observer_only"
+    }
+  },
+  "diagnostics": [],
+  "data": {
+    "version": "backlot.workspace.media-collection.v1",
+    "items": [
+      {
+        "media_id": "image-local-001",
+        "owner_ref": {
+          "project_id": "course-assets",
+          "kind": "asset",
+          "stage": null,
+          "local_id": "scene-01-first-frame",
+          "resource_key": "asset_scene01_frame_01",
+          "parent_refs": [],
+          "relation_refs": []
+        },
+        "owner_revision": {
+          "revision_kind": "artifact",
+          "revision_id": "assets-published-001",
+          "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "artifact_name": "asset_manifest"
+        },
+        "media_kind": "image",
+        "purpose": "original",
+        "availability": "browser_playable",
+        "locator": {
+          "kind": "workspace_route",
+          "href": "/api/workspace/v1/projects/course-assets/media/image-local-001"
+        },
+        "unavailable_reason": null,
+        "proxy_source_media_id": null,
+        "content_sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "source_sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "declared_metadata": {
+          "evidence_kind": "producer_declared",
+          "evidence_refs": [
+            {
+              "source_key": "assets:publication",
+              "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+            }
+          ],
+          "mime_type": "image/png",
+          "width": 1920,
+          "height": 1080
+        },
+        "observed_metadata": {
+          "evidence_kind": "tool_observed",
+          "evidence_refs": [
+            {
+              "source_key": "media:image-local",
+              "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            }
+          ],
+          "mime_type": "image/png",
+          "width": 1920,
+          "height": 1080
+        },
+        "review_metadata": {
+          "evidence_kind": "human_reviewed",
+          "evidence_refs": [
+            {
+              "source_key": "review:image-local-001",
+              "sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+            }
+          ],
+          "quality_score": 4.5
+        },
+        "authority": {
+          "authority_state": "canonical",
+          "validation_state": "validated",
+          "source_kind": "batch_v2_publication",
+          "evidence_scope": "publication_validated",
+          "source_stage": "assets",
+          "checkpoint_status": "completed",
+          "human_approved": false,
+          "historically_frozen": true,
+          "evidence_refs": [
+            {
+              "source_key": "assets:publication",
+              "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+            }
+          ],
+          "degraded_reasons": []
+        },
+        "source_snapshot": {
+          "algorithm": "canonical-source-entries-v1",
+          "sources": [
+            {
+              "source_key": "assets:publication",
+              "source_kind": "batch_v2_publication",
+              "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+            },
+            {
+              "source_key": "media:image-local",
+              "source_kind": "binary_observation",
+              "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+            },
+            {
+              "source_key": "owner:image-local-001",
+              "source_kind": "batch_v2_publication",
+              "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+              "resource_ref": {
+                "project_id": "course-assets",
+                "kind": "asset",
+                "stage": null,
+                "local_id": "scene-01-first-frame",
+                "resource_key": "asset_scene01_frame_01"
+              },
+              "revision_ref": {
+                "revision_kind": "artifact",
+                "revision_id": "assets-published-001",
+                "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+                "artifact_name": "asset_manifest"
+              }
+            },
+            {
+              "source_key": "review:image-local-001",
+              "source_kind": "human_review_record",
+              "sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "resource_ref": {
+                "project_id": "course-assets",
+                "kind": "asset",
+                "stage": null,
+                "local_id": "scene-01-first-frame",
+                "resource_key": "asset_scene01_frame_01"
+              },
+              "revision_ref": {
+                "revision_kind": "artifact",
+                "revision_id": "assets-published-001",
+                "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+                "artifact_name": "asset_manifest"
+              }
+            }
+          ],
+          "composite_sha256": "sha256:a9c24fa6daff3d542a83972e20ae6aae926ea666d10b4f22ae3e9d12ebadcd68"
+        },
+        "diagnostics": []
+      },
+      {
+        "media_id": "audio-legacy-001",
+        "owner_ref": {
+          "project_id": "course-assets",
+          "kind": "asset",
+          "stage": null,
+          "local_id": "legacy-narration",
+          "resource_key": "asset_legacy_audio_01",
+          "parent_refs": [],
+          "relation_refs": []
+        },
+        "owner_revision": {
+          "revision_kind": "artifact",
+          "revision_id": "legacy-assets-001",
+          "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+          "artifact_name": "asset_manifest"
+        },
+        "media_kind": "audio",
+        "purpose": "detail",
+        "availability": "browser_playable",
+        "locator": {
+          "kind": "workspace_route",
+          "href": "/api/workspace/v1/projects/course-assets/media/audio-legacy-001"
+        },
+        "unavailable_reason": null,
+        "proxy_source_media_id": null,
+        "content_sha256": null,
+        "source_sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+        "declared_metadata": {
+          "evidence_kind": "producer_declared",
+          "evidence_refs": [
+            {
+              "source_key": "assets:legacy",
+              "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+            }
+          ],
+          "mime_type": "audio/mpeg",
+          "duration_seconds": 8.5
+        },
+        "observed_metadata": null,
+        "review_metadata": null,
+        "authority": {
+          "authority_state": "display_only",
+          "validation_state": "unverified",
+          "source_kind": "legacy_loose_file",
+          "evidence_scope": "manifest_only",
+          "source_stage": "assets",
+          "checkpoint_status": null,
+          "human_approved": null,
+          "historically_frozen": false,
+          "evidence_refs": [
+            {
+              "source_key": "assets:legacy",
+              "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+            }
+          ],
+          "degraded_reasons": [
+            "legacy_source_unverified"
+          ]
+        },
+        "source_snapshot": {
+          "algorithm": "canonical-source-entries-v1",
+          "sources": [
+            {
+              "source_key": "assets:legacy",
+              "source_kind": "legacy_loose_file",
+              "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666"
+            },
+            {
+              "source_key": "owner:audio-legacy-001",
+              "source_kind": "legacy_loose_file",
+              "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+              "resource_ref": {
+                "project_id": "course-assets",
+                "kind": "asset",
+                "stage": null,
+                "local_id": "legacy-narration",
+                "resource_key": "asset_legacy_audio_01"
+              },
+              "revision_ref": {
+                "revision_kind": "artifact",
+                "revision_id": "legacy-assets-001",
+                "sha256": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+                "artifact_name": "asset_manifest"
+              }
+            }
+          ],
+          "composite_sha256": "sha256:2a0672a29ede2d7d84131dbd0af1e95d9cd9edf20d53ec393b756345d9c53f9a"
+        },
+        "diagnostics": []
+      },
+      {
+        "media_id": "audio-remote-001",
+        "owner_ref": {
+          "project_id": "course-assets",
+          "kind": "asset",
+          "stage": null,
+          "local_id": "published-narration",
+          "resource_key": "asset_remote_audio_01",
+          "parent_refs": [],
+          "relation_refs": []
+        },
+        "owner_revision": {
+          "revision_kind": "artifact",
+          "revision_id": "assets-published-001",
+          "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "artifact_name": "asset_manifest"
+        },
+        "media_kind": "audio",
+        "purpose": "detail",
+        "availability": "browser_playable",
+        "locator": {
+          "kind": "approved_remote",
+          "href": "https://media.example.test/audio-remote-001.mp3"
+        },
+        "unavailable_reason": null,
+        "proxy_source_media_id": null,
+        "content_sha256": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "source_sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "declared_metadata": {
+          "evidence_kind": "producer_declared",
+          "evidence_refs": [
+            {
+              "source_key": "assets:publication",
+              "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+            }
+          ],
+          "mime_type": "audio/mpeg",
+          "duration_seconds": 8.5
+        },
+        "observed_metadata": null,
+        "review_metadata": null,
+        "authority": {
+          "authority_state": "canonical",
+          "validation_state": "validated",
+          "source_kind": "batch_v2_publication",
+          "evidence_scope": "publication_validated",
+          "source_stage": "assets",
+          "checkpoint_status": "completed",
+          "human_approved": false,
+          "historically_frozen": true,
+          "evidence_refs": [
+            {
+              "source_key": "assets:publication",
+              "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+            }
+          ],
+          "degraded_reasons": []
+        },
+        "source_snapshot": {
+          "algorithm": "canonical-source-entries-v1",
+          "sources": [
+            {
+              "source_key": "assets:publication",
+              "source_kind": "batch_v2_publication",
+              "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+            },
+            {
+              "source_key": "owner:audio-remote-001",
+              "source_kind": "batch_v2_publication",
+              "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+              "resource_ref": {
+                "project_id": "course-assets",
+                "kind": "asset",
+                "stage": null,
+                "local_id": "published-narration",
+                "resource_key": "asset_remote_audio_01"
+              },
+              "revision_ref": {
+                "revision_kind": "artifact",
+                "revision_id": "assets-published-001",
+                "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+                "artifact_name": "asset_manifest"
+              }
+            }
+          ],
+          "composite_sha256": "sha256:7628777c798ac444f42349f48325087e0ac1ed67e9377a2b80e72e1d0a91c1f6"
+        },
+        "diagnostics": []
+      },
+      {
+        "media_id": "video-original-001",
+        "owner_ref": {
+          "project_id": "course-assets",
+          "kind": "asset",
+          "stage": null,
+          "local_id": "scene-01-video",
+          "resource_key": "asset_scene01_video_01",
+          "parent_refs": [],
+          "relation_refs": []
+        },
+        "owner_revision": {
+          "revision_kind": "artifact",
+          "revision_id": "assets-published-001",
+          "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "artifact_name": "asset_manifest"
+        },
+        "media_kind": "video",
+        "purpose": "original",
+        "availability": "preview_proxy_required",
+        "locator": {
+          "kind": "workspace_route",
+          "href": "/api/workspace/v1/projects/course-assets/media/video-original-001"
+        },
+        "unavailable_reason": null,
+        "proxy_source_media_id": null,
+        "content_sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+        "source_sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "declared_metadata": {
+          "evidence_kind": "producer_declared",
+          "evidence_refs": [
+            {
+              "source_key": "assets:publication",
+              "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+            }
+          ],
+          "mime_type": "video/quicktime",
+          "codec": "prores",
+          "duration_seconds": 12.0
+        },
+        "observed_metadata": {
+          "evidence_kind": "tool_observed",
+          "evidence_refs": [
+            {
+              "source_key": "media:video-original",
+              "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+            }
+          ],
+          "mime_type": "video/quicktime",
+          "codec": "prores",
+          "duration_seconds": 12.0
+        },
+        "review_metadata": null,
+        "authority": {
+          "authority_state": "execution_evidence",
+          "validation_state": "validated",
+          "source_kind": "binary_observation",
+          "evidence_scope": "binary_observed",
+          "source_stage": "assets",
+          "checkpoint_status": "completed",
+          "human_approved": false,
+          "historically_frozen": false,
+          "evidence_refs": [
+            {
+              "source_key": "media:video-original",
+              "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+            }
+          ],
+          "degraded_reasons": [
+            "browser_codec_unsupported"
+          ]
+        },
+        "source_snapshot": {
+          "algorithm": "canonical-source-entries-v1",
+          "sources": [
+            {
+              "source_key": "assets:publication",
+              "source_kind": "batch_v2_publication",
+              "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+            },
+            {
+              "source_key": "media:video-original",
+              "source_kind": "binary_observation",
+              "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+            },
+            {
+              "source_key": "owner:video-original-001",
+              "source_kind": "batch_v2_publication",
+              "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+              "resource_ref": {
+                "project_id": "course-assets",
+                "kind": "asset",
+                "stage": null,
+                "local_id": "scene-01-video",
+                "resource_key": "asset_scene01_video_01"
+              },
+              "revision_ref": {
+                "revision_kind": "artifact",
+                "revision_id": "assets-published-001",
+                "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+                "artifact_name": "asset_manifest"
+              }
+            }
+          ],
+          "composite_sha256": "sha256:4a4c6c3fc59ac72f2bdefe1f930ecd49766301c2f1f83003aa7ecee7cae49597"
+        },
+        "diagnostics": []
+      },
+      {
+        "media_id": "video-proxy-001",
+        "owner_ref": {
+          "project_id": "course-assets",
+          "kind": "asset",
+          "stage": null,
+          "local_id": "scene-01-video",
+          "resource_key": "asset_scene01_video_01",
+          "parent_refs": [],
+          "relation_refs": []
+        },
+        "owner_revision": {
+          "revision_kind": "artifact",
+          "revision_id": "assets-published-001",
+          "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "artifact_name": "asset_manifest"
+        },
+        "media_kind": "video",
+        "purpose": "preview_proxy",
+        "availability": "browser_playable",
+        "locator": {
+          "kind": "workspace_route",
+          "href": "/api/workspace/v1/projects/course-assets/media/video-proxy-001"
+        },
+        "unavailable_reason": null,
+        "proxy_source_media_id": "video-original-001",
+        "content_sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+        "source_sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+        "declared_metadata": null,
+        "observed_metadata": {
+          "evidence_kind": "tool_observed",
+          "evidence_refs": [
+            {
+              "source_key": "media-observation:video-proxy-001",
+              "sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+            }
+          ],
+          "mime_type": "video/mp4",
+          "codec": "h264",
+          "duration_seconds": 12.0
+        },
+        "review_metadata": null,
+        "authority": {
+          "authority_state": "execution_evidence",
+          "validation_state": "validated",
+          "source_kind": "derived_projection",
+          "evidence_scope": "binary_observed",
+          "source_stage": "assets",
+          "checkpoint_status": null,
+          "human_approved": null,
+          "historically_frozen": false,
+          "evidence_refs": [
+            {
+              "source_key": "media:video-proxy",
+              "sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+            },
+            {
+              "source_key": "media-id:video-original-001",
+              "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+            }
+          ],
+          "degraded_reasons": []
+        },
+        "source_snapshot": {
+          "algorithm": "canonical-source-entries-v1",
+          "sources": [
+            {
+              "source_key": "assets:publication",
+              "source_kind": "batch_v2_publication",
+              "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+            },
+            {
+              "source_key": "media-id:video-original-001",
+              "source_kind": "binary_observation",
+              "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777",
+              "resource_ref": {
+                "project_id": "course-assets",
+                "kind": "asset",
+                "stage": null,
+                "local_id": "scene-01-video",
+                "resource_key": "asset_scene01_video_01"
+              },
+              "revision_ref": {
+                "revision_kind": "artifact",
+                "revision_id": "assets-published-001",
+                "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+                "artifact_name": "asset_manifest"
+              }
+            },
+            {
+              "source_key": "media-observation:video-proxy-001",
+              "source_kind": "binary_observation",
+              "sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888",
+              "resource_ref": {
+                "project_id": "course-assets",
+                "kind": "asset",
+                "stage": null,
+                "local_id": "scene-01-video",
+                "resource_key": "asset_scene01_video_01"
+              },
+              "revision_ref": {
+                "revision_kind": "artifact",
+                "revision_id": "assets-published-001",
+                "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+                "artifact_name": "asset_manifest"
+              }
+            },
+            {
+              "source_key": "media:video-original",
+              "source_kind": "binary_observation",
+              "sha256": "sha256:7777777777777777777777777777777777777777777777777777777777777777"
+            },
+            {
+              "source_key": "media:video-proxy",
+              "source_kind": "derived_projection",
+              "sha256": "sha256:8888888888888888888888888888888888888888888888888888888888888888"
+            },
+            {
+              "source_key": "owner:video-proxy-001",
+              "source_kind": "batch_v2_publication",
+              "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+              "resource_ref": {
+                "project_id": "course-assets",
+                "kind": "asset",
+                "stage": null,
+                "local_id": "scene-01-video",
+                "resource_key": "asset_scene01_video_01"
+              },
+              "revision_ref": {
+                "revision_kind": "artifact",
+                "revision_id": "assets-published-001",
+                "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+                "artifact_name": "asset_manifest"
+              }
+            }
+          ],
+          "composite_sha256": "sha256:e4b0b6820a69c3e942899f6e44ef6e16544c0f0779467c647b0733dec3fad0d5"
+        },
+        "diagnostics": []
+      },
+      {
+        "media_id": "missing-image-001",
+        "owner_ref": {
+          "project_id": "course-assets",
+          "kind": "asset",
+          "stage": null,
+          "local_id": "missing-image",
+          "resource_key": "asset_missing_image_01",
+          "parent_refs": [],
+          "relation_refs": []
+        },
+        "owner_revision": {
+          "revision_kind": "artifact",
+          "revision_id": "assets-published-001",
+          "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+          "artifact_name": "asset_manifest"
+        },
+        "media_kind": "image",
+        "purpose": "original",
+        "availability": "unavailable",
+        "locator": null,
+        "unavailable_reason": "media_bytes_missing",
+        "proxy_source_media_id": null,
+        "content_sha256": null,
+        "source_sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+        "declared_metadata": {
+          "evidence_kind": "producer_declared",
+          "evidence_refs": [
+            {
+              "source_key": "assets:publication",
+              "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+            }
+          ],
+          "mime_type": "image/png"
+        },
+        "observed_metadata": null,
+        "review_metadata": null,
+        "authority": {
+          "authority_state": "unavailable",
+          "validation_state": "validated",
+          "source_kind": "batch_v2_publication",
+          "evidence_scope": "publication_validated",
+          "source_stage": "assets",
+          "checkpoint_status": "completed",
+          "human_approved": false,
+          "historically_frozen": true,
+          "evidence_refs": [
+            {
+              "source_key": "assets:publication",
+              "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+            }
+          ],
+          "degraded_reasons": [
+            "media_bytes_missing"
+          ]
+        },
+        "source_snapshot": {
+          "algorithm": "canonical-source-entries-v1",
+          "sources": [
+            {
+              "source_key": "assets:publication",
+              "source_kind": "batch_v2_publication",
+              "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+            },
+            {
+              "source_key": "owner:missing-image-001",
+              "source_kind": "batch_v2_publication",
+              "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+              "resource_ref": {
+                "project_id": "course-assets",
+                "kind": "asset",
+                "stage": null,
+                "local_id": "missing-image",
+                "resource_key": "asset_missing_image_01"
+              },
+              "revision_ref": {
+                "revision_kind": "artifact",
+                "revision_id": "assets-published-001",
+                "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+                "artifact_name": "asset_manifest"
+              }
+            }
+          ],
+          "composite_sha256": "sha256:c333d53f844c1aaf61d05c9203d3c758d99a6181144eeb570460ba631b9caf14"
+        },
+        "diagnostics": [
+          {
+            "code": "media_bytes_missing",
+            "severity": "warning",
+            "message": "Metadata is valid but media bytes are missing.",
+            "source_keys": [
+              "assets:publication"
+            ],
+            "resource_refs": []
+          }
+        ]
+      },
+      {
+        "media_id": "render-youtube-001",
+        "owner_ref": {
+          "project_id": "course-assets",
+          "kind": "render_output",
+          "stage": null,
+          "local_id": "youtube",
+          "resource_key": "render_youtube_01",
+          "parent_refs": [],
+          "relation_refs": []
+        },
+        "owner_revision": {
+          "revision_kind": "artifact",
+          "revision_id": "render-report-001",
+          "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+          "artifact_name": "render_report"
+        },
+        "media_kind": "video",
+        "purpose": "original",
+        "availability": "browser_playable",
+        "locator": {
+          "kind": "workspace_route",
+          "href": "/api/workspace/v1/projects/course-assets/media/render-youtube-001"
+        },
+        "unavailable_reason": null,
+        "proxy_source_media_id": null,
+        "content_sha256": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "source_sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+        "declared_metadata": {
+          "evidence_kind": "producer_declared",
+          "evidence_refs": [
+            {
+              "source_key": "render:report",
+              "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+            }
+          ],
+          "mime_type": "video/mp4",
+          "codec": "h264",
+          "duration_seconds": 30.0
+        },
+        "observed_metadata": null,
+        "review_metadata": null,
+        "authority": {
+          "authority_state": "canonical",
+          "validation_state": "validated",
+          "source_kind": "render_report_output",
+          "evidence_scope": "checkpoint_validated",
+          "source_stage": "render",
+          "checkpoint_status": "completed",
+          "human_approved": true,
+          "historically_frozen": true,
+          "evidence_refs": [
+            {
+              "source_key": "render:report",
+              "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+            }
+          ],
+          "degraded_reasons": []
+        },
+        "source_snapshot": {
+          "algorithm": "canonical-source-entries-v1",
+          "sources": [
+            {
+              "source_key": "owner:render-youtube-001",
+              "source_kind": "render_report_output",
+              "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+              "resource_ref": {
+                "project_id": "course-assets",
+                "kind": "render_output",
+                "stage": null,
+                "local_id": "youtube",
+                "resource_key": "render_youtube_01"
+              },
+              "revision_ref": {
+                "revision_kind": "artifact",
+                "revision_id": "render-report-001",
+                "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999",
+                "artifact_name": "render_report"
+              }
+            },
+            {
+              "source_key": "render:report",
+              "source_kind": "render_report_output",
+              "sha256": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+            }
+          ],
+          "composite_sha256": "sha256:92255619150871302ff3c7c02efdff3ff7ecc4ebb3a1cb4d7ed99bf0dabadebf"
+        },
+        "diagnostics": []
+      }
+    ],
+    "pagination": {
+      "limit": 50,
+      "has_more": false,
+      "next_cursor": null
+    }
+  }
+}

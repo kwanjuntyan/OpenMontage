@@ -1,8 +1,8 @@
 # Backlot Director Workspace Architecture Contract
 
 > **Contract version**: `backlot.workspace.architecture.v1`
-> **Baseline**: `team-main @ 847cda02baa7a166da8f7a71976013765a5f71f2`
-> **Status**: B0.0A normative document seal; full B0.0 also requires the reviewed, integrated, passing B0.0B enforcement scaffold. This contract does not by itself authorize product-code changes
+> **B0.0 integration baseline**: `team-main @ 661827bee49c57f80b6a5c56b1378bccd7e039f8`; Track A consumer dependency remains pinned separately at `847cda02baa7a166da8f7a71976013765a5f71f2`
+> **Status**: full B0.0 governance baseline integrated; B0.1 contract additions are review-ready on an independent branch but not integrated. This contract does not by itself authorize B0.2 product-code changes
 > **Roadmap and rationale**: `docs/backlot-director-workspace-plan.md`
 
 ## 1. Purpose and precedence
@@ -20,8 +20,9 @@ Before changing `backlot/`, `backlot/ui/`, `tests/backlot/`, `/api/workspace/*`,
 1. `AGENT_GUIDE.md`;
 2. this contract;
 3. `docs/backlot-director-workspace-plan.md`;
-4. `backlot/workspace/README.md` and `tests/backlot/fixtures/workspace/fixture-matrix.v1.json`;
-5. the relevant current Backlot source and tests, including `tests/backlot/test_workspace_governance.py`.
+4. `backlot/workspace/README.md` and `docs/backlot-workspace-field-source-matrix.v1.{md,json}` for B0.1-or-later work;
+5. `schemas/workspace/workspace_projection_v1.schema.json`, `backlot/workspace/projection/{types,contracts}.py`, and `tests/backlot/fixtures/workspace/fixture-matrix.v1.json` for B0.1-or-later work;
+6. the relevant current Backlot source and tests, including `tests/backlot/test_workspace_governance.py` and `tests/backlot/test_workspace_contracts.py`.
 
 If the work touches course semantics, Production Units, checkpoints, qualification, or publication authority, the Agent MUST also read the owning skill, schema, validator, and handoff contract. In particular:
 
@@ -87,6 +88,7 @@ approved official OM readers and validators
 - Reading syntactically valid JSON directly does not establish authority.
 - Invalid authoritative evidence **MUST** fail closed. It **MUST NOT** fall back to a loose file that looks usable.
 - A permitted legacy fallback **MUST** be labeled `display_only + unverified`.
+- Every non-`none` `evidence_scope` **MUST** be supported by a compatible source family cited in the same AuthorityDescriptor: manifest, checkpoint, publication, provider request／receipt, binary observation, and human review scopes are not interchangeable. `none` **MUST NOT** cite evidence and is reserved for `authority_state=unavailable + source_kind=unavailable`; every visible authority-bearing field must cite digest-bound evidence.
 
 ### 4.2 No private producer state
 
@@ -100,6 +102,8 @@ Workspace code **MUST NOT** scan or interpret producer-private state, including:
 
 Missing public contract means `unavailable`, not permission to infer a schema. The M6.0B checkpoint field `metadata.production_units.candidate_handoff`, after official checkpoint validation, is JSON handoff provenance only. It is not unit content, aggregate progress, Human approval, qualification, publication, adoption, or recovery authority.
 
+Each non-empty PUP summary axis **MUST** be backed by an exact source entry also cited by the projection AuthorityDescriptor. Enabled policy requires a project-bound approved proposal checkpoint; qualification requires project-bound profile／matrix content revisions with exact profile identity; execution disposition requires a project-bound `execution-disposition:<value>` content revision whose stage equals the projection authority's source stage. `policy_mode=off` forbids disposition, progress, and candidate handoff.
+
 ### 4.3 Revision lifecycle
 
 - Canonical, pending candidate, execution evidence, display-only data, invalid data, and history **MUST** remain distinct.
@@ -109,7 +113,9 @@ Missing public contract means `unavailable`, not permission to infer a schema. T
 
 ### 4.4 Deterministic snapshots
 
-Every projection and projected revision **MUST** carry a deterministic source set and composite digest. Sorted source identity／digest pairs form the projection token and ETag. Pagination cursors, future intents, previews, and candidate assignments **MUST** bind to the source snapshot that produced them.
+Every projection and projected revision **MUST** carry a deterministic source set and composite digest. The complete canonical source entries—including `source_kind` and optional ResourceRef／RevisionRef bindings—form the projection token and ETag. Nested contracts **MUST** be covered by exact source entries in the outer projection; matching only `source_key + sha256` is insufficient. Pagination cursors, future intents, previews, and candidate assignments **MUST** bind to the source snapshot that produced them.
+
+Every non-projection RevisionRef **MUST** occur as the exact `revision_ref` of a source entry whose digest matches it. A source used to establish an authority-bearing field **MUST** also be cited by that field group's AuthorityDescriptor or evidence bucket; merely existing elsewhere in the snapshot is insufficient. `derived_projection` may aggregate producer evidence but **MUST NOT** claim canonical authority; candidate derivations require awaiting-checkpoint evidence, and execution-evidence derivations require at least one explicitly bound non-legacy producer／observation source in their authority evidence. When legacy evidence participates in a validated or active derivation, **each** legacy evidence entry **MUST** have non-legacy corroboration sharing an exact ResourceRef or RevisionRef binding. Corroborating one legacy entry does not corroborate other legacy entries in the same evidence set. A derived entry or unrelated trusted source may not launder legacy-only evidence.
 
 ## 5. Versioned narrow-waist contracts
 
@@ -137,22 +143,24 @@ A `MediaRef` **MUST** be a typed, authority-aware representation bound to an own
 
 `render_output` identity MUST come from a unique producer-declared output key, such as a validated unique `platform_target`, and its owning render-report revision. A path, array position, or “latest file” heuristic is not identity. If no stable unique output key exists, that final render is `unavailable` to Workspace v1 until a producer contract supplies one.
 
-Producer-declared, tool-observed, and human-reviewed metadata **MUST** remain separately labeled. Filesystem paths and URLs are locators, not identity. A preview proxy is disposable server cache, not a canonical asset.
+Producer-declared, tool-observed, and human-reviewed metadata **MUST** remain separately labeled and each non-empty bucket **MUST** bind its evidence refs to the owning MediaRef source snapshot. Human-reviewed values require explicit `human_review_record` evidence and never imply approval. The owning logical ResourceRef and exact RevisionRef **MUST** occur together in that snapshot; a shared SHA alone is insufficient. Filesystem paths and URLs are locators, not identity. A preview proxy is disposable server cache, not a canonical asset; its source MediaRef, owner revision, and source-content digest **MUST** be exact and non-dangling. Workspace v1 binds that source representation with a `media-id:<source_media_id>` binary-observation source entry whose digest equals the proxy `source_sha256` and whose ResourceRef／RevisionRef exactly match the proxy owner.
 
 ### 5.3 GenerationInstruction
 
-A `GenerationInstruction` **MUST** have a stable ID derived from exact source identity, an owning／creative scope, explicit target refs, a revision／digest, kind, display-safe content, source locator, authority, evidence scope, and unavailable reason.
+A `GenerationInstruction` **MUST** have a stable ID derived from exact source identity, an owning／creative scope, explicit target refs, a revision／digest, kind, display-safe content, source locator, authority, evidence scope, and unavailable reason. Every non-projection RevisionRef **MUST** be represented exactly in its source snapshot; a source with only the same digest does not bind the instruction revision. A non-null source locator **MUST** select one of the source entries actually cited by the instruction's AuthorityDescriptor; that entry's ResourceRef and RevisionRef **MUST** exactly bind the instruction owner and revision, and its source family **MUST** govern the authority claim. Adding an unrelated same-family, derived, or legacy entry to the evidence list does not launder its content.
+
+Workspace v1 provider-input locators accept only exact `provider_request` or `provider_receipt` evidence and their `evidence_scope` **MUST** match that governing locator family. Other v1 instruction kinds accept exact `approved_checkpoint_artifact`, `awaiting_checkpoint_artifact`, `batch_v2_publication`, or display-only `legacy_loose_file` evidence, with checkpoint, publication, or manifest-only scope respectively. Project markers, pipeline manifests, binary observations, review records, and other generally trusted execution families do not govern instruction content merely because they bind the same logical instruction identity.
 
 Creative specification, shared scene instruction, tile／shot delta, negative prompt, and actual provider input **MUST** remain distinguishable. If a provider received one composite-sheet prompt, Backlot MUST NOT fabricate one provider prompt per tile. Missing provider input is `unavailable`; it MUST NOT be reconstructed from scene descriptions, CLP anchors, Style prefixes, or similar text.
 
 ### 5.4 PreviewTimelineProjection
 
-The Preview Player **MUST** consume a versioned, read-only projection produced from validated scene plan, asset manifest, optional valid edit decisions, resolved MediaRefs, and—for `final_render`—a validated render report with stable output identity. It MUST NOT join raw／loose files in the browser.
+The Preview Player **MUST** consume a versioned, read-only projection produced from validated scene plan, asset manifest, optional valid edit decisions, resolved MediaRefs, and—for `final_render`—a validated render report with stable output identity. Scene／shot refs, Candidate Assignment refs, and final render refs **MUST** be bound by exact ResourceRef-bearing source evidence from their owning lifecycle source. It MUST NOT join raw／loose files in the browser.
 
 Fidelity MUST be explicit:
 
 - `planning_preview`: plan-level approximation;
-- `edit_preview`: supported cuts／audio／simple transitions from edit evidence;
+- `edit_preview`: supported cuts／audio／simple transitions from validated scene-plan, asset-manifest, and edit evidence;
 - `final_render`: validated formal output;
 - `candidate_preview` (B5): exact Candidate Assignment preview with `authority_state=candidate`, never canonical.
 
@@ -268,23 +276,25 @@ B0.0B **MUST NOT** register a route, provide a Workspace UI, read a project, imp
 
 B0.0 is complete only when all of the following are true:
 
-- [ ] B0.0A documents and `AGENT_GUIDE.md` route are reviewed and integrated;
-- [ ] B0.0B package／UI seams, fixture inventory, and executable tests are reviewed and integrated;
-- [ ] `tests/backlot/test_workspace_governance.py` passes without skip／xfail;
-- [ ] the guard demonstrably rejects forbidden authority imports, reversed dependencies, private-source access, unsafe fixture references, and missing mandatory entry points;
-- [ ] existing Board source and runtime behavior remain unchanged by B0.0B.
+- [x] B0.0A documents and `AGENT_GUIDE.md` route are reviewed and integrated;
+- [x] B0.0B package／UI seams, fixture inventory, and executable tests are reviewed and integrated;
+- [x] `tests/backlot/test_workspace_governance.py` passes without skip／xfail;
+- [x] the guard demonstrably rejects forbidden authority imports, reversed dependencies, private-source access, unsafe fixture references, and missing mandatory entry points;
+- [x] existing Board source and runtime behavior remain unchanged by B0.0B.
 
 ### B0.1 schema and fixture materialization
 
 B0.1 MUST NOT start until:
 
-- [ ] full B0.0A＋B0.0B is reviewed, merged／available to the implementing worktree, and its governance test passes;
-- [ ] the user explicitly authorizes B0.1;
-- [ ] the field/source/reader/validator/authority/degradation/owner matrix scope, template, and source owners are approved;
-- [ ] feature-flag, versioning, no-write, legacy parity, path-safety, and large-course fixture plans are approved;
-- [ ] no B0～B2 wire-shape decision remains unowned or left for UI inference.
+- [x] full B0.0A＋B0.0B is reviewed, merged／available to the implementing worktree, and its governance test passes;
+- [x] the user explicitly authorizes B0.1;
+- [x] the field/source/reader/validator/authority/degradation/owner matrix scope, template, and source owners are approved;
+- [x] feature-flag, versioning, no-write, legacy parity, path-safety, and large-course fixture plans are approved;
+- [x] no B0～B2 wire-shape decision required by this v1 contract remains unowned or left for UI inference.
 
 B0.1 completes the field／source authority matrix and materializes ResourceRef, RevisionRef, AuthorityDescriptor, WorkspaceProjection, MediaRef, GenerationInstruction, PreviewTimeline, capability, diagnostic, pagination, and typed-relation schemas plus positive／negative fixtures. Candidate Set／Assignment remains a forward identity／relation boundary; B0.1 MUST NOT add its persistence or mutation. B0.1 is complete only after the matrix, schemas, and fixtures receive independent contract review. It MUST NOT add Workspace runtime routes or UI.
+
+The reviewed B0.1 artifact set is fixed at `docs/backlot-workspace-field-source-matrix.v1.{md,json}`, `schemas/workspace/workspace_projection_v1.schema.json`, `backlot/workspace/projection/{types,contracts}.py`, `tests/backlot/test_workspace_contracts.py`, and the B0.1-owned entries in `tests/backlot/fixtures/workspace/fixture-matrix.v1.json`. Adding a competing schema bundle, authority matrix, or precedence implementation requires the change protocol in this contract.
 
 ### B0.2 resolver and Workspace foundation
 

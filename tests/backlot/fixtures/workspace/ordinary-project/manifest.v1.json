@@ -1,0 +1,28 @@
+{
+  "version": "backlot.workspace.fixture-set.v1",
+  "scenario_id": "ordinary-project",
+  "cases": [
+    {
+      "id": "workspace-catalog",
+      "expect": "valid",
+      "domain_expectation": "positive",
+      "projection": "catalog.valid.json",
+      "covers": [
+        "catalog item authority is source-snapshot bound",
+        "catalog uses explicit workspace service scope",
+        "ordinary project remains discoverable"
+      ]
+    },
+    {
+      "id": "ordinary-shell",
+      "expect": "valid",
+      "domain_expectation": "positive",
+      "projection": "ordinary-shell.valid.json",
+      "covers": [
+        "ordinary project remains non-course",
+        "no course or PUP authority is invented",
+        "legacy Board contract remains compatible"
+      ]
+    }
+  ]
+}

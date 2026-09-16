@@ -1,0 +1,349 @@
+{
+  "projection_version": "backlot.workspace.v1",
+  "projection_kind": "generation_instruction_collection",
+  "data_schema": "backlot.workspace.generation-instruction-collection.v1",
+  "resource_ref": {
+    "project_id": "course-assets",
+    "kind": "scene",
+    "stage": null,
+    "local_id": "scene-01",
+    "resource_key": "scene_course_assets_01",
+    "parent_refs": [],
+    "relation_refs": []
+  },
+  "revision_ref": {
+    "revision_kind": "projection",
+    "revision_id": "generation-instructions-scene-01",
+    "sha256": "sha256:8d9f925c9c9baf7b899232f1338b2a1f45e40ed0095bc71e5b67c192685e4820"
+  },
+  "source_snapshot": {
+    "algorithm": "canonical-source-entries-v1",
+    "sources": [
+      {
+        "source_key": "assets:publication",
+        "source_kind": "batch_v2_publication",
+        "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+      },
+      {
+        "source_key": "instruction-revision:scene-01-provider-input-recorded",
+        "source_kind": "provider_request",
+        "sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "generation_instruction",
+          "stage": null,
+          "local_id": "scene-01-provider-input-recorded",
+          "resource_key": "instruction_scene01_03"
+        },
+        "revision_ref": {
+          "revision_kind": "content",
+          "revision_id": "provider-request-scene-01-shot-02",
+          "sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        }
+      },
+      {
+        "source_key": "instruction-revision:scene-01-shared-creative-spec",
+        "source_kind": "batch_v2_publication",
+        "sha256": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "generation_instruction",
+          "stage": null,
+          "local_id": "scene-01-shared-creative-spec",
+          "resource_key": "instruction_scene01_01"
+        },
+        "revision_ref": {
+          "revision_kind": "content",
+          "revision_id": "creative-spec-v1",
+          "sha256": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        }
+      },
+      {
+        "source_key": "provider:request:scene-01-shot-02",
+        "source_kind": "provider_request",
+        "sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    ],
+    "composite_sha256": "sha256:8d9f925c9c9baf7b899232f1338b2a1f45e40ed0095bc71e5b67c192685e4820"
+  },
+  "authority": {
+    "authority_state": "execution_evidence",
+    "validation_state": "validated",
+    "source_kind": "derived_projection",
+    "evidence_scope": "publication_validated",
+    "source_stage": "assets",
+    "checkpoint_status": "completed",
+    "human_approved": false,
+    "historically_frozen": false,
+    "evidence_refs": [
+      {
+        "source_key": "assets:publication",
+        "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+      },
+      {
+        "source_key": "provider:request:scene-01-shot-02",
+        "sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+      }
+    ],
+    "degraded_reasons": [
+      "provider_input_unavailable"
+    ]
+  },
+  "capabilities": {
+    "view": {
+      "available": true,
+      "reason": null
+    },
+    "mutate": {
+      "available": false,
+      "reason": "observer_only"
+    }
+  },
+  "diagnostics": [],
+  "data": {
+    "version": "backlot.workspace.generation-instruction-collection.v1",
+    "items": [
+      {
+        "instruction_id": "scene-01-shared-creative-spec",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "generation_instruction",
+          "stage": null,
+          "local_id": "scene-01-shared-creative-spec",
+          "resource_key": "instruction_scene01_01",
+          "parent_refs": [],
+          "relation_refs": []
+        },
+        "creative_scope_ref": {
+          "project_id": "course-assets",
+          "kind": "scene",
+          "stage": null,
+          "local_id": "scene-01",
+          "resource_key": "scene_course_assets_01"
+        },
+        "target_refs": [
+          {
+            "project_id": "course-assets",
+            "kind": "shot",
+            "stage": null,
+            "local_id": "shot-01",
+            "resource_key": "shot_scene01_01"
+          },
+          {
+            "project_id": "course-assets",
+            "kind": "shot",
+            "stage": null,
+            "local_id": "shot-02",
+            "resource_key": "shot_scene01_02"
+          }
+        ],
+        "revision_ref": {
+          "revision_kind": "content",
+          "revision_id": "creative-spec-v1",
+          "sha256": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+        },
+        "instruction_kind": "creative_specification",
+        "application_scope": "shared_scene",
+        "display_content": "A coherent classroom space shared across the selected shots.",
+        "source_locator": {
+          "source_key": "instruction-revision:scene-01-shared-creative-spec",
+          "field_pointer": "/assets/0/generation_spec"
+        },
+        "authority": {
+          "authority_state": "execution_evidence",
+          "validation_state": "validated",
+          "source_kind": "batch_v2_publication",
+          "evidence_scope": "publication_validated",
+          "source_stage": "assets",
+          "checkpoint_status": "completed",
+          "human_approved": false,
+          "historically_frozen": true,
+          "evidence_refs": [
+            {
+              "source_key": "instruction-revision:scene-01-shared-creative-spec",
+              "sha256": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+            }
+          ],
+          "degraded_reasons": []
+        },
+        "source_snapshot": {
+          "algorithm": "canonical-source-entries-v1",
+          "sources": [
+            {
+              "source_key": "assets:publication",
+              "source_kind": "batch_v2_publication",
+              "sha256": "sha256:5555555555555555555555555555555555555555555555555555555555555555"
+            },
+            {
+              "source_key": "instruction-revision:scene-01-shared-creative-spec",
+              "source_kind": "batch_v2_publication",
+              "sha256": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+              "resource_ref": {
+                "project_id": "course-assets",
+                "kind": "generation_instruction",
+                "stage": null,
+                "local_id": "scene-01-shared-creative-spec",
+                "resource_key": "instruction_scene01_01"
+              },
+              "revision_ref": {
+                "revision_kind": "content",
+                "revision_id": "creative-spec-v1",
+                "sha256": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+              }
+            }
+          ],
+          "composite_sha256": "sha256:b9f76f9398ba2d5d6b27029e8bf14730d3592cd9dea50a83e4232f037c5634f3"
+        },
+        "unavailable_reason": null
+      },
+      {
+        "instruction_id": "scene-01-provider-input-missing",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "generation_instruction",
+          "stage": null,
+          "local_id": "scene-01-provider-input-missing",
+          "resource_key": "instruction_scene01_02",
+          "parent_refs": [],
+          "relation_refs": []
+        },
+        "creative_scope_ref": {
+          "project_id": "course-assets",
+          "kind": "scene",
+          "stage": null,
+          "local_id": "scene-01",
+          "resource_key": "scene_course_assets_01"
+        },
+        "target_refs": [
+          {
+            "project_id": "course-assets",
+            "kind": "shot",
+            "stage": null,
+            "local_id": "shot-01",
+            "resource_key": "shot_scene01_01"
+          }
+        ],
+        "revision_ref": {
+          "revision_kind": "projection",
+          "revision_id": "provider-input-unavailable",
+          "sha256": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "instruction_kind": "provider_input",
+        "application_scope": "single_target",
+        "display_content": null,
+        "source_locator": null,
+        "authority": {
+          "authority_state": "unavailable",
+          "validation_state": "unverified",
+          "source_kind": "unavailable",
+          "evidence_scope": "none",
+          "source_stage": "assets",
+          "checkpoint_status": "absent",
+          "human_approved": null,
+          "historically_frozen": null,
+          "evidence_refs": [],
+          "degraded_reasons": [
+            "provider_input_not_recorded"
+          ]
+        },
+        "source_snapshot": {
+          "algorithm": "canonical-source-entries-v1",
+          "sources": [],
+          "composite_sha256": "sha256:4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+        },
+        "unavailable_reason": "provider_input_not_recorded"
+      },
+      {
+        "instruction_id": "scene-01-provider-input-recorded",
+        "resource_ref": {
+          "project_id": "course-assets",
+          "kind": "generation_instruction",
+          "stage": null,
+          "local_id": "scene-01-provider-input-recorded",
+          "resource_key": "instruction_scene01_03",
+          "parent_refs": [],
+          "relation_refs": []
+        },
+        "creative_scope_ref": {
+          "project_id": "course-assets",
+          "kind": "scene",
+          "stage": null,
+          "local_id": "scene-01",
+          "resource_key": "scene_course_assets_01"
+        },
+        "target_refs": [
+          {
+            "project_id": "course-assets",
+            "kind": "shot",
+            "stage": null,
+            "local_id": "shot-02",
+            "resource_key": "shot_scene01_02"
+          }
+        ],
+        "revision_ref": {
+          "revision_kind": "content",
+          "revision_id": "provider-request-scene-01-shot-02",
+          "sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+        },
+        "instruction_kind": "provider_input",
+        "application_scope": "single_target",
+        "display_content": "Wide classroom establishing frame, coherent daylight and fixed desk layout.",
+        "source_locator": {
+          "source_key": "instruction-revision:scene-01-provider-input-recorded",
+          "field_pointer": "/request/prompt"
+        },
+        "authority": {
+          "authority_state": "execution_evidence",
+          "validation_state": "validated",
+          "source_kind": "provider_request",
+          "evidence_scope": "provider_request",
+          "source_stage": "assets",
+          "checkpoint_status": null,
+          "human_approved": null,
+          "historically_frozen": true,
+          "evidence_refs": [
+            {
+              "source_key": "instruction-revision:scene-01-provider-input-recorded",
+              "sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+            }
+          ],
+          "degraded_reasons": []
+        },
+        "source_snapshot": {
+          "algorithm": "canonical-source-entries-v1",
+          "sources": [
+            {
+              "source_key": "instruction-revision:scene-01-provider-input-recorded",
+              "source_kind": "provider_request",
+              "sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+              "resource_ref": {
+                "project_id": "course-assets",
+                "kind": "generation_instruction",
+                "stage": null,
+                "local_id": "scene-01-provider-input-recorded",
+                "resource_key": "instruction_scene01_03"
+              },
+              "revision_ref": {
+                "revision_kind": "content",
+                "revision_id": "provider-request-scene-01-shot-02",
+                "sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+              }
+            },
+            {
+              "source_key": "provider:request:scene-01-shot-02",
+              "source_kind": "provider_request",
+              "sha256": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+            }
+          ],
+          "composite_sha256": "sha256:72b3da1bfca5a455124085b33425375cc94bc581faf969b75f95ac8a73590d84"
+        },
+        "unavailable_reason": null
+      }
+    ],
+    "pagination": {
+      "limit": 50,
+      "has_more": false,
+      "next_cursor": null
+    }
+  }
+}

@@ -1,7 +1,7 @@
 {
   "version": "backlot.workspace.fixture-matrix.v1",
-  "status": "coverage_inventory_only",
-  "purpose": "B0.0B anti-drift inventory. Baseline evidence is not a Workspace golden: B0.1 must materialize schema-valid consumer fixtures and B0.2 must add runtime and performance fixtures.",
+  "status": "b0_1_consumer_fixtures_materialized",
+  "purpose": "B0.1 schema-valid consumer wire goldens plus retained source-baseline evidence. These are not canonical project trees, runtime resolver fixtures, or B0.2 performance evidence.",
   "required_variants": [
     "zero-entity-clp",
     "validated-batch-v2-publication",
@@ -25,9 +25,10 @@
         "gap": null
       },
       "consumer_fixture": {
-        "status": "pending",
+        "status": "materialized",
         "owner_phase": "B0.1",
-        "path": "tests/backlot/fixtures/workspace/ordinary-project"
+        "path": "tests/backlot/fixtures/workspace/ordinary-project",
+        "manifest": "tests/backlot/fixtures/workspace/ordinary-project/manifest.v1.json"
       },
       "runtime_acceptance": ["B0.2"],
       "variants": [],
@@ -50,9 +51,10 @@
         "gap": "Course, Style, and CLP have separate producer or legacy Board evidence, but no integrated Workspace projection fixture."
       },
       "consumer_fixture": {
-        "status": "pending",
+        "status": "materialized",
         "owner_phase": "B0.1",
-        "path": "tests/backlot/fixtures/workspace/course-with-style-and-clp"
+        "path": "tests/backlot/fixtures/workspace/course-with-style-and-clp",
+        "manifest": "tests/backlot/fixtures/workspace/course-with-style-and-clp/manifest.v1.json"
       },
       "runtime_acceptance": ["B1", "B2"],
       "variants": ["zero-entity-clp"],
@@ -73,9 +75,10 @@
         "gap": "Legacy Board asset and delivery behavior exists, but there is no common authority-aware Workspace asset/media projection fixture."
       },
       "consumer_fixture": {
-        "status": "pending",
+        "status": "materialized",
         "owner_phase": "B0.1",
-        "path": "tests/backlot/fixtures/workspace/course-with-assets"
+        "path": "tests/backlot/fixtures/workspace/course-with-assets",
+        "manifest": "tests/backlot/fixtures/workspace/course-with-assets/manifest.v1.json"
       },
       "runtime_acceptance": ["B2"],
       "variants": [
@@ -103,9 +106,10 @@
         "gap": "Producer no-op semantics exist, but no approved-course Workspace projection combines them with disabled unit details."
       },
       "consumer_fixture": {
-        "status": "pending",
+        "status": "materialized",
         "owner_phase": "B0.1",
-        "path": "tests/backlot/fixtures/workspace/pup-disabled"
+        "path": "tests/backlot/fixtures/workspace/pup-disabled",
+        "manifest": "tests/backlot/fixtures/workspace/pup-disabled/manifest.v1.json"
       },
       "runtime_acceptance": ["B0.2"],
       "variants": [],
@@ -126,15 +130,16 @@
         "gap": "Opt-in policy and experimental vocabulary exist, but no sanitized B3 unit-inspection projection exists."
       },
       "consumer_fixture": {
-        "status": "pending",
+        "status": "materialized",
         "owner_phase": "B0.1",
-        "path": "tests/backlot/fixtures/workspace/pup-enabled"
+        "path": "tests/backlot/fixtures/workspace/pup-enabled",
+        "manifest": "tests/backlot/fixtures/workspace/pup-enabled/manifest.v1.json"
       },
       "runtime_acceptance": ["B0.2", "B3"],
       "variants": ["failed-progress", "stale-progress"],
       "must_prove": [
         "policy mode and qualification are separate",
-        "experimental never means production qualified",
+        "unknown qualification is not upgraded from policy, progress, or handoff",
         "private recovery state remains unavailable"
       ]
     },
@@ -148,9 +153,10 @@
         "gap": "Generic awaiting-human evidence exists, but no Workspace fixture models candidate, current-canonical absence, and history together."
       },
       "consumer_fixture": {
-        "status": "pending",
+        "status": "materialized",
         "owner_phase": "B0.1",
-        "path": "tests/backlot/fixtures/workspace/pending-candidate"
+        "path": "tests/backlot/fixtures/workspace/pending-candidate",
+        "manifest": "tests/backlot/fixtures/workspace/pending-candidate/manifest.v1.json"
       },
       "runtime_acceptance": ["B0.2", "B1"],
       "variants": [],
@@ -172,9 +178,10 @@
         "gap": "Existing cases prove selected degradation paths, but not every Workspace source family or projection envelope."
       },
       "consumer_fixture": {
-        "status": "pending",
+        "status": "materialized",
         "owner_phase": "B0.1",
-        "path": "tests/backlot/fixtures/workspace/missing-or-invalid-artifact"
+        "path": "tests/backlot/fixtures/workspace/missing-or-invalid-artifact",
+        "manifest": "tests/backlot/fixtures/workspace/missing-or-invalid-artifact/manifest.v1.json"
       },
       "runtime_acceptance": ["B0.2", "B1", "B2"],
       "variants": [],
