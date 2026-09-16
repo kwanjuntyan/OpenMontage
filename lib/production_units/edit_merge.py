@@ -10,6 +10,7 @@ from lib.clp_validator import canonical_digest, canonical_json_bytes
 from schemas.artifacts import validate_artifact
 
 from .scene_plan_merge import ProductionUnitError
+from .contracts import execution_report_fields, resolve_execution_contract
 
 
 _TOLERANCE = 1e-6
@@ -293,16 +294,26 @@ def merge_edit_units(
     }
 
 
-def run_edit_units(*, mode: str | None = "off", **kwargs: Any) -> dict[str, Any] | None:
+def run_edit_units(
+    *,
+    production_unit_policy: Mapping[str, Any] | None = None,
+    execution_disposition: str | None = None,
+    mode: str | None = None,
+    **kwargs: Any,
+) -> dict[str, Any] | None:
     """Strict no-op when off; otherwise merge a candidate without publishing."""
 
-    if mode in (None, "off"):
+    contract = resolve_execution_contract(
+        stage="edit",
+        production_unit_policy=production_unit_policy,
+        execution_disposition=execution_disposition,
+        legacy_mode=mode,
+    )
+    if contract is None:
         return None
-    if mode not in {"compare_only", "publish_candidate"}:
-        _fail("UNSUPPORTED_MODE", f"unsupported edit production-unit mode {mode!r}")
     result = merge_edit_units(**kwargs)
     return {
-        "mode": mode,
-        "publish_allowed": mode == "publish_candidate",
+        **execution_report_fields(contract),
+        "publish_allowed": contract["execution_disposition"] == "publish_candidate",
         "candidate": result,
     }

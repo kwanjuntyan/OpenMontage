@@ -41,6 +41,10 @@ pass all post-render review steps below plus the existing checkpoint and Human
 Gate. PUP never authorizes a runtime swap or media call. Missing policy or
 `mode=off` follows the monolithic route unchanged.
 
+Treat `production_unit_policy.mode` (`off|auto|fixed`) and the helper
+`execution_disposition` (`compare_only|publish_candidate`) as separate fields.
+Neither disposition authorizes a render, runtime swap, checkpoint, or publish.
+
 For course form, label the verified full-master assembly command with
 `platform_target="course_master"`. If the approved course manifest requires
 independent lesson exports, assemble the exact receipt subset for each lesson

@@ -2,8 +2,10 @@
 
 This module is deliberately pure: it reads no project files, creates no
 sidecars, writes no checkpoints, and never publishes a canonical artifact.
-Callers must opt in with ``mode="compare_only"``.  ``mode="off"`` returns
-before validating or touching any production-unit input.
+Canonical callers provide a non-off approved policy plus
+``execution_disposition="compare_only"``. The M2-M5 ``mode`` keyword remains
+only as a compatibility alias; ``mode="off"`` returns before validating or
+touching any production-unit input.
 """
 
 from __future__ import annotations
@@ -20,6 +22,8 @@ from lib.clp_validator import (
     validate_clp_shot_bindings_or_raise,
 )
 from schemas.artifacts import load_schema, validate_artifact
+
+from .contracts import execution_report_fields, resolve_execution_contract
 
 
 DEFAULT_TARGET_DURATION_SECONDS = 180.0
@@ -682,7 +686,9 @@ def _validate_complete_bundle(
 
 def run_scene_plan_compare(
     *,
-    mode: str | None = "off",
+    production_unit_policy: Mapping[str, Any] | None = None,
+    execution_disposition: str | None = None,
+    mode: str | None = None,
     script: Mapping[str, Any] | None = None,
     clp_manifest: Mapping[str, Any] | None = None,
     style_context: Mapping[str, Any] | None = None,
@@ -694,12 +700,21 @@ def run_scene_plan_compare(
 ) -> dict[str, Any] | None:
     """Run the in-memory M2a comparison path, or do exactly nothing when off."""
 
-    if mode in (None, "off"):
+    contract = resolve_execution_contract(
+        stage="scene_plan",
+        production_unit_policy=production_unit_policy,
+        execution_disposition=execution_disposition,
+        legacy_mode=mode,
+        allowed_dispositions={"compare_only"},
+        helper_target_seconds=target_duration_seconds,
+        helper_hard_max_seconds=hard_max_duration_seconds,
+    )
+    if contract is None:
         return None
-    if mode != "compare_only":
-        _fail("UNSUPPORTED_MODE", f"M2a only permits 'off' or 'compare_only', got {mode!r}")
     if script is None or clp_manifest is None or style_context is None:
         _fail("MISSING_INPUT", "compare_only requires approved script, canonical CLP, and style context")
+    target_duration_seconds = contract["target_seconds"]
+    hard_max_duration_seconds = contract["hard_max_seconds"]
     approved_style_context = _validated_style_context(style_context)
     units = build_scene_plan_units(
         script,
@@ -710,7 +725,7 @@ def run_scene_plan_compare(
         max_capsule_bytes=max_capsule_bytes,
     )
     report: dict[str, Any] = {
-        "mode": "compare_only",
+        **execution_report_fields(contract),
         "publish_allowed": False,
         "units": units,
         "source_script_sha256": canonical_digest(dict(script)),

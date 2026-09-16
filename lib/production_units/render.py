@@ -12,6 +12,7 @@ from lib.clp_validator import canonical_digest
 from schemas.artifacts import validate_artifact
 
 from .scene_plan_merge import ProductionUnitError
+from .contracts import execution_report_fields, resolve_execution_contract
 
 
 _DIGEST = re.compile(r"^sha256:[0-9a-f]{64}$")
@@ -378,15 +379,25 @@ def make_assembly_receipt(
     return {"assembly_receipt": receipt, "render_report": report}
 
 
-def run_render_units(*, mode: str | None = "off", **kwargs: Any) -> Any:
+def run_render_units(
+    *,
+    production_unit_policy: Mapping[str, Any] | None = None,
+    execution_disposition: str | None = None,
+    mode: str | None = None,
+    **kwargs: Any,
+) -> Any:
     """Strict no-op when off; prepare commands only when explicitly enabled."""
 
-    if mode in (None, "off"):
+    contract = resolve_execution_contract(
+        stage="compose",
+        production_unit_policy=production_unit_policy,
+        execution_disposition=execution_disposition,
+        legacy_mode=mode,
+    )
+    if contract is None:
         return None
-    if mode not in {"compare_only", "publish_candidate"}:
-        _fail("UNSUPPORTED_MODE", f"unsupported render production-unit mode {mode!r}")
     return {
-        "mode": mode,
+        **execution_report_fields(contract),
         "publish_allowed": False,
         "commands": build_unit_render_commands(**kwargs),
     }

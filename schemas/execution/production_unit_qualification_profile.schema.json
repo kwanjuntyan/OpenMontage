@@ -1,0 +1,202 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmontage.local/schemas/execution/production_unit_qualification_profile.schema.json",
+  "title": "Production Unit Qualification Profile",
+  "description": "One exact pipeline/runtime/provider/media qualification claim. Manifest support alone is not qualification.",
+  "type": "object",
+  "required": [
+    "version",
+    "profile_id",
+    "profile_version",
+    "source",
+    "pipeline",
+    "content_form",
+    "supported_stages",
+    "render",
+    "asset_route",
+    "media_profile",
+    "qualification_status",
+    "environment",
+    "evidence",
+    "requalification_triggers"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": "1.0" },
+    "profile_id": { "$ref": "#/$defs/id" },
+    "profile_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "source": {
+      "type": "object",
+      "required": ["git_commit", "pipeline_manifest", "schemas", "adapters"],
+      "additionalProperties": false,
+      "properties": {
+        "git_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+        "pipeline_manifest": { "$ref": "#/$defs/versioned_binding" },
+        "schemas": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/versioned_binding" }
+        },
+        "adapters": {
+          "type": "array",
+          "minItems": 1,
+          "items": { "$ref": "#/$defs/versioned_binding" }
+        }
+      }
+    },
+    "pipeline": { "type": "string", "minLength": 1 },
+    "content_form": { "enum": ["short_form", "long_form", "course_form"] },
+    "supported_stages": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "$ref": "#/$defs/stage" }
+    },
+    "render": {
+      "type": "object",
+      "required": ["runtime", "composition_mode"],
+      "additionalProperties": false,
+      "properties": {
+        "runtime": { "enum": ["remotion", "hyperframes", "ffmpeg"] },
+        "composition_mode": { "type": "string", "minLength": 1 }
+      }
+    },
+    "asset_route": {
+      "type": "object",
+      "required": ["route", "provider", "model", "adapter_version"],
+      "additionalProperties": false,
+      "properties": {
+        "route": { "enum": ["batch_v2_owned", "local_only", "none"] },
+        "provider": { "type": ["string", "null"] },
+        "model": { "type": ["string", "null"] },
+        "adapter_version": { "type": "string", "minLength": 1 }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "route": { "const": "batch_v2_owned" } }, "required": ["route"] },
+          "then": {
+            "properties": {
+              "provider": { "type": "string", "minLength": 1 },
+              "model": { "type": "string", "minLength": 1 }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "route": { "const": "local_only" } }, "required": ["route"] },
+          "then": {
+            "properties": {
+              "provider": { "type": "string", "minLength": 1 },
+              "model": {
+                "anyOf": [
+                  { "type": "string", "minLength": 1 },
+                  { "type": "null" }
+                ]
+              }
+            }
+          }
+        },
+        {
+          "if": { "properties": { "route": { "const": "none" } }, "required": ["route"] },
+          "then": {
+            "properties": {
+              "provider": { "type": "null" },
+              "model": { "type": "null" }
+            }
+          }
+        }
+      ]
+    },
+    "media_profile": {
+      "type": "object",
+      "required": ["name", "version", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "qualification_status": { "$ref": "#/$defs/status" },
+    "qualified_at": { "type": "string", "format": "date-time" },
+    "environment": {
+      "type": "object",
+      "required": ["os", "os_version", "runtime", "runtime_version", "hardware"],
+      "additionalProperties": false,
+      "properties": {
+        "os": { "type": "string", "minLength": 1 },
+        "os_version": { "type": "string", "minLength": 1 },
+        "runtime": { "type": "string", "minLength": 1 },
+        "runtime_version": { "type": "string", "minLength": 1 },
+        "hardware": {
+          "type": "object",
+          "required": ["cpu", "ram_bytes", "gpu", "vram_bytes"],
+          "additionalProperties": false,
+          "properties": {
+            "cpu": { "type": "string", "minLength": 1 },
+            "ram_bytes": { "type": "integer", "minimum": 1 },
+            "gpu": { "type": ["string", "null"] },
+            "vram_bytes": { "type": ["integer", "null"], "minimum": 0 }
+          }
+        }
+      }
+    },
+    "evidence": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["evidence_id", "kind", "ref", "sha256"],
+        "additionalProperties": false,
+        "properties": {
+          "evidence_id": { "$ref": "#/$defs/id" },
+          "kind": {
+            "enum": ["contract_tests", "offline_matrix", "media_qualification", "beta_e2e", "production_sample", "review"]
+          },
+          "ref": { "type": "string", "minLength": 1 },
+          "sha256": { "$ref": "#/$defs/digest" }
+        }
+      }
+    },
+    "requalification_triggers": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": {
+        "enum": [
+          "git_commit_changed",
+          "pipeline_manifest_changed",
+          "schema_changed",
+          "adapter_changed",
+          "provider_or_model_changed",
+          "runtime_changed",
+          "media_profile_changed",
+          "os_or_hardware_changed",
+          "evidence_expired"
+        ]
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "stage": { "enum": ["script", "clp", "scene_plan", "assets", "edit", "compose"] },
+    "status": {
+      "enum": ["unknown", "unsupported", "experimental", "code_complete", "beta_qualified", "production_qualified", "disabled", "invalid"]
+    },
+    "versioned_binding": {
+      "type": "object",
+      "required": ["name", "version", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "name": { "type": "string", "minLength": 1 },
+        "version": { "type": "string", "minLength": 1 },
+        "sha256": { "$ref": "#/$defs/digest" }
+      }
+    }
+  }
+}

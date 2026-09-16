@@ -25,6 +25,10 @@ run every normal verification and persist it through this director's existing
 checkpoint path. Missing policy or `mode=off` uses the monolithic process below
 unchanged.
 
+Treat `production_unit_policy.mode` (`off|auto|fixed`) and the helper
+`execution_disposition` (`compare_only|publish_candidate`) as separate fields.
+Never write an execution disposition into the proposal policy.
+
 ## Process
 
 ### Step 1: Map Assets to Timeline

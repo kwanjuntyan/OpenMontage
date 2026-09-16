@@ -154,3 +154,30 @@ def test_policy_shape_is_typed_and_closed() -> None:
 
     with pytest.raises(jsonschema.ValidationError):
         validate_artifact("proposal_packet", proposal)
+
+
+def test_enabled_policy_requires_at_least_one_stage() -> None:
+    proposal = sample_artifact("proposal_packet")
+    proposal["production_plan"]["production_unit_policy"] = {
+        "mode": "auto",
+        "target_seconds": 180,
+        "boundary_priority": "semantic_first",
+        "oversize_policy": "allow_with_reason",
+        "enabled_stages": [],
+    }
+
+    with pytest.raises(jsonschema.ValidationError):
+        validate_artifact("proposal_packet", proposal)
+
+
+@pytest.mark.parametrize("disposition", ["compare_only", "publish_candidate"])
+def test_execution_disposition_cannot_be_written_as_policy_mode(
+    disposition: str,
+) -> None:
+    proposal = sample_artifact("proposal_packet")
+    proposal["production_plan"]["production_unit_policy"] = {
+        "mode": disposition
+    }
+
+    with pytest.raises(jsonschema.ValidationError):
+        validate_artifact("proposal_packet", proposal)

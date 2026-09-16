@@ -70,7 +70,28 @@ candidate. Failed or stale units can be regenerated independently, but neither
 receipts nor candidates are canonical artifacts until the existing director,
 checkpoint writer, final review, and Human Gate accept them.
 
-## Modes
+## Two-axis execution vocabulary
+
+Never use one `mode` field for both policy and execution intent.
+
+| Axis | Values | Authority |
+|---|---|---|
+| Approved proposal policy | `off`, `auto`, `fixed` | `proposal_packet.production_plan.production_unit_policy.mode` |
+| Stage-internal execution disposition | `compare_only`, `publish_candidate` | The bounded helper call/unit execution contract |
+
+Legal mappings are deliberately small: `off` has no execution disposition and
+is a strict no-op; `auto` or `fixed` may request `compare_only` or
+`publish_candidate` only for a stage listed in the approved policy. An absent
+policy is `off`. A disposition without an approved non-off policy, a stage not
+listed in `enabled_stages`, mixed legacy/canonical arguments, or a disposition
+unsupported by that helper fails closed.
+
+M2-M5 Python helpers temporarily retain their old `mode="compare_only"` /
+`mode="publish_candidate"` keyword as a compatibility alias. New code must pass
+`production_unit_policy=...` and `execution_disposition=...`; the compatibility
+alias is not a proposal mode and must not appear in proposal artifacts.
+
+## Policy modes
 
 ### `off` (default)
 
@@ -78,6 +99,19 @@ Missing policy and explicit `off` mean the same thing. Follow the existing
 scene-director process unchanged. Do not import or call Production Unit
 helpers, create `.production-units/`, alter artifacts, add checkpoint
 metadata, or change the Human Gate.
+
+### `auto`
+
+The approved semantic boundaries are derived using the configured soft target.
+This selects PUP policy, but does not by itself select an execution disposition
+or grant publication authority.
+
+### `fixed`
+
+The approved boundary configuration is fixed for the run. It still requires a
+separate execution disposition and carries no publication authority.
+
+## Execution dispositions
 
 ### `compare_only`
 
@@ -88,10 +122,34 @@ The helper only returns a candidate/report and always reports
 `publish_allowed: false`.
 
 Script and CLP use `run_script_units` and `run_clp_units`. They accept the same
-default-off contract. Their `publish_candidate` mode only returns a validated
-in-memory candidate; it grants no checkpoint, gate, provider, or filesystem
-authority. The normal stage director must still review and pass the candidate
-to the existing checkpoint writer.
+default-off contract. Their `publish_candidate` disposition only returns a
+validated in-memory candidate; it grants no checkpoint, gate, provider, or
+filesystem authority. The normal stage director must still review and pass the
+candidate to the existing checkpoint writer.
+
+### `publish_candidate`
+
+This disposition permits a helper to return a validated candidate to the
+owning director. It is not canonical publication. The director, reviewer,
+canonical validator, checkpoint writer, and existing Human Gate remain the
+only handoff path. Asset and render adapters may still report
+`publish_allowed: false` because Batch V2 and the existing render/checkpoint
+contracts retain their separate authority.
+
+## Qualification profile and capability matrix
+
+`schemas/execution/production_unit_qualification_profile.schema.json` binds a
+claim to exact Git, pipeline manifest, schemas, adapters, pipeline/content
+form/stages, runtime/composition mode, provider/model/asset route, media
+profile, OS/runtime/hardware, evidence digests, and requalification triggers.
+`schemas/execution/production_unit_capability_matrix.schema.json` projects
+those exact profiles for consumers. The safe status vocabulary is `unknown`,
+`unsupported`, `experimental`, `code_complete`, `beta_qualified`,
+`production_qualified`, `disabled`, and `invalid`.
+
+`pipeline_manifest.extensions.production_units.supported: true` means only
+that the pipeline implements an opt-in route. It never upgrades a profile's
+qualification status. Only exact versioned evidence may do that.
 
 For script, every approved lesson is owned once, every narration section maps
 to exactly one owned lesson, global timestamps remain authoritative, and legal

@@ -19,6 +19,8 @@ from lib.clp_validator import (
 )
 from schemas.artifacts import validate_artifact
 
+from .contracts import execution_report_fields, resolve_execution_contract
+
 
 class AssetBatchIntegrationError(ValueError):
     """Fail-closed PUP-to-Batch integration error with a stable code."""
@@ -386,16 +388,26 @@ def bind_batch_result(
     return bound
 
 
-def run_asset_units(*, mode: str | None = "off", **kwargs: Any) -> dict[str, Any] | None:
+def run_asset_units(
+    *,
+    production_unit_policy: Mapping[str, Any] | None = None,
+    execution_disposition: str | None = None,
+    mode: str | None = None,
+    **kwargs: Any,
+) -> dict[str, Any] | None:
     """Strict no-op when off; otherwise compile only, never execute or publish."""
 
-    if mode in (None, "off"):
+    contract = resolve_execution_contract(
+        stage="assets",
+        production_unit_policy=production_unit_policy,
+        execution_disposition=execution_disposition,
+        legacy_mode=mode,
+    )
+    if contract is None:
         return None
-    if mode not in {"compare_only", "publish_candidate"}:
-        _fail("UNSUPPORTED_MODE", f"unsupported asset production-unit mode {mode!r}")
     compiled = compile_asset_batch_request(**kwargs)
     return {
-        "mode": mode,
+        **execution_report_fields(contract),
         "publish_allowed": False,
         **compiled,
     }

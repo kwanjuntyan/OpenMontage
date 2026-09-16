@@ -1,0 +1,108 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://openmontage.local/schemas/execution/production_unit_capability_matrix.schema.json",
+  "title": "Production Unit Capability Matrix",
+  "description": "Projection of exact qualification profiles. manifest_supported is implementation capability, not a qualification status.",
+  "type": "object",
+  "required": ["version", "matrix_id", "matrix_version", "generated_at", "entries"],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": "1.0" },
+    "matrix_id": { "$ref": "#/$defs/id" },
+    "matrix_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+    "generated_at": { "type": "string", "format": "date-time" },
+    "entries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "profile_id",
+          "profile_version",
+          "profile_ref",
+          "profile_sha256",
+          "selector",
+          "manifest_supported",
+          "qualification_status",
+          "reason"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "profile_id": { "$ref": "#/$defs/id" },
+          "profile_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
+          "profile_ref": { "type": "string", "minLength": 1 },
+          "profile_sha256": { "$ref": "#/$defs/digest" },
+          "selector": {
+            "type": "object",
+            "required": ["pipeline", "content_form", "supported_stages", "render_runtime", "composition_mode", "asset_route", "provider", "model", "media_profile"],
+            "additionalProperties": false,
+            "properties": {
+              "pipeline": { "type": "string", "minLength": 1 },
+              "content_form": { "enum": ["short_form", "long_form", "course_form"] },
+              "supported_stages": {
+                "type": "array",
+                "minItems": 1,
+                "uniqueItems": true,
+                "items": { "enum": ["script", "clp", "scene_plan", "assets", "edit", "compose"] }
+              },
+              "render_runtime": { "enum": ["remotion", "hyperframes", "ffmpeg"] },
+              "composition_mode": { "type": "string", "minLength": 1 },
+              "asset_route": { "enum": ["batch_v2_owned", "local_only", "none"] },
+              "provider": { "type": ["string", "null"] },
+              "model": { "type": ["string", "null"] },
+              "media_profile": { "type": "string", "minLength": 1 }
+            },
+            "allOf": [
+              {
+                "if": { "properties": { "asset_route": { "const": "batch_v2_owned" } }, "required": ["asset_route"] },
+                "then": {
+                  "properties": {
+                    "provider": { "type": "string", "minLength": 1 },
+                    "model": { "type": "string", "minLength": 1 }
+                  }
+                }
+              },
+              {
+                "if": { "properties": { "asset_route": { "const": "local_only" } }, "required": ["asset_route"] },
+                "then": {
+                  "properties": {
+                    "provider": { "type": "string", "minLength": 1 },
+                    "model": {
+                      "anyOf": [
+                        { "type": "string", "minLength": 1 },
+                        { "type": "null" }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "if": { "properties": { "asset_route": { "const": "none" } }, "required": ["asset_route"] },
+                "then": {
+                  "properties": {
+                    "provider": { "type": "null" },
+                    "model": { "type": "null" }
+                  }
+                }
+              }
+            ]
+          },
+          "manifest_supported": { "type": "boolean" },
+          "qualification_status": { "$ref": "#/$defs/status" },
+          "reason": { "type": "string", "minLength": 1 }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]*$",
+      "minLength": 1,
+      "maxLength": 128
+    },
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "status": {
+      "enum": ["unknown", "unsupported", "experimental", "code_complete", "beta_qualified", "production_qualified", "disabled", "invalid"]
+    }
+  }
+}

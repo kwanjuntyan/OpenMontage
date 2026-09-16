@@ -32,7 +32,8 @@ Unlike narrative cinematic films which almost always require characters and loca
   `lib.clp_validator.canonical_digest(script)`; never hash pretty-printed file
   bytes or use another JSON serialization convention.
 
-For an approved course-form proposal with explicit Production Unit mode, read
+For an approved course-form proposal with an explicit non-off Production Unit
+policy that enables `clp`, and a separately selected execution disposition, read
 `skills/meta/production-unit-protocol.md`. Extract candidates only from the
 assigned script-unit capsule and return the unchanged capsule digest. After
 deterministic aggregation, the Agent must resolve every digest-bound local

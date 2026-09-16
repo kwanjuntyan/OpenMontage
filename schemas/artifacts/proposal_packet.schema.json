@@ -110,13 +110,18 @@
           "required": ["mode"],
           "additionalProperties": false,
           "properties": {
-            "mode": { "type": "string", "enum": ["off", "auto", "fixed"] },
+            "mode": {
+              "type": "string",
+              "enum": ["off", "auto", "fixed"],
+              "description": "Approved project policy only. compare_only and publish_candidate are stage-internal execution dispositions, never policy modes."
+            },
             "target_seconds": { "type": "number", "exclusiveMinimum": 0 },
             "hard_max_seconds": { "type": "number", "exclusiveMinimum": 0 },
             "boundary_priority": { "type": "string", "const": "semantic_first" },
             "oversize_policy": { "type": "string", "enum": ["allow_with_reason", "fail"] },
             "enabled_stages": {
               "type": "array",
+              "minItems": 1,
               "uniqueItems": true,
               "items": { "type": "string", "enum": ["script", "clp", "scene_plan", "assets", "edit", "compose"] }
             }

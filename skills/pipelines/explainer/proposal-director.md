@@ -58,6 +58,10 @@ Production Units are a separate, optional execution choice. If proposed, read
 experimental target. Omitted policy is exactly `mode=off`; never enable PUP from
 duration, a Backlot control, or an unapproved chat assumption.
 
+The proposal records only policy `mode=off|auto|fixed`. Do not write
+`compare_only` or `publish_candidate` there; those are separate stage-internal
+execution dispositions selected after proposal approval.
+
 ## Process
 
 ### Step 0: Check for Reference Video Context

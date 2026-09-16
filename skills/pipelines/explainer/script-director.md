@@ -23,6 +23,10 @@ checkpoint and read `skills/meta/production-unit-protocol.md`. Use its bounded
 script path only when explicitly selected. Missing policy is `off` and follows
 the unchanged monolithic process below.
 
+The proposal policy uses `mode=auto|fixed`; the bounded helper invocation uses
+a separate `execution_disposition=compare_only|publish_candidate`. Do not put
+either disposition in `production_unit_policy.mode`.
+
 In the bounded path, author only the lessons in the supplied digest-bound
 context capsule. Return global timestamps, an exact section-to-lesson mapping,
 and the unchanged capsule digest. Do not privately edit course objectives,

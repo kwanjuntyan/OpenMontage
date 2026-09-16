@@ -21,7 +21,9 @@ The default remains the existing monolithic process below. If Production Unit
 policy is missing or `mode: off`, do not import/call Production Unit helpers,
 create sidecars, or change any artifact, checkpoint, or gate behavior.
 
-Only when the user explicitly selects `mode: compare_only`, first read
+Only when an approved policy has `mode: auto` or `mode: fixed`, enables
+`scene_plan`, and the stage invocation explicitly selects
+`execution_disposition: compare_only`, first read
 `skills/meta/production-unit-protocol.md`. Use the approved checkpoint script
 and canonical CLP plus the digest-bound approved style context to create one
 independent monolithic baseline and bounded scene fragments. Every unit result

@@ -49,6 +49,10 @@ candidate under the existing Batch V2 lifecycle. Do not create PUP attempts,
 retry state, cost reservations, publication commands, or a second publisher.
 The existing assets checkpoint and Human Gate remain the only canonical path.
 
+The approved `production_unit_policy.mode` is only `auto` or `fixed` here;
+`compare_only` and `publish_candidate` are separate execution dispositions.
+Neither disposition changes Batch V2 ownership.
+
 ## Process
 
 ### Step 1: Inventory Required Assets & Resolve CLP Policies

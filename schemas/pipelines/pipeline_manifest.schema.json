@@ -199,7 +199,10 @@
           "required": ["supported", "default_mode", "supported_stages"],
           "additionalProperties": false,
           "properties": {
-            "supported": { "type": "boolean" },
+            "supported": {
+              "type": "boolean",
+              "description": "Implementation capability only. true does not imply beta_qualified or production_qualified; qualification is profile-specific evidence."
+            },
             "default_mode": { "type": "string", "const": "off" },
             "supported_stages": {
               "type": "array",

@@ -31,7 +31,7 @@ qualification。
 | M3 | 完成（lean） | Asset units 已接入 Batch V2 的 request／attempt／receipt 邊界，維持既有 publication authority。 |
 | M4 | 完成（lean） | Edit merge、per-unit render contract、master assembly 與 resume／invalidation 邊界已落地。 |
 | M5 | 完成（lean） | Course routing、Backlot observer-only projection、progress 與 delivery projection 已落地。 |
-| M6 | 待執行 | 60 分鐘 qualification、versioned qualification profile、跨 OS slow gate、真實 E2E、故障恢復、telemetry calibration 與 rollout 決策尚未完成。 |
+| M6 | 執行中（M6.0A review-ready） | Vocabulary 已分離為 approved policy mode 與 execution disposition；versioned qualification profile／capability matrix 最小契約與測試已建立。M6.0B～M6.3、跨 OS slow gate、真實 E2E、故障恢復、telemetry calibration 與 rollout 決策仍未完成。 |
 
 目前可支持的陳述是：OM 已有可關閉、可回退的 bounded production-unit execution
 與 deterministic merge 能力，而且凍結的 30 分鐘比較中 PUP 勝過該次 baseline。
@@ -756,6 +756,11 @@ Gate：
 - full master、lesson exports、chapters、captions 的 delivery manifest 可追溯到 render report。
 
 ### M6 — 60 分鐘 qualification 與 rollout
+
+M6.0A 的 review-ready contract closure、測試快照、能力宣稱邊界與給
+Backlot／GPT B 的 interface handoff 記錄於
+`docs/production-unit-m6-qualification.md`。該狀態不等於 beta 或
+production qualification。
 
 離線 code-complete gate：
 

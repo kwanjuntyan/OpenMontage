@@ -181,7 +181,7 @@ def test_off_mode_has_strict_noop_parity() -> None:
     assert run_script_units(mode=None, style_context={"invalid": object()}) is None
 
 
-def test_publish_candidate_is_only_an_in_memory_candidate() -> None:
+def test_legacy_publish_candidate_alias_is_only_an_in_memory_candidate() -> None:
     course, _, results = _units_and_results()
     report = run_script_units(
         mode="publish_candidate",
@@ -192,5 +192,35 @@ def test_publish_candidate_is_only_an_in_memory_candidate() -> None:
         hard_max_duration_seconds=480,
     )
     assert report is not None
+    assert report["policy_mode"] == "auto"
+    assert report["execution_disposition"] == "publish_candidate"
     assert report["publish_allowed"] is True
     assert report["candidate"]["script_sha256"].startswith("sha256:")
+
+
+def test_canonical_policy_and_disposition_route_script_units() -> None:
+    course, _, results = _units_and_results()
+    policy = {
+        "mode": "fixed",
+        "target_seconds": 300,
+        "hard_max_seconds": 480,
+        "boundary_priority": "semantic_first",
+        "oversize_policy": "allow_with_reason",
+        "enabled_stages": ["script"],
+    }
+    report = run_script_units(
+        production_unit_policy=policy,
+        execution_disposition="publish_candidate",
+        course_manifest=course,
+        style_context=STYLE_CONTEXT,
+        unit_results=results,
+    )
+    assert report is not None
+    assert report["policy_mode"] == "fixed"
+    assert report["execution_disposition"] == "publish_candidate"
+    assert report["mode"] == "publish_candidate"  # M2-M5 output alias
+    assert report["execution_contract"]["stage"] == "script"
+    assert (
+        report["execution_contract"]["contract_sha256"]
+        == report["execution_contract_sha256"]
+    )

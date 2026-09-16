@@ -10,6 +10,7 @@ from lib.clp_validator import canonical_digest, canonical_json_bytes
 from schemas.artifacts import validate_artifact
 
 from .scene_plan_merge import ProductionUnitError
+from .contracts import execution_report_fields, resolve_execution_contract
 
 
 DEFAULT_TARGET_DURATION_SECONDS = 180.0
@@ -353,21 +354,35 @@ def merge_script_units(
 
 def run_script_units(
     *,
-    mode: str | None = "off",
+    production_unit_policy: Mapping[str, Any] | None = None,
+    execution_disposition: str | None = None,
+    mode: str | None = None,
     course_manifest: Mapping[str, Any] | None = None,
     style_context: Mapping[str, Any] | None = None,
     unit_results: Iterable[Mapping[str, Any]] | None = None,
     target_duration_seconds: float = DEFAULT_TARGET_DURATION_SECONDS,
     hard_max_duration_seconds: float = DEFAULT_HARD_MAX_DURATION_SECONDS,
 ) -> dict[str, Any] | None:
-    """Return immediately when off; otherwise prepare or merge an opt-in candidate."""
+    """Prepare or merge an opt-in candidate under the two-axis contract.
 
-    if mode in (None, "off"):
+    ``mode`` is the deprecated M2-M5 compatibility alias for an execution
+    disposition. New callers pass the approved policy separately.
+    """
+
+    contract = resolve_execution_contract(
+        stage="script",
+        production_unit_policy=production_unit_policy,
+        execution_disposition=execution_disposition,
+        legacy_mode=mode,
+        helper_target_seconds=target_duration_seconds,
+        helper_hard_max_seconds=hard_max_duration_seconds,
+    )
+    if contract is None:
         return None
-    if mode not in {"compare_only", "publish_candidate"}:
-        _fail("UNSUPPORTED_MODE", f"unsupported script production-unit mode {mode!r}")
     if course_manifest is None or style_context is None:
         _fail("MISSING_INPUT", "script units require course_manifest and style_context")
+    target_duration_seconds = contract["target_seconds"]
+    hard_max_duration_seconds = contract["hard_max_seconds"]
     units = build_script_units(
         course_manifest,
         style_context=style_context,
@@ -375,8 +390,8 @@ def run_script_units(
         hard_max_duration_seconds=hard_max_duration_seconds,
     )
     report: dict[str, Any] = {
-        "mode": mode,
-        "publish_allowed": mode == "publish_candidate",
+        **execution_report_fields(contract),
+        "publish_allowed": contract["execution_disposition"] == "publish_candidate",
         "units": units,
     }
     if unit_results is not None:

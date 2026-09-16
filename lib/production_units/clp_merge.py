@@ -9,6 +9,7 @@ from lib.clp_validator import canonical_digest
 from schemas.artifacts import validate_artifact
 
 from .scene_plan_merge import ProductionUnitError
+from .contracts import execution_report_fields, resolve_execution_contract
 
 
 _CATEGORIES = ("characters", "locations", "props")
@@ -293,7 +294,9 @@ def merge_clp_candidates(
 
 def run_clp_units(
     *,
-    mode: str | None = "off",
+    production_unit_policy: Mapping[str, Any] | None = None,
+    execution_disposition: str | None = None,
+    mode: str | None = None,
     course_manifest: Mapping[str, Any] | None = None,
     script_bundle: Mapping[str, Any] | None = None,
     script_units: Sequence[Mapping[str, Any]] | None = None,
@@ -302,16 +305,20 @@ def run_clp_units(
 ) -> dict[str, Any] | None:
     """Prepare or merge CLP units without publishing a checkpoint."""
 
-    if mode in (None, "off"):
+    contract = resolve_execution_contract(
+        stage="clp",
+        production_unit_policy=production_unit_policy,
+        execution_disposition=execution_disposition,
+        legacy_mode=mode,
+    )
+    if contract is None:
         return None
-    if mode not in {"compare_only", "publish_candidate"}:
-        _fail("UNSUPPORTED_MODE", f"unsupported CLP production-unit mode {mode!r}")
     if course_manifest is None or script_bundle is None or script_units is None:
         _fail("MISSING_INPUT", "CLP units require course, merged script, and script units")
     units = build_clp_candidate_units(course_manifest, script_bundle, script_units)
     report: dict[str, Any] = {
-        "mode": mode,
-        "publish_allowed": mode == "publish_candidate",
+        **execution_report_fields(contract),
+        "publish_allowed": contract["execution_disposition"] == "publish_candidate",
         "units": units,
     }
     supplied = (unit_results is not None, resolution_map is not None)

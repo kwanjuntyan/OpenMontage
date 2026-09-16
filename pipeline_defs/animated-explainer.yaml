@@ -26,6 +26,8 @@ extensions:
   custom_skills: true
   custom_tools: false
   production_units:
+    # Capability only. Qualification status comes from an exact,
+    # evidence-bound profile; supported: true never means qualified.
     supported: true
     default_mode: "off"
     supported_stages: [script, clp, scene_plan, assets, edit, compose]
