@@ -1,0 +1,208 @@
+{
+  "version": "backlot.workspace.fixture-matrix.v1",
+  "status": "coverage_inventory_only",
+  "purpose": "B0.0B anti-drift inventory. Baseline evidence is not a Workspace golden: B0.1 must materialize schema-valid consumer fixtures and B0.2 must add runtime and performance fixtures.",
+  "required_variants": [
+    "zero-entity-clp",
+    "validated-batch-v2-publication",
+    "legacy-asset-manifest",
+    "local-browser-playable-media",
+    "approved-remote-media",
+    "preview-proxy-required-media",
+    "missing-media-bytes",
+    "failed-progress",
+    "stale-progress",
+    "completed-delivery"
+  ],
+  "scenarios": [
+    {
+      "id": "ordinary-project",
+      "baseline_evidence": {
+        "level": "exact_source_baseline",
+        "pytest_nodeids": [
+          "tests/backlot/test_course_projection.py::test_ordinary_project_state_and_summary_keep_the_legacy_shape"
+        ],
+        "gap": null
+      },
+      "consumer_fixture": {
+        "status": "pending",
+        "owner_phase": "B0.1",
+        "path": "tests/backlot/fixtures/workspace/ordinary-project"
+      },
+      "runtime_acceptance": ["B0.2"],
+      "variants": [],
+      "must_prove": [
+        "ordinary project remains non-course",
+        "no course or PUP authority is invented",
+        "legacy Board contract remains compatible"
+      ]
+    },
+    {
+      "id": "course-with-style-and-clp",
+      "baseline_evidence": {
+        "level": "partial_source_baseline",
+        "pytest_nodeids": [
+          "tests/backlot/test_course_projection.py::test_approved_course_projects_get_outline_and_namespaced_progress",
+          "tests/styles/test_playbook_catalog.py::test_listed_playbook_loads_and_validates",
+          "tests/contracts/test_clp_manifest.py::test_clp_manifest_valid_full",
+          "tests/contracts/test_clp_manifest.py::test_backlot_clp_explicit_empty_manifest_authoritative"
+        ],
+        "gap": "Course, Style, and CLP have separate producer or legacy Board evidence, but no integrated Workspace projection fixture."
+      },
+      "consumer_fixture": {
+        "status": "pending",
+        "owner_phase": "B0.1",
+        "path": "tests/backlot/fixtures/workspace/course-with-style-and-clp"
+      },
+      "runtime_acceptance": ["B1", "B2"],
+      "variants": ["zero-entity-clp"],
+      "must_prove": [
+        "Style and CLP retain separate source authority",
+        "zero entities is distinct from unavailable",
+        "missing corroboration is not fabricated"
+      ]
+    },
+    {
+      "id": "course-with-assets",
+      "baseline_evidence": {
+        "level": "partial_source_baseline",
+        "pytest_nodeids": [
+          "tests/backlot/test_state.py::TestBoardState::test_full_project",
+          "tests/backlot/test_course_projection.py::test_delivery_projection_requires_exact_render_digest_and_paths"
+        ],
+        "gap": "Legacy Board asset and delivery behavior exists, but there is no common authority-aware Workspace asset/media projection fixture."
+      },
+      "consumer_fixture": {
+        "status": "pending",
+        "owner_phase": "B0.1",
+        "path": "tests/backlot/fixtures/workspace/course-with-assets"
+      },
+      "runtime_acceptance": ["B2"],
+      "variants": [
+        "validated-batch-v2-publication",
+        "legacy-asset-manifest",
+        "local-browser-playable-media",
+        "approved-remote-media",
+        "preview-proxy-required-media",
+        "missing-media-bytes",
+        "completed-delivery"
+      ],
+      "must_prove": [
+        "publication authority is not inferred",
+        "legacy sources are labeled",
+        "media locators never become identity"
+      ]
+    },
+    {
+      "id": "pup-disabled",
+      "baseline_evidence": {
+        "level": "partial_source_baseline",
+        "pytest_nodeids": [
+          "tests/production_units/test_contracts.py::test_missing_or_off_policy_is_strict_noop"
+        ],
+        "gap": "Producer no-op semantics exist, but no approved-course Workspace projection combines them with disabled unit details."
+      },
+      "consumer_fixture": {
+        "status": "pending",
+        "owner_phase": "B0.1",
+        "path": "tests/backlot/fixtures/workspace/pup-disabled"
+      },
+      "runtime_acceptance": ["B0.2"],
+      "variants": [],
+      "must_prove": [
+        "missing and off remain disabled",
+        "no Production Unit details are inferred",
+        "ordinary and course views still degrade cleanly"
+      ]
+    },
+    {
+      "id": "pup-enabled",
+      "baseline_evidence": {
+        "level": "partial_source_baseline",
+        "pytest_nodeids": [
+          "tests/production_units/test_contracts.py::test_handoff_fixtures_are_exactly_bound_and_experimental",
+          "tests/backlot/test_course_projection.py::test_approved_course_projects_get_outline_and_namespaced_progress"
+        ],
+        "gap": "Opt-in policy and experimental vocabulary exist, but no sanitized B3 unit-inspection projection exists."
+      },
+      "consumer_fixture": {
+        "status": "pending",
+        "owner_phase": "B0.1",
+        "path": "tests/backlot/fixtures/workspace/pup-enabled"
+      },
+      "runtime_acceptance": ["B0.2", "B3"],
+      "variants": ["failed-progress", "stale-progress"],
+      "must_prove": [
+        "policy mode and qualification are separate",
+        "experimental never means production qualified",
+        "private recovery state remains unavailable"
+      ]
+    },
+    {
+      "id": "pending-candidate",
+      "baseline_evidence": {
+        "level": "partial_source_baseline",
+        "pytest_nodeids": [
+          "tests/contracts/test_backlot_contract.py::TestGateEnforcement::test_awaiting_human_is_the_correct_gate_state"
+        ],
+        "gap": "Generic awaiting-human evidence exists, but no Workspace fixture models candidate, current-canonical absence, and history together."
+      },
+      "consumer_fixture": {
+        "status": "pending",
+        "owner_phase": "B0.1",
+        "path": "tests/backlot/fixtures/workspace/pending-candidate"
+      },
+      "runtime_acceptance": ["B0.2", "B1"],
+      "variants": [],
+      "must_prove": [
+        "candidate never overwrites canonical",
+        "history is never promoted without producer authority",
+        "current canonical can be explicitly unavailable"
+      ]
+    },
+    {
+      "id": "missing-or-invalid-artifact",
+      "baseline_evidence": {
+        "level": "partial_source_baseline",
+        "pytest_nodeids": [
+          "tests/backlot/test_course_projection.py::test_loose_or_mismatched_course_cache_never_becomes_authority",
+          "tests/backlot/test_course_projection.py::test_invalid_unit_progress_degrades_without_hiding_course",
+          "tests/backlot/test_state.py::TestBoardState::test_degraded_project_never_crashes"
+        ],
+        "gap": "Existing cases prove selected degradation paths, but not every Workspace source family or projection envelope."
+      },
+      "consumer_fixture": {
+        "status": "pending",
+        "owner_phase": "B0.1",
+        "path": "tests/backlot/fixtures/workspace/missing-or-invalid-artifact"
+      },
+      "runtime_acceptance": ["B0.2", "B1", "B2"],
+      "variants": [],
+      "must_prove": [
+        "invalid authoritative evidence fails closed",
+        "loose or mismatched cache is never promoted",
+        "absence and invalidity have explicit reasons"
+      ]
+    },
+    {
+      "id": "large-course",
+      "baseline_evidence": {
+        "level": "none",
+        "pytest_nodeids": [],
+        "gap": "No representative 40-60 minute course fixture exists; the current performance case is many one-scene projects."
+      },
+      "consumer_fixture": {
+        "status": "pending",
+        "owner_phase": "B0.2",
+        "path": "tests/backlot/fixtures/workspace/large-course"
+      },
+      "runtime_acceptance": ["B0.2", "B1", "B2"],
+      "variants": [],
+      "must_prove": [
+        "catalog and foundation projections stay bounded",
+        "pagination and lazy loading prevent whole-course state transfer",
+        "phase-owned performance budgets are measured"
+      ]
+    }
+  ]
+}

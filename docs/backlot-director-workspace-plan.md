@@ -1,12 +1,12 @@
 # OpenMontage Backlot Director Workspace — Track B Architecture and Implementation Plan
 
-> **版本**：v1.0 B0.0 architecture baseline
+> **版本**：v1.1 B0.0 anti-drift governance baseline
 > **日期**：2026-09-17
-> **狀態**：現行 Track B 主文件；B0.0 文件封條已核准，尚未授權產品程式實作
+> **狀態**：現行 Track B 主文件；B0.0 由 B0.0A 文件封條與 B0.0B enforcement scaffold 共同構成，兩者整合且測試通過後才完成
 > **維護**：GPT B（Track B owner 與跨軌協調）
 > **目前程式基線**：`team-main @ 847cda0`；PUP M0～M5 整合點為 `4d4c28c`
 > **Track A dependency snapshot**：固定於 `847cda0`，包含已整合的 M6.0A／M6.0B consumer contracts；這不是 live milestone status。PUP 仍為 `experimental`／`opt-in`，最新進度只查 Track A implementation plan
-> **實作授權**：本文件定義架構與 rollout；本輪只撰寫文件，不授權修改 Backlot、PUP 或 canonical production data
+> **實作授權**：本文件定義架構與 rollout；本輪只授權 B0.0B 非 runtime package／test scaffold，不授權 B0.1 schemas、B0.2 runtime、PUP 或 canonical production data 修改
 
 ## 0. 如何閱讀這份文件
 
@@ -24,7 +24,7 @@
 - **OPEN**：尚未決定，不能被實作自行代答。
 - **BLOCKED**：依賴 Track A 契約、M6 qualification 或另一份正式 RFC 才能前進。
 
-討論過程應更新相關段落與末尾 decision log。本輪 B0.0 只凍結文件語意，不聲稱 schemas、fixtures 或 runtime API 已完成。下一個經明確授權的 B0.1 才把 logical contract 落成 schemas／fixtures；它通過 review 後，B0.2 才可開始 resolver、API 與 shell 實作。不得把尚未決定的欄位 shape 留給 UI 猜測。
+討論過程應更新相關段落與末尾 decision log。B0.0A 凍結文件語意；B0.0B 以 tracked package seam、fixture coverage inventory 與 executable governance tests 實際封住依賴方向，但不聲稱 versioned schemas、consumer fixtures 或 runtime API 已完成。下一個經明確授權的 B0.1 才把 logical contract 落成 schemas 與 schema-valid fixtures；它通過 review 後，B0.2 才可開始 resolver、API 與 shell 實作。不得把尚未決定的欄位 shape 留給 UI 猜測。
 
 ## 1. 文件角色與來源優先序
 
@@ -46,6 +46,8 @@
 | `skills/meta/production-unit-protocol.md` | PUP 現行操作邊界 | 本文件只能消費，不可擴權 |
 | `docs/production-unit-protocol-implementation-plan.md` | Track A／M6 狀態與 qualification 邊界 | Track A 的單一 M6 狀態來源 |
 | `docs/backlot-workspace-architecture-contract.md` | Track B 永久邊界、MUST／MUST NOT 與 Agent 交接規範 | Backlot 實作的規範性契約；不得覆寫 producer-owned runtime contract |
+| `backlot/workspace/README.md`、`tests/backlot/test_workspace_governance.py` | Track B 實體模組邊界與可執行 anti-drift gate | B0.0B enforcement source；不得被局部實作靜默放寬 |
+| `tests/backlot/fixtures/workspace/fixture-matrix.v1.json` | 相容情境、既有 evidence、缺口與 materialization owner | coverage inventory；不是 canonical data、consumer golden或 runtime fixture |
 | 本文件 | Track B Backlot／Director Workspace roadmap、phase gates 與 decision history | 實作必須同時符合 architecture contract；本文件不成為 runtime authority |
 | `docs/studio_draft.md` | 原始產品願景與功能構想 | vision input；不是現行資料或 authority contract |
 | `docs/course_container_architecture_proposal.md` | 舊 Course Container 構想 | historical input；與現行契約衝突處不得採用 |
@@ -308,12 +310,12 @@ UI 的 optimistic state 必須明確標成 draft／queued／accepted-for-work；
 | PUP aggregate progress | checkpoint `metadata.partial_progress.production_units` | 驗證後投影；壞資料降級 | 現有 M5 projection | FACT |
 | CLP artifacts | owning checkpoint 有較嚴格 authority；loose file 只是 cache | 可顯示已驗證 authority 與 digest | 現有 CLP validator | FACT |
 | Batch V2 asset publication | 只有 explicit publication claim 走專用 validator | 可顯示已驗證 publication authority | 現有 Batch V2 contract | FACT |
-| 其他 script／scene／asset／edit／render／publish artifacts | 多數 loose `artifacts/*.json` 具有 historical precedence；checkpoint 只 backfill | B0 建立 authority-preserving resolver；legacy-only 明示 `display_only/unverified` | Track B B0；不可由 UI 假定 | B0 REQUIRED |
+| 其他 script／scene／asset／edit／render／publish artifacts | 多數 loose `artifacts/*.json` 具有 historical precedence；checkpoint 只 backfill | B0.2 建立 authority-preserving resolver；legacy-only 明示 `display_only/unverified` | Track B B0.2；不可由 UI 假定 | B0 REQUIRED |
 | Decisions | Board 可讀 loose artifact／root file；操作契約要求 append-only `(category, subject)` history | B0～B2 只可作 `display_only/unverified` context；canonical decision badge與完整 history/provenance normalization延後到 B6 | Track B／B6 | DEFERRED |
 | Course delivery | digest-bound compose／publish evidence | 顯示 evidence status，不自行宣稱檔案有效 | 現有 M5 projection | FACT |
 | User requested change | 尚無 intent artifact／event | 未來與 canonical state 分欄顯示 | Track B intent RFC + Agent integration | BLOCKED |
 
-完整的「UI field → current source → target authority → validator → degradation behavior → owner」矩陣是 B0 必交付物；上表只是起點。B1/B2 只能對已驗證為 authoritative 的資料顯示 canonical badge，其餘來源必須誠實標示。
+完整的「UI field → current source → target authority → validator → degradation behavior → owner」矩陣是 B0.1 必交付物；上表只是起點。B1/B2 只能對已驗證為 authoritative 的資料顯示 canonical badge，其餘來源必須誠實標示。
 
 ### 6.3 Course 與 PUP 的雙軌視圖
 
@@ -352,7 +354,7 @@ Canonical checkpoints / artifacts / manifests / evidence
 
 #### ResourceRef — 穩定的邏輯識別
 
-`ResourceRef` 用來導覽及 cross-link，不以 path、URL 或檔名作 identity。B0 schema 至少必須表達：
+`ResourceRef` 用來導覽及 cross-link，不以 path、URL 或檔名作 identity。B0.1 schema 至少必須表達：
 
 | 欄位 | 語意 |
 |---|---|
@@ -379,7 +381,7 @@ Production Unit identity 至少是 `project_id + stage + local_id`；單獨的 `
 
 #### MediaRef — 可播放但不升格 authority 的媒體參照
 
-`MediaRef` 是 logical resource 的受控媒體 representation，不以 filesystem path 或 remote URL 作 identity，也不把 CLP reference或 render output硬轉成 asset。B0 contract 至少必須表達：
+`MediaRef` 是 logical resource 的受控媒體 representation，不以 filesystem path 或 remote URL 作 identity，也不把 CLP reference或 render output硬轉成 asset。B0.0A 凍結其 logical boundary；B0.1 wire contract 至少必須表達：
 
 - owning `asset|clp_entity|render_output` ResourceRef／RevisionRef 與 media kind；
 - thumbnail、detail-quality、original 或 preview-proxy representation 的用途；
@@ -408,7 +410,7 @@ PUP policy mode、execution disposition、manifest support、qualification statu
 
 #### WorkspaceProjection — versioned read model
 
-所有新 endpoint 回傳共同 envelope；B0 需落成 schema，而不是只依賴 TypeScript／JavaScript 慣例：
+所有新 endpoint 回傳共同 envelope；B0.1 需落成 schema，而不是只依賴 TypeScript／JavaScript 慣例：
 
 ```json
 {
@@ -433,7 +435,7 @@ PUP policy mode、execution disposition、manifest support、qualification statu
 
 `sources[]` 依 deterministic key 排序；`composite_sha256` 綁定完整 source set，作為 projection token／ETag 基礎。單一 artifact inspector 也使用同一結構，多來源 Style projection 因此能同時綁定 proposal、course、marker/checkpoint、current catalog 與 downstream observation，而不遺漏其中一項。
 
-同一 logical resource可能同時存在已核准版本與待審候選，但只有 producer-owned contract能指出 active canonical。B0 schema必須提供 `revision_set` projection kind；其 `data.current_canonical`、`data.pending_candidates[]` 與 `data.historical_revisions[]` 都是完整的 `ProjectedRevision`，各自帶 ResourceRef、RevisionRef、source snapshot、authority、capabilities、diagnostics與data。不得用 awaiting candidate覆蓋 producer仍承認的 current canonical，也不得要求 endpoint二選一後讓另一版本消失。
+同一 logical resource可能同時存在已核准版本與待審候選，但只有 producer-owned contract能指出 active canonical。B0.1 schema必須提供 `revision_set` projection kind；其 `data.current_canonical`、`data.pending_candidates[]` 與 `data.historical_revisions[]` 都是完整的 `ProjectedRevision`，各自帶 ResourceRef、RevisionRef、source snapshot、authority、capabilities、diagnostics與data。不得用 awaiting candidate覆蓋 producer仍承認的 current canonical，也不得要求 endpoint二選一後讓另一版本消失。
 
 現行 checkpoint writer在 rerun 時會 archive舊 checkpoint並以 awaiting candidate覆寫 current file，卻沒有 producer-owned active-canonical pointer。因此在此情境下，Workspace只能顯示 pending candidate與historical revisions，`current_canonical` 必須是 `unavailable`／`not_identifiable_from_current_contract`；不得把「最近一次 completed history」自行提升為 current canonical。若未來 producer提供versioned active-canonical pointer，才能同時恢復 canonical＋pending 顯示。
 
@@ -540,13 +542,28 @@ B0～B3 不建立 mutation endpoint。B4 之後 Backlot 只能提出 versioned�
 
 ### B0 — Foundation freeze
 
-B0 依序分成三個 bounded slices：
+B0 依序分成四個 bounded slices：
 
-1. **B0.0 document seal（本輪）**：提交本計畫、Architecture Contract 與 `AGENT_GUIDE.md` route；只凍結語意與護欄，不修改 Backlot 程式，也不宣稱 schemas／fixtures 已存在。
-2. **B0.1 schema／fixture materialization**：經使用者另行授權後，完成 authority matrix，將 common wire contracts落成 versioned schemas、types及 positive／negative fixtures；不新增 runtime route或 UI。
-3. **B0.2 resolver／API／shell foundation**：B0.1 reviewed／integrated且再獲授權後，才實作 source resolver、catalog、Workspace shell、feature flag、cache／ETag／SSE與相容性基線。
+1. **B0.0A documentation seal**：提交本計畫、Architecture Contract、`AGENT_GUIDE.md` route與固定 startup／handoff checklist，凍結語意與人工作業護欄。
+2. **B0.0B enforcement scaffold**：建立 `backlot/workspace/{readers,projection,api_v1}`、未被現有 server 掛載的 `backlot/workspace/ui` source seam、machine-readable fixture coverage inventory與 executable governance tests。此切片可新增非 runtime package／test scaffold，但不得修改既有 Board runtime、註冊 API／UI、解析 project data、定義 B0.1 wire schema或新增 feature behavior。現有 `backlot/ui` 是 wholesale static mount，B0.2 在 default-off flag 下完整封鎖 Workspace routes／assets以前，不得把 Workspace source放入其中。
+3. **B0.1 schema／real-fixture materialization**：完整 B0.0 reviewed／integrated且經使用者另行授權後，完成 authority matrix，將 common wire contracts落成 versioned schemas、types及 schema-valid positive／negative consumer fixtures；不新增 runtime route或 UI。
+4. **B0.2 resolver／API／shell foundation**：B0.1 reviewed／integrated且再獲授權後，才實作 source resolver、catalog、Workspace shell、feature flag、cache／ETag／SSE與相容性基線。
+
+完整 B0.0 只有在 B0.0A＋B0.0B 均 reviewed／integrated且 `tests/backlot/test_workspace_governance.py` 通過後才完成。`tests/backlot/fixtures/workspace/fixture-matrix.v1.json` 只記錄既有 baseline evidence、缺口及後續 materialization owner；不得冒充 B0.1 consumer golden或 B0.2 large-course runtime fixture。
 
 因此，下列 Deliverables 是整個 B0 的成果，不是 B0.0 已完成事項。B0.1 與 B0.2 各自都必須通過 Architecture Contract 的 entry／exit gate，不能在同一個未審核切片中把 prose、schema 與 UI 一次定型。
+
+#### B0.0 anti-drift exit gate
+
+原始五層防漂移承諾在 repository 中的對應如下：
+
+1. Agent 必讀入口：`AGENT_GUIDE.md` 的 Backlot route；
+2. 短而強制的 Architecture Contract：`docs/backlot-workspace-architecture-contract.md`；
+3. fixture matrix＋contract-test skeleton：`tests/backlot/fixtures/workspace/fixture-matrix.v1.json` 與 `tests/backlot/test_workspace_governance.py`；
+4. 程式結構／依賴方向：`backlot/workspace/README.md` 與 tracked package seams；
+5. 固定變更規則：Architecture Contract 的 startup／handoff checklist與 change protocol。
+
+B0.0B test 必須實際拒絕 dependency reversal、writer／provider／private producer import、private-sidecar literal、unsafe fixture path、stale evidence reference與虛報 materialized fixture。它不是 placeholder test；但也不得把 source baseline evidence誤稱為 Workspace consumer fixture。
 
 #### Deliverables
 
@@ -829,8 +846,8 @@ Track A 可以選擇 checkpoint-embedded artifact、validated evidence reference
 
 | Endpoint | Phase | Responsibility |
 |---|---|---|
-| `GET /api/workspace/v1/catalog` | B0/B1 | compact project/course catalog；query、kind、cursor、limit |
-| `GET /api/workspace/v1/projects/{id}/shell` | B0 | identity、manifest stage rail、gate、course outline summary、capabilities |
+| `GET /api/workspace/v1/catalog` | B0.2/B1 | compact project/course catalog；query、kind、cursor、limit |
+| `GET /api/workspace/v1/projects/{id}/shell` | B0.2 | identity、manifest stage rail、gate、course outline summary、capabilities |
 | `GET /api/workspace/v1/projects/{id}/course` | B1 | course revision set：current canonical與 pending candidates可同時存在 |
 | `GET /api/workspace/v1/projects/{id}/script` | B1 | script summary／sections；query、cursor、limit、section key |
 | `GET /api/workspace/v1/projects/{id}/style` | B1 | proposal／course／checkpoint／catalog style sources |
@@ -1040,6 +1057,7 @@ Existing tests in `tests/backlot/` remain regression gates。Workspace tests sho
 | B-D021 | 2026-09-17 | constraint | 現行writer沒有active-canonical pointer；awaiting rerun期間不得把history中最近completed revision提升為current canonical | Current checkpoint writer/course projector audit | — | `revision_set.current_canonical`在無producer contract時fail closed為unavailable |
 | B-D022 | 2026-09-17 | implementation constraint | B0拆成B0.0文件封條、B0.1 schema／fixture物化與B0.2 resolver／API／shell；效能gate依擁有功能的phase驗收 | B0.0 independent source-contract review | — | 消除「schema必須先凍結、schema又是B0 deliverable」的循環，也不讓B0偷做B2播放器 |
 | B-D023 | 2026-09-17 | contract correction | MediaRef綁定logical owner revision，v1至少支援asset／clp_entity／render_output；candidate preview使用單一candidate authority | B0.0 independent source-contract review + current render-report schema audit | — | 避免把CLP/render硬冒充asset、以path/index充當identity，或發明複合authority enum |
+| B-D024 | 2026-09-17 | decided／scope correction | B0.0由B0.0A documentation seal與B0.0B enforcement scaffold共同構成；只有兩者reviewed／integrated且治理測試通過才算完整B0.0。B0.1仍負責versioned schemas與實體consumer fixtures；B0.2仍負責runtime foundation | User要求恢復原先五層防漂移承諾並明確授權解決 | B-D022（僅修正B0.0範圍） | 防止把文件完成誤報成治理完成，同時不提前實作wire contract或runtime |
 
 ## 14. Revision protocol
 
@@ -1047,5 +1065,5 @@ Existing tests in `tests/backlot/` remain regression gates。Workspace tests sho
 - 暫定建議升格時改為 `DECIDED`；被推翻時保留 supersession 紀錄並更新 assumptions register。
 - 牽涉 Track A producer contract 的結論，先形成 handoff note，不直接改 Track A 檔案。
 - Track A milestone細節不複製進本文件；只更新 consumer boundary與 dependency status。
-- B0 schema/API RFC完成後，以它們取代本文件中的示意 JSON與候選 endpoint；不得讓示意 shape永久成為未驗證實作。
+- B0.1 schema與B0.2 API RFC完成後，以它們取代本文件中的示意 JSON與候選 endpoint；不得讓示意 shape永久成為未驗證實作。
 - 達到對應 readiness gate 後才開始該 phase；不必等待 B3～B6 全部定案。

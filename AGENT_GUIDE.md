@@ -52,11 +52,14 @@ When a request asks to design, audit, or modify Backlot, the Director Workspace,
 
 1. `docs/backlot-workspace-architecture-contract.md`
 2. `docs/backlot-director-workspace-plan.md`
-3. The relevant current Backlot code and tests
+3. `backlot/workspace/README.md`
+4. The relevant current Backlot code and tests
 
 If the work touches course semantics, Production Units, checkpoints, qualification, Human Gates, or publication authority, also read the owning skill, schema, validator, and implementation plan named by those two documents.
 
 Backlot is a projection surface and future Agent Intent gateway, not a second production control plane. It must not directly call generation providers, write canonical artifacts or checkpoints, decide approval or publication, infer missing authority, or introduce private sidecar truth. Preserve the existing Board and ordinary non-course／PUP-off behavior. Unresolved or blocked contract questions must be returned to the owning track; an implementation Agent must not settle them in UI or adapter code.
+
+B0.0 consists of both the B0.0A documentation seal and the B0.0B enforcement scaffold. Except for work explicitly scoped to complete B0.0B, no B0.1-or-later Track B implementation may begin until both slices are integrated and `tests/backlot/test_workspace_governance.py` passes. Every implementing Agent must complete the Architecture Contract startup and handoff checklists, consult `tests/backlot/fixtures/workspace/fixture-matrix.v1.json`, and report the governance-test result.
 
 ## Rule Zero — All Production Goes Through a Pipeline
 

@@ -2,7 +2,7 @@
 
 > **Contract version**: `backlot.workspace.architecture.v1`
 > **Baseline**: `team-main @ 847cda02baa7a166da8f7a71976013765a5f71f2`
-> **Status**: B0.0 normative contract; this document does not by itself authorize product-code changes
+> **Status**: B0.0A normative document seal; full B0.0 also requires the reviewed, integrated, passing B0.0B enforcement scaffold. This contract does not by itself authorize product-code changes
 > **Roadmap and rationale**: `docs/backlot-director-workspace-plan.md`
 
 ## 1. Purpose and precedence
@@ -20,7 +20,8 @@ Before changing `backlot/`, `backlot/ui/`, `tests/backlot/`, `/api/workspace/*`,
 1. `AGENT_GUIDE.md`;
 2. this contract;
 3. `docs/backlot-director-workspace-plan.md`;
-4. the relevant current Backlot source and tests.
+4. `backlot/workspace/README.md` and `tests/backlot/fixtures/workspace/fixture-matrix.v1.json`;
+5. the relevant current Backlot source and tests, including `tests/backlot/test_workspace_governance.py`.
 
 If the work touches course semantics, Production Units, checkpoints, qualification, or publication authority, the Agent MUST also read the owning skill, schema, validator, and handoff contract. In particular:
 
@@ -51,6 +52,31 @@ validated manifests / checkpoints / artifacts / public evidence
 ```
 
 Backlot **MUST** remain observer-only with respect to production truth. Existing operational utilities such as explicit GCS sync do not grant artifact, checkpoint, approval, or publication authority and are outside the B0～B2 Workspace surface.
+
+The tracked Workspace dependency seam **MUST** remain one-way:
+
+```text
+backlot/workspace/ui
+        |
+        v
+backlot/workspace/api_v1
+        |
+        v
+backlot/workspace/projection
+        |
+        v
+backlot/workspace/readers
+        |
+        v
+approved official OM readers and validators
+```
+
+- Browser code **MUST NOT** read project files, parse producer artifacts, call the legacy project-state API, or construct raw media paths. Workspace UI source remains under `backlot/workspace/ui`, outside the existing wholesale-mounted `backlot/ui` tree, until B0.2 registers the complete surface conditionally; with the default-off flag, UI assets and routes MUST return 404.
+- The versioned API layer **MUST NOT** bypass the shared projection layer or decide source precedence／authority itself.
+- Projection code **MUST** obtain canonical／legacy source observations through the Workspace reader seam; it **MUST NOT** import the API layer or raw source readers directly. Reader adapters **MUST NOT** import projection or API layers.
+- Workspace code **MUST NOT** import provider execution, publisher mutation, approval transition, checkpoint／artifact writer, or producer-private PUP modules. Mixed reader／writer modules require an exact, named, independently reviewed read-only symbol allowlist; importing the whole module is forbidden.
+- The Workspace package root **MUST** remain inert, and an unlisted top-level module／subpackage **MUST** fail closed. A new layer requires the section 10 change protocol and matching dependency tests in the same reviewed change.
+- The executable boundary is `tests/backlot/test_workspace_governance.py`. Changing an allowlist or dependency direction is an architecture change subject to section 10, not a local test workaround.
 
 ## 4. Authority and source-resolution rules
 
@@ -166,7 +192,7 @@ Candidate Set, preferred assignment, and canonical adoption are distinct states.
 
 | Phase | Contract boundary |
 |---|---|
-| B0 | B0.0 document seal; B0.1 schema／fixture materialization; B0.2 read resolver, versioned shell, compatibility and foundation performance evidence |
+| B0 | B0.0A document seal plus B0.0B enforcement scaffold; B0.1 versioned schemas and materialized positive／negative domain fixtures; B0.2 read resolver, versioned shell, compatibility and foundation performance evidence |
 | B1 | Course, Script, and Style read-only projections |
 | B2 | CLP, Scene Assets, GenerationInstruction, MediaRef, lightbox／players, PreviewTimeline |
 | B3 | Production Unit detail only after a separate versioned A→B inspection contract |
@@ -223,15 +249,36 @@ Implementation convenience, UI layout, a newly discovered file, or an Agent's pr
 
 B0 is deliberately split so that prose is not mistaken for an implemented schema and an implementation Agent is not trapped by a circular startup gate.
 
-### B0.0 document seal — current slice
+### B0.0A documentation seal
 
-B0.0 is complete only when this contract, the Track B plan, and the `AGENT_GUIDE.md` route are independently reviewed and committed together. B0.0 freezes semantics and development boundaries; it does **not** claim that schemas, fixtures, API routes, or runtime projections exist.
+B0.0A is complete only when this contract, the Track B plan, the `AGENT_GUIDE.md` route, and the startup／handoff checklist are independently reviewed and integrated together. B0.0A freezes semantics and development boundaries; it does **not** by itself complete B0.0 or claim that schemas, fixtures, API routes, or runtime projections exist.
+
+### B0.0B enforcement scaffold
+
+B0.0B turns the anti-drift boundary into repository structure and tests without implementing the product. It consists only of:
+
+- the tracked `backlot/workspace/{readers,projection,api_v1}` package seams and unserved `backlot/workspace/ui` source seam;
+- the one-way dependency and authority-import checks in `tests/backlot/test_workspace_governance.py`;
+- the machine-readable coverage inventory in `tests/backlot/fixtures/workspace/fixture-matrix.v1.json`;
+- executable checks that reject private-sidecar literals, unsafe layer direction, missing mandatory entry points, stale evidence references, unsafe fixture paths, and false claims that pending consumer fixtures are materialized.
+
+B0.0B **MUST NOT** register a route, provide a Workspace UI, read a project, implement a resolver, define B0.1 wire schemas, call a provider／publisher／writer, or change existing Board runtime behavior. The coverage inventory records baseline evidence and future fixture ownership; it is not a B0.1 consumer golden or a B0.2 performance fixture.
+
+### Full B0.0 exit gate
+
+B0.0 is complete only when all of the following are true:
+
+- [ ] B0.0A documents and `AGENT_GUIDE.md` route are reviewed and integrated;
+- [ ] B0.0B package／UI seams, fixture inventory, and executable tests are reviewed and integrated;
+- [ ] `tests/backlot/test_workspace_governance.py` passes without skip／xfail;
+- [ ] the guard demonstrably rejects forbidden authority imports, reversed dependencies, private-source access, unsafe fixture references, and missing mandatory entry points;
+- [ ] existing Board source and runtime behavior remain unchanged by B0.0B.
 
 ### B0.1 schema and fixture materialization
 
 B0.1 MUST NOT start until:
 
-- [ ] the B0.0 document seal is merged／available to the implementing worktree;
+- [ ] full B0.0A＋B0.0B is reviewed, merged／available to the implementing worktree, and its governance test passes;
 - [ ] the user explicitly authorizes B0.1;
 - [ ] the field/source/reader/validator/authority/degradation/owner matrix scope, template, and source owners are approved;
 - [ ] feature-flag, versioning, no-write, legacy parity, path-safety, and large-course fixture plans are approved;
