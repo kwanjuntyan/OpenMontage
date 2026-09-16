@@ -46,6 +46,18 @@ This is a first-class workflow in OpenMontage.
 
 If a model misses this distinction, it will often fall back to plain search + guesswork. That is incorrect for OpenMontage.
 
+## Backlot / Director Workspace Work Entry Point
+
+When a request asks to design, audit, or modify Backlot, the Director Workspace, its projections, inspectors, preview player, or intent flow, read these files before proposing or changing implementation:
+
+1. `docs/backlot-workspace-architecture-contract.md`
+2. `docs/backlot-director-workspace-plan.md`
+3. The relevant current Backlot code and tests
+
+If the work touches course semantics, Production Units, checkpoints, qualification, Human Gates, or publication authority, also read the owning skill, schema, validator, and implementation plan named by those two documents.
+
+Backlot is a projection surface and future Agent Intent gateway, not a second production control plane. It must not directly call generation providers, write canonical artifacts or checkpoints, decide approval or publication, infer missing authority, or introduce private sidecar truth. Preserve the existing Board and ordinary non-course／PUP-off behavior. Unresolved or blocked contract questions must be returned to the owning track; an implementation Agent must not settle them in UI or adapter code.
+
 ## Rule Zero — All Production Goes Through a Pipeline
 
 **Every video production request MUST go through the pipeline system. No exceptions.**
