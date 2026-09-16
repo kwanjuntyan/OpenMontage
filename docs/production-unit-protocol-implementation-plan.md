@@ -115,7 +115,7 @@ checkpoint writer 加上 contained project/stage OS lock，並在 PUP commit 時
 | `course-form.md` | 40～60 分鐘課程的學習目標、modules／lessons、先備知識、回顧與評量設計 | 執行切片、資料夾、重試、合併或渲染 |
 | Production Unit Protocol | 將 stage 工作限制在有界 context，定義 unit input、result、merge、resume、telemetry | 課程教學法、pipeline stage order、Human Gate 決策 |
 | Course Container V2 | 一個 project 內的課程描述、共享資源 ownership、交付與聚合語意 | 把 lesson 變成 nested OM project，或複製 CLP／狀態真理 |
-| Backlot | 將 canonical checkpoint 與 PUP sidecar 投影為課程／unit UI | 成為 writer 或 recovery authority |
+| Backlot | 只投影經正式 reader 驗證的 canonical checkpoint，以及另行核准的 public inspection／aggregate contract；不得直接讀取 private PUP sidecars | 成為 writer 或 recovery authority |
 
 必須維持以下非等價關係：
 

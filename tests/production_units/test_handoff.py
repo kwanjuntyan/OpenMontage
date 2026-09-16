@@ -208,6 +208,46 @@ def _prepare_review_validate(
     coordinator.validate_candidate()
 
 
+def _frozen_awaiting_checkpoint(
+    tmp_path: Path,
+) -> tuple[ProductionUnitHandoffCoordinator, dict]:
+    coordinator = _validated(tmp_path)
+    coordinator.submit_checkpoint(
+        cost_snapshot={"total_usd": 1.25, "currency": "USD"},
+        metadata={"consumer_context": {"label": "frozen"}},
+    )
+    awaiting = read_checkpoint(tmp_path, "pup-handoff", "script")
+    assert awaiting is not None
+    return coordinator, awaiting
+
+
+def _write_human_approval(
+    tmp_path: Path,
+    awaiting: dict,
+    **overrides,
+) -> None:
+    arguments = {
+        "pipeline_type": awaiting["pipeline_type"],
+        "style_playbook": awaiting.get("style_playbook"),
+        "checkpoint_policy": awaiting["checkpoint_policy"],
+        "human_approval_required": awaiting["human_approval_required"],
+        "human_approved": True,
+        "review": deepcopy(awaiting.get("review")),
+        "cost_snapshot": deepcopy(awaiting.get("cost_snapshot")),
+        "error": awaiting.get("error"),
+        "metadata": deepcopy(awaiting.get("metadata")),
+    }
+    arguments.update(overrides)
+    write_checkpoint(
+        tmp_path,
+        awaiting["project_id"],
+        awaiting["stage"],
+        "completed",
+        deepcopy(awaiting["artifacts"]),
+        **arguments,
+    )
+
+
 def _resign(document: dict, field: str = "record_sha256") -> dict:
     value = deepcopy(document)
     value.pop(field, None)
@@ -321,27 +361,73 @@ def test_original_human_gate_is_not_bypassed(tmp_path) -> None:
         )
 
 
-def test_original_human_gate_transition_preserves_valid_provenance(tmp_path) -> None:
-    coordinator = _validated(tmp_path)
-    coordinator.submit_checkpoint()
-    awaiting = read_checkpoint(tmp_path, "pup-handoff", "script")
+def test_original_human_gate_transition_preserves_full_frozen_envelope(
+    tmp_path,
+) -> None:
+    _, awaiting = _frozen_awaiting_checkpoint(tmp_path)
 
-    write_checkpoint(
-        tmp_path,
-        "pup-handoff",
-        "script",
-        "completed",
-        awaiting["artifacts"],
-        pipeline_type="animated-explainer",
-        human_approved=True,
-        review=awaiting["review"],
-        metadata=awaiting["metadata"],
-    )
+    _write_human_approval(tmp_path, awaiting)
 
     completed = read_checkpoint(tmp_path, "pup-handoff", "script")
     assert completed["status"] == "completed"
     assert completed["human_approved"] is True
-    assert completed["metadata"] == awaiting["metadata"]
+    normalized_awaiting = deepcopy(awaiting)
+    normalized_completed = deepcopy(completed)
+    for field in ("status", "human_approved", "timestamp"):
+        normalized_awaiting.pop(field)
+        normalized_completed.pop(field)
+    assert normalized_completed == normalized_awaiting
+
+
+@pytest.mark.parametrize("attack", ["replace", "add"])
+def test_human_gate_rejects_review_replacement_or_addition(
+    tmp_path, attack
+) -> None:
+    _, awaiting = _frozen_awaiting_checkpoint(tmp_path)
+    if attack == "replace":
+        changed_review = {"reviewer": "attacker", "critical_findings": 0}
+    else:
+        changed_review = deepcopy(awaiting["review"])
+        changed_review["post_approval_note"] = "not part of reviewed envelope"
+
+    with pytest.raises(CheckpointValidationError, match="checkpoint envelope is frozen"):
+        _write_human_approval(tmp_path, awaiting, review=changed_review)
+
+    assert read_checkpoint(tmp_path, "pup-handoff", "script") == awaiting
+
+
+def test_human_gate_rejects_cost_snapshot_mutation(tmp_path) -> None:
+    _, awaiting = _frozen_awaiting_checkpoint(tmp_path)
+    changed_cost = deepcopy(awaiting["cost_snapshot"])
+    changed_cost["total_usd"] = 999.0
+
+    with pytest.raises(CheckpointValidationError, match="checkpoint envelope is frozen"):
+        _write_human_approval(tmp_path, awaiting, cost_snapshot=changed_cost)
+
+    assert read_checkpoint(tmp_path, "pup-handoff", "script") == awaiting
+
+
+@pytest.mark.parametrize("attack", ["modify", "add", "remove"])
+def test_human_gate_rejects_metadata_sibling_mutation_addition_or_removal(
+    tmp_path, attack
+) -> None:
+    _, awaiting = _frozen_awaiting_checkpoint(tmp_path)
+    changed_metadata = deepcopy(awaiting["metadata"])
+    if attack == "modify":
+        changed_metadata["consumer_context"]["label"] = "changed"
+    elif attack == "add":
+        changed_metadata["unreviewed_sibling"] = {"accepted": False}
+    else:
+        changed_metadata.pop("consumer_context")
+    assert (
+        changed_metadata["production_units"]
+        == awaiting["metadata"]["production_units"]
+    )
+
+    with pytest.raises(CheckpointValidationError, match="checkpoint envelope is frozen"):
+        _write_human_approval(tmp_path, awaiting, metadata=changed_metadata)
+
+    assert read_checkpoint(tmp_path, "pup-handoff", "script") == awaiting
 
 
 def test_human_gate_cannot_complete_from_intent_without_awaiting_receipt(
@@ -413,17 +499,8 @@ def test_human_gate_cannot_drop_provenance_replace_artifacts_or_mix_authority(
     hybrid_metadata["batch_v2_publication"] = {
         "command_digest": "sha256:" + "a" * 64
     }
-    with pytest.raises(CheckpointValidationError, match="publication authority"):
-        write_checkpoint(
-            tmp_path,
-            "pup-handoff",
-            "script",
-            "completed",
-            awaiting["artifacts"],
-            pipeline_type="animated-explainer",
-            human_approved=True,
-            metadata=hybrid_metadata,
-        )
+    with pytest.raises(CheckpointValidationError, match="checkpoint envelope is frozen"):
+        _write_human_approval(tmp_path, awaiting, metadata=hybrid_metadata)
 
     assert read_checkpoint(tmp_path, "pup-handoff", "script") == awaiting
 

@@ -1376,6 +1376,21 @@ def _candidate_handoff_provenance(checkpoint: dict[str, Any] | None) -> Any:
     return production_units.get("candidate_handoff")
 
 
+_PUP_HUMAN_GATE_MUTABLE_FIELDS = frozenset(
+    {"status", "human_approved", "timestamp"}
+)
+
+
+def _normalize_pup_human_gate_envelope(
+    checkpoint: dict[str, Any],
+) -> dict[str, Any]:
+    return {
+        key: deepcopy(value)
+        for key, value in checkpoint.items()
+        if key not in _PUP_HUMAN_GATE_MUTABLE_FIELDS
+    }
+
+
 def _enforce_pup_human_gate_transition(
     current: dict[str, Any] | None,
     candidate: dict[str, Any],
@@ -1415,6 +1430,22 @@ def _enforce_pup_human_gate_transition(
         raise CheckpointValidationError(
             "PUP HUMAN GATE VIOLATION: approved artifacts must exactly match "
             "the awaiting_human candidate"
+        )
+    frozen_current = _normalize_pup_human_gate_envelope(current)
+    frozen_candidate = _normalize_pup_human_gate_envelope(candidate)
+    if frozen_candidate != frozen_current:
+        changed = sorted(
+            key
+            for key in set(frozen_current) | set(frozen_candidate)
+            if (
+                key not in frozen_current
+                or key not in frozen_candidate
+                or frozen_current[key] != frozen_candidate[key]
+            )
+        )
+        raise CheckpointValidationError(
+            "PUP HUMAN GATE VIOLATION: awaiting_human checkpoint envelope is "
+            f"frozen; changed fields: {changed}"
         )
 
 
