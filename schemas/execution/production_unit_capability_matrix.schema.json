@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://openmontage.local/schemas/execution/production_unit_capability_matrix.schema.json",
   "title": "Production Unit Capability Matrix",
-  "description": "Projection of exact qualification profiles. manifest_supported is implementation capability, not a qualification status.",
+  "description": "Projection of caller-supplied qualification profiles. M6.0A does not discover or dereference profiles; manifest_supported is an unbound implementation-capability assertion, not a qualification status.",
   "type": "object",
   "required": ["version", "matrix_id", "matrix_version", "generated_at", "entries"],
   "additionalProperties": false,
@@ -29,7 +29,11 @@
         "properties": {
           "profile_id": { "$ref": "#/$defs/id" },
           "profile_version": { "type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$" },
-          "profile_ref": { "type": "string", "minLength": 1 },
+          "profile_ref": {
+            "type": "string",
+            "minLength": 1,
+            "description": "Opaque producer reference in M6.0A. Consumers must not dereference it until a trusted contained loader contract exists."
+          },
           "profile_sha256": { "$ref": "#/$defs/digest" },
           "selector": {
             "type": "object",
@@ -86,7 +90,10 @@
               }
             ]
           },
-          "manifest_supported": { "type": "boolean" },
+          "manifest_supported": {
+            "type": "boolean",
+            "description": "Unbound producer assertion in M6.0A; it is not a substitute for an actual validated pipeline manifest."
+          },
           "qualification_status": { "$ref": "#/$defs/status" },
           "reason": { "type": "string", "minLength": 1 }
         }

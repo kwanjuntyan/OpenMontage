@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://openmontage.local/schemas/execution/production_unit_qualification_profile.schema.json",
   "title": "Production Unit Qualification Profile",
-  "description": "One exact pipeline/runtime/provider/media qualification claim. Manifest support alone is not qualification.",
+  "description": "One exact pipeline/runtime/provider/media qualification claim. Schema validity does not authenticate evidence bytes or prove gate results; manifest support alone is not qualification.",
   "type": "object",
   "required": [
     "version",

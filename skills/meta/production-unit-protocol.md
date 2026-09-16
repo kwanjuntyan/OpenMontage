@@ -89,7 +89,21 @@ unsupported by that helper fails closed.
 M2-M5 Python helpers temporarily retain their old `mode="compare_only"` /
 `mode="publish_candidate"` keyword as a compatibility alias. New code must pass
 `production_unit_policy=...` and `execution_disposition=...`; the compatibility
-alias is not a proposal mode and must not appear in proposal artifacts.
+alias is not a proposal mode and must not appear in proposal artifacts. It
+synthesizes helper-local `policy_mode="auto"` only to preserve old call
+behavior. Such a contract/report carries
+`policy_mode_authority="none_legacy_diagnostic"` and
+`legacy_mode_alias_used=true`: both the synthesized policy mode and the
+disposition are non-authoritative diagnostics and must not create an approved
+or effective policy badge.
+
+For the canonical helper path,
+`policy_mode_authority="validated_proposal_checkpoint_required"` means the
+helper validates the supplied policy shape but does not prove its approval.
+The only trusted approved-policy source is the validated, human-approved
+proposal checkpoint. A consumer may rely on a canonical execution disposition
+only when the legacy marker is false and the caller has independently supplied
+that approved checkpoint policy.
 
 ## Policy modes
 
@@ -150,6 +164,17 @@ those exact profiles for consumers. The safe status vocabulary is `unknown`,
 `pipeline_manifest.extensions.production_units.supported: true` means only
 that the pipeline implements an opt-in route. It never upgrades a profile's
 qualification status. Only exact versioned evidence may do that.
+
+M6.0A validates caller-supplied profile/matrix shapes and their exact identity,
+digest, selector, and status agreement. It does not discover documents,
+dereference `profile_ref`, select among matching profiles, bind
+`manifest_supported` to bytes from an actual validated manifest, read evidence
+bytes, authenticate evidence digests, or replay qualification gates. Until a
+later Track A resolver/trust-root milestone, `profile_ref` is an opaque display
+reference and Backlot must not follow it. Missing profile/matrix → `unknown` is
+a consumer presentation default, not an executable M6.0A resolution result.
+Project policy `off` and profile qualification status `disabled` are distinct
+axes and must not be collapsed into one effective-state badge.
 
 For script, every approved lesson is owned once, every narration section maps
 to exactly one owned lesson, global timestamps remain authoritative, and legal

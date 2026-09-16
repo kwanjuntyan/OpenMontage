@@ -193,6 +193,8 @@ def test_legacy_publish_candidate_alias_is_only_an_in_memory_candidate() -> None
     )
     assert report is not None
     assert report["policy_mode"] == "auto"
+    assert report["policy_mode_authority"] == "none_legacy_diagnostic"
+    assert report["execution_contract"]["legacy_mode_alias_used"] is True
     assert report["execution_disposition"] == "publish_candidate"
     assert report["publish_allowed"] is True
     assert report["candidate"]["script_sha256"].startswith("sha256:")
@@ -217,6 +219,11 @@ def test_canonical_policy_and_disposition_route_script_units() -> None:
     )
     assert report is not None
     assert report["policy_mode"] == "fixed"
+    assert (
+        report["policy_mode_authority"]
+        == "validated_proposal_checkpoint_required"
+    )
+    assert report["execution_contract"]["legacy_mode_alias_used"] is False
     assert report["execution_disposition"] == "publish_candidate"
     assert report["mode"] == "publish_candidate"  # M2-M5 output alias
     assert report["execution_contract"]["stage"] == "script"

@@ -172,6 +172,11 @@ def test_approved_policy_and_execution_disposition_are_independent(
     )
     assert contract is not None
     assert contract["policy_mode"] == policy_mode
+    assert (
+        contract["policy_mode_authority"]
+        == "validated_proposal_checkpoint_required"
+    )
+    assert contract["legacy_mode_alias_used"] is False
     assert contract["execution_disposition"] == disposition
 
 
@@ -226,6 +231,7 @@ def test_legacy_execution_mode_is_explicit_compatibility_only() -> None:
     assert contract["execution_disposition"] == "compare_only"
     assert contract["target_seconds"] == 300
     assert contract["legacy_mode_alias_used"] is True
+    assert contract["policy_mode_authority"] == "none_legacy_diagnostic"
 
 
 def test_qualification_profile_and_matrix_bind_exact_selectors() -> None:
@@ -282,6 +288,51 @@ def test_handoff_fixtures_are_exactly_bound_and_experimental() -> None:
     status = validated["entries"][0]["qualification_status"]
     assert status == "experimental"
     assert status not in {"beta_qualified", "production_qualified"}
+
+
+@pytest.mark.parametrize(
+    ("fixture_name", "expected_code"),
+    [
+        (
+            "invalid/m6_0a_stale_profile_digest.fixture.json",
+            "STALE_QUALIFICATION_PROFILE",
+        ),
+        (
+            "invalid/m6_0a_selector_drift.fixture.json",
+            "QUALIFICATION_SELECTOR_DRIFT",
+        ),
+        (
+            "invalid/m6_0a_status_drift.fixture.json",
+            "QUALIFICATION_STATUS_DRIFT",
+        ),
+    ],
+)
+def test_shared_invalid_matrix_fixtures_fail_closed(
+    fixture_name: str, expected_code: str
+) -> None:
+    profile = json.loads(
+        (FIXTURE_ROOT / "m6_0a_qualification_profile.fixture.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    matrix = json.loads((FIXTURE_ROOT / fixture_name).read_text(encoding="utf-8"))
+
+    with pytest.raises(ProductionUnitContractError) as caught:
+        validate_capability_matrix(matrix, [profile])
+    assert caught.value.code == expected_code
+
+
+def test_shared_beta_insufficient_evidence_fixture_fails_closed() -> None:
+    profile = json.loads(
+        (
+            FIXTURE_ROOT
+            / "invalid/m6_0a_beta_insufficient_evidence.fixture.json"
+        ).read_text(encoding="utf-8")
+    )
+
+    with pytest.raises(ProductionUnitContractError) as caught:
+        validate_qualification_profile(profile)
+    assert caught.value.code == "INSUFFICIENT_QUALIFICATION_EVIDENCE"
 
 
 def test_manifest_support_never_upgrades_qualification() -> None:

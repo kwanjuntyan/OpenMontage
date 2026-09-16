@@ -1,0 +1,28 @@
+{
+  "version": "1.0",
+  "matrix_id": "pup-m6-invalid-stale-profile",
+  "matrix_version": "0.1.0",
+  "generated_at": "2026-09-16T00:00:00+08:00",
+  "entries": [
+    {
+      "profile_id": "animated-explainer-course-remotion-batch-v2",
+      "profile_version": "0.1.0",
+      "profile_ref": "tests/fixtures/production_units/m6_0a_qualification_profile.fixture.json",
+      "profile_sha256": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+      "selector": {
+        "pipeline": "animated-explainer",
+        "content_form": "course_form",
+        "supported_stages": ["script", "clp", "scene_plan", "assets", "edit", "compose"],
+        "render_runtime": "remotion",
+        "composition_mode": "templated",
+        "asset_route": "batch_v2_owned",
+        "provider": "gemini_omni",
+        "model": "gemini-omni-flash-preview",
+        "media_profile": "course-h264-1080p"
+      },
+      "manifest_supported": true,
+      "qualification_status": "experimental",
+      "reason": "Invalid fixture: profile digest is stale."
+    }
+  ]
+}

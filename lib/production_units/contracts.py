@@ -119,8 +119,10 @@ def resolve_execution_contract(
 
     ``legacy_mode`` preserves the M2-M5 helper API.  It is deliberately kept
     separate from the canonical arguments: mixed old/new vocabulary fails
-    closed instead of guessing.  Missing policy and explicit ``off`` return
-    before any stage input is inspected by the caller.
+    closed instead of guessing.  A legacy call synthesizes a helper-local
+    policy only for compatibility; it is never approved proposal authority.
+    Missing policy and explicit ``off`` return before any stage input is
+    inspected by the caller.
     """
 
     if stage not in PUP_STAGES:
@@ -211,6 +213,14 @@ def resolve_execution_contract(
     contract = {
         "version": "1.0",
         "policy_mode": policy["mode"],
+        # The helper validates policy shape but does not read checkpoints.
+        # Consumers must obtain approved policy from the validated proposal
+        # checkpoint; a synthesized legacy value is diagnostic only.
+        "policy_mode_authority": (
+            "none_legacy_diagnostic"
+            if legacy_used
+            else "validated_proposal_checkpoint_required"
+        ),
         "execution_disposition": disposition,
         "stage": stage,
         "target_seconds": effective_target,
@@ -228,6 +238,7 @@ def execution_report_fields(contract: Mapping[str, Any]) -> dict[str, Any]:
     return {
         "execution_contract": deepcopy(dict(contract)),
         "policy_mode": contract["policy_mode"],
+        "policy_mode_authority": contract["policy_mode_authority"],
         "execution_disposition": disposition,
         # Deprecated M2-M5 compatibility alias.  This is not a proposal mode.
         "mode": disposition,
@@ -260,7 +271,11 @@ def _validate_schema(name: str, value: Mapping[str, Any]) -> dict[str, Any]:
 def validate_qualification_profile(
     profile: Mapping[str, Any],
 ) -> dict[str, Any]:
-    """Validate one exact, versioned qualification profile and its evidence."""
+    """Validate profile shape and minimum claimed evidence kinds.
+
+    This M6.0A validator does not read evidence bytes, authenticate their
+    digests, or replay qualification gates.
+    """
 
     candidate = _validate_schema("production_unit_qualification_profile", profile)
     status = candidate["qualification_status"]
@@ -303,7 +318,11 @@ def validate_capability_matrix(
     matrix: Mapping[str, Any],
     profiles: Sequence[Mapping[str, Any]],
 ) -> dict[str, Any]:
-    """Bind matrix rows to exact profiles; manifest support never upgrades status."""
+    """Bind rows to caller-supplied profiles; never upgrade from support.
+
+    This is not a discovery or selection resolver. It does not dereference
+    ``profile_ref`` or bind ``manifest_supported`` to manifest bytes.
+    """
 
     candidate = _validate_schema("production_unit_capability_matrix", matrix)
     validated = [validate_qualification_profile(profile) for profile in profiles]

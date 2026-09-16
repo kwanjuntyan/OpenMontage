@@ -1,0 +1,77 @@
+{
+  "version": "1.0",
+  "profile_id": "animated-explainer-course-remotion-batch-v2",
+  "profile_version": "0.1.0",
+  "source": {
+    "git_commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "pipeline_manifest": {
+      "name": "animated-explainer",
+      "version": "2.0",
+      "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "schemas": [
+      {
+        "name": "proposal_packet",
+        "version": "1.0",
+        "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    ],
+    "adapters": [
+      {
+        "name": "batch_v2_owned",
+        "version": "1.0",
+        "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+      }
+    ]
+  },
+  "pipeline": "animated-explainer",
+  "content_form": "course_form",
+  "supported_stages": ["script", "clp", "scene_plan", "assets", "edit", "compose"],
+  "render": {
+    "runtime": "remotion",
+    "composition_mode": "templated"
+  },
+  "asset_route": {
+    "route": "batch_v2_owned",
+    "provider": "gemini_omni",
+    "model": "gemini-omni-flash-preview",
+    "adapter_version": "1.0"
+  },
+  "media_profile": {
+    "name": "course-h264-1080p",
+    "version": "1.0",
+    "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "qualification_status": "beta_qualified",
+  "qualified_at": "2026-09-16T00:00:00+08:00",
+  "environment": {
+    "os": "windows",
+    "os_version": "11",
+    "runtime": "python",
+    "runtime_version": "3.13",
+    "hardware": {
+      "cpu": "offline-fixture",
+      "ram_bytes": 17179869184,
+      "gpu": null,
+      "vram_bytes": null
+    }
+  },
+  "evidence": [
+    {
+      "evidence_id": "m6-0a-contract-tests-only",
+      "kind": "contract_tests",
+      "ref": "tests/production_units/test_contracts.py",
+      "sha256": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+  ],
+  "requalification_triggers": [
+    "git_commit_changed",
+    "pipeline_manifest_changed",
+    "schema_changed",
+    "adapter_changed",
+    "provider_or_model_changed",
+    "runtime_changed",
+    "media_profile_changed",
+    "os_or_hardware_changed"
+  ]
+}
