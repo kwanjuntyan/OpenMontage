@@ -1,14 +1,15 @@
-# Production Unit Protocol — Lean M2–M4 profile
+# Production Unit Protocol — Lean M2–M5 experimental profile
 
 Status: experimental and opt-in. Planning, editing, and render preparation
 remain in-memory candidates whose only publisher is the existing checkpoint
 workflow. Render commands require an explicitly injected executor and do not
 grant media, provider, filesystem, checkpoint, or publication authority.
 
-This protocol tests whether a long approved script can be planned in bounded
-units without changing OpenMontage's canonical pipeline. It does not claim
-that 180 seconds is optimal, enable long-course production, or authorize
-publication.
+This protocol provides bounded candidate paths for course script, CLP, scene
+planning, Batch V2 assets, edit/render preparation, and read-only Backlot
+projection without changing OpenMontage's canonical pipeline. It does not
+claim that 180 seconds is optimal, establish 60-minute production
+qualification, or authorize publication.
 
 ## Hard boundary
 
@@ -147,5 +148,16 @@ as an explicit production decision under the normal Human Gate.
 
 Passing deterministic fixtures proves bounded plumbing, merge integrity, CLP
 sharing, and repair isolation. It does not by itself prove better Agent
-attention. That requires later paired live-Agent benchmarks and is outside
-Lean M2a.
+attention.
+
+One frozen 30-minute `off` versus `auto@180s` paired benchmark has now passed
+its mechanical gates and blind semantic threshold; see
+`docs/production-unit-benchmark-30m.md`. It supports superiority for that
+course/profile only. It does not prove that 180 seconds is a universal optimum
+or satisfy M6 qualification.
+
+Treat `longest_same_type_run` as a coarse diagnostic only. `scene.type` does
+not encode setting, framing, movement, overlays, character action, or semantic
+variation, so a longer run must not by itself trigger a repair or fail a unit.
+Use semantic review and richer repetition telemetry to judge perceived visual
+redundancy.

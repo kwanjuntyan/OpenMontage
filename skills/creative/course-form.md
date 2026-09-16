@@ -118,4 +118,3 @@ Before handoff, confirm:
 - terminology and notation are introduced before dependent use;
 - the sequence has purposeful bridges and a final synthesis;
 - no Production Unit or runtime state leaked into the course manifest.
-

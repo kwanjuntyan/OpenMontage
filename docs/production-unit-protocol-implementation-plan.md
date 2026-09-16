@@ -1,12 +1,28 @@
 # OpenMontage Production Unit Protocol 與長課程支援 — Implementation Plan
 
-> 狀態：Draft for approval（本文件本身不授權實作、付費 provider 呼叫、部署或 merge）
+> 狀態：Lean M2a～M5 functional slice 已在 `codex/pup-contracts` 形成
+> experimental、opt-in implementation；原始完整 M0～M6 roadmap 與 M6
+> qualification 尚未完成。本文件現在是實作紀錄與
+> rollout 邊界，不構成 production qualification、provider 呼叫、部署或 merge
+> 授權。
 >
 > 盤點基準：`team-main` @ `b5d75860b0561fab4b26584a5edefe40ac26dd2f`（2026-09-15 觀察值；開始實作時必須重新凍結）
 >
 > 第一個支援輪廓：單一 direct-child OM project、既有 pipeline DAG、40～60 分鐘課程、Production Unit opt-in
 >
-> 主要關聯：`AGENT_GUIDE.md`、`docs/ARCHITECTURE.md`、`skills/creative/long-form.md`、`docs/course_container_architecture_proposal.md`
+> 目前操作契約：`skills/meta/production-unit-protocol.md`、
+> `skills/creative/course-form.md`、`schemas/artifacts/course_manifest.schema.json`
+>
+> 實驗證據：[30 分鐘 PUP vs off benchmark](production-unit-benchmark-30m.md)
+
+### 實作收斂說明
+
+原 M0 規劃過的多份大型 RFC 草稿沒有納入目前候選；它們仍含
+`definition only`／`not implemented` 等過時狀態，且會與已完成的 lean
+implementation 互相矛盾。現階段以已測試的 schema、Python adapters、pipeline
+directors、`course-form` skill 與 PUP meta skill 為準。若日後需要正式
+qualification profile，應在 M6 以當時實際支援的 pipeline × runtime × provider
+輪廓重新制定，而不是把舊草稿直接升格為規範。
 
 ## 1. 要交付的能力
 
@@ -407,6 +423,8 @@ Telemetry 為 append-only execution evidence，不是 canonical creative artifac
 - latency、retry、repair、schema failures、terminal outcome；
 - coverage、duplicate/missing refs、locked-term／CLP drift；
 - boundary defect 類型；
+- 粗粒度 `scene.type` 分布與連續 run；此項只能作 diagnostic，不得單獨作為
+  視覺重複或品質退步的判定；
 - tool/provider、成本、cache result；
 - render wall time、peak memory／VRAM（能量測時）、output probe；
 - resume／recovery outcome。
@@ -437,9 +455,18 @@ Concurrent workers 不得直接 append 同一個 JSONL。每個 attempt 先寫 i
 
 Deterministic fixtures 只能證明 coverage、merge、schema、resume 與 media mechanics，不能單獨證明「Agent 注意力改善」。注意力假說另做 paired live-Agent benchmark：同一來源、凍結 prompt/model/protocol 版本、`off/180/300/480` 各至少三次 paired trials，以盲評 rubric／adjudication 報告變異。不得用一份 3600 秒 golden 來宣稱 180 秒是最佳預設。
 
+目前已完成一個縮小範圍的 30 分鐘 `off` vs `auto@180s` paired benchmark。
+它支持「在該課程、prompt、模型與 protocol 下，PUP 的資訊保留與盲評品質較佳」；
+它不支持「180 秒是普遍最佳值」或「PUP 已 production-qualified」。詳細結果、
+限制與 evidence digests 見
+[30 分鐘 benchmark 摘要](production-unit-benchmark-30m.md)。
+
 ### 9.1 Versioned qualification profile
 
-M0 必須新增 `docs/production-unit-qualification-profile-v1.md`，在任何 beta claim 前填滿量化門檻，不能留下「可接受」「代表性」「嚴重」等未定義詞。它至少要定義：
+若日後要提出 beta／production qualification claim，M6 必須先新增一份依
+實際支援輪廓校準的 versioned qualification profile，填滿量化門檻，不能留下
+「可接受」「代表性」「嚴重」等未定義詞。舊的 definition-only 草稿不可直接
+充當通過證據。該 profile 至少要定義：
 
 - defect taxonomy 與 critical/major/minor 分級；critical boundary defects 容許值固定為 0；
 - mechanical invariants：coverage、ID、order、timing、reference、CLP、schema 必須 100%／0 error；
@@ -452,6 +479,10 @@ M0 必須新增 `docs/production-unit-qualification-profile-v1.md`，在任何 b
 Qualification report 必須綁定 Git commit、pipeline manifest digest、PUP/schema/merge-adapter versions、prompt/model/provider、renderer/FFmpeg/runtime、media-profile digest、OS 與 hardware。Schema、merge semantics、CLP rules、renderer major version、media profile、provider/model 或 prompt template 的實質變更，必須依 profile 規則做 partial 或 full requalification。
 
 ## 10. Milestones、預計修改位置與 gates
+
+> 以下是原始最大範圍 roadmap，保留作為決策與風險紀錄，不是目前 lean
+> branch 已逐項完成的聲明。實際納入 merge candidate 的能力以本文件開頭的
+> 收斂說明、已追蹤程式碼、skills 與測試報告為準。
 
 ### M0 — RFC 與術語凍結（docs-only）
 
