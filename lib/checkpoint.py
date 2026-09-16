@@ -908,6 +908,27 @@ def validate_checkpoint(
         raise CheckpointValidationError(f"Checkpoint failed schema validation: {exc.message}") from exc
     _validate_rfc3339_timestamp(checkpoint.get("timestamp"), "checkpoint timestamp")
 
+    # Optional M6.0B provenance is additive for ordinary/legacy checkpoints,
+    # but when present it must authenticate against the exact durable handoff
+    # records on both write and read. Import lazily to avoid coupling the base
+    # checkpoint module to the opt-in Production Unit package at import time.
+    pup_metadata = (checkpoint.get("metadata") or {}).get("production_units")
+    if isinstance(pup_metadata, dict) and "candidate_handoff" in pup_metadata:
+        try:
+            from lib.production_units.handoff import (
+                ProductionUnitHandoffError,
+                validate_checkpoint_handoff_provenance,
+            )
+
+            validate_checkpoint_handoff_provenance(
+                checkpoint,
+                projects_root=projects_root,
+            )
+        except ProductionUnitHandoffError as exc:
+            raise CheckpointValidationError(
+                f"Production Unit checkpoint provenance failed validation: {exc}"
+            ) from exc
+
 
 def _checkpoint_path(pipeline_dir: Path, project_id: str, stage: str) -> Path:
     safe_stage = _validate_stage_component(stage)

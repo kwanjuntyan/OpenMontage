@@ -37,6 +37,7 @@ from .contracts import (
     validate_capability_matrix,
     validate_qualification_profile,
 )
+from .handoff import ProductionUnitHandoffCoordinator, ProductionUnitHandoffError
 
 __all__ = [
     "ProductionUnitError",
@@ -70,4 +71,6 @@ __all__ = [
     "resolve_execution_contract",
     "validate_qualification_profile",
     "validate_capability_matrix",
+    "ProductionUnitHandoffCoordinator",
+    "ProductionUnitHandoffError",
 ]

@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "openmontage/execution/production-unit-checkpoint-provenance/1.0",
+  "title": "Production Unit JSON candidate checkpoint provenance",
+  "type": "object",
+  "required": [
+    "version", "authority", "handoff_id", "run_id", "execution_epoch",
+    "control_chain", "policy_checkpoint_sha256", "policy_sha256",
+    "plan_record_sha256", "candidate_record_sha256", "candidate_sha256",
+    "review_record_sha256", "validation_record_sha256",
+    "checkpoint_intent_sha256"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": "1.0" },
+    "authority": { "const": "pup_json_merge" },
+    "handoff_id": { "$ref": "#/$defs/identifier" },
+    "run_id": { "$ref": "#/$defs/identifier" },
+    "execution_epoch": { "type": "integer", "minimum": 0 },
+    "control_chain": {
+      "type": "object",
+      "required": ["chain_id", "event_sequence", "sha256"],
+      "additionalProperties": false,
+      "properties": {
+        "chain_id": { "$ref": "#/$defs/identifier" },
+        "event_sequence": { "type": "integer", "minimum": 0 },
+        "sha256": { "$ref": "#/$defs/digest" }
+      }
+    },
+    "policy_checkpoint_sha256": { "$ref": "#/$defs/digest" },
+    "policy_sha256": { "$ref": "#/$defs/digest" },
+    "plan_record_sha256": { "$ref": "#/$defs/digest" },
+    "candidate_record_sha256": { "$ref": "#/$defs/digest" },
+    "candidate_sha256": { "$ref": "#/$defs/digest" },
+    "review_record_sha256": { "$ref": "#/$defs/digest" },
+    "validation_record_sha256": { "$ref": "#/$defs/digest" },
+    "checkpoint_intent_sha256": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    }
+  }
+}

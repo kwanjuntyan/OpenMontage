@@ -1,14 +1,15 @@
 # OpenMontage Production Unit Protocol 與長課程支援 — Implementation Plan
 
 > 狀態（2026-09-16）：第一個支援輪廓的 Lean M0～M5 functional slice 已合併至
-> `team-main` 並同步至 `team-fork/team-main`；整合 commit 為
-> `4d4c28c5cfed953d4cdd2cf5f0c5387b1daeeaa8`。PUP 目前仍是
+> `team-main`。M6.0A contract closure 已合併於
+> `df0f8ca616fceac056c8762a9b59193a2e822873`；M6.0B durable candidate
+> handoff 目前是該基線上的 review-ready candidate。PUP 仍是
 > experimental、opt-in implementation；M6 qualification 與 rollout 尚未完成。
 > 本文件是實作紀錄與 rollout 邊界，不構成 production qualification、provider
 > 呼叫或部署授權。
 >
-> 實作快照：`team-main` @ `4d4c28c5cfed953d4cdd2cf5f0c5387b1daeeaa8`
->（2026-09-16；後續 M6 開始前必須重新凍結依賴、runtime 與 provider 輪廓）
+> M6.0B exact base：`team-main` @
+> `df0f8ca616fceac056c8762a9b59193a2e822873`（2026-09-16）
 >
 > 第一個支援輪廓：單一 direct-child OM project、既有 pipeline DAG、40～60 分鐘課程、Production Unit opt-in
 >
@@ -31,7 +32,7 @@ qualification。
 | M3 | 完成（lean） | Asset units 已接入 Batch V2 的 request／attempt／receipt 邊界，維持既有 publication authority。 |
 | M4 | 完成（lean） | Edit merge、per-unit render contract、master assembly 與 resume／invalidation 邊界已落地。 |
 | M5 | 完成（lean） | Course routing、Backlot observer-only projection、progress 與 delivery projection 已落地。 |
-| M6 | 執行中（M6.0A follow-up review-ready） | Vocabulary 已分離為 approved policy mode 與 execution disposition；legacy helper seam 已明確降為 non-authoritative diagnostic；versioned qualification profile／capability matrix 最小契約、positive/invalid fixtures 與測試已建立。Live discovery/resolution、evidence/manifest trust binding、M6.0B～M6.3、跨 OS slow gate、真實 E2E、故障恢復、telemetry calibration 與 rollout 決策仍未完成。 |
+| M6 | 執行中（M6.0B review-ready） | M6.0A 已完成 vocabulary／consumer contract closure；M6.0B 新增 JSON candidate → review → canonical validation → existing checkpoint writer 的最小 durable handoff，以及 immutable receipts、epoch/control-chain binding、checkpoint-last crash recovery 與 fail-closed replay/tamper tests。Assets 仍由 Batch V2 唯一發布；render publication、cross-epoch adoption、live qualification discovery、跨 OS slow gate、真實 E2E、telemetry calibration 與 M6.0C～M6.3 尚未完成。 |
 
 目前可支持的陳述是：OM 已有可關閉、可回退的 bounded production-unit execution
 與 deterministic merge 能力，而且凍結的 30 分鐘比較中 PUP 勝過該次 baseline。
@@ -47,6 +48,13 @@ implementation 互相矛盾。現階段以已測試的 schema、Python adapters�
 directors、`course-form` skill 與 PUP meta skill 為準。若日後需要正式
 qualification profile，應在 M6 以當時實際支援的 pipeline × runtime × provider
 輪廓重新制定，而不是把舊草稿直接升格為規範。
+
+M6.0B 只落地本計畫中與 **JSON candidate handoff** 直接相關的最小子集，沒有
+實作本文件較早期 mega-RFC 所描述的完整 override/resume/adoption 或第二套
+publication state machine。`.production-units/handoffs/<handoff_id>/state.json`
+只是 immutable record digests 的可修復 projection；它不代表 pipeline lifecycle、
+Human Gate 或 publication authority。跨 epoch reuse 一律拒絕，直到後續 milestone
+有獨立核准且 exact adoption contract 完成。
 
 ## 1. 要交付的能力
 

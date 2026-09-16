@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "openmontage/execution/production-unit-handoff-state/1.0",
+  "title": "Production Unit candidate handoff coordinator projection",
+  "type": "object",
+  "required": [
+    "version", "handoff_id", "project_id", "run_id", "pipeline_type",
+    "stage", "execution_epoch", "control_chain_sha256", "revision",
+    "records", "state_sha256"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "version": { "const": "1.0" },
+    "handoff_id": { "$ref": "#/$defs/identifier" },
+    "project_id": { "$ref": "#/$defs/identifier" },
+    "run_id": { "$ref": "#/$defs/identifier" },
+    "pipeline_type": { "$ref": "#/$defs/identifier" },
+    "stage": { "type": "string", "enum": ["script", "clp", "scene_plan", "edit"] },
+    "execution_epoch": { "type": "integer", "minimum": 0 },
+    "control_chain_sha256": { "$ref": "#/$defs/digest" },
+    "revision": { "type": "integer", "minimum": 0 },
+    "records": {
+      "type": "object",
+      "required": ["plan", "candidate", "review", "validation", "checkpoint_intent", "checkpoint_receipt"],
+      "additionalProperties": false,
+      "properties": {
+        "plan": { "$ref": "#/$defs/optionalDigest" },
+        "candidate": { "$ref": "#/$defs/optionalDigest" },
+        "review": { "$ref": "#/$defs/optionalDigest" },
+        "validation": { "$ref": "#/$defs/optionalDigest" },
+        "checkpoint_intent": { "$ref": "#/$defs/optionalDigest" },
+        "checkpoint_receipt": { "$ref": "#/$defs/optionalDigest" }
+      }
+    },
+    "state_sha256": { "$ref": "#/$defs/digest" }
+  },
+  "$defs": {
+    "digest": { "type": "string", "pattern": "^sha256:[0-9a-f]{64}$" },
+    "optionalDigest": {
+      "oneOf": [
+        { "$ref": "#/$defs/digest" },
+        { "type": "null" }
+      ]
+    },
+    "identifier": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$"
+    }
+  }
+}

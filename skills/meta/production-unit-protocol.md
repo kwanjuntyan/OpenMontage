@@ -205,10 +205,65 @@ explicitly ignored, and every final entity must be sourced by a candidate.
    whether scene IDs/order match.
 7. Present the comparison result as experimental evidence only.
 
-Production Unit helpers never call `write_checkpoint`, replace artifacts,
-update checkpoint status, or advance a Human Gate. Publication candidates can
-become canonical only through the existing stage director, schema/semantic
-validation, checkpoint writer, and original Human Gate.
+M2–M5 planning／merge／render-preparation helpers never call
+`write_checkpoint`, replace artifacts, update checkpoint status, or advance a
+Human Gate. Publication candidates can become canonical only through the
+existing stage director, schema/semantic validation, checkpoint writer, and
+original Human Gate.
+
+## M6.0B durable JSON candidate handoff
+
+For an approved, non-legacy `publish_candidate` path at `script`, `clp`,
+`scene_plan`, or `edit`, the owning director may use
+`lib.production_units.handoff.ProductionUnitHandoffCoordinator` after merge.
+The bounded order is:
+
+1. `prepare_candidate(...)` reads policy only from the validated, completed,
+   human-approved proposal checkpoint. Missing or `off` policy returns `None`
+   before creating `.production-units/`. It freezes the plan and candidate as
+   non-canonical sidecar records bound to project, run, stage, source
+   checkpoints, policy, epoch, and control-chain digests.
+2. `record_review(...)` records the owning reviewer's explicit accepted or
+   rejected decision. This is stage review evidence, never Human approval.
+3. `validate_candidate()` runs the registered canonical artifact validators
+   and freezes their receipt. Rejected, stale, tampered, or cross-epoch
+   evidence fails closed.
+4. `submit_checkpoint()` freezes an intent, calls the existing official
+   `write_checkpoint`, reads the result back, and only then writes a receipt.
+   A manifest-gated stage is always submitted as `awaiting_human` with
+   `human_approved=false`; the original checkpoint protocol exclusively owns
+   the later Human Gate transition. When approval is later granted, the normal
+   checkpoint workflow should carry forward the exact candidate artifacts and
+   `metadata.production_units.candidate_handoff`; this handoff module does not
+   consume or manufacture the human response.
+5. `resume_checkpoint()` may resume only an already-frozen intent. It performs
+   no provider dispatch or candidate selection. If a crash occurred after the
+   official writer, it verifies the exact checkpoint and repairs only the
+   missing receipt/projection.
+
+The optional checkpoint provenance is also validated by the normal checkpoint
+validator on write and read. Changing its candidate, receipt, authority,
+epoch, or control-chain binding therefore makes the checkpoint unreadable
+rather than merely producing a coordinator warning. Older checkpoints without
+this optional metadata take the unchanged legacy path.
+
+The mutable handoff `state.json` is a non-authoritative projection of immutable
+record digests. A valid lagging projection may be repaired after a crash;
+tampered identity, epoch, control-chain, or record pointers fail closed.
+Ambiguous charged evidence is never automatically retried.
+
+Authority remains disjoint:
+
+- `pup_json_merge`: this M6.0B handoff may submit JSON artifacts through the
+  existing checkpoint writer;
+- `batch_v2_assets`: assets continue through Batch V2's existing
+  PublicationCommand／PublicationState only; this handoff rejects `assets`;
+- `pup_render`: render publication is not implemented here and remains
+  deferred to M6.0C.
+
+M6.0B does not implement cross-epoch adoption. Old-epoch evidence, invented
+adoption fields, hybrid publication authority, or a changed source/target
+checkpoint must be rejected rather than guessed or promoted.
 
 ## Fail closed
 

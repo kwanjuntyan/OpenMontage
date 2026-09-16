@@ -1,7 +1,8 @@
 # Production Unit Protocol M6 qualification record
 
-> Current status (2026-09-16): **M6.0A follow-up review-ready candidate**. This record
-> describes contract closure only. It is not beta or production qualification.
+> Current status (2026-09-16): **M6.0B review-ready candidate** on exact base
+> `df0f8ca616fceac056c8762a9b59193a2e822873`. This remains experimental,
+> opt-in work. It is not beta or production qualification.
 
 ## Scope completed in M6.0A
 
@@ -108,6 +109,83 @@ Track B owns presentation policy for these degraded/unknown states. It does
 not own producer discovery, trust, selection, evidence verification, or
 manifest binding.
 
+## M6.0B bounded candidate-handoff closure
+
+M6.0B adds one producer-side JSON handoff seam without changing canonical
+checkpoint fields, Human Gate semantics, Batch V2 publication, or Backlot
+ownership:
+
+```text
+director candidate (non-canonical sidecar)
+  -> explicit stage review receipt (not Human approval)
+  -> registered canonical artifact validators
+  -> immutable checkpoint intent
+  -> existing lib.checkpoint.write_checkpoint
+  -> original Human Gate when the manifest requires it
+```
+
+The versioned contracts are:
+
+- `schemas/execution/production_unit_handoff_record.schema.json`
+- `schemas/execution/production_unit_handoff_state.schema.json`
+- `schemas/execution/production_unit_checkpoint_provenance.schema.json`
+
+The implementation is
+`lib/production_units/handoff.py::ProductionUnitHandoffCoordinator`.
+It stores immutable plan, candidate, review, validation, checkpoint-intent, and
+checkpoint-receipt records below
+`.production-units/handoffs/<handoff_id>/`. `state.json` is only an atomic,
+repairable digest projection; it is not a second pipeline state machine and
+grants no approval or publication authority.
+
+Every record binds the exact project, run, pipeline, stage, execution epoch,
+and control-chain identity/digest. The candidate additionally binds the
+approved proposal checkpoint and policy, full plan bytes/digest, all existing
+predecessor checkpoints, the pre-existing target checkpoint, merged candidate
+bytes/digest, and merge evidence. Review, validation, intent, receipt, and the
+checkpoint's additive `metadata.production_units.candidate_handoff` form an
+exact digest chain. `lib.checkpoint.validate_checkpoint` authenticates that
+optional provenance on both write and read; ordinary and older checkpoints
+without the optional object remain unchanged.
+
+Restart is deterministic and checkpoint-last:
+
+- immutable records use atomic no-replace writes; identity reuse with
+  different bytes is rejected;
+- one OS-level coordinator lock serializes each handoff;
+- a crash before the official writer resumes only the frozen local intent;
+- a crash after the writer verifies the exact checkpoint and repairs only the
+  missing receipt/projection;
+- a changed policy, plan, source checkpoint, target checkpoint, candidate,
+  receipt, epoch, control chain, or authority fails closed;
+- ambiguous charged evidence is rejected before persistence and is never
+  automatically resubmitted.
+
+The authority variants are intentionally not combined. M6.0B implements only
+`pup_json_merge` for `script`, `clp`, `scene_plan`, and `edit`. `assets` is
+rejected and remains solely under Batch V2 PublicationCommand/PublicationState.
+`compose`/render publication is rejected and deferred to M6.0C. Hybrid
+authority fields are invalid under the closed handoff schema.
+
+Manifest-gated candidates are written `awaiting_human` with
+`human_approved=false`. The handoff API has no parameter that can assert human
+approval. The normal checkpoint protocol remains the only owner of the later
+`awaiting_human -> completed` transition. That existing transition may carry
+forward the exact candidate bytes/provenance and is accepted only when the
+normal checkpoint has `status=completed` and `human_approved=true`.
+
+### Explicit M6.0B deferrals
+
+| Item | Owner / target | Current reduced claim |
+|---|---|---|
+| Physical render publication and media recovery | Track A / M6.0C | JSON handoff only; no render authority |
+| Cross-epoch adoption/resume authorization | Track A / separately reviewed later slice | Cross-epoch reuse is rejected; no legal adoption path yet |
+| Full override/resume control-chain verifier | Track A / later recovery-control slice | Exact caller-supplied chain identity/digest is bound, but chain trust is not established |
+| Live profile/matrix discovery and trust roots | Track A / M6.1 | M6.0A supplied-document boundary remains |
+| Aggregate Backlot progress/recovery UI | Track B after producer review | Backlot must not read handoff sidecars as authority |
+| Provider-backed 60-minute evidence | Track A / M6.2 | No provider or E2E claim |
+| Production rollout | Track A / M6.3 | PUP remains experimental and opt-in |
+
 ## Evidence snapshot
 
 Base commit: `bdce618f7554468ee3a652a84724ba1bd9ae173b`
@@ -130,13 +208,24 @@ M6.0A consumer-review follow-up candidate:
 - `python -m pytest tests/production_units -q`: 110 passed
 - `python -m pytest tests/backlot/test_course_projection.py -q`: 7 passed
 
+M6.0B review-ready candidate (exact base `df0f8ca`):
+
+- focused handoff fault/tamper suite: 26 passed
+- `python -m pytest tests/production_units -q`: 136 passed
+- focused checkpoint + course-routing suite: 23 passed
+- `python -m pytest tests/backlot/test_course_projection.py -q`: 7 passed
+- Batch V2 publication/release regression: 81 passed, 2 skipped
+- pipeline catalog + checkpoint/Backlot contract regression: 73 passed
+- Ruff on the new implementation/tests: passed
+- `git diff --check`: passed
+
 All tests used explicit short `--basetemp` paths under
 `D:\kj-openMontage\.pytest-tmp`. No provider, network, deployment, GCS,
 media-generation, push, or merge action was performed.
 
 ## Capability claim boundary
 
-M6.0A may claim:
+M6.0A/M6.0B may claim:
 
 - canonical vocabulary closure with a backward-compatible helper seam;
 - strict default-off and fail-closed mapping tests;
@@ -144,10 +233,11 @@ M6.0A may claim:
   caller-supplied trusted documents;
 - no change to canonical artifacts, checkpoint chain, Human Gates, Batch V2
   ownership, or Backlot writer authority.
+- a durable, fault-tested JSON candidate-to-existing-checkpoint handoff with
+  exact same-epoch binding and fail-closed restart.
 
-M6.0A may not claim:
+M6.0A/M6.0B may not claim:
 
-- durable candidate-to-checkpoint handoff/recovery qualification (M6.0B);
 - physical media qualification (M6.0C);
 - 3/8/15/30/60 offline matrix completion (M6.1);
 - a real provider-backed 60-minute beta profile (M6.2);
@@ -186,13 +276,41 @@ remain observer-only.
 - `profile_ref` is opaque; Backlot must not dereference it;
 - qualification status and `manifest_supported` are producer assertions until
   later evidence/manifest trust binding;
-- unstable until M6.0B review: durable coordinator state, candidate handoff,
-  aggregate stage/unit progress, recovery/epoch fields, and checkpoint
-  provenance references.
+- after M6.0B producer review, consumers may display the additive
+  `metadata.production_units.candidate_handoff` identity/digest fields from a
+  checkpoint already accepted by the official reader. They must not infer
+  Human approval, effective qualification, cross-epoch adoption, or provider
+  evidence from them;
+- handoff `state.json` and immutable sidecars remain producer-internal. Backlot
+  must not dereference, repair, or treat them as pipeline state;
+- aggregate stage/unit progress, control-chain trust, cross-epoch adoption,
+  and live qualification resolution remain unstable/deferred.
+
+For the M6.0B producer slice specifically, the only new consumer-facing seam
+is an optional object already inside a checkpoint accepted by the official
+reader:
+
+```text
+metadata.production_units.candidate_handoff
+```
+
+Its stable shape for this slice is: `version`, `authority`, `handoff_id`,
+`run_id`, `execution_epoch`, `control_chain`, `policy_checkpoint_sha256`,
+`policy_sha256`, `plan_record_sha256`, `candidate_record_sha256`,
+`candidate_sha256`, `review_record_sha256`, `validation_record_sha256`, and
+`checkpoint_intent_sha256`. `authority` is exactly `pup_json_merge`.
+
+GPT B may display those values only as provenance for that already-validated
+checkpoint. Approval/status still comes from the checkpoint's own
+`status`/`human_approved` fields; effective policy still comes from the
+approved proposal checkpoint; qualification still comes from a later trusted
+profile resolver. Absence of this object is normal for mode-off, ordinary, and
+older projects. Backlot must not scan `.production-units/handoffs`, interpret
+`state.json`, repair receipts, or infer a Batch/render authority from this JSON
+variant.
 
 ## Next review-gated slice
 
-M6.0B should define and fault-test the canonical candidate handoff and minimum
-durable recovery seam. It must not revive the old mega-RFC wholesale, add a
-second publisher/approval system, modify Backlot ownership, call providers, or
-perform a merge without separate approval.
+After independent GPT B review of this M6.0B candidate, the next separately
+authorized slice is M6.0C physical render publication/recovery. No M6.0C work,
+merge, push, provider call, or Backlot change is authorized by this record.
