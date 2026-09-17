@@ -2,7 +2,7 @@
 
 > **Contract version**: `backlot.workspace.field-source-matrix.v1`
 > **Phase**: B0.1 consumer contract
-> **Status**: review-ready on an independent branch; normative only after integration
+> **Status**: integrated at `team-main @ 23b214a`; normative B0.1 consumer contract
 > **Machine-readable source**: `docs/backlot-workspace-field-source-matrix.v1.json`
 > **Wire schema**: `schemas/workspace/workspace_projection_v1.schema.json`
 > **Runtime status**: no resolver, route, UI, preview engine, or mutation is authorized by this document

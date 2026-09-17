@@ -1,10 +1,10 @@
 # OpenMontage Backlot Director Workspace — Track B Architecture and Implementation Plan
 
-> **版本**：v1.3 B0.1 common projection contract review-ready
+> **版本**：v1.4 B0.1 integrated／B0.2 handoff-ready
 > **日期**：2026-09-17
-> **狀態**：現行 Track B 主文件；B0.0 已整合，B0.1 schemas／types／consumer fixtures 已在獨立分支通過驗收並達 review-ready，尚未整合
+> **狀態**：現行 Track B 主文件；B0.0 與 B0.1 schemas／types／consumer fixtures 均已整合至 `team-main`，B0.2 尚未啟動
 > **維護**：GPT B（Track B owner 與跨軌協調）
-> **目前程式基線**：`team-main @ 661827b`；PUP M0～M5 整合點為 `4d4c28c`
+> **目前程式基線**：B0.1 整合點 `team-main @ 23b214a`；PUP M0～M5 整合點為 `4d4c28c`
 > **Track A dependency snapshot**：固定於 `847cda0`，包含已整合的 M6.0A／M6.0B consumer contracts；這不是 live milestone status。PUP 仍為 `experimental`／`opt-in`，最新進度只查 Track A implementation plan
 > **實作授權**：使用者已授權 B0.1 versioned schemas／types／authority matrix／consumer fixtures／contract tests；未授權 B0.2 runtime resolver／API／UI、PUP producer contract或 canonical production data 修改
 
@@ -1055,6 +1055,7 @@ Existing tests in `tests/backlot/` remain regression gates。Workspace tests sho
 | B-D026 | 2026-09-17 | scope enforcement | 本輪名稱校正為 B0.1 common projection **contract**，resolver／API／shell 仍屬 B0.2，必須在 B0.1 reviewed／integrated 後另行授權 | Architecture Contract §B0.1／§B0.2 + startup audit | B-D022 | 防止把「projection／resolver 底座」口語說法誤解為可提前實作 runtime |
 | B-D027 | 2026-09-17 | contract hardening／review correction | Workspace v1 snapshot改以完整canonical SourceEntry形成token；所有non-projection RevisionRef、MediaRef owner/proxy lineage、GenerationInstruction locator、PUP policy/profile/matrix/disposition及edit-preview source basis都採exact evidence binding；每個evidence scope須由相容的cited source family支持，GenerationInstruction locator另須符合instruction-kind governing source family及對應scope；`derived_projection`不得canonical，也不得用無關trusted evidence洗白legacy | B0.1獨立contract review反例 + positive／negative executable tests | — | 原先只雜湊`source_key + sha256`、只比source kind或只驗scope enum，允許identity metadata共同漂移、虛構證據深度與authority laundering；B0.1尚未整合且無既有consumer，故在同一v1候選內修正，不產生silent API reinterpretation。B0.2必須直接實作此收緊後契約 |
 | B-D028 | 2026-09-17 | review-ready status | B0.1 common projection contract已通過authority、fixture/schema與projection/phase-boundary三方獨立最終驗收，無P0/P1；此狀態僅表示branch可供review／整合，不表示已merge、push或授權B0.2 | 三方final ACCEPTED + focused／Backlot／PUP regression + static／JSON／diff gates | B-D025–B-D027 | B0.2仍須等待B0.1整合及使用者另行明確授權 |
+| B-D029 | 2026-09-17 | integrated status | B0.1 common projection contract已以fast-forward整合並推送至`team-main @ 23b214a`；B0.2可進入獨立啟動／授權流程，但尚未開始 | User明確merge／push授權 + remote `team-main` verification | B-D028 | 新對話與外部實作者必須以此整合點或其後續status-only commit為base，不得退回B0.0 schema假設 |
 
 ## 14. Revision protocol
 

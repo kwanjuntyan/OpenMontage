@@ -1,6 +1,6 @@
 {
   "version": "backlot.workspace.field-source-matrix.v1",
-  "status": "b0.1_review_ready",
+  "status": "b0.1_integrated",
   "scope": "Field-group source, reader, validator, authority, lifecycle, absence, degradation, and ownership matrix for Backlot Workspace v1. This document defines consumer semantics only; it does not authorize runtime readers, routes, UI, writes, provider calls, approval, or publication.",
   "normative_refs": [
     "AGENT_GUIDE.md",

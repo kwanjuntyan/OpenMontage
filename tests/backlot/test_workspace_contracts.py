@@ -1776,7 +1776,7 @@ def test_pup_axes_require_their_exact_public_evidence() -> None:
 def test_authority_matrix_matches_frozen_schema_vocabulary_and_records_gaps() -> None:
     matrix = _load_json(AUTHORITY_MATRIX_PATH)
     schema = load_workspace_v1_schema()
-    assert matrix["status"] == "b0.1_review_ready"
+    assert matrix["status"] == "b0.1_integrated"
     assert (
         matrix["frozen_vocabulary"]["source_snapshot_algorithm"]["name"]
         == "canonical-source-entries-v1"

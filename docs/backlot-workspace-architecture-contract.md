@@ -2,7 +2,7 @@
 
 > **Contract version**: `backlot.workspace.architecture.v1`
 > **B0.0 integration baseline**: `team-main @ 661827bee49c57f80b6a5c56b1378bccd7e039f8`; Track A consumer dependency remains pinned separately at `847cda02baa7a166da8f7a71976013765a5f71f2`
-> **Status**: full B0.0 governance baseline integrated; B0.1 contract additions are review-ready on an independent branch but not integrated. This contract does not by itself authorize B0.2 product-code changes
+> **Status**: full B0.0 governance baseline and B0.1 contract are integrated; the B0.1 integration point is `team-main @ 23b214a`. This contract does not by itself authorize B0.2 product-code changes
 > **Roadmap and rationale**: `docs/backlot-director-workspace-plan.md`
 
 ## 1. Purpose and precedence
