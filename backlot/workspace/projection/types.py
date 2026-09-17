@@ -321,11 +321,137 @@ class GenerationInstruction(TypedDict):
     unavailable_reason: str | None
 
 
+class CoursePromise(TypedDict):
+    learner: str
+    capability: str
+    use_context: str
+    success_evidence: str
+
+
+class CourseObjective(TypedDict):
+    id: str
+    actor: str
+    observable_verb: str
+    object: str
+    success_evidence: str
+    source_refs: list[str]
+    conditions: NotRequired[str]
+
+
+class CourseTeachingBeat(TypedDict):
+    kind: Literal[
+        "activation",
+        "hook",
+        "explanation",
+        "model",
+        "worked_example",
+        "demonstration",
+        "practice",
+        "recap",
+        "assessment",
+        "bridge",
+    ]
+    intent: str
+    objective_ids: NotRequired[list[str]]
+
+
+class CourseLesson(TypedDict):
+    id: str
+    title: str
+    target_duration_seconds: float
+    objective_ids: list[str]
+    prerequisite_lesson_ids: list[str]
+    prerequisite_objective_ids: list[str]
+    expected_outcome: str
+    source_refs: list[str]
+    teaching_beats: list[CourseTeachingBeat]
+    glossary_ids: list[str]
+    notation_ids: list[str]
+    export_required: bool
+
+
+class CourseModule(TypedDict):
+    id: str
+    title: str
+    intermediate_capability: str
+    target_duration_seconds: float
+    objective_ids: list[str]
+    lessons: list[CourseLesson]
+    recap_intent: str
+
+
+class CourseAssessment(TypedDict):
+    id: str
+    type: Literal["diagnostic", "formative", "summative"]
+    objective_ids: list[str]
+    prompt_intent: str
+    expected_evidence: str
+    pass_criteria: str
+    lesson_id: NotRequired[str]
+
+
+class CourseSource(TypedDict):
+    id: str
+    uri: str
+    title: NotRequired[str]
+    locator: NotRequired[str]
+    digest: NotRequired[str]
+
+
+class CourseGlossaryEntry(TypedDict):
+    id: str
+    preferred_term: str
+    definition: str
+    aliases: list[str]
+    forbidden_aliases: list[str]
+
+
+class CourseNotationEntry(TypedDict):
+    id: str
+    symbol: str
+    meaning: str
+    first_lesson_id: NotRequired[str]
+    units: NotRequired[str]
+
+
+class CourseStyleIntent(TypedDict):
+    tone: str
+    visual_intent: str
+
+
+class CourseDeliveryRequirements(TypedDict):
+    full_master: bool
+    lesson_export_ids: list[str]
+    chapter_markers: bool
+    captions: list[Literal["srt", "vtt", "burned_in"]]
+    bundle: bool
+
+
+class CourseDesign(TypedDict):
+    version: Literal["1.0"]
+    project_id: str
+    content_form: Literal["course_form"]
+    title: str
+    target_duration_seconds: float
+    course_promise: CoursePromise
+    audience: list[str]
+    entry_requirements: list[str]
+    objectives: list[CourseObjective]
+    modules: list[CourseModule]
+    assessments: list[CourseAssessment]
+    sources: list[CourseSource]
+    glossary: list[CourseGlossaryEntry]
+    notation: list[CourseNotationEntry]
+    style_intent: CourseStyleIntent
+    delivery_requirements: CourseDeliveryRequirements
+
+
 class ResourceSummaryData(TypedDict):
     version: Literal["backlot.workspace.resource-summary.v1"]
     label: str
     availability: Literal["available", "display_only", "invalid", "unavailable"]
     description: NotRequired[str]
+    course_design: NotRequired[CourseDesign]
 
 
 class ProjectedRevision(TypedDict):
@@ -597,6 +723,18 @@ __all__ = [
     "CatalogData",
     "CatalogItem",
     "CatalogProjection",
+    "CourseAssessment",
+    "CourseDeliveryRequirements",
+    "CourseDesign",
+    "CourseGlossaryEntry",
+    "CourseLesson",
+    "CourseModule",
+    "CourseNotationEntry",
+    "CourseObjective",
+    "CoursePromise",
+    "CourseSource",
+    "CourseStyleIntent",
+    "CourseTeachingBeat",
     "CapabilityEntry",
     "CapabilityMap",
     "Diagnostic",

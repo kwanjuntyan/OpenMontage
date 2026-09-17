@@ -31,6 +31,16 @@ and a bounded app-memory projection cache. The cache stores validated response
 JSON only, is invalidated by project changes, and is disposable on restart or
 flag-off; it never writes under a project root. SSE carries only a change type
 and project id, never a path, source snapshot, or producer payload.
+B1A adds one separately scoped Course read seam: `readers/course.py` observes
+only the authenticated project's manifest-declared `proposal` checkpoint via
+`read_checkpoint`.  A Course becomes canonical only when that checkpoint is
+`completed` and `human_approved`, and its `proposal_packet` and
+`course_manifest` both pass their official schema and semantic validators with
+an exact `project_id` binding. Awaiting-human evidence remains a candidate;
+history, loose artifacts, PUP/Batch sidecars, delivery/publication and all
+writers remain out of scope. The proposal-stage Inspector lazy-loads this
+revision set and presents structured learning-design declarations only.
+
 Course/candidate classification, media, and private-sidecar reads remain out
 of scope.
 Missing, invalid, or unusable marker/title evidence is omitted rather than

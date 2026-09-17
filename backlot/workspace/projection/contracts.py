@@ -19,6 +19,7 @@ from urllib.parse import unquote, urlsplit
 from jsonschema import ValidationError
 
 from schemas.workspace import load_workspace_v1_schema, workspace_v1_validator
+from schemas.artifacts import validate_artifact
 
 from .types import SourceSnapshot, WorkspaceProjection
 
@@ -53,6 +54,20 @@ WORKSPACE_V1_DEFINITIONS = frozenset(
         "instruction_source_locator",
         "generation_instruction",
         "resource_summary_data",
+        "course_design",
+        "course_id",
+        "course_id_array",
+        "course_promise",
+        "course_objective",
+        "course_teaching_beat",
+        "course_lesson",
+        "course_module",
+        "course_assessment",
+        "course_source",
+        "course_glossary",
+        "course_notation",
+        "course_style_intent",
+        "course_delivery_requirements",
         "projected_revision",
         "revision_set_data",
         "catalog_item",
@@ -358,9 +373,7 @@ def _validate_authority(
                 "evidence_scope 'none' is reserved for unavailable authority with no claimed source family",
                 (*path, "evidence_scope"),
             )
-    elif not (
-        evidence_kinds & _EVIDENCE_SCOPE_SOURCE_KINDS[evidence_scope]
-    ):
+    elif not (evidence_kinds & _EVIDENCE_SCOPE_SOURCE_KINDS[evidence_scope]):
         _fail(
             "unsupported_evidence_scope",
             f"evidence_scope {evidence_scope!r} requires a compatible cited evidence source",
@@ -1177,6 +1190,31 @@ def _revision_signature(revision: Mapping[str, Any]) -> tuple[Any, ...]:
     )
 
 
+def _validate_course_design(
+    course_design: Mapping[str, Any],
+    resource: Mapping[str, Any],
+    path: Sequence[str | int],
+) -> None:
+    """Keep the embedded Course declaration bound wherever the v1 wire permits it."""
+    try:
+        validate_artifact("course_manifest", dict(course_design))
+    except Exception:
+        _fail(
+            "invalid_course_design",
+            "course_design must pass the official Course manifest validator",
+            path,
+        )
+    if (
+        resource["kind"] != "course"
+        or course_design["project_id"] != resource["project_id"]
+    ):
+        _fail(
+            "course_design_project_mismatch",
+            "course_design requires a Course ResourceRef with an exact project_id binding",
+            (*path, "project_id"),
+        )
+
+
 def _validate_revision_set(
     data: Mapping[str, Any],
     path: Sequence[str | int],
@@ -1233,6 +1271,13 @@ def _validate_revision_set(
                 "mixed_revision_resource",
                 "every revision-set member must describe the same logical resource",
                 (*path, "revisions", index, "resource_ref"),
+            )
+        course_design = revision["data"].get("course_design")
+        if course_design is not None:
+            _validate_course_design(
+                course_design,
+                revision["resource_ref"],
+                (*path, "revisions", index, "data", "course_design"),
             )
 
 
@@ -1926,6 +1971,10 @@ def _validate_workspace_projection(projection: Mapping[str, Any]) -> None:
     )
 
     data = projection["data"]
+    if kind == "resource_summary" and data.get("course_design") is not None:
+        _validate_course_design(
+            data["course_design"], resource, ("data", "course_design")
+        )
     pagination = data.get("pagination")
     if pagination is not None and pagination["next_cursor"] is not None:
         if pagination["next_cursor"]["snapshot_sha256"] != snapshot["composite_sha256"]:

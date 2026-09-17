@@ -17,6 +17,7 @@ from fastapi.responses import JSONResponse, Response, StreamingResponse
 
 from backlot.workspace.projection.catalog import CatalogCursorError, CatalogProjectionResolver
 from backlot.workspace.projection.shell import ShellProjectionNotFound, ShellProjectionResolver
+from backlot.workspace.projection.course import CourseProjectionNotFound, CourseProjectionResolver
 
 
 def _bad_request(code: str) -> HTTPException:
@@ -189,6 +190,7 @@ def create_workspace_router(
     router = APIRouter(prefix="/api/workspace/v1")
     catalog = CatalogProjectionResolver(projects_root)
     shell = ShellProjectionResolver(projects_root)
+    course = CourseProjectionResolver(projects_root)
     runtime = WorkspaceRuntime()
     _CACHE_REGISTRY.setdefault(str(Path(projects_root).resolve()), WeakSet()).add(runtime)
 
@@ -223,6 +225,17 @@ def create_workspace_router(
             )
             return _projection_response(request, projection, etag)
         except ShellProjectionNotFound as exc:
+            raise HTTPException(status_code=404, detail={"code": "workspace_project_not_found"}) from exc
+
+    @router.get("/projects/{project_id}/course")
+    async def get_course(project_id: str, request: Request) -> Response:
+        try:
+            projection, etag, _ = runtime.resolve(
+                f"course:{project_id}", frozenset({project_id}),
+                lambda: course.resolve(project_id),
+            )
+            return _projection_response(request, projection, etag)
+        except CourseProjectionNotFound as exc:
             raise HTTPException(status_code=404, detail={"code": "workspace_project_not_found"}) from exc
 
     if subscribe is not None and unsubscribe is not None:

@@ -10,6 +10,8 @@ const state = {
   catalogError: null,
   shell: null,
   shellError: null,
+  course: null,
+  courseError: null,
   routeProjectId: null,
   statusExpanded: false,
   loading: false,
@@ -71,6 +73,8 @@ function projectUrl(projectId) {
   return `${API_ROOT}/projects/${encodeURIComponent(projectId)}/shell`;
 }
 
+function courseUrl(projectId) { return `${API_ROOT}/projects/${encodeURIComponent(projectId)}/course`; }
+
 function applyCatalog(projection, { append = false } = {}) {
   const items = Array.isArray(projection.data?.items) ? projection.data.items : [];
   const known = new Map((append ? state.catalogItems : []).map((item) => [item.project_ref?.resource_key, item]));
@@ -101,6 +105,8 @@ async function load({ append = false, eventProjectId = null } = {}) {
     state.routeProjectId = requestedProjectId;
     if (projectChanged) {
       state.shell = null;
+      state.course = null;
+      state.courseError = null;
       state.statusExpanded = false;
     }
     state.shellError = null;
@@ -137,6 +143,10 @@ async function load({ append = false, eventProjectId = null } = {}) {
       if (generation !== state.loadGeneration || routeProjectId() !== requestedProjectId) return;
       if (!shell.notModified) {
         state.shell = shell.projection;
+        changed = true;
+      }
+      if (state.shell && selectedStage(state.shell).selected === "proposal") {
+        await loadCourse(state.routeProjectId, generation);
         changed = true;
       }
     } catch (error) {
@@ -197,6 +207,24 @@ function navigateStage(stageName) {
   params.set("stage", stageName);
   history.pushState({}, "", `${location.pathname}?${params}`);
   render();
+  if (stageName === "proposal" && state.routeProjectId) loadCourse(state.routeProjectId, state.loadGeneration);
+}
+
+async function loadCourse(projectId, generation) {
+  try {
+    const result = await getJson(courseUrl(projectId), `course:${projectId}`);
+    if (generation !== state.loadGeneration || routeProjectId() !== projectId || selectedStage().selected !== "proposal") return;
+    if (!result.notModified && (
+      result.projection?.resource_ref?.project_id !== projectId
+      || result.projection?.resource_ref?.kind !== "course"
+    )) throw new Error("Course identity could not be authenticated.");
+    if (!result.notModified) state.course = result.projection;
+    state.courseError = null;
+  } catch (error) {
+    if (generation !== state.loadGeneration || routeProjectId() !== projectId) return;
+    state.courseError = error.message;
+  }
+  if (generation === state.loadGeneration) render();
 }
 
 function badge(text, variant = "") { return node("span", { class: `badge ${variant}`, text }); }
@@ -301,8 +329,63 @@ function renderStageInspector(shell, selected) {
   ]) {
     details.append(node("div", { class: "detail" }, [node("span", { class: "label", text: label }), node("strong", { text: value || "unavailable" })]));
   }
-  inspector.append(details, node("p", { class: "empty", text: "Read-only stage summary only. Detailed stage inspectors are a future capability." }));
+  inspector.append(details);
+  if (stage.name !== "proposal") inspector.append(node("p", { class: "empty", text: "Read-only stage summary only. Detailed stage inspectors are a future capability." }));
+  if (stage.name === "proposal") inspector.append(renderCourseInspector());
   return inspector;
+}
+
+function renderCourseInspector() {
+  const section = node("section", { class: "course-inspector", "aria-labelledby": "course-inspector-title" });
+  section.append(node("h4", { id: "course-inspector-title", text: "Course Inspector / 課程檢視" }));
+  if (state.courseError) return section.append(node("p", { class: "diagnostic error", text: state.courseError })), section;
+  if (!state.course) return section.append(node("p", { class: "empty", text: "Loading Course revision set…" })), section;
+  const data = state.course.data || {};
+  const revision = data.current_canonical || data.pending_candidates?.[0];
+  if (!revision) return section.append(node("p", { class: "empty", text: `Course unavailable: ${data.current_canonical_unavailable_reason || "course_manifest_unavailable"}` })), section;
+  const stateLabel = data.current_canonical ? "Canonical course" : "Awaiting-human course candidate";
+  const course = revision.data?.course_design;
+  if (!course || typeof course !== "object") return section.append(node("p", { class: "empty", text: "Validated Course details are unavailable." })), section;
+  const list = (values, label, renderValue = (value) => value) => {
+    const wrapper = node("section", { class: "course-section" }, [node("h5", { text: label })]);
+    const items = node("ul");
+    for (const value of Array.isArray(values) ? values : []) items.append(node("li", { text: renderValue(value) }));
+    wrapper.append(items.children.length ? items : node("p", { class: "muted", text: "None declared." }));
+    return wrapper;
+  };
+  const detail = (label, children) => node("details", { class: "course-detail" }, [node("summary", { text: label }), children]);
+  const refs = (values) => Array.isArray(values) && values.length ? values.join(", ") : "none";
+  section.append(node("p", { class: "muted", text: stateLabel }));
+  section.append(node("p", { class: "muted", text: "Course-manifest intent only; this is not resolved Style or delivery/publication evidence." }));
+  section.append(node("h5", { text: course.title || "Course" }));
+  section.append(node("p", { text: `Target duration: ${course.target_duration_seconds || "?"} seconds` }));
+  const promise = course.course_promise || {};
+  section.append(detail("Course promise", list([
+    `Learner: ${promise.learner || "unavailable"}`,
+    `Capability: ${promise.capability || "unavailable"}`,
+    `Use context: ${promise.use_context || "unavailable"}`,
+    `Success evidence: ${promise.success_evidence || "unavailable"}`,
+  ], "Promise")));
+  section.append(list(course.audience, "Audience"), list(course.entry_requirements, "Entry requirements"));
+  section.append(list(course.objectives, "Objectives", (item) => `${item.id}: ${item.actor} ${item.observable_verb} ${item.object}; conditions: ${item.conditions || "none declared"}; evidence: ${item.success_evidence}; sources: ${refs(item.source_refs)}`));
+  const modules = node("section", { class: "course-section" }, [node("h5", { text: "Modules and lessons" })]);
+  for (const module of Array.isArray(course.modules) ? course.modules : []) {
+    const lessons = node("ul");
+    for (const lesson of Array.isArray(module.lessons) ? module.lessons : []) {
+      const beats = (lesson.teaching_beats || []).map((beat) => `${beat.kind}: ${beat.intent} (${refs(beat.objective_ids)})`).join("; ");
+      lessons.append(node("li", { text: `${lesson.id}: ${lesson.title}; ${lesson.target_duration_seconds}s; objectives ${refs(lesson.objective_ids)}; prerequisites lessons ${refs(lesson.prerequisite_lesson_ids)}, objectives ${refs(lesson.prerequisite_objective_ids)}; outcome ${lesson.expected_outcome}; sources ${refs(lesson.source_refs)}; glossary ${refs(lesson.glossary_ids)}; notation ${refs(lesson.notation_ids)}; teaching beats ${beats || "none"}; export required: ${lesson.export_required ? "yes" : "no"}` }));
+    }
+    modules.append(detail(`${module.id}: ${module.title} (${module.target_duration_seconds}s)`, node("div", {}, [node("p", { text: `Intermediate capability: ${module.intermediate_capability}; objectives: ${refs(module.objective_ids)}; recap: ${module.recap_intent}` }), lessons])));
+  }
+  section.append(modules);
+  section.append(list(course.assessments, "Assessments", (item) => `${item.id}: ${item.type}; objectives ${refs(item.objective_ids)}; lesson ${item.lesson_id || "none"}; prompt ${item.prompt_intent}; expected evidence ${item.expected_evidence}; pass criteria ${item.pass_criteria}`));
+  section.append(list(course.sources, "Sources", (item) => `${item.id}: ${item.title || "untitled"}; URI: ${item.uri}${item.locator ? `; locator: ${item.locator}` : ""}${item.digest ? `; digest: ${item.digest}` : "; digest: none declared"}`));
+  section.append(list(course.glossary, "Glossary", (item) => `${item.id}: ${item.preferred_term} — ${item.definition}; aliases ${refs(item.aliases)}; forbidden aliases ${refs(item.forbidden_aliases)}`));
+  section.append(list(course.notation, "Notation", (item) => `${item.id}: ${item.symbol} = ${item.meaning}; first lesson ${item.first_lesson_id || "none"}; units ${item.units || "none"}`));
+  section.append(detail("Style intent (course-manifest intent; not resolved Style)", list([`Tone: ${course.style_intent?.tone || "unavailable"}`, `Visual intent: ${course.style_intent?.visual_intent || "unavailable"}`], "Style intent")));
+  const delivery = course.delivery_requirements || {};
+  section.append(detail("Delivery requirements (declarations, not publication evidence)", list([`Full master: ${delivery.full_master ? "required" : "not required"}`, `Lesson exports: ${refs(delivery.lesson_export_ids)}`, `Chapter markers: ${delivery.chapter_markers ? "required" : "not required"}`, `Captions: ${refs(delivery.captions)}`, `Bundle: ${delivery.bundle ? "required" : "not required"}`], "Delivery declarations")));
+  return section;
 }
 
 function renderProjectStatus() {
