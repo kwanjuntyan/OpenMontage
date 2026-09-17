@@ -274,12 +274,12 @@
       "official_reader_validator": {
         "reader": "lib.checkpoint.read_checkpoint",
         "validators": ["lib.checkpoint.validate_checkpoint", "schemas.artifacts.validate_artifact(script)"],
-        "resolution_status": "approved_shape_validation_only"
+        "resolution_status": "b1b_manifest_owner_checkpoint_reader_materialized_shape_validation_only"
       },
-      "authority_lifecycle": "completed plus required Human Gate is canonical; awaiting is candidate; working/failed are display snapshots.",
+      "authority_lifecycle": "completed plus required Human Gate is canonical; awaiting is candidate; B1B returns working/failed unavailable because v1 has no display-snapshot RevisionSet slot.",
       "absence": "Return unavailable/script_missing without crashing the Workspace.",
       "invalid_or_degraded": "Return unavailable/script_invalid. Do not claim section timing continuity, ID uniqueness, or duration-sum validation unless producer evidence is later added.",
-      "phase_owner": "B1",
+      "phase_owner": "B1B",
       "forbidden_inference": "Do not convert free-form source_ref into a typed lesson, objective, asset, or URL authority."
     },
     {
@@ -291,7 +291,7 @@
       "official_reader_validator": {
         "reader": null,
         "validators": ["schemas.artifacts.validate_artifact(script) for shape only"],
-        "resolution_status": "b0.2_contained_reader_gap"
+        "resolution_status": "b0.2_contained_reader_gap_not_implemented_by_b1b"
       },
       "authority_lifecycle": "Always display_only plus unverified, even when schema-valid.",
       "absence": "Return unavailable/script_missing.",

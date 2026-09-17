@@ -12,6 +12,8 @@ const state = {
   shellError: null,
   course: null,
   courseError: null,
+  script: null,
+  scriptError: null,
   routeProjectId: null,
   statusExpanded: false,
   loading: false,
@@ -74,6 +76,7 @@ function projectUrl(projectId) {
 }
 
 function courseUrl(projectId) { return `${API_ROOT}/projects/${encodeURIComponent(projectId)}/course`; }
+function scriptUrl(projectId) { return `${API_ROOT}/projects/${encodeURIComponent(projectId)}/script`; }
 
 function applyCatalog(projection, { append = false } = {}) {
   const items = Array.isArray(projection.data?.items) ? projection.data.items : [];
@@ -107,6 +110,8 @@ async function load({ append = false, eventProjectId = null } = {}) {
       state.shell = null;
       state.course = null;
       state.courseError = null;
+      state.script = null;
+      state.scriptError = null;
       state.statusExpanded = false;
     }
     state.shellError = null;
@@ -147,6 +152,10 @@ async function load({ append = false, eventProjectId = null } = {}) {
       }
       if (state.shell && selectedStage(state.shell).selected === "proposal") {
         await loadCourse(state.routeProjectId, generation);
+        changed = true;
+      }
+      if (state.shell && selectedStage(state.shell).selected === scriptOwnerStage(state.shell)) {
+        await loadScript(state.routeProjectId, generation);
         changed = true;
       }
     } catch (error) {
@@ -196,8 +205,7 @@ function startWorkspaceEvents() {
 }
 
 function navigateProject(projectId) {
-  const requested = new URLSearchParams(location.search).get("stage");
-  const query = requested ? `?stage=${encodeURIComponent(requested)}` : "";
+  const query = location.search;
   history.pushState({}, "", `/p/${encodeURIComponent(projectId)}/workspace${query}`);
   load();
 }
@@ -208,6 +216,14 @@ function navigateStage(stageName) {
   history.pushState({}, "", `${location.pathname}?${params}`);
   render();
   if (stageName === "proposal" && state.routeProjectId) loadCourse(state.routeProjectId, state.loadGeneration);
+  if (stageName === scriptOwnerStage() && state.routeProjectId) loadScript(state.routeProjectId, state.loadGeneration);
+}
+
+function scriptOwnerStage(shell = state.shell) {
+  if (typeof shell?.data?.script_owner_stage === "string") return shell.data.script_owner_stage;
+  const stages = Array.isArray(shell?.data?.stages) ? shell.data.stages : [];
+  // Without an explicit manifest owner, fail closed rather than guessing from a stage label.
+  return null;
 }
 
 async function loadCourse(projectId, generation) {
@@ -223,6 +239,22 @@ async function loadCourse(projectId, generation) {
   } catch (error) {
     if (generation !== state.loadGeneration || routeProjectId() !== projectId) return;
     state.courseError = error.message;
+  }
+  if (generation === state.loadGeneration) render();
+}
+
+async function loadScript(projectId, generation) {
+  const owner = scriptOwnerStage();
+  if (!owner) return;
+  try {
+    const result = await getJson(scriptUrl(projectId), `script:${projectId}`);
+    if (generation !== state.loadGeneration || routeProjectId() !== projectId || selectedStage().selected !== owner) return;
+    if (!result.notModified && (result.projection?.resource_ref?.project_id !== projectId || result.projection?.resource_ref?.kind !== "stage" || result.projection?.resource_ref?.stage !== owner || result.projection?.resource_ref?.local_id !== owner)) throw new Error("Script identity could not be authenticated.");
+    if (!result.notModified) state.script = result.projection;
+    state.scriptError = null;
+  } catch (error) {
+    if (generation !== state.loadGeneration || routeProjectId() !== projectId) return;
+    state.scriptError = error.message;
   }
   if (generation === state.loadGeneration) render();
 }
@@ -330,9 +362,33 @@ function renderStageInspector(shell, selected) {
     details.append(node("div", { class: "detail" }, [node("span", { class: "label", text: label }), node("strong", { text: value || "unavailable" })]));
   }
   inspector.append(details);
-  if (stage.name !== "proposal") inspector.append(node("p", { class: "empty", text: "Read-only stage summary only. Detailed stage inspectors are a future capability." }));
+  if (stage.name !== "proposal" && stage.name !== scriptOwnerStage(shell)) inspector.append(node("p", { class: "empty", text: "Read-only stage summary only. Detailed stage inspectors are a future capability." }));
   if (stage.name === "proposal") inspector.append(renderCourseInspector());
+  if (stage.name === scriptOwnerStage(shell)) inspector.append(renderScriptInspector());
   return inspector;
+}
+
+function renderScriptInspector() {
+  const section = node("section", { class: "script-inspector", "aria-labelledby": "script-inspector-title" });
+  section.append(node("h4", { id: "script-inspector-title", text: "Script Inspector / 劇本檢視" }));
+  if (state.scriptError) return section.append(node("p", { class: "diagnostic error", text: state.scriptError })), section;
+  if (!state.script) return section.append(node("p", { class: "empty", text: "Loading Script revision set…" })), section;
+  const data = state.script.data || {}; const revision = data.current_canonical || data.pending_candidates?.[0];
+  if (!revision) return section.append(node("p", { class: "empty", text: `Script unavailable: ${data.current_canonical_unavailable_reason || "script_missing"}` })), section;
+  const script = revision.data?.script;
+  if (!script || typeof script !== "object") return section.append(node("p", { class: "empty", text: "Validated Script details are unavailable." })), section;
+  section.append(node("p", { class: "muted", text: data.current_canonical ? "Canonical script" : "Awaiting-human script candidate" }));
+  section.append(node("p", { class: "muted", text: "Shape validation only: no timing-continuity, unique-section-ID, or duration-sum claim. source_ref is free-form and unverified." }));
+  section.append(node("h5", { text: script.title }), node("p", { text: `Total duration: ${script.total_duration_seconds} seconds` }));
+  if (script.voice_performance) section.append(node("p", { class: "muted", text: `Voice performance: ${Object.entries(script.voice_performance).map(([key, value]) => `${key}: ${typeof value === "object" ? JSON.stringify(value) : value}`).join(" · ")}` }));
+  const search = node("input", { class: "script-search", type: "search", placeholder: "Search full script", "aria-label": "Search full script" });
+  const list = node("div", { class: "script-sections" });
+  const requested = new URLSearchParams(location.search).get("section");
+  const sections = Array.isArray(script.sections) ? script.sections : [];
+  const matches = requested ? sections.filter((item) => item.id === requested) : [];
+  if (requested && matches.length !== 1) section.append(node("p", { class: "selection-warning", role: "status", text: `Requested section “${requested}” is ${matches.length ? "ambiguous" : "missing"}; no section was selected.` }));
+  const draw = () => { list.textContent = ""; const query = search.value.trim().toLocaleLowerCase(); for (const item of sections) { if (query && !JSON.stringify(item).toLocaleLowerCase().includes(query)) continue; const selected = matches.length === 1 && item.id === requested; const detail = node("details", { class: "script-section", id: selected ? `script-section-${item.id}` : null, open: selected ? "open" : null }, [node("summary", { text: `${item.id}${item.label ? `: ${item.label}` : ""} · ${item.start_seconds}–${item.end_seconds}s` })]); detail.append(node("p", { text: item.text })); for (const key of ["speaker_directions", "delivery_cues", "enhancement_cues", "pronunciation_guides", "source_ref"]) if (item[key] !== undefined) detail.append(node("p", { class: "muted", text: `${key}: ${typeof item[key] === "object" ? JSON.stringify(item[key]) : item[key]}` })); list.append(detail); } if (matches.length === 1 && !query) requestAnimationFrame(() => document.getElementById(`script-section-${requested}`)?.scrollIntoView({ block: "center" })); };
+  search.addEventListener("input", draw); section.append(search, list); draw(); return section;
 }
 
 function renderCourseInspector() {

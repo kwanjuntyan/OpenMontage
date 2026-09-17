@@ -46,6 +46,16 @@ of scope.
 Missing, invalid, or unusable marker/title evidence is omitted rather than
 inferred from a directory, route, filename, or latest checkpoint.
 
+B1B adds the same narrowly scoped Script seam. It resolves exactly one
+manifest-declared stage whose `produces` contains `script`, observes only that
+stage via `read_checkpoint`, and validates the embedded artifact with
+`validate_artifact("script")`. A completed checkpoint is canonical only after
+its manifest Human Gate is approved; awaiting-human is a candidate. Working
+and failed snapshots have no v1 RevisionSet display slot and are unavailable.
+Loose `artifacts/script.json` remains the recorded `b0.2_contained_reader_gap`:
+it is not read or displayed by B1B, and invalid modern evidence blocks any
+fallback. The Script endpoint and Inspector are read-only and stage-lazy.
+
 The allowed dependency direction is:
 
 ```text

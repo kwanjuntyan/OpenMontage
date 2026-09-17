@@ -52,21 +52,27 @@ def _source_identity(project_ref: Mapping[str, Any]) -> dict[str, Any]:
     }
 
 
-def _base_sources(record: ShellProjectInput, project_ref: Mapping[str, Any]) -> list[dict[str, Any]]:
+def _base_sources(
+    record: ShellProjectInput, project_ref: Mapping[str, Any]
+) -> list[dict[str, Any]]:
     source_identity = _source_identity(project_ref)
-    sources = [{
-        "source_key": f"project:{record.catalog.project_id}:marker",
-        "source_kind": "project_marker",
-        "sha256": _digest(record.catalog.marker),
-        "resource_ref": source_identity,
-    }]
-    if record.catalog.manifest is not None and record.catalog.pipeline_type is not None:
-        sources.append({
-            "source_key": f"pipeline:{record.catalog.pipeline_type}:project:{record.catalog.project_id}",
-            "source_kind": "pipeline_manifest",
-            "sha256": _digest(record.catalog.manifest),
+    sources = [
+        {
+            "source_key": f"project:{record.catalog.project_id}:marker",
+            "source_kind": "project_marker",
+            "sha256": _digest(record.catalog.marker),
             "resource_ref": source_identity,
-        })
+        }
+    ]
+    if record.catalog.manifest is not None and record.catalog.pipeline_type is not None:
+        sources.append(
+            {
+                "source_key": f"pipeline:{record.catalog.pipeline_type}:project:{record.catalog.project_id}",
+                "source_kind": "pipeline_manifest",
+                "sha256": _digest(record.catalog.manifest),
+                "resource_ref": source_identity,
+            }
+        )
     return sources
 
 
@@ -118,13 +124,17 @@ def _stage_summary(stage: StageCheckpointInput) -> dict[str, Any]:
 
 def _current_stage(stages: list[dict[str, Any]]) -> str | None:
     for status in ("in_progress", "awaiting_human", "failed", "invalid", "pending"):
-        found = next((stage["name"] for stage in stages if stage["status"] == status), None)
+        found = next(
+            (stage["name"] for stage in stages if stage["status"] == status), None
+        )
         if found is not None:
             return found
     return None
 
 
-def _gate_state(stages: list[dict[str, Any]], checkpoint_inputs: tuple[StageCheckpointInput, ...]) -> str:
+def _gate_state(
+    stages: list[dict[str, Any]], checkpoint_inputs: tuple[StageCheckpointInput, ...]
+) -> str:
     statuses = {stage["status"] for stage in stages}
     if "invalid" in statuses:
         return "invalid"
@@ -143,7 +153,23 @@ def _gate_state(stages: list[dict[str, Any]], checkpoint_inputs: tuple[StageChec
     return "none"
 
 
-def _authority(sources: list[dict[str, Any]], *, invalid: bool, reason: str | None) -> dict[str, Any]:
+def _script_owner_stage(manifest: dict[str, Any] | None) -> str | None:
+    """Expose only an unambiguous manifest-declared Script owner for B1B UI routing."""
+    stages = manifest.get("stages", []) if manifest else []
+    owners = [
+        stage.get("name")
+        for stage in stages
+        if isinstance(stage, dict)
+        and isinstance(stage.get("produces"), list)
+        and "script" in stage["produces"]
+        and isinstance(stage.get("name"), str)
+    ]
+    return owners[0] if len(owners) == 1 else None
+
+
+def _authority(
+    sources: list[dict[str, Any]], *, invalid: bool, reason: str | None
+) -> dict[str, Any]:
     evidence = [
         {"source_key": source["source_key"], "sha256": source["sha256"]}
         for source in sources
@@ -154,7 +180,9 @@ def _authority(sources: list[dict[str, Any]], *, invalid: bool, reason: str | No
             "authority_state": "unavailable",
             "validation_state": "invalid",
             "source_kind": "unavailable",
-            "evidence_scope": "checkpoint_validated" if has_checkpoint else "manifest_only",
+            "evidence_scope": "checkpoint_validated"
+            if has_checkpoint
+            else "manifest_only",
             "evidence_refs": evidence,
             "degraded_reasons": [reason or "pipeline_manifest_invalid"],
         }
@@ -168,7 +196,9 @@ def _authority(sources: list[dict[str, Any]], *, invalid: bool, reason: str | No
     }
 
 
-def _diagnostic(code: str, snapshot: Mapping[str, Any], project_ref: Mapping[str, Any]) -> dict[str, Any]:
+def _diagnostic(
+    code: str, snapshot: Mapping[str, Any], project_ref: Mapping[str, Any]
+) -> dict[str, Any]:
     return {
         "code": code,
         "severity": "warning",
@@ -205,17 +235,29 @@ class ShellProjectionResolver:
         snapshot = build_source_snapshot(sources)
 
         manifest_invalid = record.catalog.manifest is None
-        invalid_checkpoint = any(stage["status"] == "invalid" for stage in stage_summaries)
-        reason = record.catalog.manifest_error if manifest_invalid else (
-            "invalid_checkpoint" if invalid_checkpoint else None
+        invalid_checkpoint = any(
+            stage["status"] == "invalid" for stage in stage_summaries
+        )
+        reason = (
+            record.catalog.manifest_error
+            if manifest_invalid
+            else ("invalid_checkpoint" if invalid_checkpoint else None)
         )
         diagnostics = []
         if manifest_invalid:
-            diagnostics.append(_diagnostic(reason or "pipeline_manifest_invalid", snapshot, project_ref))
+            diagnostics.append(
+                _diagnostic(
+                    reason or "pipeline_manifest_invalid", snapshot, project_ref
+                )
+            )
         else:
-            diagnostics.append(_diagnostic("classification_evidence_deferred", snapshot, project_ref))
+            diagnostics.append(
+                _diagnostic("classification_evidence_deferred", snapshot, project_ref)
+            )
             if invalid_checkpoint:
-                diagnostics.append(_diagnostic("invalid_checkpoint", snapshot, project_ref))
+                diagnostics.append(
+                    _diagnostic("invalid_checkpoint", snapshot, project_ref)
+                )
 
         projection = {
             "projection_version": "backlot.workspace.v1",
@@ -238,7 +280,9 @@ class ShellProjectionResolver:
                 "mutate": {"available": False, "reason": "observer_only"},
                 "classification": {
                     "available": False,
-                    "reason": reason if manifest_invalid else "classification_evidence_deferred",
+                    "reason": reason
+                    if manifest_invalid
+                    else "classification_evidence_deferred",
                 },
             },
             "diagnostics": diagnostics,
@@ -254,10 +298,18 @@ class ShellProjectionResolver:
                 ),
                 "classification": "unavailable",
                 "stages": stage_summaries,
-                "current_stage": None if manifest_invalid else _current_stage(stage_summaries),
-                "gate_state": "unavailable" if manifest_invalid else _gate_state(stage_summaries, record.stages),
+                "current_stage": None
+                if manifest_invalid
+                else _current_stage(stage_summaries),
+                "gate_state": "unavailable"
+                if manifest_invalid
+                else _gate_state(stage_summaries, record.stages),
             },
         }
+        if record.catalog.manifest is not None:
+            projection["data"]["script_owner_stage"] = _script_owner_stage(
+                record.catalog.manifest
+            )
         return validate_workspace_projection(projection)
 
 

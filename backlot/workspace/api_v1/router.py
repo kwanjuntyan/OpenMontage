@@ -15,9 +15,22 @@ from weakref import WeakSet
 from fastapi import APIRouter, HTTPException, Query, Request
 from fastapi.responses import JSONResponse, Response, StreamingResponse
 
-from backlot.workspace.projection.catalog import CatalogCursorError, CatalogProjectionResolver
-from backlot.workspace.projection.shell import ShellProjectionNotFound, ShellProjectionResolver
-from backlot.workspace.projection.course import CourseProjectionNotFound, CourseProjectionResolver
+from backlot.workspace.projection.catalog import (
+    CatalogCursorError,
+    CatalogProjectionResolver,
+)
+from backlot.workspace.projection.shell import (
+    ShellProjectionNotFound,
+    ShellProjectionResolver,
+)
+from backlot.workspace.projection.course import (
+    CourseProjectionNotFound,
+    CourseProjectionResolver,
+)
+from backlot.workspace.projection.script import (
+    ScriptProjectionNotFound,
+    ScriptProjectionResolver,
+)
 
 
 def _bad_request(code: str) -> HTTPException:
@@ -86,7 +99,10 @@ class WorkspaceRuntime:
         self.invalidations = 0
 
     def resolve(
-        self, key: str, project_ids: frozenset[str], resolver: Callable[[], dict[str, Any]]
+        self,
+        key: str,
+        project_ids: frozenset[str],
+        resolver: Callable[[], dict[str, Any]],
     ) -> tuple[dict[str, Any], str, bool]:
         now = time.monotonic()
         entry = self._entries.get(key)
@@ -112,7 +128,8 @@ class WorkspaceRuntime:
 
     def invalidate_project(self, project_id: str) -> None:
         keys = [
-            key for key, entry in self._entries.items()
+            key
+            for key, entry in self._entries.items()
             if not entry.project_ids or project_id in entry.project_ids
         ]
         for key in keys:
@@ -124,13 +141,19 @@ class WorkspaceRuntime:
         self._entries.clear()
 
 
-def invalidate_workspace_projection_caches(projects_root: Path, project_id: str) -> None:
+def invalidate_workspace_projection_caches(
+    projects_root: Path, project_id: str
+) -> None:
     """Watcher hook; a catalog entry has an empty project scope and is global."""
-    for runtime in list(_CACHE_REGISTRY.get(str(Path(projects_root).resolve()), WeakSet())):
+    for runtime in list(
+        _CACHE_REGISTRY.get(str(Path(projects_root).resolve()), WeakSet())
+    ):
         runtime.invalidate_project(project_id)
 
 
-def _projection_response(request: Request, projection: dict[str, Any], etag: str) -> Response:
+def _projection_response(
+    request: Request, projection: dict[str, Any], etag: str
+) -> Response:
     headers = {"ETag": etag, "Cache-Control": "no-cache"}
     if _if_none_match_matches(request, etag):
         return Response(status_code=304, headers=headers)
@@ -153,17 +176,21 @@ async def workspace_event_stream(
     queue = subscribe(None)
     pending: list[str] = []
     try:
-        yield "data: {\"type\":\"hello\"}\n\n"
+        yield 'data: {"type":"hello"}\n\n'
         while True:
             if await request.is_disconnected():
                 return
             if pending:
-                yield "data: " + json.dumps(_workspace_change_payload(pending.pop(0))) + "\n\n"
+                yield (
+                    "data: "
+                    + json.dumps(_workspace_change_payload(pending.pop(0)))
+                    + "\n\n"
+                )
                 continue
             try:
                 changed = await asyncio.wait_for(queue.get(), timeout=heartbeat_seconds)
             except asyncio.TimeoutError:
-                yield "data: {\"type\":\"heartbeat\"}\n\n"
+                yield 'data: {"type":"heartbeat"}\n\n'
                 continue
             changed_ids = {changed}
             while not queue.empty():
@@ -171,7 +198,13 @@ async def workspace_event_stream(
                     changed_ids.add(queue.get_nowait())
                 except asyncio.QueueEmpty:
                     break
-            pending.extend(sorted(project_id for project_id in changed_ids if isinstance(project_id, str)))
+            pending.extend(
+                sorted(
+                    project_id
+                    for project_id in changed_ids
+                    if isinstance(project_id, str)
+                )
+            )
     finally:
         unsubscribe(queue)
 
@@ -191,23 +224,29 @@ def create_workspace_router(
     catalog = CatalogProjectionResolver(projects_root)
     shell = ShellProjectionResolver(projects_root)
     course = CourseProjectionResolver(projects_root)
+    script = ScriptProjectionResolver(projects_root)
     runtime = WorkspaceRuntime()
-    _CACHE_REGISTRY.setdefault(str(Path(projects_root).resolve()), WeakSet()).add(runtime)
+    _CACHE_REGISTRY.setdefault(str(Path(projects_root).resolve()), WeakSet()).add(
+        runtime
+    )
 
     @router.get("/catalog")
     async def get_catalog(
         request: Request,
-        limit: str | None = Query(default=None), cursor: str | None = Query(default=None)
+        limit: str | None = Query(default=None),
+        cursor: str | None = Query(default=None),
     ) -> Response:
         try:
             decoded_limit = _decode_limit(limit)
             decoded_cursor = _decode_cursor(cursor)
             key = "catalog:" + json.dumps(
                 {"limit": decoded_limit, "cursor": decoded_cursor},
-                sort_keys=True, separators=(",", ":"),
+                sort_keys=True,
+                separators=(",", ":"),
             )
             projection, etag, _ = runtime.resolve(
-                key, frozenset(),
+                key,
+                frozenset(),
                 lambda: catalog.resolve(limit=decoded_limit, cursor=decoded_cursor),
             )
             return _projection_response(request, projection, etag)
@@ -220,30 +259,56 @@ def create_workspace_router(
     async def get_shell(project_id: str, request: Request) -> Response:
         try:
             projection, etag, _ = runtime.resolve(
-                f"shell:{project_id}", frozenset({project_id}),
+                f"shell:{project_id}",
+                frozenset({project_id}),
                 lambda: shell.resolve(project_id),
             )
             return _projection_response(request, projection, etag)
         except ShellProjectionNotFound as exc:
-            raise HTTPException(status_code=404, detail={"code": "workspace_project_not_found"}) from exc
+            raise HTTPException(
+                status_code=404, detail={"code": "workspace_project_not_found"}
+            ) from exc
 
     @router.get("/projects/{project_id}/course")
     async def get_course(project_id: str, request: Request) -> Response:
         try:
             projection, etag, _ = runtime.resolve(
-                f"course:{project_id}", frozenset({project_id}),
+                f"course:{project_id}",
+                frozenset({project_id}),
                 lambda: course.resolve(project_id),
             )
             return _projection_response(request, projection, etag)
         except CourseProjectionNotFound as exc:
-            raise HTTPException(status_code=404, detail={"code": "workspace_project_not_found"}) from exc
+            raise HTTPException(
+                status_code=404, detail={"code": "workspace_project_not_found"}
+            ) from exc
+
+    @router.get("/projects/{project_id}/script")
+    async def get_script(project_id: str, request: Request) -> Response:
+        try:
+            projection, etag, _ = runtime.resolve(
+                f"script:{project_id}",
+                frozenset({project_id}),
+                lambda: script.resolve(project_id),
+            )
+            return _projection_response(request, projection, etag)
+        except ScriptProjectionNotFound as exc:
+            raise HTTPException(
+                status_code=404, detail={"code": "workspace_project_not_found"}
+            ) from exc
 
     if subscribe is not None and unsubscribe is not None:
+
         @router.get("/events")
         async def workspace_events(request: Request) -> StreamingResponse:
-            return StreamingResponse(workspace_event_stream(subscribe, unsubscribe, request), media_type="text/event-stream", headers={
-                "Cache-Control": "no-cache", "X-Accel-Buffering": "no",
-            })
+            return StreamingResponse(
+                workspace_event_stream(subscribe, unsubscribe, request),
+                media_type="text/event-stream",
+                headers={
+                    "Cache-Control": "no-cache",
+                    "X-Accel-Buffering": "no",
+                },
+            )
 
     return router, runtime
 

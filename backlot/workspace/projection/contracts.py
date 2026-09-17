@@ -54,6 +54,12 @@ WORKSPACE_V1_DEFINITIONS = frozenset(
         "instruction_source_locator",
         "generation_instruction",
         "resource_summary_data",
+        "script_display",
+        "script_voice_performance",
+        "script_section",
+        "script_delivery_cues",
+        "script_enhancement_cue",
+        "script_pronunciation_guide",
         "course_design",
         "course_id",
         "course_id_array",
@@ -1215,6 +1221,64 @@ def _validate_course_design(
         )
 
 
+def _validate_script_display(
+    script: Mapping[str, Any],
+    resource: Mapping[str, Any],
+    revision: Mapping[str, Any] | None,
+    snapshot: Mapping[str, Any],
+    authority: Mapping[str, Any],
+    path: Sequence[str | int],
+) -> None:
+    """Validate the original Script contract before accepting its closed display copy."""
+    try:
+        validate_artifact("script", dict(script))
+    except Exception:
+        _fail(
+            "invalid_script_display",
+            "script must pass the official Script validator",
+            path,
+        )
+    if resource["kind"] != "stage" or resource["stage"] != resource["local_id"]:
+        _fail(
+            "script_resource_identity_mismatch",
+            "script requires its manifest owner Stage ResourceRef",
+            path,
+        )
+    if (
+        revision is None
+        or revision.get("revision_kind") != "checkpoint"
+        or not isinstance(revision.get("stage"), str)
+    ):
+        _fail(
+            "script_checkpoint_revision_required",
+            "script requires an exact checkpoint Stage RevisionRef",
+            path,
+        )
+    if revision.get("stage") != resource["stage"]:
+        _fail(
+            "script_revision_stage_mismatch",
+            "script revision stage must match its Stage ResourceRef",
+            path,
+        )
+    cited_evidence = {
+        (evidence["source_key"], evidence["sha256"])
+        for evidence in authority["evidence_refs"]
+    }
+    if not any(
+        source.get("resource_ref") is not None
+        and _identity_key(source["resource_ref"]) == _identity_key(resource)
+        and source.get("revision_ref") == revision
+        and source["sha256"] == revision["sha256"]
+        and (source["source_key"], source["sha256"]) in cited_evidence
+        for source in snapshot["sources"]
+    ):
+        _fail(
+            "script_evidence_identity_mismatch",
+            "script requires exact checkpoint evidence bound to its ResourceRef and RevisionRef",
+            path,
+        )
+
+
 def _validate_revision_set(
     data: Mapping[str, Any],
     path: Sequence[str | int],
@@ -1278,6 +1342,16 @@ def _validate_revision_set(
                 course_design,
                 revision["resource_ref"],
                 (*path, "revisions", index, "data", "course_design"),
+            )
+        script = revision["data"].get("script")
+        if script is not None:
+            _validate_script_display(
+                script,
+                revision["resource_ref"],
+                revision["revision_ref"],
+                revision["source_snapshot"],
+                revision["authority"],
+                (*path, "revisions", index, "data", "script"),
             )
 
 
@@ -1974,6 +2048,15 @@ def _validate_workspace_projection(projection: Mapping[str, Any]) -> None:
     if kind == "resource_summary" and data.get("course_design") is not None:
         _validate_course_design(
             data["course_design"], resource, ("data", "course_design")
+        )
+    if kind == "resource_summary" and data.get("script") is not None:
+        _validate_script_display(
+            data["script"],
+            resource,
+            projection["revision_ref"],
+            snapshot,
+            projection["authority"],
+            ("data", "script"),
         )
     pagination = data.get("pagination")
     if pagination is not None and pagination["next_cursor"] is not None:

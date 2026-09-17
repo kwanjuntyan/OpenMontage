@@ -446,12 +446,77 @@ class CourseDesign(TypedDict):
     delivery_requirements: CourseDeliveryRequirements
 
 
+class ScriptVoicePerformance(TypedDict):
+    performance_intent: NotRequired[str]
+    pacing_profile: NotRequired[
+        Literal[
+            "contemplative",
+            "conversational",
+            "energetic",
+            "technical",
+            "cinematic",
+            "custom",
+        ]
+    ]
+    energy_curve: NotRequired[str]
+    pause_policy: NotRequired[str]
+    sample_section_id: NotRequired[str]
+    provider_notes: NotRequired[dict[str, str]]
+
+
+class ScriptDeliveryCues(TypedDict):
+    pace: NotRequired[
+        Literal["slow", "measured", "conversational", "brisk", "fast", "custom"]
+    ]
+    energy: NotRequired[str]
+    emphasis_words: NotRequired[list[str]]
+    pause_before_seconds: NotRequired[float]
+    pause_after_seconds: NotRequired[float]
+    delivery_note: NotRequired[str]
+    provider_text: NotRequired[str]
+
+
+class ScriptEnhancementCue(TypedDict):
+    type: Literal[
+        "overlay", "broll", "diagram", "stat_card", "code_snippet", "animation"
+    ]
+    description: str
+    timestamp_seconds: NotRequired[float]
+
+
+class ScriptPronunciationGuide(TypedDict):
+    word: str
+    phonetic: str
+
+
+class ScriptSection(TypedDict):
+    id: str
+    text: str
+    start_seconds: float
+    end_seconds: float
+    label: NotRequired[str]
+    speaker_directions: NotRequired[str]
+    delivery_cues: NotRequired[ScriptDeliveryCues]
+    enhancement_cues: NotRequired[list[ScriptEnhancementCue]]
+    pronunciation_guides: NotRequired[list[ScriptPronunciationGuide]]
+    source_ref: NotRequired[str]
+
+
+class ScriptDisplay(TypedDict):
+    version: Literal["1.0"]
+    title: str
+    total_duration_seconds: float
+    sections: list[ScriptSection]
+    voice_performance: NotRequired[ScriptVoicePerformance]
+
+
 class ResourceSummaryData(TypedDict):
     version: Literal["backlot.workspace.resource-summary.v1"]
     label: str
     availability: Literal["available", "display_only", "invalid", "unavailable"]
     description: NotRequired[str]
     course_design: NotRequired[CourseDesign]
+    script: NotRequired[ScriptDisplay]
 
 
 class ProjectedRevision(TypedDict):
@@ -516,6 +581,7 @@ class ShellData(TypedDict):
         "invalid",
         "unavailable",
     ]
+    script_owner_stage: NotRequired[str | None]
     stages: list[StageSummary]
     current_stage: str | None
     gate_state: Literal[
@@ -768,6 +834,12 @@ __all__ = [
     "ResourceKind",
     "ResourceRef",
     "ResourceSummaryData",
+    "ScriptDeliveryCues",
+    "ScriptDisplay",
+    "ScriptEnhancementCue",
+    "ScriptPronunciationGuide",
+    "ScriptSection",
+    "ScriptVoicePerformance",
     "ResourceSummaryProjection",
     "RevisionRef",
     "RevisionSetData",
