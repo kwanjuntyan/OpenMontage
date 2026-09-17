@@ -286,16 +286,24 @@ def _serialize_checkpoint_write(function):
     return locked
 
 
-def _authenticate_project_marker(
+def _read_project_marker(
     project_dir: Path,
     *,
     project_id: str,
-    pipeline_type: str,
-) -> None:
-    """Bind a checkpoint envelope to project.json when the marker exists."""
+    required: bool,
+) -> dict[str, Any] | None:
+    """Read one contained marker and authenticate its project identity.
+
+    This is deliberately the one parsing/identity seam shared by checkpoint
+    validation and the narrow public read API below.  It does not validate a
+    selected pipeline: callers that need pipeline authority must do that using
+    the public manifest loader.
+    """
     marker_path = _contained_project_path(project_dir, PROJECT_MARKER_FILENAME)
     if not marker_path.exists():
-        return
+        if required:
+            raise CheckpointValidationError(f"Project marker is missing: {marker_path}")
+        return None
     if not marker_path.is_file():
         raise CheckpointValidationError(
             f"Project marker is not a regular file: {marker_path}"
@@ -316,6 +324,35 @@ def _authenticate_project_marker(
             "Project marker identity mismatch: "
             f"expected {project_id!r}, got {marker.get('project_id')!r}"
         )
+    return marker
+
+
+def read_project_marker(
+    pipeline_dir: Path, project_id: str
+) -> dict[str, Any]:
+    """Read an authenticated, direct-child project marker without writing.
+
+    The marker must be a regular contained ``project.json`` whose declared
+    project id matches the direct-child address.  Missing, malformed, aliased,
+    and mismatched markers raise :class:`CheckpointValidationError` rather
+    than returning inferred identity.
+    """
+    project_dir = _project_directory(Path(pipeline_dir), project_id)
+    marker = _read_project_marker(project_dir, project_id=project_id, required=True)
+    assert marker is not None
+    return marker
+
+
+def _authenticate_project_marker(
+    project_dir: Path,
+    *,
+    project_id: str,
+    pipeline_type: str,
+) -> None:
+    """Bind a checkpoint envelope to project.json when the marker exists."""
+    marker = _read_project_marker(project_dir, project_id=project_id, required=False)
+    if marker is None:
+        return
     if marker.get("pipeline_type") != pipeline_type:
         raise CheckpointValidationError(
             "Project marker pipeline_type mismatch: "

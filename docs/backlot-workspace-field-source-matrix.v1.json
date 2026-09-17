@@ -172,7 +172,9 @@
     "currently_approved_workspace_symbols": [
       "lib.checkpoint.CheckpointValidationError",
       "lib.checkpoint.read_checkpoint",
+      "lib.checkpoint.read_project_marker",
       "lib.checkpoint.validate_checkpoint",
+      "lib.pipeline_loader.load_pipeline_readonly",
       "lib.batch_executor.publication.inspect_v2_asset_manifest_claim"
     ],
     "rule": "A reader named below but not present in currently_approved_workspace_symbols is an existing producer utility outside the current Workspace allowlist or an explicit gap. B0.2 must add the narrow read capability and matching governance tests through the Architecture Contract change protocol before importing it."
@@ -185,13 +187,13 @@
       "producer_owner": "project initialization and lib.checkpoint project-marker contract",
       "current_source": "contained direct-child project/project.json",
       "official_reader_validator": {
-        "reader": null,
-        "validators": ["lib.checkpoint._authenticate_project_marker (private producer validator)"],
-        "resolution_status": "public_workspace_reader_gap"
+        "reader": "lib.checkpoint.read_project_marker",
+        "validators": ["shared contained project-marker authentication"],
+        "resolution_status": "b0_2a_public_reader_materialized"
       },
-      "authority_lifecycle": "A validated marker may identify a project, but B0.1 fixtures do not prove that a live public reader exists.",
-      "absence": "Return unavailable/project_marker_unavailable; never infer a project from a nested directory or arbitrary path.",
-      "invalid_or_degraded": "Return unavailable/project_marker_invalid and fail the project shell closed.",
+      "authority_lifecycle": "A validated marker identifies a B0.2A catalog item only after direct-child containment; shell behavior remains deferred.",
+      "absence": "Omit an unavailable marker from B0.2A catalog; never infer a project from a nested directory or arbitrary path.",
+      "invalid_or_degraded": "Omit invalid marker evidence from B0.2A catalog and fail later project-shell resolution closed.",
       "phase_owner": "B0.2",
       "forbidden_inference": "Do not treat directory name, route parameter, project title, or a child directory as authenticated identity."
     },
@@ -202,14 +204,14 @@
       "producer_owner": "project marker plus the validated selected pipeline manifest; Workspace owns only the derived catalog projection",
       "current_source": "one project-scoped catalog item whose exact source snapshot is also covered by the workspace-catalog envelope snapshot",
       "official_reader_validator": {
-        "reader": null,
-        "validators": ["future authenticated project catalog reader", "validated selected pipeline manifest"],
-        "resolution_status": "public_workspace_reader_gap"
+        "reader": "backlot.workspace.readers.catalog.read_catalog_project_input",
+        "validators": ["lib.checkpoint.read_project_marker", "lib.pipeline_loader.load_pipeline_readonly"],
+        "resolution_status": "b0_2a_catalog_foundation_materialized"
       },
-      "authority_lifecycle": "The catalog envelope uses the reserved backlot-workspace/catalog service scope; every item retains independent project authority and diagnostics.",
+      "authority_lifecycle": "The catalog envelope uses the reserved backlot-workspace/catalog service scope; every item retains independent project authority and diagnostics. B0.2A leaves classification unavailable because course/candidate evidence is deferred.",
       "absence": "Omit an undiscoverable project or return an explicitly unavailable item; never synthesize identity from a directory name.",
-      "invalid_or_degraded": "One invalid item degrades that item without lending or borrowing another project's authority.",
-      "phase_owner": "B0.2",
+      "invalid_or_degraded": "Invalid marker evidence is omitted because identity is unprovable. An authenticated marker with invalid or missing selected manifest remains an unavailable item with marker-scoped diagnostics and no fallback classification or borrowed authority.",
+      "phase_owner": "B0.2A",
       "forbidden_inference": "Do not apply the catalog envelope authority to every item or reuse one project's source snapshot for another project."
     },
     {
@@ -221,9 +223,9 @@
       "official_reader_validator": {
         "reader": "lib.pipeline_loader.load_pipeline_readonly",
         "validators": ["schemas/pipelines/pipeline_manifest.schema.json", "lib.pipeline_loader.get_stage_order", "lib.pipeline_loader.get_stage_human_approval_default"],
-        "resolution_status": "existing_reader_outside_workspace_allowlist"
+        "resolution_status": "b0_2a_named_catalog_read_allowlist"
       },
-      "authority_lifecycle": "The validated manifest supplies stages, produces, optional_produces, gates, and declared PUP support; checkpoint state supplies lifecycle.",
+      "authority_lifecycle": "B0.2A validates the selected manifest for catalog evidence only; stage/gate projection remains deferred and checkpoint state supplies lifecycle when that work is authorized.",
       "absence": "Return unavailable/pipeline_manifest_unavailable; no fixed six-tab or guessed stage rail.",
       "invalid_or_degraded": "Return unavailable/pipeline_manifest_invalid; do not reuse a similarly named manifest.",
       "phase_owner": "B0.2",
@@ -809,16 +811,6 @@
     }
   ],
   "unresolved_contract_gaps": [
-    {
-      "id": "project-marker-public-reader",
-      "owner": "B0.2 plus existing checkpoint owner",
-      "effect": "Live Workspace project identity remains unavailable until a narrow contained public reader is approved."
-    },
-    {
-      "id": "pipeline-manifest-workspace-read-allowlist",
-      "owner": "B0.2",
-      "effect": "The existing read-only loader cannot be imported by Workspace readers until the governance allowlist and tests are changed under review."
-    },
     {
       "id": "style-catalog-workspace-read-allowlist",
       "owner": "B0.2 and B1",

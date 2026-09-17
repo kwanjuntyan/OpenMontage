@@ -142,17 +142,18 @@ history, but `revision_set.current_canonical` must be unavailable with
 
 ## 4. Current Workspace reader boundary
 
-B0.0B currently permits only these named producer reads:
+B0.2A currently permits only these named producer reads:
 
-- `CheckpointValidationError`, `read_checkpoint`, and `validate_checkpoint`
-  from `lib.checkpoint`;
+- `CheckpointValidationError`, `read_checkpoint`, `read_project_marker`, and
+  `validate_checkpoint` from `lib.checkpoint`;
+- `load_pipeline_readonly` from `lib.pipeline_loader`;
 - `inspect_v2_asset_manifest_claim` from
   `lib.batch_executor.publication`.
 
 Several existing producer utilities appear in this matrix because they are the
-correct prospective reader or validator, but they are not yet approved imports
-for `backlot/workspace/readers`. B0.2 must add each narrow capability and the
-matching governance tests through the Architecture Contract change protocol.
+correct prospective reader or validator, but they are not approved imports for
+`backlot/workspace/readers`. Later B0.2/B1 work must add each narrow capability
+and matching governance tests through the Architecture Contract change protocol.
 Naming a utility here is not runtime authorization.
 
 ## 5. Field-group matrix
@@ -162,9 +163,9 @@ absence, invalid/degraded, and forbidden-inference text for every row.
 
 | Field group | Producer source and official validation | Authority／absence／degradation | Wire types | Implementation owner |
 |---|---|---|---|---|
-| Project identity | `project.json`; current authentication is private `_authenticate_project_marker` | Live public reader gap. Missing/invalid marker is `unavailable`; directory or route name is not identity | `ResourceRef`, catalog, shell | B0.2 |
-| Catalog project summary | project marker + selected validated pipeline manifest | Reserved workspace service scope outside items; each item has its own project snapshot, authority, and diagnostics | catalog item, snapshot | B0.2 |
-| Pipeline stage rail and gates | selected pipeline manifest; schema + `load_pipeline_readonly` | Existing reader is outside current allowlist. Invalid/missing manifest fails closed; no fixed-tab fallback | `ShellData`, `StageSummary`, snapshot | B0.2 |
+| Project identity | contained `project.json` through public `lib.checkpoint.read_project_marker` | Missing/invalid/mismatched marker is omitted from B0.2A catalog; directory or route name is not identity | `ResourceRef`, catalog, shell | B0.2 |
+| Catalog project summary | authenticated project marker + selected manifest validated by `load_pipeline_readonly` | Reserved workspace service scope outside items; each item has its own project snapshot, authority, and diagnostics. B0.2A leaves classification unavailable because course/candidate evidence is deferred | catalog item, snapshot | B0.2A |
+| Pipeline stage rail and gates | selected pipeline manifest; schema + `load_pipeline_readonly` | B0.2A admits the named read seam for catalog validation only. Shell/stage rail remains deferred; invalid/missing manifest fails closed with no fixed-tab fallback | `ShellData`, `StageSummary`, snapshot | B0.2 |
 | Approved course | completed, human-approved proposal checkpoint containing valid `proposal_packet` + `course_manifest` and `content_form=course_form` | The only canonical course truth. Loose course file never creates authority | revision set, projected revision | B1 |
 | Course candidate/history | validated proposal candidates and separately classified checkpoint history | Awaiting is candidate; working/failed are display snapshots; history is not current | revision set | B0.2/B1 |
 | Script revisions | owner checkpoint + artifact schema | Completed/gated revision may be canonical; awaiting is candidate. Missing/invalid is unavailable. No unsupported semantic timing claims | revision set, resource/revision refs | B1 |
@@ -230,9 +231,9 @@ The following are contract failures, not UI polish issues:
 The matrix intentionally preserves these gaps instead of resolving them in
 B0.1:
 
-1. B0.2 needs narrow public Workspace read seams for the authenticated project
-   marker, pipeline manifest, and strict style catalog loader, with governance
-   allowlist tests.
+1. B0.2A closes the narrow public Workspace read seams for the authenticated
+   project marker and selected pipeline manifest, with governance allowlist
+   tests. The strict style catalog loader remains a later B0.2/B1 gap.
 2. B0.2 must implement one lifecycle/source resolver for generic script,
    scene, asset, edit, render, loose-cache, and history cases.
 3. The producer render schema does not require unique `platform_target` values.

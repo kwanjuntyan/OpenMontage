@@ -1,9 +1,9 @@
 # Director Workspace module boundary
 
-This directory contains the tracked B0.0B enforcement seam and the B0.1 common
-projection contract. It remains deliberately non-runtime: it registers no
-route, reads no project, resolves no live authority, and changes no existing
-Board behavior.
+This directory contains the tracked B0.0B enforcement seam, the B0.1 common
+projection contract, and the B0.2A read-only catalog foundation. It registers
+no route, changes no existing Board behavior, and grants no production write
+authority.
 
 The B0.1 contract surface is intentionally narrow:
 
@@ -18,8 +18,15 @@ The B0.1 contract surface is intentionally narrow:
 - `tests/backlot/fixtures/workspace/` contains B0.1 consumer wire goldens, not
   canonical project trees or runtime fixtures.
 
-B0.1 does not authorize a resolver, API, feature flag, UI, filesystem reader,
-or preview-proxy generator. Those remain B0.2／B2 work behind their own gates.
+B0.2A adds only `readers/catalog.py` and `projection/catalog.py`: contained
+direct-child marker authentication, validation through the public
+`load_pipeline_readonly` seam, and a bounded snapshot-bound catalog resolver.
+It intentionally does not add shell/stage-rail projections, checkpoints,
+course classification, API/feature-flag/UI work, media, or private-sidecar
+reads. Missing, invalid, or unusable marker/title evidence is omitted rather
+than inferred from a directory, route, filename, or latest checkpoint. An
+authenticated marker with a missing or invalid selected manifest remains a
+degraded, unavailable catalog item with marker-scoped diagnostics.
 
 The allowed dependency direction is:
 
@@ -60,9 +67,10 @@ gateway) requires the Architecture Contract change protocol, its dependency
 direction, and matching governance tests in the same reviewed change.
 
 Because some existing modules mix read and write capabilities, imports are
-capability-level, not package-level. The initial read allowlist is limited to
-`read_checkpoint`, `validate_checkpoint`, and `CheckpointValidationError` from
-`lib.checkpoint`, plus `inspect_v2_asset_manifest_claim` from
+capability-level, not package-level. The explicit read allowlist is limited to
+`read_checkpoint`, `read_project_marker`, `validate_checkpoint`, and
+`CheckpointValidationError` from `lib.checkpoint`; `load_pipeline_readonly`
+from `lib.pipeline_loader`; and `inspect_v2_asset_manifest_claim` from
 `lib.batch_executor.publication`. Adding or widening an exception requires the
 Architecture Contract change protocol and independent review. Whole-module,
 star, dynamic, provider, writer, and private Production Unit imports are

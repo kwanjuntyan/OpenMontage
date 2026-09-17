@@ -57,8 +57,10 @@ REQUIRED_VARIANTS = {
 CHECKPOINT_READ_SYMBOLS = {
     "CheckpointValidationError",
     "read_checkpoint",
+    "read_project_marker",
     "validate_checkpoint",
 }
+PIPELINE_READ_SYMBOLS = {"load_pipeline_readonly"}
 PUBLIC_BATCH_READ_SYMBOLS = {"inspect_v2_asset_manifest_claim"}
 PRIVATE_SOURCE_TOKENS = (".production-units", ".batch-v2")
 KNOWN_WORKSPACE_LAYERS = {"root", "readers", "projection", "api_v1"}
@@ -249,6 +251,16 @@ def _source_violations(source: str, *, path: Path, layer: str) -> list[str]:
                 if not valid:
                     violations.append("batch executor access is not an approved named read")
 
+            if any(_matches(target, "lib.pipeline_loader") for target in targets):
+                valid = (
+                    isinstance(node, ast.ImportFrom)
+                    and node.level == 0
+                    and node.module == "lib.pipeline_loader"
+                    and all(alias.name in PIPELINE_READ_SYMBOLS for alias in node.names)
+                )
+                if not valid:
+                    violations.append("pipeline access is not an approved named read")
+
             if any(_matches(target, "importlib") for target in targets):
                 violations.append("dynamic module loading is not allowed")
 
@@ -426,6 +438,8 @@ def test_boundary_guard_rejects_representative_drift(
     "source",
     [
         "from lib.checkpoint import read_checkpoint, validate_checkpoint",
+        "from lib.checkpoint import read_project_marker",
+        "from lib.pipeline_loader import load_pipeline_readonly",
         (
             "from lib.batch_executor.publication import "
             "inspect_v2_asset_manifest_claim"
@@ -436,6 +450,21 @@ def test_boundary_guard_rejects_representative_drift(
 def test_reader_guard_keeps_explicit_read_paths_available(source: str) -> None:
     path = WORKSPACE_ROOT / "readers" / "example.py"
     assert _source_violations(source, path=path, layer="readers") == []
+
+
+def test_reader_allowlist_matches_the_machine_readable_source_matrix() -> None:
+    matrix = _load_json_without_duplicate_keys(
+        REPO_ROOT / "docs" / "backlot-workspace-field-source-matrix.v1.json"
+    )
+    expected = {
+        *(f"lib.checkpoint.{symbol}" for symbol in CHECKPOINT_READ_SYMBOLS),
+        *(f"lib.pipeline_loader.{symbol}" for symbol in PIPELINE_READ_SYMBOLS),
+        *(
+            f"lib.batch_executor.publication.{symbol}"
+            for symbol in PUBLIC_BATCH_READ_SYMBOLS
+        ),
+    }
+    assert set(matrix["reader_boundary"]["currently_approved_workspace_symbols"]) == expected
 
 
 def test_workspace_browser_code_uses_only_versioned_workspace_routes() -> None:
