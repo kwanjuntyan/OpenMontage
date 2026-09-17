@@ -12,6 +12,12 @@ const state = {
   filter: "",
   loading: false,
   loadGeneration: 0,
+  etags: { catalog: null, shell: null },
+  refreshInFlight: false,
+  refreshTrailing: false,
+  refreshProjectIds: new Set(),
+  eventSource: null,
+  renderCount: 0,
 };
 
 function node(tag, attributes = {}, children = []) {
@@ -42,10 +48,15 @@ function selectedStage(shell = state.shell) {
   return { requested, selected: stages.some((stage) => stage.name === requested) ? requested : null };
 }
 
-async function getJson(url) {
-  const response = await fetch(url, { headers: { Accept: "application/json" } });
+async function getJson(url, cacheKey) {
+  const headers = { Accept: "application/json" };
+  if (state.etags[cacheKey]) headers["If-None-Match"] = state.etags[cacheKey];
+  const response = await fetch(url, { headers });
+  if (response.status === 304) return { notModified: true, projection: null };
   if (!response.ok) throw new Error(`Request failed (${response.status})`);
-  return response.json();
+  const etag = response.headers.get("ETag");
+  if (etag) state.etags[cacheKey] = etag;
+  return { notModified: false, projection: await response.json() };
 }
 
 function catalogUrl(cursor = null) {
@@ -70,14 +81,16 @@ function applyCatalog(projection, { append = false } = {}) {
 
 async function fetchShell(projectId) {
   if (!projectId) return;
-  const shell = await getJson(projectUrl(projectId));
+  const result = await getJson(projectUrl(projectId), "shell");
+  if (result.notModified) return result;
+  const shell = result.projection;
   if (shell.resource_ref?.project_id !== projectId || shell.resource_ref?.kind !== "project") {
     throw new Error("Workspace identity could not be authenticated.");
   }
-  return shell;
+  return { notModified: false, projection: shell };
 }
 
-async function load({ append = false } = {}) {
+async function load({ append = false, eventProjectId = null } = {}) {
   const requestedProjectId = routeProjectId();
   const generation = state.loadGeneration + 1;
   state.loadGeneration = generation;
@@ -90,20 +103,33 @@ async function load({ append = false } = {}) {
   }
   state.loading = true;
   statusRegion.textContent = append ? "Loading more projects." : "Loading read-only Workspace data.";
-  render();
+  let changed = false;
   try {
-    const catalog = await getJson(catalogUrl(append ? state.nextCursor : null));
+    const cursor = append ? state.nextCursor : null;
+    // Snapshot ETags intentionally identify sources, not page position. Keep
+    // validators per transport page so loading page two cannot 304 against
+    // page one merely because both bind the same source snapshot.
+    const catalog = await getJson(
+      catalogUrl(cursor),
+      `catalog:${cursor ? JSON.stringify(cursor) : "initial"}`,
+    );
     if (generation !== state.loadGeneration) return;
-    applyCatalog(catalog, { append });
+    if (!catalog.notModified) {
+      applyCatalog(catalog.projection, { append });
+      changed = true;
+    }
   } catch (error) {
     if (generation !== state.loadGeneration) return;
     state.catalogError = error.message;
   }
-  if (!append && state.routeProjectId) {
+  if (!append && state.routeProjectId && (!eventProjectId || eventProjectId === state.routeProjectId)) {
     try {
       const shell = await fetchShell(state.routeProjectId);
       if (generation !== state.loadGeneration || routeProjectId() !== requestedProjectId) return;
-      state.shell = shell;
+      if (!shell.notModified) {
+        state.shell = shell.projection;
+        changed = true;
+      }
     } catch (error) {
       if (generation !== state.loadGeneration || routeProjectId() !== requestedProjectId) return;
       state.shellError = error.message;
@@ -112,7 +138,42 @@ async function load({ append = false } = {}) {
   if (generation !== state.loadGeneration) return;
   state.loading = false;
   statusRegion.textContent = state.shellError || state.catalogError || "Workspace data loaded.";
-  render();
+  if (changed || state.shellError || state.catalogError || projectChanged || append) render();
+  if (state.refreshTrailing && !state.refreshInFlight) {
+    state.refreshTrailing = false;
+    scheduleRefresh();
+  }
+}
+
+function scheduleRefresh(projectId = null) {
+  if (typeof projectId === "string") state.refreshProjectIds.add(projectId);
+  if (state.refreshInFlight || state.loading) {
+    state.refreshTrailing = true;
+    return;
+  }
+  state.refreshInFlight = true;
+  const refreshProjectId = state.refreshProjectIds.size === 1 ? [...state.refreshProjectIds][0] : null;
+  state.refreshProjectIds.clear();
+  load({ eventProjectId: refreshProjectId }).catch((error) => { state.catalogError = error.message; render(); }).finally(() => {
+    state.refreshInFlight = false;
+    if (state.refreshTrailing) {
+      state.refreshTrailing = false;
+      scheduleRefresh();
+    }
+  });
+}
+
+function startWorkspaceEvents() {
+  if (state.eventSource || !window.EventSource) return;
+  const source = new EventSource(`${API_ROOT}/events`);
+  state.eventSource = source;
+  source.onmessage = (event) => {
+    try {
+      const payload = JSON.parse(event.data);
+      if (payload?.type === "change" && typeof payload.project_id === "string") scheduleRefresh(payload.project_id);
+    } catch { /* malformed coarse event is ignored */ }
+  };
+  source.onerror = () => { /* EventSource reconnects; cached GET remains usable. */ };
 }
 
 function navigateProject(projectId) {
@@ -154,6 +215,7 @@ function updateCatalogList(list, empty) {
     const link = node("a", {
       class: "project",
       href: projectHref(projectId),
+      "data-project-id": projectId,
       "aria-current": projectId === state.routeProjectId ? "page" : null,
       onclick: (event) => {
         if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
@@ -236,7 +298,7 @@ function renderShell() {
   const list = rail.firstChild;
   const stages = Array.isArray(shell.data?.stages) ? shell.data.stages : [];
   for (const stage of stages) {
-    const stageButton = node("button", { class: `stage ${stage.status}`, type: "button", "aria-current": selected.selected === stage.name ? "step" : null, onclick: () => navigateStage(stage.name) }, [
+    const stageButton = node("button", { class: `stage ${stage.status}`, type: "button", "data-stage": stage.name, "aria-current": selected.selected === stage.name ? "step" : null, onclick: () => navigateStage(stage.name) }, [
       node("span", { class: "stage-name", text: stage.name }),
       node("span", { class: "stage-status", text: stage.status }),
       node("span", { class: "label", text: stage.human_approval_default ? "human gate by manifest" : "no default human gate" }),
@@ -253,7 +315,10 @@ function renderShell() {
 
 function render() {
   const active = document.activeElement;
+  const scrollY = window.scrollY;
   const preserveSearch = active?.id === "project-search";
+  const activeProjectId = active?.getAttribute?.("data-project-id");
+  const activeStage = active?.getAttribute?.("data-stage");
   const selectionStart = preserveSearch ? active.selectionStart : null;
   const selectionEnd = preserveSearch ? active.selectionEnd : null;
   app.textContent = "";
@@ -262,12 +327,27 @@ function render() {
   const grid = node("div", { class: "grid" }, [renderCatalog(), renderShell()]);
   workspace.append(grid);
   app.append(workspace);
+  state.renderCount += 1;
   if (preserveSearch) {
     const input = document.getElementById("project-search");
     input?.focus();
     if (selectionStart !== null && selectionEnd !== null) input?.setSelectionRange(selectionStart, selectionEnd);
   }
+  if (!preserveSearch && activeProjectId) {
+    document.querySelector(`[data-project-id="${CSS.escape(activeProjectId)}"]`)?.focus();
+  }
+  if (!preserveSearch && activeStage) {
+    document.querySelector(`[data-stage="${CSS.escape(activeStage)}"]`)?.focus();
+  }
+  requestAnimationFrame(() => window.scrollTo(0, scrollY));
 }
 
 window.addEventListener("popstate", () => load());
+window.addEventListener("beforeunload", () => state.eventSource?.close());
+window.__workspaceDebug = {
+  get renderCount() { return state.renderCount; },
+  scheduleRefresh,
+};
+render();
+startWorkspaceEvents();
 load();

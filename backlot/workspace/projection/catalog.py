@@ -200,6 +200,11 @@ def _item(record: CatalogProjectInput) -> dict[str, Any]:
     }
 
 
+def _has_usable_title(record: CatalogProjectInput) -> bool:
+    title = record.marker.get("title")
+    return isinstance(title, str) and 1 <= len(title) <= 500
+
+
 def _validate_limit(limit: int | None) -> int:
     if limit is None:
         return DEFAULT_PAGE_LIMIT
@@ -212,7 +217,7 @@ def _cursor_start(
     cursor: Mapping[str, Any] | None,
     *,
     snapshot_sha256: str,
-    items: list[dict[str, Any]],
+    resource_keys: list[str],
 ) -> int:
     if cursor is None:
         return 0
@@ -227,8 +232,8 @@ def _cursor_start(
     if cursor.get("snapshot_sha256") != snapshot_sha256:
         raise CatalogCursorError("cursor is stale or belongs to another source snapshot")
     last_key = cursor.get("last_resource_key")
-    for index, item in enumerate(items):
-        if item["project_ref"]["resource_key"] == last_key:
+    for index, resource_key in enumerate(resource_keys):
+        if resource_key == last_key:
             return index + 1
     raise CatalogCursorError("cursor does not name a project in this source snapshot")
 
@@ -252,28 +257,43 @@ class CatalogProjectionResolver:
             if project_ids is None
             else sorted({value for value in project_ids if isinstance(value, str)})
         )
-        items: list[dict[str, Any]] = []
+        # Authenticate all candidate marker identities and retain the complete
+        # source set for a snapshot-bound cursor.  Defer expensive item
+        # envelope construction until after the requested page is selected.
+        # This keeps authority/snapshot semantics intact while avoiding work
+        # proportional to every catalog item on a 50-item page request.
+        records: list[CatalogProjectInput] = []
+        # A catalog snapshot still needs every authenticated item before it
+        # can issue a snapshot-bound cursor, but a shared selected pipeline is
+        # immutable for this resolve.  Revalidating its manifest hundreds of
+        # times is needless unbounded work and does not add authority.
+        manifest_cache: dict[str, object] = {}
         for project_id in candidates:
             try:
-                record = read_catalog_project_input(self.projects_root, project_id)
-                items.append(_item(record))
+                record = read_catalog_project_input(
+                    self.projects_root, project_id, manifest_cache=manifest_cache
+                )
+                if _has_usable_title(record):
+                    records.append(record)
             except (OSError, ValueError):
                 # Invalid/missing evidence cannot produce a guessed identity,
                 # canonical classification, or legacy fallback.
                 continue
 
-        items.sort(key=lambda item: item["project_ref"]["project_id"])
+        records.sort(key=lambda record: record.project_id)
         all_sources = [
             source
-            for item in items
-            for source in item["source_snapshot"]["sources"]
+            for record in records
+            for source in _sources(record, _project_ref(record.project_id))
         ]
         snapshot = build_source_snapshot(all_sources)
+        resource_keys = [_project_ref(record.project_id)["resource_key"] for record in records]
         start = _cursor_start(
-            cursor, snapshot_sha256=snapshot["composite_sha256"], items=items
+            cursor, snapshot_sha256=snapshot["composite_sha256"], resource_keys=resource_keys
         )
-        page = items[start : start + page_limit]
-        has_more = start + page_limit < len(items)
+        page_records = records[start : start + page_limit]
+        page = [_item(record) for record in page_records]
+        has_more = start + page_limit < len(records)
         next_cursor = None
         if has_more:
             next_cursor = {

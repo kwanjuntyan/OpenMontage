@@ -108,7 +108,6 @@ def test_workspace_browser_source_stays_read_only_and_versioned() -> None:
         ".batch-v2",
         "board.js",
         "library.js",
-        "EventSource",
     )
     assert not any(token in source for token in forbidden)
     assert 'const API_ROOT = "/api/workspace/v1"' in source
@@ -209,6 +208,30 @@ def test_workspace_browser_restores_stage_deep_link_and_stays_responsive(
             assert page.get_by_text("Current stage").is_visible()
             assert page.get_by_text("Capabilities").is_visible()
             assert page.get_by_text("Degraded reasons").is_visible()
+            # Conditional refresh is a no-op at the DOM boundary when both
+            # visible projections answer 304. A burst has one in-flight and
+            # at most one trailing refresh per visible endpoint.
+            initial_renders = page.evaluate("() => window.__workspaceDebug.renderCount")
+            request_counts = {"catalog": 0, "shell": 0}
+
+            def count_workspace(route):
+                if "/catalog" in route.request.url:
+                    request_counts["catalog"] += 1
+                if "/projects/film/shell" in route.request.url:
+                    request_counts["shell"] += 1
+                route.continue_()
+
+            page.route("**/api/workspace/v1/**", count_workspace)
+            page.evaluate("""() => {
+                window.__workspaceDebug.scheduleRefresh('film');
+                window.__workspaceDebug.scheduleRefresh('film');
+                window.__workspaceDebug.scheduleRefresh('film');
+            }""")
+            page.wait_for_timeout(500)
+            assert request_counts["catalog"] <= 2
+            assert request_counts["shell"] <= 2
+            assert page.evaluate("() => window.__workspaceDebug.renderCount") == initial_renders
+            page.unroute("**/api/workspace/v1/**", count_workspace)
             page.get_by_role("button", name="Load more projects").click()
             assert "stage=proposal" in page.url
             assert page.get_by_text("Authenticated project: film").is_visible()

@@ -1,0 +1,49 @@
+{
+  "version": "backlot.workspace.b02d.foundation-baseline.v1",
+  "status": "measured_local_provisional",
+  "scope": "B0.2D catalog/shell transport only; this is not Course, Script, Style, media, or Preview authority.",
+  "fixture": {
+    "authenticated_projects": 100,
+    "catalog_limit": 50,
+    "large_project_shape": {
+      "duration_minutes": 45,
+      "sections": 60,
+      "scenes": 120,
+      "assets": 240,
+      "event_lines": 2500,
+      "history_entries": 100
+    }
+  },
+  "measurements": {
+    "catalog_cold_sample_count": 5,
+    "catalog_cold_p95_seconds": 0.82794,
+    "catalog_warm_seconds": 0.00199,
+    "catalog_304_seconds": 0.00099,
+    "shell_cold_sample_count": 5,
+    "shell_cold_p95_seconds": 0.007455,
+    "shell_warm_seconds": 0.001179,
+    "shell_304_seconds": 0.000912,
+    "catalog_payload_bytes": 220730,
+    "shell_payload_bytes": 3134,
+    "marker_open_count": 505,
+    "manifest_open_count": 1,
+    "checkpoint_open_count": 0,
+    "artifact_open_count": 0,
+    "event_open_count": 0,
+    "history_open_count": 0,
+    "cache_hits": 4,
+    "cache_misses": 10,
+    "cache_invalidations": 1,
+    "base_dom_nodes": 129,
+    "base_dom_nodes_evidence": "independently measured by GPT B in the local prototype browser",
+    "browser_memory": "unavailable"
+  },
+  "request_and_ui_evidence": {
+    "conditional_get": "catalog and shell matching If-None-Match returned 304 with an empty body",
+    "catalog_source_change": "an authenticated project marker edit plus explicit disposable-cache invalidation changed the catalog ETag and returned the updated title as 200",
+    "sse": "deterministic stream test covers hello, distinct-project burst delivery, coarse payload, and unsubscribe; local watchfiles is unavailable",
+    "flag_off_rollback": "Workspace catalog, shell, events, and UI are 404 while legacy state, event, thumbnail, and media route shapes remain registered",
+    "browser_single_flight": "Playwright request-count regression exists for the bounded single-flight/trailing-refresh contract, but was skipped locally because Playwright/Chromium was unavailable; this is not a completed live browser request measurement"
+  },
+  "guard_status": "OPEN: these local five-cold-sample values are provisional engineering evidence, not frozen release budgets or B1/B2 metrics. Browser memory is unavailable."
+}

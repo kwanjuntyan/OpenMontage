@@ -186,6 +186,13 @@ async def _watch_projects() -> None:
                 touched.add(pid)
         for pid in touched:
             _invalidate_summary(pid)
+            # Workspace cache is process-memory only.  Importing this inert
+            # hook when the flag is off registers no cache or routes.
+            try:
+                from backlot.workspace.api_v1.router import invalidate_workspace_projection_caches
+                invalidate_workspace_projection_caches(PROJECTS_DIR, pid)
+            except Exception:
+                pass
             hub.publish(pid)
 
 
@@ -218,7 +225,11 @@ def create_app() -> FastAPI:
         # Deliberately import and register only after the server-side startup
         # decision.  Flag-off retains the legacy Board's complete route tree.
         from backlot.workspace.api_v1.router import create_workspace_router
-        app.include_router(create_workspace_router(PROJECTS_DIR))
+        workspace_router, workspace_runtime = create_workspace_router(
+            PROJECTS_DIR, subscribe=hub.subscribe, unsubscribe=hub.unsubscribe
+        )
+        app.state.workspace_runtime = workspace_runtime
+        app.include_router(workspace_router)
 
     # ---- API ----------------------------------------------------------
 

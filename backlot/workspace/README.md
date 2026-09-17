@@ -24,8 +24,15 @@ public `load_pipeline_readonly` seam, and a bounded snapshot-bound catalog
 resolver. B0.2B adds `readers/shell.py`, `projection/shell.py`, and
 `api_v1/router.py`: the manifest-driven stage rail may observe only official
 `read_checkpoint` results. Missing or invalid checkpoints remain explicit
-stage states; no loose fallback is consulted. Course/candidate classification,
-UI, media, cache/ETag/SSE, and private-sidecar reads remain out of scope.
+stage states; no loose fallback is consulted. B0.2C adds the separately served
+shell source. B0.2D adds quoted ETags derived only from the validated
+projection source snapshot, conditional GET, coarse Workspace SSE invalidation,
+and a bounded app-memory projection cache. The cache stores validated response
+JSON only, is invalidated by project changes, and is disposable on restart or
+flag-off; it never writes under a project root. SSE carries only a change type
+and project id, never a path, source snapshot, or producer payload.
+Course/candidate classification, media, and private-sidecar reads remain out
+of scope.
 Missing, invalid, or unusable marker/title evidence is omitted rather than
 inferred from a directory, route, filename, or latest checkpoint.
 
@@ -82,5 +89,8 @@ forbidden authority imports. `tests/backlot/test_workspace_contracts.py`
 enforces the B0.1 schema and semantic contract.
 `tests/backlot/fixtures/workspace/fixture-matrix.v1.json` distinguishes the
 materialized B0.1 consumer goldens from the still-pending B0.2 large-course
-runtime fixture. The normative product boundary remains
+runtime fixture. B0.2D's generated, foundation-only 100-project performance
+evidence is recorded separately in
+`docs/backlot-workspace-b02d-foundation-baseline.v1.json`; it does not upgrade
+that fixture into Course authority. The normative product boundary remains
 `docs/backlot-workspace-architecture-contract.md`.

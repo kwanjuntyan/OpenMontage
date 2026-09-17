@@ -39,7 +39,7 @@ def iter_direct_child_project_ids(projects_root: Path) -> Iterable[str]:
 
 
 def read_catalog_project_input(
-    projects_root: Path, project_id: str
+    projects_root: Path, project_id: str, *, manifest_cache: dict[str, object] | None = None
 ) -> CatalogProjectInput:
     """Read an authenticated marker and its manifest, if the latter validates.
 
@@ -56,17 +56,15 @@ def read_catalog_project_input(
             manifest=None,
             manifest_error="pipeline_manifest_unavailable",
         )
-    try:
-        manifest = load_pipeline_readonly(pipeline_type)
-    except Exception:
-        return CatalogProjectInput(
-            project_id=project_id,
-            marker=marker,
-            pipeline_type=pipeline_type,
-            manifest=None,
-            manifest_error="pipeline_manifest_invalid",
-        )
-    if not isinstance(manifest, dict):
+    cached = manifest_cache.get(pipeline_type) if manifest_cache is not None else None
+    if cached is None:
+        try:
+            cached = load_pipeline_readonly(pipeline_type)
+        except Exception:
+            cached = False
+        if manifest_cache is not None:
+            manifest_cache[pipeline_type] = cached
+    if cached is False or not isinstance(cached, dict):
         return CatalogProjectInput(
             project_id=project_id,
             marker=marker,
@@ -78,7 +76,7 @@ def read_catalog_project_input(
         project_id=project_id,
         marker=marker,
         pipeline_type=pipeline_type,
-        manifest=manifest,
+        manifest=cached,
         manifest_error=None,
     )
 

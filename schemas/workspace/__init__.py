@@ -7,6 +7,7 @@ authority, register HTTP routes, or mutate production state.
 from __future__ import annotations
 
 from copy import deepcopy
+from functools import lru_cache
 import json
 from pathlib import Path
 from typing import Any
@@ -24,10 +25,11 @@ def load_workspace_v1_schema() -> dict[str, Any]:
     return json.loads(WORKSPACE_V1_SCHEMA.read_text(encoding="utf-8"))
 
 
-def workspace_v1_validator(
+@lru_cache(maxsize=None)
+def _workspace_v1_validator_cached(
     definition: str = "workspace_projection",
 ) -> Draft202012Validator:
-    """Build a validator for one named v1 definition.
+    """Compile one immutable v1 validator once per process/definition.
 
     The bundle intentionally uses only local references so fixtures and future
     consumers do not need network access or a second schema registry.
@@ -40,6 +42,17 @@ def workspace_v1_validator(
     schema["$ref"] = f"#/$defs/{definition}"
     Draft202012Validator.check_schema(schema)
     return Draft202012Validator(schema, format_checker=FormatChecker())
+
+
+def workspace_v1_validator(
+    definition: str = "workspace_projection",
+) -> Draft202012Validator:
+    """Return the cached compiled validator for a public v1 definition.
+
+    Validation remains exactly the same; caching avoids reparsing and
+    rechecking the immutable tracked schema for every projection request.
+    """
+    return _workspace_v1_validator_cached(definition)
 
 
 def validate_workspace_v1(value: Any, definition: str = "workspace_projection") -> None:
