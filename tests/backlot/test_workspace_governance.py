@@ -356,7 +356,7 @@ def test_workspace_runtime_registration_is_server_flag_gated() -> None:
         for path in WORKSPACE_UI_ROOT.rglob("*")
         if path.is_file()
     }
-    assert ui_entries == {"README.md"}
+    assert ui_entries == {"README.md", "workspace.html", "workspace.css", "workspace.js"}
 
 
 def test_b00_workspace_http_surface_is_absent() -> None:
@@ -473,6 +473,7 @@ def test_workspace_browser_code_uses_only_versioned_workspace_routes() -> None:
         if path.suffix not in BROWSER_SOURCE_SUFFIXES:
             continue
         source = path.read_text(encoding="utf-8")
+        assert "innerHTML" not in source
         violations.extend(
             _browser_source_violations(
                 source, path=path.relative_to(REPO_ROOT)

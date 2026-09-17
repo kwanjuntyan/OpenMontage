@@ -35,6 +35,8 @@ mimetypes.add_type("text/javascript", ".js")
 mimetypes.add_type("text/css", ".css")
 
 UI_DIR = Path(__file__).resolve().parent / "ui"
+WORKSPACE_UI_DIR = Path(__file__).resolve().parent / "workspace" / "ui"
+WORKSPACE_UI_ASSETS = frozenset({"workspace.css", "workspace.js"})
 THUMB_CACHE_DIR = REPO_ROOT / ".backlot" / "thumbs"
 THUMB_WIDTHS = (320, 640, 960)
 
@@ -57,6 +59,18 @@ def _ui_html(name: str, assets: tuple[str, ...]) -> HTMLResponse:
         if path.is_file():
             version = str(int(path.stat().st_mtime))
             html = html.replace(f"/ui/{asset}", f"/ui/{asset}?v={version}")
+    return HTMLResponse(html)
+
+
+def _workspace_html() -> HTMLResponse:
+    """Render the separately-owned, opt-in Workspace browser shell."""
+    html = (WORKSPACE_UI_DIR / "workspace.html").read_text(encoding="utf-8")
+    for asset in WORKSPACE_UI_ASSETS:
+        path = WORKSPACE_UI_DIR / asset
+        version = str(int(path.stat().st_mtime))
+        html = html.replace(
+            f"/ui/workspace/{asset}", f"/ui/workspace/{asset}?v={version}"
+        )
     return HTMLResponse(html)
 
 
@@ -412,10 +426,12 @@ def create_app() -> FastAPI:
 
     @app.get("/p/{project_id}/workspace")
     async def workspace_page(project_id: str) -> HTMLResponse:
-        # B0.2B has no browser implementation yet.  Reserve this exact route
-        # so the legacy catch-all Board route cannot expose a Workspace-looking
-        # URL while the server-side feature flag is off.
-        raise HTTPException(status_code=404, detail="workspace shell is not installed")
+        # This route must precede the legacy /p/{project_path:path} catch-all.
+        # Its unconditional registration makes the default-off surface a true
+        # 404 rather than a Board page at a Workspace-looking URL.
+        if not workspace_enabled:
+            raise HTTPException(status_code=404, detail="workspace is disabled")
+        return _workspace_html()
 
     @app.get("/p/{project_id}")
     async def board_page(project_id: str) -> HTMLResponse:
@@ -428,6 +444,15 @@ def create_app() -> FastAPI:
     @app.get("/")
     async def library_page() -> HTMLResponse:
         return _ui_html("index.html", ("board.css", "library.js"))
+
+    if workspace_enabled:
+        @app.get("/ui/workspace/{asset_name}")
+        async def workspace_asset(asset_name: str):
+            # Explicit allowlisting prevents the Workspace source directory
+            # (including README.md) from becoming a browsable static tree.
+            if asset_name not in WORKSPACE_UI_ASSETS:
+                raise HTTPException(status_code=404, detail="workspace asset not found")
+            return FileResponse(WORKSPACE_UI_DIR / asset_name)
 
     if UI_DIR.is_dir():
         app.mount("/ui", StaticFiles(directory=UI_DIR), name="ui")
