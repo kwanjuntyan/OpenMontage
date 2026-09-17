@@ -1,4 +1,6 @@
 const API_ROOT = "/api/workspace/v1";
+// A NUL-prefixed control value cannot collide with a schema-valid project ID.
+const LOAD_MORE_OPTION = "\u0000workspace_load_more";
 const app = document.getElementById("workspace-app");
 const statusRegion = document.getElementById("workspace-status");
 
@@ -9,6 +11,7 @@ const state = {
   shell: null,
   shellError: null,
   routeProjectId: null,
+  statusExpanded: false,
   loading: false,
   loadGeneration: 0,
   etags: { catalog: null, shell: null },
@@ -96,7 +99,10 @@ async function load({ append = false, eventProjectId = null } = {}) {
   const projectChanged = requestedProjectId !== state.routeProjectId;
   if (!append) {
     state.routeProjectId = requestedProjectId;
-    if (projectChanged) state.shell = null;
+    if (projectChanged) {
+      state.shell = null;
+      state.statusExpanded = false;
+    }
     state.shellError = null;
     state.catalogError = null;
   }
@@ -196,10 +202,12 @@ function navigateStage(stageName) {
 function badge(text, variant = "") { return node("span", { class: `badge ${variant}`, text }); }
 
 function renderProjectSelector() {
-  const panel = node("section", { class: "panel", "aria-labelledby": "project-selector-title" });
-  panel.append(node("h2", { id: "project-selector-title", text: "Project selector / 專案選擇" }));
-  const label = node("label", { for: "project-selector", text: "Choose a loaded project / 選擇已載入專案" });
-  const selector = node("select", { id: "project-selector", name: "project-selector", class: "project-selector" });
+  const selector = node("select", {
+    id: "project-selector",
+    name: "project-selector",
+    class: "project-selector",
+    "aria-label": "Choose a loaded project / 選擇已載入專案",
+  });
   const loadedIds = new Set();
   for (const item of state.catalogItems) {
     const projectId = item.project_ref?.project_id;
@@ -212,21 +220,27 @@ function renderProjectSelector() {
     }));
   }
   if (!state.catalogItems.length) {
-    selector.append(node("option", { value: "", text: "Loading loaded-project choices…", selected: "selected", disabled: "disabled" }));
+    const text = state.catalogError ? "Project catalog is unavailable" : "Loading project choices…";
+    selector.append(node("option", { value: "", text, selected: "selected", disabled: "disabled" }));
   } else if (state.routeProjectId && !loadedIds.has(state.routeProjectId)) {
     // The URL alone is not authenticated project identity.  Do not display it
     // as a project label until catalog or shell evidence returns it.
     selector.append(node("option", { value: "", text: "Current route is awaiting authenticated project data", selected: "selected", disabled: "disabled" }));
   } else if (!state.routeProjectId) {
-    selector.insertBefore(node("option", { value: "", text: "Choose a loaded project", selected: "selected", disabled: "disabled" }), selector.firstChild);
+    selector.insertBefore(node("option", { value: "", text: "Choose a project", selected: "selected", disabled: "disabled" }), selector.firstChild);
   }
+  if (state.catalogError && state.catalogItems.length) {
+    selector.append(node("option", { value: "", text: "Catalog refresh unavailable", disabled: "disabled" }));
+  }
+  if (state.nextCursor) selector.append(node("option", { value: LOAD_MORE_OPTION, text: "Load more projects…" }));
   selector.addEventListener("change", () => {
-    if (selector.value) navigateProject(selector.value);
+    if (selector.value === LOAD_MORE_OPTION) {
+      load({ append: true });
+    } else if (selector.value) {
+      navigateProject(selector.value);
+    }
   });
-  panel.append(label, selector, node("p", { class: "scope", text: `Showing ${loadedIds.size} loaded project${loadedIds.size === 1 ? "" : "s"}. Additional projects are not represented until loaded.` }));
-  if (state.catalogError) panel.append(node("p", { class: "diagnostic error", text: state.catalogError }));
-  if (state.nextCursor) panel.append(node("button", { id: "load-more-projects", class: "control", type: "button", text: "Load more projects", onclick: () => load({ append: true }) }));
-  return panel;
+  return selector;
 }
 
 function authorityDetails(shell) {
@@ -240,10 +254,10 @@ function authorityDetails(shell) {
   return details;
 }
 
-function renderDiagnostics(shell) {
+function renderDiagnosticsContent(shell) {
   const diagnostics = [...(Array.isArray(shell?.diagnostics) ? shell.diagnostics : [])];
-  const section = node("section", { class: "panel", "aria-labelledby": "diagnostics-title" });
-  section.append(node("h2", { id: "diagnostics-title", text: "Diagnostics" }));
+  const section = node("section", { class: "diagnostics", "aria-labelledby": "diagnostics-title" });
+  section.append(node("h3", { id: "diagnostics-title", text: "Diagnostics" }));
   if (!shell) {
     section.append(node("p", { class: "empty", text: "Diagnostics become available when an authenticated project shell is loaded." }));
     return section;
@@ -292,18 +306,22 @@ function renderStageInspector(shell, selected) {
 }
 
 function renderProjectStatus() {
-  const section = node("section", { class: "panel", "aria-labelledby": "project-status-title" });
-  section.append(node("h2", { id: "project-status-title", text: "Project status / 專案狀態摘要" }));
+  const section = node("details", { id: "project-status", class: "panel project-status", open: state.statusExpanded ? "open" : null });
+  section.append(node("summary", { id: "project-status-title", text: "Project status / 專案狀態摘要" }));
+  section.addEventListener("toggle", () => { state.statusExpanded = section.open; });
   if (!state.routeProjectId) {
-    section.append(node("p", { class: "status", text: "Choose an authenticated project to open its read-only Workspace shell." }));
+    section.append(
+      node("p", { class: "status", text: "Choose an authenticated project to open its read-only Workspace shell." }),
+      renderDiagnosticsContent(null),
+    );
     return section;
   }
   if (state.shellError) {
-    section.append(node("p", { class: "status", text: state.shellError }));
+    section.append(node("p", { class: "status", text: state.shellError }), renderDiagnosticsContent(null));
     return section;
   }
   if (!state.shell) {
-    section.append(node("p", { class: "status", text: "Loading Workspace shell…" }));
+    section.append(node("p", { class: "status", text: "Loading Workspace shell…" }), renderDiagnosticsContent(null));
     return section;
   }
   const shell = state.shell;
@@ -312,6 +330,7 @@ function renderProjectStatus() {
     node("div", { class: "badges" }, [badge(shell.authority?.authority_state || "unavailable", shell.authority?.authority_state === "unavailable" ? "warn" : "good"), badge("Read only")]),
   ]));
   section.append(authorityDetails(shell));
+  section.append(renderDiagnosticsContent(shell));
   return section;
 }
 
@@ -349,13 +368,15 @@ function render() {
   const activeStage = active?.getAttribute?.("data-stage");
   app.textContent = "";
   const workspace = node("div", { class: "workspace" });
-  workspace.append(node("h1", { id: "director-workspace-title", text: "Director Workspace" }));
+  const header = node("div", { class: "workspace-header" }, [
+    node("h1", { id: "director-workspace-title", text: "Director Workspace" }),
+    renderProjectSelector(),
+  ]);
+  workspace.append(header);
   if (state.loading) workspace.append(node("p", { class: "status", role: "status", text: "Loading read-only Workspace data…" }));
   const layout = node("div", { class: "single-column" }, [
-    renderProjectSelector(),
     renderProjectStatus(),
     renderProductionStages(),
-    renderDiagnostics(state.shell),
   ]);
   workspace.append(layout);
   app.append(workspace);

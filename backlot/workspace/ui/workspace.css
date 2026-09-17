@@ -25,13 +25,15 @@ button:focus-visible, a:focus-visible, input:focus-visible, select:focus-visible
 .wordmark { color: var(--text); font-weight: 800; letter-spacing: .12em; text-decoration: none; }
 .mode { color: var(--accent); font-size: .78rem; letter-spacing: .08em; }
 .workspace { width: min(1200px, 100%); margin: 0 auto; padding: 24px; }
+.workspace-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-width: 0; margin-bottom: 16px; }
 .single-column { display: grid; gap: 16px; }
 .panel { min-width: 0; padding: 18px; border: 1px solid var(--line); border-radius: 12px; background: var(--panel); }
 h1, h2, h3, p { margin-top: 0; }
 h1 { font-size: clamp(1.35rem, 2.5vw, 2rem); margin-bottom: 8px; }
 h2 { font-size: 1rem; letter-spacing: .04em; }
 .muted, .scope { color: var(--muted); font-size: .9rem; line-height: 1.5; }
-.project-selector { width: min(100%, 460px); margin: 8px 0; padding: 9px 10px; color: var(--text); background: #0d1014; border: 1px solid var(--line); border-radius: 6px; }
+.workspace-header h1 { min-width: 0; margin: 0; }
+.project-selector { flex: 0 1 460px; min-width: 0; margin: 0; padding: 9px 10px; color: var(--text); background: #0d1014; border: 1px solid var(--line); border-radius: 6px; }
 .rail, .chips, .diagnostics { list-style: none; padding: 0; margin: 0; }
 .label { display: block; margin-top: 3px; color: var(--muted); font-size: .78rem; font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
 .control { padding: 8px 10px; color: var(--text); background: transparent; border: 1px solid var(--line); border-radius: 6px; cursor: pointer; }
@@ -55,6 +57,9 @@ h2 { font-size: 1rem; letter-spacing: .04em; }
 .empty, .status { padding: 18px; border: 1px dashed var(--line); border-radius: 8px; color: var(--muted); }
 .selection-warning { margin: 0 0 12px; color: var(--warning); }
 .stage-inspector { min-width: 0; margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
+.project-status > summary { cursor: pointer; font-size: 1rem; font-weight: 700; letter-spacing: .04em; }
+.project-status[open] > summary { margin-bottom: 16px; }
+.project-status .diagnostics { margin-top: 16px; padding-top: 16px; border-top: 1px solid var(--line); }
 .details { display: grid; grid-template-columns: repeat(auto-fit, minmax(155px, 1fr)); gap: 8px; }
 .detail { padding: 9px; background: var(--panel-2); border-radius: 6px; overflow-wrap: anywhere; }
 .sr-status { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
@@ -62,6 +67,8 @@ h2 { font-size: 1rem; letter-spacing: .04em; }
 @media (max-width: 760px) {
   .topbar { padding: 0 14px; flex-wrap: wrap; gap: 4px 12px; }
   .workspace { padding: 14px; }
+  .workspace-header { gap: 10px; }
+  .project-selector { flex-basis: 48%; }
   .hero { display: block; }
   .hero .badges { margin-top: 12px; }
 }
