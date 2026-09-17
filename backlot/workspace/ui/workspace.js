@@ -9,7 +9,6 @@ const state = {
   shell: null,
   shellError: null,
   routeProjectId: null,
-  filter: "",
   loading: false,
   loadGeneration: 0,
   etags: { catalog: null, shell: null },
@@ -103,6 +102,10 @@ async function load({ append = false, eventProjectId = null } = {}) {
   }
   state.loading = true;
   statusRegion.textContent = append ? "Loading more projects." : "Loading read-only Workspace data.";
+  // A new opaque route must never keep the previous authenticated shell on
+  // screen while its own request is in flight.  Appending catalog pages keeps
+  // the active shell, deep link, and focus intact.
+  if (!append && projectChanged) render();
   let changed = false;
   try {
     const cursor = append ? state.nextCursor : null;
@@ -190,64 +193,39 @@ function navigateStage(stageName) {
   render();
 }
 
-function projectHref(projectId) {
-  const requested = new URLSearchParams(location.search).get("stage");
-  const query = requested ? `?stage=${encodeURIComponent(requested)}` : "";
-  return `/p/${encodeURIComponent(projectId)}/workspace${query}`;
-}
-
 function badge(text, variant = "") { return node("span", { class: `badge ${variant}`, text }); }
 
-function filteredCatalogItems() {
-  const query = state.filter.trim().toLocaleLowerCase();
-  return state.catalogItems.filter((item) => {
-    const title = String(item.title || "").toLocaleLowerCase();
-    const projectId = String(item.project_ref?.project_id || "").toLocaleLowerCase();
-    return !query || title.includes(query) || projectId.includes(query);
-  });
-}
-
-function updateCatalogList(list, empty) {
-  list.textContent = "";
-  for (const item of filteredCatalogItems()) {
+function renderProjectSelector() {
+  const panel = node("section", { class: "panel", "aria-labelledby": "project-selector-title" });
+  panel.append(node("h2", { id: "project-selector-title", text: "Project selector / 專案選擇" }));
+  const label = node("label", { for: "project-selector", text: "Choose a loaded project / 選擇已載入專案" });
+  const selector = node("select", { id: "project-selector", name: "project-selector", class: "project-selector" });
+  const loadedIds = new Set();
+  for (const item of state.catalogItems) {
     const projectId = item.project_ref?.project_id;
     if (typeof projectId !== "string") continue;
-    const link = node("a", {
-      class: "project",
-      href: projectHref(projectId),
-      "data-project-id": projectId,
-      "aria-current": projectId === state.routeProjectId ? "page" : null,
-      onclick: (event) => {
-        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
-        event.preventDefault();
-        navigateProject(projectId);
-      },
-    }, [
-      node("span", { class: "project-title", text: item.title }),
-      node("span", { class: "project-id", text: projectId }),
-      node("span", { class: "label", text: `${item.classification} · ${item.authority?.authority_state || "unavailable"}` }),
-    ]);
-    list.append(node("li", {}, [link]));
+    loadedIds.add(projectId);
+    selector.append(node("option", {
+      value: projectId,
+      text: `${item.title} — ${item.classification}`,
+      selected: projectId === state.routeProjectId ? "selected" : null,
+    }));
   }
-  empty.hidden = Boolean(list.childElementCount) || Boolean(state.catalogError);
-}
-
-function renderCatalog() {
-  const panel = node("section", { class: "panel", "aria-labelledby": "project-selector-title" });
-  panel.append(node("h2", { id: "project-selector-title", text: "Projects" }));
-  const label = node("label", { for: "project-search", text: "Search loaded projects" });
-  const input = node("input", { id: "project-search", name: "project-search", class: "search", type: "search", value: state.filter, autocomplete: "off" });
-  const list = node("ul", { class: "project-list" });
-  const empty = node("p", { class: "empty", text: "No loaded projects match this search." });
-  input.addEventListener("input", () => {
-    state.filter = input.value;
-    updateCatalogList(list, empty);
+  if (!state.catalogItems.length) {
+    selector.append(node("option", { value: "", text: "Loading loaded-project choices…", selected: "selected", disabled: "disabled" }));
+  } else if (state.routeProjectId && !loadedIds.has(state.routeProjectId)) {
+    // The URL alone is not authenticated project identity.  Do not display it
+    // as a project label until catalog or shell evidence returns it.
+    selector.append(node("option", { value: "", text: "Current route is awaiting authenticated project data", selected: "selected", disabled: "disabled" }));
+  } else if (!state.routeProjectId) {
+    selector.insertBefore(node("option", { value: "", text: "Choose a loaded project", selected: "selected", disabled: "disabled" }), selector.firstChild);
+  }
+  selector.addEventListener("change", () => {
+    if (selector.value) navigateProject(selector.value);
   });
-  panel.append(label, input, node("p", { class: "scope", text: `Searches ${state.catalogItems.length} loaded project${state.catalogItems.length === 1 ? "" : "s"}; server-side search is not available in B0.2C.` }));
+  panel.append(label, selector, node("p", { class: "scope", text: `Showing ${loadedIds.size} loaded project${loadedIds.size === 1 ? "" : "s"}. Additional projects are not represented until loaded.` }));
   if (state.catalogError) panel.append(node("p", { class: "diagnostic error", text: state.catalogError }));
-  updateCatalogList(list, empty);
-  panel.append(list, empty);
-  if (state.nextCursor) panel.append(node("button", { class: "control", type: "button", text: "Load more projects", onclick: () => load({ append: true }) }));
+  if (state.nextCursor) panel.append(node("button", { id: "load-more-projects", class: "control", type: "button", text: "Load more projects", onclick: () => load({ append: true }) }));
   return panel;
 }
 
@@ -263,10 +241,17 @@ function authorityDetails(shell) {
 }
 
 function renderDiagnostics(shell) {
-  const diagnostics = [...(Array.isArray(shell.diagnostics) ? shell.diagnostics : [])];
-  if (!diagnostics.length) return null;
+  const diagnostics = [...(Array.isArray(shell?.diagnostics) ? shell.diagnostics : [])];
   const section = node("section", { class: "panel", "aria-labelledby": "diagnostics-title" });
   section.append(node("h2", { id: "diagnostics-title", text: "Diagnostics" }));
+  if (!shell) {
+    section.append(node("p", { class: "empty", text: "Diagnostics become available when an authenticated project shell is loaded." }));
+    return section;
+  }
+  if (!diagnostics.length) {
+    section.append(node("p", { class: "empty", text: "No Workspace diagnostics were reported for this shell." }));
+    return section;
+  }
   for (const diagnostic of diagnostics) {
     const severity = diagnostic.severity === "error" ? "error" : "";
     section.append(node("div", { class: `diagnostic ${severity}` }, [
@@ -277,23 +262,68 @@ function renderDiagnostics(shell) {
   return section;
 }
 
-function renderShell() {
-  if (!state.routeProjectId) return node("section", { class: "panel status", text: "Choose an authenticated project to open its read-only Workspace shell." });
-  if (state.shellError) return node("section", { class: "panel status" }, [node("h1", { text: "Workspace unavailable" }), node("p", { class: "muted", text: state.shellError })]);
-  if (!state.shell) return node("section", { class: "panel status", text: "Loading Workspace shell…" });
+function renderStageInspector(shell, selected) {
+  const inspector = node("section", { class: "stage-inspector", "aria-labelledby": "stage-inspector-title" });
+  inspector.append(node("h3", { id: "stage-inspector-title", text: "Stage Inspector / 階段檢視" }));
+  if (selected.requested && !selected.selected) {
+    inspector.append(node("p", { class: "selection-warning", role: "status", text: `Requested stage “${selected.requested}” is unavailable for this manifest. No fallback stage was selected.` }));
+    return inspector;
+  }
+  if (!selected.selected) {
+    inspector.append(node("p", { class: "empty", text: "Choose a manifest stage to view its read-only summary. The current stage is not selected automatically." }));
+    return inspector;
+  }
+  const stage = (shell.data?.stages || []).find((entry) => entry.name === selected.selected);
+  if (!stage) {
+    inspector.append(node("p", { class: "empty", text: "The selected manifest stage is unavailable." }));
+    return inspector;
+  }
+  const details = node("div", { class: "details" });
+  for (const [label, value] of [
+    ["Stage", stage.name],
+    ["State", stage.status],
+    ["Manifest human gate", stage.human_approval_default ? "required" : "not required"],
+    ["Project gate state", shell.data?.gate_state],
+  ]) {
+    details.append(node("div", { class: "detail" }, [node("span", { class: "label", text: label }), node("strong", { text: value || "unavailable" })]));
+  }
+  inspector.append(details, node("p", { class: "empty", text: "Read-only stage summary only. Detailed stage inspectors are a future capability." }));
+  return inspector;
+}
+
+function renderProjectStatus() {
+  const section = node("section", { class: "panel", "aria-labelledby": "project-status-title" });
+  section.append(node("h2", { id: "project-status-title", text: "Project status / 專案狀態摘要" }));
+  if (!state.routeProjectId) {
+    section.append(node("p", { class: "status", text: "Choose an authenticated project to open its read-only Workspace shell." }));
+    return section;
+  }
+  if (state.shellError) {
+    section.append(node("p", { class: "status", text: state.shellError }));
+    return section;
+  }
+  if (!state.shell) {
+    section.append(node("p", { class: "status", text: "Loading Workspace shell…" }));
+    return section;
+  }
   const shell = state.shell;
-  const selected = selectedStage(shell);
-  const section = node("div");
-  const heading = node("section", { class: "panel" });
-  heading.append(node("div", { class: "hero" }, [
-    node("div", {}, [node("h1", { text: "Director Workspace" }), node("p", { class: "muted", text: `Authenticated project: ${shell.resource_ref.project_id}` })]),
+  section.append(node("div", { class: "hero" }, [
+    node("div", {}, [node("p", { class: "muted", text: `Authenticated project: ${shell.resource_ref.project_id}` })]),
     node("div", { class: "badges" }, [badge(shell.authority?.authority_state || "unavailable", shell.authority?.authority_state === "unavailable" ? "warn" : "good"), badge("Read only")]),
   ]));
-  heading.append(authorityDetails(shell));
-  section.append(heading);
-  if (selected.requested && !selected.selected) section.append(node("p", { class: "selection-warning", role: "status", text: `Requested stage “${selected.requested}” is unavailable for this manifest. No fallback stage was selected.` }));
+  section.append(authorityDetails(shell));
+  return section;
+}
+
+function renderProductionStages() {
   const railPanel = node("section", { class: "panel", "aria-labelledby": "stage-rail-title" });
-  railPanel.append(node("h2", { id: "stage-rail-title", text: "Manifest stages" }));
+  railPanel.append(node("h2", { id: "stage-rail-title", text: "Production stages / 製作階段導覽" }));
+  if (!state.shell) {
+    railPanel.append(node("p", { class: "empty", text: "Manifest stage navigation is available after the project shell loads." }));
+    return railPanel;
+  }
+  const shell = state.shell;
+  const selected = selectedStage(shell);
   const rail = node("nav", { "aria-label": "Manifest stage rail" }, [node("ul", { class: "rail" })]);
   const list = rail.firstChild;
   const stages = Array.isArray(shell.data?.stages) ? shell.data.stages : [];
@@ -307,36 +337,34 @@ function renderShell() {
   }
   railPanel.append(rail);
   if (!stages.length) railPanel.append(node("p", { class: "empty", text: "No validated manifest stage rail is available." }));
-  section.append(railPanel);
-  const diagnostics = renderDiagnostics(shell);
-  if (diagnostics) section.append(diagnostics);
-  return section;
+  railPanel.append(renderStageInspector(shell, selected));
+  return railPanel;
 }
 
 function render() {
   const active = document.activeElement;
   const scrollY = window.scrollY;
-  const preserveSearch = active?.id === "project-search";
+  const activeId = active?.id || null;
   const activeProjectId = active?.getAttribute?.("data-project-id");
   const activeStage = active?.getAttribute?.("data-stage");
-  const selectionStart = preserveSearch ? active.selectionStart : null;
-  const selectionEnd = preserveSearch ? active.selectionEnd : null;
   app.textContent = "";
   const workspace = node("div", { class: "workspace" });
+  workspace.append(node("h1", { id: "director-workspace-title", text: "Director Workspace" }));
   if (state.loading) workspace.append(node("p", { class: "status", role: "status", text: "Loading read-only Workspace data…" }));
-  const grid = node("div", { class: "grid" }, [renderCatalog(), renderShell()]);
-  workspace.append(grid);
+  const layout = node("div", { class: "single-column" }, [
+    renderProjectSelector(),
+    renderProjectStatus(),
+    renderProductionStages(),
+    renderDiagnostics(state.shell),
+  ]);
+  workspace.append(layout);
   app.append(workspace);
   state.renderCount += 1;
-  if (preserveSearch) {
-    const input = document.getElementById("project-search");
-    input?.focus();
-    if (selectionStart !== null && selectionEnd !== null) input?.setSelectionRange(selectionStart, selectionEnd);
-  }
-  if (!preserveSearch && activeProjectId) {
+  if (activeId) document.getElementById(activeId)?.focus();
+  if (!activeId && activeProjectId) {
     document.querySelector(`[data-project-id="${CSS.escape(activeProjectId)}"]`)?.focus();
   }
-  if (!preserveSearch && activeStage) {
+  if (!activeId && activeStage) {
     document.querySelector(`[data-stage="${CSS.escape(activeStage)}"]`)?.focus();
   }
   requestAnimationFrame(() => window.scrollTo(0, scrollY));

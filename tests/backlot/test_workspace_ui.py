@@ -113,6 +113,22 @@ def test_workspace_browser_source_stays_read_only_and_versioned() -> None:
     assert 'const API_ROOT = "/api/workspace/v1"' in source
 
 
+def test_workspace_browser_source_uses_compact_selector_and_stage_inspector() -> None:
+    source = (
+        Path(__file__).resolve().parents[2] / "backlot" / "workspace" / "ui" / "workspace.js"
+    ).read_text(encoding="utf-8")
+    for expected in (
+        'id: "project-selector"',
+        "Project status / 專案狀態摘要",
+        "Production stages / 製作階段導覽",
+        "Stage Inspector / 階段檢視",
+        "Detailed stage inspectors are a future capability.",
+        "renderDiagnostics(state.shell)",
+    ):
+        assert expected in source
+    assert "project-list" not in source
+
+
 @pytest.fixture
 def live_workspace_server(tmp_path: Path) -> str:
     pytest.importorskip("playwright.sync_api")
@@ -192,19 +208,19 @@ def test_workspace_browser_restores_stage_deep_link_and_stays_responsive(
                 wait_until="networkidle",
             )
             assert page.get_by_role("heading", name="Director Workspace").is_visible()
-            assert page.get_by_role("button", name="research").get_attribute("aria-current") == "step"
-            search = page.get_by_role("searchbox", name="Search loaded projects")
-            search.focus()
-            search_node = search.element_handle()
-            search.press_sequentially("fi")
-            assert search.input_value() == "fi"
-            assert page.evaluate("node => node === document.activeElement", search_node)
-            assert page.get_by_role("link", name="Film").count() == 1
-            search.fill("")
-            page.get_by_role("button", name="proposal").click()
+            assert page.get_by_role("heading", name="Project status / 專案狀態摘要").is_visible()
+            assert page.get_by_role("heading", name="Production stages / 製作階段導覽").is_visible()
+            assert page.get_by_role("heading", name="Diagnostics").is_visible()
+            selector = page.get_by_role("combobox", name="Choose a loaded project / 選擇已載入專案")
+            assert selector.input_value() == "film"
+            assert page.locator(".project-list").count() == 0
+            assert page.get_by_role("button", name="research", exact=False).get_attribute("aria-current") == "step"
+            assert page.get_by_role("heading", name="Stage Inspector / 階段檢視").is_visible()
+            assert page.get_by_text("Read-only stage summary only.").is_visible()
+            page.get_by_role("button", name="proposal", exact=False).click()
             assert "stage=proposal" in page.url
             page.reload(wait_until="networkidle")
-            assert page.get_by_role("button", name="proposal").get_attribute("aria-current") == "step"
+            assert page.get_by_role("button", name="proposal", exact=False).get_attribute("aria-current") == "step"
             assert page.get_by_text("Current stage").is_visible()
             assert page.get_by_text("Capabilities").is_visible()
             assert page.get_by_text("Degraded reasons").is_visible()
@@ -239,11 +255,11 @@ def test_workspace_browser_restores_stage_deep_link_and_stays_responsive(
                 "**/api/workspace/v1/projects/other/shell",
                 lambda route: (time.sleep(0.4), route.continue_())[1],
             )
-            other = page.get_by_role("link", name="Other")
-            assert "/p/other/workspace?stage=proposal" in other.get_attribute("href")
-            other.click(no_wait_after=True)
+            selector = page.get_by_role("combobox", name="Choose a loaded project / 選擇已載入專案")
+            selector.select_option("other")
             assert page.get_by_text("Authenticated project: film").count() == 0
-            page.get_by_role("link", name="Project 00").click(no_wait_after=True)
+            selector = page.get_by_role("combobox", name="Choose a loaded project / 選擇已載入專案")
+            selector.select_option("project-00")
             page.wait_for_timeout(600)
             assert "/p/project-00/workspace?stage=proposal" in page.url
             assert page.get_by_text("Authenticated project: project-00").is_visible()
@@ -259,6 +275,9 @@ def test_workspace_browser_restores_stage_deep_link_and_stays_responsive(
             assert page.get_by_text("Current stage").is_visible()
             assert page.get_by_text("Capabilities").is_visible()
             assert page.get_by_text("Degraded reasons").is_visible()
+            page.goto(f"{live_workspace_server}/p/film/workspace?stage=not-a-stage", wait_until="networkidle")
+            assert page.get_by_text("Requested stage “not-a-stage” is unavailable for this manifest.").is_visible()
+            assert page.get_by_role("heading", name="Stage Inspector / 階段檢視").is_visible()
             size = page.evaluate("() => ({ scroll: document.documentElement.scrollWidth, client: document.documentElement.clientWidth })")
             assert size["scroll"] <= size["client"]
         finally:

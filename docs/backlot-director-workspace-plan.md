@@ -906,18 +906,19 @@ CLP entity identity與 canonical image ref只取依 checkpoint lifecycle 分類�
 ### 10.7 Workspace information architecture
 
 ```text
-Project/Course selector
-  +-- persistent context bar: pipeline, stage/gate, authority health, PUP axes, cost
-  +-- manifest-driven stage rail
-  +-- course outline rail (when applicable)
-  +-- active inspector
-  |     +-- list/navigation pane
-  |     +-- primary content
-  |     +-- detail/provenance drawer
-  +-- diagnostics drawer
+Director Workspace (page title)
+  +-- compact, collapsible Project/Course selector
+  +-- Project status / 專案狀態摘要: pipeline, stage/gate, authority health, PUP axes, cost
+  +-- Production stages / 製作階段導覽
+  |     +-- manifest-driven stage navigation
+  |     +-- active Inspector directly below in the same section
+  |           +-- list/navigation pane
+  |           +-- primary content
+  |           +-- detail/provenance drawer
+  +-- separate Diagnostics section
 ```
 
-URL query／fragment 保存 stage 與 ResourceRef selection；重新整理、browser back/forward 與貼上 deep link 都必須可還原。Lenses 到 B6 才加入，但 B1/B2 inspector components 必須能在不改變 projection contract 的前提下被 Lens 重用。
+Project/Course choices stay compact until a user opens the selector; bounded loaded results must not be presented as the whole catalog. URL query／fragment 保存 stage 與 ResourceRef selection；重新整理、browser back/forward 與貼上 deep link 都必須可還原。Lenses 到 B6 才加入，但 B1/B2 inspector components 必須能在不改變 projection contract 的前提下被 Lens 重用。
 
 ## 11. Verification, compatibility, security and rollback
 
@@ -1056,6 +1057,7 @@ Existing tests in `tests/backlot/` remain regression gates。Workspace tests sho
 | B-D027 | 2026-09-17 | contract hardening／review correction | Workspace v1 snapshot改以完整canonical SourceEntry形成token；所有non-projection RevisionRef、MediaRef owner/proxy lineage、GenerationInstruction locator、PUP policy/profile/matrix/disposition及edit-preview source basis都採exact evidence binding；每個evidence scope須由相容的cited source family支持，GenerationInstruction locator另須符合instruction-kind governing source family及對應scope；`derived_projection`不得canonical，也不得用無關trusted evidence洗白legacy | B0.1獨立contract review反例 + positive／negative executable tests | — | 原先只雜湊`source_key + sha256`、只比source kind或只驗scope enum，允許identity metadata共同漂移、虛構證據深度與authority laundering；B0.1尚未整合且無既有consumer，故在同一v1候選內修正，不產生silent API reinterpretation。B0.2必須直接實作此收緊後契約 |
 | B-D028 | 2026-09-17 | review-ready status | B0.1 common projection contract已通過authority、fixture/schema與projection/phase-boundary三方獨立最終驗收，無P0/P1；此狀態僅表示branch可供review／整合，不表示已merge、push或授權B0.2 | 三方final ACCEPTED + focused／Backlot／PUP regression + static／JSON／diff gates | B-D025–B-D027 | B0.2仍須等待B0.1整合及使用者另行明確授權 |
 | B-D029 | 2026-09-17 | integrated status | B0.1 common projection contract已以fast-forward整合並推送至`team-main @ 23b214a`；B0.2可進入獨立啟動／授權流程，但尚未開始 | User明確merge／push授權 + remote `team-main` verification | B-D028 | 新對話與外部實作者必須以此整合點或其後續status-only commit為base，不得退回B0.0 schema假設 |
+| B-D030 | 2026-09-17 | decided | Director Workspace採單頁順序：page title、compact project/course selector、project status summary、stage navigation及同段落下方active Inspector、separate Diagnostics | User-approved post-B0.2 prototype refinement | — | 改善可點擊雛形的操作層次，不改變既有 authority／phase 語意或擴張 B0.2 data surface |
 
 ## 14. Revision protocol
 
