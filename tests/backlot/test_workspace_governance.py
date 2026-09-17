@@ -326,10 +326,9 @@ def test_workspace_scaffold_has_the_frozen_dependency_layers() -> None:
     assert root_dirs == {"readers", "projection", "api_v1", "ui"}
 
 
-def test_b00_scaffold_is_not_registered_with_the_existing_runtime() -> None:
-    """B0.2 must deliberately replace this with flag-off/on route tests."""
+def test_workspace_runtime_registration_is_server_flag_gated() -> None:
+    """B0.2B may register only a default-off, server-side projection route."""
     for relative in (
-        "backlot/server.py",
         "backlot/state.py",
         "backlot/course_projection.py",
     ):
@@ -347,7 +346,8 @@ def test_b00_scaffold_is_not_registered_with_the_existing_runtime() -> None:
     server_source = (REPO_ROOT / "backlot" / "server.py").read_text(
         encoding="utf-8"
     )
-    assert "/api/workspace" not in server_source
+    assert "BACKLOT_WORKSPACE_ENABLED" in server_source
+    assert "create_workspace_router" in server_source
     assert not any(
         path.is_file() for path in LEGACY_UI_WORKSPACE_ROOT.rglob("*")
     )

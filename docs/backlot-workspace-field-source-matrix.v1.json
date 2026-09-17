@@ -191,7 +191,7 @@
         "validators": ["shared contained project-marker authentication"],
         "resolution_status": "b0_2a_public_reader_materialized"
       },
-      "authority_lifecycle": "A validated marker identifies a B0.2A catalog item only after direct-child containment; shell behavior remains deferred.",
+      "authority_lifecycle": "A validated marker identifies a B0.2 catalog item and shell only after direct-child containment; the B0.2B shell does not classify course or candidate state.",
       "absence": "Omit an unavailable marker from B0.2A catalog; never infer a project from a nested directory or arbitrary path.",
       "invalid_or_degraded": "Omit invalid marker evidence from B0.2A catalog and fail later project-shell resolution closed.",
       "phase_owner": "B0.2",
@@ -223,9 +223,9 @@
       "official_reader_validator": {
         "reader": "lib.pipeline_loader.load_pipeline_readonly",
         "validators": ["schemas/pipelines/pipeline_manifest.schema.json", "lib.pipeline_loader.get_stage_order", "lib.pipeline_loader.get_stage_human_approval_default"],
-        "resolution_status": "b0_2a_named_catalog_read_allowlist"
+        "resolution_status": "b0_2b_manifest_stage_rail_materialized"
       },
-      "authority_lifecycle": "B0.2A validates the selected manifest for catalog evidence only; stage/gate projection remains deferred and checkpoint state supplies lifecycle when that work is authorized.",
+      "authority_lifecycle": "B0.2B uses the selected validated manifest for stage order and human_approval_default, then official read_checkpoint validation for stage lifecycle. Missing checkpoints are pending; invalid evidence remains invalid with no loose fallback.",
       "absence": "Return unavailable/pipeline_manifest_unavailable; no fixed six-tab or guessed stage rail.",
       "invalid_or_degraded": "Return unavailable/pipeline_manifest_invalid; do not reuse a similarly named manifest.",
       "phase_owner": "B0.2",

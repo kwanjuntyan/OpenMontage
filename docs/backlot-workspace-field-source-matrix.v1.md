@@ -142,7 +142,7 @@ history, but `revision_set.current_canonical` must be unavailable with
 
 ## 4. Current Workspace reader boundary
 
-B0.2A currently permits only these named producer reads:
+B0.2B currently permits only these named producer reads:
 
 - `CheckpointValidationError`, `read_checkpoint`, `read_project_marker`, and
   `validate_checkpoint` from `lib.checkpoint`;
@@ -165,7 +165,7 @@ absence, invalid/degraded, and forbidden-inference text for every row.
 |---|---|---|---|---|
 | Project identity | contained `project.json` through public `lib.checkpoint.read_project_marker` | Missing/invalid/mismatched marker is omitted from B0.2A catalog; directory or route name is not identity | `ResourceRef`, catalog, shell | B0.2 |
 | Catalog project summary | authenticated project marker + selected manifest validated by `load_pipeline_readonly` | Reserved workspace service scope outside items; each item has its own project snapshot, authority, and diagnostics. B0.2A leaves classification unavailable because course/candidate evidence is deferred | catalog item, snapshot | B0.2A |
-| Pipeline stage rail and gates | selected pipeline manifest; schema + `load_pipeline_readonly` | B0.2A admits the named read seam for catalog validation only. Shell/stage rail remains deferred; invalid/missing manifest fails closed with no fixed-tab fallback | `ShellData`, `StageSummary`, snapshot | B0.2 |
+| Pipeline stage rail and gates | selected pipeline manifest; schema + `load_pipeline_readonly`, plus manifest-declared checkpoints through `read_checkpoint` | B0.2B projects manifest order and gate defaults. Missing checkpoints are pending; invalid checkpoints are explicit invalid stages with no loose fallback; invalid/missing manifest yields an unavailable shell with no fixed-tab fallback | `ShellData`, `StageSummary`, snapshot | B0.2B |
 | Approved course | completed, human-approved proposal checkpoint containing valid `proposal_packet` + `course_manifest` and `content_form=course_form` | The only canonical course truth. Loose course file never creates authority | revision set, projected revision | B1 |
 | Course candidate/history | validated proposal candidates and separately classified checkpoint history | Awaiting is candidate; working/failed are display snapshots; history is not current | revision set | B0.2/B1 |
 | Script revisions | owner checkpoint + artifact schema | Completed/gated revision may be canonical; awaiting is candidate. Missing/invalid is unavailable. No unsupported semantic timing claims | revision set, resource/revision refs | B1 |

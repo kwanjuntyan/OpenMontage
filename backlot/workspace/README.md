@@ -1,9 +1,10 @@
 # Director Workspace module boundary
 
 This directory contains the tracked B0.0B enforcement seam, the B0.1 common
-projection contract, and the B0.2A read-only catalog foundation. It registers
-no route, changes no existing Board behavior, and grants no production write
-authority.
+projection contract, the B0.2A catalog foundation, and the B0.2B projection
+API foundation.  B0.2B registers only server-flagged, read-only v1 routes;
+with `BACKLOT_WORKSPACE_ENABLED` absent or false they return 404 and existing
+Board behavior remains unchanged.  It grants no production write authority.
 
 The B0.1 contract surface is intentionally narrow:
 
@@ -18,15 +19,15 @@ The B0.1 contract surface is intentionally narrow:
 - `tests/backlot/fixtures/workspace/` contains B0.1 consumer wire goldens, not
   canonical project trees or runtime fixtures.
 
-B0.2A adds only `readers/catalog.py` and `projection/catalog.py`: contained
-direct-child marker authentication, validation through the public
-`load_pipeline_readonly` seam, and a bounded snapshot-bound catalog resolver.
-It intentionally does not add shell/stage-rail projections, checkpoints,
-course classification, API/feature-flag/UI work, media, or private-sidecar
-reads. Missing, invalid, or unusable marker/title evidence is omitted rather
-than inferred from a directory, route, filename, or latest checkpoint. An
-authenticated marker with a missing or invalid selected manifest remains a
-degraded, unavailable catalog item with marker-scoped diagnostics.
+B0.2A adds contained direct-child marker authentication, validation through the
+public `load_pipeline_readonly` seam, and a bounded snapshot-bound catalog
+resolver. B0.2B adds `readers/shell.py`, `projection/shell.py`, and
+`api_v1/router.py`: the manifest-driven stage rail may observe only official
+`read_checkpoint` results. Missing or invalid checkpoints remain explicit
+stage states; no loose fallback is consulted. Course/candidate classification,
+UI, media, cache/ETag/SSE, and private-sidecar reads remain out of scope.
+Missing, invalid, or unusable marker/title evidence is omitted rather than
+inferred from a directory, route, filename, or latest checkpoint.
 
 The allowed dependency direction is:
 

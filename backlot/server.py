@@ -196,6 +196,15 @@ async def _lifespan(app: FastAPI):
 
 def create_app() -> FastAPI:
     app = FastAPI(title="Backlot", docs_url=None, redoc_url=None, lifespan=_lifespan)
+    workspace_enabled = _os.environ.get("BACKLOT_WORKSPACE_ENABLED", "").casefold() in {
+        "1", "true", "yes", "on"
+    }
+
+    if workspace_enabled:
+        # Deliberately import and register only after the server-side startup
+        # decision.  Flag-off retains the legacy Board's complete route tree.
+        from backlot.workspace.api_v1.router import create_workspace_router
+        app.include_router(create_workspace_router(PROJECTS_DIR))
 
     # ---- API ----------------------------------------------------------
 
@@ -400,6 +409,13 @@ def create_app() -> FastAPI:
         raise HTTPException(status_code=404, detail="media not found")
 
     # ---- UI ------------------------------------------------------------
+
+    @app.get("/p/{project_id}/workspace")
+    async def workspace_page(project_id: str) -> HTMLResponse:
+        # B0.2B has no browser implementation yet.  Reserve this exact route
+        # so the legacy catch-all Board route cannot expose a Workspace-looking
+        # URL while the server-side feature flag is off.
+        raise HTTPException(status_code=404, detail="workspace shell is not installed")
 
     @app.get("/p/{project_id}")
     async def board_page(project_id: str) -> HTMLResponse:
