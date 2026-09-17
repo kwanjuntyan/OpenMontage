@@ -56,6 +56,14 @@ Loose `artifacts/script.json` remains the recorded `b0.2_contained_reader_gap`:
 it is not read or displayed by B1B, and invalid modern evidence blocks any
 fallback. The Script endpoint and Inspector are read-only and stage-lazy.
 
+B1C adds a project-scoped, multi-source Style projection. It validates the
+manifest-declared proposal owner and selected concept, then calls only the
+governed named `styles.playbook_loader.load_playbook` reader with the exact
+producer-declared key. Marker, proposal, and scene-plan names remain distinct
+observations; a missing scene plan is not a conflict. The current catalog is
+not historically frozen, and no `style.json`, catalog enumeration, generator
+loader, provider, or write path is used.
+
 The allowed dependency direction is:
 
 ```text
@@ -99,7 +107,8 @@ capability-level, not package-level. The explicit read allowlist is limited to
 `read_checkpoint`, `read_project_marker`, `validate_checkpoint`, and
 `CheckpointValidationError` from `lib.checkpoint`; `load_pipeline_readonly`
 from `lib.pipeline_loader`; and `inspect_v2_asset_manifest_claim` from
-`lib.batch_executor.publication`. Adding or widening an exception requires the
+`lib.batch_executor.publication`; and `load_playbook` from
+`styles.playbook_loader`. Adding or widening an exception requires the
 Architecture Contract change protocol and independent review. Whole-module,
 star, dynamic, provider, writer, and private Production Unit imports are
 rejected by the governance test.

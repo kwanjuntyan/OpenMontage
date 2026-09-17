@@ -816,7 +816,8 @@
         "availability": { "enum": ["available", "display_only", "invalid", "unavailable"] },
         "description": { "type": "string", "maxLength": 2000 },
         "course_design": { "$ref": "#/$defs/course_design" },
-        "script": { "$ref": "#/$defs/script_display" }
+        "script": { "$ref": "#/$defs/script_display" },
+        "style": { "$ref": "#/$defs/style_display" }
       }
     },
     "script_display": {
@@ -843,6 +844,43 @@
     "script_delivery_cues": { "type":"object", "additionalProperties":false, "properties":{"pace":{"enum":["slow","measured","conversational","brisk","fast","custom"]},"energy":{"type":"string"},"emphasis_words":{"type":"array","items":{"type":"string"}},"pause_before_seconds":{"type":"number","minimum":0},"pause_after_seconds":{"type":"number","minimum":0},"delivery_note":{"type":"string"},"provider_text":{"type":"string"}} },
     "script_enhancement_cue": { "type":"object", "required":["type","description"], "additionalProperties":false, "properties":{"type":{"enum":["overlay","broll","diagram","stat_card","code_snippet","animation"]},"description":{"type":"string"},"timestamp_seconds":{"type":"number"}} },
     "script_pronunciation_guide": { "type":"object", "required":["word","phonetic"], "additionalProperties":false, "properties":{"word":{"type":"string"},"phonetic":{"type":"string"}} },
+    "style_display": {
+      "type": "object", "required": ["observations", "checkpoint_observations", "proposal", "proposal_authority", "resolved_style"], "additionalProperties": false,
+      "properties": {
+        "proposal": { "$ref": "#/$defs/style_proposal" }, "proposal_authority": { "$ref": "#/$defs/authority_descriptor" },
+        "course_style_intent": { "$ref": "#/$defs/course_style_intent" },
+        "course_authority": { "$ref": "#/$defs/authority_descriptor" },
+        "observations": { "$ref": "#/$defs/style_observations" },
+        "checkpoint_observations": { "type":"array", "items": { "$ref":"#/$defs/style_checkpoint_observation" } },
+        "resolved_style": { "anyOf": [{ "$ref": "#/$defs/style_resolved" }, { "type": "null" }] }
+      }
+    },
+    "style_proposal": {
+      "type": "object", "required": ["availability"], "additionalProperties": false,
+      "properties": {
+        "availability": { "enum": ["available", "candidate", "unavailable"] },
+        "selected_concept": { "$ref": "#/$defs/style_selected_concept" },
+        "playbook": { "type": "string" }, "taste_profile": { "$ref": "#/$defs/style_taste_profile" },
+        "art_direction": { "type": "string" }, "renderer_family": { "type": "string" },
+        "render_runtime": { "enum": ["remotion", "hyperframes", "ffmpeg"] },
+        "composition_mode": { "enum": ["templated", "atelier"] }
+      }
+    },
+    "style_selected_concept": { "type": "object", "required": ["concept_id", "visual_approach"], "additionalProperties": false, "properties": { "concept_id": {"type":"string"}, "visual_approach": {"type":"string"} } },
+    "style_observation": { "type": "object", "required": ["value", "state"], "additionalProperties": false, "properties": { "value": { "type": ["string", "null"] }, "state": { "enum": ["present", "missing", "not_yet_corroborated", "invalid"] } } },
+    "style_checkpoint_observation": { "type":"object", "required":["stage","value","state","authority"], "additionalProperties":false, "properties":{"stage":{"$ref":"#/$defs/identifier"},"value":{"type":["string","null"]},"state":{"enum":["present","invalid"]},"authority":{"$ref":"#/$defs/authority_descriptor"}} },
+    "style_observations": { "type": "object", "required": ["project_marker", "proposal_selection", "proposal_checkpoint", "scene_plan"], "additionalProperties": false, "properties": { "project_marker": {"$ref":"#/$defs/style_observation"}, "proposal_selection": {"$ref":"#/$defs/style_observation"}, "proposal_checkpoint": {"$ref":"#/$defs/style_observation"}, "scene_plan": {"$ref":"#/$defs/style_observation"} } },
+    "style_resolved": { "type": "object", "required": ["playbook", "catalog", "historically_frozen"], "additionalProperties": false, "properties": { "playbook": {"type":"string"}, "historically_frozen": {"const":false}, "catalog": {"$ref":"#/$defs/style_catalog"} } },
+    "style_catalog": { "type": "object", "required": ["identity", "visual_language", "typography", "motion", "audio", "asset_generation", "quality_rules"], "additionalProperties": false, "properties": { "identity": {"$ref":"#/$defs/style_identity"}, "visual_language": {"$ref":"#/$defs/style_visual_language"}, "typography": {"$ref":"#/$defs/style_typography"}, "motion": {"$ref":"#/$defs/style_motion"}, "audio": {"$ref":"#/$defs/style_audio"}, "asset_generation": {"$ref":"#/$defs/style_asset_generation"}, "quality_rules": {"type":"array","items":{"type":"string"}}, "taste_profile": {"$ref":"#/$defs/style_taste_profile"} } },
+    "style_identity": { "type":"object", "required":["name","category","mood","pace"], "additionalProperties":false, "properties":{"name":{"type":"string"},"category":{"type":"string"},"mood":{"type":"string"},"pace":{"type":"string"},"best_for":{"type":"string"}} },
+    "style_visual_language": { "type":"object", "required":["color_palette","composition","texture"], "additionalProperties":false, "properties":{"color_palette":{"$ref":"#/$defs/style_color_palette"},"composition":{"type":"string"},"texture":{"type":"string"}} },
+    "style_color_palette": { "type":"object", "required":["primary","accent","background","text"], "additionalProperties":false, "properties":{"primary":{"type":"array","items":{"type":"string"}},"accent":{"type":"array","items":{"type":"string"}},"background":{"type":"string"},"text":{"type":"string"},"muted":{"type":"string"}} },
+    "style_font_spec": { "type":"object", "required":["font"], "additionalProperties":false, "properties":{"font":{"type":"string"},"weight":{"type":"integer"},"tracking":{"type":"string"},"line_height":{"type":"number"},"size_multiplier":{"type":"number"}} },
+    "style_typography": { "type":"object", "required":["headings","body"], "additionalProperties":false, "properties":{"headings":{"$ref":"#/$defs/style_font_spec"},"body":{"$ref":"#/$defs/style_font_spec"},"code":{"$ref":"#/$defs/style_font_spec"},"stat_card":{"$ref":"#/$defs/style_font_spec"},"scale_system":{"type":["string","number"]},"weight_matrix":{"type":"object","additionalProperties":false,"properties":{"title":{"type":"integer"},"heading":{"type":"integer"},"body":{"type":"integer"},"caption":{"type":"integer"}}}} },
+    "style_motion": { "type":"object", "required":["transitions","animation_style","pacing_rules"], "additionalProperties":false, "properties":{"transitions":{"type":"array","items":{"type":"string"}},"animation_style":{"type":"string"},"pacing_rules":{"type":"object","additionalProperties":false,"properties":{"min_scene_hold_seconds":{"type":"number"},"max_scene_hold_seconds":{"type":"number"},"text_card_hold_seconds":{"type":"number"},"stat_card_hold_seconds":{"type":"number"},"transition_duration_seconds":{"type":"number"}}},"entrance":{"type":"string"},"exit":{"type":"string"}} },
+    "style_audio": { "type":"object", "required":["voice_style","music_mood","music_volume"], "additionalProperties":false, "properties":{"voice_style":{"type":"string"},"music_mood":{"type":"string"},"music_volume":{"type":"number"},"sfx_style":{"type":"string"},"ducking_threshold_db":{"type":"number"},"voice_variation_allowed":{"type":"boolean"},"hero_moment_voice_shift":{"type":"string"},"transition_voice_shift":{"type":"string"}} },
+    "style_asset_generation": { "type":"object", "required":["image_prompt_prefix","consistency_anchors"], "additionalProperties":false, "properties":{"image_prompt_prefix":{"type":"string"},"image_negative_prompt":{"type":"string"},"diagram_style":{"type":"string"},"consistency_anchors":{"type":"array","items":{"type":"string"}}} },
+    "style_taste_profile": { "type":"object", "required":["design_read","visual_variance","motion_intensity","information_density"], "additionalProperties":false, "properties":{"design_read":{"type":"string"},"visual_variance":{"type":"integer"},"motion_intensity":{"type":"integer"},"information_density":{"type":"integer"},"palette_discipline":{"type":"string"},"layout_variation":{"type":"string"},"reference_strategy":{"type":"string"},"anti_patterns":{"type":"array","items":{"type":"string"}},"quality_gates":{"type":"array","items":{"type":"string"}}} },
     "course_design": {
       "type": "object",
       "required": ["version", "project_id", "content_form", "title", "target_duration_seconds", "course_promise", "audience", "entry_requirements", "objectives", "modules", "assessments", "sources", "glossary", "notation", "style_intent", "delivery_requirements"],

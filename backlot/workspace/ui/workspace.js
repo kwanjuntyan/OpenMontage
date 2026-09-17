@@ -14,6 +14,8 @@ const state = {
   courseError: null,
   script: null,
   scriptError: null,
+  style: null,
+  styleError: null,
   routeProjectId: null,
   statusExpanded: false,
   loading: false,
@@ -77,6 +79,7 @@ function projectUrl(projectId) {
 
 function courseUrl(projectId) { return `${API_ROOT}/projects/${encodeURIComponent(projectId)}/course`; }
 function scriptUrl(projectId) { return `${API_ROOT}/projects/${encodeURIComponent(projectId)}/script`; }
+function styleUrl(projectId) { return `${API_ROOT}/projects/${encodeURIComponent(projectId)}/style`; }
 
 function applyCatalog(projection, { append = false } = {}) {
   const items = Array.isArray(projection.data?.items) ? projection.data.items : [];
@@ -112,6 +115,8 @@ async function load({ append = false, eventProjectId = null } = {}) {
       state.courseError = null;
       state.script = null;
       state.scriptError = null;
+      state.style = null;
+      state.styleError = null;
       state.statusExpanded = false;
     }
     state.shellError = null;
@@ -152,6 +157,7 @@ async function load({ append = false, eventProjectId = null } = {}) {
       }
       if (state.shell && selectedStage(state.shell).selected === "proposal") {
         await loadCourse(state.routeProjectId, generation);
+        await loadStyle(state.routeProjectId, generation);
         changed = true;
       }
       if (state.shell && selectedStage(state.shell).selected === scriptOwnerStage(state.shell)) {
@@ -216,6 +222,7 @@ function navigateStage(stageName) {
   history.pushState({}, "", `${location.pathname}?${params}`);
   render();
   if (stageName === "proposal" && state.routeProjectId) loadCourse(state.routeProjectId, state.loadGeneration);
+  if (stageName === "proposal" && state.routeProjectId) loadStyle(state.routeProjectId, state.loadGeneration);
   if (stageName === scriptOwnerStage() && state.routeProjectId) loadScript(state.routeProjectId, state.loadGeneration);
 }
 
@@ -255,6 +262,20 @@ async function loadScript(projectId, generation) {
   } catch (error) {
     if (generation !== state.loadGeneration || routeProjectId() !== projectId) return;
     state.scriptError = error.message;
+  }
+  if (generation === state.loadGeneration) render();
+}
+
+async function loadStyle(projectId, generation) {
+  try {
+    const result = await getJson(styleUrl(projectId), `style:${projectId}`);
+    if (generation !== state.loadGeneration || routeProjectId() !== projectId || selectedStage().selected !== "proposal") return;
+    if (!result.notModified && (result.projection?.resource_ref?.project_id !== projectId || result.projection?.resource_ref?.kind !== "project" || result.projection?.resource_ref?.local_id !== projectId)) throw new Error("Style identity could not be authenticated.");
+    if (!result.notModified) state.style = result.projection;
+    state.styleError = null;
+  } catch (error) {
+    if (generation !== state.loadGeneration || routeProjectId() !== projectId) return;
+    state.styleError = error.message;
   }
   if (generation === state.loadGeneration) render();
 }
@@ -364,8 +385,35 @@ function renderStageInspector(shell, selected) {
   inspector.append(details);
   if (stage.name !== "proposal" && stage.name !== scriptOwnerStage(shell)) inspector.append(node("p", { class: "empty", text: "Read-only stage summary only. Detailed stage inspectors are a future capability." }));
   if (stage.name === "proposal") inspector.append(renderCourseInspector());
+  if (stage.name === "proposal") inspector.append(renderStyleInspector());
   if (stage.name === scriptOwnerStage(shell)) inspector.append(renderScriptInspector());
   return inspector;
+}
+
+function renderStyleInspector() {
+  const section = node("section", { class: "style-inspector", "aria-labelledby": "style-inspector-title" });
+  section.append(node("h4", { id: "style-inspector-title", text: "Style Inspector / 風格檢視" }));
+  if (state.styleError) return section.append(node("p", { class: "diagnostic error", text: state.styleError })), section;
+  if (!state.style) return section.append(node("p", { class: "empty", text: "Loading Style projection…" })), section;
+  const data = state.style.data || {}; const style = data.style;
+  if (!style || typeof style !== "object") return section.append(node("p", { class: "empty", text: "Style details are unavailable." })), section;
+  const proposal = style.proposal || {}; const observations = style.observations || {}; const resolved = style.resolved_style;
+  const proposalLifecycle = style.proposal_authority?.authority_state || "unavailable";
+  section.append(node("p", { class: "muted", text: resolved ? "Current catalog Style (not historically frozen)" : `Style unavailable: ${state.style.authority?.degraded_reasons?.join(", ") || "unavailable"}` }));
+  if (proposal.selected_concept) section.append(node("p", { text: `Selected concept: ${proposal.selected_concept.concept_id}; visual approach: ${proposal.selected_concept.visual_approach}` }));
+  section.append(node("p", { class: "muted", text: `Proposal (${proposalLifecycle}) playbook: ${proposal.playbook || "unavailable"}; renderer: ${proposal.renderer_family || "unavailable"}; runtime: ${proposal.render_runtime || "unavailable"}; composition: ${proposal.composition_mode || "unavailable"}` }));
+  if (proposal.art_direction) section.append(node("p", { text: `Art direction: ${proposal.art_direction}` }));
+  if (proposal.taste_profile) section.append(node("p", { class: "muted", text: `Proposal taste profile (preferred; not merged): ${JSON.stringify(proposal.taste_profile)}` }));
+  if (style.course_style_intent) section.append(node("p", { class: "muted", text: `Course style intent (${style.course_authority?.authority_state || "unavailable"}; separate): tone ${style.course_style_intent.tone}; visual intent ${style.course_style_intent.visual_intent}` }));
+  const observationText = Object.entries(observations).map(([name, item]) => `${name}: ${item?.state || "unavailable"}${item?.value ? ` (${item.value})` : ""}`).join(" · ");
+  section.append(node("p", { class: "muted", text: `Identity observations: ${observationText}` }));
+  const checkpointList = node("ul");
+  for (const item of Array.isArray(style.checkpoint_observations) ? style.checkpoint_observations : []) checkpointList.append(node("li", { text: `${item.stage}: ${item.state}${item.value ? ` (${item.value})` : ""}; ${item.authority?.authority_state || "unavailable"}/${item.authority?.checkpoint_status || "none"}` }));
+  section.append(node("section", { class: "course-section" }, [node("h5", { text: "Checkpoint style observations" }), checkpointList.children.length ? checkpointList : node("p", { class: "muted", text: "No checkpoint style claims." })]));
+  if (!resolved) return section;
+  const catalog = resolved.catalog || {}; const details = node("details", { class: "course-detail" }, [node("summary", { text: `${resolved.playbook}: validated current catalog details` })]);
+  for (const [label, value] of [["Identity", catalog.identity], ["Visual language", catalog.visual_language], ["Typography", catalog.typography], ["Motion", catalog.motion], ["Audio", catalog.audio], ["Asset generation", catalog.asset_generation], ["Quality rules", catalog.quality_rules], ["Catalog taste profile", catalog.taste_profile]]) if (value !== undefined) details.append(node("p", { class: "muted", text: `${label}: ${JSON.stringify(value)}` }));
+  section.append(details); return section;
 }
 
 function renderScriptInspector() {

@@ -62,6 +62,7 @@ CHECKPOINT_READ_SYMBOLS = {
 }
 PIPELINE_READ_SYMBOLS = {"load_pipeline_readonly"}
 PUBLIC_BATCH_READ_SYMBOLS = {"inspect_v2_asset_manifest_claim"}
+STYLE_CATALOG_READ_SYMBOLS = {"load_playbook"}
 PRIVATE_SOURCE_TOKENS = (".production-units", ".batch-v2")
 KNOWN_WORKSPACE_LAYERS = {"root", "readers", "projection", "api_v1"}
 BROWSER_SOURCE_SUFFIXES = {".html", ".js", ".jsx", ".mjs", ".ts", ".tsx"}
@@ -72,6 +73,7 @@ FORBIDDEN_GLOBAL_IMPORTS = (
     "lib.providers",
     "lib.production_units",
     "lib.gcs_storage",
+    "lib.playbook_generator",
     "backlot.server",
     "backlot.ui",
 )
@@ -249,7 +251,9 @@ def _source_violations(source: str, *, path: Path, layer: str) -> list[str]:
                     )
                 )
                 if not valid:
-                    violations.append("batch executor access is not an approved named read")
+                    violations.append(
+                        "batch executor access is not an approved named read"
+                    )
 
             if any(_matches(target, "lib.pipeline_loader") for target in targets):
                 valid = (
@@ -260,6 +264,20 @@ def _source_violations(source: str, *, path: Path, layer: str) -> list[str]:
                 )
                 if not valid:
                     violations.append("pipeline access is not an approved named read")
+
+            if any(_matches(target, "styles.playbook_loader") for target in targets):
+                valid = (
+                    isinstance(node, ast.ImportFrom)
+                    and node.level == 0
+                    and node.module == "styles.playbook_loader"
+                    and all(
+                        alias.name in STYLE_CATALOG_READ_SYMBOLS for alias in node.names
+                    )
+                )
+                if not valid:
+                    violations.append(
+                        "style catalog access is not an approved named read"
+                    )
 
             if any(_matches(target, "importlib") for target in targets):
                 violations.append("dynamic module loading is not allowed")
@@ -343,20 +361,21 @@ def test_workspace_runtime_registration_is_server_flag_gated() -> None:
         ]
         assert not any(_matches(target, "backlot.workspace") for target in imports)
 
-    server_source = (REPO_ROOT / "backlot" / "server.py").read_text(
-        encoding="utf-8"
-    )
+    server_source = (REPO_ROOT / "backlot" / "server.py").read_text(encoding="utf-8")
     assert "BACKLOT_WORKSPACE_ENABLED" in server_source
     assert "create_workspace_router" in server_source
-    assert not any(
-        path.is_file() for path in LEGACY_UI_WORKSPACE_ROOT.rglob("*")
-    )
+    assert not any(path.is_file() for path in LEGACY_UI_WORKSPACE_ROOT.rglob("*"))
     ui_entries = {
         path.relative_to(WORKSPACE_UI_ROOT).as_posix()
         for path in WORKSPACE_UI_ROOT.rglob("*")
         if path.is_file()
     }
-    assert ui_entries == {"README.md", "workspace.html", "workspace.css", "workspace.js"}
+    assert ui_entries == {
+        "README.md",
+        "workspace.html",
+        "workspace.css",
+        "workspace.js",
+    }
 
 
 def test_b00_workspace_http_surface_is_absent() -> None:
@@ -379,9 +398,7 @@ def test_workspace_python_obeys_dependency_and_authority_boundaries() -> None:
 
     for path in python_files:
         source = path.read_text(encoding="utf-8")
-        for violation in _source_violations(
-            source, path=path, layer=_layer_for(path)
-        ):
+        for violation in _source_violations(source, path=path, layer=_layer_for(path)):
             violations.append(f"{path.relative_to(REPO_ROOT)}: {violation}")
 
     assert violations == []
@@ -440,16 +457,31 @@ def test_boundary_guard_rejects_representative_drift(
         "from lib.checkpoint import read_checkpoint, validate_checkpoint",
         "from lib.checkpoint import read_project_marker",
         "from lib.pipeline_loader import load_pipeline_readonly",
-        (
-            "from lib.batch_executor.publication import "
-            "inspect_v2_asset_manifest_claim"
-        ),
+        "from styles.playbook_loader import load_playbook",
+        ("from lib.batch_executor.publication import inspect_v2_asset_manifest_claim"),
         "from backlot.workspace.readers import canonical_course",
     ],
 )
 def test_reader_guard_keeps_explicit_read_paths_available(source: str) -> None:
     path = WORKSPACE_ROOT / "readers" / "example.py"
     assert _source_violations(source, path=path, layer="readers") == []
+
+
+@pytest.mark.parametrize(
+    "source",
+    [
+        "from styles.playbook_loader import validate_playbook",
+        "from styles.playbook_loader import list_playbooks",
+        "import styles.playbook_loader",
+        "from styles.playbook_loader import *",
+    ],
+)
+def test_reader_guard_rejects_style_catalog_scope_expansion(source: str) -> None:
+    path = WORKSPACE_ROOT / "readers" / "example.py"
+    assert any(
+        "style catalog" in item
+        for item in _source_violations(source, path=path, layer="readers")
+    )
 
 
 def test_reader_allowlist_matches_the_machine_readable_source_matrix() -> None:
@@ -459,12 +491,16 @@ def test_reader_allowlist_matches_the_machine_readable_source_matrix() -> None:
     expected = {
         *(f"lib.checkpoint.{symbol}" for symbol in CHECKPOINT_READ_SYMBOLS),
         *(f"lib.pipeline_loader.{symbol}" for symbol in PIPELINE_READ_SYMBOLS),
+        *(f"styles.playbook_loader.{symbol}" for symbol in STYLE_CATALOG_READ_SYMBOLS),
         *(
             f"lib.batch_executor.publication.{symbol}"
             for symbol in PUBLIC_BATCH_READ_SYMBOLS
         ),
     }
-    assert set(matrix["reader_boundary"]["currently_approved_workspace_symbols"]) == expected
+    assert (
+        set(matrix["reader_boundary"]["currently_approved_workspace_symbols"])
+        == expected
+    )
 
 
 def test_workspace_browser_code_uses_only_versioned_workspace_routes() -> None:
@@ -475,9 +511,7 @@ def test_workspace_browser_code_uses_only_versioned_workspace_routes() -> None:
         source = path.read_text(encoding="utf-8")
         assert "innerHTML" not in source
         violations.extend(
-            _browser_source_violations(
-                source, path=path.relative_to(REPO_ROOT)
-            )
+            _browser_source_violations(source, path=path.relative_to(REPO_ROOT))
         )
 
     assert violations == []
@@ -495,9 +529,7 @@ def test_workspace_browser_code_uses_only_versioned_workspace_routes() -> None:
         ("fetch('/media/demo/file.mp4')", "legacy route"),
     ],
 )
-def test_browser_guard_rejects_representative_drift(
-    source: str, expected: str
-) -> None:
+def test_browser_guard_rejects_representative_drift(source: str, expected: str) -> None:
     violations = _browser_source_violations(
         source, path=Path("backlot/workspace/ui/example.ts")
     )
@@ -515,9 +547,10 @@ def test_browser_guard_rejects_representative_drift(
 )
 def test_browser_guard_accepts_exact_workspace_v1_boundary(route: str) -> None:
     source = f"fetch('{route}')"
-    assert _browser_source_violations(
-        source, path=Path("backlot/workspace/ui/example.ts")
-    ) == []
+    assert (
+        _browser_source_violations(source, path=Path("backlot/workspace/ui/example.ts"))
+        == []
+    )
 
 
 @pytest.mark.parametrize(

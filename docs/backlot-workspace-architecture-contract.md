@@ -253,6 +253,11 @@ A change to a `MUST`／`MUST NOT`, authority meaning, source precedence, identit
 
 Implementation convenience, UI layout, a newly discovered file, or an Agent's preference is not sufficient authority to change this contract.
 
+B-D032 records the B1C exception: Workspace readers may import only the named
+`styles.playbook_loader.load_playbook` catalog reader, after exact playbook-key
+validation. It does not permit catalog enumeration, generator access, dynamic
+or whole-module imports, style selection, or writes.
+
 ## 11. B0 slice entry and exit gates
 
 B0 is deliberately split so that prose is not mistaken for an implemented schema and an implementation Agent is not trapped by a circular startup gate.

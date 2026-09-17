@@ -1060,6 +1060,7 @@ Existing tests in `tests/backlot/` remain regression gates。Workspace tests sho
 | B-D029 | 2026-09-17 | integrated status | B0.1 common projection contract已以fast-forward整合並推送至`team-main @ 23b214a`；B0.2可進入獨立啟動／授權流程，但尚未開始 | User明確merge／push授權 + remote `team-main` verification | B-D028 | 新對話與外部實作者必須以此整合點或其後續status-only commit為base，不得退回B0.0 schema假設 |
 | B-D030 | 2026-09-17 | decided | Director Workspace採單頁順序：page title、compact project/course selector、project status summary、stage navigation及同段落下方active Inspector、separate Diagnostics | User-approved post-B0.2 prototype refinement | — | 改善可點擊雛形的操作層次，不改變既有 authority／phase 語意或擴張 B0.2 data surface |
 | B-D031 | 2026-09-17 | decided | Project title與compact selector同列；Project Status預設收合並容納Diagnostics，不再另設Diagnostics panel | User-approved second post-B0.2 prototype refinement | B-D030（僅取代separate Diagnostics layout point） | 維持單頁資訊層次與既有authority／phase語意，同時降低初始掃視密度 |
+| B-D032 | 2026-09-17 | decided | B1C Workspace Style reader只允許具名 `styles.playbook_loader.load_playbook` catalog read seam | B1C authorization + governance review | — | catalog key仍由已驗證 proposal selection 精確提供；禁止 generator loader、列舉、動態或整個 module import，避免讀路徑或選擇語意擴張。 |
 
 ## 14. Revision protocol
 

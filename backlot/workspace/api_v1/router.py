@@ -31,6 +31,10 @@ from backlot.workspace.projection.script import (
     ScriptProjectionNotFound,
     ScriptProjectionResolver,
 )
+from backlot.workspace.projection.style import (
+    StyleProjectionNotFound,
+    StyleProjectionResolver,
+)
 
 
 def _bad_request(code: str) -> HTTPException:
@@ -225,6 +229,7 @@ def create_workspace_router(
     shell = ShellProjectionResolver(projects_root)
     course = CourseProjectionResolver(projects_root)
     script = ScriptProjectionResolver(projects_root)
+    style = StyleProjectionResolver(projects_root)
     runtime = WorkspaceRuntime()
     _CACHE_REGISTRY.setdefault(str(Path(projects_root).resolve()), WeakSet()).add(
         runtime
@@ -293,6 +298,20 @@ def create_workspace_router(
             )
             return _projection_response(request, projection, etag)
         except ScriptProjectionNotFound as exc:
+            raise HTTPException(
+                status_code=404, detail={"code": "workspace_project_not_found"}
+            ) from exc
+
+    @router.get("/projects/{project_id}/style")
+    async def get_style(project_id: str, request: Request) -> Response:
+        try:
+            projection, etag, _ = runtime.resolve(
+                f"style:{project_id}",
+                frozenset({project_id}),
+                lambda: style.resolve(project_id),
+            )
+            return _projection_response(request, projection, etag)
+        except StyleProjectionNotFound as exc:
             raise HTTPException(
                 status_code=404, detail={"code": "workspace_project_not_found"}
             ) from exc

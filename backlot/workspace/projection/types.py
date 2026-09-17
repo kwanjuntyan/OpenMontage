@@ -510,6 +510,56 @@ class ScriptDisplay(TypedDict):
     voice_performance: NotRequired[ScriptVoicePerformance]
 
 
+class StyleTasteProfile(TypedDict):
+    design_read: str
+    visual_variance: int
+    motion_intensity: int
+    information_density: int
+    palette_discipline: NotRequired[str]
+    layout_variation: NotRequired[str]
+    reference_strategy: NotRequired[str]
+    anti_patterns: NotRequired[list[str]]
+    quality_gates: NotRequired[list[str]]
+
+
+class StyleObservation(TypedDict):
+    value: str | None
+    state: Literal["present", "missing", "not_yet_corroborated", "invalid"]
+
+
+class StyleObservations(TypedDict):
+    project_marker: StyleObservation
+    proposal_selection: StyleObservation
+    proposal_checkpoint: StyleObservation
+    scene_plan: StyleObservation
+
+
+class StyleSelectedConcept(TypedDict):
+    concept_id: str
+    visual_approach: str
+
+
+class StyleProposal(TypedDict):
+    availability: Literal["available", "candidate", "unavailable"]
+    selected_concept: NotRequired[StyleSelectedConcept]
+    playbook: NotRequired[str]
+    taste_profile: NotRequired[StyleTasteProfile]
+    art_direction: NotRequired[str]
+    renderer_family: NotRequired[str]
+    render_runtime: NotRequired[Literal["remotion", "hyperframes", "ffmpeg"]]
+    composition_mode: NotRequired[Literal["templated", "atelier"]]
+
+
+class StyleDisplay(TypedDict):
+    proposal: StyleProposal
+    proposal_authority: AuthorityDescriptor
+    course_style_intent: NotRequired[CourseStyleIntent]
+    course_authority: NotRequired[AuthorityDescriptor]
+    observations: StyleObservations
+    checkpoint_observations: list[dict[str, JSONValue]]
+    resolved_style: NotRequired[dict[str, JSONValue] | None]
+
+
 class ResourceSummaryData(TypedDict):
     version: Literal["backlot.workspace.resource-summary.v1"]
     label: str
@@ -517,6 +567,7 @@ class ResourceSummaryData(TypedDict):
     description: NotRequired[str]
     course_design: NotRequired[CourseDesign]
     script: NotRequired[ScriptDisplay]
+    style: NotRequired[StyleDisplay]
 
 
 class ProjectedRevision(TypedDict):

@@ -173,7 +173,7 @@ absence, invalid/degraded, and forbidden-inference text for every row.
 | Proposal style | selected proposal fields from validated proposal revision | Follows proposal lifecycle; suggested playbook is only a recommendation | projected revision, snapshot | B1 |
 | Course style intent | exact `course_manifest.style_intent` | Follows course revision; remains distinct from playbook content | projected revision, snapshot | B1 |
 | Project/checkpoint style identity | authenticated marker and validated checkpoint playbook names | Missing corroboration is not conflict. Real drift makes resolved style unavailable | projected revision, diagnostic | B0.2/B1 |
-| Current style catalog | strict `styles.playbook_loader` result | Valid current content, but `historically_frozen=false` unless producer evidence binds exact old bytes | projected revision, snapshot | B0.2/B1 |
+| Current style catalog | governed named `styles.playbook_loader.load_playbook` result | Valid current content, but `historically_frozen=false` unless producer evidence binds exact old bytes; exact proposal key only, no enumeration or generator fallback | resource summary, snapshot | B1C |
 | Downstream style observation | validated `scene_plan.style_playbook` | Corroboration/drift evidence only; never overwrites proposal style | projected revision, diagnostic | B1 |
 | CLP manifest | validated CLP owner checkpoint and semantic validator | Completed/gated or valid zero-entity completion is canonical; candidate/working/failed stay distinct | revision set, entity refs, media refs | B2 |
 | Zero-entity CLP | exact verified `zero_entity_auto` gate resolution | Canonical CLP plus `verification_mode`; not a new authority state. Missing empty file is not success | projected revision, diagnostic | B2 |
@@ -233,7 +233,8 @@ B0.1:
 
 1. B0.2A closes the narrow public Workspace read seams for the authenticated
    project marker and selected pipeline manifest, with governance allowlist
-   tests. The strict style catalog loader remains a later B0.2/B1 gap.
+   tests. B1C resolves the narrow named strict style catalog loader seam; no
+   catalog listing, generator access, or Style write capability is approved.
 2. B0.2 must implement one lifecycle/source resolver for generic script,
    scene, asset, edit, render, loose-cache, and history cases.
 3. The producer render schema does not require unique `platform_target` values.

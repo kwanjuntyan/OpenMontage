@@ -175,6 +175,7 @@
       "lib.checkpoint.read_project_marker",
       "lib.checkpoint.validate_checkpoint",
       "lib.pipeline_loader.load_pipeline_readonly",
+      "styles.playbook_loader.load_playbook",
       "lib.batch_executor.publication.inspect_v2_asset_manifest_claim"
     ],
     "rule": "A reader named below but not present in currently_approved_workspace_symbols is an existing producer utility outside the current Workspace allowlist or an explicit gap. B0.2 must add the narrow read capability and matching governance tests through the Architecture Contract change protocol before importing it."
@@ -301,7 +302,7 @@
     },
     {
       "field_group": "style.proposal_creative_direction",
-      "wire_types": ["ProjectedRevision", "SourceSnapshot", "AuthorityDescriptor"],
+      "wire_types": ["ResourceSummaryData", "SourceSnapshot", "AuthorityDescriptor"],
       "source_kind": ["approved_checkpoint_artifact", "awaiting_checkpoint_artifact", "unavailable"],
       "producer_owner": "proposal_packet selected concept and production_plan",
       "current_source": "visual_approach, selected playbook, taste_profile, art_direction, renderer_family, render_runtime, and composition_mode in the validated proposal revision",
@@ -318,7 +319,7 @@
     },
     {
       "field_group": "style.course_intent",
-      "wire_types": ["ProjectedRevision", "SourceSnapshot", "AuthorityDescriptor"],
+      "wire_types": ["ResourceSummaryData", "SourceSnapshot", "AuthorityDescriptor"],
       "source_kind": ["approved_checkpoint_artifact", "awaiting_checkpoint_artifact", "unavailable"],
       "producer_owner": "course_manifest.style_intent at proposal stage",
       "current_source": "style_intent within the same exact course_manifest revision",
@@ -335,19 +336,19 @@
     },
     {
       "field_group": "style.project_checkpoint_identity",
-      "wire_types": ["ProjectedRevision", "SourceSnapshot", "AuthorityDescriptor"],
+      "wire_types": ["ResourceSummaryData", "SourceSnapshot", "AuthorityDescriptor"],
       "source_kind": ["project_marker", "approved_checkpoint_artifact", "awaiting_checkpoint_artifact", "unavailable"],
       "producer_owner": "project marker and checkpoint style_playbook identity",
       "current_source": "authenticated project marker plus validated checkpoint style_playbook fields",
       "official_reader_validator": {
-        "reader": "lib.checkpoint.read_checkpoint for checkpoint; public project-marker reader is absent",
-        "validators": ["lib.checkpoint.validate_checkpoint", "lib.checkpoint._validate_style_playbook (private writer/read validator)"],
-        "resolution_status": "partial_public_reader_gap"
+        "reader": "lib.checkpoint.read_project_marker and lib.checkpoint.read_checkpoint",
+        "validators": ["lib.checkpoint.validate_checkpoint", "validated marker/checkpoint contract"],
+        "resolution_status": "b1c_marker_checkpoint_observation_materialized"
       },
       "authority_lifecycle": "The exact names are observations from their owning sources; agreement is required before a resolved-style claim.",
       "absence": "Missing corroboration is not a conflict; report not_yet_corroborated.",
       "invalid_or_degraded": "Name drift or invalid playbook identity makes resolved_style unavailable and preserves the separate observations.",
-      "phase_owner": "B0.2 and B1",
+      "phase_owner": "B1C",
       "forbidden_inference": "Do not choose one conflicting name, normalize by similarity, or silently use a fallback playbook."
     },
     {
@@ -359,17 +360,17 @@
       "official_reader_validator": {
         "reader": "styles.playbook_loader.load_playbook",
         "validators": ["styles.playbook_loader.validate_playbook", "schemas/styles/playbook.schema.json"],
-        "resolution_status": "existing_reader_outside_workspace_allowlist"
+        "resolution_status": "b1c_named_catalog_reader_materialized"
       },
       "authority_lifecycle": "Valid current catalog content is displayable and validated, but historically_frozen is false unless a producer digest binds the exact historical bytes.",
       "absence": "Return unavailable/style_catalog_entry_missing.",
       "invalid_or_degraded": "Return unavailable/style_catalog_entry_invalid; do not fall back to a wider generator-side loader.",
-      "phase_owner": "B0.2 and B1",
+      "phase_owner": "B1C",
       "forbidden_inference": "Current catalog bytes do not prove the exact style bytes used by an earlier run."
     },
     {
       "field_group": "style.downstream_observation",
-      "wire_types": ["ProjectedRevision", "AuthorityDescriptor", "Diagnostic"],
+      "wire_types": ["ResourceSummaryData", "AuthorityDescriptor", "Diagnostic"],
       "source_kind": ["approved_checkpoint_artifact", "awaiting_checkpoint_artifact", "unavailable"],
       "producer_owner": "scene_plan owner stage",
       "current_source": "validated scene_plan.style_playbook as corroborating observation",
@@ -811,11 +812,6 @@
     }
   ],
   "unresolved_contract_gaps": [
-    {
-      "id": "style-catalog-workspace-read-allowlist",
-      "owner": "B0.2 and B1",
-      "effect": "Style catalog projection needs a narrow approved read seam; B0.1 does not authorize it."
-    },
     {
       "id": "generic-artifact-lifecycle-resolver",
       "owner": "B0.2",

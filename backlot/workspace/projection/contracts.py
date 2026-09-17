@@ -60,6 +60,23 @@ WORKSPACE_V1_DEFINITIONS = frozenset(
         "script_delivery_cues",
         "script_enhancement_cue",
         "script_pronunciation_guide",
+        "style_display",
+        "style_proposal",
+        "style_selected_concept",
+        "style_observation",
+        "style_checkpoint_observation",
+        "style_observations",
+        "style_resolved",
+        "style_catalog",
+        "style_identity",
+        "style_visual_language",
+        "style_color_palette",
+        "style_font_spec",
+        "style_typography",
+        "style_motion",
+        "style_audio",
+        "style_asset_generation",
+        "style_taste_profile",
         "course_design",
         "course_id",
         "course_id_array",
@@ -1279,6 +1296,230 @@ def _validate_script_display(
         )
 
 
+def _validate_style_display(
+    style: Mapping[str, Any],
+    resource: Mapping[str, Any],
+    snapshot: Mapping[str, Any],
+    authority: Mapping[str, Any],
+    path: Sequence[str | int],
+) -> None:
+    """Style is a project-scoped, multi-source read projection, never a raw catalog copy."""
+    if resource["kind"] != "project" or resource["local_id"] != resource["project_id"]:
+        _fail(
+            "style_resource_identity_mismatch",
+            "Style requires an exact project ResourceRef",
+            path,
+        )
+    _validate_authority(
+        style["proposal_authority"], snapshot, (*path, "proposal_authority")
+    )
+    availability = style["proposal"]["availability"]
+    proposal_state = style["proposal_authority"]["authority_state"]
+    if (
+        (availability == "available" and proposal_state != "canonical")
+        or (availability == "candidate" and proposal_state != "candidate")
+        or (availability == "unavailable" and proposal_state != "unavailable")
+    ):
+        _fail(
+            "style_proposal_lifecycle_mismatch",
+            "proposal availability must match its field authority lifecycle",
+            (*path, "proposal"),
+        )
+    if ("course_style_intent" in style) != ("course_authority" in style):
+        _fail(
+            "style_course_authority_pairing",
+            "course Style intent and its authority must occur together",
+            path,
+        )
+    if "course_authority" in style:
+        _validate_authority(
+            style["course_authority"], snapshot, (*path, "course_authority")
+        )
+    observations = style["observations"]
+    for name, observation in observations.items():
+        if observation["state"] == "present" and not isinstance(
+            observation["value"], str
+        ):
+            _fail(
+                "style_observation_value_invalid",
+                "present Style observations require a string value",
+                (*path, "observations", name),
+            )
+        if observation["state"] != "present" and observation["value"] is not None:
+            _fail(
+                "style_observation_value_invalid",
+                "non-present Style observations require null values",
+                (*path, "observations", name),
+            )
+    selection = observations["proposal_selection"]
+    requires_selection = (
+        style["proposal"]["availability"] in {"available", "candidate"}
+        or style.get("resolved_style") is not None
+    )
+    if requires_selection and selection["state"] != "present":
+        _fail(
+            "style_proposal_selection_missing",
+            "Style requires an exact selected proposal playbook",
+            (*path, "observations", "proposal_selection"),
+        )
+    source_by_stage = {
+        source.get("revision_ref", {}).get("stage"): source
+        for source in snapshot["sources"]
+        if source.get("revision_ref", {}).get("revision_kind") == "checkpoint"
+    }
+    for name in ("proposal_authority", "course_authority"):
+        field_authority = style.get(name)
+        if field_authority is None or field_authority["authority_state"] == "unavailable":
+            continue
+        source = source_by_stage.get(field_authority.get("source_stage"))
+        cited = {
+            (entry["source_key"], entry["sha256"])
+            for entry in field_authority["evidence_refs"]
+        }
+        if source is None or (source["source_key"], source["sha256"]) not in cited:
+            _fail(
+                "style_field_authority_unbound",
+                "Style proposal and course field authorities must cite their exact checkpoint source",
+                (*path, name),
+            )
+    stages: set[str] = set()
+    for index, observation in enumerate(style["checkpoint_observations"]):
+        if observation["stage"] in stages:
+            _fail(
+                "duplicate_style_checkpoint_observation",
+                "checkpoint style observation stages must be unique",
+                (*path, "checkpoint_observations", index, "stage"),
+            )
+        stages.add(observation["stage"])
+        _validate_authority(
+            observation["authority"],
+            snapshot,
+            (*path, "checkpoint_observations", index, "authority"),
+        )
+        source = source_by_stage.get(observation["stage"])
+        if observation["state"] == "present":
+            if not isinstance(observation["value"], str) or source is None:
+                _fail(
+                    "style_checkpoint_observation_unbound",
+                    "present checkpoint observations require their exact checkpoint source",
+                    (*path, "checkpoint_observations", index),
+                )
+            cited = {
+                (entry["source_key"], entry["sha256"])
+                for entry in observation["authority"]["evidence_refs"]
+            }
+            if (source["source_key"], source["sha256"]) not in cited:
+                _fail(
+                    "style_checkpoint_observation_unbound",
+                    "checkpoint observation authority must cite its stage source",
+                    (*path, "checkpoint_observations", index, "authority"),
+                )
+        elif (
+            observation["value"] is not None
+            or observation["authority"]["authority_state"] != "unavailable"
+        ):
+            _fail(
+                "style_checkpoint_observation_invalid",
+                "invalid checkpoint observations require null values and unavailable authority",
+                (*path, "checkpoint_observations", index),
+            )
+    resolved = style.get("resolved_style")
+    if resolved is not None and not any(
+        source["source_kind"] == "style_catalog_current"
+        for source in snapshot["sources"]
+    ):
+        _fail(
+            "style_catalog_evidence_missing",
+            "resolved Style requires a bound current catalog source",
+            path,
+        )
+    if resolved is None:
+        return
+    if style["proposal_authority"]["authority_state"] != "canonical":
+        _fail(
+            "style_resolved_without_canonical_proposal",
+            "resolved Style requires canonical proposal field authority",
+            (*path, "proposal_authority"),
+        )
+    if authority["authority_state"] != "canonical":
+        _fail(
+            "style_resolved_without_canonical_proposal",
+            "resolved Style requires canonical proposal authority",
+            path,
+        )
+    if resolved["playbook"] != selection["value"]:
+        _fail(
+            "style_resolved_selection_mismatch",
+            "resolved playbook must equal the selected proposal key",
+            (*path, "resolved_style", "playbook"),
+        )
+    present = [
+        item["value"] for item in observations.values() if item["state"] == "present"
+    ]
+    present.extend(
+        item["value"]
+        for item in style["checkpoint_observations"]
+        if item["state"] == "present"
+    )
+    if any(item["state"] == "invalid" for item in observations.values()) or any(
+        item["state"] == "invalid" for item in style["checkpoint_observations"]
+    ):
+        _fail(
+            "style_resolved_with_invalid_observation",
+            "invalid Style evidence cannot resolve current Style",
+            path,
+        )
+    if any(value != resolved["playbook"] for value in present):
+        _fail(
+            "style_resolved_observation_conflict",
+            "every present Style observation must match resolved playbook",
+            path,
+        )
+    cited = {
+        (entry["source_key"], entry["sha256"]) for entry in authority["evidence_refs"]
+    }
+    for observation in style["checkpoint_observations"]:
+        if observation["state"] == "present":
+            source = source_by_stage[observation["stage"]]
+            if (source["source_key"], source["sha256"]) not in cited:
+                _fail(
+                    "style_observation_evidence_missing",
+                    "resolved Style must cite every present checkpoint observation",
+                    path,
+                )
+    if observations["project_marker"]["state"] == "present" and not any(
+        source["source_kind"] == "project_marker"
+        and (source["source_key"], source["sha256"]) in cited
+        for source in snapshot["sources"]
+    ):
+        _fail(
+            "style_observation_evidence_missing",
+            "resolved Style must cite a present marker observation",
+            path,
+        )
+    if not any(
+        source["source_kind"] == "style_catalog_current"
+        and (source["source_key"], source["sha256"]) in cited
+        for source in snapshot["sources"]
+    ):
+        _fail(
+            "style_catalog_evidence_missing",
+            "resolved Style authority must cite the current catalog",
+            path,
+        )
+    if not any(
+        source.get("revision_ref", {}).get("stage") == authority.get("source_stage")
+        and source["source_kind"] == "approved_checkpoint_artifact"
+        and (source["source_key"], source["sha256"]) in cited
+        for source in snapshot["sources"]
+    ):
+        _fail(
+            "style_proposal_evidence_missing",
+            "resolved Style authority must cite approved proposal evidence",
+            path,
+        )
+
+
 def _validate_revision_set(
     data: Mapping[str, Any],
     path: Sequence[str | int],
@@ -2057,6 +2298,14 @@ def _validate_workspace_projection(projection: Mapping[str, Any]) -> None:
             snapshot,
             projection["authority"],
             ("data", "script"),
+        )
+    if kind == "resource_summary" and data.get("style") is not None:
+        _validate_style_display(
+            data["style"],
+            resource,
+            snapshot,
+            projection["authority"],
+            ("data", "style"),
         )
     pagination = data.get("pagination")
     if pagination is not None and pagination["next_cursor"] is not None:
