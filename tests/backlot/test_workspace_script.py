@@ -252,3 +252,24 @@ def test_script_inspector_is_stage_lazy_and_safe() -> None:
         "Requested section“" not in source
     )  # DOM output contains a readable quoted warning.
     assert "JSON.stringify(script)" not in source
+
+
+def test_script_inspector_bulk_controls_are_accessible_and_bounded() -> None:
+    source = (
+        Path(__file__).resolve().parents[2] / "backlot/workspace/ui/workspace.js"
+    ).read_text(encoding="utf-8")
+    inspector = source.split("function renderScriptInspector()", 1)[1].split(
+        "function renderCourseInspector()", 1
+    )[0]
+    assert 'text: "全部展開"' in inspector
+    assert 'text: "全部收合"' in inspector
+    assert 'aria-label": "Expand all script sections"' in inspector
+    assert 'aria-label": "Collapse all script sections"' in inspector
+    assert 'type: "button"' in inspector
+    assert (
+        "expandAll.disabled = collapseAll.disabled = details.length === 0" in inspector
+    )
+    assert "detail.hidden = !matched" in inspector
+    assert 'list.textContent = ""' not in inspector
+    assert "const setAllOpen = (open)" in inspector
+    assert 'role: "status", "aria-live": "polite"' in inspector

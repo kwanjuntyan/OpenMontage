@@ -113,9 +113,15 @@ def test_workspace_browser_source_stays_read_only_and_versioned() -> None:
     assert 'const API_ROOT = "/api/workspace/v1"' in source
 
 
-def test_workspace_browser_source_uses_compact_header_status_and_stage_inspector() -> None:
+def test_workspace_browser_source_uses_compact_header_status_and_stage_inspector() -> (
+    None
+):
     source = (
-        Path(__file__).resolve().parents[2] / "backlot" / "workspace" / "ui" / "workspace.js"
+        Path(__file__).resolve().parents[2]
+        / "backlot"
+        / "workspace"
+        / "ui"
+        / "workspace.js"
     ).read_text(encoding="utf-8")
     for expected in (
         'class: "workspace-header"',
@@ -189,7 +195,9 @@ def live_workspace_server(tmp_path: Path) -> str:
     try:
         while time.time() < deadline:
             try:
-                with urllib.request.urlopen(f"http://127.0.0.1:{port}/api/health", timeout=1):
+                with urllib.request.urlopen(
+                    f"http://127.0.0.1:{port}/api/health", timeout=1
+                ):
                     break
             except OSError:
                 time.sleep(0.2)
@@ -219,29 +227,47 @@ def test_workspace_browser_restores_stage_deep_link_and_stays_responsive(
             assert page.get_by_role("heading", name="Director Workspace").is_visible()
             header = page.locator(".workspace-header")
             assert header.locator(":scope > *").count() == 2
-            selector = header.get_by_role("combobox", name="Choose a loaded project / 選擇已載入專案")
+            selector = header.get_by_role(
+                "combobox", name="Choose a loaded project / 選擇已載入專案"
+            )
             assert selector.input_value() == "film"
             assert page.get_by_text("Showing 50 loaded projects.").count() == 0
             assert page.get_by_role("button", name="Load more projects").count() == 0
             status = page.locator("#project-status")
             assert not status.evaluate("node => node.open")
-            assert page.get_by_text("Project status / 專案狀態摘要", exact=True).is_visible()
+            assert page.get_by_text(
+                "Project status / 專案狀態摘要", exact=True
+            ).is_visible()
             assert page.get_by_text("Authenticated project: film").is_hidden()
             status.locator("summary").click()
             assert status.evaluate("node => node.open")
             assert page.get_by_text("Authenticated project: film").is_visible()
             assert status.get_by_role("heading", name="Diagnostics").is_visible()
             assert page.locator(".single-column > .diagnostics").count() == 0
-            assert page.get_by_role("heading", name="Production stages / 製作階段導覽").is_visible()
+            assert page.get_by_role(
+                "heading", name="Production stages / 製作階段導覽"
+            ).is_visible()
             assert page.locator(".project-list").count() == 0
-            assert page.get_by_role("button", name="research", exact=False).get_attribute("aria-current") == "step"
-            assert page.get_by_role("heading", name="Stage Inspector / 階段檢視").is_visible()
+            assert (
+                page.get_by_role("button", name="research", exact=False).get_attribute(
+                    "aria-current"
+                )
+                == "step"
+            )
+            assert page.get_by_role(
+                "heading", name="Stage Inspector / 階段檢視"
+            ).is_visible()
             assert page.get_by_text("Read-only stage summary only.").is_visible()
             page.get_by_role("button", name="proposal", exact=False).click()
             assert "stage=proposal" in page.url
             assert status.evaluate("node => node.open")
             page.reload(wait_until="networkidle")
-            assert page.get_by_role("button", name="proposal", exact=False).get_attribute("aria-current") == "step"
+            assert (
+                page.get_by_role("button", name="proposal", exact=False).get_attribute(
+                    "aria-current"
+                )
+                == "step"
+            )
             status = page.locator("#project-status")
             assert not status.evaluate("node => node.open")
             status.locator("summary").click()
@@ -270,10 +296,15 @@ def test_workspace_browser_restores_stage_deep_link_and_stays_responsive(
             page.wait_for_timeout(500)
             assert request_counts["catalog"] <= 2
             assert request_counts["shell"] <= 2
-            assert page.evaluate("() => window.__workspaceDebug.renderCount") == initial_renders
+            assert (
+                page.evaluate("() => window.__workspaceDebug.renderCount")
+                == initial_renders
+            )
             assert page.locator("#project-status").evaluate("node => node.open")
             page.unroute("**/api/workspace/v1/**", count_workspace)
-            selector = page.get_by_role("combobox", name="Choose a loaded project / 選擇已載入專案")
+            selector = page.get_by_role(
+                "combobox", name="Choose a loaded project / 選擇已載入專案"
+            )
             selector.select_option(label="Load more projects…")
             assert "stage=proposal" in page.url
             assert page.get_by_text("Authenticated project: film").is_visible()
@@ -282,11 +313,15 @@ def test_workspace_browser_restores_stage_deep_link_and_stays_responsive(
                 "**/api/workspace/v1/projects/other/shell",
                 lambda route: (time.sleep(0.4), route.continue_())[1],
             )
-            selector = page.get_by_role("combobox", name="Choose a loaded project / 選擇已載入專案")
+            selector = page.get_by_role(
+                "combobox", name="Choose a loaded project / 選擇已載入專案"
+            )
             selector.select_option("other")
             assert page.get_by_text("Authenticated project: film").count() == 0
             assert not page.locator("#project-status").evaluate("node => node.open")
-            selector = page.get_by_role("combobox", name="Choose a loaded project / 選擇已載入專案")
+            selector = page.get_by_role(
+                "combobox", name="Choose a loaded project / 選擇已載入專案"
+            )
             selector.select_option("project-00")
             page.wait_for_timeout(600)
             assert "/p/project-00/workspace?stage=proposal" in page.url
@@ -298,15 +333,71 @@ def test_workspace_browser_restores_stage_deep_link_and_stays_responsive(
             assert "stage=proposal" in page.url
             page.go_back(wait_until="networkidle")
             assert "stage=research" in page.url
-            page.goto(f"{live_workspace_server}/p/bad-pipeline/workspace?stage=research", wait_until="networkidle")
-            assert page.get_by_text("No validated manifest stage rail is available.").is_visible()
+            page.goto(
+                f"{live_workspace_server}/p/bad-pipeline/workspace?stage=research",
+                wait_until="networkidle",
+            )
+            assert page.get_by_text(
+                "No validated manifest stage rail is available."
+            ).is_visible()
             assert page.get_by_text("Current stage").is_visible()
             assert page.get_by_text("Capabilities").is_visible()
             assert page.get_by_text("Degraded reasons").is_visible()
-            page.goto(f"{live_workspace_server}/p/film/workspace?stage=not-a-stage", wait_until="networkidle")
-            assert page.get_by_text("Requested stage “not-a-stage” is unavailable for this manifest.").is_visible()
-            assert page.get_by_role("heading", name="Stage Inspector / 階段檢視").is_visible()
-            size = page.evaluate("() => ({ scroll: document.documentElement.scrollWidth, client: document.documentElement.clientWidth })")
+            page.goto(
+                f"{live_workspace_server}/p/film/workspace?stage=not-a-stage",
+                wait_until="networkidle",
+            )
+            assert page.get_by_text(
+                "Requested stage “not-a-stage” is unavailable for this manifest."
+            ).is_visible()
+            assert page.get_by_role(
+                "heading", name="Stage Inspector / 階段檢視"
+            ).is_visible()
+            size = page.evaluate(
+                "() => ({ scroll: document.documentElement.scrollWidth, client: document.documentElement.clientWidth })"
+            )
             assert size["scroll"] <= size["client"]
+        finally:
+            browser.close()
+
+
+def test_workspace_browser_rehydrates_discarded_stage_detail_after_304(
+    live_workspace_server: str,
+) -> None:
+    """A delayed 200 cached off-stage must not turn a later 304 into Loading."""
+    playwright = pytest.importorskip("playwright.sync_api")
+    with playwright.sync_playwright() as pw:
+        browser = pw.chromium.launch(headless=True)
+        page = browser.new_page()
+        delayed: set[str] = set()
+        conditional: set[str] = set()
+        try:
+            page.goto(
+                f"{live_workspace_server}/p/film/workspace?stage=research",
+                wait_until="networkidle",
+            )
+
+            def delay_initial_detail(route):
+                kind = "course" if route.request.url.endswith("/course") else "style"
+                if route.request.headers.get("if-none-match"):
+                    conditional.add(kind)
+                if kind not in delayed:
+                    delayed.add(kind)
+                    time.sleep(0.25)
+                route.continue_()
+
+            page.route("**/api/workspace/v1/projects/film/course", delay_initial_detail)
+            page.route("**/api/workspace/v1/projects/film/style", delay_initial_detail)
+            page.get_by_role("button", name="proposal", exact=False).click()
+            page.get_by_role("button", name="research", exact=False).click()
+            page.wait_for_timeout(350)
+            page.get_by_role("button", name="proposal", exact=False).click()
+            page.wait_for_timeout(350)
+            assert delayed == {"course", "style"}
+            assert conditional == {"course", "style"}
+            assert page.get_by_text("Loading Course revision set…").count() == 0
+            assert page.get_by_text("Loading Style projection…").count() == 0
+            assert page.get_by_text("Course unavailable:").count() == 1
+            assert page.get_by_text("Style unavailable:").count() == 1
         finally:
             browser.close()

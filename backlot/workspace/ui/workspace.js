@@ -20,7 +20,7 @@ const state = {
   statusExpanded: false,
   loading: false,
   loadGeneration: 0,
-  etags: { catalog: null, shell: null },
+  responseCache: new Map(),
   refreshInFlight: false,
   refreshTrailing: false,
   refreshProjectIds: new Set(),
@@ -56,15 +56,24 @@ function selectedStage(shell = state.shell) {
   return { requested, selected: stages.some((stage) => stage.name === requested) ? requested : null };
 }
 
-async function getJson(url, cacheKey) {
+async function getJson(url, cacheKey, validateProjection = null, force = false) {
   const headers = { Accept: "application/json" };
-  if (state.etags[cacheKey]) headers["If-None-Match"] = state.etags[cacheKey];
+  const cached = state.responseCache.get(cacheKey);
+  if (!force && cached?.etag) headers["If-None-Match"] = cached.etag;
   const response = await fetch(url, { headers });
-  if (response.status === 304) return { notModified: true, projection: null };
+  if (response.status === 304) {
+    if (cached?.projection) return { notModified: true, projection: cached.projection };
+    state.responseCache.delete(cacheKey);
+    if (!force) return getJson(url, cacheKey, validateProjection, true);
+    throw new Error("Conditional response had no validated Workspace representation.");
+  }
   if (!response.ok) throw new Error(`Request failed (${response.status})`);
   const etag = response.headers.get("ETag");
-  if (etag) state.etags[cacheKey] = etag;
-  return { notModified: false, projection: await response.json() };
+  const projection = await response.json();
+  if (validateProjection) validateProjection(projection);
+  if (etag) state.responseCache.set(cacheKey, { etag, projection });
+  else state.responseCache.delete(cacheKey);
+  return { notModified: false, projection };
 }
 
 function catalogUrl(cursor = null) {
@@ -93,13 +102,11 @@ function applyCatalog(projection, { append = false } = {}) {
 
 async function fetchShell(projectId) {
   if (!projectId) return;
-  const result = await getJson(projectUrl(projectId), "shell");
-  if (result.notModified) return result;
-  const shell = result.projection;
-  if (shell.resource_ref?.project_id !== projectId || shell.resource_ref?.kind !== "project") {
-    throw new Error("Workspace identity could not be authenticated.");
-  }
-  return { notModified: false, projection: shell };
+  return getJson(projectUrl(projectId), `shell:${projectId}`, (shell) => {
+    if (shell.resource_ref?.project_id !== projectId || shell.resource_ref?.kind !== "project") {
+      throw new Error("Workspace identity could not be authenticated.");
+    }
+  });
 }
 
 async function load({ append = false, eventProjectId = null } = {}) {
@@ -139,7 +146,7 @@ async function load({ append = false, eventProjectId = null } = {}) {
       `catalog:${cursor ? JSON.stringify(cursor) : "initial"}`,
     );
     if (generation !== state.loadGeneration) return;
-    if (!catalog.notModified) {
+    if (catalog.projection && (!catalog.notModified || !state.catalogItems.length)) {
       applyCatalog(catalog.projection, { append });
       changed = true;
     }
@@ -151,7 +158,8 @@ async function load({ append = false, eventProjectId = null } = {}) {
     try {
       const shell = await fetchShell(state.routeProjectId);
       if (generation !== state.loadGeneration || routeProjectId() !== requestedProjectId) return;
-      if (!shell.notModified) {
+      if (shell.projection?.resource_ref?.project_id !== requestedProjectId || shell.projection?.resource_ref?.kind !== "project") throw new Error("Workspace identity could not be authenticated.");
+      if (shell.projection && (!shell.notModified || !state.shell)) {
         state.shell = shell.projection;
         changed = true;
       }
@@ -235,16 +243,15 @@ function scriptOwnerStage(shell = state.shell) {
 
 async function loadCourse(projectId, generation) {
   try {
-    const result = await getJson(courseUrl(projectId), `course:${projectId}`);
+    const result = await getJson(courseUrl(projectId), `course:${projectId}`, (projection) => {
+      if (projection?.resource_ref?.project_id !== projectId || projection?.resource_ref?.kind !== "course") throw new Error("Course identity could not be authenticated.");
+    });
     if (generation !== state.loadGeneration || routeProjectId() !== projectId || selectedStage().selected !== "proposal") return;
-    if (!result.notModified && (
-      result.projection?.resource_ref?.project_id !== projectId
-      || result.projection?.resource_ref?.kind !== "course"
-    )) throw new Error("Course identity could not be authenticated.");
-    if (!result.notModified) state.course = result.projection;
+    if (result.projection?.resource_ref?.project_id !== projectId || result.projection?.resource_ref?.kind !== "course") throw new Error("Course identity could not be authenticated.");
+    if (result.projection && (!result.notModified || !state.course)) state.course = result.projection;
     state.courseError = null;
   } catch (error) {
-    if (generation !== state.loadGeneration || routeProjectId() !== projectId) return;
+    if (generation !== state.loadGeneration || routeProjectId() !== projectId || selectedStage().selected !== "proposal") return;
     state.courseError = error.message;
   }
   if (generation === state.loadGeneration) render();
@@ -254,13 +261,15 @@ async function loadScript(projectId, generation) {
   const owner = scriptOwnerStage();
   if (!owner) return;
   try {
-    const result = await getJson(scriptUrl(projectId), `script:${projectId}`);
+    const result = await getJson(scriptUrl(projectId), `script:${projectId}`, (projection) => {
+      if (projection?.resource_ref?.project_id !== projectId || projection?.resource_ref?.kind !== "stage" || projection?.resource_ref?.stage !== owner || projection?.resource_ref?.local_id !== owner) throw new Error("Script identity could not be authenticated.");
+    });
     if (generation !== state.loadGeneration || routeProjectId() !== projectId || selectedStage().selected !== owner) return;
-    if (!result.notModified && (result.projection?.resource_ref?.project_id !== projectId || result.projection?.resource_ref?.kind !== "stage" || result.projection?.resource_ref?.stage !== owner || result.projection?.resource_ref?.local_id !== owner)) throw new Error("Script identity could not be authenticated.");
-    if (!result.notModified) state.script = result.projection;
+    if (result.projection?.resource_ref?.project_id !== projectId || result.projection?.resource_ref?.kind !== "stage" || result.projection?.resource_ref?.stage !== owner || result.projection?.resource_ref?.local_id !== owner) throw new Error("Script identity could not be authenticated.");
+    if (result.projection && (!result.notModified || !state.script)) state.script = result.projection;
     state.scriptError = null;
   } catch (error) {
-    if (generation !== state.loadGeneration || routeProjectId() !== projectId) return;
+    if (generation !== state.loadGeneration || routeProjectId() !== projectId || selectedStage().selected !== owner) return;
     state.scriptError = error.message;
   }
   if (generation === state.loadGeneration) render();
@@ -268,13 +277,15 @@ async function loadScript(projectId, generation) {
 
 async function loadStyle(projectId, generation) {
   try {
-    const result = await getJson(styleUrl(projectId), `style:${projectId}`);
+    const result = await getJson(styleUrl(projectId), `style:${projectId}`, (projection) => {
+      if (projection?.resource_ref?.project_id !== projectId || projection?.resource_ref?.kind !== "project" || projection?.resource_ref?.local_id !== projectId) throw new Error("Style identity could not be authenticated.");
+    });
     if (generation !== state.loadGeneration || routeProjectId() !== projectId || selectedStage().selected !== "proposal") return;
-    if (!result.notModified && (result.projection?.resource_ref?.project_id !== projectId || result.projection?.resource_ref?.kind !== "project" || result.projection?.resource_ref?.local_id !== projectId)) throw new Error("Style identity could not be authenticated.");
-    if (!result.notModified) state.style = result.projection;
+    if (result.projection?.resource_ref?.project_id !== projectId || result.projection?.resource_ref?.kind !== "project" || result.projection?.resource_ref?.local_id !== projectId) throw new Error("Style identity could not be authenticated.");
+    if (result.projection && (!result.notModified || !state.style)) state.style = result.projection;
     state.styleError = null;
   } catch (error) {
-    if (generation !== state.loadGeneration || routeProjectId() !== projectId) return;
+    if (generation !== state.loadGeneration || routeProjectId() !== projectId || selectedStage().selected !== "proposal") return;
     state.styleError = error.message;
   }
   if (generation === state.loadGeneration) render();
@@ -430,13 +441,36 @@ function renderScriptInspector() {
   section.append(node("h5", { text: script.title }), node("p", { text: `Total duration: ${script.total_duration_seconds} seconds` }));
   if (script.voice_performance) section.append(node("p", { class: "muted", text: `Voice performance: ${Object.entries(script.voice_performance).map(([key, value]) => `${key}: ${typeof value === "object" ? JSON.stringify(value) : value}`).join(" · ")}` }));
   const search = node("input", { class: "script-search", type: "search", placeholder: "Search full script", "aria-label": "Search full script" });
+  const controls = node("div", { class: "script-controls", "aria-label": "Script section controls" });
+  const expandAll = node("button", { class: "control", type: "button", text: "全部展開", "aria-label": "Expand all script sections" });
+  const collapseAll = node("button", { class: "control", type: "button", text: "全部收合", "aria-label": "Collapse all script sections" });
+  const resultStatus = node("p", { class: "sr-status", role: "status", "aria-live": "polite" });
   const list = node("div", { class: "script-sections" });
   const requested = new URLSearchParams(location.search).get("section");
   const sections = Array.isArray(script.sections) ? script.sections : [];
   const matches = requested ? sections.filter((item) => item.id === requested) : [];
   if (requested && matches.length !== 1) section.append(node("p", { class: "selection-warning", role: "status", text: `Requested section “${requested}” is ${matches.length ? "ambiguous" : "missing"}; no section was selected.` }));
-  const draw = () => { list.textContent = ""; const query = search.value.trim().toLocaleLowerCase(); for (const item of sections) { if (query && !JSON.stringify(item).toLocaleLowerCase().includes(query)) continue; const selected = matches.length === 1 && item.id === requested; const detail = node("details", { class: "script-section", id: selected ? `script-section-${item.id}` : null, open: selected ? "open" : null }, [node("summary", { text: `${item.id}${item.label ? `: ${item.label}` : ""} · ${item.start_seconds}–${item.end_seconds}s` })]); detail.append(node("p", { text: item.text })); for (const key of ["speaker_directions", "delivery_cues", "enhancement_cues", "pronunciation_guides", "source_ref"]) if (item[key] !== undefined) detail.append(node("p", { class: "muted", text: `${key}: ${typeof item[key] === "object" ? JSON.stringify(item[key]) : item[key]}` })); list.append(detail); } if (matches.length === 1 && !query) requestAnimationFrame(() => document.getElementById(`script-section-${requested}`)?.scrollIntoView({ block: "center" })); };
-  search.addEventListener("input", draw); section.append(search, list); draw(); return section;
+  const details = sections.map((item) => {
+    const selected = matches.length === 1 && item.id === requested;
+    const detail = node("details", { class: "script-section", id: selected ? `script-section-${item.id}` : null, open: selected ? "open" : null }, [node("summary", { text: `${item.id}${item.label ? `: ${item.label}` : ""} · ${item.start_seconds}–${item.end_seconds}s` })]);
+    detail.append(node("p", { text: item.text }));
+    for (const key of ["speaker_directions", "delivery_cues", "enhancement_cues", "pronunciation_guides", "source_ref"]) if (item[key] !== undefined) detail.append(node("p", { class: "muted", text: `${key}: ${typeof item[key] === "object" ? JSON.stringify(item[key]) : item[key]}` }));
+    list.append(detail); return { detail, item };
+  });
+  const setAllOpen = (open) => { for (const { detail } of details) detail.open = open; };
+  expandAll.addEventListener("click", () => setAllOpen(true));
+  collapseAll.addEventListener("click", () => setAllOpen(false));
+  expandAll.disabled = collapseAll.disabled = details.length === 0;
+  const filter = () => {
+    const query = search.value.trim().toLocaleLowerCase(); let visible = 0;
+    for (const { detail, item } of details) {
+      const matched = !query || JSON.stringify(item).toLocaleLowerCase().includes(query);
+      detail.hidden = !matched; if (matched) visible += 1;
+    }
+    resultStatus.textContent = query ? `${visible} matching script sections.` : "";
+    if (matches.length === 1 && !query) requestAnimationFrame(() => document.getElementById(`script-section-${requested}`)?.scrollIntoView({ block: "center" }));
+  };
+  search.addEventListener("input", filter); controls.append(expandAll, collapseAll); section.append(search, controls, resultStatus, list); filter(); return section;
 }
 
 function renderCourseInspector() {
