@@ -1,0 +1,30 @@
+{
+  "version": "1.0",
+  "render_runtime": "ffmpeg",
+  "resolution": {
+    "width": 1280,
+    "height": 720
+  },
+  "fps": 24,
+  "cuts": [
+    {
+      "scene_id": "scene_06",
+      "video_asset": "assets/video/shot6_supervisor_dubbed.mp4",
+      "start_seconds": 0.0,
+      "end_seconds": 8.0
+    },
+    {
+      "scene_id": "scene_07",
+      "video_asset": "assets/video/shot7_amy_shocked_dubbed.mp4",
+      "start_seconds": 8.0,
+      "end_seconds": 16.0
+    },
+    {
+      "scene_id": "scene_08",
+      "video_asset": "assets/video/shot8_amy_contemplating_dubbed.mp4",
+      "start_seconds": 16.0,
+      "end_seconds": 26.0
+    }
+  ],
+  "output_path": "renders/final.mp4"
+}

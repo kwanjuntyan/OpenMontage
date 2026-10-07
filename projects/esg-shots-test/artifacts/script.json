@@ -1,0 +1,58 @@
+{
+  "version": "1.0",
+  "title": "《老闆，ESG不是一種新咖啡！》Shot 6-8 嘴型同步實驗",
+  "total_duration_seconds": 26.0,
+  "voice_performance": {
+    "performance_intent": "職場喜劇短劇，透過主管逼迫與菜鳥錯愕的戲劇化對比，展現ESG對基層員工的荒謬衝擊",
+    "pacing_profile": "conversational",
+    "energy_curve": "高壓急迫 -> 錯愕惶恐 -> 喃喃困惑",
+    "sample_section_id": "sec_07"
+  },
+  "sections": [
+    {
+      "id": "sec_06",
+      "label": "Shot 6 · 協理焦躁通話",
+      "text": "Amy！大事不好了！增資案被卡住了！下週必須搞定ESG，這關係到大家飯碗！",
+      "start_seconds": 0.0,
+      "end_seconds": 8.0,
+      "speaker_directions": "走廊踱步急促催逼，中年主管焦躁咆哮",
+      "delivery_cues": {
+        "pace": "fast",
+        "energy": "urgent_high",
+        "emphasis_words": ["大事不好了", "卡住了", "ESG", "飯碗"],
+        "pause_before_seconds": 0.5,
+        "pause_after_seconds": 0.92
+      }
+    },
+    {
+      "id": "sec_07",
+      "label": "Shot 7 · Amy 錯愕接招",
+      "text": "這麼嚴重？可是協理，我們一直很守規矩啊...報告協理，ESG我真的不懂啊！",
+      "start_seconds": 8.0,
+      "end_seconds": 16.0,
+      "speaker_directions": "辦公桌握手機，滿臉錯愕無辜接招",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "shocked_nervous",
+        "emphasis_words": ["這麼嚴重", "守規矩", "真的不懂"],
+        "pause_before_seconds": 0.2,
+        "pause_after_seconds": 0.0
+      }
+    },
+    {
+      "id": "sec_08",
+      "label": "Shot 8 · Amy 沉思收尾",
+      "text": "E...S...G...這到底是什麼救命仙丹？能幫公司募資，還能救我的年終嗎？",
+      "start_seconds": 16.0,
+      "end_seconds": 26.0,
+      "speaker_directions": "放下手機注視螢幕，喃喃自語苦笑懸念收尾",
+      "delivery_cues": {
+        "pace": "slow",
+        "energy": "contemplative_wry",
+        "emphasis_words": ["救命仙丹", "募資", "年終"],
+        "pause_before_seconds": 0.3,
+        "pause_after_seconds": 0.27
+      }
+    }
+  ]
+}

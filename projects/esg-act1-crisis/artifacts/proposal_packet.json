@@ -1,0 +1,214 @@
+{
+  "version": "1.0",
+  "concept_options": [
+    {
+      "id": "c1",
+      "title": "開場危機：老闆，ESG不是一種新咖啡！ (The Boardroom & Office Crisis)",
+      "hook": "海外資金凍結、增資案遭卡，Amy的年終獎金正面臨前所未有的「ESG黑箱」危機！",
+      "narrative_structure": "story",
+      "visual_approach": "方案A複合混合模式：倫敦陰雨大樓3D寫實光影開場，高冷英倫投資會談，銜接台北辦公室Amy與主管的生動3D皮克斯輕喜劇表演；合約蓋印與分割畫面使用精緻Motion Graphics。",
+      "suggested_playbook": "esg-pixar-hybrid",
+      "target_audience": "企業各部門經理人、專案主管、企業內部受訓員工",
+      "target_platform": "generic",
+      "target_duration_seconds": 149.0,
+      "key_points": [
+        "倫敦投資機構因企業無碳排放數據與勞動稽核而判定為ESG黑箱並暫停增資",
+        "大成公司增資計畫書被重重蓋上紅色「ON HOLD」印章，製造直接危機感",
+        "Amy接到主管奪命連環call，得知公司擴廠停擺且年終獎金岌岌可危",
+        "Amy與主管的生動對話展現基層對ESG名詞的真實茫然與購物台神藥幻想"
+      ],
+      "core_message": "ESG不是無關痛癢的公關口號，而是直接決定企業能否取得投資與基層生存的必考題。",
+      "cta": "跟隨Amy一起搞懂ESG的真實底層邏輯！",
+      "tone": "輕喜劇、緊張懸疑、辦公室幽默、高節奏",
+      "grounded_in": [
+        "ESG原始課程劇本第一幕（場景1.1至1.3）",
+        "海外投資機構審查流程與退件標準",
+        "台灣企業面對供應鏈ESG查核的真實痛點"
+      ],
+      "why_this_works": "開場以倫敦會議室的嚴肅英文對話建立高階權威感，隨即透過聲音橋接急轉至本土辦公室的慌亂喜劇，戲劇張力極強，迅速抓住學員注意力。"
+    },
+    {
+      "id": "c2",
+      "title": "純MG資訊圖表版：增資案凍結剖析",
+      "hook": "一份被蓋上退件印章的企劃書，揭示了全球資本市場的殘酷新規。",
+      "narrative_structure": "data_narrative",
+      "visual_approach": "純 2D 扁平動態圖表與幾何圖形拼貼，以大量數據卡片與流程圖呈現危機。",
+      "suggested_playbook": "flat-motion-graphics",
+      "target_audience": "財務與法務專業人員",
+      "target_platform": "generic",
+      "target_duration_seconds": 120.0,
+      "key_points": [
+        "非財務指標權重統計",
+        "ESG合規風險指標圖解"
+      ],
+      "core_message": "數據不透明導致資本退出。",
+      "cta": "完善ESG數據體系。",
+      "tone": "冷靜、數據導向、嚴謹",
+      "grounded_in": [
+        "ESG 數據指標研究"
+      ],
+      "why_this_works": "資訊清晰但缺乏角色代入感，對於通識普及性培訓略顯枯燥。"
+    },
+    {
+      "id": "c3",
+      "title": "寫實真人劇感風格：資本風暴",
+      "hook": "當跨國資金抽離的那一刻，整個製造帝國的骨牌應聲倒下。",
+      "narrative_structure": "problem_solution",
+      "visual_approach": "寫實電影感調色與暗黑冷峻色調，強調商場鬥爭與商務博弈。",
+      "suggested_playbook": "clean-professional",
+      "target_audience": "C-suite 高階決策者",
+      "target_platform": "linkedin",
+      "target_duration_seconds": 150.0,
+      "key_points": [
+        "國際供應鏈脫鉤風險",
+        "跨國審查嚴苛實錄"
+      ],
+      "core_message": "沒有ESG就沒有全球市場准入證。",
+      "cta": "啟動高階治理改革。",
+      "tone": "嚴肅、警惕、壓迫感",
+      "grounded_in": [
+        "跨國併購與投資風險案例"
+      ],
+      "why_this_works": "質感高但氣氛過於沉重，削弱了職場共鳴與輕喜劇科普的親和力。"
+    }
+  ],
+  "selected_concept": {
+    "concept_id": "c1",
+    "rationale": "使用者已選定方案A（3D皮克斯輕喜劇＋Motion Graphics複合模式），並確認場景1.1採用英文原音、後續辦公室為中文對話。",
+    "modifications": [
+      "場景1.1保持劇本原始英文對白，不進行中文翻譯，搭配中文字幕",
+      "分鏡1.1.11增資計畫書蓋上ON HOLD印章採用Remotion Motion Graphics動畫特寫",
+      "分鏡1.2.2主管與Amy通話採用雙格Split-screen對比構圖"
+    ]
+  },
+  "production_plan": {
+    "pipeline": "cinematic",
+    "playbook": "esg-pixar-hybrid",
+    "stages": [
+      {
+        "stage": "research",
+        "tools": [
+          {
+            "tool_name": "web_search",
+            "role": "Factual verification",
+            "available": true
+          }
+        ],
+        "approach": "Verify ESG underwriting standards and character visual benchmarks."
+      },
+      {
+        "stage": "proposal",
+        "tools": [],
+        "approach": "Structure concept choices, locked hybrid playbook and decision governance."
+      },
+      {
+        "stage": "script",
+        "tools": [
+          {
+            "tool_name": "transcriber",
+            "role": "Timing alignment",
+            "available": true
+          }
+        ],
+        "approach": "Assemble timestamped 3-scene script with English and Mandarin dialogue sections."
+      },
+      {
+        "stage": "clp",
+        "tools": [
+          {
+            "tool_name": "image_selector",
+            "role": "Master image registration",
+            "available": true
+          }
+        ],
+        "approach": "Bind Amy, Supervisor, Harrison, Sandy 6S sheets and location plates via CAS digests."
+      },
+      {
+        "stage": "scene_plan",
+        "tools": [],
+        "approach": "Build 5-Aspect shot-by-shot cinematography plan and CLP shot bindings sidecar."
+      },
+      {
+        "stage": "assets",
+        "tools": [
+          {
+            "tool_name": "gemini_omni_video",
+            "role": "3D Character acting generation",
+            "available": true
+          },
+          {
+            "tool_name": "google_tts",
+            "role": "Speech voiceover generation",
+            "available": true
+          },
+          {
+            "tool_name": "video_compose",
+            "role": "Remotion composition",
+            "available": true
+          }
+        ],
+        "approach": "Generate dialogue audio, video cuts, Motion Graphics elements and subtitles."
+      },
+      {
+        "stage": "edit",
+        "tools": [],
+        "approach": "Coordinate cuts, transitions, sound bridge, and split screen parameters."
+      },
+      {
+        "stage": "compose",
+        "tools": [
+          {
+            "tool_name": "video_compose",
+            "role": "Final rendering",
+            "available": true
+          }
+        ],
+        "approach": "Render complete Act 1 master video via Remotion at 720p 24fps."
+      }
+    ],
+    "delivery_promise": {
+      "promise_type": "hybrid",
+      "motion_required": true,
+      "tone_mode": "cinematic",
+      "quality_floor": "broadcast",
+      "approved_fallback": null
+    },
+    "renderer_family": "cinematic-trailer",
+    "render_runtime": "remotion",
+    "composition_mode": "atelier",
+    "decision_log_ref": "projects\\esg-act1-crisis\\artifacts\\decision_log.json"
+  },
+  "cost_estimate": {
+    "line_items": [
+      {
+        "tool": "gemini_omni_video",
+        "operation": "3D Character video clip generation with 6S likeness reference",
+        "quantity": 15,
+        "estimated_usd": 0.45,
+        "notes": "15 shots across Act 1 at approx $0.03 per call"
+      },
+      {
+        "tool": "google_tts",
+        "operation": "Multilingual voiceover synthesis (English + Mandarin)",
+        "quantity": 14,
+        "estimated_usd": 0.05,
+        "notes": "14 dialogue sections using neural WaveNet/Standard voices"
+      },
+      {
+        "tool": "video_compose",
+        "operation": "Remotion local timeline assembly, motion graphics and 720p rendering",
+        "quantity": 1,
+        "estimated_usd": 0.0,
+        "notes": "Local node rendering, zero cloud cost"
+      }
+    ],
+    "total_estimated_usd": 0.5,
+    "budget_cap_usd": 2.0,
+    "budget_verdict": "within_budget"
+  },
+  "approval": {
+    "status": "approved",
+    "user_notes": "使用者確認採用方案A（3D皮克斯輕喜劇＋MG混合模式）， Scene 1.1為英文原音，並已確認角色6S外觀細節。",
+    "approved_budget_usd": 2.0
+  }
+}

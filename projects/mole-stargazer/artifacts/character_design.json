@@ -1,0 +1,59 @@
+{
+  "version": "1.0",
+  "style": {
+    "visual_style": "PixarPremiumStyle",
+    "palette": [
+      "#f59e0b",
+      "#1e1b4b",
+      "#3b0764",
+      "#78350f",
+      "#fbbf24"
+    ],
+    "line_style": "CGI 3D PBR 无线框微观触感",
+    "texture": "皮克斯精细毛发 Grooming、透光次表面散射、黄铜金屬光泽"
+  },
+  "characters": [
+    {
+      "id": "barnaby_mole",
+      "display_name": "巴納比 (Barnaby the Mole)",
+      "role": "主角 · 好奇探索的地底小鼴鼠",
+      "body_type": "圓潤肉嘟嘟身軀、短小手足與微翹粉紅小圓尾巴",
+      "style": "皮克斯 3D 特徵風格：大眼睛水潤黑曜石瞳孔、柔順深棕毛髮、粉紅耳朵與鼻頭次表面散射 (SSS)",
+      "silhouette_notes": "矮胖可愛的梨形輪廓，頭頂戴著一具標誌性的黃銅雙筒飛行員護目鏡",
+      "required_emotions": [
+        "期待與專注 (掘土)",
+        "好奇與驚喜 (探出地面)",
+        "放鬆與釋放 (抖落泥土)",
+        "敬畏與震撼 (仰望星空)",
+        "感動與幸福 (流下淚珠)"
+      ],
+      "required_actions": [
+        "前爪快速刨土",
+        "鼻頭嗅聞探路",
+        "推起頭頂護目鏡",
+        "呆呆仰望深空",
+        "眼角滑落淚光並微笑"
+      ],
+      "required_views": [
+        "正面特寫 (Close-up)",
+        "側面工作視角 (Profile)",
+        "仰角遠景背影 (Wide back view)"
+      ],
+      "props": [
+        "復古雙筒黃銅飛行員護目鏡 (厚凸透鏡、金屬微磨損、皮質束帶)",
+        "手作暖光鎢絲油燈 (Scene 1)"
+      ],
+      "constraints": [
+        "嚴格維持皮克斯可愛圓潤比例，避免寫實鼴鼠眼部退化造成的恐怖谷效應",
+        "護目鏡尺寸需略顯寬大，增添孩子氣的稚嫩感",
+        "毛髮與光影需保持在所有鏡頭中色溫一致"
+      ]
+    }
+  ],
+  "metadata": {
+    "image": "clp/clp_mole.jpg",
+    "clp_source": "assets/images/scene_01_burrow.jpg",
+    "provider_used": "google_banana_pro",
+    "resolution": "1920x1080"
+  }
+}

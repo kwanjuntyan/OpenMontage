@@ -1,0 +1,136 @@
+{
+  "version": "1.0",
+  "project_id": "projects/mole-stargazer",
+  "decisions": [
+    {
+      "decision_id": "d-001",
+      "stage": "proposal",
+      "category": "pipeline_selection",
+      "subject": "選擇動畫短片製作管線",
+      "options_considered": [
+        {
+          "option_id": "cinematic",
+          "label": "Cinematic 管線 (電影級短片/預告片/情緒主導)",
+          "score": 0.98,
+          "reason": "具備情緒弧線控制、電影鏡頭語言 (Crane/Dolly/Tilt) 與 PBR 光影規範，完全吻合皮克斯短片需求"
+        },
+        {
+          "option_id": "animated_explainer",
+          "label": "Animated Explainer 管線 (圖解說明/教材動畫)",
+          "score": 0.65,
+          "reason": "偏向資訊圖表與知識點傳遞，缺乏電影級史詩氛圍感",
+          "rejected_because": "本片為童話故事短片而非解說教材"
+        }
+      ],
+      "selected": "cinematic",
+      "reason": "使用者明確指定採用 cinematic 管線製作皮克斯風格 3D 動畫短片",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    },
+    {
+      "decision_id": "d-002",
+      "stage": "proposal",
+      "category": "provider_selection",
+      "subject": "雙模態 AI 生成模型選型",
+      "options_considered": [
+        {
+          "option_id": "google_banana_omni",
+          "label": "Google Banana Pro (影像) + Google Gemini Omni (影片)",
+          "score": 0.99,
+          "reason": "使用者指定組合。Banana Pro 具備頂級 3D 質感與毛髮細節，Gemini Omni 支援原生長鏡頭語意與擬聲音訊"
+        },
+        {
+          "option_id": "flux_seedance",
+          "label": "FLUX.2 (影像) + ByteDance Seedance 2.5 (影片)",
+          "score": 0.90,
+          "reason": "標準雲端影片管線，但使用者明確要求使用 Google Banana Pro 與 Google Omni",
+          "rejected_because": "未遵從使用者指定之 Google 模型引擎"
+        }
+      ],
+      "selected": "google_banana_omni",
+      "reason": "使用者明確指示：image 採用 google banana pro，video 採用 google omni",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    },
+    {
+      "decision_id": "d-003",
+      "stage": "proposal",
+      "category": "voice_selection",
+      "subject": "聲音與台詞演繹形式",
+      "options_considered": [
+        {
+          "option_id": "option_b",
+          "label": "選項 B：詩意繪本童話旁白 (Poetic Storybook Narration)",
+          "score": 0.97,
+          "reason": "融合溫柔台灣繁體中文說書人嗓音，為每個鏡頭注入詩意語句，並在銀河大高潮處留白給管弦交響樂"
+        },
+        {
+          "option_id": "option_a",
+          "label": "選項 A：純視覺與擬聲表演 (Pure Pantomime)",
+          "score": 0.88,
+          "reason": "無語言對白，僅使用嗅聞、喘息與交響樂",
+          "rejected_because": "使用者明確回覆指示：「採選項B」"
+        }
+      ],
+      "selected": "option_b",
+      "reason": "使用者於審查步驟中明確下達指令：「採選項B」",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    },
+    {
+      "decision_id": "d-004",
+      "stage": "proposal",
+      "category": "composition_mode",
+      "subject": "合成架構模式 (Composition Mode)",
+      "options_considered": [
+        {
+          "option_id": "atelier",
+          "label": "Atelier 專屬高級定制合成 (Hero Work)",
+          "score": 0.98,
+          "reason": "專屬定制視覺時間軸、Ken Burns 鏡頭動力學、星空光塵粒子與 Web Audio 管弦樂合成"
+        },
+        {
+          "option_id": "templated",
+          "label": "Templated 模板組裝模式",
+          "score": 0.70,
+          "reason": "使用現成通用切片模板，無法完美展現 3D 皮克斯鏡片折射與淚滴微距",
+          "rejected_because": "不符合 PixarPremiumStyle 高階定制標準"
+        }
+      ],
+      "selected": "atelier",
+      "reason": "針對皮克斯電影級作品，必須採用 Atelier 專屬定制模式打造獨特視覺語言",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 0.95
+    },
+    {
+      "decision_id": "d-005",
+      "stage": "assets",
+      "category": "provider_selection",
+      "subject": "視訊生成 Provider 切換為 Google Veo",
+      "options_considered": [
+        {
+          "option_id": "google_veo",
+          "label": "Google Veo (旗艦電影級 1080p 模型)",
+          "score": 0.99,
+          "reason": "Google DeepMind 旗艦影音模型，具備 1080p 高清解析度、細膩電影運鏡、Banana Pro 參考圖 Image-to-Video 與原生環境音效"
+        },
+        {
+          "option_id": "gemini_omni",
+          "label": "Google Gemini Omni Flash",
+          "score": 0.85,
+          "reason": "支援多拍點連續生成，但最高解析度為 720p",
+          "rejected_because": "導演明確指示切換 Provider 為 Google Veo"
+        }
+      ],
+      "selected": "google_veo",
+      "reason": "導演明確指示：「如果還沒進入影片製作，那就暫停，因為我想更換 provider 為 veo」",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    }
+  ]
+}

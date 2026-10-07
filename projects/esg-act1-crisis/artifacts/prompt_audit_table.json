@@ -1,0 +1,288 @@
+{
+  "version": "1.0",
+  "project_id": "esg-act1-crisis",
+  "total_shots": 22,
+  "model_family": "Google Imagen 3 (imagen-3.0-generate-002)",
+  "style_playbook_path": "styles/custom/esg-pixar-hybrid.yaml",
+  "clp_manifest_path": "projects/esg-act1-crisis/artifacts/clp_manifest.json",
+  "records": [
+    {
+      "shot_id": "shot_1_1_1",
+      "scene_title": "Establishing extreme wide aerial shot of London skyline veil...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "Pixar 3D animated feature film still, 8k resolution, cinematic 16:9, establishing shot. Extreme wide aerial shot of London financial district veiled in atmospheric misty rain and soft fog. Modern glass skyscrapers including The Gherkin and iconic skyline towers rising through clouds, camera dollying toward a sleek modern glass financial tower. Overcast cool daylight, cinematic mood, raindrops, exquisite architectural detail, professional lighting.",
+      "reference_images_passed": [
+        "C:\\Users\\user\\.gemini\\antigravity-ide\\brain\\65f7eae5-1423-444d-9da6-fc1580c6ee36\\shot_1_1_2.png"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_1_1.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_1_1.png"
+    },
+    {
+      "shot_id": "shot_1_1_2",
+      "scene_title": "Interior of London investment bank boardroom. Three sharp-su...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "A 3x3 camera coverage contact sheet (9 panels grid) for a 3D Pixar style cinematic animation shot. Scene Reference: Interior of an ultra-luxurious London investment bank boardroom. Huge floor-to-ceiling glass windows overlooking a rainy London skyscraper skyline. Polished dark mahogany boardroom table with leather executive chairs. Characters Reference: 1. Mr. Harrison: Elderly British senior partner, silver hair slicked back, piercing hawk eyes, hooked nose, sharp navy pinstripe suit, sitting at the head of the long table. 2. Analyst Sandy: Young ambitious female analyst, blonde hair in a professional ponytail, dark grey blazer, standing near digital presentation display holding a remote clicker. Format: A clean 3x3 grid containing 9 distinct cinematic camera angles of this boardroom scene: Panel 1: Wide Establishing Shot, looking down polished mahogany table with Harrison at the head, Sandy standing by glowing screen showing financial charts. Panel 2: Medium Two-Shot, Sandy in foreground pointing to screen, Harrison listening in background. Panel 3: High-Angle Wide, looking down at boardroom from ceiling corner, showing rainy city backdrop. Panel 4: Low-Angle perspective, emphasizing grandeur of mahogany table and rainy windows. Panel 5: Medium Shot of Sandy standing confidently beside presentation screen. Panel 6: Over-the-Shoulder behind Sandy looking toward Harrison. Panel 7: Side Profile of conference table against rainy skyline. Panel 8: Close Group Shot of board members in dark suits. Panel 9: Dynamic 3/4 angle from side window, rain reflections. Pixar 3D animation style, cinematic lighting, volumetric rain atmosphere, octane render.",
+      "reference_images_passed": [
+        "d:/kj-openMontage/projects/esg-act1-crisis/assets/clp/characters/harrison.jpeg",
+        "d:/kj-openMontage/projects/esg-act1-crisis/assets/clp/characters/sandy.jpeg",
+        "d:/kj-openMontage/projects/esg-act1-crisis/assets/clp/locations/london_boardroom.jpeg"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_1_2.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_1_2.png"
+    },
+    {
+      "shot_id": "shot_1_1_3",
+      "scene_title": "Medium shot of Analyst Sandy pointing to the screen displayi...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "Pixar 3D animated feature film still, 8k resolution, cinematic 16:9. Medium shot of Analyst Sandy (Reference 2) in the London corporate boardroom. Young Asian female ESG analyst with neat brown hair tied in a low ponytail, black-rimmed glasses, blue eyes, wearing a sharp dark charcoal business suit and blue lanyard ID badge. She has a confident, bright, articulate expression, holding a presentation clicker in hand and gesturing toward the large presentation whiteboard behind her showing Dacheng company surging profit growth bar charts and financial curves. Soft warm indoor corporate lighting, modern wooden interior, cinematic depth of field.",
+      "reference_images_passed": [
+        "C:\\Users\\user\\.gemini\\antigravity-ide\\brain\\65f7eae5-1423-444d-9da6-fc1580c6ee36\\shot_1_1_2.png",
+        "d:\\kj-openMontage\\projects\\esg-act1-crisis\\assets\\clp\\characters\\sandy.jpeg"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_1_3.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_1_3.png"
+    },
+    {
+      "shot_id": "shot_1_1_4",
+      "scene_title": "Medium close-up of Mr. Harrison steepled fingers, raising hi...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "Pixar 3D animated feature film still, 8k resolution, cinematic 16:9. Medium close-up of Mr. Harrison (Reference 2) seated in his tan ribbed leather executive chair in the London boardroom. Senior British partner in his late 50s, sharp angular facial features, aquiline hawk nose, neatly slicked-back silver hair, bespoke navy blue pinstripe suit with white shirt and dark silk tie. Both elbows resting on the walnut table with fingers steepled in front of him, raising his chin with razor-sharp intensity, piercing critical gaze looking across toward Sandy as he asks the pivotal ESG question. Soft moody rim lighting, rainy London skyline outside the window behind him, exquisite shallow depth of field.",
+      "reference_images_passed": [
+        "C:\\Users\\user\\.gemini\\antigravity-ide\\brain\\65f7eae5-1423-444d-9da6-fc1580c6ee36\\shot_1_1_2.png",
+        "d:\\kj-openMontage\\projects\\esg-act1-crisis\\assets\\clp\\characters\\harrison.jpeg"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_1_4.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_1_4.png"
+    },
+    {
+      "shot_id": "shot_1_1_5",
+      "scene_title": "Close-up of Sandy's awkward expression, swallows slightly, c...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "Pixar 3D animated feature film still, 8k resolution, cinematic 16:9. Close-up of Analyst Sandy (Reference 2) in the London boardroom. Young Asian female ESG analyst with brown ponytail, black-rimmed glasses, blue eyes, charcoal tailored suit, blue lanyard ID badge. She has a nervous, awkward, caught-off-guard expression, eyes slightly shifting, throat swallowing slightly in hesitation, uncomfortably fidgeting with the presentation clicker in her hand as she realizes the critical ESG data is missing. Warm indoor lighting, soft blurry boardroom background, shallow depth of field.",
+      "reference_images_passed": [
+        "d:\\kj-openMontage\\projects\\esg-act1-crisis\\snapshots\\shot_1_1_3.png",
+        "d:\\kj-openMontage\\projects\\esg-act1-crisis\\assets\\clp\\characters\\sandy.jpeg"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_1_5.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_1_5.png"
+    },
+    {
+      "shot_id": "shot_1_1_6",
+      "scene_title": "Over-the-shoulder shot from Harrison to Sandy admitting zero...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "Pixar 3D animated feature film still, 8k resolution, cinematic 16:9. Over-the-shoulder shot looking from behind Mr. Harrison's right shoulder (navy pinstripe suit, silver slicked hair visible in soft foreground focus) across the walnut conference table toward Analyst Sandy (Reference 3) standing at the far end by the presentation screen. Sandy has an embarrassed, sheepish expression, hands slightly gesturing defensively as she admits the company has zero carbon emissions data and no third-party labor audit. Left side shows junior analyst watching silently. Realistic corporate lighting, depth of field.",
+      "reference_images_passed": [
+        "d:\\kj-openMontage\\projects\\esg-act1-crisis\\snapshots\\shot_1_1_2.png",
+        "d:\\kj-openMontage\\projects\\esg-act1-crisis\\assets\\clp\\characters\\harrison.jpeg",
+        "d:\\kj-openMontage\\projects\\esg-act1-crisis\\assets\\clp\\characters\\sandy.jpeg"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_1_6.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_1_6.png"
+    },
+    {
+      "shot_id": "shot_1_1_7",
+      "scene_title": "Extreme close-up on Mr. Harrison's fingers rhythmically tapp...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "Pixar 3D animated feature film still, 8k resolution, cinematic 16:9. Macro extreme close-up of Mr. Harrison's mature, manicured fingers with cuff of bespoke navy blue pinstripe suit and white crisp shirt cuff, rhythmically tapping the polished walnut boardroom table surface. Perfect reflections of his fingers and moody London window light on the high-gloss wood grain table. Atmospheric tension, dead silence, macro shallow depth of field, dramatic cinematic lighting.",
+      "reference_images_passed": [
+        "d:\\kj-openMontage\\projects\\esg-act1-crisis\\snapshots\\shot_1_1_4.png",
+        "d:\\kj-openMontage\\projects\\esg-act1-crisis\\snapshots\\shot_1_1_2.png"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_1_7.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_1_7.png"
+    },
+    {
+      "shot_id": "shot_1_1_8",
+      "scene_title": "Medium shot of Mr. Harrison leaning back, delivering the col...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "Pixar 3D animated feature film still, 8k resolution, cinematic 16:9. Medium shot of Mr. Harrison (Reference 1) leaning back in his tan leather executive chair in the London boardroom. Mature executive with slicked silver hair, sharp hawk nose, navy pinstripe suit with white shirt and dark tie, looking stern and resolute as an investment committee leader. Clean corporate lighting, walnut table in foreground, soft rainy city skyline through glass windows.",
+      "reference_images_passed": [
+        "d:\\kj-openMontage\\projects\\esg-act1-crisis\\snapshots\\shot_1_1_4.png",
+        "d:\\kj-openMontage\\projects\\esg-act1-crisis\\assets\\clp\\characters\\harrison.jpeg"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_1_8.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_1_8.png"
+    },
+    {
+      "shot_id": "shot_1_1_9",
+      "scene_title": "Quick medium shot of Sandy making a final feeble appeal rega...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "Pixar 3D animated feature film still, 8k resolution, cinematic 16:9. Medium shot of Analyst Sandy (Reference 2) in the London boardroom. Young Asian female ESG analyst with brown ponytail, black-rimmed glasses, blue eyes, charcoal tailored suit, blue lanyard ID badge. She has a desperate, pleading expression with a nervous, strained smile, holding both hands out in a small imploring gesture as she makes a final feeble appeal: 'But Mr. Harrison, their quarterly financial returns are truly exceptional...' The presentation screen is softly blurred behind her, shallow depth of field, warm indoor lighting.",
+      "reference_images_passed": [
+        "d:\\kj-openMontage\\projects\\esg-act1-crisis\\snapshots\\shot_1_1_3.png",
+        "d:\\kj-openMontage\\projects\\esg-act1-crisis\\assets\\clp\\characters\\sandy.jpeg"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_1_9.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_1_9.png"
+    },
+    {
+      "shot_id": "shot_1_1_10",
+      "scene_title": "Close-up of Mr. Harrison decisively closing his document fol...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "Pixar 3D animated feature film still, 8k resolution, cinematic 16:9. Close-up of Mr. Harrison (Reference 2) in the London boardroom. Senior executive with slicked silver hair, eagle nose, navy blue pinstripe suit. He is decisively closing a thick leather-bound corporate investment folder on the walnut table with both hands, sharp finality in his stern, unyielding expression, lips firmly set as he issues the definitive order: 'Put it on hold.' Dramatic side rim lighting, rainy London skyline softly blurred behind him, shallow depth of field.",
+      "reference_images_passed": [
+        "d:\\kj-openMontage\\projects\\esg-act1-crisis\\snapshots\\shot_1_1_4.png",
+        "d:\\kj-openMontage\\projects\\esg-act1-crisis\\assets\\clp\\characters\\harrison.jpeg"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_1_10.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_1_10.png"
+    },
+    {
+      "shot_id": "shot_1_1_11",
+      "scene_title": "Hero Motion Graphic Animation: Close-up on the cover of Dach...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "Pixar 3D animation style, 8k render. Dramatic close-up high-angle shot of a polished dark walnut boardroom desk. On the desk lies the crisp official document folder cover titled 'DACHENG ENTERPRISE CAPITAL PROPOSAL'. A heavy brass and red rubber executive stamp slams down onto the document cover, imprinting a bold, distressed red ink stamp mark reading 'ON HOLD'. Subtle dynamic red ink splatter, cinematic lighting, shallow depth of field, dramatic corporate rejection climax. No watermarks, no logos.",
+      "reference_images_passed": [
+        "D:\\kj-openMontage\\projects\\esg-act1-crisis\\snapshots\\shot_1_1_10.png"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_1_11.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_1_11.png"
+    },
+    {
+      "shot_id": "shot_1_1_12",
+      "scene_title": "Sound Bridge Transition: The heavy echo of the 'ON HOLD' sta...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "Pixar 3D animation style, 8k render. Close-up shot of a modern smartphone vibrating and buzzing violently on an office desk in Taipei. The smartphone screen is lit up brightly displaying an incoming call alert with vibrant ringing soundwave graphic rings and the caller name '協理 (主管)'. Subtle vibration motion blur around the phone edges. In the warm sunlit background with shallow depth of field, an office desk with a ceramic coffee mug, pen stand, and stationery. Tension-filled sound bridge transition. No watermarks.",
+      "reference_images_passed": [
+        "D:\\kj-openMontage\\projects\\esg-act1-crisis\\snapshots\\shot_1_2_1.png"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_1_12.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_1_12.png"
+    },
+    {
+      "shot_id": "shot_1_2_1",
+      "scene_title": "Amy at her sunlit Taipei office desk organizing folders. Her...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "A 3x3 cinematic camera coverage contact sheet containing 9 distinct rectangular panels arranged in a 3 by 3 grid layout. All 9 panels depict the same character and setting from the reference images: Amy, a 28-year-old stylized young woman with shoulder-length wavy chocolate brown bob hair, expressive emerald green eyes, wearing a light grey tailored business suit with rolled-up cuffs and white open-collar shirt (no glasses). She is at her modern bright corporate office desk in Taipei with a desktop monitor, potted succulent plant, and her smartphone suddenly vibrating and ringing loudly on the wooden desk with incoming call from her supervisor. Each of the 9 panels captures a different camera angle: Panel 1 is medium frontal showing Amy looking down at the phone in surprise; Panel 2 is over-the-shoulder looking past Amy towards the ringing phone; Panel 3 is close-up on Amy's bewildered facial expression; Panel 4 is low-angle looking up as she reaches toward the desk; Panel 5 is high-angle looking down at the desktop workspace; Panel 6 is macro close-up on the vibrating smartphone; Panel 7 is 45-degree side profile with bright natural office window light; Panel 8 is wide shot of her office cubicle; Panel 9 is dynamic Dutch tilt angle capturing the sudden workplace interruption. 3D Pixar animation style, sharp 3x3 grid separation, strictly matching Amy's likeness and office environment from reference images.",
+      "reference_images_passed": [
+        "D:\\kj-openMontage\\projects\\esg-act1-crisis\\assets\\clp\\characters\\amy.jpeg",
+        "D:\\kj-openMontage\\projects\\esg-act1-crisis\\assets\\clp\\locations\\amy_office.jpeg"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_2_1.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_2_1.png"
+    },
+    {
+      "shot_id": "shot_1_2_2",
+      "scene_title": "Composite Split-Screen: Left panel shows Supervisor pacing a...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "Pixar 3D animation style, 8k render. Cinematic vertical split-screen shot. On the LEFT panel: the middle-aged Asian male Supervisor with balding oily hair, rumpled blue collared shirt and loosened tie, sweating profusely and wiping his brow with a crumpled handkerchief while frantically shouting into an office desk telephone amidst messy stacks of binders and papers. On the RIGHT panel: Amy, a young Asian female professional with neat short brown bob hair and expressive emerald green eyes, wearing a light gray business blazer, holding her smartphone to her ear with wide shocked eyes and an alarmed expression at her bright modern Taipei office cubicle. Crisp vertical dividing line between the two scenes. No watermarks.",
+      "reference_images_passed": [
+        "D:\\kj-openMontage\\projects\\esg-act1-crisis\\assets\\clp\\characters\\supervisor.jpeg",
+        "D:\\kj-openMontage\\projects\\esg-act1-crisis\\assets\\clp\\characters\\amy.jpeg",
+        "D:\\kj-openMontage\\projects\\esg-act1-crisis\\snapshots\\shot_1_2_1.png"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_2_2.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_2_2.png"
+    },
+    {
+      "shot_id": "shot_1_2_3",
+      "scene_title": "Close-up of Supervisor wildly flailing arms, sweating profus...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "A 3x3 camera coverage contact sheet (9 panels grid) for a 3D Pixar style cinematic animation shot. Character Consistency Reference: Must strictly match the exact character in the reference image: middle-aged male Taiwanese office manager, messy black hair, thick droopy expressive eyebrows, panicked distressed bulging eyes, blue collared shirt with loosened patterned brown tie. Setting: Messy corporate office with towering stacks of folders, desktop computer, warm office lighting. Action: Panicked phone call, holding smartphone to his ear, sweating profusely, exaggerated distressed comedic gestures. Format: A clean 3x3 grid containing 9 distinct camera angles/framing of this exact character and scene: Panel 1: Medium Frontal, shouting frantically into smartphone while wiping sweat from his forehead with a handkerchief. Panel 2: Over-the-Shoulder, looking past his shoulder at messy desk as he gestures wildly. Panel 3: Intense Close-up, extreme panic facial expression, wide bulging eyes, bead of sweat rolling down cheek, mouth open in comic scream. Panel 4: Dramatic Low-Angle, looking up at him clutching the phone with both hands in desperation. Panel 5: High-Angle looking down at him pacing around his cluttered desk. Panel 6: Macro close-up on trembling hand gripping the smartphone. Panel 7: 45-degree Profile, pacing frantically, one hand on hip, head tilted holding phone. Panel 8: Wide Shot of the entire messy office, papers scattered, manager pacing in total chaos. Panel 9: Dynamic Dutch Tilt angle, camera tilted 20 degrees, high comedic energy and tension. Rich Pixar 3D render, octane render quality, expressive character acting, subsurface scattering skin, cinematic color grading, warm lighting.",
+      "reference_images_passed": [
+        "d:/kj-openMontage/projects/esg-act1-crisis/assets/clp/characters/supervisor.jpeg"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_2_3.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_2_3.png"
+    },
+    {
+      "shot_id": "shot_1_2_4",
+      "scene_title": "Close-up of Amy gripping her phone, jaw dropped, emerald gre...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "Pixar 3D animation style. A close-up of Amy, a young woman with short brown hair, large emerald green eyes wide with shock, holding a smartphone to her ear with an astonished open-mouthed expression. She wears a light gray business jacket. Modern bright office background, cinematic lighting.",
+      "reference_images_passed": [
+        "D:\\kj-openMontage\\projects\\esg-act1-crisis\\assets\\clp\\characters\\amy.jpeg"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_2_4.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_2_4.png"
+    },
+    {
+      "shot_id": "shot_1_2_5",
+      "scene_title": "Medium shot of Supervisor pointing an aggressive finger forw...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "Pixar 3D animation style, 8k render. Medium shot of the middle-aged Asian male supervisor with balding oily hair, sweat glistening on his furrowed forehead, wearing a rumpled light blue collared shirt and loose necktie. He is angrily pointing an index finger directly forward toward the viewer with an urgent commanding expression, holding a desk phone receiver in his other hand. Cluttered office background with piles of folders and binders. Cinematic lighting.",
+      "reference_images_passed": [
+        "D:\\kj-openMontage\\projects\\esg-act1-crisis\\assets\\clp\\characters\\supervisor.jpeg"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_2_5.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_2_5.png"
+    },
+    {
+      "shot_id": "shot_1_2_6",
+      "scene_title": "Medium shot of Amy shrinking slightly, sheepishly admitting ...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "Pixar 3D animation style. Medium shot of a young businesswoman with short brown bob hair and emerald green eyes, wearing a light gray business blazer. She sits at her modern office desk holding a smartphone, shrinking her shoulders with an awkward sheepish smile and apologetic expression. Bright contemporary office background.",
+      "reference_images_passed": [
+        "D:\\kj-openMontage\\projects\\esg-act1-crisis\\assets\\clp\\characters\\amy.jpeg"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_2_6.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_2_6.png"
+    },
+    {
+      "shot_id": "shot_1_2_7",
+      "scene_title": "Medium shot of Supervisor shouting 'Figure it out!' before s...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "Pixar 3D animation style, 8k render. Medium shot of the middle-aged Asian male supervisor slamming the vintage office telephone receiver furiously onto the desk cradle. His face is flushed red with sweat drops flying, mouth wide open mid-shout, balding messy hair disheveled. Office documents and papers scatter slightly across the wooden desk from the heavy impact. Cluttered office background, dramatic dynamic action lighting.",
+      "reference_images_passed": [
+        "D:\\kj-openMontage\\projects\\esg-act1-crisis\\assets\\clp\\characters\\supervisor.jpeg"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_2_7.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_2_7.png"
+    },
+    {
+      "shot_id": "shot_1_2_8",
+      "scene_title": "Medium close-up of Amy murmuring to herself: 'E...S...G... w...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "Pixar 3D animation style, 8k render. Medium close-up of Amy, a young businesswoman with short brown bob hair and emerald green eyes, in a light gray business jacket. She is resting her chin on her hand at her sunlit office desk, looking up into the air with a whimsical, deeply puzzled and daydreaming expression. Subtle glowing question mark particles float gently above her head. Modern warm office background, soft bokeh.",
+      "reference_images_passed": [
+        "D:\\kj-openMontage\\projects\\esg-act1-crisis\\assets\\clp\\characters\\amy.jpeg"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_2_8.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_2_8.png"
+    },
+    {
+      "shot_id": "shot_1_2_9",
+      "scene_title": "Extreme close-up zooming directly into Amy's pupils. Her gaz...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "Pixar 3D animation style, 8k render. Extreme macro close-up zooming into Amy's large expressive emerald green animated eye. The luminous green iris sparkles with curiosity, reflecting colorful swirling fantasy dream bubbles and golden glowing stars inside the pupil. Dreamy soft-focus circular vignette with pastel swirling lights, transition into an imaginary fantasy world. Cinematic magical realism lighting.",
+      "reference_images_passed": [
+        "D:\\kj-openMontage\\projects\\esg-act1-crisis\\assets\\clp\\characters\\amy.jpeg"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_2_9.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_2_9.png"
+    },
+    {
+      "shot_id": "shot_1_3_1",
+      "scene_title": "Surreal TV Shopping Fantasy: Supervisor wearing sparkling go...",
+      "model": "imagen-3.0-generate-002 (Google Imagen 3)",
+      "style_playbook": "esg-pixar-hybrid",
+      "exact_prompt": "A 3x3 camera coverage contact sheet (9 panels grid) for a hilarious 3D Pixar animation fantasy sequence. Character Reference: The exact same supervisor character from the reference image (middle-aged Taiwanese man, messy black hair, droopy thick expressive eyebrows, comedic excited wide eyes), wearing a flashy sparkling golden sequin disco blazer. Setting: Garish colorful retro TV shopping studio stage, neon purple and turquoise lighting, flashing golden sparkles, oversized prop bottle of glowing green pills labeled 'ESG CAPSULES', fake golden coins flying, neon stock ticker in background. Action: Hyper-energetic infomercial host, holding up a giant glowing pill capsule, grinning wildly with a salesman beam, exaggerated comedic showmanship. Format: A clean 3x3 grid containing 9 distinct camera angles: Panel 1: Medium Frontal, host pointing excitedly at giant glowing 'ESG CAPSULE' in his palm with dazzling smile. Panel 2: Over-the-Shoulder, looking from behind TV camera toward glittering neon stage. Panel 3: Low-Angle Hero Shot, host triumphantly holding glowing ESG capsule up to heavens. Panel 4: Intense Close-up on host's crazed salesman face, sparkling teeth glint. Panel 5: High-Angle Wide showing neon TV studio floor with flashy graphics. Panel 6: Macro close-up on glowing ESG capsule prop. Panel 7: Dynamic 45-degree angle, host posing like superstar game-show host. Panel 8: Wide Shot of entire variety show set, confetti raining down. Panel 9: Dynamic Dutch Tilt, tilted camera, host leaping forward with comic energy. Pixar 3D animation style, vibrant neon saturated colors, volumetric stage lights, octane render.",
+      "reference_images_passed": [
+        "d:/kj-openMontage/projects/esg-act1-crisis/assets/clp/characters/supervisor.jpeg"
+      ],
+      "snapshot_path": "projects/esg-act1-crisis/snapshots/shot_1_3_1.png",
+      "asset_image_path": "projects/esg-act1-crisis/assets/images/shot_1_3_1.png"
+    }
+  ]
+}

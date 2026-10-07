@@ -1,0 +1,32 @@
+{
+  "version": "2.0",
+  "project_id": "esg-shots-test",
+  "characters": [
+    {
+      "id": "amy",
+      "name": "林艾美 (Amy Lin)",
+      "role": "女主角 · 大成企業 永續/企劃專員",
+      "age": 28,
+      "gender": "female",
+      "visual_traits": "3D Pixar/Disney 動畫風格，棕色微卷波浪短髮波波頭，明亮生動的綠色大眼睛，灰色合身西裝外套與白色襯衫，神情認真溫柔、敬業無辜",
+      "costume": "灰色商務西裝外套配純白襯衫",
+      "image": "clp/amy_hero_portrait.jpg",
+      "prompt_anchor": "3D Pixar animated character Amy, short wavy brown bob hair, big expressive green eyes, grey business suit, white shirt",
+      "policy": "strict_reference"
+    },
+    {
+      "id": "supervisor",
+      "name": "業務協理 (Supervisor)",
+      "role": "Amy 直屬主管 · 業績高壓中階主管",
+      "age": 50,
+      "gender": "male",
+      "visual_traits": "3D Pixar/Disney 動畫風格，黑色短髮，招風大耳朵，圓潤大鼻子，微皺苦瓜臉，水藍色商務襯衫挽起袖口，鬆開的棕色花紋領帶",
+      "costume": "水藍色長袖襯衫微開領口，鬆開的棕色領帶，棕色西裝長褲",
+      "image": "clp/supervisor_hero_portrait.jpg",
+      "prompt_anchor": "3D Pixar animated character male supervisor, prominent cartoon ears, rounded big nose, anxious expressive face, light blue dress shirt, loosened brown patterned tie",
+      "policy": "strict_reference"
+    }
+  ],
+  "locations": [],
+  "props": []
+}

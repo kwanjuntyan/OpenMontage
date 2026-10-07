@@ -1,0 +1,266 @@
+{
+  "version": "1.0",
+  "project_id": "esg-act1-crisis",
+  "pipeline_type": "cinematic",
+  "stage": "clp",
+  "status": "completed",
+  "timestamp": "2026-09-13T15:23:09.673099+00:00",
+  "checkpoint_policy": "guided",
+  "human_approval_required": true,
+  "human_approved": true,
+  "artifacts": {
+    "clp_manifest": {
+      "version": "2.0",
+      "project_id": "esg-act1-crisis",
+      "decision_log_ref": "projects\\esg-act1-crisis\\artifacts\\decision_log.json",
+      "characters": [
+        {
+          "id": "char_amy",
+          "name": "Amy (\u827e\u54aa)",
+          "role": "Protagonist, Sustainability Specialist",
+          "age": 28,
+          "gender": "female",
+          "visual_traits": "3D Pixar stylized young woman, shoulder-length wavy chocolate brown bob hair, expressive emerald green eyes, warm fair skin, delicate facial features, light grey tailored pant suit with rolled-up cuffs, white open-collar business shirt, no glasses.",
+          "costume": "Light grey tailored pant suit with rolled-up cuffs, crisp white open-collar shirt",
+          "voice_id": "cmn-TW-Standard-A",
+          "image": "assets/clp/characters/amy.jpeg",
+          "asset_sha256": "sha256:8790239fefe5c9b774ce34255f70b35169b55882a48c13c14900384762c3a0c4",
+          "prompt_anchor": "Amy, 3D Pixar stylized young woman, wavy brown hair, grey tailored suit",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "char_supervisor",
+          "name": "Amy\u4e3b\u7ba1 (\u5354\u7406)",
+          "role": "Amy's Panicked Direct Supervisor",
+          "age": 45,
+          "gender": "male",
+          "visual_traits": "3D Pixar stylized middle-aged Asian man, thick messy dark black hair, prominent anxious droopy eyebrows, large expressive ears, noticeable 5-o'clock stubble shadow, light blue collared business shirt with sleeves rolled up to elbows, loosely knotted patterned brown necktie, khaki-brown dress trousers.",
+          "costume": "Light blue business shirt with sleeves rolled up, loosened patterned brown tie, khaki trousers",
+          "voice_id": "cmn-TW-Standard-B",
+          "image": "assets/clp/characters/supervisor.jpeg",
+          "asset_sha256": "sha256:e7a509ec810576bc3e04dfaea25fdb3b93a4e4aa7fc6f951fd9c64b18c48be0c",
+          "prompt_anchor": "Asian male supervisor, thick messy black hair, anxious droopy eyebrows, light blue shirt, loose brown tie",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "char_harrison",
+          "name": "\u54c8\u91cc\u68ee\u5148\u751f (Mr. Harrison)",
+          "role": "Senior British Investment Committee Chair",
+          "age": 55,
+          "gender": "male",
+          "visual_traits": "3D Pixar stylized distinguished British senior executive, swept-back silver grey hair, thick bushy dark eyebrows, piercing steel-blue eyes, prominent hooked nose, bespoke dark navy pinstripe business suit, crisp white dress shirt, classic dark tie, sharp calculating demeanor.",
+          "costume": "Bespoke dark navy pinstripe suit, crisp white dress shirt, black silk tie",
+          "voice_id": "en-GB-Standard-B",
+          "image": "assets/clp/characters/harrison.jpeg",
+          "asset_sha256": "sha256:e6970311509f64741efebabbb94aa2faae047721b68f807699ccd5ac08c1f5e2",
+          "prompt_anchor": "Mr Harrison, 3D Pixar British senior executive, swept-back silver hair, hooked nose, navy pinstripe suit",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "char_sandy",
+          "name": "\u5206\u6790\u5e2b Sandy",
+          "role": "Junior Investment Analyst",
+          "age": 30,
+          "gender": "female",
+          "visual_traits": "3D Pixar stylized professional female analyst, neat low dark-brown hair bun, slim black rectangular glasses, blue corporate lanyard with ID badge, tailored black single-breasted suit jacket over white shirt, alert and nervous posture.",
+          "costume": "Tailored black blazer suit, white shirt, blue lanyard with plastic ID card",
+          "voice_id": "en-GB-Standard-A",
+          "image": "assets/clp/characters/sandy.jpeg",
+          "asset_sha256": "sha256:bf4152192de203545b87d3f477837b0ead406ffbab3fc2a13270e3c948a03539",
+          "prompt_anchor": "Sandy, 3D Pixar female analyst, low brown bun, black glasses, blue lanyard, black suit",
+          "policy": "strict_reference"
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_london_boardroom",
+          "name": "\u502b\u6566\u6d77\u5916\u6295\u8cc7\u6a5f\u69cb\u6703\u8b70\u5ba4",
+          "environment_description": "High-end London investment bank conference room, modern floor-to-ceiling glass windows overlooking rainy grey London skyscrapers, long polished dark mahogany conference table, high-backed ergonomic leather chairs, large wall-mounted presentation screen.",
+          "lighting": "Cool overcast natural light through rain-streaked glass, subtle neutral recessed ceiling spotlights.",
+          "palette": [
+            "#1E2A38",
+            "#4A5568",
+            "#718096",
+            "#E2E8F0"
+          ],
+          "image": "assets/clp/locations/london_boardroom.jpeg",
+          "asset_sha256": "sha256:1af687cf80b75c77b2fdffa3cc2b277aa998b9886f87777c1adb9b747e18f961",
+          "prompt_anchor": "High-end corporate boardroom, rainy London skyscraper view outside, mahogany table, cool overcast lighting",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "loc_amy_office",
+          "name": "Amy\u7684\u53f0\u5317\u8fa6\u516c\u5ba4",
+          "environment_description": "Warm, busy modern corporate marketing office in Taipei, modular white desks with frosted glass privacy dividers, desktop monitor, tidy paperwork binders, small potted succulent, warm ambient interior office lighting.",
+          "lighting": "Warm fluorescent overhead diffused office illumination, cheerful natural daylight from side window.",
+          "palette": [
+            "#F7FAFC",
+            "#ED8936",
+            "#4A5568",
+            "#CBD5E0"
+          ],
+          "image": "assets/clp/locations/amy_office.jpeg",
+          "asset_sha256": "sha256:f36bcf69ca5665fe148a5a37b1774c1d23cbebb36dd828cd375fe1d355e2be5e",
+          "prompt_anchor": "Modern open-plan office desk, computer monitor, potted plant, warm bright corporate lighting",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "loc_tv_shopping_studio",
+          "name": "\u7d9c\u85dd\u96fb\u8996\u8cfc\u7269\u651d\u5f71\u68da (Amy\u5e7b\u60f3)",
+          "environment_description": "Extravagant, colorful TV shopping studio set, flashy neon pastel stage backdrops, glowing LED panels displaying stock ticker charts shooting upward, falling golden coins and confetti, high-energy variety show atmosphere.",
+          "lighting": "Bright multi-colored stage spotlights, vivid magenta, cyan and gold rim lighting.",
+          "palette": [
+            "#FFD700",
+            "#FF1493",
+            "#00FFFF",
+            "#4B0082"
+          ],
+          "prompt_anchor": "Vibrant TV shopping studio stage, neon lights, rising stock graph, golden sparkles",
+          "policy": "text_anchor_only"
+        }
+      ],
+      "props": [
+        {
+          "id": "prop_proposal_document",
+          "name": "\u5927\u6210\u516c\u53f8\u589e\u8cc7\u8a08\u756b\u66f8",
+          "description": "Formal corporate capital increase proposal document, white thick paper with Dacheng company logo embossed at the top, clear financial tables and line charts.",
+          "prompt_anchor": "Corporate investment proposal document with business charts and logo",
+          "policy": "text_anchor_only"
+        },
+        {
+          "id": "prop_stamp_on_hold",
+          "name": "\u7d05\u8272 ON HOLD \u5370\u7ae0",
+          "description": "Heavy industrial brass and wood handle rubber stamp with bold, distress-textured scarlet red 'ON HOLD' rectangular lettering.",
+          "prompt_anchor": "Heavy red rubber stamp with bold ON HOLD letters in rectangular border",
+          "policy": "text_anchor_only"
+        },
+        {
+          "id": "prop_smartphone",
+          "name": "Amy\u7684\u624b\u6a5f",
+          "description": "Modern sleek smartphone with bezel-less screen, vibrating violently on office desk, display showing caller ID '\u5354\u7406 (\u4e3b\u7ba1)' with emergency red pulsing ring.",
+          "prompt_anchor": "Smartphone on wooden desk vibrating with flashing incoming call screen",
+          "policy": "text_anchor_only"
+        },
+        {
+          "id": "prop_esg_capsules",
+          "name": "ESG\u6fc3\u7e2e\u81a0\u56ca\u85e5\u7f50",
+          "description": "Comically oversized shiny gold supplement bottle labeled 'ESG 100% CONCENTRATED CAPSULES' with radiant sparkles and cartoon green eco leaves.",
+          "prompt_anchor": "Golden vitamin pill bottle labeled ESG Concentrated Capsules, glowing sparkles",
+          "policy": "text_anchor_only"
+        }
+      ]
+    },
+    "clp_candidates": {
+      "version": "2.0",
+      "project_id": "esg-act1-crisis",
+      "source_script_sha256": "sha256:c1324f9024279ab474b24164a4086e73b020e51aed6c43e6121287c86d2e566b",
+      "extracted_by": "CLP Director (esg-pixar-hybrid parser)",
+      "candidates": {
+        "characters": [
+          {
+            "name": "Amy",
+            "frequency": 8,
+            "suggested_role": "Protagonist, Sustainability Project Specialist",
+            "context_snippets": [
+              "Amy\u6b63\u5728\u8655\u7406\u65e5\u5e38\u5de5\u4f5c",
+              "Amy\uff1a\uff08\u9707\u9a5a\uff09\u9019\u9ebc\u56b4\u91cd\uff1f",
+              "Amy\uff1a\uff08\u5583\u5583\u81ea\u8a9e\uff09E...S...G..."
+            ]
+          },
+          {
+            "name": "Amy\u4e3b\u7ba1",
+            "frequency": 6,
+            "suggested_role": "Supervisor, Department Associate Director",
+            "context_snippets": [
+              "\u4e3b\u7ba1\u7126\u6025\u7684\u8072\u97f3\u5f9e\u96fb\u8a71\u4e2d\u50b3\u4f86",
+              "\u4e3b\u7ba1\uff1aAmy\uff01\u5927\u4e8b\u4e0d\u5999\uff01",
+              "\u4e3b\u7ba1\u5316\u8eab\u8cfc\u7269\u53f0\u4e3b\u6301\u4eba"
+            ]
+          },
+          {
+            "name": "\u54c8\u91cc\u68ee\u5148\u751f",
+            "frequency": 5,
+            "suggested_role": "Senior British Investment Committee Chair",
+            "context_snippets": [
+              "\u70ba\u9996\u7684\u54c8\u91cc\u68ee\u5148\u751f\uff0c\u773c\u795e\u92b3\u5229",
+              "\u54c8\u91cc\u68ee\u5148\u751f\uff1aAnd the non-financials?",
+              "Put it on hold."
+            ]
+          },
+          {
+            "name": "\u5206\u6790\u5e2b Sandy",
+            "frequency": 4,
+            "suggested_role": "Junior Investment Analyst",
+            "context_snippets": [
+              "\u5206\u6790\u5e2b\u4e00\u865f\u7ad9\u5728\u6295\u5f71\u87a2\u5e55\u524d",
+              "Sandy: Mr. Harrison, as you can see",
+              "That is... precisely the issue"
+            ]
+          }
+        ],
+        "locations": [
+          {
+            "name": "\u6d77\u5916\u6295\u8cc7\u6a5f\u69cb\u6703\u8b70\u5ba4",
+            "frequency": 12,
+            "context_snippets": [
+              "\u5834\u666f1.1\uff0e\u6d77\u5916\u6295\u8cc7\u6a5f\u69cb\u6703\u8b70\u5ba4\uff0e\u9670\u96e8",
+              "\u9577\u684c\u5169\u65c1\uff0c\u6709\u4e09\u4f4d\u6295\u8cc7\u5be9\u67e5\u59d4\u54e1"
+            ]
+          },
+          {
+            "name": "Amy\u7684\u8fa6\u516c\u5ba4",
+            "frequency": 9,
+            "context_snippets": [
+              "\u5834\u666f1.2\uff0eAmy\u7684\u8fa6\u516c\u5ba4\uff0e\u65e5",
+              "Amy\u6b63\u5728\u8655\u7406\u65e5\u5e38\u5de5\u4f5c\uff0c\u5979\u7684\u624b\u6a5f\u7a81\u7136\u97ff\u8d77"
+            ]
+          },
+          {
+            "name": "\u96fb\u8996\u8cfc\u7269\u651d\u5f71\u68da",
+            "frequency": 1,
+            "context_snippets": [
+              "\u5834\u666f1.3\uff0eAmy\u7684\u5e7b\u60f3\uff0e\u65e5\u9593",
+              "\u7d9c\u85dd\u611f\u5341\u8db3\u7684\u96fb\u8996\u8cfc\u7269\u5834\u666f"
+            ]
+          }
+        ],
+        "props": [
+          {
+            "name": "\u5927\u6210\u516c\u53f8\u589e\u8cc7\u8a08\u756b\u66f8",
+            "frequency": 2,
+            "context_snippets": [
+              "\u4e00\u4efd\u5370\u6709\u5927\u6210\u516c\u53f8Logo\u7684\u589e\u8cc7\u8a08\u756b\u66f8",
+              "\u589e\u8cc7\u6848\u88ab\u5361\u4f4f\u4e86\uff01"
+            ]
+          },
+          {
+            "name": "\u7d05\u8272 ON HOLD \u5370\u7ae0",
+            "frequency": 2,
+            "context_snippets": [
+              "\u91cd\u91cd\u5730\u84cb\u4e0a\u4e00\u500b\u7d05\u8272\u7684\u300cON HOLD\u300d\u5370\u7ae0",
+              "\u5728\u300cON HOLD\u300d\u5370\u7ae0\u84cb\u4e0b\u7684\u5de8\u5927\u8072\u97ff\u5f8c"
+            ]
+          },
+          {
+            "name": "Amy\u7684\u667a\u6167\u578b\u624b\u6a5f",
+            "frequency": 3,
+            "context_snippets": [
+              "\u5979\u7684\u624b\u6a5f\u7a81\u7136\u97ff\u8d77",
+              "Amy\u63a5\u8d77\u624b\u6a5f",
+              "Amy\u932f\u6115\u5730\u770b\u8457\u624b\u6a5f"
+            ]
+          },
+          {
+            "name": "ESG\u6fc3\u7e2e\u81a0\u56ca\u85e5\u7f50",
+            "frequency": 1,
+            "context_snippets": [
+              "\u62ff\u8457\u4e00\u7f50ESG\u6fc3\u7e2e\u81a0\u56ca\u71b1\u60c5\u63a8\u92b7",
+              "\u8a66\u8a66\u5168\u65b0\u7684\u300cESG\u6fc3\u7e2e\u81a0\u56ca\u300d\uff01"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "style_playbook": "esg-pixar-hybrid"
+}

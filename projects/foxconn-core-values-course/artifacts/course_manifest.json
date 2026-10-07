@@ -1,0 +1,758 @@
+{
+  "version": "1.0",
+  "project_id": "foxconn-core-values-course",
+  "content_form": "course_form",
+  "title": "鴻海六大核心價值實戰情境引導課程",
+  "target_duration_seconds": 2400.0,
+  "course_promise": {
+    "learner": "鴻海科技集團全球新進員工、專案主管與協同團隊成員",
+    "capability": "在面臨交期排程、良率瓶頸、跨部門權責衝突及客戶兩難困境時，能準確識別並踐行誠信、勤奮、敏捷、分享、合作、共榮六大行為準則",
+    "use_context": "跨功能團隊（CFT）專案溝通、產線異常即時處置、供應鏈與客戶商務合作談判",
+    "success_evidence": "在職場情境兩難案例測驗中做出符合集團價值導向之決策，並能在日常考核中展現可驗證的行為改變"
+  },
+  "audience": [
+    "全球新進員工培訓（集團入職引導）",
+    "基層與中階專案管理主管（CFT核心成員）",
+    "跨廠區跨文化協同作業團隊"
+  ],
+  "entry_requirements": [
+    "具備基本製造業或科技業專案運作概念",
+    "熟悉日常辦公溝通與會議流程"
+  ],
+  "objectives": [
+    {
+      "id": "obj-01",
+      "actor": "學員",
+      "observable_verb": "辨析並坦誠通報",
+      "object": "專案交期與數據瑕疵中的真實狀況，不隱瞞、不粉飾",
+      "conditions": "在面臨進度延誤或良率波動的情境下",
+      "success_evidence": "能列出誠信通報的具體應對步驟與補救方案",
+      "source_refs": [
+        "src-01",
+        "src-04"
+      ]
+    },
+    {
+      "id": "obj-02",
+      "actor": "學員",
+      "observable_verb": "重構並聚焦",
+      "object": "工作中具高價值的關鍵產出，消除無效加班與形式主義作業",
+      "conditions": "在日常排程管理與任務分派中",
+      "success_evidence": "提出一項精益改善流程提案，量化工時節省與價值提升",
+      "source_refs": [
+        "src-01",
+        "src-04"
+      ]
+    },
+    {
+      "id": "obj-03",
+      "actor": "學員",
+      "observable_verb": "採用小步快跑策略",
+      "object": "基於客觀數據快速試錯並動態微調執行計畫",
+      "conditions": "在客戶需求變更或產線突發異常時",
+      "success_evidence": "能在24小時內啟動PDCA循環並產出第一版修正對策",
+      "source_refs": [
+        "src-01",
+        "src-03"
+      ]
+    },
+    {
+      "id": "obj-04",
+      "actor": "學員",
+      "observable_verb": "建立並貢獻",
+      "object": "跨部門可複用的技術文檔、模板與經驗教訓資產，打破資訊孤島",
+      "conditions": "在專案結案或技術突破後",
+      "success_evidence": "在知識共享平台提交一份標準化覆盤文檔",
+      "source_refs": [
+        "src-01",
+        "src-03"
+      ]
+    },
+    {
+      "id": "obj-05",
+      "actor": "學員",
+      "observable_verb": "跨界溝通並共擔責任",
+      "object": "跨功能團隊（CFT）的共同目標，達成協同共識",
+      "conditions": "在跨部門權責重疊或資源爭奪出現時",
+      "success_evidence": "主動發起對齊會議並簽署跨部門責任確認書",
+      "source_refs": [
+        "src-01",
+        "src-05"
+      ]
+    },
+    {
+      "id": "obj-06",
+      "actor": "學員",
+      "observable_verb": "落實生態共贏原則",
+      "object": "與客戶、供應商及在地夥伴形成長期互利的合作機制",
+      "conditions": "在外部商務談判、供應鏈稽核或在地化運營中",
+      "success_evidence": "決策符合BOL商業模式與EPS+ESG雙軌方程式的要求",
+      "source_refs": [
+        "src-01",
+        "src-02",
+        "src-03"
+      ]
+    }
+  ],
+  "modules": [
+    {
+      "id": "mod-00",
+      "title": "導論：開啟下一個50年的文化基石",
+      "intermediate_capability": "理解鴻海從製造代工邁向3+3科技服務轉型背景下，六大核心價值的戰略定位",
+      "target_duration_seconds": 240.0,
+      "objective_ids": [
+        "obj-01",
+        "obj-06"
+      ],
+      "recap_intent": "總結六大核心價值分為內在特質（誠信、勤奮、敏捷）與外在實踐（分享、合作、共榮），是邁向下一個50年的共同語言",
+      "lessons": [
+        {
+          "id": "les-00",
+          "title": "文化啟航：五十年淬鍊與新世代挑戰",
+          "target_duration_seconds": 240.0,
+          "objective_ids": [
+            "obj-01",
+            "obj-06"
+          ],
+          "prerequisite_lesson_ids": [],
+          "prerequisite_objective_ids": [],
+          "expected_outcome": "學員能清楚陳述六大核心價值的雙層架構及其與EPS+ESG的關聯",
+          "source_refs": [
+            "src-01",
+            "src-02"
+          ],
+          "teaching_beats": [
+            {
+              "kind": "hook",
+              "intent": "從鴻海50週年全球布局開場，直擊現代企業面臨的複雜挑戰",
+              "objective_ids": [
+                "obj-06"
+              ]
+            },
+            {
+              "kind": "explanation",
+              "intent": "解析六大核心價值架構：內在特質 vs 對外實踐",
+              "objective_ids": [
+                "obj-01",
+                "obj-06"
+              ]
+            },
+            {
+              "kind": "recap",
+              "intent": "帶出課程全景地圖，預告後續六大實戰情境劇",
+              "objective_ids": [
+                "obj-01"
+              ]
+            }
+          ],
+          "glossary_ids": [
+            "glo-01",
+            "glo-07",
+            "glo-08"
+          ],
+          "notation_ids": [
+            "not-01"
+          ],
+          "export_required": true
+        }
+      ]
+    },
+    {
+      "id": "mod-01",
+      "title": "第一講：誠信 — 守住底線的專業基石",
+      "intermediate_capability": "在面臨短期業績與真實品質數據衝突時，堅持客觀誠實與合規底線",
+      "target_duration_seconds": 360.0,
+      "objective_ids": [
+        "obj-01"
+      ],
+      "recap_intent": "誠信是信任資產的最高效建立方式，隱瞞的代價永遠高於坦誠面對",
+      "lessons": [
+        {
+          "id": "les-01",
+          "title": "情境劇實戰：交期落後兩週，你敢據實通報嗎？",
+          "target_duration_seconds": 360.0,
+          "objective_ids": [
+            "obj-01"
+          ],
+          "prerequisite_lesson_ids": [
+            "les-00"
+          ],
+          "prerequisite_objective_ids": [],
+          "expected_outcome": "學員掌握誠信通報的四步溝通模型（數據、原因、對策、預估）",
+          "source_refs": [
+            "src-01",
+            "src-04"
+          ],
+          "teaching_beats": [
+            {
+              "kind": "hook",
+              "intent": "辦公室情境衝突：專案經理發現測試數據異常，面臨客訴與交期的天人交戰",
+              "objective_ids": [
+                "obj-01"
+              ]
+            },
+            {
+              "kind": "worked_example",
+              "intent": "對比示範：粉飾數據導致全批退貨 vs 坦誠通報共同尋求備案",
+              "objective_ids": [
+                "obj-01"
+              ]
+            },
+            {
+              "kind": "recap",
+              "intent": "提煉誠信核心指標：言行一致、守信重諾、依法合規",
+              "objective_ids": [
+                "obj-01"
+              ]
+            }
+          ],
+          "glossary_ids": [
+            "glo-01"
+          ],
+          "notation_ids": [
+            "not-01"
+          ],
+          "export_required": true
+        }
+      ]
+    },
+    {
+      "id": "mod-02",
+      "title": "第二講：勤奮 — 價值與高效的精益追求",
+      "intermediate_capability": "破除以工時長短衡量貢獻的迷思，轉向以價值創造與流程高效為核心的精益工作法",
+      "target_duration_seconds": 360.0,
+      "objective_ids": [
+        "obj-02"
+      ],
+      "recap_intent": "勤奮不是疲勞戰術，而是在高價值目標上精益求精、持續消除浪費",
+      "lessons": [
+        {
+          "id": "les-02",
+          "title": "情境劇實戰：加班到深夜就是好員工？重新定義價值創造",
+          "target_duration_seconds": 360.0,
+          "objective_ids": [
+            "obj-02"
+          ],
+          "prerequisite_lesson_ids": [
+            "les-01"
+          ],
+          "prerequisite_objective_ids": [
+            "obj-01"
+          ],
+          "expected_outcome": "學員能運用價值矩陣篩選工作任務，剔除非必要冗餘作業",
+          "source_refs": [
+            "src-01",
+            "src-04"
+          ],
+          "teaching_beats": [
+            {
+              "kind": "hook",
+              "intent": "辦公室對比：每天忙於格式修改的疲憊同仁 vs 運用自動化工具高效交付的團隊",
+              "objective_ids": [
+                "obj-02"
+              ]
+            },
+            {
+              "kind": "demonstration",
+              "intent": "展示任務價值評估四象限：高價值核心 vs 低價值冗餘",
+              "objective_ids": [
+                "obj-02"
+              ]
+            },
+            {
+              "kind": "recap",
+              "intent": "總結勤奮本質：以高效達成卓越品質，不懈追求進步",
+              "objective_ids": [
+                "obj-02"
+              ]
+            }
+          ],
+          "glossary_ids": [
+            "glo-02"
+          ],
+          "notation_ids": [
+            "not-02"
+          ],
+          "export_required": true
+        }
+      ]
+    },
+    {
+      "id": "mod-03",
+      "title": "第三講：敏捷 — 科學決策與小步快跑",
+      "intermediate_capability": "在快速變化的外部環境與客製化需求中，以科學驗證代替主觀臆測，快速迭代",
+      "target_duration_seconds": 360.0,
+      "objective_ids": [
+        "obj-03"
+      ],
+      "recap_intent": "敏捷不是打亂節奏，而是用最小可行步驟（MVP）快速驗證對策並動態調整",
+      "lessons": [
+        {
+          "id": "les-03",
+          "title": "情境劇實戰：突發工程變更，如何在SOP下小步快跑？",
+          "target_duration_seconds": 360.0,
+          "objective_ids": [
+            "obj-03"
+          ],
+          "prerequisite_lesson_ids": [
+            "les-02"
+          ],
+          "prerequisite_objective_ids": [
+            "obj-02"
+          ],
+          "expected_outcome": "學員掌握敏捷試錯的科學閉環流程（假設、驗證、度量、學習）",
+          "source_refs": [
+            "src-01",
+            "src-03"
+          ],
+          "teaching_beats": [
+            {
+              "kind": "hook",
+              "intent": "會議室白板前的激烈爭辯：傳統按部就班修改需一個月，客戶要求三天內提供樣品",
+              "objective_ids": [
+                "obj-03"
+              ]
+            },
+            {
+              "kind": "worked_example",
+              "intent": "拆解敏捷應對策略：分模組小批次驗證，鎖定關鍵參數快速過關",
+              "objective_ids": [
+                "obj-03"
+              ]
+            },
+            {
+              "kind": "recap",
+              "intent": "提煉敏捷心法：預見問題、洞察機會、科學決策、保持彈性",
+              "objective_ids": [
+                "obj-03"
+              ]
+            }
+          ],
+          "glossary_ids": [
+            "glo-03"
+          ],
+          "notation_ids": [
+            "not-03"
+          ],
+          "export_required": true
+        }
+      ]
+    },
+    {
+      "id": "mod-04",
+      "title": "第四講：分享 — 利他思維與知識流動",
+      "intermediate_capability": "建立開放包容心態，主動將個人或團隊優秀經驗平台化、工具化，賦能組織",
+      "target_duration_seconds": 360.0,
+      "objective_ids": [
+        "obj-04"
+      ],
+      "recap_intent": "分享不是犧牲個人競爭力，而是透過利他思維在組織內建立可倍增的影響力",
+      "lessons": [
+        {
+          "id": "les-04",
+          "title": "情境劇實戰：我獨門研發的排程密技，為什麼要教別人？",
+          "target_duration_seconds": 360.0,
+          "objective_ids": [
+            "obj-04"
+          ],
+          "prerequisite_lesson_ids": [
+            "les-03"
+          ],
+          "prerequisite_objective_ids": [
+            "obj-03"
+          ],
+          "expected_outcome": "學員能將專有工作技巧轉化為團隊共用的標準作業指引或模板",
+          "source_refs": [
+            "src-01",
+            "src-03"
+          ],
+          "teaching_beats": [
+            {
+              "kind": "hook",
+              "intent": "咖啡廳交談：資深員工的私心顧慮 vs 知識分享帶來的跨廠區技術認可",
+              "objective_ids": [
+                "obj-04"
+              ]
+            },
+            {
+              "kind": "model",
+              "intent": "展示組織知識流動效益：個人密技變成集團標準工具，創造全域價值",
+              "objective_ids": [
+                "obj-04"
+              ]
+            },
+            {
+              "kind": "recap",
+              "intent": "總結分享精髓：開放態度、利他思維、建立分享機制與平台",
+              "objective_ids": [
+                "obj-04"
+              ]
+            }
+          ],
+          "glossary_ids": [
+            "glo-04"
+          ],
+          "notation_ids": [
+            "not-01"
+          ],
+          "export_required": true
+        }
+      ]
+    },
+    {
+      "id": "mod-05",
+      "title": "第五講：合作 — 跨越壁壘的團隊協同",
+      "intermediate_capability": "在跨部門權責模糊或資源排擠時，超越部門本位主義，以集團大局目標為先",
+      "target_duration_seconds": 360.0,
+      "objective_ids": [
+        "obj-05"
+      ],
+      "recap_intent": "真正的團隊合作是相互尊重與承擔共同責任，非各自為政的表面客氣",
+      "lessons": [
+        {
+          "id": "les-05",
+          "title": "情境劇實戰：跨單位踢皮球，誰來為量產良率負全責？",
+          "target_duration_seconds": 360.0,
+          "objective_ids": [
+            "obj-05"
+          ],
+          "prerequisite_lesson_ids": [
+            "les-04"
+          ],
+          "prerequisite_objective_ids": [
+            "obj-04"
+          ],
+          "expected_outcome": "學員掌握CFT跨功能團隊協商與爭端升級/對齊機制",
+          "source_refs": [
+            "src-01",
+            "src-05"
+          ],
+          "teaching_beats": [
+            {
+              "kind": "hook",
+              "intent": "專案檢討會現場：設計部指責製造部加工不當，製造部反控設計圖紙公差不合理",
+              "objective_ids": [
+                "obj-05"
+              ]
+            },
+            {
+              "kind": "worked_example",
+              "intent": "資深專案總監引導：回歸共同責任，建立聯合攻關小組共同解題",
+              "objective_ids": [
+                "obj-05"
+              ]
+            },
+            {
+              "kind": "recap",
+              "intent": "提煉合作要素：團隊意識、相互尊重、開放溝通、共同擔當",
+              "objective_ids": [
+                "obj-05"
+              ]
+            }
+          ],
+          "glossary_ids": [
+            "glo-05"
+          ],
+          "notation_ids": [
+            "not-02"
+          ],
+          "export_required": true
+        }
+      ]
+    },
+    {
+      "id": "mod-06",
+      "title": "第六講：共榮 — 生態共生與永續未來",
+      "intermediate_capability": "將商業視角拓展至客戶、供應商與在地社區，踐行BOL模式與EPS+ESG理念",
+      "target_duration_seconds": 360.0,
+      "objective_ids": [
+        "obj-06"
+      ],
+      "recap_intent": "獨行快，眾行遠；共榮是鴻海與全球夥伴基業長青、共創永續的最高境界",
+      "lessons": [
+        {
+          "id": "les-06",
+          "title": "情境劇實戰：只賺自己的錢？如何在供應鏈中打造共榮生態",
+          "target_duration_seconds": 360.0,
+          "objective_ids": [
+            "obj-06"
+          ],
+          "prerequisite_lesson_ids": [
+            "les-05"
+          ],
+          "prerequisite_objective_ids": [
+            "obj-05"
+          ],
+          "expected_outcome": "學員能評估業務方案對在地社區、客戶及供應商的綜合ESG影響",
+          "source_refs": [
+            "src-01",
+            "src-02",
+            "src-03"
+          ],
+          "teaching_beats": [
+            {
+              "kind": "hook",
+              "intent": "海外新廠剪綵現場：回顧建廠歷程中與在地政府與供應商的利益衝突與整合",
+              "objective_ids": [
+                "obj-06"
+              ]
+            },
+            {
+              "kind": "demonstration",
+              "intent": "解密 BOL 商業模式：在地建構、在地營運、在地培育產業人才",
+              "objective_ids": [
+                "obj-06"
+              ]
+            },
+            {
+              "kind": "recap",
+              "intent": "課程大結語：EPS + ESG 雙方程式，六大核心價值引領百年鴻海",
+              "objective_ids": [
+                "obj-06"
+              ]
+            }
+          ],
+          "glossary_ids": [
+            "glo-06",
+            "glo-07",
+            "glo-08"
+          ],
+          "notation_ids": [
+            "not-03"
+          ],
+          "export_required": true
+        }
+      ]
+    }
+  ],
+  "assessments": [
+    {
+      "id": "asm-01",
+      "type": "diagnostic",
+      "objective_ids": [
+        "obj-01",
+        "obj-02",
+        "obj-03"
+      ],
+      "prompt_intent": "前測評估學員對於內在特質（誠信、勤奮、敏捷）的基礎認知與常見職場迷思識別程度",
+      "expected_evidence": "完成情境選擇題並清楚辨別工時長短與價值產出的根本差異",
+      "pass_criteria": "答對率達80%或完成全部迷思剖析導讀"
+    },
+    {
+      "id": "asm-02",
+      "type": "formative",
+      "objective_ids": [
+        "obj-01"
+      ],
+      "lesson_id": "les-01",
+      "prompt_intent": "交期落後兩週情境下，學員模擬選擇通報路徑並撰寫向主管與客戶通報的簡短備案",
+      "expected_evidence": "產出一份符合誠信溝通模型之簡短通報草稿，包含問題、根因與雙備案",
+      "pass_criteria": "能正確選用坦誠通報路徑且對策兼具可執行性"
+    },
+    {
+      "id": "asm-03",
+      "type": "summative",
+      "objective_ids": [
+        "obj-01",
+        "obj-02",
+        "obj-03",
+        "obj-04",
+        "obj-05",
+        "obj-06"
+      ],
+      "prompt_intent": "綜合個案分析：面對全球新廠量產重大危機，如何整合六大核心價值提出系統性應對策略",
+      "expected_evidence": "提出涵蓋誠信通報、精益高效、敏捷試錯、經驗分享、跨界合作與在地共榮的完整處置方案",
+      "pass_criteria": "方案覆蓋全部六個核心價值維度且符合集團營運守則"
+    }
+  ],
+  "sources": [
+    {
+      "id": "src-01",
+      "uri": "https://www.honhai.com/zh-tw/about/corporate-culture",
+      "title": "鴻海科技集團企業文化與六大核心價值",
+      "locator": "官方文化專頁",
+      "digest": "sha256:61de0b0e43fe67fda262fc33e22497d78f60d94b12f99c5f2f73b0b420c543b7"
+    },
+    {
+      "id": "src-02",
+      "uri": "https://www.honhai.com/zh-tw/sustainable-development/esg-strategy",
+      "title": "鴻海永續發展經營策略：EPS + ESG 方程式",
+      "locator": "永續發展藍圖",
+      "digest": "sha256:25f03f4aca4cb7401baf9b50e9b4e5620214466dee177736104e084d730544dd"
+    },
+    {
+      "id": "src-03",
+      "uri": "https://www.honhai.com/zh-tw/press-center/press-releases/bol-business-model",
+      "title": "鴻海 BOL 全球營運模式與生態系構建",
+      "locator": "新聞中心發布",
+      "digest": "sha256:ea1a254237c27bb217d1c135ae114b4284a1386255f38a238c8aa77971369aab"
+    },
+    {
+      "id": "src-04",
+      "uri": "https://www.honhai.com/zh-tw/sustainable-development/sustainable-governance",
+      "title": "鴻海誠信經營規範與行為守則",
+      "locator": "公司治理章則",
+      "digest": "sha256:f8341751c5ba0cc98a19744260017e97662b98a1d13ce66a6ca7769e96b1d867"
+    },
+    {
+      "id": "src-05",
+      "uri": "https://www.youtube.com/watch?v=honhai50",
+      "title": "鴻海50週年特輯：邁向下一個50年",
+      "locator": "官方影音頻道",
+      "digest": "sha256:3ac8861e1cf1792caefe1af1dab34b1fb0bdbe458ada0f8ccb2debc12b8cc6a3"
+    },
+    {
+      "id": "src-06",
+      "uri": "https://www.honhai.com/zh-tw/corporate/training-curriculum",
+      "title": "鴻海六大核心價值實戰情境教學劇本 0113A",
+      "locator": "企業內部教學劇本",
+      "digest": "sha256:f2bc48222f9dfafa0fda24195b37946c2a13d6dda6a0c63e5f08141c1b8d6266"
+    }
+  ],
+  "glossary": [
+    {
+      "id": "glo-01",
+      "preferred_term": "誠信",
+      "definition": "坦率真誠待人、處事公平公正，遵守法規、信守承諾，言行一致以贏得長期信任。",
+      "aliases": [
+        "誠實守信",
+        "Integrity"
+      ],
+      "forbidden_aliases": [
+        "表面奉承",
+        "粉飾太平"
+      ]
+    },
+    {
+      "id": "glo-02",
+      "preferred_term": "勤奮",
+      "definition": "建立於「價值」與「高效」之上，精益求精、追求卓越，不懈追求進步與成功。",
+      "aliases": [
+        "高效精益",
+        "Diligence"
+      ],
+      "forbidden_aliases": [
+        "盲目加班",
+        "形式主義磨工時"
+      ]
+    },
+    {
+      "id": "glo-03",
+      "preferred_term": "敏捷",
+      "definition": "預見問題、洞察機會，運用科學方法決策，小步快跑並保持彈性隨時修正。",
+      "aliases": [
+        "小步快跑",
+        "Agility"
+      ],
+      "forbidden_aliases": [
+        "盲目衝動",
+        "朝令夕改"
+      ]
+    },
+    {
+      "id": "glo-04",
+      "preferred_term": "分享",
+      "definition": "持開放態度與利他思維，樂於提供支援與分享成果，建立知識與資源共享機制。",
+      "aliases": [
+        "利他共享",
+        "Sharing"
+      ],
+      "forbidden_aliases": [
+        "資訊孤島",
+        "密技私藏"
+      ]
+    },
+    {
+      "id": "glo-05",
+      "preferred_term": "合作",
+      "definition": "具團隊意識，相互尊重、開放溝通、共擔責任，跨單位協力實現共同目標。",
+      "aliases": [
+        "團隊協同",
+        "Collaboration"
+      ],
+      "forbidden_aliases": [
+        "各自為政",
+        "相互踢皮球"
+      ]
+    },
+    {
+      "id": "glo-06",
+      "preferred_term": "共榮",
+      "definition": "引領員工、客戶及合作夥伴認同經營理念，共鑄良好夥伴關係與永續繁榮生態系。",
+      "aliases": [
+        "生態共贏",
+        "Prosperity"
+      ],
+      "forbidden_aliases": [
+        "零和博弈",
+        "單邊獨占"
+      ]
+    },
+    {
+      "id": "glo-07",
+      "preferred_term": "EPS + ESG",
+      "definition": "鴻海永續經營方程式，獲利能力（EPS）與環境社會公司治理（ESG）並重且雙軌並進。",
+      "aliases": [
+        "永續雙E方程式",
+        "EPS plus ESG"
+      ],
+      "forbidden_aliases": [
+        "純獲利導向"
+      ]
+    },
+    {
+      "id": "glo-08",
+      "preferred_term": "BOL",
+      "definition": "Build, Operate, Localize（建構、營運、在地化），鴻海創新之在地化合作與生態構建商業模式。",
+      "aliases": [
+        "建構營運在地化",
+        "BOL模式"
+      ],
+      "forbidden_aliases": [
+        "傳統BOT代工退場"
+      ]
+    }
+  ],
+  "notation": [
+    {
+      "id": "not-01",
+      "symbol": "CFT",
+      "meaning": "Cross-Functional Team（跨功能團隊），跨部門專案協同小組",
+      "first_lesson_id": "les-00"
+    },
+    {
+      "id": "not-02",
+      "symbol": "PDCA",
+      "meaning": "Plan-Do-Check-Act 循環，持續精益改善與敏捷修正科學管理法",
+      "first_lesson_id": "les-02"
+    },
+    {
+      "id": "not-03",
+      "symbol": "MVP",
+      "meaning": "Minimum Viable Product（最小可行產品/方案），小步快跑驗證單元",
+      "first_lesson_id": "les-03"
+    }
+  ],
+  "style_intent": {
+    "tone": "現代、專業、引導啟發且直擊痛點的企業內訓情境劇敘事風格",
+    "visual_intent": "扁平簡約幾何插畫角色，融入辦公室、會議白板、產線與國際合作場景，搭配清晰數據字卡與動態對稱分割畫面"
+  },
+  "delivery_requirements": {
+    "full_master": true,
+    "lesson_export_ids": [
+      "les-00",
+      "les-01",
+      "les-02",
+      "les-03",
+      "les-04",
+      "les-05",
+      "les-06"
+    ],
+    "chapter_markers": true,
+    "captions": [
+      "srt",
+      "vtt"
+    ],
+    "bundle": true
+  }
+}

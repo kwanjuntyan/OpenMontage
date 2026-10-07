@@ -1,0 +1,137 @@
+{
+  "version": "1.0",
+  "title": "鼴鼠的星空 (The Stargazer Mole) • 詩意繪本短片",
+  "total_duration_seconds": 30.0,
+  "voice_performance": {
+    "performance_intent": "詩意繪本童話旁白 (Poetic Storybook Narration) — 溫暖柔和的說書人音色，微帶笑意與深情，如睡前童話般撫慰心靈，與管弦樂交響完美交織",
+    "pacing_profile": "contemplative",
+    "energy_curve": "由地下探尋的輕聲耳語、破土探索的欣喜，升華至仰望星空時的屏息讚嘆，最後落在眼角含淚的溫柔治癒",
+    "pause_policy": "每句旁白後預留 0.8 至 2.5 秒的純音樂呼吸空間，尤其在第 4 鏡頭銀河震撼處留出充足的高潮樂團演奏時間",
+    "sample_section_id": "sec_04",
+    "provider_notes": {
+      "google_tts": "建議語速 0.95x，音調略帶暖意，繁體中文台灣腔調 (cmn-TW-Wavenet-A)"
+    }
+  },
+  "sections": [
+    {
+      "id": "sec_01",
+      "label": "地底工坊的探險準備 (The Underground Preparation)",
+      "text": "在無人知曉的地底深處，有隻戴著黃銅護目鏡的小小探險家……",
+      "start_seconds": 0.0,
+      "end_seconds": 6.0,
+      "speaker_directions": "(溫柔輕語，如床邊童話般的溫暖說書人語調)",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "好奇溫暖",
+        "emphasis_words": ["地底深處", "黃銅護目鏡", "小小探險家"],
+        "pause_before_seconds": 0.5,
+        "pause_after_seconds": 1.0,
+        "delivery_note": "前奏木管響起後輕輕切入，給予角色刨土留白",
+        "provider_text": "在無人知曉的地底深處，<break time='300ms'/>有隻戴著黃銅護目鏡的小小探險家……"
+      },
+      "enhancement_cues": [
+        {
+          "type": "animation",
+          "description": "小爪子靈活刨土，飛揚的土壤微粒在燭光中散發微溫金光",
+          "timestamp_seconds": 2.0
+        }
+      ]
+    },
+    {
+      "id": "sec_02",
+      "label": "破土探頭的緊張時刻 (Breaking Ground)",
+      "text": "今晚，牠決定第一次鑽出泥土，尋找傳說中的微光。",
+      "start_seconds": 6.0,
+      "end_seconds": 11.0,
+      "speaker_directions": "(帶有一絲俏皮與冒險的期待感)",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "期待探索",
+        "emphasis_words": ["第一次", "鑽出泥土", "微光"],
+        "pause_before_seconds": 0.5,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "配合破土與小鼻子嗅聞的動作語音",
+        "provider_text": "今晚，<break time='200ms'/>牠決定第一次鑽出泥土，尋找傳說中的微光。"
+      },
+      "enhancement_cues": [
+        {
+          "type": "animation",
+          "description": "土塊破裂翻滾，夜風吹動小鼴鼠額頭細軟毛髮",
+          "timestamp_seconds": 8.5
+        }
+      ]
+    },
+    {
+      "id": "sec_03",
+      "label": "脫離土壤的全然釋放 (Wriggling Free)",
+      "text": "夜風輕輕吹散了泥屑，草甸上的螢火蟲悄悄亮起……",
+      "start_seconds": 11.0,
+      "end_seconds": 18.0,
+      "speaker_directions": "(舒緩陶醉，聲音帶著放鬆的微笑)",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "放鬆舒暢",
+        "emphasis_words": ["夜風", "泥屑", "螢火蟲"],
+        "pause_before_seconds": 0.5,
+        "pause_after_seconds": 1.2,
+        "delivery_note": "隨著小鼴鼠抖落泥土與揉眼睛動作緩緩道出",
+        "provider_text": "夜風輕輕吹散了泥屑，<break time='400ms'/>草甸上的螢火蟲悄悄亮起……"
+      },
+      "enhancement_cues": [
+        {
+          "type": "animation",
+          "description": "毛髮蓬鬆反彈，細膩高光隨夜風律動，幾隻螢火蟲在身邊悠然掠過",
+          "timestamp_seconds": 14.0
+        }
+      ]
+    },
+    {
+      "id": "sec_04",
+      "label": "史詩銀河的震撼揭曉 (The Cosmic Awakening)",
+      "text": "直到牠抬起頭——整座浩瀚的星河，在眼前溫柔綻放。",
+      "start_seconds": 18.0,
+      "end_seconds": 25.0,
+      "speaker_directions": "(屏息震撼，隨後轉為崇高的讚嘆，最後留白給磅礴交響樂)",
+      "delivery_cues": {
+        "pace": "slow",
+        "energy": "震撼與崇高",
+        "emphasis_words": ["抬起頭", "浩瀚的星河", "溫柔綻放"],
+        "pause_before_seconds": 0.5,
+        "pause_after_seconds": 2.5,
+        "delivery_note": "在第 21 秒前說完，留出至少 3 秒純交響樂高潮",
+        "provider_text": "直到牠抬起頭——<break time='600ms'/>整座浩瀚的星河，在眼前溫柔綻放。"
+      },
+      "enhancement_cues": [
+        {
+          "type": "animation",
+          "description": "電影級極廣角 Crane Up 運鏡，星辰在天球緩緩自轉，草甸邊緣與遠方山丘勾勒出壯麗剪影",
+          "timestamp_seconds": 20.0
+        }
+      ]
+    },
+    {
+      "id": "sec_05",
+      "label": "星芒倒影與純真淚珠 (The Star Reflection)",
+      "text": "鏡片裡倒映著整個宇宙。原來，世界如此美麗。",
+      "start_seconds": 25.0,
+      "end_seconds": 30.0,
+      "speaker_directions": "(耳語般的溫柔深情，治癒感動)",
+      "delivery_cues": {
+        "pace": "slow",
+        "energy": "溫暖療癒",
+        "emphasis_words": ["倒映", "整個宇宙", "如此美麗"],
+        "pause_before_seconds": 0.5,
+        "pause_after_seconds": 0.0,
+        "delivery_note": "伴隨眼角淚珠滑落與幸福微笑，在溫暖星光中淡出",
+        "provider_text": "鏡片裡倒映著整個宇宙。<break time='400ms'/>原來，世界如此美麗。"
+      },
+      "enhancement_cues": [
+        {
+          "type": "animation",
+          "description": "護目鏡黃銅邊框折射星芒，晶瑩淚珠滑落毛髮，畫面漸隱在溫暖星光中",
+          "timestamp_seconds": 28.0
+        }
+      ]
+    }
+  ]
+}

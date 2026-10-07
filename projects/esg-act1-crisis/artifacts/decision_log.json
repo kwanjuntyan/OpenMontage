@@ -1,0 +1,136 @@
+{
+  "version": "1.0",
+  "project_id": "esg-act1-crisis",
+  "decisions": [
+    {
+      "decision_id": "d-001",
+      "stage": "proposal",
+      "category": "pipeline_selection",
+      "subject": "動畫製作管線選擇",
+      "options_considered": [
+        {
+          "option_id": "cinematic",
+          "label": "Cinematic 管線 (電影感微電影 / 劇本分鏡驅動)",
+          "score": 0.98,
+          "reason": "具備完整的劇本 (Script)、CLP 資產一致性管線與分鏡導演 (Scene Director) 規格，最契合多角色敘事"
+        },
+        {
+          "option_id": "animated_explainer",
+          "label": "Animated Explainer 管線 (圖表解說)",
+          "score": 0.65,
+          "reason": "偏向純知識說明，缺乏角色戲劇張力與多人物對白演技",
+          "rejected_because": "本專案為角色輕喜劇，非純知識圖表簡報"
+        }
+      ],
+      "selected": "cinematic",
+      "reason": "選定以 cinematic 管線主導多角色 3D 皮克斯故事演出與分鏡綁定",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    },
+    {
+      "decision_id": "d-002",
+      "stage": "proposal",
+      "category": "playbook_selection",
+      "subject": "視覺風格 Playbook 選擇",
+      "options_considered": [
+        {
+          "option_id": "esg-pixar-hybrid",
+          "label": "ESG 3D 皮克斯輕喜劇複合混合模式 (80% 3D + 20% MG)",
+          "score": 0.99,
+          "reason": "結合 3D 皮克斯角色幽默演技與 Remotion 動態文件動畫，平衡生動感與合約嚴肅性"
+        },
+        {
+          "option_id": "flat-motion-graphics",
+          "label": "純扁平動態資訊圖表",
+          "score": 0.7,
+          "reason": "純 2D MG 缺乏角色同理心與辦公室慌亂幽默感",
+          "rejected_because": "使用者選定方案 A (3D 皮克斯輕喜劇)"
+        }
+      ],
+      "selected": "esg-pixar-hybrid",
+      "reason": "使用者明確指示採用方案 A (3D 皮克斯輕喜劇)，特定圖表結合 MG 動畫",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    },
+    {
+      "decision_id": "d-003",
+      "stage": "proposal",
+      "category": "render_runtime_selection",
+      "subject": "合成渲染引擎選擇",
+      "options_considered": [
+        {
+          "option_id": "remotion",
+          "label": "Remotion (React 動畫與合成引擎)",
+          "score": 0.95,
+          "reason": "本機已安裝且運作正常，完美支援雙格 Split-screen、Spring 物理動畫印章與精準音訊對齊"
+        },
+        {
+          "option_id": "hyperframes",
+          "label": "HyperFrames (HTML/CSS/GSAP 引擎)",
+          "score": 0.0,
+          "reason": "本機未安裝 HyperFrames 執行環境",
+          "rejected_because": "runtime not available on this machine"
+        }
+      ],
+      "selected": "remotion",
+      "reason": "鎖定 Remotion 作為技術合成引擎，並以 atelier 手繪訂製模式組織場景",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    },
+    {
+      "decision_id": "d-004",
+      "stage": "proposal",
+      "category": "voice_selection",
+      "subject": "場景 1.1 倫敦會議室語言政策",
+      "options_considered": [
+        {
+          "option_id": "english_original",
+          "label": "英文原音 (English Dialogue) + 中文字幕",
+          "score": 0.98,
+          "reason": "高度還原倫敦海外投資機構審查會議的真實商業質調"
+        },
+        {
+          "option_id": "mandarin_translated",
+          "label": "翻譯為中文配音",
+          "score": 0.5,
+          "reason": "削弱跨國外資的高冷專業感",
+          "rejected_because": "使用者明確指示場景 1.1 為倫敦辦公室，採用劇本中英文原對白，毋須翻譯"
+        }
+      ],
+      "selected": "english_original",
+      "reason": "遵照使用者指示，場景 1.1 保持英文原音並壓印中文字幕",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    },
+    {
+      "decision_id": "d-005",
+      "stage": "proposal",
+      "category": "motion_commitment",
+      "subject": "資產生成三階工序：九宮格機位 -> 選定首幀 -> 視訊生成",
+      "options_considered": [
+        {
+          "option_id": "coverage_grid_then_video",
+          "label": "三階精準機位工作流 (1. 九宮格生成 -> 2. 人類選定首幀 -> 3. 首幀驅動視訊)",
+          "score": 1.0,
+          "reason": "使用者明確指示：每個 Shot 均提供 9 種機位視角，經導演選定最佳構圖後才生成影片，極致防漂移與廢片"
+        },
+        {
+          "option_id": "direct_to_video",
+          "label": "直出視訊模式 (直接文字+CLP產出影片)",
+          "score": 0.6,
+          "reason": "機位視角不可控，若角度不合重算成本較高",
+          "rejected_because": "未採用：使用者指定必須先看九宮格選定分鏡圖"
+        }
+      ],
+      "selected": "coverage_grid_then_video",
+      "reason": "導演明確決策：落實 [CLP + 九宮格分鏡圖選定 + 影片生成] 三階段嚴格工序",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    }
+  ]
+}

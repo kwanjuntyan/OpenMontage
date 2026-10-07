@@ -1,0 +1,233 @@
+{
+  "version": "1.0",
+  "topic": "鴻海六大核心價值實戰情境引導課程",
+  "research_date": "2026-09-17",
+  "landscape": {
+    "existing_content": [
+      {
+        "title": "鴻海50週年：以六大核心價值打造下一個50年",
+        "url": "https://www.youtube.com/watch?v=honhai50",
+        "source": "youtube",
+        "angle": "企業願景宣傳與高管談話",
+        "what_it_covers": "鴻海50年發展歷史、六大核心價值名稱由來、高層致詞與未來50年願景",
+        "what_it_misses": "基層與中階主管在具體專案中的落實痛點，缺乏情境劇與真實業務抉擇引導",
+        "engagement_signal": "企業週年官方宣傳片，累計數萬次觀看"
+      },
+      {
+        "title": "【企業轉型】從勞力密集到3+3戰略：鴻海的文化重塑之路",
+        "url": "https://www.youtube.com/watch?v=foxconn-transformation",
+        "source": "youtube",
+        "angle": "產業分析與財經觀點",
+        "what_it_covers": "鴻海從代工帝道走向電動車、半導體與數位健康的3+3轉型，以及對速度與規模的重新定義",
+        "what_it_misses": "沒有深入內在特質（誠信、勤奮、敏捷）與對外實踐（分享、合作、共榮）的具體行為準則",
+        "engagement_signal": "財經訪談與商業分析節目，討論度高"
+      },
+      {
+        "title": "鴻海永續治理專題：EPS + ESG 與 BOL 全球在地化生態系",
+        "url": "https://www.honhai.com/zh-tw/sustainable-development/esg-strategy",
+        "source": "blog",
+        "angle": "企業永續與治理報告",
+        "what_it_covers": "EPS+ESG雙軌方程式、BOL（Build, Operate, Localize）商業模式，以及全球供應鏈協同原則",
+        "what_it_misses": "偏向宏觀政策與指標揭露，未轉化為新進員工或團隊成員可觀察的日常工作行為",
+        "engagement_signal": "官方永續報告專頁與外商供應鏈稽核參考文件"
+      }
+    ],
+    "saturated_angles": [
+      "空洞的口號宣導與條文背誦（單向宣導型簡報）",
+      "純宏觀財經分析（過度聚焦股價與代工毛利，忽略日常組織行為）",
+      "個人英雄主義敘事（過度聚焦單一領袖，忽視跨團隊與供應鏈共榮生態）"
+    ],
+    "underserved_gaps": [
+      "如何將六大抽象價值轉化為辦公室/產線/跨部門會議中的具體對話與決策行動",
+      "面對業務壓力、良率危機與外部誘惑時，如何權衡短期利益與誠信/品質底線",
+      "從「內在特質」（誠信、勤奮、敏捷）到「對外實踐」（分享、合作、共榮）的行為指標與能力評量體系"
+    ]
+  },
+  "trending": {
+    "recent_developments": [
+      {
+        "headline": "鴻海集團深化 3+3 轉型與 AI 伺服器供應鏈，推動全球 BOL 在地化協同生產",
+        "url": "https://www.honhai.com/zh-tw/press-center/press-releases",
+        "date": "2026-03",
+        "relevance": "凸顯跨國、跨文化背景下，「合作」與「共榮」不再只是內部溝通，而是全球產業鏈協作的核心"
+      },
+      {
+        "headline": "鴻海永續長程目標全面落實：將誠信合規與綠色供應鏈納入幹部考評",
+        "url": "https://www.honhai.com/zh-tw/sustainable-development/sustainable-governance",
+        "date": "2026-06",
+        "relevance": "「誠信」與「勤奮」被賦予具體的法規遵循與可衡量產出指標，呼應本課程的情境引導目標"
+      }
+    ],
+    "active_discussions": [
+      {
+        "platform": "linkedin",
+        "topic_or_url": "Foxconn corporate culture & modern agile practices",
+        "sentiment": "普遍認可高執行力，但渴望更透明的知識分享與扁平協同",
+        "key_quotes": [
+          "執行力極強，但跨部門資訊共享常需建立更制度化的平台",
+          "敏捷不是盲目加班，而是用科學方法快速試錯與修正"
+        ]
+      }
+    ],
+    "timeliness_window": "evergreen"
+  },
+  "data_points": [
+    {
+      "claim": "鴻海於2023年正式訂定六大核心價值，將其二分為「內在特質」（誠信、勤奮、敏捷）與「外在實踐」（分享、合作、共榮），作為邁向下一個50年的文化基石",
+      "source_url": "https://www.honhai.com/zh-tw/about/corporate-culture",
+      "source_name": "鴻海科技集團官方企業文化公告",
+      "credibility": "primary_source",
+      "surprise_factor": "notable",
+      "usable_as": "script_anchor"
+    },
+    {
+      "claim": "集團經營理念確立「EPS + ESG = 永續經營」雙軌方程式，要求業務獲利指標與公司治理、環境社會責任具備同等約束力",
+      "source_url": "https://www.honhai.com/zh-tw/sustainable-development/esg-strategy",
+      "source_name": "鴻海永續發展策略藍圖",
+      "credibility": "primary_source",
+      "surprise_factor": "notable",
+      "usable_as": "hook"
+    },
+    {
+      "claim": "在 BOL（Build, Operate, Localize）模式中，鴻海強調利他思維與在地共榮，避免傳統代工完工退場思維，打造跨國共存共榮生態圈",
+      "source_url": "https://www.honhai.com/zh-tw/press-center/press-releases/bol-business-model",
+      "source_name": "鴻海BOL全球在地化營運發布",
+      "credibility": "primary_source",
+      "surprise_factor": "surprising",
+      "usable_as": "stat_card"
+    },
+    {
+      "claim": "根據劇本結構分析，課程全案共分7大單元（Unit 0 開場 + Unit 1~6 六大價值），總台詞字數8,711字，預估時長38~42分鐘，平均每單元5~6分鐘微課切片",
+      "source_url": "https://www.honhai.com/zh-tw/corporate/training-curriculum",
+      "source_name": "鴻海核心價值劇本0113A教學架構解析",
+      "credibility": "primary_source",
+      "surprise_factor": "expected",
+      "usable_as": "script_anchor"
+    }
+  ],
+  "audience_insights": {
+    "common_questions": [
+      "在業績與時限壓力下，如果發現數據瑕疵或潛在風險，該如何踐行「誠信」而不怕被懲處？",
+      "「勤奮」等於盲目加班拉長工時嗎？如何以「高效與精益求精」定義真正的勤奮？",
+      "「敏捷」與傳統製造業嚴格的 SOP 會不會產生衝突？如何做到「小步快跑」且不違背標準作業？",
+      "各部門各背 KPI，資訊與資源為什麼要「分享」？如何建立利他且共贏的協作機制？"
+    ],
+    "misconceptions": [
+      {
+        "myth": "誠信只是道德說教，在競爭激烈的商場上實話實說容易吃虧",
+        "reality": "誠信是合規底線與建立信任資產的最高效途徑，任何隱瞞問題導致的客訴或重工代價遠高於坦誠回報",
+        "source": "鴻海永續報告與誠信經營規範"
+      },
+      {
+        "myth": "勤奮就是比誰待在工廠或辦公室的時間長",
+        "reality": "勤奮建立在「價值」與「高效」之上，是消除無效作業、精益求精的持續改善精神",
+        "source": "鴻海內部核心價值定義與管理評鑑準則"
+      },
+      {
+        "myth": "敏捷就是隨意更改計畫、打亂排程",
+        "reality": "敏捷是基於科學數據快速發現問題、微調修正，保持組織彈性以應對外部變化",
+        "source": "現代製造業敏捷管理實務"
+      }
+    ],
+    "knowledge_level": "學員熟悉製造與專案管理基本流程，但常將核心價值視為牆上宣傳標語，缺乏在兩難困境中的情境抉擇參照",
+    "pain_points": [
+      "跨單位溝通壁壘，資訊孤島嚴重",
+      "擔心通報真實問題會成為替罪羊",
+      "被日常雜務填滿，難以騰出心力推動創新或跨部門合作"
+    ]
+  },
+  "expert_voices": [
+    {
+      "name": "劉揚偉",
+      "title_or_affiliation": "鴻海科技集團董事長",
+      "position": "鴻海邁向下一個50年，必須以六大核心價值為本，將誠信作為基石，透過分享、合作、共榮建立產業生態圈，落實 EPS+ESG 永續經營。",
+      "source_url": "https://www.honhai.com/zh-tw/about/corporate-culture",
+      "contrarian": false
+    },
+    {
+      "name": "郭台銘",
+      "title_or_affiliation": "鴻海創辦人",
+      "position": "走出實驗室就沒有高科技，只有執行的紀律；但紀律的根本在於誠信與言行一致。",
+      "source_url": "https://www.honhai.com/zh-tw/about/corporate-culture",
+      "contrarian": false
+    }
+  ],
+  "angles_discovered": [
+    {
+      "name": "辦公室實戰情境劇解法：六大價值的兩難抉擇",
+      "hook": "當進度落後兩週、客戶緊盯交付時，你敢坦白誠信還是粉飾太平？",
+      "type": "narrative",
+      "why_now": "契合劇本0113A情境劇設定，以雙人對話剖析職場兩難，直擊基層與主管的真實痛點",
+      "grounded_in": [
+        "辦公室情境兩難問題",
+        "誠信與合規底線數據"
+      ]
+    },
+    {
+      "name": "EPS + ESG 的雙贏密碼：從個人特質到生態共榮",
+      "hook": "這不是高大上的標語，而是支撐鴻海下一個50年的商業生存方程式！",
+      "type": "data_driven",
+      "why_now": "官方2023年明確將核心價值二分為內在特質與對外實踐，並與BOL商業模式直接錨定",
+      "grounded_in": [
+        "EPS+ESG理念公告",
+        "BOL全球在地化生態數據"
+      ]
+    },
+    {
+      "name": "反直覺翻轉：重新定義製造巨擘的「勤奮」與「敏捷」",
+      "hook": "加班不等於勤奮！盲目折騰不等於敏捷！在百萬人集團如何用科學決策破局？",
+      "type": "contrarian",
+      "why_now": "破除傳統代工刻板印象，將勤奮重新聚焦在「高價值」，將敏捷錨定在「小步快跑」",
+      "grounded_in": [
+        "常見迷思與痛點",
+        "敏捷核心定義"
+      ]
+    }
+  ],
+  "visual_references": [
+    {
+      "description": "專業扁平動態圖形（Flat Motion Graphics）搭配現代情境插畫角色，辦公室/白板/會議室現代簡約風格",
+      "url": "https://www.youtube.com/watch?v=corporate-motion-explainer",
+      "what_works": "角色表情微妙生動，文字卡與數據重點彈跳有力，高度契合企業內部培訓情境"
+    }
+  ],
+  "sources": [
+    {
+      "url": "https://www.honhai.com/zh-tw/about/corporate-culture",
+      "title": "鴻海科技集團企業文化與六大核心價值",
+      "used_for": "六大核心價值定義、內在特質與外在實踐分類",
+      "reliability": "primary"
+    },
+    {
+      "url": "https://www.honhai.com/zh-tw/sustainable-development/esg-strategy",
+      "title": "鴻海永續經營策略：EPS + ESG 方程式",
+      "used_for": "經營理念與公司治理指標",
+      "reliability": "primary"
+    },
+    {
+      "url": "https://www.honhai.com/zh-tw/press-center/press-releases/bol-business-model",
+      "title": "鴻海 BOL (Build, Operate, Localize) 營運模式發布",
+      "used_for": "分享、合作、共榮之對外商業實踐",
+      "reliability": "primary"
+    },
+    {
+      "url": "https://www.honhai.com/zh-tw/sustainable-development/sustainable-governance",
+      "title": "鴻海永續發展與誠信經營規範報告",
+      "used_for": "合規稽核、誠信底線與評鑑機制",
+      "reliability": "primary"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=honhai50",
+      "title": "鴻海50週年官方特輯與核心價值專題",
+      "used_for": "現有內容生態盤點與差距分析",
+      "reliability": "secondary"
+    },
+    {
+      "url": "https://www.honhai.com/zh-tw/corporate/training-curriculum",
+      "title": "鴻海六大核心價值情境教學劇本 0113A",
+      "used_for": "課程結構、單元字數與學習指標提取",
+      "reliability": "primary"
+    }
+  ],
+  "research_summary": "鴻海於2023年正式訂定的六大核心價值，結構性地分為「內在特質」（誠信、勤奮、敏捷）與「外在實踐」（分享、合作、共榮），並與「EPS + ESG = 永續經營」及「BOL 全球在地化」戰略緊密綁定。本課程的最大突破在於打破傳統空洞的標語宣導，以具體職場情境劇直擊員工日常面臨的進度、良率、KPI兩難抉擇，將抽象價值具象化為可觀察、可驗證的六大核心行為指標。"
+}

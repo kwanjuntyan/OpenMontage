@@ -1,0 +1,185 @@
+{
+  "version": "2.0",
+  "project_id": "esg-act1-crisis",
+  "source_scene_plan_sha256": "sha256:5676351e5fa2793635e8df33e316ab5b94328c7961e2fae8ac4c99c38b3d79a0",
+  "clp_manifest_sha256": "sha256:ebc7b256c3bfb99c5206add1c255791fcff0376063cab523029817e325129814",
+  "bindings": [
+    {
+      "shot_id": "shot_1_1_1",
+      "location_ref": "loc_london_boardroom"
+    },
+    {
+      "shot_id": "shot_1_1_2",
+      "location_ref": "loc_london_boardroom",
+      "character_refs": [
+        "char_harrison",
+        "char_sandy"
+      ],
+      "focal_entity": "char_harrison"
+    },
+    {
+      "shot_id": "shot_1_1_3",
+      "location_ref": "loc_london_boardroom",
+      "character_refs": [
+        "char_sandy"
+      ],
+      "focal_entity": "char_sandy"
+    },
+    {
+      "shot_id": "shot_1_1_4",
+      "location_ref": "loc_london_boardroom",
+      "character_refs": [
+        "char_harrison"
+      ],
+      "focal_entity": "char_harrison"
+    },
+    {
+      "shot_id": "shot_1_1_5",
+      "location_ref": "loc_london_boardroom",
+      "character_refs": [
+        "char_sandy"
+      ],
+      "focal_entity": "char_sandy"
+    },
+    {
+      "shot_id": "shot_1_1_6",
+      "location_ref": "loc_london_boardroom",
+      "character_refs": [
+        "char_sandy",
+        "char_harrison"
+      ],
+      "focal_entity": "char_sandy"
+    },
+    {
+      "shot_id": "shot_1_1_7",
+      "location_ref": "loc_london_boardroom",
+      "character_refs": [
+        "char_harrison"
+      ],
+      "focal_entity": "char_harrison"
+    },
+    {
+      "shot_id": "shot_1_1_8",
+      "location_ref": "loc_london_boardroom",
+      "character_refs": [
+        "char_harrison"
+      ],
+      "focal_entity": "char_harrison"
+    },
+    {
+      "shot_id": "shot_1_1_9",
+      "location_ref": "loc_london_boardroom",
+      "character_refs": [
+        "char_sandy"
+      ],
+      "focal_entity": "char_sandy"
+    },
+    {
+      "shot_id": "shot_1_1_10",
+      "location_ref": "loc_london_boardroom",
+      "character_refs": [
+        "char_harrison"
+      ],
+      "focal_entity": "char_harrison"
+    },
+    {
+      "shot_id": "shot_1_1_11",
+      "prop_refs": [
+        "prop_proposal_document",
+        "prop_stamp_on_hold"
+      ],
+      "focal_entity": "prop_stamp_on_hold"
+    },
+    {
+      "shot_id": "shot_1_1_12",
+      "location_ref": "loc_amy_office"
+    },
+    {
+      "shot_id": "shot_1_2_1",
+      "location_ref": "loc_amy_office",
+      "character_refs": [
+        "char_amy"
+      ],
+      "prop_refs": [
+        "prop_smartphone"
+      ],
+      "focal_entity": "char_amy"
+    },
+    {
+      "shot_id": "shot_1_2_2",
+      "location_ref": "loc_amy_office",
+      "character_refs": [
+        "char_supervisor",
+        "char_amy"
+      ],
+      "focal_entity": "char_supervisor"
+    },
+    {
+      "shot_id": "shot_1_2_3",
+      "location_ref": "loc_amy_office",
+      "character_refs": [
+        "char_supervisor"
+      ],
+      "focal_entity": "char_supervisor"
+    },
+    {
+      "shot_id": "shot_1_2_4",
+      "location_ref": "loc_amy_office",
+      "character_refs": [
+        "char_amy"
+      ],
+      "focal_entity": "char_amy"
+    },
+    {
+      "shot_id": "shot_1_2_5",
+      "location_ref": "loc_amy_office",
+      "character_refs": [
+        "char_supervisor"
+      ],
+      "focal_entity": "char_supervisor"
+    },
+    {
+      "shot_id": "shot_1_2_6",
+      "location_ref": "loc_amy_office",
+      "character_refs": [
+        "char_amy"
+      ],
+      "focal_entity": "char_amy"
+    },
+    {
+      "shot_id": "shot_1_2_7",
+      "location_ref": "loc_amy_office",
+      "character_refs": [
+        "char_supervisor"
+      ],
+      "focal_entity": "char_supervisor"
+    },
+    {
+      "shot_id": "shot_1_2_8",
+      "location_ref": "loc_amy_office",
+      "character_refs": [
+        "char_amy"
+      ],
+      "focal_entity": "char_amy"
+    },
+    {
+      "shot_id": "shot_1_2_9",
+      "location_ref": "loc_amy_office",
+      "character_refs": [
+        "char_amy"
+      ],
+      "focal_entity": "char_amy"
+    },
+    {
+      "shot_id": "shot_1_3_1",
+      "location_ref": "loc_tv_shopping_studio",
+      "character_refs": [
+        "char_supervisor"
+      ],
+      "prop_refs": [
+        "prop_esg_capsules"
+      ],
+      "focal_entity": "char_supervisor"
+    }
+  ]
+}

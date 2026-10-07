@@ -1,0 +1,108 @@
+{
+  "version": "1.0",
+  "style_playbook": "premium-minimalist",
+  "scenes": [
+    {
+      "id": "scene_06",
+      "type": "generated",
+      "description": "協理焦躁通話施壓",
+      "start_seconds": 0.0,
+      "end_seconds": 8.0,
+      "script_section_id": "sec_06",
+      "framing": "medium_tracking",
+      "movement": "pacing",
+      "shot_language": {
+        "shot_size": "medium",
+        "camera_movement": "handheld",
+        "lens_mm": 50,
+        "lighting_key": "natural",
+        "depth_of_field": "shallow",
+        "color_temperature": "neutral"
+      },
+      "shot_intent": "展現主管面對增資卡關的焦躁，走廊踱步催逼Amy",
+      "narrative_role": "build_tension",
+      "information_role": "揭示危機：增資案被卡，下週必須搞定ESG否則飯碗不保",
+      "hero_moment": false,
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "Gemini Omni 生成協理講電話特寫影片，含自然對嘴口型",
+          "source": "generate"
+        },
+        {
+          "type": "audio",
+          "description": "台灣神經語音 TTS 協理音軌 (cmn-TW-Wavenet-B)",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "scene_07",
+      "type": "generated",
+      "description": "Amy 錯愕接招特寫",
+      "start_seconds": 8.0,
+      "end_seconds": 16.0,
+      "script_section_id": "sec_07",
+      "framing": "portrait_close_up",
+      "movement": "handheld_subtle",
+      "shot_language": {
+        "shot_size": "close_up",
+        "camera_movement": "handheld",
+        "lens_mm": 50,
+        "lighting_key": "natural",
+        "depth_of_field": "shallow",
+        "color_temperature": "warm"
+      },
+      "shot_intent": "Amy 接到震撼來電，眼神震驚錯愕，對嘴說出困惑",
+      "narrative_role": "emotional_beat",
+      "information_role": "展現小職員面對突如其來龐大ESG任務的荒謬與無辜",
+      "hero_moment": true,
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "Gemini Omni 生成 Amy 接電話錯愕表情與對嘴口型",
+          "source": "generate"
+        },
+        {
+          "type": "audio",
+          "description": "台灣神經語音 TTS Amy 錯愕音軌 (cmn-TW-Wavenet-A)",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "scene_08",
+      "type": "generated",
+      "description": "Amy 沉思苦笑收尾",
+      "start_seconds": 16.0,
+      "end_seconds": 26.0,
+      "script_section_id": "sec_08",
+      "framing": "medium_close",
+      "movement": "slow_dolly_back",
+      "shot_language": {
+        "shot_size": "medium_close",
+        "camera_movement": "dolly_out",
+        "lens_mm": 50,
+        "lighting_key": "natural",
+        "depth_of_field": "shallow",
+        "color_temperature": "warm"
+      },
+      "shot_intent": "Amy 放下手機凝視螢幕，苦笑喃喃自語留下懸念",
+      "narrative_role": "resolution",
+      "information_role": "拋出核心懸念：ESG到底是什麼？能救公司能救年終嗎？",
+      "hero_moment": true,
+      "required_assets": [
+        {
+          "type": "video",
+          "description": "Gemini Omni 生成 Amy 喃喃自語沉思苦笑對嘴影片",
+          "source": "generate"
+        },
+        {
+          "type": "audio",
+          "description": "台灣神經語音 TTS Amy 沉思音軌 (cmn-TW-Wavenet-A)",
+          "source": "generate"
+        }
+      ]
+    }
+  ]
+}

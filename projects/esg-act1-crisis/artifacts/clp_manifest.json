@@ -1,0 +1,141 @@
+{
+  "version": "2.0",
+  "project_id": "esg-act1-crisis",
+  "decision_log_ref": "projects\\esg-act1-crisis\\artifacts\\decision_log.json",
+  "characters": [
+    {
+      "id": "char_amy",
+      "name": "Amy (艾咪)",
+      "role": "Protagonist, Sustainability Specialist",
+      "age": 28,
+      "gender": "female",
+      "visual_traits": "3D Pixar stylized young woman, shoulder-length wavy chocolate brown bob hair, expressive emerald green eyes, warm fair skin, delicate facial features, light grey tailored pant suit with rolled-up cuffs, white open-collar business shirt, no glasses.",
+      "costume": "Light grey tailored pant suit with rolled-up cuffs, crisp white open-collar shirt",
+      "voice_id": "cmn-TW-Standard-A",
+      "image": "assets/clp/characters/amy.jpeg",
+      "asset_sha256": "sha256:8790239fefe5c9b774ce34255f70b35169b55882a48c13c14900384762c3a0c4",
+      "prompt_anchor": "Amy, 3D Pixar stylized young woman, wavy brown hair, grey tailored suit",
+      "policy": "strict_reference"
+    },
+    {
+      "id": "char_supervisor",
+      "name": "Amy主管 (協理)",
+      "role": "Amy's Panicked Direct Supervisor",
+      "age": 45,
+      "gender": "male",
+      "visual_traits": "3D Pixar stylized middle-aged Asian man, thick messy dark black hair, prominent anxious droopy eyebrows, large expressive ears, noticeable 5-o'clock stubble shadow, light blue collared business shirt with sleeves rolled up to elbows, loosely knotted patterned brown necktie, khaki-brown dress trousers.",
+      "costume": "Light blue business shirt with sleeves rolled up, loosened patterned brown tie, khaki trousers",
+      "voice_id": "cmn-TW-Standard-B",
+      "image": "assets/clp/characters/supervisor.jpeg",
+      "asset_sha256": "sha256:e7a509ec810576bc3e04dfaea25fdb3b93a4e4aa7fc6f951fd9c64b18c48be0c",
+      "prompt_anchor": "Asian male supervisor, thick messy black hair, anxious droopy eyebrows, light blue shirt, loose brown tie",
+      "policy": "strict_reference"
+    },
+    {
+      "id": "char_harrison",
+      "name": "哈里森先生 (Mr. Harrison)",
+      "role": "Senior British Investment Committee Chair",
+      "age": 55,
+      "gender": "male",
+      "visual_traits": "3D Pixar stylized distinguished British senior executive, swept-back silver grey hair, thick bushy dark eyebrows, piercing steel-blue eyes, prominent hooked nose, bespoke dark navy pinstripe business suit, crisp white dress shirt, classic dark tie, sharp calculating demeanor.",
+      "costume": "Bespoke dark navy pinstripe suit, crisp white dress shirt, black silk tie",
+      "voice_id": "en-GB-Standard-B",
+      "image": "assets/clp/characters/harrison.jpeg",
+      "asset_sha256": "sha256:e6970311509f64741efebabbb94aa2faae047721b68f807699ccd5ac08c1f5e2",
+      "prompt_anchor": "Mr Harrison, 3D Pixar British senior executive, swept-back silver hair, hooked nose, navy pinstripe suit",
+      "policy": "strict_reference"
+    },
+    {
+      "id": "char_sandy",
+      "name": "分析師 Sandy",
+      "role": "Junior Investment Analyst",
+      "age": 30,
+      "gender": "female",
+      "visual_traits": "3D Pixar stylized professional female analyst, neat low dark-brown hair bun, slim black rectangular glasses, blue corporate lanyard with ID badge, tailored black single-breasted suit jacket over white shirt, alert and nervous posture.",
+      "costume": "Tailored black blazer suit, white shirt, blue lanyard with plastic ID card",
+      "voice_id": "en-GB-Standard-A",
+      "image": "assets/clp/characters/sandy.jpeg",
+      "asset_sha256": "sha256:bf4152192de203545b87d3f477837b0ead406ffbab3fc2a13270e3c948a03539",
+      "prompt_anchor": "Sandy, 3D Pixar female analyst, low brown bun, black glasses, blue lanyard, black suit",
+      "policy": "strict_reference"
+    }
+  ],
+  "locations": [
+    {
+      "id": "loc_london_boardroom",
+      "name": "倫敦海外投資機構會議室",
+      "environment_description": "High-end London investment bank conference room, modern floor-to-ceiling glass windows overlooking rainy grey London skyscrapers, long polished dark mahogany conference table, high-backed ergonomic leather chairs, large wall-mounted presentation screen.",
+      "lighting": "Cool overcast natural light through rain-streaked glass, subtle neutral recessed ceiling spotlights.",
+      "palette": [
+        "#1E2A38",
+        "#4A5568",
+        "#718096",
+        "#E2E8F0"
+      ],
+      "image": "assets/clp/locations/london_boardroom.jpeg",
+      "asset_sha256": "sha256:1af687cf80b75c77b2fdffa3cc2b277aa998b9886f87777c1adb9b747e18f961",
+      "prompt_anchor": "High-end corporate boardroom, rainy London skyscraper view outside, mahogany table, cool overcast lighting",
+      "policy": "strict_reference"
+    },
+    {
+      "id": "loc_amy_office",
+      "name": "Amy的台北辦公室",
+      "environment_description": "Warm, busy modern corporate marketing office in Taipei, modular white desks with frosted glass privacy dividers, desktop monitor, tidy paperwork binders, small potted succulent, warm ambient interior office lighting.",
+      "lighting": "Warm fluorescent overhead diffused office illumination, cheerful natural daylight from side window.",
+      "palette": [
+        "#F7FAFC",
+        "#ED8936",
+        "#4A5568",
+        "#CBD5E0"
+      ],
+      "image": "assets/clp/locations/amy_office.jpeg",
+      "asset_sha256": "sha256:f36bcf69ca5665fe148a5a37b1774c1d23cbebb36dd828cd375fe1d355e2be5e",
+      "prompt_anchor": "Modern open-plan office desk, computer monitor, potted plant, warm bright corporate lighting",
+      "policy": "strict_reference"
+    },
+    {
+      "id": "loc_tv_shopping_studio",
+      "name": "綜藝電視購物攝影棚 (Amy幻想)",
+      "environment_description": "Extravagant, colorful TV shopping studio set, flashy neon pastel stage backdrops, glowing LED panels displaying stock ticker charts shooting upward, falling golden coins and confetti, high-energy variety show atmosphere.",
+      "lighting": "Bright multi-colored stage spotlights, vivid magenta, cyan and gold rim lighting.",
+      "palette": [
+        "#FFD700",
+        "#FF1493",
+        "#00FFFF",
+        "#4B0082"
+      ],
+      "prompt_anchor": "Vibrant TV shopping studio stage, neon lights, rising stock graph, golden sparkles",
+      "policy": "text_anchor_only"
+    }
+  ],
+  "props": [
+    {
+      "id": "prop_proposal_document",
+      "name": "大成公司增資計畫書",
+      "description": "Formal corporate capital increase proposal document, white thick paper with Dacheng company logo embossed at the top, clear financial tables and line charts.",
+      "prompt_anchor": "Corporate investment proposal document with business charts and logo",
+      "policy": "text_anchor_only"
+    },
+    {
+      "id": "prop_stamp_on_hold",
+      "name": "紅色 ON HOLD 印章",
+      "description": "Heavy industrial brass and wood handle rubber stamp with bold, distress-textured scarlet red 'ON HOLD' rectangular lettering.",
+      "prompt_anchor": "Heavy red rubber stamp with bold ON HOLD letters in rectangular border",
+      "policy": "text_anchor_only"
+    },
+    {
+      "id": "prop_smartphone",
+      "name": "Amy的手機",
+      "description": "Modern sleek smartphone with bezel-less screen, vibrating violently on office desk, display showing caller ID '協理 (主管)' with emergency red pulsing ring.",
+      "prompt_anchor": "Smartphone on wooden desk vibrating with flashing incoming call screen",
+      "policy": "text_anchor_only"
+    },
+    {
+      "id": "prop_esg_capsules",
+      "name": "ESG濃縮膠囊藥罐",
+      "description": "Comically oversized shiny gold supplement bottle labeled 'ESG 100% CONCENTRATED CAPSULES' with radiant sparkles and cartoon green eco leaves.",
+      "prompt_anchor": "Golden vitamin pill bottle labeled ESG Concentrated Capsules, glowing sparkles",
+      "policy": "text_anchor_only"
+    }
+  ]
+}

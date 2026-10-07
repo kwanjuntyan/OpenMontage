@@ -1,0 +1,388 @@
+{
+  "unit_id": "scene-unit-0001",
+  "scene_plan": {
+    "version": "1.0",
+    "style_playbook": "esg-pixar-hybrid",
+    "scenes": [
+      {
+        "id": "scene-001",
+        "type": "character_scene",
+        "start_seconds": 0.0,
+        "end_seconds": 35.0,
+        "script_section_id": "sec-01",
+        "framing": "establishing wide shot",
+        "movement": "dolly_in",
+        "transition_in": "fade",
+        "transition_out": "cut",
+        "overlay_notes": "大螢幕微光漸亮浮現鴻海Logo與課程燙金標題",
+        "shot_language": {
+          "shot_size": "wide",
+          "camera_movement": "dolly_in",
+          "lens_mm": 35,
+          "lighting_key": "high_key",
+          "depth_of_field": "deep",
+          "color_temperature": "warm"
+        },
+        "shot_intent": "建立課程殿堂級的空間感與大師氛圍，點亮鴻海50週年意象與六大核心價值立體主標題。",
+        "narrative_role": "establish_context",
+        "information_role": "讓學員感受到這不是普通簡報，而是一場高規格的沉浸式企業哲學洗禮。",
+        "hero_moment": false,
+        "texture_keywords": [
+          "pixar_3d",
+          "warm_wood",
+          "clean_glass",
+          "volumetric_light"
+        ],
+        "description": "皮克斯 3D 擬真動畫風格。宏偉而現代化的多功能訓練大廳內，弧形全景玻璃窗透入溫暖晨光，映照著溫潤的橡木階梯座位與流線型科技講台。鏡頭以平穩的 Dolly-in 自大廳後方徐徐向前推進。中央巨幅超高解析度曲面螢幕瞬間由暗點亮，淡雅流轉出鴻海集團深藍底色、立體微光 Logo 與浮雕質感的「鴻海六大核心價值實戰培訓」燙金字樣。講師 Amy（優雅的 3D 皮克斯風格、幹練短髮、海軍藍俐落西裝配溫暖米色內襯）手持輕薄翻頁器，步履輕盈而自信地走入舞台中央聚光燈下。她神情明朗、眼神懇切，面對虛擬的全球同仁展開親切笑顏，雙手自然張開致意。",
+        "character_actions": [
+          {
+            "character_id": "char_amy",
+            "emotion": "confident_welcoming",
+            "action_sequence": [
+              "步入中央講台聚光燈下",
+              "手持翻頁器優雅揮手致意",
+              "面帶專業微笑開啟第一聲問候"
+            ],
+            "dialogue": "各位同仁好，我是訓練部門的 Amy，歡迎參加鴻海六大核心價值訓練課程！",
+            "target": "audience",
+            "notes": "展現高度親和力與專家權威感"
+          }
+        ],
+        "required_assets": [
+          {
+            "type": "image",
+            "description": "Pixar 3D corporate training hall establishing shot with Amy on stage",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "scene-002",
+        "type": "character_scene",
+        "start_seconds": 35.0,
+        "end_seconds": 75.0,
+        "script_section_id": "sec-01",
+        "framing": "medium shot",
+        "movement": "tracking_right",
+        "transition_in": "cut",
+        "transition_out": "cut",
+        "overlay_notes": "空氣中浮現半透明立體思維氣泡與痛點困惑文字",
+        "shot_language": {
+          "shot_size": "medium",
+          "camera_movement": "tracking_right",
+          "lens_mm": 50,
+          "lighting_key": "tungsten_warm",
+          "depth_of_field": "shallow",
+          "color_temperature": "neutral"
+        },
+        "shot_intent": "直擊學員內心對教條式價值的懷疑與痛點，引發同理心與反思。",
+        "narrative_role": "build_tension",
+        "information_role": "打破口號感，將抽象詞彙拉回真實的職場日常兩難與決策困境。",
+        "hero_moment": false,
+        "texture_keywords": [
+          "pixar_3d",
+          "soft_focus",
+          "glowing_bubbles",
+          "empathy"
+        ],
+        "description": "皮克斯風格半身中景。光線柔和聚焦在 Amy 身上。Amy 微微側身，神情由開朗轉為引人深思的沉穩探詢。她輕抬右手，食指微扣下巴作傾聽狀。隨著她的話語，身旁空氣中浮現出三枚柔和發光的半透明立體思維氣泡，氣泡內以精緻動態剪影生動投射出基層職場的痛點：「交期落後兩週是否該如實通報？」「跨部門權責不清時誰該讓步？」「客戶嚴苛變更下如何堅持原則？」。Amy 眼神中帶著理解與共情，語氣真摯地說出學員心中常有的困惑：「我們在日常工作中面對複雜挑戰時，又該如何運用這些原則做決策？」",
+        "character_actions": [
+          {
+            "character_id": "char_amy",
+            "emotion": "thoughtful_empathic",
+            "action_sequence": [
+              "輕扣下巴傾聽姿態",
+              "右手微揚引導身側浮現思考光暈",
+              "眼神誠摯直視學員引發共鳴"
+            ],
+            "dialogue": "相信大家對六大核心價值一定不陌生，但難免會有些疑惑：為什麼這六個價值如此關鍵？日常工作中又該如何運用做決策？",
+            "target": "reflection_bubbles",
+            "notes": "展現設身處地的理解，拉近心理距離"
+          }
+        ],
+        "required_assets": [
+          {
+            "type": "image",
+            "description": "Amy looking thoughtful with three glowing concept bubbles beside her",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "scene-003",
+        "type": "character_scene",
+        "start_seconds": 75.0,
+        "end_seconds": 120.0,
+        "script_section_id": "sec-01",
+        "framing": "medium wide shot",
+        "movement": "crane_up",
+        "transition_in": "cut",
+        "transition_out": "cut",
+        "overlay_notes": "背景巨幕展開立體全球光網與One Foxconn燙金立體字",
+        "shot_language": {
+          "shot_size": "medium_wide",
+          "camera_movement": "crane_up",
+          "lens_mm": 35,
+          "lighting_key": "volumetric",
+          "depth_of_field": "medium",
+          "color_temperature": "cool"
+        },
+        "shot_intent": "傳達本課程的核心承諾——將抽象價值轉化為全球通用的 One Foxconn 行為準則。",
+        "narrative_role": "deliver_payload",
+        "information_role": "建立學員對課程實用性的強大信心，感受跨廠區、跨文化的集團凝聚力。",
+        "hero_moment": true,
+        "texture_keywords": [
+          "pixar_3d",
+          "global_network",
+          "volumetric_rays",
+          "one_foxconn"
+        ],
+        "description": "皮克斯 3D 沉浸式演繹。鏡頭自講台緩緩升起，景深擴展至講台背景的巨幕。巨幕呈現出立體地球光網，台北頂埔、土城、深圳龍華、鄭州空港、美國威斯康辛、越南北江等全球智慧園區的發光節點彼此連線，金色光粒子在節點間穿梭奔流。Amy 站在全球光網的前方，雙手握拳置於胸前，眼神迸發出無比堅定的信念與力量感。大螢幕正上方浮現剛勁有力的立體發光口號「One Foxconn: 共同語言・共同準則」。Amy 的聲音清晰嘹亮，宣告「我們要將抽象的價值變成具體可執行的工作準則，真正做到分享、合作與共榮！」",
+        "character_actions": [
+          {
+            "character_id": "char_amy",
+            "emotion": "inspiring_passionate",
+            "action_sequence": [
+              "雙手向外敞開擁抱全球網絡光暈",
+              "眼神堅毅有力",
+              "手勢下壓強調共同語言的落實"
+            ],
+            "dialogue": "這堂課的目的，就是要把抽象的價值變得更具體、可理解、可應用。形成跨團隊、跨文化的一致工作語言，實踐 One Foxconn 精神！",
+            "target": "global_map",
+            "notes": "節奏轉為熱情磅礴"
+          }
+        ],
+        "required_assets": [
+          {
+            "type": "image",
+            "description": "Amy standing in front of 3D globe network with golden streams and One Foxconn slogan",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "scene-004",
+        "type": "character_scene",
+        "start_seconds": 120.0,
+        "end_seconds": 170.0,
+        "script_section_id": "sec-01",
+        "framing": "medium shot",
+        "movement": "pan_left",
+        "transition_in": "cut",
+        "transition_out": "cut",
+        "overlay_notes": "互動觸控看板分屏對比：左側紅色警示案例 vs 右側金色轉機案例",
+        "shot_language": {
+          "shot_size": "medium",
+          "camera_movement": "pan_left",
+          "lens_mm": 50,
+          "lighting_key": "high_key",
+          "depth_of_field": "shallow",
+          "color_temperature": "mixed"
+        },
+        "shot_intent": "隆重揭示情境對照法（反面警示 vs 正面破局）的教學模式，建立課程觀看期待。",
+        "narrative_role": "comparison",
+        "information_role": "讓學員明白課程結構絕非說教，而是像偵探劇一樣充滿衝突與實戰啟發。",
+        "hero_moment": false,
+        "texture_keywords": [
+          "pixar_3d",
+          "split_screen",
+          "interactive_dashboard",
+          "contrast"
+        ],
+        "description": "皮克斯動態分鏡展示。Amy 移步至舞台右側的互動多點觸控看板前，手指優雅輕觸螢幕中央。巨幅看板隨即呈現對稱的「雙色動態分屏」：左側呈現冷灰色調夾帶警示紅光的「反面案例：避重就輕、隱瞞數據導致產線停擺與客戶索賠」；右側呈現溫暖晨曦金光的「正面案例：誠實揭露、跨部門協同攻關化險為夷」。Amy 側身面向鏡頭，笑容親切且富含趣味性：「今天的課程絕不枯燥說教！我將採用案例教學，先帶你看反面案例的慘痛代價，再帶你看正面案例的絕妙轉機！」兩側畫面生動演繹著截然不同的命運走向。",
+        "character_actions": [
+          {
+            "character_id": "char_amy",
+            "emotion": "engaging_playful",
+            "action_sequence": [
+              "點擊互動面板啟動分屏",
+              "轉身指向左側紅色警示案例",
+              "手勢平移至右側金色成功案例",
+              "對鏡頭會心微笑"
+            ],
+            "dialogue": "今天絕不枯燥說教！我將採用案例教學，先看反面案例缺乏價值的後果，再看正面案例踐行價值的轉機！",
+            "target": "split_screen_dashboard",
+            "notes": "手勢富節奏感，帶出戲劇性對比"
+          }
+        ],
+        "required_assets": [
+          {
+            "type": "image",
+            "description": "Amy touching high-tech dashboard displaying red negative case vs golden positive case",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "scene-005",
+        "type": "character_scene",
+        "start_seconds": 170.0,
+        "end_seconds": 210.0,
+        "script_section_id": "sec-01",
+        "framing": "medium wide shot",
+        "movement": "orbital",
+        "transition_in": "cut",
+        "transition_out": "cut",
+        "overlay_notes": "六大核心價值晶體圖章立體環繞，依序點亮旋轉",
+        "shot_language": {
+          "shot_size": "medium_wide",
+          "camera_movement": "orbital",
+          "lens_mm": 35,
+          "lighting_key": "rim_lit",
+          "depth_of_field": "medium",
+          "color_temperature": "warm"
+        },
+        "shot_intent": "展開六大核心價值的全景立體地圖，為學員建立清晰的 6 講認知座標系。",
+        "narrative_role": "introduce_subject",
+        "information_role": "讓學員預知即將探索的 6 個實戰領域，產生按圖索驥的探索慾望。",
+        "hero_moment": false,
+        "texture_keywords": [
+          "pixar_3d",
+          "crystal_icons",
+          "floating_octahedrons",
+          "cinematic_orbit"
+        ],
+        "description": "皮克斯魔幻科技感。講台周遭的光線微微暗下，唯有 Amy 處於聚光燈下。隨著 Amy 雙手微揚，舞台半空中依序凝結出六枚晶瑩剔透、緩緩旋轉的八面體水晶印章：【誠信】（海藍色堅固基石）、【勤奮】（熾橙色齒輪引擎）、【敏捷】（金黃色奔馳閃電）、【分享】（翠綠色萌芽之樹）、【合作】（群青色互鎖齒輪）、【共榮】（紫金色璀璨光芒）。六枚水晶在空中環繞成一個發光的同心圓，Amy 站在光圈正中心，神采奕奕：「透過這種情境對照，相信聰明的你，一定能秒懂核心價值的巨大威力！」",
+        "character_actions": [
+          {
+            "character_id": "char_amy",
+            "emotion": "proud_confident",
+            "action_sequence": [
+              "雙手微托引導六大價值水晶懸浮升空",
+              "目光環視環繞的光芒",
+              "篤定點頭展現無比信賴"
+            ],
+            "dialogue": "透過這種情境對照，相信聰明的你，一定能秒懂核心價值的威力！",
+            "target": "crystal_ring",
+            "notes": "光影在 Amy 臉龐與西裝輪廓形成精緻邊緣光"
+          }
+        ],
+        "required_assets": [
+          {
+            "type": "image",
+            "description": "Amy surrounded by six glowing crystal emblems representing the core values in Pixar 3D style",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "scene-006",
+        "type": "character_scene",
+        "start_seconds": 210.0,
+        "end_seconds": 240.0,
+        "script_section_id": "sec-01",
+        "framing": "medium close up",
+        "movement": "zoom_in",
+        "transition_in": "cut",
+        "transition_out": "fade",
+        "overlay_notes": "畫面過渡切入第一講標題卡：單元一 誠信 HONESTY",
+        "shot_language": {
+          "shot_size": "medium_close",
+          "camera_movement": "zoom_in",
+          "lens_mm": 85,
+          "lighting_key": "high_key",
+          "depth_of_field": "shallow",
+          "color_temperature": "warm"
+        },
+        "shot_intent": "吹響課程號角，以充滿活力的高昂情緒正式切入單元一：誠信。",
+        "narrative_role": "call_to_action",
+        "information_role": "激勵學員整裝待發，無縫過渡至第一段反面案例（交期落後兩週的風暴）。",
+        "hero_moment": false,
+        "texture_keywords": [
+          "pixar_3d",
+          "character_close_up",
+          "punchy_transition",
+          "unit1_title"
+        ],
+        "description": "皮克斯人像精緻特寫。背景虛化為溫暖柔和的課堂景深光斑，Amy 的面容極具表現力與親和力。Amy 眼神炯炯有神，面帶燦爛而具鼓舞性的笑容，右手有力地在胸前握拳，發出最後的熱情邀約：「準備好了嗎？那我們開始吧！！」隨即，背景音樂響起激昂清脆的節奏打擊點，畫面迅速以流暢的金色光暈溶解（Dissolve）。主螢幕中央震撼浮現出第一講的片頭燙金大字：【單元一：誠信 (HONESTY) —— 守住底線的專業基石】，下方伴隨打字機音效浮現副標題：「情境劇實戰：交期落後兩週，你敢據實通報嗎？」。",
+        "character_actions": [
+          {
+            "character_id": "char_amy",
+            "emotion": "energetic_inviting",
+            "action_sequence": [
+              "向前傾身拉近與學員距離",
+              "胸前握拳發出高昂號召",
+              "優雅側身引導鏡頭過渡至大螢幕標題"
+            ],
+            "dialogue": "準備好了嗎？那我們開始吧！！",
+            "target": "camera",
+            "notes": "情緒頂峰，充滿朝氣與決心"
+          }
+        ],
+        "required_assets": [
+          {
+            "type": "image",
+            "description": "Close-up of Amy smiling and clenching fist cheerfully, transitioning to Module 1 title card",
+            "source": "generate"
+          }
+        ]
+      }
+    ]
+  },
+  "clp_shot_bindings": [
+    {
+      "shot_id": "scene-001",
+      "location_ref": "loc_studio",
+      "character_refs": [
+        "char_amy"
+      ],
+      "prop_refs": [
+        "prop_bol_roadmap"
+      ],
+      "focal_entity": "char_amy"
+    },
+    {
+      "shot_id": "scene-002",
+      "location_ref": "loc_studio",
+      "character_refs": [
+        "char_amy"
+      ],
+      "prop_refs": [],
+      "focal_entity": "char_amy"
+    },
+    {
+      "shot_id": "scene-003",
+      "location_ref": "loc_studio",
+      "character_refs": [
+        "char_amy"
+      ],
+      "prop_refs": [
+        "prop_pdca_board"
+      ],
+      "focal_entity": "char_amy"
+    },
+    {
+      "shot_id": "scene-004",
+      "location_ref": "loc_studio",
+      "character_refs": [
+        "char_amy"
+      ],
+      "prop_refs": [
+        "prop_pdca_board"
+      ],
+      "focal_entity": "char_amy"
+    },
+    {
+      "shot_id": "scene-005",
+      "location_ref": "loc_studio",
+      "character_refs": [
+        "char_amy"
+      ],
+      "prop_refs": [
+        "prop_bol_roadmap"
+      ],
+      "focal_entity": "char_amy"
+    },
+    {
+      "shot_id": "scene-006",
+      "location_ref": "loc_studio",
+      "character_refs": [
+        "char_amy"
+      ],
+      "prop_refs": [
+        "prop_sop_manual"
+      ],
+      "focal_entity": "char_amy"
+    }
+  ]
+}

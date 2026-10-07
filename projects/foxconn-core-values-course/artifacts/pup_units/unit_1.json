@@ -1,0 +1,772 @@
+{
+  "unit_id": "scene-unit-0002",
+  "scene_plan": {
+    "version": "1.0",
+    "style_playbook": "esg-pixar-hybrid",
+    "scenes": [
+      {
+        "id": "scene-007",
+        "type": "talking_head",
+        "start_seconds": 240.0,
+        "end_seconds": 259.7,
+        "script_section_id": "sec-02",
+        "framing": "medium",
+        "movement": "tracking_right",
+        "transition_in": "dissolve",
+        "transition_out": "cut",
+        "overlay_notes": "側邊字卡：右側 1/3 浮現 callout 卡片【單元一：誠信 (INTEGRITY)】，條列「1. 灰色地帶的兩難考驗 2. 利益與底線的抉擇」。字幕：底部逐字高亮繁中字幕。音軌：抽離原生雜音，對齊 TTS sec-02 音軌。",
+        "shot_language": {
+          "shot_size": "medium",
+          "camera_movement": "tracking_right",
+          "lens_mm": 50,
+          "lighting_key": "tungsten_warm",
+          "depth_of_field": "shallow",
+          "color_temperature": "warm"
+        },
+        "shot_intent": "引入誠信主題，點出職場中無所不在的灰色地帶考驗，激發學員代入感。",
+        "narrative_role": "introduce_subject",
+        "information_role": "讓學員意識到誠信不是空洞條文，而是面對看似兩可利益時的抉擇。",
+        "hero_moment": false,
+        "texture_keywords": [
+          "pixar_3d",
+          "warm_studio",
+          "scale_graphic",
+          "curiosity",
+          "chained_presenter"
+        ],
+        "description": "[Subject] Amy (char_amy), a professional Taiwanese female instructor with high ponytail, light grey blazer, and warm inquisitive eyes. [Subject Motion] Amy stands with arms folded, leaning slightly forward with a reflective smile; gestures with right hand toward screen to reveal course title card. [Scene] Pixar 3D warm presentation studio (loc_studio), background screen displaying a balanced metal scale graphic. [Spatial] Medium shot with 50mm lens, shallow depth of field, Amy positioned left-center leaving right 1/3 for instructional card. [Camera] Gentle tracking right movement, warm tungsten lighting, smooth cut transition into office drama.",
+        "character_actions": [
+          {
+            "character_id": "char_amy",
+            "emotion": "curious_inquisitive",
+            "action_sequence": [
+              "抱胸沉思微傾身形直視鏡頭",
+              "右手向右側攤開引導教學字卡浮現",
+              "眼神轉向觀眾發問並引導切換情境"
+            ],
+            "dialogue": "大家在工作中有沒有碰過那種灰色地帶？一筆錢、一個數據，處理起來好像怎麼做都說得通...如果碰到了，你會怎麼做？",
+            "target": "audience",
+            "notes": "首尾幀第 1 段：首幀為 char_amy_master.jpg，尾幀輸出 scene_007_last_frame.png。Prompt 含中文對白誘導口型，組裝時替換為 TTS sec-02 音軌。"
+          }
+        ],
+        "required_assets": [
+          {
+            "type": "video",
+            "description": "Amy talking head generated via Veo/Omni with first-last frame chaining and Mandarin lip-sync",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "scene-008",
+        "type": "character_scene",
+        "start_seconds": 259.7,
+        "end_seconds": 305.0,
+        "script_section_id": "sec-03",
+        "framing": "medium_wide",
+        "movement": "pan_left",
+        "transition_in": "cut",
+        "transition_out": "cut",
+        "overlay_notes": "會議室螢幕上高亮顯示發票稅額溢付紅字警告「指標 1.1」",
+        "shot_language": {
+          "shot_size": "medium_wide",
+          "camera_movement": "pan_left",
+          "lens_mm": 35,
+          "lighting_key": "low_key",
+          "depth_of_field": "medium",
+          "color_temperature": "cool"
+        },
+        "shot_intent": "呈現反面案例的起點：偶發的財務溢付款誘惑，引發同事間的投機心態。",
+        "narrative_role": "build_tension",
+        "information_role": "揭示灰色地帶的誘惑往往披著「犒賞大家辛苦」的合理化外衣。",
+        "hero_moment": false,
+        "texture_keywords": [
+          "pixar_3d",
+          "office_interior",
+          "screen_glow",
+          "temptation",
+          "cinematic_drama"
+        ],
+        "description": "[Subject] Tina (char_tina) in orange twill blazer and ponytail; Tom (char_tom) in unbuttoned navy blazer; Supervisor Mike (char_mike) with groomed stubble. [Subject Motion] Tina grips the paper invoice (prop_tax_invoice) with trembling fingers, biting her lip in distress. Tom aggressively types on mechanical keyboard, abruptly stops, slams desk and points excitedly at the tax surplus line, leaning across the table. Mike pauses mid-sip, holding thermos cup suspended in air, eyes shifting with hesitation. [Scene] Department meeting room (loc_meeting_room), sunlight cut into harsh diagonal bars through half-drawn blinds, laptop screen glowing with invoice red numbers. [Spatial] Medium-wide framing with 35mm lens, medium depth of field establishing three-way psychological tension. [Camera] Slow pan left from Tina's trembling hand to Tom's eager face, then pushing gently toward Mike.",
+        "character_actions": [
+          {
+            "character_id": "char_tina",
+            "emotion": "hesitant_concerned",
+            "action_sequence": [
+              "手指緊捏發票紙張邊緣微抖",
+              "眉頭深鎖咬唇核對平板數據",
+              "神情不安地抬頭看向主管 Mike"
+            ],
+            "dialogue": "Mike，我這幾天整理 H 客戶付款記錄，發現他們去年有筆訂單下單選免稅，付款卻付了稅金，這多出來的錢該怎麼處理啊？",
+            "target": "char_mike",
+            "notes": "表現基層員工面對財務異常時的躊躇與不安"
+          },
+          {
+            "character_id": "char_tom",
+            "emotion": "opportunistic_excited",
+            "action_sequence": [
+              "急促敲擊鍵盤後猛然拍桌前傾",
+              "右手食指重重戳在發票溢付款螢幕上",
+              "眼神閃爍著投機興奮低聲慫恿"
+            ],
+            "dialogue": "客戶多付，又沒人發現，有這麼好康？我看...不如轉成部門公積金，年底聚餐犒賞大家吧！",
+            "target": "char_mike",
+            "notes": "以犒賞團隊辛勞將侵占行為合理化"
+          },
+          {
+            "character_id": "char_mike",
+            "emotion": "conflicted_calculating",
+            "action_sequence": [
+              "保溫杯停在半空目光游移",
+              "視線在發票與 Tom 興奮臉龐間拉鋸",
+              "眉頭微蹙默不作聲"
+            ],
+            "dialogue": "",
+            "target": "char_tina",
+            "notes": "展現主管在合規底線與團隊利益之間的心理掙扎"
+          }
+        ],
+        "required_assets": [
+          {
+            "type": "video",
+            "description": "Pixar 3D meeting room cinematic drama with Tina holding invoice and Tom urgently tapping keyboard and pointing at screen",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "scene-009",
+        "type": "character_scene",
+        "start_seconds": 305.0,
+        "end_seconds": 346.1,
+        "script_section_id": "sec-03",
+        "framing": "medium",
+        "movement": "dolly_in",
+        "transition_in": "cut",
+        "transition_out": "cut",
+        "overlay_notes": "會議室暗調，桌面私記帳冊特寫，角標提示「默許的共謀」",
+        "shot_language": {
+          "shot_size": "medium",
+          "camera_movement": "dolly_in",
+          "lens_mm": 50,
+          "lighting_key": "low_key",
+          "depth_of_field": "shallow",
+          "color_temperature": "cool"
+        },
+        "shot_intent": "呈現合謀形成的心理轉折：主管妥協默許，將違規行為內部正常化。",
+        "narrative_role": "build_tension",
+        "information_role": "揭示當主管放棄原則時，團隊的道德防線將瞬間全面崩潰。",
+        "hero_moment": false,
+        "texture_keywords": [
+          "pixar_3d",
+          "conspiracy",
+          "shadows",
+          "compromise",
+          "cinematic_drama"
+        ],
+        "description": "[Subject] Supervisor Mike (char_mike), Senior Specialist Sophia (char_sophia) in cat-eye glasses, Tina (char_tina), Tom (char_tom). [Subject Motion] Sophia crosses arms, pushes up glasses coldly and shrugs. Mike swallows hard, wipes sweat from brow, places thermos firmly on table, and whispers verdict while avoiding eye contact. Tina gasps silently, reluctantly notes amount in slush fund ledger (prop_slush_fund_record). Tom relaxes back into chair with a satisfied smirk. [Scene] Department meeting room (loc_meeting_room), fluorescent cool light taking over as dusk falls outside, handwritten ledger slid under files. [Spatial] Medium shot with 50mm lens, over-the-shoulder framing between Mike and Tina, slight low-angle looking up at Mike. [Camera] Slow deliberate dolly-in pushing into table center, intensifying the claustrophobic conspiratorial tension.",
+        "character_actions": [
+          {
+            "character_id": "char_sophia",
+            "emotion": "cynical_indifferent",
+            "action_sequence": [
+              "雙手抱胸推黑框眼鏡",
+              "眼神冷漠避開責任",
+              "輕蔑搖頭示意不必多事"
+            ],
+            "dialogue": "我也覺得，多一事不如少一事。過了這麼久沒處理，現在突然通知他們，只會被質疑我們流程有問題！",
+            "target": "char_mike",
+            "notes": "資深同仁推波助瀾的自保怠惰心理"
+          },
+          {
+            "character_id": "char_mike",
+            "emotion": "conflicted_compromising",
+            "action_sequence": [
+              "保溫杯扣在桌面發出悶響",
+              "喉結滾動避開 Tina 質詢目光",
+              "揮手壓低聲音私下定案"
+            ],
+            "dialogue": "嗯...你們的考量有道理。這筆錢是客戶疏忽，只要我們沒自己口袋...Tina，轉到部門公積金吧。大家心照不宣啊。",
+            "target": "char_tina",
+            "notes": "拍板定罪的關鍵轉折點，內心虛弱表面強作鎮定"
+          },
+          {
+            "character_id": "char_tina",
+            "emotion": "reluctant_submissive",
+            "action_sequence": [
+              "倒吸一口涼氣胸口起伏",
+              "無奈低頭在帳冊上登記款項",
+              "手指用力摳住筆身"
+            ],
+            "dialogue": "可是...這畢竟是客戶的錢...",
+            "target": "char_mike",
+            "notes": "展現基層員工屈服於主管權威的無奈"
+          }
+        ],
+        "required_assets": [
+          {
+            "type": "video",
+            "description": "Cinematic low-key office drama with Mike making compromise decision and Sophia folding arms",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "scene-010",
+        "type": "character_scene",
+        "start_seconds": 346.1,
+        "end_seconds": 387.6,
+        "script_section_id": "sec-04",
+        "framing": "close_up",
+        "movement": "handheld",
+        "transition_in": "cut",
+        "transition_out": "cut",
+        "overlay_notes": "稽核室冷白頂光，桌上蓋有紅色「AUDIT 違規覆核」印章單據特寫",
+        "shot_language": {
+          "shot_size": "close_up",
+          "camera_movement": "handheld",
+          "lens_mm": 85,
+          "lighting_key": "high_key",
+          "depth_of_field": "shallow",
+          "color_temperature": "cool"
+        },
+        "shot_intent": "呈現投機行為引爆的毀滅性後果：稽核介入、信任崩塌、醜態百出。",
+        "narrative_role": "deliver_payload",
+        "information_role": "震撼學員：僥倖沒有安全期，私設公積金終將面臨嚴厲的法務稽核與誠信審判。",
+        "hero_moment": false,
+        "texture_keywords": [
+          "pixar_3d",
+          "audit_room",
+          "cold_light",
+          "panic",
+          "betrayal",
+          "cinematic_drama"
+        ],
+        "description": "[Subject] Auditor (char_auditor) in tailored charcoal suit, Tom (char_tom), Supervisor Mike (char_mike), Tina (char_tina). [Subject Motion] Auditor slams metal pen against stamped audit invoice (prop_tax_invoice), fixing cold gaze on Mike. Tom leaps up pale-faced, jabbing finger frantically at Mike in panicked betrayal. Mike loosens crooked tie, sweat dripping from temple as he stammers defensive excuses. Tina buries face in hands, shoulders shaking in tears over stained ledger. [Scene] Global audit room (loc_audit_room), sterile glare from ceiling light panels, metal table scattered with stamped bank statements. [Spatial] Tight close-up with 85mm lens, shallow depth of field isolating facial panic and trembling hands. [Camera] Handheld camera with subtle tremors, rapid whip-pans and shot-reverse-shot cuts capturing chaotic accusations.",
+        "character_actions": [
+          {
+            "character_id": "char_auditor",
+            "emotion": "stern_intimidating",
+            "action_sequence": [
+              "金屬筆尖重重叩擊違規發票單據",
+              "冷酷眼神直視審問涉案人員",
+              "翻開稽核卷宗逐一記錄涉案人名"
+            ],
+            "dialogue": "我們核對流程，發現有筆客戶溢付款被挪用了，這是誰的決定？",
+            "target": "char_mike",
+            "notes": "代表集團制度防線與毫無私情容赦的法律威嚴"
+          },
+          {
+            "character_id": "char_tom",
+            "emotion": "panicked_defensive",
+            "action_sequence": [
+              "拍桌站起手指指向主管 Mike",
+              "面孔扭曲驚慌失措急切甩鍋",
+              "胸口劇烈起伏推卸全部責任"
+            ],
+            "dialogue": "是 Mike 同意的！他是主管他拍板的，所有公積金都是他點頭的！",
+            "target": "char_mike",
+            "notes": "展現大難臨頭時脆弱合謀聯盟的瞬間背叛"
+          },
+          {
+            "character_id": "char_mike",
+            "emotion": "guilty_sweating",
+            "action_sequence": [
+              "領帶歪斜大汗涔涔手抖抓公文夾",
+              "結結巴巴眼神四處亂看",
+              "試圖將責任攤平到整個團隊"
+            ],
+            "dialogue": "是...是大家開會提議的，我只是尊重意見...",
+            "target": "char_auditor",
+            "notes": "主管威信蕩然無存，陷入自相矛盾的狼狽"
+          },
+          {
+            "character_id": "char_tina",
+            "emotion": "devastated_crying",
+            "action_sequence": [
+              "雙手摀臉崩潰痛哭雙肩抽動",
+              "淚水滴落打濕桌上的公積金手記",
+              "絕望抱頭蜷縮在椅子上"
+            ],
+            "dialogue": "我才來不久，我不知道...我只能奉命行事啊...",
+            "target": "char_auditor",
+            "notes": "基層員工盲從主管違規指引付出的慘痛職涯代價"
+          }
+        ],
+        "required_assets": [
+          {
+            "type": "video",
+            "description": "High-tension Pixar 3D audit confrontation scene with harsh cold lighting and panicking employees blaming each other",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "scene-011",
+        "type": "talking_head",
+        "start_seconds": 387.6,
+        "end_seconds": 412.6,
+        "script_section_id": "sec-05",
+        "framing": "medium",
+        "movement": "tracking_left",
+        "transition_in": "dissolve",
+        "transition_out": "dissolve",
+        "overlay_notes": "側邊字卡：左側浮現代價警示卡【違規代價：1. 信任破裂 2. 職涯污點 3. 企業信譽受損】。背景特效：金色齒輪倒流，浮現【時光倒流・起點重啟】。音軌：抽換為 TTS sec-05 音軌。",
+        "shot_language": {
+          "shot_size": "medium",
+          "camera_movement": "tracking_left",
+          "lens_mm": 50,
+          "lighting_key": "tungsten_warm",
+          "depth_of_field": "shallow",
+          "color_temperature": "warm"
+        },
+        "shot_intent": "連接反面教訓與正面實踐，點出違規代價，引導進入『時光倒流』的正面對照劇。",
+        "narrative_role": "transition",
+        "information_role": "啟發反思：違背誠信得不償失，給予同仁在起點做出正確決策的示範。",
+        "hero_moment": false,
+        "texture_keywords": [
+          "pixar_3d",
+          "warm_studio",
+          "gear_clock",
+          "hope",
+          "chained_presenter"
+        ],
+        "description": "[Subject] Amy (char_amy) in light grey blazer, expressing solemn empathy that gradually transforms into inspirational resolve. [Subject Motion] Amy shakes head solemnly with hands clasped, then gestures left to summon warning card; looks up with renewed brightness, raising hand toward reversing clock. [Scene] Pixar 3D warm presentation studio (loc_studio), backdrop displaying a giant mechanical gear clock whose hands spin backwards rapidly in golden light. [Spatial] Medium shot with 50mm lens, Amy framed right-center leaving left 1/3 for consequence card. [Camera] Tracking left slowly, warm tungsten lighting transitioning into brilliant golden morning glow.",
+        "character_actions": [
+          {
+            "character_id": "char_amy",
+            "emotion": "reflective_inspiring",
+            "action_sequence": [
+              "神情凝重沉痛反思違規後果",
+              "單手引導左側警示卡浮現",
+              "轉為振奮微笑手勢引導時光倒流"
+            ],
+            "dialogue": "違背誠信的作法，剛開始嘗到甜頭，最後卻導致彼此猜疑、職涯蒙上陰影，還危及公司信譽，真是悔不當初啊！如果時光可以倒流，讓主角們在起點重新選擇，結果又會是如何呢？讓我們觀賞第二段影片！",
+            "target": "audience",
+            "notes": "首尾幀第 2 段：接續 scene_007_last_frame.png，輸出尾幀 scene_011_last_frame.png。Prompt 含中文對白，組裝時換 TTS sec-05 音軌。"
+          }
+        ],
+        "required_assets": [
+          {
+            "type": "video",
+            "description": "Amy talking head bridge clip with backwards spinning clock and smooth transition from regret to hope",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "scene-012",
+        "type": "character_scene",
+        "start_seconds": 412.6,
+        "end_seconds": 470.0,
+        "script_section_id": "sec-06",
+        "framing": "medium",
+        "movement": "steadicam",
+        "transition_in": "dissolve",
+        "transition_out": "cut",
+        "overlay_notes": "晨曦陽光照亮會議室，側邊標記「正面示範 1：恪守承諾」",
+        "shot_language": {
+          "shot_size": "medium",
+          "camera_movement": "steadicam",
+          "lens_mm": 50,
+          "lighting_key": "golden_hour",
+          "depth_of_field": "medium",
+          "color_temperature": "warm"
+        },
+        "shot_intent": "呈現正面示範的起點：在相同誘惑面前，Tom 展現坦蕩堅決的誠信守諾底線。",
+        "narrative_role": "comparison",
+        "information_role": "傳遞具體準則：合約說免稅就必須免稅，發現多收就必須有告知並退款的義務。",
+        "hero_moment": false,
+        "texture_keywords": [
+          "pixar_3d",
+          "morning_light",
+          "integrity",
+          "clarity",
+          "cinematic_drama"
+        ],
+        "description": "[Subject] Tom (char_tom) standing tall, Tina (char_tina) with tablet, Supervisor Mike (char_mike). [Subject Motion] When Tina points out the tax surplus, Tom looks surprised but immediately waves hand resolutely; stands upright with hand firmly on table, speaking with clarity and moral courage. Tina listens, thoughtful expression turning into relief and smiling agreement. [Scene] Department meeting room (loc_meeting_room), warm golden morning sunlight washing through blinds, clean uncluttered tabletop with contracts and tablet. [Spatial] Medium two-shot with 50mm lens, balanced warm composition, shallow background blur. [Camera] Smooth arc Steadicam gliding from Tom's principled side-profile to Tina's brightening expression.",
+        "character_actions": [
+          {
+            "character_id": "char_tom",
+            "emotion": "resolute_principled",
+            "action_sequence": [
+              "驚訝後立刻果斷擺手拒絕侵占",
+              "身軀挺拔一手按桌眼神清澈坦蕩",
+              "語氣堅定強調守諾與告知義務"
+            ],
+            "dialogue": "客戶多付錢？直接退回不就好了！當初和客戶約好免稅，現在就得遵守承諾啊！知情不報才是大麻煩！",
+            "target": "char_tina",
+            "notes": "Tom 的正面態度翻轉，與負面劇形成強烈反差對照"
+          },
+          {
+            "character_id": "char_tina",
+            "emotion": "thoughtful_relieved",
+            "action_sequence": [
+              "提出退款流程手續繁瑣顧慮",
+              "聽完 Tom 發言眼神轉為釋懷點頭",
+              "嘴角泛起安心踏實微笑"
+            ],
+            "dialogue": "兩邊關帳了手續雖然麻煩，但既然發現了，確實有告知義務！",
+            "target": "char_tom",
+            "notes": "展現團隊同儕相互砥礪正面誠信行為"
+          }
+        ],
+        "required_assets": [
+          {
+            "type": "video",
+            "description": "Pixar 3D warm morning meeting room with Tom resolutely waving hand and insisting on refunding client",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "scene-013",
+        "type": "character_scene",
+        "start_seconds": 470.0,
+        "end_seconds": 526.7,
+        "script_section_id": "sec-06",
+        "framing": "medium",
+        "movement": "dolly_in",
+        "transition_in": "cut",
+        "transition_out": "cut",
+        "overlay_notes": "白板特寫，清楚條列退款退稅 SOP 三步驟「1. 發正式公函 2. 附對帳單據 3. 親電財務長」",
+        "shot_language": {
+          "shot_size": "medium",
+          "camera_movement": "dolly_in",
+          "lens_mm": 50,
+          "lighting_key": "natural",
+          "depth_of_field": "shallow",
+          "color_temperature": "warm"
+        },
+        "shot_intent": "展現卓越主管的誠信決策與專業應對話術，將危機化為信任資產。",
+        "narrative_role": "deliver_payload",
+        "information_role": "示範標準行為：誠實不等於被動挨打，主動提供退款 SOP 能贏得客戶更高敬意。",
+        "hero_moment": false,
+        "texture_keywords": [
+          "pixar_3d",
+          "leadership",
+          "trust",
+          "sop_action",
+          "cinematic_drama"
+        ],
+        "description": "[Subject] Supervisor Mike (char_mike), Tina (char_tina), Sophia (char_sophia). [Subject Motion] Mike clasps hands on table, leans forward with warm confident smile, delivering standard 3-step refund protocol with reassuring authority. Tina nods vigorously, rapidly taking notes in workbook (prop_sop_manual), face glowing with professional confidence. Sophia watches with respectful approval. [Scene] Department meeting room (loc_meeting_room), blinds fully raised, bright sky outside, neatly arranged action lists on table. [Spatial] Medium shot with 50mm lens on Mike, cutting to 85mm close-up of Tina's notebook. [Camera] Slow steady dolly-in creating an aura of dependable, inspiring leadership.",
+        "character_actions": [
+          {
+            "character_id": "char_mike",
+            "emotion": "confident_inspiring",
+            "action_sequence": [
+              "雙手平穩交握桌面前傾微笑",
+              "條理分明交代退款三步驟指引",
+              "眼神注視 Tina 給予信任與肯定"
+            ],
+            "dialogue": "我們注重誠信，該退就要退！但絕不能讓客戶覺得不專業。Tina，先擬正式公函附單據說明事實及退款流程，信發出後再親自電話確認。充分溝通客戶反而會感激我們的誠信！",
+            "target": "char_tina",
+            "notes": "優秀主管化解同仁疑慮、樹立合規典範的關鍵示範"
+          },
+          {
+            "character_id": "char_tina",
+            "emotion": "motivated_focused",
+            "action_sequence": [
+              "眼神發光用力點頭",
+              "執筆在筆記本上飛速記錄三步驟",
+              "抬頭露出自信專業笑容"
+            ],
+            "dialogue": "好的 Mike！我馬上擬函附單據，今天完成對帳電聯！",
+            "target": "char_mike",
+            "notes": "基層同仁獲得清晰指引後的踏實執行力"
+          }
+        ],
+        "required_assets": [
+          {
+            "type": "video",
+            "description": "Inspiring Pixar 3D scene of Mike giving clear ethical guidance and Tina taking notes enthusiastically",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "scene-014",
+        "type": "character_scene",
+        "start_seconds": 526.7,
+        "end_seconds": 576.2,
+        "script_section_id": "sec-07",
+        "framing": "wide",
+        "movement": "crane_down",
+        "transition_in": "cut",
+        "transition_out": "cut",
+        "overlay_notes": "大螢幕高亮顯示追加合約「追加 3,000 萬大單」，會議桌中央金色水晶誠信獎座折射璀璨彩芒",
+        "shot_language": {
+          "shot_size": "wide",
+          "camera_movement": "crane_down",
+          "lens_mm": 24,
+          "lighting_key": "high_key",
+          "depth_of_field": "deep",
+          "color_temperature": "warm"
+        },
+        "shot_intent": "呈現誠信帶來的豐厚回報：贏得客戶絕對信任，換來長期大單與團隊榮耀。",
+        "narrative_role": "emotional_beat",
+        "information_role": "論證核心觀點：誠信看似眼前吃虧，長期積累的『信任複利』才是最大的商業競爭力。",
+        "hero_moment": true,
+        "texture_keywords": [
+          "pixar_3d",
+          "celebration",
+          "trophy_glow",
+          "contract_signing",
+          "cinematic_drama"
+        ],
+        "description": "[Subject] Supervisor Mike (char_mike), Tom (char_tom), Tina (char_tina), full project team. [Subject Motion] Mike strides in waving stamped contract document excitedly, slamming it gently on table with jubilant announcement. Tina jumps up clapping joyfully with tears of pride. Tom enthusiastically high-fives colleagues, laughing in pure triumph. [Scene] Department meeting room (loc_meeting_room), celebration atmosphere, screen showing customer confirmation letter, crystal integrity trophy glowing in table center. [Spatial] Wide angle with 24mm lens, deep staging capturing collective jubilation across the room. [Camera] Majestic crane-down descending from ceiling, executing a 360-degree orbital sweep around the celebrating team.",
+        "character_actions": [
+          {
+            "character_id": "char_mike",
+            "emotion": "triumphant_proud",
+            "action_sequence": [
+              "高舉燙金合約大步走入宣布喜訊",
+              "拍桌宣布客戶林總追加三千萬大單",
+              "指向桌上的誠信水晶獎座肯定團隊"
+            ],
+            "dialogue": "客戶林總親自打電話來，說因為我們展現的誠信與專業，讓他對鴻海的信任大大提升，決定追加下一季大訂單，指名要我們負責！",
+            "target": "char_tina",
+            "notes": "全劇最高光時刻，商業回報印證誠信價值"
+          },
+          {
+            "character_id": "char_tom",
+            "emotion": "jubilant_celebratory",
+            "action_sequence": [
+              "與同仁熱烈擊掌大笑",
+              "豎起大拇指深感自豪",
+              "神情坦蕩光明充滿幹勁"
+            ],
+            "dialogue": "這比當初那點公積金聚餐強一萬倍！而且拿得光明磊落、心安理得！",
+            "target": "char_mike",
+            "notes": "Tom 的心態完全救贖與昇華"
+          },
+          {
+            "character_id": "char_tina",
+            "emotion": "thrilled_joyful",
+            "action_sequence": [
+              "激動跳起拍手歡呼",
+              "眼眶泛起自豪淚花",
+              "向 Mike 和 Tom 豎起大拇指"
+            ],
+            "dialogue": "哇！好心真的有好報！我們的堅持是對的！",
+            "target": "char_mike",
+            "notes": "誠信換來團隊榮耀與自我認同"
+          }
+        ],
+        "required_assets": [
+          {
+            "type": "video",
+            "description": "Glorious Pixar 3D celebration in office with team celebrating 30M contract and crystal integrity trophy",
+            "source": "generate"
+          }
+        ]
+      },
+      {
+        "id": "scene-015",
+        "type": "talking_head",
+        "start_seconds": 576.2,
+        "end_seconds": 600.0,
+        "script_section_id": "sec-08",
+        "framing": "medium",
+        "movement": "dolly_out",
+        "transition_in": "cut",
+        "transition_out": "fade_to_black",
+        "overlay_notes": "側邊字卡：右側浮現金句卡【核心結論：誠信是最高回報的長期投資・信任複利利上加利】。結尾畫面過渡為熾熱橙色齒輪動態，震撼預告【單元二：勤奮 (DILIGENCE)】。音軌：抽換為 TTS sec-08 音軌。",
+        "shot_language": {
+          "shot_size": "medium",
+          "camera_movement": "dolly_out",
+          "lens_mm": 50,
+          "lighting_key": "tungsten_warm",
+          "depth_of_field": "shallow",
+          "color_temperature": "warm"
+        },
+        "shot_intent": "提煉單元核心金句，論證信任複利，引導學員建立長期主義誠信觀，並自然銜接下一單元。",
+        "narrative_role": "call_to_action",
+        "information_role": "深植核心信念：誠信不是說教，而是每位鴻海人最堅實的職涯護城河。",
+        "hero_moment": false,
+        "texture_keywords": [
+          "pixar_3d",
+          "warm_studio",
+          "compound_interest",
+          "diligence_preview",
+          "chained_presenter"
+        ],
+        "description": "[Subject] Amy (char_amy) smiling with deep inspiration and moral authority, hands held gracefully near chest. [Subject Motion] Amy speaks with rhythmic precision, gestures gently to right to trigger golden compound interest card, nods firmly at conclusion. [Scene] Pixar 3D presentation studio (loc_studio), background screen displaying expanding concentric golden rings symbolizing compounding trust. [Spatial] Medium shot with 50mm lens, Amy left-of-center, background smoothly dissolving into burning orange diligence gears. [Camera] Slow dolly-out widening perspective, warm lighting fading gently into module two title card.",
+        "character_actions": [
+          {
+            "character_id": "char_amy",
+            "emotion": "authoritative_inspiring",
+            "action_sequence": [
+              "手勢合攏於胸前目光堅毅溫和",
+              "指向右側信任複利金句卡",
+              "收尾微笑點頭引導下一單元"
+            ],
+            "dialogue": "同樣的起點，卻有天差地遠的終點。誠信就像一筆長期投資，當下看似吃虧，但時間會證明，它所累積的信任複利，會利上加利，帶來千百倍的回收！守住誠信，就是守護你職涯最珍貴的長期資產！",
+            "target": "audience",
+            "notes": "首尾幀第 3 段：接續 scene_011_last_frame.png，輸出尾幀 scene_015_last_frame.png。Prompt 含中文對白，組裝時替換為 TTS sec-08 音軌。"
+          }
+        ],
+        "required_assets": [
+          {
+            "type": "video",
+            "description": "Amy talking head concluding clip with golden compound interest graphics and transition to diligence module",
+            "source": "generate"
+          }
+        ]
+      }
+    ]
+  },
+  "clp_shot_bindings": [
+    {
+      "shot_id": "scene-007",
+      "location_ref": "loc_studio",
+      "character_refs": [
+        "char_amy"
+      ],
+      "prop_refs": [],
+      "focal_entity": "char_amy"
+    },
+    {
+      "shot_id": "scene-008",
+      "location_ref": "loc_meeting_room",
+      "character_refs": [
+        "char_tina",
+        "char_tom",
+        "char_mike"
+      ],
+      "prop_refs": [
+        "prop_tax_invoice"
+      ],
+      "focal_entity": "char_tina"
+    },
+    {
+      "shot_id": "scene-009",
+      "location_ref": "loc_meeting_room",
+      "character_refs": [
+        "char_mike",
+        "char_sophia",
+        "char_tina",
+        "char_tom"
+      ],
+      "prop_refs": [
+        "prop_slush_fund_record"
+      ],
+      "focal_entity": "char_mike"
+    },
+    {
+      "shot_id": "scene-010",
+      "location_ref": "loc_audit_room",
+      "character_refs": [
+        "char_auditor",
+        "char_mike",
+        "char_tom",
+        "char_tina"
+      ],
+      "prop_refs": [
+        "prop_tax_invoice"
+      ],
+      "focal_entity": "char_auditor"
+    },
+    {
+      "shot_id": "scene-011",
+      "location_ref": "loc_studio",
+      "character_refs": [
+        "char_amy"
+      ],
+      "prop_refs": [],
+      "focal_entity": "char_amy"
+    },
+    {
+      "shot_id": "scene-012",
+      "location_ref": "loc_meeting_room",
+      "character_refs": [
+        "char_tom",
+        "char_tina",
+        "char_mike"
+      ],
+      "prop_refs": [],
+      "focal_entity": "char_tom"
+    },
+    {
+      "shot_id": "scene-013",
+      "location_ref": "loc_meeting_room",
+      "character_refs": [
+        "char_mike",
+        "char_tina",
+        "char_sophia"
+      ],
+      "prop_refs": [
+        "prop_sop_manual"
+      ],
+      "focal_entity": "char_mike"
+    },
+    {
+      "shot_id": "scene-014",
+      "location_ref": "loc_meeting_room",
+      "character_refs": [
+        "char_mike",
+        "char_tom",
+        "char_tina"
+      ],
+      "prop_refs": [],
+      "focal_entity": "char_mike"
+    },
+    {
+      "shot_id": "scene-015",
+      "location_ref": "loc_studio",
+      "character_refs": [
+        "char_amy"
+      ],
+      "prop_refs": [],
+      "focal_entity": "char_amy"
+    }
+  ],
+  "quality_telemetry": {
+    "unit_id": "scene-unit-0002",
+    "generation_mode": "dual_track_hybrid_baseline",
+    "scene_count": 9,
+    "total_duration_seconds": 360.0,
+    "median_description_characters": 734,
+    "camera_movements_used": [
+      "crane_down",
+      "dolly_in",
+      "dolly_out",
+      "handheld",
+      "pan_left",
+      "steadicam",
+      "tracking_left",
+      "tracking_right"
+    ],
+    "camera_movement_entropy": 8,
+    "lenses_used": [
+      24,
+      35,
+      50,
+      85
+    ],
+    "lighting_keys_used": [
+      "golden_hour",
+      "high_key",
+      "low_key",
+      "natural",
+      "tungsten_warm"
+    ],
+    "total_action_beats": 60,
+    "avg_action_beats_per_scene": 6.67,
+    "clp_entity_bindings_count": 36,
+    "spokesperson_chained_scenes": [
+      "scene-007",
+      "scene-011",
+      "scene-015"
+    ],
+    "cinematic_drama_scenes": [
+      "scene-008",
+      "scene-009",
+      "scene-010",
+      "scene-012",
+      "scene-013",
+      "scene-014"
+    ],
+    "slideshow_risk": "NONE"
+  }
+}

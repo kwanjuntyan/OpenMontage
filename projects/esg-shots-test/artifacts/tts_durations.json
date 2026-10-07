@@ -1,0 +1,20 @@
+{
+  "shot6_supervisor": {
+    "character": "supervisor",
+    "text": "Amy！大事不好了！增資案被卡住了！下週必須搞定ESG，這關係到大家飯碗！",
+    "duration_seconds": 6.58,
+    "file": "assets/audio/shot6_supervisor.mp3"
+  },
+  "shot7_amy_shocked": {
+    "character": "amy",
+    "text": "這麼嚴重？可是協理，我們一直很守規矩啊...報告協理，ESG我真的不懂啊！",
+    "duration_seconds": 7.8,
+    "file": "assets/audio/shot7_amy_shocked.mp3"
+  },
+  "shot8_amy_contemplating": {
+    "character": "amy",
+    "text": "E...S...G...這到底是什麼救命仙丹？能幫公司募資，還能救我的年終嗎？",
+    "duration_seconds": 9.43,
+    "file": "assets/audio/shot8_amy_contemplating.mp3"
+  }
+}

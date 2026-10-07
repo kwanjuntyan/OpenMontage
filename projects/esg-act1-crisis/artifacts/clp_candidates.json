@@ -1,0 +1,111 @@
+{
+  "version": "2.0",
+  "project_id": "esg-act1-crisis",
+  "source_script_sha256": "sha256:c1324f9024279ab474b24164a4086e73b020e51aed6c43e6121287c86d2e566b",
+  "extracted_by": "CLP Director (esg-pixar-hybrid parser)",
+  "candidates": {
+    "characters": [
+      {
+        "name": "Amy",
+        "frequency": 8,
+        "suggested_role": "Protagonist, Sustainability Project Specialist",
+        "context_snippets": [
+          "Amy正在處理日常工作",
+          "Amy：（震驚）這麼嚴重？",
+          "Amy：（喃喃自語）E...S...G..."
+        ]
+      },
+      {
+        "name": "Amy主管",
+        "frequency": 6,
+        "suggested_role": "Supervisor, Department Associate Director",
+        "context_snippets": [
+          "主管焦急的聲音從電話中傳來",
+          "主管：Amy！大事不妙！",
+          "主管化身購物台主持人"
+        ]
+      },
+      {
+        "name": "哈里森先生",
+        "frequency": 5,
+        "suggested_role": "Senior British Investment Committee Chair",
+        "context_snippets": [
+          "為首的哈里森先生，眼神銳利",
+          "哈里森先生：And the non-financials?",
+          "Put it on hold."
+        ]
+      },
+      {
+        "name": "分析師 Sandy",
+        "frequency": 4,
+        "suggested_role": "Junior Investment Analyst",
+        "context_snippets": [
+          "分析師一號站在投影螢幕前",
+          "Sandy: Mr. Harrison, as you can see",
+          "That is... precisely the issue"
+        ]
+      }
+    ],
+    "locations": [
+      {
+        "name": "海外投資機構會議室",
+        "frequency": 12,
+        "context_snippets": [
+          "場景1.1．海外投資機構會議室．陰雨",
+          "長桌兩旁，有三位投資審查委員"
+        ]
+      },
+      {
+        "name": "Amy的辦公室",
+        "frequency": 9,
+        "context_snippets": [
+          "場景1.2．Amy的辦公室．日",
+          "Amy正在處理日常工作，她的手機突然響起"
+        ]
+      },
+      {
+        "name": "電視購物攝影棚",
+        "frequency": 1,
+        "context_snippets": [
+          "場景1.3．Amy的幻想．日間",
+          "綜藝感十足的電視購物場景"
+        ]
+      }
+    ],
+    "props": [
+      {
+        "name": "大成公司增資計畫書",
+        "frequency": 2,
+        "context_snippets": [
+          "一份印有大成公司Logo的增資計畫書",
+          "增資案被卡住了！"
+        ]
+      },
+      {
+        "name": "紅色 ON HOLD 印章",
+        "frequency": 2,
+        "context_snippets": [
+          "重重地蓋上一個紅色的「ON HOLD」印章",
+          "在「ON HOLD」印章蓋下的巨大聲響後"
+        ]
+      },
+      {
+        "name": "Amy的智慧型手機",
+        "frequency": 3,
+        "context_snippets": [
+          "她的手機突然響起",
+          "Amy接起手機",
+          "Amy錯愕地看著手機"
+        ]
+      },
+      {
+        "name": "ESG濃縮膠囊藥罐",
+        "frequency": 1,
+        "context_snippets": [
+          "拿著一罐ESG濃縮膠囊熱情推銷",
+          "試試全新的「ESG濃縮膠囊」！"
+        ]
+      }
+    ]
+  }
+}

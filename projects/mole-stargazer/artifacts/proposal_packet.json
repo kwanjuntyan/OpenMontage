@@ -1,0 +1,280 @@
+{
+  "version": "1.0",
+  "concept_options": [
+    {
+      "id": "c1",
+      "title": "破土凝星：小鼴鼠的初次仰望 (The Underground Stargazer)",
+      "hook": "在無盡黑暗的地下王國裡，一顆純真的心正在尋找傳說中的微光。",
+      "narrative_structure": "story",
+      "visual_approach": "皮克斯經典 3D 特徵風格：地底溫暖燭光與土壤細節，對比地表壯麗深邃的藍紫色銀河星空。細緻毛髮高光與銅框護目鏡鏡片上的星辰反射。",
+      "suggested_playbook": "pixar-3d-cinematic",
+      "target_audience": "全體喜愛高質感 3D 動畫與溫暖治癒故事的觀眾",
+      "target_platform": "generic",
+      "target_duration_seconds": 30.0,
+      "key_points": [
+        "地底世界的微塵與手作銅護目鏡展示好奇心與機械工藝質感",
+        "鑽出地面的破土動態與抖落泥土的可愛擬人肢體語言",
+        "大廣角鏡頭下星空銀河與渺小鼴鼠的強烈視覺對比，震撼人心",
+        "護目鏡鏡片特寫映出星芒，流下驚艷的感動淚珠"
+      ],
+      "core_message": "即使生於黑暗深處，只要勇敢破土，也能看見浩瀚璀璨的星空。",
+      "cta": "保持好奇心，仰望生命中的每片星空。",
+      "tone": "溫暖、奇蹟感、治癒、純真、史詩級情感高潮",
+      "grounded_in": [
+        "皮克斯經典無對白短片情感敘事原則 (如 Piper, La Luna)",
+        "3D 質感渲染規格：SSS 次表面散射、髮絲 Grooming、金屬 PBR 反射",
+        "管弦樂情感推進：雙簧管主題到全樂團壯麗漸強"
+      ],
+      "why_this_works": "完全遵循純視覺故事敘事法，運用小鼴鼠的大眼睛與肢體語言傳達跨越語言的情感，配合宏大的星空視覺呈現強烈情感共鳴。"
+    },
+    {
+      "id": "c2",
+      "title": "星圖探險家：蒸氣龐克地底傳奇 (The Celestial Navigator)",
+      "hook": "老祖父留下的手繪星圖，指引著最微小的地底探險家。",
+      "narrative_structure": "journey",
+      "visual_approach": "偏向蒸氣龐克奇幻 3D 風格：地底充滿發光菌菇與黃銅齒輪儀器，星空被描繪成旋轉的機械天球儀。",
+      "suggested_playbook": "steampunk-3d",
+      "target_audience": "喜愛冒險、機械美學與奇幻設定的年輕觀眾",
+      "target_platform": "youtube",
+      "target_duration_seconds": 30.0,
+      "key_points": [
+        "探照燈手電筒與古老星圖道具展示冒險動機",
+        "鑽破地表的機械鑽頭裝置增添趣味",
+        "仰望天際時護目鏡展開齒輪多重對焦鏡片"
+      ],
+      "core_message": "世代傳承的探索精神將帶領你穿越地層找到光明。",
+      "cta": "探索未知的世界。",
+      "tone": "冒險、奇幻、熱情、激昂",
+      "grounded_in": [
+        "蒸氣龐克風格元素研究",
+        "機械齒輪與探險道具設計規範"
+      ],
+      "why_this_works": "道具與機械感豐富，但相較於單純的童話情感，30秒內需要交代的背景設定較為厚重。"
+    },
+    {
+      "id": "c3",
+      "title": "發光的花園：螢火蟲與星空交響 (The Bioluminescent Garden)",
+      "hook": "牠以為自己看到了星星，但真正的奇蹟還在更上方。",
+      "narrative_structure": "problem_solution",
+      "visual_approach": "雙重發光體對比風格：破土後先遇到地表螢火蟲群誤以為是星空，隨後仰頭才發現真實宇宙的遼闊。",
+      "suggested_playbook": "fantasy-nature-3d",
+      "target_audience": "自然與魔幻風格愛好者、家庭觀眾",
+      "target_platform": "instagram",
+      "target_duration_seconds": 30.0,
+      "key_points": [
+        "地表草叢與閃爍螢火蟲的互動",
+        "從微觀發光生物過渡到宏觀宇宙銀河的層次推移",
+        "護目鏡上反射螢光與星光的雙重光影效果"
+      ],
+      "core_message": "世界的遼闊超乎想像，每一次抬頭都有新發現。",
+      "cta": "走入大自然感受奇蹟。",
+      "tone": "靈動、神秘、童趣、驚喜",
+      "grounded_in": [
+        "發光生物粒子光影研究",
+        "雙層視覺層次過渡技巧"
+      ],
+      "why_this_works": "視覺層次多變，但 30 秒節奏可能因為兩段式揭曉而稍微緊湊，削弱了最終星空的駐足沉浸感。"
+    }
+  ],
+  "selected_concept": {
+    "concept_id": "c1",
+    "rationale": "最符合使用者提出的『皮克斯風格、溫暖色調、大眼睛誇張表情、細膩毛髮光澤、管弦樂與環境音效』核心需求。純視覺、大情感弧線與高度聚焦的 30 秒節奏能夠發揮最極致的皮克斯感人氛圍。",
+    "modifications": [
+      "採納選項 B：詩意繪本童話旁白 (Poetic Storybook Narration) 結合管弦樂交響與擬聲環境音效",
+      "加入 5 句溫暖深情的童話說書人旁白，與 5 個鏡頭節奏精確對齊",
+      "影像生成採用 Google Banana Pro 高清圖像",
+      "依導演指示暫停實體生成，並將視訊生成 Provider 更換為 Google Veo (1080p Image-to-Video)"
+    ]
+  },
+  "production_plan": {
+    "pipeline": "cinematic",
+    "playbook": "pixar-3d-cinematic",
+    "stages": [
+      {
+        "stage": "research",
+        "tools": [
+          {
+            "tool_name": "research_brief_compiler",
+            "role": "分析皮克斯 3D 視覺美學、角色造型特徵與聲效結構",
+            "provider": "openmontage-internal",
+            "available": true,
+            "estimated_cost_usd": 0.0,
+            "why_this_provider": "標準內部語意編譯器"
+          }
+        ],
+        "approach": "產出符合 research_brief.schema.json 的完整背景與受眾研究"
+      },
+      {
+        "stage": "script",
+        "tools": [
+          {
+            "tool_name": "cinematic_script_generator",
+            "role": "編寫精確對應 30.0 秒的情緒拍點、擬聲表演、鏡頭語言與音效設計腳本",
+            "provider": "openmontage-internal",
+            "available": true,
+            "estimated_cost_usd": 0.0,
+            "why_this_provider": "內建結構化腳本生成器"
+          }
+        ],
+        "approach": "產出具備 5 個關鍵鏡頭拍點的純視覺與擬聲腳本"
+      },
+      {
+        "stage": "scene_plan",
+        "tools": [
+          {
+            "tool_name": "cinematic_scene_planner",
+            "role": "定義 5 個鏡頭的鏡頭光學 (35mm/85mm)、攝影機運鏡、燈光佈局 (SSS/Rim light) 與視覺資產需求",
+            "provider": "openmontage-internal",
+            "available": true,
+            "estimated_cost_usd": 0.0,
+            "why_this_provider": "具備電影級分鏡規則"
+          }
+        ],
+        "approach": "嚴格遵循 30.0 秒總時長，定義 5 個 shot 的視覺規格與資產提示詞"
+      },
+      {
+        "stage": "asset_manifest",
+        "tools": [
+          {
+            "tool_name": "google_banana_pro",
+            "role": "生成 5 個分鏡之皮克斯風格一致性角色與環境參考圖像（含黃銅護目鏡、細緻 Groom 毛髮、夜空）",
+            "provider": "google_imagen",
+            "available": true,
+            "estimated_cost_usd": 0.40,
+            "why_this_provider": "使用者指定採用 Google Banana Pro (Google Nano Banana / Imagen 3 Pro)，具備頂級 3D 質感、光影與角色一致性控制"
+          },
+          {
+            "tool_name": "veo_video",
+            "role": "以 Google Veo 頂級 1080p 電影畫質生成 5 段 3D 動畫短片 (30秒)，並由 Banana Pro 高清參考圖驅動 Image-to-Video",
+            "provider": "veo",
+            "available": true,
+            "estimated_cost_usd": 6.00,
+            "why_this_provider": "導演最新指令更換 Provider 為 Google Veo (Google DeepMind 旗艦影音模型)，具備 1080p 超高解析度、真實光學運鏡與原生音訊"
+          }
+        ],
+        "approach": "產出標準 asset_manifest.json，由 Banana Pro 高清影像輸入 Veo Image-to-Video 管線"
+      },
+      {
+        "stage": "compose_and_render",
+        "tools": [
+          {
+            "tool_name": "hyperframes",
+            "role": "以 HyperFrames 確定性時間軸渲染 30 秒高規格 3D 皮克斯風格展示預覽與成片合成",
+            "provider": "hyperframes-runtime",
+            "available": true,
+            "estimated_cost_usd": 0.0,
+            "why_this_provider": "支援精確分秒時間軸、GSAP 動畫與無伺服器渲染"
+          }
+        ],
+        "approach": "建立 Atelier 模式的專屬 HyperFrames 渲染組件與 HTML 預覽頁面"
+      }
+    ],
+    "quality_tradeoffs": [
+      {
+        "tradeoff": "付費雲端影片生成 (Seedance/Kling ~$1.50) vs 專案本地確定性渲染 (HyperFrames + PBR 3D 資產渲染)",
+        "recommendation": "採用本地確定性 HyperFrames 3D 渲染與高清一致性特徵資產，確保 100% 鏡頭時間精確度與零 API 費用消耗",
+        "quality_impact": "保證每格動畫與分鏡時間軸嚴格受控，不產生雲端隨機變形"
+      }
+    ],
+    "alternative_paths": [
+      {
+        "description": "全雲端 AI 影像生成管線 (Seedance 2.0 / Kling Direct)",
+        "total_cost_usd": 2.5,
+        "quality_level": "premium",
+        "what_changes": "每個鏡頭調用付費模型生成連續影片片段"
+      },
+      {
+        "description": "確定性本地渲染管線 (HyperFrames + 高清角色環境渲染)",
+        "total_cost_usd": 0.0,
+        "quality_level": "free",
+        "what_changes": "零外部 API 費用，即時預覽與完全精確的時間軸控制"
+      }
+    ],
+    "delivery_promise": {
+      "promise_type": "motion_led",
+      "motion_required": true,
+      "tone_mode": "cinematic",
+      "quality_floor": "broadcast",
+      "approved_fallback": null
+    },
+    "renderer_family": "cinematic-trailer",
+    "render_runtime": "hyperframes",
+    "composition_mode": "atelier",
+    "art_direction": "PixarPremiumStyle 專屬視覺語言：暖棕蓬鬆毛絨質感、圓潤大眼水潤高光、特製復古黃銅雙筒護目鏡（邊緣微磨損）、地底暖鎢絲光與草甸深靛青星夜強烈冷暖對比。",
+    "taste_profile": {
+      "design_read": "溫馨治癒又富有史詩奇蹟感的皮克斯經典無對白動畫短片風格",
+      "visual_variance": 7,
+      "motion_intensity": 6,
+      "information_density": 4,
+      "palette_discipline": "地下為焦糖琥珀與深褐泥土；地上為夜空深靛青、星雲紫羅蘭與草地幽綠；亮點為暖金色星辰與黃銅護目鏡反光",
+      "layout_variation": "從特寫緊湊幽閉的地下通道，逐級擴展至無垠開闊的穹頂全景，最後回歸眼睛微距特寫",
+      "reference_strategy": "鎖定角色幾何比例、眼睛反光高光點與護目鏡金屬色澤作為唯一核心視覺錨點",
+      "anti_patterns": [
+        "避免過度寫實導致恐怖谷效應 (保持皮克斯可愛圓潤比例)",
+        "避免星空過暗缺乏魔幻童話感 (星空需有柔和星雲與層次星芒)",
+        "避免無節奏的急促剪輯 (給予觀眾感受呼吸與奇蹟的停留空間)"
+      ],
+      "quality_gates": [
+        "毛髮 Grooming 與光澤自然細膩",
+        "護目鏡鏡面反射清晰可見星芒倒影",
+        "管弦樂的高潮必須與第 4 鏡頭星空揭曉完全同步"
+      ]
+    },
+    "music_source": {
+      "source_type": "ai_generated",
+      "provider": "lyria",
+      "mood_direction": "前段為俏皮輕巧的雙簧管與低音單簧管，象徵地底探索；中段加入溫柔的鐘琴與豎琴；後段星空揭曉時爆發出磅礴而純淨的弦樂與圓號交響，伴隨星光閃爍微音。",
+      "estimated_cost_usd": 0.0
+    },
+    "voice_selection": {
+      "provider": "google_tts",
+      "voice_id": "cmn-TW-Wavenet-A",
+      "rationale": "溫暖柔和的繁體中文童話繪本講者音色，語調輕柔微帶笑意，完美烘托皮克斯式純真治癒情感",
+      "estimated_cost_usd": 0.05,
+      "delivery_style": "溫柔舒緩的童話繪本講者 (Warm Storybook Narrator)",
+      "pacing_policy": "每句旁白給予充足留白呼吸，在銀河爆發時自然停頓，讓位給管弦交響樂",
+      "sample_approval_required": true
+    }
+  },
+  "cost_estimate": {
+    "total_estimated_usd": 6.45,
+    "line_items": [
+      {
+        "tool": "google_banana_pro",
+        "operation": "5張皮克斯風格高清特徵參考圖生成 (16:9)",
+        "quantity": 5,
+        "estimated_usd": 0.40,
+        "notes": "Google Nano Banana Pro / Imagen 3 Pro ($0.08/圖)"
+      },
+      {
+        "tool": "veo_video",
+        "operation": "5段連續鏡頭 1080p 3D 動畫短片生成 (總長 30秒)",
+        "quantity": 5,
+        "estimated_usd": 6.00,
+        "notes": "Google Veo 旗艦模型 (1080p, 支援 Image-to-Video 與原生音訊)"
+      },
+      {
+        "tool": "google_tts",
+        "operation": "選項 B 詩意童話旁白語音生成 (5段台詞)",
+        "quantity": 5,
+        "estimated_usd": 0.05,
+        "notes": "Google Cloud TTS 繁體中文說書人音色"
+      },
+      {
+        "tool": "hyperframes_renderer",
+        "operation": "30秒確定性 HyperFrames 渲染與展示頁面",
+        "quantity": 1,
+        "estimated_usd": 0.0,
+        "notes": "本地渲染無 API 費用"
+      }
+    ],
+    "budget_cap_usd": 15.0,
+    "budget_verdict": "within_budget",
+    "savings_options": []
+  },
+  "approval": {
+    "status": "approved",
+    "user_notes": "導演指示：影片生成前先暫停，並將視訊生成 Provider 更換為 Google Veo。",
+    "approved_budget_usd": 15.0
+  }
+}

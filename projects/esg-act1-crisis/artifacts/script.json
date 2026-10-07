@@ -1,0 +1,245 @@
+{
+  "version": "1.0",
+  "title": "ESG 企業動畫培訓課程：第一幕・開場危機",
+  "total_duration_seconds": 149.0,
+  "voice_performance": {
+    "performance_intent": "Scene 1.1: Cold, precise, prestigious British executive English. Scene 1.2: Anxious, rapid-fire, comedic Mandarin office panic. Scene 1.3: Hyper-enthusiastic TV shopping pitch.",
+    "pacing_profile": "cinematic",
+    "energy_curve": "Starts restrained and analytical, explodes into high-tension comedic panic at the phone call, ends with surreal TV shopping parody.",
+    "pause_policy": "Dramatic beats after Harrison's questions and ON HOLD stamp reverberation."
+  },
+  "sections": [
+    {
+      "id": "sec_1_1_3",
+      "label": "Sandy Financial Pitch",
+      "text": "Mr. Harrison, as you can see, the financial projections are solid. Gross margins are healthy, and their market share is growing.",
+      "start_seconds": 15.0,
+      "end_seconds": 30.0,
+      "speaker_directions": "Sandy presents with professional confidence, gesturing toward the corporate financial growth chart.",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "confident and professional",
+        "emphasis_words": [
+          "solid",
+          "healthy",
+          "growing"
+        ]
+      }
+    },
+    {
+      "id": "sec_1_1_4",
+      "label": "Harrison Non-Financial Question",
+      "text": "And the non-financials? Where do they stand on ESG metrics?",
+      "start_seconds": 30.0,
+      "end_seconds": 35.0,
+      "speaker_directions": "Mr. Harrison cuts through the optimism with a sharp, calculating tone, eyes narrowing.",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "stern, authoritative",
+        "emphasis_words": [
+          "non-financials",
+          "ESG metrics"
+        ]
+      }
+    },
+    {
+      "id": "sec_1_1_6",
+      "label": "Sandy Awkward Admission",
+      "text": "That is... precisely the issue, sir. We have zero data on their emissions, and no verification of labor standards.",
+      "start_seconds": 42.0,
+      "end_seconds": 57.0,
+      "speaker_directions": "Sandy hesitates awkwardly, clicking remote to show empty warning charts, nervous vocal tremor.",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "nervous, cautious",
+        "emphasis_words": [
+          "precisely",
+          "zero data",
+          "no verification"
+        ]
+      }
+    },
+    {
+      "id": "sec_1_1_8",
+      "label": "Harrison Black Box Verdict",
+      "text": "So, it's a black box. We can't verify if their healthy margins come from efficiency... or exploitation. We are flying blind here.",
+      "start_seconds": 65.0,
+      "end_seconds": 73.0,
+      "speaker_directions": "Mr. Harrison taps fingers on the polished wood table, grim and resolute.",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "cold, resolute",
+        "emphasis_words": [
+          "black box",
+          "exploitation",
+          "flying blind"
+        ]
+      }
+    },
+    {
+      "id": "sec_1_1_9",
+      "label": "Sandy Feeble Rebuttal",
+      "text": "but, the potential return is still attractive...",
+      "start_seconds": 73.0,
+      "end_seconds": 78.0,
+      "speaker_directions": "Sandy attempts a weak defense, trailing off under Harrison's gaze.",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "tentative, hesitant",
+        "emphasis_words": [
+          "attractive"
+        ]
+      }
+    },
+    {
+      "id": "sec_1_1_10",
+      "label": "Harrison Final Rejection",
+      "text": "Risk is not attractive. Put it on hold. I want to see a credible ESG roadmap from them before we proceed. Make that clear to them.",
+      "start_seconds": 78.0,
+      "end_seconds": 86.0,
+      "speaker_directions": "Harrison firmly shuts his folder, absolute executive finality.",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "commanding, definitive",
+        "emphasis_words": [
+          "Risk",
+          "not attractive",
+          "on hold",
+          "credible ESG roadmap"
+        ]
+      }
+    },
+    {
+      "id": "sec_1_2_2",
+      "label": "Supervisor Urgent Alert",
+      "text": "Amy！大事不妙！增資案被卡住了！投資方說我們是個「ESG黑箱」，不相信我們的財務報表！",
+      "start_seconds": 101.0,
+      "end_seconds": 106.0,
+      "speaker_directions": "主管透過電話狂吼，氣喘吁吁，神情極度焦慮，汗珠狂飆。",
+      "delivery_cues": {
+        "pace": "fast",
+        "energy": "panicked, explosive",
+        "emphasis_words": [
+          "大事不妙",
+          "卡住了",
+          "ESG黑箱"
+        ]
+      }
+    },
+    {
+      "id": "sec_1_2_3",
+      "label": "Supervisor Bonus Threat",
+      "text": "如果這筆錢沒進來，明年的擴廠計畫不但要停，連大家的年終獎金恐怕都發不出來了！",
+      "start_seconds": 106.0,
+      "end_seconds": 110.0,
+      "speaker_directions": "主管用力揮舞雙手，聲音充滿絕望與威脅感。",
+      "delivery_cues": {
+        "pace": "fast",
+        "energy": "anxious, dire",
+        "emphasis_words": [
+          "擴廠計畫",
+          "年終獎金"
+        ]
+      }
+    },
+    {
+      "id": "sec_1_2_4",
+      "label": "Amy Shocked Question",
+      "text": "這麼嚴重？可是協理，我們公司不是一直都很守規矩嗎？",
+      "start_seconds": 110.0,
+      "end_seconds": 115.0,
+      "speaker_directions": "Amy 睜大眼睛，神情震撼且困惑，握緊手機不敢置信。",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "shocked, bewildered",
+        "emphasis_words": [
+          "這麼嚴重",
+          "很守規矩"
+        ]
+      }
+    },
+    {
+      "id": "sec_1_2_5",
+      "label": "Supervisor Assignment",
+      "text": "現在沒時間解釋！下禮拜有場高階主管會議，妳就先準備一場ESG簡報吧！",
+      "start_seconds": 115.0,
+      "end_seconds": 120.0,
+      "speaker_directions": "主管強行打斷，急躁地指派不可能的任務。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "commanding, rushed",
+        "emphasis_words": [
+          "沒時間解釋",
+          "ESG簡報"
+        ]
+      }
+    },
+    {
+      "id": "sec_1_2_6",
+      "label": "Amy Hesitant Confession",
+      "text": "報告協理，ESG我也不懂啊...",
+      "start_seconds": 120.0,
+      "end_seconds": 125.0,
+      "speaker_directions": "Amy 眉頭緊鎖，眼神慌亂，聲音微弱而無助。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "nervous, helpless",
+        "emphasis_words": [
+          "我也不懂啊"
+        ]
+      }
+    },
+    {
+      "id": "sec_1_2_7",
+      "label": "Supervisor Final Push and Hangup",
+      "text": "不懂就去搞懂啊！這關係到公司的生存，也關係到妳我的飯碗！就這樣！我要去安撫老闆了！",
+      "start_seconds": 125.0,
+      "end_seconds": 130.0,
+      "speaker_directions": "主管聲嘶力竭大吼後立即掛斷，留下盲音。",
+      "delivery_cues": {
+        "pace": "fast",
+        "energy": "explosive, aggressive",
+        "emphasis_words": [
+          "搞懂啊",
+          "公司的生存",
+          "妳我的飯碗"
+        ]
+      }
+    },
+    {
+      "id": "sec_1_2_8",
+      "label": "Amy Monologue",
+      "text": "E...S...G...這到底是什麼救命仙丹？能幫公司募資？還能救我的年終獎金？",
+      "start_seconds": 130.0,
+      "end_seconds": 138.0,
+      "speaker_directions": "Amy 呆滯地看著黑掉的手機螢幕，喃喃自語，雙眼緩緩失焦。",
+      "delivery_cues": {
+        "pace": "slow",
+        "energy": "contemplative, bewildered",
+        "emphasis_words": [
+          "救命仙丹",
+          "募資",
+          "年終獎金"
+        ]
+      }
+    },
+    {
+      "id": "sec_1_3_1",
+      "label": "Fantasy TV Shopping Host",
+      "text": "還在擔心年終獎金泡湯嗎？試試全新的「ESG濃縮膠囊」！一口吞下，保證你訂單滿載，股價飆升，老闆笑呵呵！",
+      "start_seconds": 141.0,
+      "end_seconds": 149.0,
+      "speaker_directions": "主管化身浮誇購物台主持人，咧嘴大笑，激動捧著金光閃閃的藥罐向鏡頭狂推銷。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "hyper-enthusiastic, commercial parody",
+        "emphasis_words": [
+          "年終獎金泡湯",
+          "ESG濃縮膠囊",
+          "訂單滿載",
+          "股價飆升"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,266 @@
+{
+  "version": "1.0",
+  "style_playbook": "pixar-3d-cinematic",
+  "scenes": [
+    {
+      "id": "scene_01",
+      "type": "character_scene",
+      "description": "在地底幽暗的土穴中，一盞懸掛的小油燈散發出溫暖的鎢絲微光。小鼴鼠仔細調整頭上的雙筒黃銅護目鏡，大眼睛中充滿興奮與專注，尖銳的小爪子快速刨動鬆軟的泥土。",
+      "start_seconds": 0.0,
+      "end_seconds": 6.0,
+      "script_section_id": "sec_01",
+      "framing": "中近景，聚焦於小鼴鼠專注神情與發亮的護目鏡",
+      "movement": "緩慢 Dolly In 向角色推進",
+      "transition_in": "fade_from_black",
+      "transition_out": "cut",
+      "overlay_notes": "旁白字幕：「在無人知曉的地底深處，有隻戴著黃銅護目鏡的小小探險家……」",
+      "shot_language": {
+        "shot_size": "medium_close",
+        "camera_movement": "dolly_in",
+        "lens_mm": 50,
+        "lighting_key": "tungsten_warm",
+        "depth_of_field": "shallow",
+        "color_temperature": "warm"
+      },
+      "shot_intent": "建立地底主角的生活環境與探索渴望，配合童話說書人引領觀眾進入純真世界",
+      "narrative_role": "introduce_subject",
+      "information_role": "溫暖建立主角形象，引導觀眾共情小鼴鼠的好奇心",
+      "hero_moment": false,
+      "character_actions": [
+        {
+          "character_id": "mole_hero",
+          "emotion": "好奇與專注",
+          "action_sequence": [
+            "雙爪輕扶黃銅護目鏡調整鏡帶",
+            "抽動粉色小鼻子深吸一口氣",
+            "揮動前爪刨開頭頂泥土"
+          ],
+          "notes": "耳朵與鼻頭呈現半透明紅潤次表面散射 (SSS)"
+        }
+      ],
+      "texture_keywords": [
+        "tactile fur groom",
+        "brass specular glint",
+        "warm tungsten bokeh",
+        "floating dust motes"
+      ],
+      "required_assets": [
+        {
+          "type": "character_model",
+          "description": "3D 皮克斯風格小鼴鼠模型（帶黃銅護目鏡與毛髮 Groom）",
+          "source": "generate"
+        },
+        {
+          "type": "environment",
+          "description": "地底泥土隧道與溫暖油燈",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "scene_02",
+      "type": "character_scene",
+      "description": "夜色下的草甸地面微微隆起，泥土碎屑崩解。一隻沾著草屑的粉紅小鼻子破土而出，左右警惕嗅聞，接著金屬護目鏡鏡面探出地面，反射出微弱夜光。",
+      "start_seconds": 6.0,
+      "end_seconds": 11.0,
+      "script_section_id": "sec_02",
+      "framing": "低角度微距特寫，貼近草皮與破土裂口",
+      "movement": "微幅 Tilt Up 隨破土動作抬升",
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "overlay_notes": "旁白字幕：「今晚，牠決定第一次鑽出泥土，尋找傳說中的微光。」",
+      "shot_language": {
+        "shot_size": "close_up",
+        "camera_movement": "tilt_up",
+        "lens_mm": 85,
+        "lighting_key": "rim_lit",
+        "depth_of_field": "shallow",
+        "color_temperature": "mixed"
+      },
+      "shot_intent": "製造首次接觸外界地表的懸念與破土萌感，旁白點出尋找微光的冒險動機",
+      "narrative_role": "build_tension",
+      "information_role": "讓觀眾屏息期待小鼴鼠即將看見的世界",
+      "hero_moment": false,
+      "character_actions": [
+        {
+          "character_id": "mole_hero",
+          "emotion": "警惕與期待",
+          "action_sequence": [
+            "頂起土壤碎塊",
+            "粉紅鼻子左右快速抽動嗅探",
+            "頭頂護目鏡破土現身"
+          ],
+          "notes": "鼻尖凝結一滴微小水氣，泥屑自頭部滑落"
+        }
+      ],
+      "texture_keywords": [
+        "moist soil crumb",
+        "dew drops on clover",
+        "cool rim lighting",
+        "soft velvet snout"
+      ],
+      "required_assets": [
+        {
+          "type": "environment",
+          "description": "夜間草甸微觀土壤破土洞口與三葉草",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "scene_03",
+      "type": "character_scene",
+      "description": "小鼴鼠整個身子奮力拔出土洞，一屁股跌坐在柔軟的三葉草叢中。牠像小狗一樣歡快地抖動全身甩掉泥土，蓬鬆的毛髮在夜風中舒展開來，雙手推起護目鏡揉了揉眼睛。",
+      "start_seconds": 11.0,
+      "end_seconds": 18.0,
+      "script_section_id": "sec_03",
+      "framing": "中景，全身小鼴鼠與周圍發光草地",
+      "movement": "靜態微幅手持呼吸感 (Steadicam)",
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "overlay_notes": "旁白字幕：「夜風輕輕吹散了泥屑，草甸上的螢火蟲悄悄亮起……」",
+      "shot_language": {
+        "shot_size": "medium",
+        "camera_movement": "steadicam",
+        "lens_mm": 50,
+        "lighting_key": "blue_hour",
+        "depth_of_field": "medium",
+        "color_temperature": "cool"
+      },
+      "shot_intent": "展現小鼴鼠可愛逗趣的性格魅力，營造脫離地底後的輕鬆與自由感",
+      "narrative_role": "transition",
+      "information_role": "觀眾感受主角徹底來到地表空間的開闊轉換",
+      "hero_moment": false,
+      "character_actions": [
+        {
+          "character_id": "mole_hero",
+          "emotion": "歡快與放鬆",
+          "action_sequence": [
+            "翻滾落坐在草地上",
+            "全身毛髮劇烈抖動甩出泥塵",
+            "用肉嘟嘟的小爪子把護目鏡推至額頭揉眼睛",
+            "夜風吹過毛髮微微飄揚"
+          ],
+          "notes": "毛髮回彈物理模擬，草葉隨動作擺動"
+        }
+      ],
+      "texture_keywords": [
+        "fluffy fur dynamic",
+        "bioluminescent firefly particles",
+        "gentle meadow breeze"
+      ],
+      "required_assets": [
+        {
+          "type": "character_animation",
+          "description": "小鼴鼠甩泥與推護目鏡高保真物理動畫",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "scene_04",
+      "type": "character_scene",
+      "description": "小鼴鼠停下動作，緩緩抬頭——鏡頭以壯麗的 Crane Up 飛速攀升拉開！地平線急速展開，原本微小的視角瞬間昇華成一片震撼蒼穹：無垠的深靛青夜空、奔騰的紫金星雲與億萬顆閃耀星辰橫跨天際，地面上的小鼴鼠在星空下化作一個純真的剪影。",
+      "start_seconds": 18.0,
+      "end_seconds": 25.0,
+      "script_section_id": "sec_04",
+      "framing": "從極端微觀小鼴鼠背影飛躍至宏觀無垠的極廣角星海全景",
+      "movement": "流暢無阻的 Crane Up 攀升拉遠",
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "overlay_notes": "旁白字幕：「直到牠抬起頭——整座浩瀚的星河，在眼前溫柔綻放。」",
+      "shot_language": {
+        "shot_size": "extreme_wide",
+        "camera_movement": "crane_up",
+        "lens_mm": 14,
+        "lighting_key": "volumetric",
+        "depth_of_field": "deep",
+        "color_temperature": "cool"
+      },
+      "shot_intent": "全片核心高潮 (Hero Moment)！以極致尺度對比呈現宇宙壯美，旁白讚嘆後留白給交響樂爆發",
+      "narrative_role": "deliver_payload",
+      "information_role": "帶給觀眾無比強烈的視覺震撼與心靈撫慰",
+      "hero_moment": true,
+      "character_actions": [
+        {
+          "character_id": "mole_hero",
+          "emotion": "無比敬畏與驚嘆",
+          "action_sequence": [
+            "仰起頭部定格",
+            "嘴巴微張屏住呼吸",
+            "小爪子不自主地緩緩下垂"
+          ],
+          "notes": "角色微小剪影與龐大銀河形成強烈幾何構圖"
+        }
+      ],
+      "texture_keywords": [
+        "celestial nebula depth",
+        "sparkling star cluster",
+        "infinite atmospheric haze",
+        "epic silhouette"
+      ],
+      "required_assets": [
+        {
+          "type": "matte_painting",
+          "description": "8K 超高清皮克斯風格奇幻銀河星空背景",
+          "source": "generate"
+        },
+        {
+          "type": "vfx_particles",
+          "description": "緩慢流動的星雲光塵與星芒特效",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "scene_05",
+      "type": "character_scene",
+      "description": "極度微距推至小鼴鼠戴回護目鏡的臉部。澄澈晶亮的圓眼睛透過厚實凸面鏡片，無比生動地映出旋轉的銀河星座。眼角悄悄滑落一顆被星光照亮的晶瑩淚珠，小鼴鼠嘴角泛起滿足而溫柔的微笑，畫面在璀璨微光中漸漸溫暖淡出。",
+      "start_seconds": 25.0,
+      "end_seconds": 30.0,
+      "script_section_id": "sec_05",
+      "framing": "極度微距特寫，聚焦於護目鏡鏡面、瞳孔倒影與眼角淚珠",
+      "movement": "極緩微幅 Dolly In 停滯",
+      "transition_in": "cut",
+      "transition_out": "fade_to_black",
+      "overlay_notes": "旁白字幕：「鏡片裡倒映著整個宇宙。原來，世界如此美麗。」",
+      "shot_language": {
+        "shot_size": "extreme_close_up",
+        "camera_movement": "dolly_in",
+        "lens_mm": 135,
+        "lighting_key": "rim_lit",
+        "depth_of_field": "shallow",
+        "color_temperature": "mixed"
+      },
+      "shot_intent": "完美收束情緒，將浩瀚宇宙的壯觀轉化為內心最細膩深沈的感動，留下永恆的治癒回音",
+      "narrative_role": "resolution",
+      "information_role": "留下久久難以忘懷的溫暖、治癒與純粹童心",
+      "hero_moment": false,
+      "character_actions": [
+        {
+          "character_id": "mole_hero",
+          "emotion": "深深被觸動的幸福與寧靜",
+          "action_sequence": [
+            "瞳孔放大映射出旋轉星河",
+            "眼角凝聚出一顆晶瑩淚珠輕輕滑落",
+            "雙頰泛起溫暖微紅，嘴角微笑"
+          ],
+          "notes": "眼睛玻璃體折射、淚珠表面張力物理與金屬倒影細膩可辨"
+        }
+      ],
+      "texture_keywords": [
+        "prismatic lens flare",
+        "micro tear droplet caustics",
+        "iridescent fur highlights",
+        "emotional catchlight"
+      ],
+      "required_assets": [
+        {
+          "type": "macro_render",
+          "description": "極限特寫眼睛瞳孔倒影與凸面護目鏡高解析度渲染",
+          "source": "generate"
+        }
+      ]
+    }
+  ]
+}

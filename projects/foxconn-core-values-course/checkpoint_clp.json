@@ -1,0 +1,565 @@
+{
+  "version": "1.0",
+  "project_id": "foxconn-core-values-course",
+  "pipeline_type": "animated-explainer",
+  "stage": "clp",
+  "status": "completed",
+  "timestamp": "2026-09-17T07:53:57.012577+00:00",
+  "checkpoint_policy": "guided",
+  "human_approval_required": true,
+  "human_approved": true,
+  "artifacts": {
+    "clp_manifest": {
+      "version": "2.0",
+      "project_id": "foxconn-core-values-course",
+      "decision_log_ref": "projects/foxconn-core-values-course/artifacts/decision_log.json",
+      "characters": [
+        {
+          "id": "char_amy",
+          "name": "Amy",
+          "role": "培訓部門資深培訓講師 / 課程主持人",
+          "age": 28,
+          "gender": "female",
+          "visual_traits": "活力親切、神情溫暖自信、雙頰帶有自然雀斑、大而有神棕色雙眼、及下巴長度微捲淺棕鮑伯短髮(voluminous chin-length wavy light brown bob)",
+          "costume": "淺灰色立體紋理西裝外套(textured light grey blazer)與同色西裝長褲、簡約純白內搭上衣、黑色跟鞋，俐落現代商務休閒風",
+          "prompt_anchor": "High-quality 3D Pixar animation style character sheet of Amy, a spirited and approachable young professional woman, wavy light brown hair in a voluminous chin-length bob, fair skin with prominent freckles on nose and cheeks, large expressive brown eyes, kind warm smile, wearing a textured light grey blazer and matching trousers over a simple white top, black heels, seamless light grey studio background, soft professional studio lighting, 8k render, C4D render",
+          "image": "assets/clp/characters/Amy_新造型_SS2.jpeg",
+          "asset_sha256": "sha256:0d18baae96cd2f0f3574237a47f581924df6a872dba37c66eb60d4c59f7e9cca",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "char_mike",
+          "name": "Mike",
+          "role": "研發暨營運部門主管 (經理/協理)",
+          "age": 42,
+          "gender": "male",
+          "visual_traits": "親切且專業的男性主管、棕色短髮立體向上梳整有型、濃密深色眉毛、細長方形金屬框眼鏡(thin rectangular wire-rimmed glasses)、溫暖棕眼、乾淨面部帶些許微雀斑、禮貌自信微笑",
+          "costume": "合身淺灰色西裝外套(tailored light grey suit jacket)、純白翻領襯衫繫亮藍色絲質領帶(bright blue silk tie)、同款灰色西裝長褲、亮面黑皮鞋",
+          "prompt_anchor": "High-quality 3D Pixar animation style character sheet of Mike, a friendly and professional male corporate manager, short volumized brown hair styled neatly upward, thin rectangular wire-rimmed glasses, warm brown eyes, clean-shaven, tailored light grey suit jacket over crisp white button-up shirt with a bright blue silk tie, matching grey trousers, polished black dress shoes, soft professional studio lighting, 8k render",
+          "image": "assets/clp/characters/Mike_SS2.jpeg",
+          "asset_sha256": "sha256:0263970836f550df18d0d473c643170a47334c46ff7aadb337595a5c51b43840",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "char_tina",
+          "name": "Tina",
+          "role": "專案新人管理師 / 工程師",
+          "age": 24,
+          "gender": "female",
+          "visual_traits": "精明能幹且親切的新人專案管理師、及下巴深棕色大旁分短鮑伯頭(chic chin-length dark brunette bob with deep side part)、光滑白皙肌膚微帶紅潤面頰、大而明亮的溫暖棕眼、溫和自信微笑",
+          "costume": "專屬橘色斜紋布西裝外套(tailored orange twill blazer，非亮面)、純白立領襯衫(clean white collared shirt)、幹練現代商務風",
+          "prompt_anchor": "High-quality 3D Pixar animation style character sheet of Tina, a capable and friendly young professional woman, chic chin-length dark brunette bob with deep side part, smooth fair skin with soft rosy cheeks, large warm brown eyes, gentle confident smile, wearing a tailored orange twill blazer over a clean white collared shirt, sharp modern business look, seamless plain light grey studio background, soft professional studio lighting, 8k render",
+          "image": "assets/clp/characters/Tina_SS2.jpeg",
+          "asset_sha256": "sha256:706b8ca9daaf3f3caf4b48ea41e4fd8d905237eecdf34c5eaf8dda6d875fc707",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "char_tom",
+          "name": "Tom",
+          "role": "資深專案工程師 / 技術骨幹",
+          "age": 35,
+          "gender": "male",
+          "visual_traits": "帥氣且具親和力的資深專業工程師、濃密蓬鬆微風吹拂波浪棕髮(thick wavy brown hair styled in voluminous wind-swept look)、濃密黑眉、溫暖棕眼、雙頰帶微雀斑、誠懇真摯的親切閉口微笑",
+          "costume": "現代海軍藍西裝外套(modern navy blue blazer)、純白襯衫領口微開不繫領帶(clean white dress shirt unbuttoned at collar)、同色長褲、黑色休閒皮鞋，率真聰敏工作風",
+          "prompt_anchor": "High-quality 3D Pixar animation style character sheet of Tom, a handsome approachable young professional male, thick wavy brown hair styled in voluminous wind-swept look, thick dark eyebrows, warm brown eyes with freckles on cheeks, subtle kindly smile, modern navy blue blazer over clean white dress shirt unbuttoned at the collar, matching navy trousers, black shoes, soft professional lighting, 8k render",
+          "image": "assets/clp/characters/Tom_SS2.jpeg",
+          "asset_sha256": "sha256:536fc612609dd018ea368bc5e506b921714084125b2c55f4ca3ddab633d52da7",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "char_sophia",
+          "name": "Sophia",
+          "role": "資深營運分析師 / 跨部門協調專家",
+          "age": 33,
+          "gender": "female",
+          "visual_traits": "優雅幹練且專業的女性分析師、深色頭髮梳成溫柔典雅低髮髻並自然散落飄逸微捲髮絲修飾臉龐(dark hair in a soft elegant updo with loose strands framing face)、白皙肌膚、顯眼黑色圓弧貓眼眼鏡(distinct black rounded cat-eye glasses)、從容冷靜專注神情",
+          "costume": "純白微垂直細紋理長袖襯衫(crisp white button-up shirt with subtle vertical ribbed texture)、修身炭灰色西裝長褲(tailored charcoal grey trousers)、高跟鞋，端莊冷靜具高度信賴感",
+          "prompt_anchor": "High-quality 3D Pixar animation style character sheet of Sophia, a polished professional young woman, dark hair swept back into a soft elegant updo with loose strands framing her face, distinct black rounded cat-eye glasses, large expressive brown eyes, calm attentive expression of quiet competence, crisp white button-up shirt with subtle vertical ribbed texture, tailored charcoal grey trousers, professional heels, soft bright studio lighting, 8k render",
+          "image": "assets/clp/characters/Sophia_SS4.jpeg",
+          "asset_sha256": "sha256:9d5b4a92b6cfbab44723d71248ea98ba5f50890f57fae4d17ea0c5f28e8dd176",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "char_sam",
+          "name": "Sam",
+          "role": "關鍵合作夥伴 / 大海科技總經理",
+          "age": 58,
+          "gender": "male",
+          "visual_traits": "德高望重且具仁厚風範的高齡男性企業領袖、梳理整齊銀灰頭髮(neatly combed silver-grey hair)、濃密灰色長眉、深邃笑紋、紅潤氣色、大鼻子與大耳朵、具長者智慧的溫和閉口微笑",
+          "costume": "高級訂製炭灰色西裝外套(tailored charcoal grey suit jacket)、純白正裝襯衫繫深酒紅微紋理領帶(dark burgundy textured tie)、黑皮鞋，莊重威嚴且令人信賴的高管姿態",
+          "prompt_anchor": "High-quality 3D Pixar animation style character sheet of Sam, a distinguished benevolent elderly executive, neatly combed silver-grey hair, bushy grey eyebrows, warm brown eyes with deep laugh lines and rosy complexion, prominent nose, gentle closed-mouth smile of wisdom, tailored charcoal grey suit jacket over crisp white dress shirt with dark burgundy textured tie, black leather shoes, dignified posture, soft professional lighting, 8k render",
+          "image": "assets/clp/characters/Sam_SS2.jpeg",
+          "asset_sha256": "sha256:8eed814cdd65dbae413d491bd39ed715ff54348643d9ca6b79cb330614156e4e",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "char_victor",
+          "name": "Victor",
+          "role": "供應商資深技術協理 (大海科技技術負責人)",
+          "age": 48,
+          "gender": "male",
+          "visual_traits": "充滿魅力與充沛精力的中年技術營運主管、濃密定型灰黑相間短髮(stylishly coiffed salt-and-pepper hair)、深色濃眉、眼角溫和歲月細紋、熱情自信有力的笑容",
+          "costume": "黑色羽絨背心帶有皮革Logo小標牌(black puffy down vest with small leather logo patch)、內搭合身灰色長袖上衣(fitted grey long-sleeved shirt)，務實俐落的實戰領導風範",
+          "prompt_anchor": "High-quality 3D Pixar animation style character sheet of Victor, a charismatic energetic middle-aged tech operations lead, thick stylishly coiffed salt-and-pepper hair, expressive dark eyebrows, friendly face with gentle aging lines, confident welcoming smile, wearing a black puffy down vest with a small leather logo patch over a fitted grey long-sleeved shirt, relaxed confident pose, soft professional lighting, 8k render",
+          "image": "assets/clp/characters/Victor_SS3.jpeg",
+          "asset_sha256": "sha256:e1512a0f0d00090771f502f445eaa8090ba27e3bee7701600384af567b1277e9",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "char_general_chen",
+          "name": "陳總",
+          "role": "主要客戶高階決策主管 / 總經理",
+          "age": 55,
+          "gender": "male",
+          "visual_traits": "權威莊嚴且具遠見的資深高階決策主管、微帶銀霜的整齊後梳深色短髮、目光銳利深沉、神情威嚴果決、具大企業戰略家的談判氣魄",
+          "costume": "訂製深炭灰色細條紋商務西裝外套(tailored dark charcoal pinstripe suit)、純白高磅數襯衫繫深海藍立體織紋絲質領帶(sapphire blue textured silk tie)，高層領袖風範",
+          "prompt_anchor": "High-quality 3D Pixar animation style character sheet of General Manager Chen, an authoritative senior corporate general manager in mid-50s, neat silver-templed dark hair, commanding discerning expression, tailored dark charcoal pinstripe suit jacket, crisp white dress shirt, sapphire blue silk tie, executive boardroom presence, 8k render",
+          "image": "assets/clp/characters/general_Chen_4K.jpeg",
+          "asset_sha256": "sha256:1746fcb48f43ba6d95092121792ceed44ecac7e47db583e27c43038d4917bfa8",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "char_auditor",
+          "name": "稽核員",
+          "role": "全球法務內部獨立稽核專員",
+          "age": 40,
+          "gender": "male",
+          "visual_traits": "一絲不苟且嚴格的男性內部稽核官、窄長臉型(long narrow face)、整齊後梳服貼油頭黑髮(neat slicked-back black hair)、大鼻子與大耳朵、細金屬圓框眼鏡(thin round wire-rimmed glasses)、半垂眼皮帶懷疑與審視眼神、嚴肅不苟言笑微蹙眉頭",
+          "costume": "紋理炭灰色羊毛西裝外套(textured charcoal grey wool suit jacket)、純白鈕扣襯衫繫窄版黑領帶(crisp white shirt with slim black tie)、手持查核板夾(holding clipboard firmly in hand)，身形挺拔嚴謹",
+          "prompt_anchor": "High-quality 3D Pixar animation style character sheet of the auditor, a strict and bureaucratic male corporate auditor, long narrow face with neat slicked-back black hair, prominent nose, large ears, thin round wire-rimmed glasses framing skeptical heavy-lidded eyes, deadpan expression with slight frown, textured charcoal grey wool suit jacket, white shirt, slim black tie, holding a clipboard firmly, rigid posture, soft cool professional studio lighting, 8k render",
+          "image": "assets/clp/characters/稽核員_SS2.jpeg",
+          "asset_sha256": "sha256:c23af4634d3a20199ef3feefcdb5ce4017625ce2e698722637b5a39bcc6b9c7b",
+          "policy": "strict_reference"
+        }
+      ],
+      "locations": [
+        {
+          "id": "loc_studio",
+          "name": "主培訓演播室",
+          "environment_description": "專業高科技企業數位培訓主演播室。正中央設有大面積高解析度曲面簡報主螢幕，螢幕呈現青藍色數位幾何光影背景與立體透光積木稜柱，正中以清晰立體無襯線字體標註「六大核心價值」課程標題；螢幕周邊鑲嵌深色沉穩紅木/胡桃木質感造型牆面與下緣木質舞台台座，右側點綴翠綠闊葉室內盆栽，營造兼具科技感與企業培訓尊榮感的演講殿堂。",
+          "lighting": "高階演講廳專業三點式主光源，大螢幕科技青藍冷光與周遭木質暗調背景形成明暗層次，柔和局部暖色輪廓光",
+          "palette": [
+            "#2E1A11",
+            "#38BDF8",
+            "#FFFFFF",
+            "#F59E0B",
+            "#1E3A8A"
+          ],
+          "interior_exterior": "interior",
+          "image": "assets/clp/locations/loc_studio.jpeg",
+          "asset_sha256": "sha256:ce902aeb0017e06cda84034aa13bb9cd70d122086534f6015ae417a99338409d",
+          "prompt_anchor": "Pixar 3D animation style, modern executive corporate broadcast keynote training studio, large high-definition digital display mounted on dark mahogany walnut wood-paneled wall, screen displaying vibrant cyan and sky blue abstract geometry with 3D translucent prisms and bold crisp white Chinese 3D typography '六大核心價值' with soft drop shadow, dark polished wood stage floor, lush green indoor plant on the right, warm studio key lighting, depth of field, Unreal Engine 5 aesthetic, 8k render.",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "loc_meeting_room",
+          "name": "部門核心會議室",
+          "environment_description": "明亮寬敞的部門核心決策會議室。米白色溫潤牆面搭配天花板嵌入式方格柔光LED燈板，長型淺橡木質多功能會議桌自前景筆直延伸，兩側陳設現代灰銀色透氣網布人體工學旋轉椅。桌面上整齊擺放白色陶瓷咖啡馬克杯、簽字筆、翻開的筆記本與多份業務數據報表。後方米色主牆懸掛三幅銀色金屬邊框之彩色商業數據圖表與分析海報（包含長條圖與圓餅圖），下方置有陳列彩色卷宗文件夾的低矮木質置物櫃；右側立有灰色四層金屬公文鐵櫃，左側角落配有茂密散尾葵室內綠植，營造嚴謹有序、務實專業的跨部門協作場域。",
+          "lighting": "天花板嵌入式方型LED面板提供均勻漫射頂光，桌面呈現明亮柔和光澤，背景牆面帶有柔焦景深效果",
+          "palette": [
+            "#C89D7C",
+            "#E2DACF",
+            "#64748B",
+            "#2D5A27",
+            "#FFFFFF",
+            "#334155"
+          ],
+          "interior_exterior": "interior",
+          "image": "assets/clp/locations/loc_meeting_room.jpeg",
+          "asset_sha256": "sha256:a982729d490209875722dcf658ef2448ca5649d40d2a826aa6e1d4a4e4614a94",
+          "prompt_anchor": "Pixar 3D animation style, contemporary corporate conference meeting room, long natural oak wood boardroom table with silver-grey mesh ergonomic office chairs, scattered white coffee mugs, open notebooks, pens, and printed report documents on tabletop, three framed colorful business infographic charts and posters on beige back wall, low wooden credenza with neat binders, grey metal filing cabinet on the right, potted green parlor palm on the left, soft overhead recessed fluorescent panel lighting, clean corporate realism, subtle background blur, Unreal Engine 5 aesthetic.",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "loc_mike_office",
+          "name": "主管獨立辦公室",
+          "environment_description": "高階主管獨立景觀轉角辦公室。擁有大面積超大落地玻璃帷幕窗景，窗外是一覽無遺的晴朗都市摩天大樓群天際線與湛藍天空。前景置有穩重厚實的胡桃木質行政主管辦公桌，左側配置深石板藍高背真皮人體工學轉椅，右側陳列金屬扶手訪客椅。辦公桌面上擺設整齊疊放之專案公文卷宗、俐落米白色可調式金屬檯燈、筆筒、多功能計算機與商務報表。左側白牆懸掛大尺寸軟木圖釘留言板，上面釘滿各式專案便利貼、進度排程表與圖表資料；窗台邊與室內角落點綴生機盎然的翠綠觀葉盆栽，展現專業威嚴中兼具親和包容的領導者空間。",
+          "lighting": "大片落地帷幕窗引入充沛晴朗自然陽光，伴隨溫暖室內側光，桌面投射出自然柔和陰影與通透的高空採光層次",
+          "palette": [
+            "#5C3A21",
+            "#60A5FA",
+            "#475569",
+            "#FEF3C7",
+            "#4D7C0F",
+            "#FFFFFF"
+          ],
+          "interior_exterior": "interior",
+          "image": "assets/clp/locations/loc_mike_office.jpeg",
+          "asset_sha256": "sha256:e279037dd8032bd4d9064e552bf4c9e23f8645daacb61a3935597c4885120a60",
+          "prompt_anchor": "Pixar 3D animation style, prestigious high-rise executive director corner office, expansive floor-to-ceiling panoramic glass windows with a breathtaking sunny metropolitan skyscraper cityscape skyline under blue sky, substantial walnut wood executive desk with stacked dossiers, sleek off-white adjustable metal desk lamp, pen caddy, calculator, and documents, slate-blue leather executive armchair on left, modern chrome visitor chairs on right, large cork bulletin board on left wall filled with pinned memos and sticky notes, potted green houseplants, golden streaming natural daylight, crisp lens highlights, Unreal Engine 5 render.",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "loc_open_office",
+          "name": "研發營運開放辦公區",
+          "environment_description": "現代化開放式研發與營運大樓辦公樓層。通透寬敞的空間佈局，全區鋪設典雅清爽的薄荷海青色商用短毛地毯，搭配白色圓柱結構與標準天花板嵌入式方塊白光燈板。前景白色極簡辦公桌上置有一台開啟的輕薄銀色金屬筆記型電腦、桌上型辦公話機與整齊排列的文件紙張，旁設深海軍藍透氣布質旋轉辦公椅。中景與遠景呈現整齊排列的模組化辦公隔間工作站，配備灰色金屬三層活動抽屜櫃、低矮霧面玻璃隔屏、雙螢幕電腦設備與多張藍色辦公椅有序延伸；外圍落地玻璃窗引進充沛戶外自然光，展現高效協同、科技秩序的現代企業工作日常。",
+          "lighting": "高穿透度均勻商用天花板方格柔白日光燈，融合外圍玻璃帷幕引進的清晨/午後散射自然天光，明亮整潔無死角",
+          "palette": [
+            "#7FA09B",
+            "#2C3E6B",
+            "#F8FAFC",
+            "#94A3B8",
+            "#CBD5E1",
+            "#334155"
+          ],
+          "interior_exterior": "interior",
+          "image": "assets/clp/locations/loc_open_office.jpeg",
+          "asset_sha256": "sha256:740625d5ae3389f9302493a2420619cb92716ec9425223ed551fae7821f19e94",
+          "prompt_anchor": "Pixar 3D animation style, expansive modern open-plan technology office floor, rows of modular cubicle workstations with grey metal drawer pedestals, navy blue fabric swivel office chairs, desktop monitors, low privacy dividers, foreground white office desk with open silver aluminum slim laptop, desk phone, and paperwork, mint seafoam green commercial carpeting, white pillars, acoustic ceiling with square LED panel lights, perimeter floor-to-ceiling glass windows letting in soft natural daylight, clean corporate aesthetic, subtle depth of field, Unreal Engine 5 aesthetic.",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "loc_pantry_cafe",
+          "name": "員工休憩咖啡廳與茶水間",
+          "environment_description": "溫馨優雅的現代企業高空休閒咖啡廳與茶水交誼空間。設有高挑通透的雙層曲面落地玻璃幕牆，窗外隱約可見現代商辦大樓剪影。前景中央置有兩張寬大舒適的弧形焦糖栗褐色真皮單人休閒沙發扶手椅，椅背各自點綴一枚溫暖珊瑚粉紅/橙色長方形靠枕。兩椅之間置有一張圓形實木咖啡茶几，几上擺放一盞盛有熱咖啡的精緻陶瓷咖啡杯盤、深色皮革筆記本與筆，以及一本翻開的彩色生活雜誌。後方景深處可見柔和散發暖黃光暈的極簡落地立燈、綠色室內闊葉盆栽與更多舒適沙發坐席，營造極具溫度、放鬆減壓且易於啟發靈感的交流氛圍。",
+          "lighting": "大面積弧形玻璃幕牆透入的柔和高空漫射自然光，搭配室內暖色落地燈與微型頂燈焦點，營造舒壓放鬆的暖調氛圍",
+          "palette": [
+            "#A0522D",
+            "#E06D53",
+            "#B47A4A",
+            "#E2E8F0",
+            "#3F6212",
+            "#FFFBEB"
+          ],
+          "interior_exterior": "interior",
+          "image": "assets/clp/locations/loc_pantry_cafe.jpeg",
+          "asset_sha256": "sha256:f0f7ca0af884ecb0768ee2939165c7a769579206edb2fb1f46515f7fef4cb008",
+          "prompt_anchor": "Pixar 3D animation style, cozy upscale corporate cafe lounge and pantry relaxation space, two curved caramel cognac leather armchairs with warm coral salmon accent cushions, round natural wooden coffee table between them with a ceramic coffee cup and saucer, leather notebook, pen, and open magazine, expansive double-height curved glass curtain wall overlooking high-rise city skyline in soft daylight, glowing warm standing floor lamp, indoor potted plants, tranquil empathetic corporate hospitality vibe, shallow depth of field, beautiful bokeh, Unreal Engine 5 render.",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "loc_partner_room",
+          "name": "大海科技合作夥伴會議室",
+          "environment_description": "高規格外部戰略合作夥伴商務洽談會議室。位於高樓轉角尊榮VIP貴賓接待區，享有雙向開闊的落地大玻璃窗景，窗外為晴空下聳立之現代鋼骨玻璃商業大廈群。室內中央配置一套典雅的溫潤淺駝灰色鈕扣拉扣布藝三人沙發與單人沙發椅，兩側則搭配深邃典雅的高背深海軍藍真皮轉角扶手洽談椅（金屬旋轉底座）。中央置有一張圓弧造型淺木色雙層矮茶几，几上平鋪合作專案計畫書、投影片文件夾與一杯純淨水杯。左側角落陳設一株高聳繁茂的室內天堂鳥闊葉大型綠植，全室鋪設米灰高級隔音地毯，兼顧高度商務隱私與開拓性商務談判的尊榮氣派。",
+          "lighting": "雙向轉角落地大玻璃窗注入充沛明亮的戶外晴朗日光，高對比度且純淨，展現清晰尊貴的商業洽談質感",
+          "palette": [
+            "#1E3A5F",
+            "#9E9085",
+            "#C4A482",
+            "#6B8EAE",
+            "#2D5A27",
+            "#F1F5F9"
+          ],
+          "interior_exterior": "interior",
+          "image": "assets/clp/locations/loc_partner_room.jpeg",
+          "asset_sha256": "sha256:17e886f193e668f4b34e965acdc9fb9d2a9c524b53aa7d4d5fe6d3fbdac467c9",
+          "prompt_anchor": "Pixar 3D animation style, sophisticated executive VIP partner meeting room, high-rise corner suite with dual floor-to-ceiling panoramic glass windows overlooking sunlit modern commercial skyscrapers, central contemporary greige taupe tufted fabric sofa and armchair, flanked by two high-back navy blue executive swivel lounge chairs on chrome bases, elegant light-wood oval coffee table with business proposals and glass of water, tall potted tropical bird-of-paradise plant in corner, plush light-grey carpet, bright crisp natural sunlight, soft realistic room shadows, Unreal Engine 5 render.",
+          "policy": "strict_reference"
+        },
+        {
+          "id": "loc_audit_room",
+          "name": "全球法務稽核專用會議室",
+          "environment_description": "氣氛嚴謹肅穆、專注於法規合規與深度調查的專用稽核會議室。前景是一張沉穩厚實的深色黑胡桃原木長條會議桌，兩側設有黑色高階人體工學真皮主管扶手椅。桌面上呈強烈聚光特寫，整齊排列著多份合規稽核專案卷宗、已審閱的調查報告、表格清單與一只插滿削尖鉛筆的透明玻璃筆筒。正後方是一整面巨大的落地玻璃帷幕窗，窗外展現冷色霧氣籠罩、陰雲密布的鋼骨摩天大樓剪影天際線。左側白牆設有釘滿案件關鍵便籤與關係架構圖的軟木調查板；後方辦公區域依稀可見電腦螢幕、可調式金屬檯燈與檔案箱，呈現高度專注、一絲不苟、冷靜理性的法律與合規監察張力。",
+          "lighting": "強烈電影感對比光效：窗外冷酷陰鬱的藍灰色天空剪影天光，與長條會議桌面上方聚焦照射的暖光重點聚光燈形成強烈反差，烘托出嚴密審查的戲劇性張力",
+          "palette": [
+            "#2B1B17",
+            "#506072",
+            "#1A1A1A",
+            "#F8FAFC",
+            "#D97706",
+            "#475569"
+          ],
+          "interior_exterior": "interior",
+          "image": "assets/clp/locations/loc_audit_room.jpeg",
+          "asset_sha256": "sha256:5cc4a6d39503ff1fb3c3def51fbac014ba7838307aa61b689af14f3ad3e555f5",
+          "prompt_anchor": "Pixar 3D animation style, dramatic serious corporate compliance legal audit investigation room, foreground heavy dark walnut conference table with black leather executive armchairs, neatly laid out audit dossiers, confidential investigation files, forms, and glass pencil cup under dramatic direct spotlight, back wall dominated by massive floor-to-ceiling panoramic window overlooking a misty overcast slate-blue skyscraper skyline, left cork investigation board with pinned notes and memos, background desks with monitors and lamps in soft shadow, moody cinematic lighting, high-stakes ethical tension, Unreal Engine 5 render.",
+          "policy": "strict_reference"
+        }
+      ],
+      "props": [
+        {
+          "id": "prop_tax_invoice",
+          "name": "H客戶多付稅金對帳單",
+          "category": "hero_prop",
+          "description": "H客戶去年訂單的正式電子與紙質對帳單，明確標註免稅條款卻附有多付稅金款項的異常標記",
+          "material": "高磅數合約紙質與高對比數位PDF版面",
+          "prompt_anchor": "Detailed corporate accounting billing statement, highlighted discrepancy row showing overpaid tax amount, official client header, clear financial typography",
+          "policy": "text_anchor_only"
+        },
+        {
+          "id": "prop_slush_fund_record",
+          "name": "部門公積金支出備忘錄",
+          "category": "hero_prop",
+          "description": "部門私下記錄未列帳公積金的試算表與聚餐發票收據，代表灰色地帶的風險憑據",
+          "material": "未經授權的內部Excel列印紙本與收據雜項憑證",
+          "prompt_anchor": "Unofficial internal department petty cash ledger printout with expense notes and dinner receipts, casual corporate compliance hazard artifact",
+          "policy": "text_anchor_only"
+        },
+        {
+          "id": "prop_task_matrix",
+          "name": "任務價值四象限矩陣圖",
+          "category": "diagram_asset",
+          "description": "以「重要性」與「急迫性/長期價值」為軸向的思維架構圖，清楚標記「先做價值高、延續效益大」的戰略專案",
+          "material": "數位向量視覺圖表與白板手繪磁吸圖表",
+          "prompt_anchor": "2x2 strategic task value matrix diagram, four distinct colored quadrants showing urgency versus business impact, clean infographic styling",
+          "policy": "text_anchor_only"
+        },
+        {
+          "id": "prop_pdca_board",
+          "name": "PDCA動態循環滾動看板",
+          "category": "diagram_asset",
+          "description": "團隊會議室牆上的磁吸白板，動態標記 Plan-Do-Check-Act 滾動優化清單與即時進度便利貼",
+          "material": "大型磁性琺瑯白板、彩色磁貼、多色便利貼與白板筆跡",
+          "prompt_anchor": "Interactive magnetic PDCA cycle whiteboard, colorful agile sticky notes organized across Plan Do Check Act stages, marker annotations and flowcharts",
+          "policy": "text_anchor_only"
+        },
+        {
+          "id": "prop_sop_manual",
+          "name": "自動化排程與標準作業程序手冊",
+          "category": "hero_prop",
+          "description": "厚實的自動化排程演算法架構手冊與制度化SOP文件，內含防呆機制與跨系統API對接流程圖",
+          "material": "精裝活頁專案藍皮書與平板數位SOP電子書",
+          "prompt_anchor": "Comprehensive standard operating procedure binder with bold title, detailed flowchart schematics of automated scheduling system, professional engineering manual",
+          "policy": "text_anchor_only"
+        },
+        {
+          "id": "prop_cft_alignment",
+          "name": "CFT跨部門共同責任承諾清單",
+          "category": "hero_prop",
+          "description": "跨部門專案小組(CFT)簽署的關鍵里程碑責任協議，明訂各部門相互支援事項與共同KPI考核指標",
+          "material": "印有各部門主管簽名的專案立項合約與彩色協同甘特圖",
+          "prompt_anchor": "Cross-functional team alignment charter document with multiple department executive sign-off blocks, milestone timeline roadmap, crisp document layout",
+          "policy": "text_anchor_only"
+        },
+        {
+          "id": "prop_bol_roadmap",
+          "name": "BOL全球在地化營運藍圖",
+          "category": "diagram_asset",
+          "description": "展現 Build-Operate-Localize 理念的世界地圖與新廠供應鏈生態共榮模型圖冊",
+          "material": "高解析度全球供應鏈網絡圖示與精裝策略簡報摺頁",
+          "prompt_anchor": "Build-Operate-Localize global strategy roadmap, sleek stylized world map infographic highlighting local supply chain ecosystem nodes, corporate presentation grade",
+          "policy": "text_anchor_only"
+        }
+      ]
+    },
+    "clp_candidates": {
+      "version": "2.0",
+      "project_id": "foxconn-core-values-course",
+      "source_script_sha256": "sha256:94608c27f922d02eecdf23fc798773f297f7076e31760f0cd103f49db0a3022e",
+      "extracted_by": "clp_director_animated_explainer",
+      "candidates": {
+        "characters": [
+          {
+            "name": "Amy",
+            "frequency": 17,
+            "suggested_role": "訓練部門資深培訓講師 / 課程主持人",
+            "context_snippets": [
+              "AMY，穿著俐落的商務套裝，專業且充滿熱情地面對學員。身後展示著鴻海Logo與六大核心價值",
+              "各位同仁好，我是訓練部門的 Amy，歡迎參加鴻海六大核心價值系列課程",
+              "第一個單元要探討的是「誠信」！大家在工作中有沒有碰過那種灰色地帶？",
+              "第二單元「勤奮」！我們常聽到把事情做完，但做完和把事情做好，真的有一樣嗎？",
+              "六大核心價值不是冰冷的規範，而是陪伴我們在每一個工作現場、每一個關鍵時刻做出正確抉擇的北極星！"
+            ]
+          },
+          {
+            "name": "Mike",
+            "frequency": 56,
+            "suggested_role": "研發暨營運部門主管 (經理/協理)",
+            "context_snippets": [
+              "部門主管MIKE、資深同仁TOM和SOPHIA、新人TINA圍坐在會議桌旁",
+              "Mike，我這幾天整理H客戶的付款記錄，發現他們去年有筆訂單選了免稅模式，但付款時卻還是付了稅金",
+              "你們的考量都有道理。這筆錢是客戶的疏忽，只要我們沒放自己口袋，應該不算違規",
+              "等一下！這筆款項本來就不屬於我們部門，哪怕客戶沒發現，也不該直接轉成公積金",
+              "身為主管，我必須嚴肅地說，這種本位主義只看自己的目標，把困難丟給別人，絕不是敏捷！"
+            ]
+          },
+          {
+            "name": "Tina",
+            "frequency": 47,
+            "suggested_role": "專案新人管理師 / 工程師",
+            "context_snippets": [
+              "新人TINA圍坐在會議桌旁，氣氛融洽",
+              "可是這是客戶的錢？現在兩邊都已經關帳了，根本沒人理了！",
+              "那我們需要主動通知業務窗口或是財務部嗎？",
+              "我們既然發現了帳目上的誤差，主動退回並說明清楚，才是維護公司誠信的做法",
+              "林工程師，這是一張急單，而且是我們的重點客戶，你們今天一定要插單排進去！"
+            ]
+          },
+          {
+            "name": "Tom",
+            "frequency": 53,
+            "suggested_role": "資深專案工程師 / 技術骨幹",
+            "context_snippets": [
+              "資深同仁TOM和SOPHIA圍坐在會議桌旁",
+              "什麼？客戶多付錢，卻沒有人發現，有這麼好康的事？",
+              "我看...就把它轉成部門公積金，年底辦場聚餐慰勞大家吧！",
+              "沒關係啦，當初這個專案超累的，現在多請我們吃頓飯也不為過啊！",
+              "如果我們把這個任務拆解，先建立自動化排程演算法，後續就能節省大量重工時間！"
+            ]
+          },
+          {
+            "name": "Sophia",
+            "frequency": 43,
+            "suggested_role": "資深營運分析師 / 跨部門協調專家",
+            "context_snippets": [
+              "資深同仁SOPHIA圍坐在會議桌旁",
+              "我也覺得多一事不如少一事。這筆錢拖了這麼久，如果忽然通知，可能會被質疑我們流程有問題",
+              "既然是誠信，我們就應該建立標準退款SOP，把流程透明化，讓以後的人有所依循",
+              "這不只是改一個數字，而是在全球供應鏈與ESG合規架構下，確保企業長青的基石",
+              "Sophia在此時順勢拿出平板，向Sam展示鴻海提出的互利合作模組與風險分擔數據"
+            ]
+          },
+          {
+            "name": "Sam",
+            "frequency": 5,
+            "suggested_role": "關鍵合作夥伴 / 大海科技總經理",
+            "context_snippets": [
+              "SAM：(面露難色)這...這太突然了。這種材料成本高，製程改變也大，明年要導入有困難啊",
+              "話是這麼說，但投入這麼大，萬一回收不了怎麼辦？",
+              "哈哈，Mike，您真是有備而來啊！連接下來的三步都先想好了！"
+            ]
+          },
+          {
+            "name": "Victor",
+            "frequency": 3,
+            "suggested_role": "供應商資深技術協理 (大海科技技術負責人)",
+            "context_snippets": [
+              "VICTOR：這不是想不想的問題。如果沒有鴻海的技術支援或充分的緩衝時間，我們承擔不起這個風險啊",
+              "鴻海這次太不尊重人了，簡直把我們當工具，完全沒考慮我們的困難，這樣的夥伴關係，還能走多遠？",
+              "商機是看到了，但如果良率拉不上來，做越多虧越多，風險還是太高了"
+            ]
+          },
+          {
+            "name": "陳總",
+            "frequency": 4,
+            "suggested_role": "主要客戶高階決策主管 / 總經理",
+            "context_snippets": [
+              "陳總在劇本中作為重要利害關係人，代表關鍵業務決策與合規稽核把關"
+            ]
+          },
+          {
+            "name": "稽核員",
+            "frequency": 4,
+            "suggested_role": "全球法務內部獨立稽核專員",
+            "context_snippets": [
+              "稽核員在劇本中作為重要利害關係人，代表關鍵業務決策與合規稽核把關"
+            ]
+          }
+        ],
+        "locations": [
+          {
+            "name": "主培訓演播室",
+            "frequency": 16,
+            "context_snippets": [
+              "AMY在專業主演播室面對學員，身後展示著鴻海Logo與六大核心價值動態背景",
+              "回到主講台，Amy為學員總結本單元的核心行為指標與日常實踐守則"
+            ]
+          },
+          {
+            "name": "部門核心會議室",
+            "frequency": 24,
+            "context_snippets": [
+              "部門主管MIKE、資深同仁TOM和SOPHIA、新人TINA圍坐在會議桌旁",
+              "會議室內的大白板上貼滿了便利貼與專案排程甘特圖"
+            ]
+          },
+          {
+            "name": "主管獨立辦公室",
+            "frequency": 8,
+            "context_snippets": [
+              "Mike在自己的辦公室內審閱跨部門提案與考核報表",
+              "Tina走進Mike的辦公室，就客戶帳務處理進行一對一請益"
+            ]
+          },
+          {
+            "name": "團隊開放辦公區",
+            "frequency": 12,
+            "context_snippets": [
+              "Tom與Tina在開放辦公桌前激烈討論自動化程式碼與排程衝突",
+              "夜晚的辦公區依然燈火通明，顯現出勤奮與忙碌的鮮明對比"
+            ]
+          },
+          {
+            "name": "員工休憩咖啡廳與走廊茶水間",
+            "frequency": 7,
+            "context_snippets": [
+              "Tina和Sophia在茶水間拿著馬克杯，討論跨部門協作的痛點",
+              "走廊電視牆正輪播著全球廠區的永續成就與最新ESG指標"
+            ]
+          },
+          {
+            "name": "大海科技合作夥伴會議室",
+            "frequency": 4,
+            "context_snippets": [
+              "鴻海團隊拜訪大海科技，與Sam、Victor展開合作模式商討",
+              "投影幕上清晰呈現新材料製程導入的時間表與效益評估"
+            ]
+          },
+          {
+            "name": "全球法務稽核專用會議室",
+            "frequency": 3,
+            "context_snippets": [
+              "稽核室內桌上整齊堆放著過去數季的憑證與調查卷宗",
+              "調查人員嚴肅核對客戶多付稅金與部門未報備帳目"
+            ]
+          }
+        ],
+        "props": [
+          {
+            "name": "H客戶多付稅金對帳單",
+            "frequency": 6,
+            "context_snippets": [
+              "Tina手持H客戶付款記錄單據，指著多付稅金的異常數據欄位",
+              "對帳單上蓋有關帳確認章，但稅金金額欄有明顯多溢繳註記"
+            ]
+          },
+          {
+            "name": "部門公積金支出備忘錄",
+            "frequency": 4,
+            "context_snippets": [
+              "隨手記在便籤紙上的聚餐費用與雜項開支，未經過正式會計報帳流程",
+              "隱藏在抽屜底部的公積金信封，代表合規風險的關鍵象徵物"
+            ]
+          },
+          {
+            "name": "任務價值四象限矩陣圖",
+            "frequency": 8,
+            "context_snippets": [
+              "投影幕展示「價值高 vs 價值低」與「緊急 vs 不緊急」的四象限戰略分析圖",
+              "Amy以四象限矩陣向學員剖析假性勤奮與真價值的本質差異"
+            ]
+          },
+          {
+            "name": "PDCA動態循環滾動看板",
+            "frequency": 10,
+            "context_snippets": [
+              "會議室牆上的磁吸白板，動態展示 Plan-Do-Check-Act 滾動迭代軌跡",
+              "彩色便利貼標明各階段突破點，展現持續改善的工匠精神"
+            ]
+          },
+          {
+            "name": "自動化排程與標準作業程序手冊",
+            "frequency": 7,
+            "context_snippets": [
+              "厚實精裝的系統作業規範手冊，內含防呆機制與排程演算法流程圖",
+              "Tina在平板電腦上向主管展示自動化排程流程圖"
+            ]
+          },
+          {
+            "name": "CFT跨部門共同責任承諾清單",
+            "frequency": 9,
+            "context_snippets": [
+              "各部門主管與工程主管聯名簽署的跨部門承諾協議文件",
+              "明訂共同承擔KPI、資訊即時同步與資源共享條款"
+            ]
+          },
+          {
+            "name": "BOL全球在地化營運藍圖",
+            "frequency": 5,
+            "context_snippets": [
+              "世界地圖上標示海外新廠與在地供應鏈節點的全球戰略摺頁圖冊",
+              "展現與夥伴深耕在地、共榮共贏的永續商業生態藍圖"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "style_playbook": "esg-pixar-hybrid",
+  "metadata": {
+    "strict_reference_characters_count": 9,
+    "strict_reference_locations_count": 7,
+    "text_anchor_props_count": 7,
+    "style": "esg-pixar-hybrid"
+  }
+}

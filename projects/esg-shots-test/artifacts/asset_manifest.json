@@ -1,0 +1,66 @@
+{
+  "version": "1.0",
+  "project_id": "esg-shots-test",
+  "assets": [
+    {
+      "id": "clp_supervisor",
+      "type": "image",
+      "path": "clp/supervisor_hero_portrait.jpg",
+      "provenance": "Dropbox for_KJ/6S_Amy主管.jpeg (3D Pixar Hero Crop)"
+    },
+    {
+      "id": "clp_amy",
+      "type": "image",
+      "path": "clp/amy_hero_portrait.jpg",
+      "provenance": "Dropbox for_KJ/6S_Amy.jpeg (3D Pixar Hero Crop)"
+    },
+    {
+      "id": "tts_shot6",
+      "type": "audio",
+      "path": "assets/audio/shot6_supervisor.mp3",
+      "provider": "google_cloud_tts",
+      "voice": "cmn-TW-Wavenet-B",
+      "duration_seconds": 6.58
+    },
+    {
+      "id": "tts_shot7",
+      "type": "audio",
+      "path": "assets/audio/shot7_amy_shocked.mp3",
+      "provider": "google_cloud_tts",
+      "voice": "cmn-TW-Wavenet-A",
+      "duration_seconds": 7.8
+    },
+    {
+      "id": "tts_shot8",
+      "type": "audio",
+      "path": "assets/audio/shot8_amy_contemplating.mp3",
+      "provider": "google_cloud_tts",
+      "voice": "cmn-TW-Wavenet-A",
+      "duration_seconds": 9.43
+    },
+    {
+      "id": "video_shot6_raw",
+      "type": "video",
+      "path": "assets/video/shot6_supervisor_raw.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-1.1-flash-preview",
+      "style": "3D Pixar Animation"
+    },
+    {
+      "id": "video_shot7_raw",
+      "type": "video",
+      "path": "assets/video/shot7_amy_shocked_raw.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-1.1-flash-preview",
+      "style": "3D Pixar Animation"
+    },
+    {
+      "id": "video_shot8_raw",
+      "type": "video",
+      "path": "assets/video/shot8_amy_contemplating_raw.mp4",
+      "provider": "gemini_omni",
+      "model": "gemini-omni-1.1-flash-preview",
+      "style": "3D Pixar Animation"
+    }
+  ]
+}
