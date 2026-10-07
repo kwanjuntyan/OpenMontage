@@ -63,6 +63,16 @@ Backlot is a projection surface and future Agent Intent gateway, not a second pr
 
 B0.0 consists of both the B0.0A documentation seal and the B0.0B enforcement scaffold. Except for work explicitly scoped to complete B0.0B, no B0.1-or-later Track B implementation may begin until both slices are integrated and `tests/backlot/test_workspace_governance.py` passes. Every implementing Agent must complete the Architecture Contract startup and handoff checklists, consult `tests/backlot/fixtures/workspace/fixture-matrix.v1.json`, and report the governance-test result.
 
+## Dormant Component Routing — Batch Executor V2
+
+Batch Executor V2 is `dormant_opt_in`, `not production-qualified`, and `not supported by kj-course-cinematic`. Its code remains in the repository only for compatibility with existing narrowly scoped consumers and for later evaluation.
+
+**Hard routing rule:** Unless the user explicitly requests Batch V2, or the selected pipeline manifest explicitly declares a Batch V2 opt-in execution profile, do not proactively read, recommend, route to, invoke, extend, or treat Batch V2 as an available execution choice. An incidental search result, import, test fixture, entrypoint, or GCS implementation does not establish activation or production support.
+
+In particular, `kj-course-cinematic` must evolve from its own current contracts and must not be constrained to Batch V2's frozen provider, operation, storage, concurrency, or publication assumptions. Do not infer that Batch V2 solves a KJ requirement merely because similar code exists under `lib/batch_executor/`.
+
+The canonical component status and future reactivation boundary are documented in `docs/batch-v2-status.md`. Physical extraction, shared-primitive migration, or archival requires a later, separately approved plan after `kj-course-cinematic` is complete.
+
 ## Rule Zero — All Production Goes Through a Pipeline
 
 **Every video production request MUST go through the pipeline system. No exceptions.**

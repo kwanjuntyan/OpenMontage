@@ -1,0 +1,118 @@
+=== characters ===
+[char_amy] Amy (Policy: strict_reference)
+  Image: assets/clp/characters/Amy_新造型_SS2.jpeg
+  Asset SHA256: sha256:0d18baae96cd2f0f3574237a47f581924df6a872dba37c66eb60d4c59f7e9cca
+  Prompt Anchor: High-quality 3D Pixar animation style character sheet of Amy, a spirited and approachable young professional woman, wavy light brown hair in a voluminous chin-length bob, fair skin with prominent freckles on nose and cheeks, large expressive brown eyes, kind warm smile, wearing a textured light grey blazer and matching trousers over a simple white top, black heels, seamless light grey studio background, soft professional studio lighting, 8k render, C4D render
+
+[char_mike] Mike (Policy: strict_reference)
+  Image: assets/clp/characters/Mike_SS2.jpeg
+  Asset SHA256: sha256:0263970836f550df18d0d473c643170a47334c46ff7aadb337595a5c51b43840
+  Prompt Anchor: High-quality 3D Pixar animation style character sheet of Mike, a friendly and professional male corporate manager, short volumized brown hair styled neatly upward, thin rectangular wire-rimmed glasses, warm brown eyes, clean-shaven, tailored light grey suit jacket over crisp white button-up shirt with a bright blue silk tie, matching grey trousers, polished black dress shoes, soft professional studio lighting, 8k render
+
+[char_tina] Tina (Policy: strict_reference)
+  Image: assets/clp/characters/Tina_SS2.jpeg
+  Asset SHA256: sha256:706b8ca9daaf3f3caf4b48ea41e4fd8d905237eecdf34c5eaf8dda6d875fc707
+  Prompt Anchor: High-quality 3D Pixar animation style character sheet of Tina, a capable and friendly young professional woman, chic chin-length dark brunette bob with deep side part, smooth fair skin with soft rosy cheeks, large warm brown eyes, gentle confident smile, wearing a tailored orange twill blazer over a clean white collared shirt, sharp modern business look, seamless plain light grey studio background, soft professional studio lighting, 8k render
+
+[char_tom] Tom (Policy: strict_reference)
+  Image: assets/clp/characters/Tom_SS2.jpeg
+  Asset SHA256: sha256:536fc612609dd018ea368bc5e506b921714084125b2c55f4ca3ddab633d52da7
+  Prompt Anchor: High-quality 3D Pixar animation style character sheet of Tom, a handsome approachable young professional male, thick wavy brown hair styled in voluminous wind-swept look, thick dark eyebrows, warm brown eyes with freckles on cheeks, subtle kindly smile, modern navy blue blazer over clean white dress shirt unbuttoned at the collar, matching navy trousers, black shoes, soft professional lighting, 8k render
+
+[char_sophia] Sophia (Policy: strict_reference)
+  Image: assets/clp/characters/Sophia_SS4.jpeg
+  Asset SHA256: sha256:9d5b4a92b6cfbab44723d71248ea98ba5f50890f57fae4d17ea0c5f28e8dd176
+  Prompt Anchor: High-quality 3D Pixar animation style character sheet of Sophia, a polished professional young woman, dark hair swept back into a soft elegant updo with loose strands framing her face, distinct black rounded cat-eye glasses, large expressive brown eyes, calm attentive expression of quiet competence, crisp white button-up shirt with subtle vertical ribbed texture, tailored charcoal grey trousers, professional heels, soft bright studio lighting, 8k render
+
+[char_sam] Sam (Policy: strict_reference)
+  Image: assets/clp/characters/Sam_SS2.jpeg
+  Asset SHA256: sha256:8eed814cdd65dbae413d491bd39ed715ff54348643d9ca6b79cb330614156e4e
+  Prompt Anchor: High-quality 3D Pixar animation style character sheet of Sam, a distinguished benevolent elderly executive, neatly combed silver-grey hair, bushy grey eyebrows, warm brown eyes with deep laugh lines and rosy complexion, prominent nose, gentle closed-mouth smile of wisdom, tailored charcoal grey suit jacket over crisp white dress shirt with dark burgundy textured tie, black leather shoes, dignified posture, soft professional lighting, 8k render
+
+[char_victor] Victor (Policy: strict_reference)
+  Image: assets/clp/characters/Victor_SS3.jpeg
+  Asset SHA256: sha256:e1512a0f0d00090771f502f445eaa8090ba27e3bee7701600384af567b1277e9
+  Prompt Anchor: High-quality 3D Pixar animation style character sheet of Victor, a charismatic energetic middle-aged tech operations lead, thick stylishly coiffed salt-and-pepper hair, expressive dark eyebrows, friendly face with gentle aging lines, confident welcoming smile, wearing a black puffy down vest with a small leather logo patch over a fitted grey long-sleeved shirt, relaxed confident pose, soft professional lighting, 8k render
+
+[char_general_chen] 陳總 (Policy: strict_reference)
+  Image: assets/clp/characters/general_Chen_4K.jpeg
+  Asset SHA256: sha256:1746fcb48f43ba6d95092121792ceed44ecac7e47db583e27c43038d4917bfa8
+  Prompt Anchor: High-quality 3D Pixar animation style character sheet of General Manager Chen, an authoritative senior corporate general manager in mid-50s, neat silver-templed dark hair, commanding discerning expression, tailored dark charcoal pinstripe suit jacket, crisp white dress shirt, sapphire blue silk tie, executive boardroom presence, 8k render
+
+[char_auditor] 稽核員 (Policy: strict_reference)
+  Image: assets/clp/characters/稽核員_SS2.jpeg
+  Asset SHA256: sha256:c23af4634d3a20199ef3feefcdb5ce4017625ce2e698722637b5a39bcc6b9c7b
+  Prompt Anchor: High-quality 3D Pixar animation style character sheet of the auditor, a strict and bureaucratic male corporate auditor, long narrow face with neat slicked-back black hair, prominent nose, large ears, thin round wire-rimmed glasses framing skeptical heavy-lidded eyes, deadpan expression with slight frown, textured charcoal grey wool suit jacket, white shirt, slim black tie, holding a clipboard firmly, rigid posture, soft cool professional studio lighting, 8k render
+
+=== locations ===
+[loc_studio] 主培訓演播室 (Policy: strict_reference)
+  Image: assets/clp/locations/loc_studio.jpeg
+  Asset SHA256: sha256:ce902aeb0017e06cda84034aa13bb9cd70d122086534f6015ae417a99338409d
+  Prompt Anchor: Pixar 3D animation style, modern executive corporate broadcast keynote training studio, large high-definition digital display mounted on dark mahogany walnut wood-paneled wall, screen displaying vibrant cyan and sky blue abstract geometry with 3D translucent prisms and bold crisp white Chinese 3D typography '六大核心價值' with soft drop shadow, dark polished wood stage floor, lush green indoor plant on the right, warm studio key lighting, depth of field, Unreal Engine 5 aesthetic, 8k render.
+
+[loc_meeting_room] 部門核心會議室 (Policy: strict_reference)
+  Image: assets/clp/locations/loc_meeting_room.jpeg
+  Asset SHA256: sha256:a982729d490209875722dcf658ef2448ca5649d40d2a826aa6e1d4a4e4614a94
+  Prompt Anchor: Pixar 3D animation style, contemporary corporate conference meeting room, long natural oak wood boardroom table with silver-grey mesh ergonomic office chairs, scattered white coffee mugs, open notebooks, pens, and printed report documents on tabletop, three framed colorful business infographic charts and posters on beige back wall, low wooden credenza with neat binders, grey metal filing cabinet on the right, potted green parlor palm on the left, soft overhead recessed fluorescent panel lighting, clean corporate realism, subtle background blur, Unreal Engine 5 aesthetic.
+
+[loc_mike_office] 主管獨立辦公室 (Policy: strict_reference)
+  Image: assets/clp/locations/loc_mike_office.jpeg
+  Asset SHA256: sha256:e279037dd8032bd4d9064e552bf4c9e23f8645daacb61a3935597c4885120a60
+  Prompt Anchor: Pixar 3D animation style, prestigious high-rise executive director corner office, expansive floor-to-ceiling panoramic glass windows with a breathtaking sunny metropolitan skyscraper cityscape skyline under blue sky, substantial walnut wood executive desk with stacked dossiers, sleek off-white adjustable metal desk lamp, pen caddy, calculator, and documents, slate-blue leather executive armchair on left, modern chrome visitor chairs on right, large cork bulletin board on left wall filled with pinned memos and sticky notes, potted green houseplants, golden streaming natural daylight, crisp lens highlights, Unreal Engine 5 render.
+
+[loc_open_office] 研發營運開放辦公區 (Policy: strict_reference)
+  Image: assets/clp/locations/loc_open_office.jpeg
+  Asset SHA256: sha256:740625d5ae3389f9302493a2420619cb92716ec9425223ed551fae7821f19e94
+  Prompt Anchor: Pixar 3D animation style, expansive modern open-plan technology office floor, rows of modular cubicle workstations with grey metal drawer pedestals, navy blue fabric swivel office chairs, desktop monitors, low privacy dividers, foreground white office desk with open silver aluminum slim laptop, desk phone, and paperwork, mint seafoam green commercial carpeting, white pillars, acoustic ceiling with square LED panel lights, perimeter floor-to-ceiling glass windows letting in soft natural daylight, clean corporate aesthetic, subtle depth of field, Unreal Engine 5 aesthetic.
+
+[loc_pantry_cafe] 員工休憩咖啡廳與茶水間 (Policy: strict_reference)
+  Image: assets/clp/locations/loc_pantry_cafe.jpeg
+  Asset SHA256: sha256:f0f7ca0af884ecb0768ee2939165c7a769579206edb2fb1f46515f7fef4cb008
+  Prompt Anchor: Pixar 3D animation style, cozy upscale corporate cafe lounge and pantry relaxation space, two curved caramel cognac leather armchairs with warm coral salmon accent cushions, round natural wooden coffee table between them with a ceramic coffee cup and saucer, leather notebook, pen, and open magazine, expansive double-height curved glass curtain wall overlooking high-rise city skyline in soft daylight, glowing warm standing floor lamp, indoor potted plants, tranquil empathetic corporate hospitality vibe, shallow depth of field, beautiful bokeh, Unreal Engine 5 render.
+
+[loc_partner_room] 大海科技合作夥伴會議室 (Policy: strict_reference)
+  Image: assets/clp/locations/loc_partner_room.jpeg
+  Asset SHA256: sha256:17e886f193e668f4b34e965acdc9fb9d2a9c524b53aa7d4d5fe6d3fbdac467c9
+  Prompt Anchor: Pixar 3D animation style, sophisticated executive VIP partner meeting room, high-rise corner suite with dual floor-to-ceiling panoramic glass windows overlooking sunlit modern commercial skyscrapers, central contemporary greige taupe tufted fabric sofa and armchair, flanked by two high-back navy blue executive swivel lounge chairs on chrome bases, elegant light-wood oval coffee table with business proposals and glass of water, tall potted tropical bird-of-paradise plant in corner, plush light-grey carpet, bright crisp natural sunlight, soft realistic room shadows, Unreal Engine 5 render.
+
+[loc_audit_room] 全球法務稽核專用會議室 (Policy: strict_reference)
+  Image: assets/clp/locations/loc_audit_room.jpeg
+  Asset SHA256: sha256:5cc4a6d39503ff1fb3c3def51fbac014ba7838307aa61b689af14f3ad3e555f5
+  Prompt Anchor: Pixar 3D animation style, dramatic serious corporate compliance legal audit investigation room, foreground heavy dark walnut conference table with black leather executive armchairs, neatly laid out audit dossiers, confidential investigation files, forms, and glass pencil cup under dramatic direct spotlight, back wall dominated by massive floor-to-ceiling panoramic window overlooking a misty overcast slate-blue skyscraper skyline, left cork investigation board with pinned notes and memos, background desks with monitors and lamps in soft shadow, moody cinematic lighting, high-stakes ethical tension, Unreal Engine 5 render.
+
+=== props ===
+[prop_tax_invoice] H客戶多付稅金對帳單 (Policy: text_anchor_only)
+  Image: None
+  Asset SHA256: None
+  Prompt Anchor: Detailed corporate accounting billing statement, highlighted discrepancy row showing overpaid tax amount, official client header, clear financial typography
+
+[prop_slush_fund_record] 部門公積金支出備忘錄 (Policy: text_anchor_only)
+  Image: None
+  Asset SHA256: None
+  Prompt Anchor: Unofficial internal department petty cash ledger printout with expense notes and dinner receipts, casual corporate compliance hazard artifact
+
+[prop_task_matrix] 任務價值四象限矩陣圖 (Policy: text_anchor_only)
+  Image: None
+  Asset SHA256: None
+  Prompt Anchor: 2x2 strategic task value matrix diagram, four distinct colored quadrants showing urgency versus business impact, clean infographic styling
+
+[prop_pdca_board] PDCA動態循環滾動看板 (Policy: text_anchor_only)
+  Image: None
+  Asset SHA256: None
+  Prompt Anchor: Interactive magnetic PDCA cycle whiteboard, colorful agile sticky notes organized across Plan Do Check Act stages, marker annotations and flowcharts
+
+[prop_sop_manual] 自動化排程與標準作業程序手冊 (Policy: text_anchor_only)
+  Image: None
+  Asset SHA256: None
+  Prompt Anchor: Comprehensive standard operating procedure binder with bold title, detailed flowchart schematics of automated scheduling system, professional engineering manual
+
+[prop_cft_alignment] CFT跨部門共同責任承諾清單 (Policy: text_anchor_only)
+  Image: None
+  Asset SHA256: None
+  Prompt Anchor: Cross-functional team alignment charter document with multiple department executive sign-off blocks, milestone timeline roadmap, crisp document layout
+
+[prop_bol_roadmap] BOL全球在地化營運藍圖 (Policy: text_anchor_only)
+  Image: None
+  Asset SHA256: None
+  Prompt Anchor: Build-Operate-Localize global strategy roadmap, sleek stylized world map infographic highlighting local supply chain ecosystem nodes, corporate presentation grade
+

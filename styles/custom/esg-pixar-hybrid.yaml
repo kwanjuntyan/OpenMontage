@@ -1,0 +1,61 @@
+asset_generation:
+  consistency_anchors:
+  - Strict character appearance matching CLP 6S reference master sheets
+  - Consistent office and conference room environments matching location sheets
+  - Sharp vectorized Motion Graphics text without AI hallucination
+  image_negative_prompt: photorealistic, live-action, 2D flat drawing, distorted faces,
+    ugly, low quality, glitch
+  image_prompt_prefix: '3D Pixar animation style, stylized character design, warm
+    studio rim lighting, 8k render, '
+audio:
+  music_mood: corporate suspense building into lighthearted acoustic workplace groove
+  music_volume: 0.12
+  voice_style: expressive character dialogue, English for global boardroom, crisp
+    Traditional Chinese for Taipei office
+chart_palette:
+- '#0284C7'
+- '#10B981'
+- '#F59E0B'
+- '#EF4444'
+- '#8B5CF6'
+identity:
+  best_for: Corporate training micro-drama and educational series
+  category: custom
+  mood: energetic corporate dramedy, polished 3D animation, crisp infographic accents
+  name: esg-pixar-hybrid
+  pace: moderate
+motion:
+  animation_style: spring-physics motion graphics with 3D camera push
+  pacing_rules:
+    max_scene_hold_seconds: 10.0
+    min_scene_hold_seconds: 2.0
+    stat_card_hold_seconds: 3.0
+    text_card_hold_seconds: 3.0
+    transition_duration_seconds: 0.3
+  transitions:
+  - cut
+  - dissolve
+  - slide-left
+quality_rules:
+- Characters must match approved 6S sheets in hairstyle, glasses, and signature attire
+- Text overlays must be rendered via vector motion graphics or clean typography
+- Dialogue and lip movements must be synchronized via TTS timing
+typography:
+  body:
+    font: Inter
+    weight: 400
+  headings:
+    font: Inter
+    weight: 800
+visual_language:
+  color_palette:
+    accent:
+    - '#10B981'
+    - '#EF4444'
+    background: '#F8FAFC'
+    primary:
+    - '#0284C7'
+    - '#0369A1'
+    text: '#1E293B'
+  composition: cinematic 3D framing with depth of field, balanced rule-of-thirds
+  texture: smooth 3D Pixar character shaders, clean vector overlays

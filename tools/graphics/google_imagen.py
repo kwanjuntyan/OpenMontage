@@ -116,15 +116,18 @@ class GoogleImagen(BaseTool):
             "model": {
                 "type": "string",
                 "enum": [
+                    "gemini-3.1-flash-image",
+                    "gemini-3-pro-image",
+                    "gemini-3.1-flash-lite-image",
+                    "imagen-3.0-generate-002",
                     "imagen-4.0-generate-001",
                     "imagen-4.0-fast-generate-001",
                     "imagen-4.0-ultra-generate-001",
                     "gemini-2.5-flash-image",
                 ],
-                "default": "imagen-4.0-generate-001",
+                "default": "gemini-3.1-flash-image",
                 "description": "Imagen model variant, or a Gemini image model "
-                "(gemini-*) routed through generate_content. Use "
-                "gemini-2.5-flash-image when the project has no Imagen access.",
+                "(gemini-*) routed through generate_content.",
             },
             "number_of_images": {
                 "type": "integer",

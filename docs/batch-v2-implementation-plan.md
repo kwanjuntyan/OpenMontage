@@ -1,8 +1,12 @@
 # OpenMontage Batch Executor V2 — Implementation Plan
 
-> - Pre-merge release-gate status: **M4 offline-qualified; Section 22.1 MVP code-complete; awaiting opt-in merge**
+> - Current component status: **`dormant_opt_in`; merged as an opt-in path, not enabled by default**
+> - Historical release-gate result: **M4 offline-qualified; Section 22.1 MVP code-complete**
+> - Integration record: **merged into `team-main` by `b5d7586`; legacy routing retained**
 > - M5: **Not authorized or performed; no production qualification is claimed**
-> - M6 pre-merge snapshot: **Not claimed complete by this pre-merge gate; M6 is not a Section 22.1 prerequisite, and merge plus post-merge offline/fake validation remain**
+> - KJ compatibility: **not supported by `kj-course-cinematic`; no KJ route may infer or enable Batch V2**
+> - Routing: **use only after an explicit user request or an explicit pipeline-manifest opt-in**
+> - Status authority: `docs/batch-v2-status.md`
 > - Planning branch: `codex/batch-v2`
 > - Baseline commit: `aa4dbd42e0f0c05b7029198793c2e52041c24a47`
 > - Safety tag: `team-main-pre-batch-v2` (annotated tag; peels to the baseline commit)

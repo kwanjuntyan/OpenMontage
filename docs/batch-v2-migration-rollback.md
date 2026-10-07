@@ -1,16 +1,20 @@
 # Batch Executor V2 migration and rollback
 
-Status: M4 completed. This document remains an offline-only rehearsal and
-rollback runbook; it does not authorize a provider call, credential lookup,
-GCS mutation, image build/push, Cloud Run execution, deployment, merge, or
-legacy retirement.
+Status: `dormant_opt_in`; M4 completed, M5 was not performed, and no production
+qualification is claimed. The code was merged as an opt-in path by `b5d7586`,
+but no existing pipeline enables it by default and `kj-course-cinematic` does
+not support it. See `docs/batch-v2-status.md` for the binding Agent-routing
+policy. This runbook authorizes no provider call, credential lookup, GCS
+mutation, image build/push, Cloud Run execution, deployment, or legacy
+retirement.
 
 ## Coexistence invariant
 
 V2 remains opt-in. It runs only when an operator explicitly invokes
 `scripts/batch_execute.py` or the separate Agent publication entrypoint with a
 frozen request/config. No existing pipeline or legacy command routes to V2 by
-default. The legacy `scripts/batch_run_intent_sequences.py` remains present at
+default. Its mere presence in source, imports, tests, or search results is not
+activation authority. The legacy `scripts/batch_run_intent_sequences.py` remains present at
 its accepted SHA-256
 `1a6d92872ff9f91064b172ebce7e174226ccc4020a261c11b5e31c34f4d4416a`.
 The annotated `team-main-pre-batch-v2` tag and ordinary Git history remain the

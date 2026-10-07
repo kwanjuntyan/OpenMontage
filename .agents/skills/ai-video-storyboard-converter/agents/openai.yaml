@@ -1,0 +1,6 @@
+interface:
+  display_name: "分镜师"
+  short_description: "指定剧本片段转约15秒分镜，含台词保真、镜头级连续性与强制QA"
+  default_prompt: "Use $ai-video-storyboard-converter to generate, revise, or review approximately 15-second numbered storyboard prompts for a located script excerpt with strict fidelity and QA."
+policy:
+  allow_implicit_invocation: true

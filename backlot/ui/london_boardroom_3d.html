@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OpenMontage 3D Virtual Camera Previs — London Boardroom (Sandy Left, Junior Analyst, Harrison Right)</title>
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background-color: #0b0f19;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            color: #e2e8f0;
+        }
+        #hud {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(15, 23, 42, 0.88);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 12px;
+            padding: 16px 20px;
+            max-width: 360px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            z-index: 100;
+        }
+        #actor-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(15, 23, 42, 0.92);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 12px;
+            padding: 18px 22px;
+            width: 320px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            z-index: 100;
+        }
+        h2 {
+            margin: 0 0 10px 0;
+            font-size: 15px;
+            color: #38bdf8;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            margin: 12px 0 6px 0;
+            padding-bottom: 4px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .title-harrison { color: #38bdf8; }
+        .title-sandy { color: #fbbf24; }
+        .title-junior { color: #4ade80; }
+        .slider-group {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 6px 0;
+            font-size: 12px;
+        }
+        .slider-group label {
+            color: #94a3b8;
+            width: 90px;
+        }
+        .slider-group input[type="range"] {
+            flex: 1;
+            margin: 0 8px;
+            accent-color: #0284c7;
+            cursor: pointer;
+        }
+        .slider-group span {
+            font-family: monospace;
+            width: 48px;
+            text-align: right;
+            color: #f1f5f9;
+        }
+        p {
+            margin: 4px 0;
+            font-size: 12px;
+            color: #94a3b8;
+            line-height: 1.5;
+        }
+        .controls {
+            margin-top: 12px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        button {
+            background: #1e293b;
+            color: #f1f5f9;
+            border: 1px solid #334155;
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        button:hover {
+            background: #0284c7;
+            border-color: #38bdf8;
+        }
+        .btn-export {
+            background: #0284c7;
+            border-color: #38bdf8;
+            font-weight: 600;
+            width: 100%;
+            padding: 8px 12px;
+            margin-top: 12px;
+            font-size: 12px;
+        }
+        .btn-export:hover {
+            background: #0369a1;
+        }
+        #coords {
+            margin-top: 8px;
+            font-family: monospace;
+            font-size: 11px;
+            color: #38bdf8;
+        }
+        .status-tag {
+            display: inline-block;
+            background: rgba(34, 197, 94, 0.15);
+            color: #4ade80;
+            border: 1px solid rgba(34, 197, 94, 0.4);
+            border-radius: 4px;
+            padding: 2px 6px;
+            font-size: 11px;
+            margin-bottom: 6px;
+        }
+    </style>
+    <!-- Three.js and OrbitControls -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+</head>
+<body>
+    <div id="hud">
+        <h2>🎬 3D 空間虛擬相機 — Shot 1.1.2</h2>
+        <div class="status-tag">🎯 導演最新指示：Sandy 左側指圖 / 左側資淺分析師 / 右側 Harrison</div>
+        <p><b>設定：</b>Sandy 站遠端左側、資淺分析師坐左側第2席、Harrison 坐右側第2席。</p>
+        <p>滑鼠左鍵旋轉視角、滾輪縮放、右鍵平移相機</p>
+        <div id="coords">CAM: [0.0, 1.18, 2.4] | FOV: 45°</div>
+        <div class="controls">
+            <button onclick="setCamera('shot_1_1_2')">參考標準機位 (直視透視)</button>
+            <button onclick="setCamera('ots_sandy')">Sandy 左側簡報視角</button>
+            <button onclick="setCamera('side_harrison')">Harrison 右側專注特寫</button>
+            <button onclick="setCamera('side_junior')">資淺分析師特寫</button>
+            <button onclick="setCamera('bird_eye')">全局俯瞰</button>
+        </div>
+    </div>
+
+    <!-- 角色位置即時調整面板 -->
+    <div id="actor-panel">
+        <h2>
+            <span>🕹️ 角色位置即時調整</span>
+        </h2>
+        
+        <!-- Sandy Controls -->
+        <div class="section-title title-sandy">👩‍💼 Analyst Sandy (左側指圖簡報)</div>
+        <div class="slider-group">
+            <label>左右 (X 軸):</label>
+            <input type="range" id="sandy-x" min="-1.5" max="0.0" step="0.05" value="-0.90" oninput="updateActors()">
+            <span id="sandy-x-val">-0.90m</span>
+        </div>
+        <div class="slider-group">
+            <label>前後 (Z 軸):</label>
+            <input type="range" id="sandy-z" min="-4.2" max="-2.8" step="0.05" value="-3.5" oninput="updateActors()">
+            <span id="sandy-z-val">-3.50m</span>
+        </div>
+
+        <!-- Junior Analyst Controls -->
+        <div class="section-title title-junior">👨‍💼 資淺分析師 (左側第 2 席)</div>
+        <div class="slider-group">
+            <label>前後 (Z 軸):</label>
+            <input type="range" id="junior-z" min="-2.4" max="-0.2" step="0.05" value="-1.3" oninput="updateActors()">
+            <span id="junior-z-val">-1.30m</span>
+        </div>
+
+        <!-- Harrison Controls -->
+        <div class="section-title title-harrison">👤 Mr. Harrison (右側第 2 席)</div>
+        <div class="slider-group">
+            <label>前後 (Z 軸):</label>
+            <input type="range" id="harrison-z" min="-2.4" max="-0.2" step="0.05" value="-1.3" oninput="updateActors()">
+            <span id="harrison-z-val">-1.30m</span>
+        </div>
+
+        <button class="btn-export" onclick="exportCoordinates()">📋 複製精確 3D 空間座標</button>
+        <button class="btn-export" style="background:#334155; margin-top:6px;" onclick="downloadScreenshot()">📸 拍攝當前視角為 3D 參考圖 (PNG)</button>
+    </div>
+
+    <script>
+        const scene = new THREE.Scene();
+        scene.background = new THREE.Color(0x0e131f);
+        scene.fog = new THREE.FogExp2(0x0e131f, 0.035);
+
+        const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.set(0.0, 1.18, 2.4);
+
+        const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.shadowMap.enabled = true;
+        renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        document.body.appendChild(renderer.domElement);
+
+        const controls = new THREE.OrbitControls(camera, renderer.domElement);
+        controls.target.set(0.0, 1.05, -2.8);
+        controls.enableDamping = true;
+        controls.dampingFactor = 0.05;
+
+        // Lighting
+        const ambientLight = new THREE.AmbientLight(0xf1f5f9, 0.85);
+        scene.add(ambientLight);
+
+        const keyLight = new THREE.DirectionalLight(0xfff7ed, 1.3);
+        keyLight.position.set(-2, 4, 1);
+        keyLight.castShadow = true;
+        scene.add(keyLight);
+
+        const windowLight = new THREE.DirectionalLight(0x94a3b8, 1.5);
+        windowLight.position.set(4, 3, -4);
+        scene.add(windowLight);
+
+        // Materials
+        const carpetMat = new THREE.MeshStandardMaterial({ color: 0x64748b, roughness: 0.9 });
+        const walnutTableMat = new THREE.MeshStandardMaterial({ color: 0x6d432b, roughness: 0.25, metalness: 0.05 });
+        const tanLeatherMat = new THREE.MeshStandardMaterial({ color: 0xa87144, roughness: 0.4 });
+        const chromeMat = new THREE.MeshStandardMaterial({ color: 0xe2e8f0, metalness: 0.95, roughness: 0.1 });
+        const woodSlatMat = new THREE.MeshStandardMaterial({ color: 0x4a2c1d, roughness: 0.6 });
+        const navySuitMat = new THREE.MeshStandardMaterial({ color: 0x1e2a4a, roughness: 0.7 });
+        const beigeShirtMat = new THREE.MeshStandardMaterial({ color: 0xded6c5, roughness: 0.8 });
+        const skinMat = new THREE.MeshStandardMaterial({ color: 0xdfab90, roughness: 0.5 });
+        const hairSilverMat = new THREE.MeshStandardMaterial({ color: 0xc8d0dc, roughness: 0.6 });
+        const hairBrownMat = new THREE.MeshStandardMaterial({ color: 0x4a2a18, roughness: 0.7 });
+
+        // Floor
+        const floor = new THREE.Mesh(new THREE.PlaneGeometry(12, 14), carpetMat);
+        floor.rotation.x = -Math.PI / 2;
+        floor.receiveShadow = true;
+        scene.add(floor);
+
+        // Ceiling Wood Slats
+        const ceilingGroup = new THREE.Group();
+        ceilingGroup.position.set(0, 3.2, -1.5);
+        for (let z = -3.2; z <= 2.8; z += 0.16) {
+            const slat = new THREE.Mesh(new THREE.BoxGeometry(3.6, 0.08, 0.08), woodSlatMat);
+            slat.position.set(0, 0, z);
+            ceilingGroup.add(slat);
+        }
+        scene.add(ceilingGroup);
+
+        // Table
+        const tableTop = new THREE.Mesh(new THREE.BoxGeometry(1.6, 0.07, 3.6), walnutTableMat);
+        tableTop.position.set(0, 0.73, -1.3);
+        tableTop.castShadow = true;
+        scene.add(tableTop);
+
+        const pedestal = new THREE.Mesh(new THREE.BoxGeometry(0.7, 0.70, 2.2), woodSlatMat);
+        pedestal.position.set(0, 0.35, -1.3);
+        scene.add(pedestal);
+
+        // Chairs Function
+        function createExecutiveChair(x, z, facingAngle) {
+            const grp = new THREE.Group();
+            grp.position.set(x, 0, z);
+            grp.rotation.y = facingAngle;
+
+            const seat = new THREE.Mesh(new THREE.BoxGeometry(0.56, 0.08, 0.52), tanLeatherMat);
+            seat.position.set(0, 0.44, 0);
+            grp.add(seat);
+
+            const back = new THREE.Mesh(new THREE.BoxGeometry(0.54, 0.70, 0.08), tanLeatherMat);
+            back.position.set(0, 0.82, -0.22);
+            grp.add(back);
+
+            const armL = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.22, 0.44), chromeMat);
+            armL.position.set(-0.27, 0.60, 0);
+            grp.add(armL);
+            const armR = new THREE.Mesh(new THREE.BoxGeometry(0.04, 0.22, 0.44), chromeMat);
+            armR.position.set(0.27, 0.60, 0);
+            grp.add(armR);
+
+            const basePost = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.40, 8), chromeMat);
+            basePost.position.set(0, 0.20, 0);
+            grp.add(basePost);
+
+            const baseLegs = new THREE.Mesh(new THREE.BoxGeometry(0.50, 0.04, 0.50), chromeMat);
+            baseLegs.position.set(0, 0.04, 0);
+            grp.add(baseLegs);
+
+            return grp;
+        }
+
+        // Empty Chairs
+        scene.add(createExecutiveChair(-1.05, -0.4, Math.PI / 2));
+        scene.add(createExecutiveChair(-1.05, -2.2, Math.PI / 2));
+        scene.add(createExecutiveChair(1.05, -0.4, -Math.PI / 2));
+        scene.add(createExecutiveChair(1.05, -2.2, -Math.PI / 2));
+
+        // Far Wall & Screen
+        const backWall = new THREE.Mesh(new THREE.BoxGeometry(10, 5, 0.1), new THREE.MeshStandardMaterial({ color: 0x1e293b }));
+        backWall.position.set(0, 2.5, -4.3);
+        scene.add(backWall);
+
+        const screenGroup = new THREE.Group();
+        screenGroup.position.set(0, 1.85, -4.24);
+        const screenBoard = new THREE.Mesh(new THREE.BoxGeometry(3.2, 1.8, 0.04), new THREE.MeshBasicMaterial({ color: 0xf8fafc }));
+        screenGroup.add(screenBoard);
+        scene.add(screenGroup);
+
+        // ------------------ JUNIOR ANALYST (LEFT SIDE, CHAIR 2) ------------------
+        const juniorGroup = new THREE.Group();
+        juniorGroup.position.set(-1.05, 0, -1.3);
+        juniorGroup.rotation.y = THREE.MathUtils.degToRad(35);
+        juniorGroup.add(createExecutiveChair(0, 0, 0));
+
+        const jTorso = new THREE.Mesh(new THREE.BoxGeometry(0.44, 0.52, 0.30), beigeShirtMat);
+        jTorso.position.set(0, 0.80, 0.0);
+        juniorGroup.add(jTorso);
+
+        const jHead = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.28, 0.22), skinMat);
+        jHead.position.set(0, 1.25, 0.0);
+        juniorGroup.add(jHead);
+
+        const jHair = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.14, 0.24), hairBrownMat);
+        jHair.position.set(0, 1.40, -0.02);
+        juniorGroup.add(jHair);
+
+        const jArm = new THREE.Mesh(new THREE.BoxGeometry(0.12, 0.12, 0.35), beigeShirtMat);
+        jArm.position.set(0.15, 0.80, 0.22);
+        juniorGroup.add(jArm);
+        scene.add(juniorGroup);
+
+        // ------------------ MR. HARRISON (RIGHT SIDE, CHAIR 2) ------------------
+        const harrisonGroup = new THREE.Group();
+        harrisonGroup.position.set(1.05, 0, -1.3);
+        harrisonGroup.rotation.y = THREE.MathUtils.degToRad(-35);
+        harrisonGroup.add(createExecutiveChair(0, 0, 0));
+
+        const hTorso = new THREE.Mesh(new THREE.BoxGeometry(0.48, 0.55, 0.32), navySuitMat);
+        hTorso.position.set(0, 0.82, 0.0);
+        harrisonGroup.add(hTorso);
+
+        const hHead = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.30, 0.24), skinMat);
+        hHead.position.set(0, 1.28, 0.0);
+        harrisonGroup.add(hHead);
+
+        const hHair = new THREE.Mesh(new THREE.BoxGeometry(0.28, 0.14, 0.26), hairSilverMat);
+        hHair.position.set(0, 1.43, -0.02);
+        harrisonGroup.add(hHair);
+        scene.add(harrisonGroup);
+
+        // ------------------ SANDY (STANDING ON LEFT SIDE OF SCREEN) ------------------
+        const sandyGroup = new THREE.Group();
+        sandyGroup.position.set(-0.90, 0, -3.5);
+        sandyGroup.rotation.y = THREE.MathUtils.degToRad(120);
+
+        const sLegs = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.75, 0.2), new THREE.MeshStandardMaterial({ color: 0x18181b }));
+        sLegs.position.set(0, 0.375, 0);
+        sandyGroup.add(sLegs);
+
+        const sTorso = new THREE.Mesh(new THREE.BoxGeometry(0.36, 0.5, 0.24), new THREE.MeshStandardMaterial({ color: 0x27272a }));
+        sTorso.position.set(0, 0.95, 0);
+        sandyGroup.add(sTorso);
+
+        const sHead = new THREE.Mesh(new THREE.BoxGeometry(0.24, 0.26, 0.22), skinMat);
+        sHead.position.set(0, 1.34, 0);
+        sandyGroup.add(sHead);
+
+        const sHair = new THREE.Mesh(new THREE.BoxGeometry(0.26, 0.16, 0.24), hairBrownMat);
+        sHair.position.set(0, 1.44, -0.02);
+        sandyGroup.add(sHair);
+
+        const sArm = new THREE.Mesh(new THREE.BoxGeometry(0.09, 0.09, 0.42), new THREE.MeshStandardMaterial({ color: 0x27272a }));
+        sArm.position.set(0.22, 1.15, 0.2);
+        sArm.rotation.x = Math.PI / 4;
+        sArm.rotation.y = -Math.PI / 6;
+        sandyGroup.add(sArm);
+
+        scene.add(sandyGroup);
+
+        // Updates
+        window.updateActors = function() {
+            const sx = parseFloat(document.getElementById('sandy-x').value);
+            const sz = parseFloat(document.getElementById('sandy-z').value);
+            sandyGroup.position.x = sx;
+            sandyGroup.position.z = sz;
+            document.getElementById('sandy-x-val').innerText = sx.toFixed(2) + 'm';
+            document.getElementById('sandy-z-val').innerText = sz.toFixed(2) + 'm';
+
+            const jz = parseFloat(document.getElementById('junior-z').value);
+            juniorGroup.position.z = jz;
+            document.getElementById('junior-z-val').innerText = jz.toFixed(2) + 'm';
+
+            const hz = parseFloat(document.getElementById('harrison-z').value);
+            harrisonGroup.position.z = hz;
+            document.getElementById('harrison-z-val').innerText = hz.toFixed(2) + 'm';
+        };
+
+        window.exportCoordinates = function() {
+            const text = `Sandy(Left): [${sandyGroup.position.x.toFixed(2)}, 0, ${sandyGroup.position.z.toFixed(2)}] | JuniorAnalyst(Left): [-1.05, 0, ${juniorGroup.position.z.toFixed(2)}] | Harrison(Right): [1.05, 0, ${harrisonGroup.position.z.toFixed(2)}]`;
+            navigator.clipboard.writeText(text).then(() => alert("已複製當前 3D 空間座標！\n" + text));
+        };
+
+        window.downloadScreenshot = function() {
+            renderer.render(scene, camera);
+            const dataURL = renderer.domElement.toDataURL('image/png');
+            const link = document.createElement('a');
+            link.download = 'london_boardroom_sandy_left_junior.png';
+            link.href = dataURL;
+            link.click();
+        };
+
+        window.setCamera = function(type) {
+            if (type === 'shot_1_1_2') {
+                camera.position.set(0.0, 1.18, 2.4);
+                controls.target.set(0.0, 1.05, -2.8);
+            } else if (type === 'ots_sandy') {
+                camera.position.set(-0.8, 1.45, -2.8);
+                controls.target.set(0.0, 1.1, -1.3);
+            } else if (type === 'side_harrison') {
+                camera.position.set(0.3, 1.2, -0.6);
+                controls.target.set(1.05, 1.15, -1.3);
+            } else if (type === 'side_junior') {
+                camera.position.set(-0.3, 1.2, -0.6);
+                controls.target.set(-1.05, 1.15, -1.3);
+            } else if (type === 'bird_eye') {
+                camera.position.set(0.0, 4.2, 1.5);
+                controls.target.set(0.0, 0.8, -1.8);
+            }
+            controls.update();
+        };
+
+        function animate() {
+            requestAnimationFrame(animate);
+            controls.update();
+            const p = camera.position;
+            document.getElementById('coords').innerText = 
+                `CAM: [${p.x.toFixed(2)}, ${p.y.toFixed(2)}, ${p.z.toFixed(2)}] | FOV: ${camera.fov}°`;
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
