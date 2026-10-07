@@ -1,0 +1,110 @@
+{
+  "version": "1.0",
+  "project_id": "esg-act1-crisis",
+  "decisions": [
+    {
+      "decision_id": "d-001",
+      "stage": "proposal",
+      "category": "pipeline_selection",
+      "subject": "\u52d5\u756b\u88fd\u4f5c\u7ba1\u7dda\u9078\u64c7",
+      "options_considered": [
+        {
+          "option_id": "cinematic",
+          "label": "Cinematic \u7ba1\u7dda (\u96fb\u5f71\u611f\u5fae\u96fb\u5f71 / \u5287\u672c\u5206\u93e1\u9a45\u52d5)",
+          "score": 0.98,
+          "reason": "\u5177\u5099\u5b8c\u6574\u7684\u5287\u672c (Script)\u3001CLP \u8cc7\u7522\u4e00\u81f4\u6027\u7ba1\u7dda\u8207\u5206\u93e1\u5c0e\u6f14 (Scene Director) \u898f\u683c\uff0c\u6700\u5951\u5408\u591a\u89d2\u8272\u6558\u4e8b"
+        },
+        {
+          "option_id": "animated_explainer",
+          "label": "Animated Explainer \u7ba1\u7dda (\u5716\u8868\u89e3\u8aaa)",
+          "score": 0.65,
+          "reason": "\u504f\u5411\u7d14\u77e5\u8b58\u8aaa\u660e\uff0c\u7f3a\u4e4f\u89d2\u8272\u6232\u5287\u5f35\u529b\u8207\u591a\u4eba\u7269\u5c0d\u767d\u6f14\u6280",
+          "rejected_because": "\u672c\u5c08\u6848\u70ba\u89d2\u8272\u8f15\u559c\u5287\uff0c\u975e\u7d14\u77e5\u8b58\u5716\u8868\u7c21\u5831"
+        }
+      ],
+      "selected": "cinematic",
+      "reason": "\u9078\u5b9a\u4ee5 cinematic \u7ba1\u7dda\u4e3b\u5c0e\u591a\u89d2\u8272 3D \u76ae\u514b\u65af\u6545\u4e8b\u6f14\u51fa\u8207\u5206\u93e1\u7d81\u5b9a",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    },
+    {
+      "decision_id": "d-002",
+      "stage": "proposal",
+      "category": "playbook_selection",
+      "subject": "\u8996\u89ba\u98a8\u683c Playbook \u9078\u64c7",
+      "options_considered": [
+        {
+          "option_id": "esg-pixar-hybrid",
+          "label": "ESG 3D \u76ae\u514b\u65af\u8f15\u559c\u5287\u8907\u5408\u6df7\u5408\u6a21\u5f0f (80% 3D + 20% MG)",
+          "score": 0.99,
+          "reason": "\u7d50\u5408 3D \u76ae\u514b\u65af\u89d2\u8272\u5e7d\u9ed8\u6f14\u6280\u8207 Remotion \u52d5\u614b\u6587\u4ef6\u52d5\u756b\uff0c\u5e73\u8861\u751f\u52d5\u611f\u8207\u5408\u7d04\u56b4\u8085\u6027"
+        },
+        {
+          "option_id": "flat-motion-graphics",
+          "label": "\u7d14\u6241\u5e73\u52d5\u614b\u8cc7\u8a0a\u5716\u8868",
+          "score": 0.7,
+          "reason": "\u7d14 2D MG \u7f3a\u4e4f\u89d2\u8272\u540c\u7406\u5fc3\u8207\u8fa6\u516c\u5ba4\u614c\u4e82\u5e7d\u9ed8\u611f",
+          "rejected_because": "\u4f7f\u7528\u8005\u9078\u5b9a\u65b9\u6848 A (3D \u76ae\u514b\u65af\u8f15\u559c\u5287)"
+        }
+      ],
+      "selected": "esg-pixar-hybrid",
+      "reason": "\u4f7f\u7528\u8005\u660e\u78ba\u6307\u793a\u63a1\u7528\u65b9\u6848 A (3D \u76ae\u514b\u65af\u8f15\u559c\u5287)\uff0c\u7279\u5b9a\u5716\u8868\u7d50\u5408 MG \u52d5\u756b",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    },
+    {
+      "decision_id": "d-003",
+      "stage": "proposal",
+      "category": "render_runtime_selection",
+      "subject": "\u5408\u6210\u6e32\u67d3\u5f15\u64ce\u9078\u64c7",
+      "options_considered": [
+        {
+          "option_id": "remotion",
+          "label": "Remotion (React \u52d5\u756b\u8207\u5408\u6210\u5f15\u64ce)",
+          "score": 0.95,
+          "reason": "\u672c\u6a5f\u5df2\u5b89\u88dd\u4e14\u904b\u4f5c\u6b63\u5e38\uff0c\u5b8c\u7f8e\u652f\u63f4\u96d9\u683c Split-screen\u3001Spring \u7269\u7406\u52d5\u756b\u5370\u7ae0\u8207\u7cbe\u6e96\u97f3\u8a0a\u5c0d\u9f4a"
+        },
+        {
+          "option_id": "hyperframes",
+          "label": "HyperFrames (HTML/CSS/GSAP \u5f15\u64ce)",
+          "score": 0.0,
+          "reason": "\u672c\u6a5f\u672a\u5b89\u88dd HyperFrames \u57f7\u884c\u74b0\u5883",
+          "rejected_because": "runtime not available on this machine"
+        }
+      ],
+      "selected": "remotion",
+      "reason": "\u9396\u5b9a Remotion \u4f5c\u70ba\u6280\u8853\u5408\u6210\u5f15\u64ce\uff0c\u4e26\u4ee5 atelier \u624b\u7e6a\u8a02\u88fd\u6a21\u5f0f\u7d44\u7e54\u5834\u666f",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    },
+    {
+      "decision_id": "d-004",
+      "stage": "proposal",
+      "category": "voice_selection",
+      "subject": "\u5834\u666f 1.1 \u502b\u6566\u6703\u8b70\u5ba4\u8a9e\u8a00\u653f\u7b56",
+      "options_considered": [
+        {
+          "option_id": "english_original",
+          "label": "\u82f1\u6587\u539f\u97f3 (English Dialogue) + \u4e2d\u6587\u5b57\u5e55",
+          "score": 0.98,
+          "reason": "\u9ad8\u5ea6\u9084\u539f\u502b\u6566\u6d77\u5916\u6295\u8cc7\u6a5f\u69cb\u5be9\u67e5\u6703\u8b70\u7684\u771f\u5be6\u5546\u696d\u8cea\u8abf"
+        },
+        {
+          "option_id": "mandarin_translated",
+          "label": "\u7ffb\u8b6f\u70ba\u4e2d\u6587\u914d\u97f3",
+          "score": 0.5,
+          "reason": "\u524a\u5f31\u8de8\u570b\u5916\u8cc7\u7684\u9ad8\u51b7\u5c08\u696d\u611f",
+          "rejected_because": "\u4f7f\u7528\u8005\u660e\u78ba\u6307\u793a\u5834\u666f 1.1 \u70ba\u502b\u6566\u8fa6\u516c\u5ba4\uff0c\u63a1\u7528\u5287\u672c\u4e2d\u82f1\u6587\u539f\u5c0d\u767d\uff0c\u6bcb\u9808\u7ffb\u8b6f"
+        }
+      ],
+      "selected": "english_original",
+      "reason": "\u9075\u7167\u4f7f\u7528\u8005\u6307\u793a\uff0c\u5834\u666f 1.1 \u4fdd\u6301\u82f1\u6587\u539f\u97f3\u4e26\u58d3\u5370\u4e2d\u6587\u5b57\u5e55",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    }
+  ]
+}

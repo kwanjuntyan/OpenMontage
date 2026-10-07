@@ -1,0 +1,259 @@
+{
+  "version": "1.0",
+  "project_id": "esg-act1-crisis",
+  "pipeline_type": "cinematic",
+  "stage": "script",
+  "status": "completed",
+  "timestamp": "2026-09-13T15:22:12.352554+00:00",
+  "checkpoint_policy": "guided",
+  "human_approval_required": true,
+  "human_approved": true,
+  "artifacts": {
+    "script": {
+      "version": "1.0",
+      "title": "ESG \u4f01\u696d\u52d5\u756b\u57f9\u8a13\u8ab2\u7a0b\uff1a\u7b2c\u4e00\u5e55\u30fb\u958b\u5834\u5371\u6a5f",
+      "total_duration_seconds": 149.0,
+      "voice_performance": {
+        "performance_intent": "Scene 1.1: Cold, precise, prestigious British executive English. Scene 1.2: Anxious, rapid-fire, comedic Mandarin office panic. Scene 1.3: Hyper-enthusiastic TV shopping pitch.",
+        "pacing_profile": "cinematic",
+        "energy_curve": "Starts restrained and analytical, explodes into high-tension comedic panic at the phone call, ends with surreal TV shopping parody.",
+        "pause_policy": "Dramatic beats after Harrison's questions and ON HOLD stamp reverberation."
+      },
+      "sections": [
+        {
+          "id": "sec_1_1_3",
+          "label": "Sandy Financial Pitch",
+          "text": "Mr. Harrison, as you can see, the financial projections are solid. Gross margins are healthy, and their market share is growing.",
+          "start_seconds": 15.0,
+          "end_seconds": 30.0,
+          "speaker_directions": "Sandy presents with professional confidence, gesturing toward the corporate financial growth chart.",
+          "delivery_cues": {
+            "pace": "conversational",
+            "energy": "confident and professional",
+            "emphasis_words": [
+              "solid",
+              "healthy",
+              "growing"
+            ]
+          }
+        },
+        {
+          "id": "sec_1_1_4",
+          "label": "Harrison Non-Financial Question",
+          "text": "And the non-financials? Where do they stand on ESG metrics?",
+          "start_seconds": 30.0,
+          "end_seconds": 35.0,
+          "speaker_directions": "Mr. Harrison cuts through the optimism with a sharp, calculating tone, eyes narrowing.",
+          "delivery_cues": {
+            "pace": "measured",
+            "energy": "stern, authoritative",
+            "emphasis_words": [
+              "non-financials",
+              "ESG metrics"
+            ]
+          }
+        },
+        {
+          "id": "sec_1_1_6",
+          "label": "Sandy Awkward Admission",
+          "text": "That is... precisely the issue, sir. We have zero data on their emissions, and no verification of labor standards.",
+          "start_seconds": 42.0,
+          "end_seconds": 57.0,
+          "speaker_directions": "Sandy hesitates awkwardly, clicking remote to show empty warning charts, nervous vocal tremor.",
+          "delivery_cues": {
+            "pace": "measured",
+            "energy": "nervous, cautious",
+            "emphasis_words": [
+              "precisely",
+              "zero data",
+              "no verification"
+            ]
+          }
+        },
+        {
+          "id": "sec_1_1_8",
+          "label": "Harrison Black Box Verdict",
+          "text": "So, it's a black box. We can't verify if their healthy margins come from efficiency... or exploitation. We are flying blind here.",
+          "start_seconds": 65.0,
+          "end_seconds": 73.0,
+          "speaker_directions": "Mr. Harrison taps fingers on the polished wood table, grim and resolute.",
+          "delivery_cues": {
+            "pace": "measured",
+            "energy": "cold, resolute",
+            "emphasis_words": [
+              "black box",
+              "exploitation",
+              "flying blind"
+            ]
+          }
+        },
+        {
+          "id": "sec_1_1_9",
+          "label": "Sandy Feeble Rebuttal",
+          "text": "but, the potential return is still attractive...",
+          "start_seconds": 73.0,
+          "end_seconds": 78.0,
+          "speaker_directions": "Sandy attempts a weak defense, trailing off under Harrison's gaze.",
+          "delivery_cues": {
+            "pace": "conversational",
+            "energy": "tentative, hesitant",
+            "emphasis_words": [
+              "attractive"
+            ]
+          }
+        },
+        {
+          "id": "sec_1_1_10",
+          "label": "Harrison Final Rejection",
+          "text": "Risk is not attractive. Put it on hold. I want to see a credible ESG roadmap from them before we proceed. Make that clear to them.",
+          "start_seconds": 78.0,
+          "end_seconds": 86.0,
+          "speaker_directions": "Harrison firmly shuts his folder, absolute executive finality.",
+          "delivery_cues": {
+            "pace": "measured",
+            "energy": "commanding, definitive",
+            "emphasis_words": [
+              "Risk",
+              "not attractive",
+              "on hold",
+              "credible ESG roadmap"
+            ]
+          }
+        },
+        {
+          "id": "sec_1_2_2",
+          "label": "Supervisor Urgent Alert",
+          "text": "Amy\uff01\u5927\u4e8b\u4e0d\u5999\uff01\u589e\u8cc7\u6848\u88ab\u5361\u4f4f\u4e86\uff01\u6295\u8cc7\u65b9\u8aaa\u6211\u5011\u662f\u500b\u300cESG\u9ed1\u7bb1\u300d\uff0c\u4e0d\u76f8\u4fe1\u6211\u5011\u7684\u8ca1\u52d9\u5831\u8868\uff01",
+          "start_seconds": 101.0,
+          "end_seconds": 106.0,
+          "speaker_directions": "\u4e3b\u7ba1\u900f\u904e\u96fb\u8a71\u72c2\u543c\uff0c\u6c23\u5598\u5401\u5401\uff0c\u795e\u60c5\u6975\u5ea6\u7126\u616e\uff0c\u6c57\u73e0\u72c2\u98c6\u3002",
+          "delivery_cues": {
+            "pace": "fast",
+            "energy": "panicked, explosive",
+            "emphasis_words": [
+              "\u5927\u4e8b\u4e0d\u5999",
+              "\u5361\u4f4f\u4e86",
+              "ESG\u9ed1\u7bb1"
+            ]
+          }
+        },
+        {
+          "id": "sec_1_2_3",
+          "label": "Supervisor Bonus Threat",
+          "text": "\u5982\u679c\u9019\u7b46\u9322\u6c92\u9032\u4f86\uff0c\u660e\u5e74\u7684\u64f4\u5ee0\u8a08\u756b\u4e0d\u4f46\u8981\u505c\uff0c\u9023\u5927\u5bb6\u7684\u5e74\u7d42\u734e\u91d1\u6050\u6015\u90fd\u767c\u4e0d\u51fa\u4f86\u4e86\uff01",
+          "start_seconds": 106.0,
+          "end_seconds": 110.0,
+          "speaker_directions": "\u4e3b\u7ba1\u7528\u529b\u63ee\u821e\u96d9\u624b\uff0c\u8072\u97f3\u5145\u6eff\u7d55\u671b\u8207\u5a01\u8105\u611f\u3002",
+          "delivery_cues": {
+            "pace": "fast",
+            "energy": "anxious, dire",
+            "emphasis_words": [
+              "\u64f4\u5ee0\u8a08\u756b",
+              "\u5e74\u7d42\u734e\u91d1"
+            ]
+          }
+        },
+        {
+          "id": "sec_1_2_4",
+          "label": "Amy Shocked Question",
+          "text": "\u9019\u9ebc\u56b4\u91cd\uff1f\u53ef\u662f\u5354\u7406\uff0c\u6211\u5011\u516c\u53f8\u4e0d\u662f\u4e00\u76f4\u90fd\u5f88\u5b88\u898f\u77e9\u55ce\uff1f",
+          "start_seconds": 110.0,
+          "end_seconds": 115.0,
+          "speaker_directions": "Amy \u775c\u5927\u773c\u775b\uff0c\u795e\u60c5\u9707\u64bc\u4e14\u56f0\u60d1\uff0c\u63e1\u7dca\u624b\u6a5f\u4e0d\u6562\u7f6e\u4fe1\u3002",
+          "delivery_cues": {
+            "pace": "conversational",
+            "energy": "shocked, bewildered",
+            "emphasis_words": [
+              "\u9019\u9ebc\u56b4\u91cd",
+              "\u5f88\u5b88\u898f\u77e9"
+            ]
+          }
+        },
+        {
+          "id": "sec_1_2_5",
+          "label": "Supervisor Assignment",
+          "text": "\u73fe\u5728\u6c92\u6642\u9593\u89e3\u91cb\uff01\u4e0b\u79ae\u62dc\u6709\u5834\u9ad8\u968e\u4e3b\u7ba1\u6703\u8b70\uff0c\u59b3\u5c31\u5148\u6e96\u5099\u4e00\u5834ESG\u7c21\u5831\u5427\uff01",
+          "start_seconds": 115.0,
+          "end_seconds": 120.0,
+          "speaker_directions": "\u4e3b\u7ba1\u5f37\u884c\u6253\u65b7\uff0c\u6025\u8e81\u5730\u6307\u6d3e\u4e0d\u53ef\u80fd\u7684\u4efb\u52d9\u3002",
+          "delivery_cues": {
+            "pace": "brisk",
+            "energy": "commanding, rushed",
+            "emphasis_words": [
+              "\u6c92\u6642\u9593\u89e3\u91cb",
+              "ESG\u7c21\u5831"
+            ]
+          }
+        },
+        {
+          "id": "sec_1_2_6",
+          "label": "Amy Hesitant Confession",
+          "text": "\u5831\u544a\u5354\u7406\uff0cESG\u6211\u4e5f\u4e0d\u61c2\u554a...",
+          "start_seconds": 120.0,
+          "end_seconds": 125.0,
+          "speaker_directions": "Amy \u7709\u982d\u7dca\u9396\uff0c\u773c\u795e\u614c\u4e82\uff0c\u8072\u97f3\u5fae\u5f31\u800c\u7121\u52a9\u3002",
+          "delivery_cues": {
+            "pace": "measured",
+            "energy": "nervous, helpless",
+            "emphasis_words": [
+              "\u6211\u4e5f\u4e0d\u61c2\u554a"
+            ]
+          }
+        },
+        {
+          "id": "sec_1_2_7",
+          "label": "Supervisor Final Push and Hangup",
+          "text": "\u4e0d\u61c2\u5c31\u53bb\u641e\u61c2\u554a\uff01\u9019\u95dc\u4fc2\u5230\u516c\u53f8\u7684\u751f\u5b58\uff0c\u4e5f\u95dc\u4fc2\u5230\u59b3\u6211\u7684\u98ef\u7897\uff01\u5c31\u9019\u6a23\uff01\u6211\u8981\u53bb\u5b89\u64ab\u8001\u95c6\u4e86\uff01",
+          "start_seconds": 125.0,
+          "end_seconds": 130.0,
+          "speaker_directions": "\u4e3b\u7ba1\u8072\u5636\u529b\u7aed\u5927\u543c\u5f8c\u7acb\u5373\u639b\u65b7\uff0c\u7559\u4e0b\u76f2\u97f3\u3002",
+          "delivery_cues": {
+            "pace": "fast",
+            "energy": "explosive, aggressive",
+            "emphasis_words": [
+              "\u641e\u61c2\u554a",
+              "\u516c\u53f8\u7684\u751f\u5b58",
+              "\u59b3\u6211\u7684\u98ef\u7897"
+            ]
+          }
+        },
+        {
+          "id": "sec_1_2_8",
+          "label": "Amy Monologue",
+          "text": "E...S...G...\u9019\u5230\u5e95\u662f\u4ec0\u9ebc\u6551\u547d\u4ed9\u4e39\uff1f\u80fd\u5e6b\u516c\u53f8\u52df\u8cc7\uff1f\u9084\u80fd\u6551\u6211\u7684\u5e74\u7d42\u734e\u91d1\uff1f",
+          "start_seconds": 130.0,
+          "end_seconds": 138.0,
+          "speaker_directions": "Amy \u5446\u6eef\u5730\u770b\u8457\u9ed1\u6389\u7684\u624b\u6a5f\u87a2\u5e55\uff0c\u5583\u5583\u81ea\u8a9e\uff0c\u96d9\u773c\u7de9\u7de9\u5931\u7126\u3002",
+          "delivery_cues": {
+            "pace": "slow",
+            "energy": "contemplative, bewildered",
+            "emphasis_words": [
+              "\u6551\u547d\u4ed9\u4e39",
+              "\u52df\u8cc7",
+              "\u5e74\u7d42\u734e\u91d1"
+            ]
+          }
+        },
+        {
+          "id": "sec_1_3_1",
+          "label": "Fantasy TV Shopping Host",
+          "text": "\u9084\u5728\u64d4\u5fc3\u5e74\u7d42\u734e\u91d1\u6ce1\u6e6f\u55ce\uff1f\u8a66\u8a66\u5168\u65b0\u7684\u300cESG\u6fc3\u7e2e\u81a0\u56ca\u300d\uff01\u4e00\u53e3\u541e\u4e0b\uff0c\u4fdd\u8b49\u4f60\u8a02\u55ae\u6eff\u8f09\uff0c\u80a1\u50f9\u98c6\u5347\uff0c\u8001\u95c6\u7b11\u5475\u5475\uff01",
+          "start_seconds": 141.0,
+          "end_seconds": 149.0,
+          "speaker_directions": "\u4e3b\u7ba1\u5316\u8eab\u6d6e\u8a87\u8cfc\u7269\u53f0\u4e3b\u6301\u4eba\uff0c\u54a7\u5634\u5927\u7b11\uff0c\u6fc0\u52d5\u6367\u8457\u91d1\u5149\u9583\u9583\u7684\u85e5\u7f50\u5411\u93e1\u982d\u72c2\u63a8\u92b7\u3002",
+          "delivery_cues": {
+            "pace": "brisk",
+            "energy": "hyper-enthusiastic, commercial parody",
+            "emphasis_words": [
+              "\u5e74\u7d42\u734e\u91d1\u6ce1\u6e6f",
+              "ESG\u6fc3\u7e2e\u81a0\u56ca",
+              "\u8a02\u55ae\u6eff\u8f09",
+              "\u80a1\u50f9\u98c6\u5347"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "style_playbook": "esg-pixar-hybrid"
+}

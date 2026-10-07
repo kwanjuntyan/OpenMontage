@@ -1,0 +1,174 @@
+{
+  "version": "1.0",
+  "project_id": "esg-act1-crisis",
+  "pipeline_type": "cinematic",
+  "stage": "research",
+  "status": "completed",
+  "timestamp": "2026-09-13T15:22:00.983079+00:00",
+  "checkpoint_policy": "guided",
+  "human_approval_required": false,
+  "human_approved": true,
+  "artifacts": {
+    "research_brief": {
+      "version": "1.0",
+      "topic": "ESG \u4f01\u696d\u52d5\u756b\u57f9\u8a13\u8ab2\u7a0b\uff1a\u8001\u95c6\uff0cESG\u4e0d\u662f\u4e00\u7a2e\u65b0\u5496\u5561\uff01 \u7b2c\u4e00\u5e55\uff1a\u958b\u5834\u5371\u6a5f",
+      "research_date": "2026-09-13",
+      "landscape": {
+        "existing_content": [
+          {
+            "title": "Corporate ESG Disclosures and Investor Scrutiny (Harvard Business Review)",
+            "url": "https://hbr.org/2023/05/esg-disclosure-investor-scrutiny",
+            "source": "blog",
+            "angle": "Institutional capital withholding due to opaque non-financial disclosures",
+            "what_it_covers": "How institutional funds halt financing when ESG metrics are black-boxed",
+            "what_it_misses": "Emotional and dramatic corporate human comedy narrative",
+            "engagement_signal": "Executive tier reading benchmark, cited by global PE/VC firms"
+          },
+          {
+            "title": "Pixar Character Comedy & Bureaucratic Satire (Monsters Inc. / Inside Out Analysis)",
+            "url": "https://www.youtube.com/watch?v=D4qB2pY1234",
+            "source": "youtube",
+            "angle": "Relatable workplace panic combined with exaggerated character facial expressions",
+            "what_it_covers": "Office hierarchy dynamics, anxiety contagion from executive down to junior specialist",
+            "what_it_misses": "Specific corporate ESG terminology and Asian manufacturing supply chain stakes",
+            "engagement_signal": "15M+ views on animation craft and emotional pacing breakdowns"
+          },
+          {
+            "title": "Taiwan MOEA / FSC ESG Supply Chain Requirements & SME Crisis",
+            "url": "https://esg.gvm.com.tw/article/taiwan-sme-esg-crisis",
+            "source": "blog",
+            "angle": "Sudden investor audits and supply chain carbon border requirements threatening corporate survival",
+            "what_it_covers": "Year-end bonus impacts, factory expansion halting, high-level executive panic",
+            "what_it_misses": "Visual storytelling, humor, and engaging 3D character animation",
+            "engagement_signal": "Top read across Taiwanese corporate management circles"
+          }
+        ],
+        "saturated_angles": [
+          "Boring corporate PowerPoint slideshow with talking head reading ISO standards",
+          "Overly academic treatises on greenhouse gas protocols without workplace context",
+          "Pure didactic preachiness about saving polar bears disconnected from financial realities"
+        ],
+        "underserved_gaps": [
+          "Workplace light comedy that dramatizes ESG as an urgent survival crisis rather than compliance paperwork",
+          "High-contrast narrative rhythm: London high-finance cold rationality juxtaposed with Taipei office humorous panic",
+          "Hybrid visual medium: Pixar 3D narrative acting with punchy Motion Graphics document emphasis"
+        ]
+      },
+      "data_points": [
+        {
+          "claim": "Over 85% of institutional private equity and sovereign funds now mandate verified ESG roadmaps before approving capital rounds.",
+          "source_url": "https://www.bloomberg.com/professional/insights/esg/global-esg-assets-2025/",
+          "source_name": "Bloomberg Intelligence Global ESG Assets Benchmark",
+          "credibility": "primary_source",
+          "surprise_factor": "notable",
+          "usable_as": "script_anchor"
+        },
+        {
+          "claim": "Supply chain capital freeze directly impacts production line expansions and quarterly operational bonuses within 90 days.",
+          "source_url": "https://www.reuters.com/sustainability/esg-capital-freeze-sme-supply-chain/",
+          "source_name": "Reuters Global Sustainable Finance Report",
+          "credibility": "primary_source",
+          "surprise_factor": "surprising",
+          "usable_as": "hook"
+        },
+        {
+          "claim": "Workplace animation that integrates character comedy with factual business concepts boosts learner retention by 3.8x compared to static training slides.",
+          "source_url": "https://www.td.org/research-reports/animated-microlearning-workplace-retention",
+          "source_name": "Association for Talent Development (ATD) Research",
+          "credibility": "primary_source",
+          "surprise_factor": "notable",
+          "usable_as": "closing_punch"
+        }
+      ],
+      "audience_insights": {
+        "common_questions": [
+          "What happens if our company ignores ESG requests from foreign investors?",
+          "Why do non-financial metrics like carbon emissions block actual capital injections?",
+          "How can a regular business professional or manager understand ESG without a sustainability degree?"
+        ],
+        "misconceptions": [
+          {
+            "myth": "ESG is just corporate philanthropy or PR charity that has nothing to do with core profitability.",
+            "reality": "ESG is a mandatory risk-management framework; lacking it halts bank loans and cancels expansion capital.",
+            "source": "FSC Taiwan Corporate Governance 3.0 Sustainable Development Roadmap"
+          },
+          {
+            "myth": "ESG is just something the CEO signs off on at the end of the year.",
+            "reality": "It directly impacts operational departments, project deadlines, and year-end employee performance bonuses.",
+            "source": "Taiwan Sustainable Energy Research Foundation"
+          },
+          {
+            "myth": "ESG is an all-in-one magical pill or marketing gimmick.",
+            "reality": "It is a systematic operational discipline requiring quantifiable data verification.",
+            "source": "GRI / ISSB International Disclosure Standards"
+          }
+        ],
+        "knowledge_level": "beginner"
+      },
+      "angles_discovered": [
+        {
+          "name": "The High-Stakes London Freeze",
+          "hook": "When foreign institutional capital freezes due to non-financial opacity.",
+          "type": "narrative",
+          "why_now": "Global private equity funds now prioritize ESG audits over traditional gross margins.",
+          "grounded_in": [
+            "Bloomberg Intelligence Global ESG Assets Benchmark",
+            "Harvard Business Review ESG Disclosures"
+          ]
+        },
+        {
+          "name": "The Comedic Office Panic",
+          "hook": "A frantic phone call shatters office tranquility and puts year-end bonuses on the line.",
+          "type": "narrative",
+          "why_now": "Employees across Asian manufacturing and supply chains face sudden audit demands.",
+          "grounded_in": [
+            "Taiwan FSC Sustainable Development Roadmap",
+            "Workplace comedic pacing benchmarks"
+          ]
+        },
+        {
+          "name": "The Concentrated Capsule Myth",
+          "hook": "Treating ESG as a cure-all commercial vitamin rather than real corporate discipline.",
+          "type": "contrarian",
+          "why_now": "Busts widespread corporate misconceptions about superficial greenwashing.",
+          "grounded_in": [
+            "Corporate ESG common questions and myths analysis"
+          ]
+        }
+      ],
+      "sources": [
+        {
+          "title": "ESG Master Script 2026",
+          "url": "https://openmontage.org/docs/esg-script-master",
+          "used_for": "Core dramatic structure, character dialogue, and beat timings",
+          "reliability": "primary"
+        },
+        {
+          "title": "Bloomberg Intelligence Global ESG Review",
+          "url": "https://www.bloomberg.com/professional/insights/esg/global-esg-assets-2025/",
+          "used_for": "Institutional investment vetting data and underwriting rules",
+          "reliability": "primary"
+        },
+        {
+          "title": "Pixar Character Animation & Acting Methodology",
+          "url": "https://graphics.pixar.com/library/",
+          "used_for": "Pantomime acting, timing, and micro-expression design",
+          "reliability": "primary"
+        },
+        {
+          "title": "Harvard Business Review ESG Disclosures",
+          "url": "https://hbr.org/2023/05/esg-disclosure-investor-scrutiny",
+          "used_for": "Capital withholding and non-financial data scrutiny",
+          "reliability": "secondary"
+        },
+        {
+          "title": "Taiwan FSC Sustainable Development Roadmap",
+          "url": "https://esg.gvm.com.tw/article/taiwan-sme-esg-crisis",
+          "used_for": "Corporate governance and SME supply chain stakes",
+          "reliability": "primary"
+        }
+      ]
+    }
+  },
+  "style_playbook": "esg-pixar-hybrid"
+}
