@@ -1,9 +1,21 @@
-# OpenMontage
+# OpenMontage（lean 分支）
 
-**MANDATORY: Read `AGENT_GUIDE.md` before responding to ANY user message.**
+## 開發原則 — 優先於本 repo 其他所有規則
 
-Do not act on the user's request until you have read AGENT_GUIDE.md.
-It contains routing rules that determine your first action based on what the user asked.
-Skipping it WILL cause you to take the wrong action.
+這是**兩人公司內部自用**的 script-to-video 工具。目標：**能跑、好改、好懂**。
 
-There are no instructions in this file. All instructions are in AGENT_GUIDE.md.
+1. **使用者可信任。** 不做身分驗證、權限、多租戶、稽核、輸入消毒。
+2. **出錯就直接丟例外（fail loud）。** 不加層層檢查、fallback、重試包裝、防禦性驗證。
+3. **最小改動。** 每個任務預設上限：3 個檔案、150 行**新增或修改**。超過要先說明原因並問我。**刪除程式碼、原封不動搬移既有檔案不計入。**
+4. **不新增治理機制。** 不寫新的 schema、contract、gate、checkpoint、approval、governance 測試、git hook、CI 閘門，除非使用者明確要求。
+5. **重複第 3 次才抽象化。** 寧可複製兩次，也不要提早設計 interface 或框架。
+6. **檔案保持短小。** 單一檔案超過 400 行要先問。
+7. **測試只要 smoke test。** 每條 pipeline 一個：跑完能產出 mp4 就算通過。不追求覆蓋率。
+8. **驗證要快。** 只跑跟這次改動有關的測試，不要每次跑全套。測試暫存一律放 `.tmp/`，不要另外建立新的暫存資料夾或 worktree。
+9. **不確定要不要加某個機制時，答案是「不加」。** 在回覆最後列出「我刻意沒做的事」，讓使用者決定。
+10. **衝突時以本原則為準。** `AGENT_GUIDE.md` 和各 skill 的影片製作流程照常使用；但寫程式時，若它們的要求與本原則衝突，依本原則。
+
+## 影片製作操作手冊
+
+**接著請閱讀 [`AGENT_GUIDE.md`](AGENT_GUIDE.md)**（原作者的操作手冊，含 pipeline 路由規則），再處理使用者的請求。
+架構與重要檔案見 [`PROJECT_CONTEXT.md`](PROJECT_CONTEXT.md)。

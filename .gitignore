@@ -104,3 +104,13 @@ venv/
 
 # Local Wan / diffusers GPU environment
 .venv-wan/
+
+# Local test / agent scratch dirs (lean)
+.tmp/
+.t/
+.pytest-tmp/
+.test-tmp/
+.test-runs/
+.omni-test/
+.codex-test-tmp/
+.codex-pytest-*/

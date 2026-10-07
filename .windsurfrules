@@ -1,9 +1,6 @@
 # OpenMontage
 
-MANDATORY: Read `AGENT_GUIDE.md` before responding to ANY user message.
+**MANDATORY：回覆任何訊息前，先完整閱讀 [AGENTS.md](AGENTS.md)。**
 
-Do not act on the user's request until you have read AGENT_GUIDE.md.
-It contains routing rules that determine your first action based on what the user asked.
-Skipping it WILL cause you to take the wrong action.
-
-There are no instructions in this file. All instructions are in AGENT_GUIDE.md.
+AGENTS.md 最上方的「開發原則」優先於本 repo 其他所有規則；
+讀完後再依它的指示閱讀 AGENT_GUIDE.md。本檔不含其他指示。
