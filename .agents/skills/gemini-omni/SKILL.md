@@ -1,47 +1,55 @@
 ---
 name: gemini-omni
-description: |
-  Generate and conversationally edit short videos with Google Gemini Omni Flash (`gemini-omni-flash-preview`). Use when: (1) iterating on a clip with natural-language edits instead of regenerating ("make the phone invisible, keep everything else the same"), (2) generating 3-10s 720p clips with synthesized audio, rendered on-screen text, or timecoded beats, (3) binding reference images to roles with <FIRST_FRAME>/<IMAGE_REF_N> prompt tags, (4) editing an existing uploaded video. Accessed via the `gemini_omni_video` tool using the project's GEMINI_API_KEY/GOOGLE_API_KEY — the same key as Imagen and Google TTS.
+description: Generate, edit, and extend Gemini Omni 1.1 clips through Vertex AI with service-account JSON; supports references, first/last frames, integer duration and resolution.
 allowed-tools: Bash, Read, Write
 metadata:
   openclaw:
     requires:
       env_any:
-        - GEMINI_API_KEY
-        - GOOGLE_API_KEY
+        - GOOGLE_APPLICATION_CREDENTIALS
 ---
 
-# Gemini Omni Flash (Google DeepMind)
+# Gemini Omni 1.1 Flash on Vertex AI
 
-Gemini Omni is Google DeepMind's video generation **and editing** model family, announced at I/O 2026. The first model, **Gemini Omni Flash** (`gemini-omni-flash-preview`, developer access since June 30, 2026), generates 3-10 second clips at 720p/24fps with synthesized audio via the Gemini **Interactions API**. Its differentiator in the OpenMontage fleet is **stateful conversational editing**: each generation returns an `interaction_id`, and a follow-up call with `previous_interaction_id` edits that video in place — no other wrapped provider can refine a clip without regenerating it.
+Use `gemini_omni_video`, model `gemini-omni-1.1-flash-preview`, in `global`.
+Authentication is always `GOOGLE_APPLICATION_CREDENTIALS` service-account JSON.
+Do not switch to API keys or gateway tools automatically. Use the project `.venv`.
 
-OpenMontage wraps it as `gemini_omni_video` (native Gemini API, no gateway). It shares `GOOGLE_API_KEY`/`GEMINI_API_KEY` with `google_imagen` and `google_tts` — one key, three capabilities. Paid tier only: ~$0.10 per second of output video (billed as 5,792 output tokens/sec at $17.50/1M).
+Route generation, editing and extension through `video_selector` with
+`preferred_tool="gemini_omni_video"`; the selector passes interaction state through.
+A JSON credential indicates configuration, not verified account entitlement.
 
-Other documented routes are available when the direct Google key is not the
-chosen provider:
+## Parameters
 
-| Route | OpenMontage call | Important limitation |
-|-------|------------------|----------------------|
-| fal.ai | `gemini_omni_fal` | T2V, I2V, reference video, and edit endpoints; no Google interaction ID is returned |
-| Runway | `runway_video`, `model: "gemini_omni_flash"` | T2V/I2V/V2V; video edits accept up to five image references |
-| ComfyUI Partner Node | `comfyui_video`, `model_family: "gemini_omni_flash"` | Hosted paid node; requires network, Comfy login, and credits |
+- `operation`: `text_to_video`, `image_to_video`, `reference_to_video`,
+  `first_last_frame_to_video`, `edit_video` (alias `video_edit`), `extend_video`.
+- `duration`: integer 3-10 seconds; legacy `"5"` / `"5s"` accepted, sent as `"5s"`.
+- `resolution`: `360p`, `720p` (default), `1080p`, `4k`; aspect `16:9` / `9:16`.
+- First frame: `reference_image_path`; final frame: `last_image_path`.
+  Use exactly one of each with `first_last_frame_to_video` or `image_to_video`.
+- References: `reference_image_paths`, `reference_video_paths`; URL counterparts
+  also accepted. Local media goes inline; `gs://` media can be referenced directly.
+- Editing/extension: `input_video_path` (aliases `video_path` / `video_url`),
+  or `previous_interaction_id`. Prior interaction must have used `store=true`.
+- `store` defaults true. Output defaults to inline MP4 bytes saved at `output_path`.
+  Optional `gcs_uri` requests Cloud Storage output and downloads it using JSON auth.
+- No streaming/background job layer is implemented. Do not resubmit a timed-out
+  generation blindly; the provider might already have accepted it.
 
-Use the direct `gemini_omni_video` route for stateful conversational editing.
-Gateway routes return ordinary provider tasks and cannot preserve Google's
-`previous_interaction_id` workflow. The fal edit endpoint can still be iterated
-by feeding each output video URL into the next edit call.
+Cost estimate covers video output only: about $0.034 / $0.101 / $0.152 / $0.304
+per second at 360p / 720p / 1080p / 4k. Input and reasoning tokens cost extra.
 
 ## When to pick it (and when not)
 
 | Use it for | Prefer another provider for |
 |---|---|
 | Iterative refinement — generate, review, then edit the same clip in layers | One-shot cinematic hero clips (→ Seedance 2.0, see `seedance-2-0`) |
-| Editing an existing/uploaded clip (restyle, add/remove objects, change text) | Clips longer than 10s or above 720p |
+| Editing an existing/uploaded clip (restyle, add/remove objects, change text) | Single generations longer than 10s |
 | On-screen rendered text and word-by-word text beats | Seed-reproducible generations (no seed support) |
-| Reference-image-bound subjects/styles via prompt tags | First/last-frame interpolation (→ `veo_video`) |
+| Reference-image-bound subjects/styles, first/last frames | Exact seed reproducibility |
 | Timecode-scheduled multi-beat clips from one prompt | Non-English narration (English only fully supported) |
 
-Route through `video_selector` for generation operations. **Editing (`edit_video`) is a direct-tool operation** — call `gemini_omni_video` from the registry, because the multi-turn interaction state lives outside the selector's model.
+Use the registry and `video_selector` for all supported operations, including editing and extension.
 
 ## Generation prompting
 
@@ -107,21 +115,21 @@ Other working edit prompts: "Make this video anime" / "Put a fashionable hat on 
 
 **Gotcha — `store`:** editing via `previous_interaction_id` only works if the *prior* call kept the interaction server-side (`store` defaults to true in `gemini_omni_video`). Set `store=false` only for one-shot generations you will never edit.
 
-**Editing uploaded videos:** pass `input_video_path` instead of `previous_interaction_id`; the tool uploads it via the Files API. Unavailable in the EEA, Switzerland, and the UK (editing *generated* videos works everywhere).
+**Editing local videos:** pass `input_video_path` instead of `previous_interaction_id`; the tool sends inline video data to Vertex. Unavailable in the EEA, Switzerland, and the UK (editing *generated* videos works everywhere).
 
 ## Hard limitations (preview)
 
-- Output: 3-10s, 720p, 24fps, MP4 with audio; aspect ratio `16:9` or `9:16`. All output carries an invisible SynthID watermark.
+- Output: 3-10s per generation, 360p/720p/1080p/4k, MP4 with audio; aspect ratio `16:9` or `9:16`. All output carries an invisible SynthID watermark.
 - No seed, negative prompt, temperature, top_p, or system instructions.
-- No video extension or first/last-frame interpolation; no voice editing.
-- Audio reference inputs unsupported. Video references ≤3s are accepted by the schema but **not processed correctly** — don't rely on them.
-- Multi-video prompting unsupported; may degrade output.
+- Extension and first/last-frame generation are supported by Omni 1.1.
+- Standalone audio reference input is unsupported; native dialogue/music/SFX are prompted in text.
+- Up to 10 images and 3 videos per prompt; follow model limits for each operation.
 - English fully supported; other languages untested.
 - Images of minors (EEA/CH/UK) and certain recognizable people are blocked for upload/editing.
 
 ## Sources
 
-- Generation & editing guide: https://ai.google.dev/gemini-api/docs/omni
-- Model card: https://ai.google.dev/gemini-api/docs/models/gemini-omni-flash
-- Pricing: https://ai.google.dev/gemini-api/docs/pricing
-- Announcement: https://blog.google/innovation-and-ai/models-and-research/gemini-models/gemini-omni/
+- Vertex model: https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/gemini/omni-1-1-flash
+- First/last frames: https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/video/generate-videos-from-first-and-last-frames
+- Interactions: https://docs.cloud.google.com/gemini-enterprise-agent-platform/reference/models/interactions-api
+- Pricing: https://cloud.google.com/vertex-ai/generative-ai/pricing

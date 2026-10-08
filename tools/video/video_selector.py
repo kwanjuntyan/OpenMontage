@@ -103,6 +103,9 @@ class VideoSelector(BaseTool):
                     "text_to_video",
                     "image_to_video",
                     "reference_to_video",
+                    "first_last_frame_to_video",
+                    "edit_video",
+                    "extend_video",
                     "video_edit",
                     "rank",
                 ],
@@ -114,6 +117,9 @@ class VideoSelector(BaseTool):
                     "text_to_video",
                     "image_to_video",
                     "reference_to_video",
+                    "first_last_frame_to_video",
+                    "edit_video",
+                    "extend_video",
                     "video_edit",
                 ],
                 "description": "Operation to score when operation='rank'.",
@@ -126,9 +132,13 @@ class VideoSelector(BaseTool):
                 "description": "Video aspect ratio. Passed through to the selected provider.",
             },
             "duration": {
-                "type": "string",
-                "description": "Duration hint (e.g., '5', '10'). Passed through to the selected provider.",
+                "type": ["integer", "string"],
+                "description": "Seconds (e.g., 5 or '5'); Omni accepts whole seconds from 3 to 10.",
             },
+            "previous_interaction_id": {"type": "string"},
+            "store": {"type": "boolean"},
+            "input_video_path": {"type": "string"},
+            "gcs_uri": {"type": "string"},
             "reference_image_path": {
                 "type": "string",
                 "description": "Local path to a reference image for image_to_video. Auto-uploaded if the provider requires a URL.",
@@ -406,7 +416,7 @@ class VideoSelector(BaseTool):
         ):
             tool_props = getattr(tool, "input_schema", {}).get("properties", {})
             # If the provider uses image_url (not reference_image_path), upload and convert
-            if "image_url" in tool_props and "image_url" not in adapted:
+            if "image_url" in tool_props and "reference_image_path" not in tool_props and "image_url" not in adapted:
                 try:
                     from tools.video._shared import upload_image_fal
 
@@ -603,6 +613,12 @@ class VideoSelector(BaseTool):
         for tool in candidates:
             supports = getattr(tool, "supports", {})
             props = getattr(tool, "input_schema", {}).get("properties", {})
+
+            if operation in {"first_last_frame_to_video", "edit_video", "extend_video"}:
+                matched_operation = True
+                if supports.get(str(operation)) and self._operation_ready(tool, str(operation)):
+                    filtered.append(tool)
+                continue
 
             if operation == "image_to_video":
                 if (
