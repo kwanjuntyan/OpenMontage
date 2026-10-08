@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "openmontage/artifacts/clp_manifest",
+  "title": "CLP Manifest",
+  "description": "Character / Location / Prop reference sheet for the kj-cinematic pipeline. Kept intentionally loose.",
+  "type": "object",
+  "required": ["version", "entities"],
+  "properties": {
+    "version": { "type": "string", "const": "1.0" },
+    "style_playbook": { "type": "string", "description": "Playbook used to generate reference images" },
+    "entities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "type", "name", "description", "reference_images"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9_]+$", "description": "Stable id used by scene_plan and prompts, e.g. amy, boardroom" },
+          "type": { "type": "string", "enum": ["character", "location", "prop"] },
+          "name": { "type": "string" },
+          "description": { "type": "string", "description": "Visual description: look, outfit, palette, materials" },
+          "reference_images": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Paths relative to the project dir; first one is the primary reference"
+          },
+          "source": { "type": "string", "enum": ["generated", "imported"] },
+          "appears_in": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Script section ids where this entity appears"
+          },
+          "prompt_used": { "type": "string", "description": "Full image prompt, for regeneration" },
+          "notes": { "type": "string" }
+        }
+      }
+    },
+    "metadata": { "type": "object" }
+  }
+}
