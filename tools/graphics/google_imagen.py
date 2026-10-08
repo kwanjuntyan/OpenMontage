@@ -241,7 +241,7 @@ class GoogleImagen(BaseTool):
             from google.genai import types
             from tools.google_credentials import get_genai_client
 
-            client = get_genai_client()
+            client = get_genai_client(location="global" if model.startswith("gemini-3") else None)
         except Exception as e:
             return ToolResult(
                 success=False,

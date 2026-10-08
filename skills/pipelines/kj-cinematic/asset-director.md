@@ -6,7 +6,9 @@
 
 輸入多了 `state.artifacts["clp"]["clp_manifest"]`。對每個 scene，從 `required_assets` 裡 `type: "clp"` 的項目取得 `clp_id`，查出該 entity 的 `reference_images`（路徑相對於專案資料夾）。
 
-1. **生圖**（`image_selector`）：把參考圖放進 `image_urls`，並選支援參考圖的 provider（例如 `openai_image`、`atlas_image`、`kling_official_image`）。`google_imagen` 不支援參考圖，有 CLP 的鏡頭不要用它。
+1. **生圖**：選支援參考圖的 provider。
+   - `google_imagen` + `model: "gemini-3-pro-image"`（Nano Banana Pro）：直接呼叫工具，參考圖放 `image_paths`（本機路徑，最多 14 張），`generation_mode: "edit"`。走 Vertex 時要設 `GOOGLE_CLOUD_LOCATION=global`，否則 us-central1 會回 404。
+   - 其他（`image_selector`）：參考圖放 `image_urls`，例如 `openai_image`、`atlas_image`、`kling_official_image`。
 2. **生影片**（`video_selector`）：把參考圖放進 `reference_image_paths`，並選支援參考圖的 provider（例如 `kling_official_video`、`gemini_omni_video`、`atlas_video`、`grok_video`）。若該鏡頭已先產生首幀圖，改用首幀圖做 image-to-video。
 3. **Prompt 寫法**：
    - 開頭用 style 的 `image_prompt_prefix`。
