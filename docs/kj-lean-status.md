@@ -27,6 +27,10 @@
 - **Omni 1.1 實測通過**：使用者改選 Amy 後，`video_selector`＋Vertex JSON＋人物／會議室參考圖成功產出 `.tmp/vertex-omni-amy.mp4`；影片 5.000 秒、1280×720、24 fps，含 AAC 音訊（容器 5.035 秒），完整解碼及首／中／尾抽幀通過。這是唯一生成的影片，首尾幀輸入／編輯／延長仍僅離線驗證。
 - **Nano Banana 2.1 已加入**：指定 `model="gemini-nano-banana-2.1"`，由 `image_selector` 直接路由 `google_imagen`，使用 Vertex JSON／global；支援既有生圖、參考圖編輯及 1K/2K/4K 參數。預設模型不變，沿用 genai 2.25.0，未另裝套件。
 - **Nano 實測**：兩次相同純文字請求成功，已檢視草圖的繁體中文 ESG 字卡文字正確；第二次保存全部回應，修正草圖誤取後離線重播得到原始正式圖 `.tmp/nano-banana-21-final.png`（2752×1536，2K 級，非本機放大）。兩次各回報輸入 127、圖片輸出 1680 tokens，依官方單價合計估 US$0.101181，未核對帳單；本輪上限 US$0.20。參考圖編輯僅離線驗證，未實測 1K/4K 或角色一致性。
+- **Nano 進階參數已接入（尚未付費實測）**：`video_paths`／`pdf_paths` 接受本機檔案陣列，`video_uris`／`pdf_uris` 接受 GCS URI 陣列，可混合原有圖片參考；仍使用 Vertex JSON／global、genai 2.25.0，輸出圖片。
+- 指定 `model="gemini-nano-banana-2.1"`、有參考素材時用 `generation_mode="edit"`；例如 `video_paths=[".tmp/vertex-omni-amy.mp4"]`、`video_metadata={"start_offset":"0s","end_offset":"3s","fps":2}`。時間及取樣率套用本次所有影片，未指定就沿用 Google 預設；影片合計最多 10 支，長度／檔案容量仍受 Google 限制。
+- `thinking_level` 可選 `MINIMAL`／`MEDIUM`／`HIGH`（省略沿用模型預設 MEDIUM）；`aspect_ratio` 開放官方全部 15 種，含 `21:9`、`9:21`、`8:1`、`1:8`，由 width/height 推算時亦使用完整比例。新選項須明確指定 Nano，其他模型不會默默忽略；原有預設模型不變。
+- **進階離線 smoke 通過**：`.tmp/nano_banana_media_smoke.py` 使用真實 SDK＋模擬 HTTP，確認本機／GCS 影片與 PDF、混合圖片、起訖／FPS、三種推理等級、15 種比例與路由；產出可讀 PNG。6 次模擬請求、0 次真實請求，本次費用 US$0；搜尋與多輪編輯未加入。
 
 ## 驗證過的流程（測試專案 `projects/esg-act1-kj/`，未 commit）
 
@@ -51,6 +55,7 @@
   - `estimate_cost` 會丟 `PriceQuoteRequired`，報價用估計值：2K 約 US$0.13／張，4K 約 US$0.24／張。
 - **Vertex 憑證**在 `.env`；獨立腳本要先 `load_dotenv()`。共用 client 明確載入 JSON；不再因環境裡有 API key 就改走 AI Studio。
 - **Nano 2K 草圖誤取已修**：真實 SDK 請求已送 `imageSize=2K`，回應依序含 `thought=true` 的 1376×768 草圖與 2752×1536 正式圖；舊碼遇第一張即停止，現在略過 thought 圖。`.tmp/nano_banana_smoke.py offline` 可重現修前失敗／修後通過，`.tmp/nano_banana_replay.py` 用保存的真實圖驗證，不再付費。新模型 ID 沒有 `image` 字樣，selector 路由亦已補上；費用按 tokens，保持 `unquoted`，不套舊固定單張價。
+- **SDK 離線測試注意**：2.25.0 的巢狀媒體／思考欄位保留 snake_case，二進位使用 URL-safe Base64；測試原先誤設 lowerCamelCase／一般 Base64，已依實際序列化及 ProtoJSON 規格修正，未修改 SDK 或另加轉換層。新功能的 Google 端接受度與生成品質仍待實測。
 - **Omni 根因已修**：upstream 10/4 台北版仍是舊模型、只讀 API key、duration 僅估價；新版改用 Vertex REST 與 `response_format.duration`（如 `5s`）。費用估算隨解析度計算影片輸出，輸入／推理 token 另計。
 - **Omni HTTP 錯誤明細**：`raise_for_status()` 原本只留下 400 狀態碼，已補回 Google 回應本文，才能區分參數錯誤與內容過濾；實測動畫參考圖也可能觸發知名人物過濾，不繞過。
 - **SDK 依賴歷史**：2.25.0 要求 google-auth ≥2.56；先前為共用環境的 aiplatform／LangChain 限制，曾恢復共用套件至 1.65.0／2.48.0，新版裝在專案 `.venv`。使用者後續決定不再遷就這兩個舊套件；共用環境原有 gtts/click 衝突未動。
