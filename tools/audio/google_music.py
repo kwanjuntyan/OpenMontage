@@ -41,9 +41,7 @@ class GoogleMusic(BaseTool):
 
     dependencies = []
     install_instructions = (
-        "Configure Google credentials:\n"
-        "  - Set GEMINI_API_KEY (or GOOGLE_API_KEY) in environment.\n"
-        "  - Or set GOOGLE_APPLICATION_CREDENTIALS for Vertex AI service account."
+        "Set GOOGLE_APPLICATION_CREDENTIALS to a Vertex AI service-account JSON."
     )
     fallback_tools = ["music_gen"]
     agent_skills = ["lyria"]

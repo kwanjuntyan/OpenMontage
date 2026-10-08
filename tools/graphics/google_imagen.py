@@ -1,9 +1,8 @@
-"""Google Imagen image generation via Gemini API."""
+"""Google Imagen and Gemini image generation via Vertex AI."""
 
 from __future__ import annotations
 
 import base64
-import os
 import time
 from pathlib import Path
 from typing import Any
@@ -26,7 +25,6 @@ from tools.google_credentials import (
     get_access_token,
     resolve_google_location,
     resolve_project_id,
-    service_account_configured,
     has_google_credentials,
 )
 
@@ -59,6 +57,7 @@ class GoogleImagen(BaseTool):
     tier = ToolTier.GENERATE
     capability = "image_generation"
     provider = "google_imagen"
+    hosting_provider = "google"
     stability = ToolStability.BETA
     execution_mode = ExecutionMode.SYNC
     determinism = Determinism.STOCHASTIC
@@ -66,9 +65,7 @@ class GoogleImagen(BaseTool):
 
     dependencies = []  # checked dynamically via env var
     install_instructions = (
-        "Auth option A — API key (AI Studio): set GOOGLE_API_KEY (or GEMINI_API_KEY).\n"
-        "  Get one at https://aistudio.google.com/apikey\n"
-        "Auth option B — service account (Vertex AI): set GOOGLE_APPLICATION_CREDENTIALS\n"
+        "Vertex AI: set GOOGLE_APPLICATION_CREDENTIALS\n"
         "  to a service-account JSON key (needs the 'google-auth' package), plus\n"
         "  GOOGLE_CLOUD_PROJECT and optionally GOOGLE_CLOUD_LOCATION (default us-central1).\n"
         "  Requires the Vertex AI API enabled and billing on the project."
@@ -187,11 +184,8 @@ class GoogleImagen(BaseTool):
         base = path.with_suffix("") if path.suffix else path
         return [base.parent / f"{base.name}_{idx + 1}{suffix}" for idx in range(count)]
 
-    def _get_api_key(self) -> str | None:
-        return os.environ.get("GOOGLE_API_KEY") or os.environ.get("GEMINI_API_KEY")
-
     def get_status(self) -> ToolStatus:
-        # API key -> AI Studio endpoint; service-account JSON -> Vertex AI.
+        # Credential presence does not imply model entitlement.
         if has_google_credentials():
             return ToolStatus.AVAILABLE
         return ToolStatus.UNAVAILABLE
@@ -233,8 +227,7 @@ class GoogleImagen(BaseTool):
         """Generate via a Gemini image model (e.g. gemini-2.5-flash-image).
 
         These models use generate_content with an image_config instead of the
-        Imagen :predict endpoint, and work on both auth paths (API key and
-        Vertex service account) through the shared genai client.
+        Imagen :predict endpoint, using the shared Vertex service-account client.
         """
         start = time.time()
         try:
@@ -349,7 +342,7 @@ class GoogleImagen(BaseTool):
 
     def execute(self, inputs: dict[str, Any]) -> ToolResult:
         # Gemini image models go through generate_content via the shared genai
-        # client, which resolves auth (API key or Vertex service account) itself.
+        # client, which uses the configured service-account JSON.
         model = inputs.get("model", "imagen-4.0-generate-001")
         if model not in self.input_schema["properties"]["model"]["enum"]:
             return ToolResult(
@@ -367,31 +360,8 @@ class GoogleImagen(BaseTool):
                 error="Imagen generation does not accept source images; choose a Gemini image model",
             )
 
-        # Two auth paths: an AI Studio API key, or a service-account JSON that
-        # routes to Vertex AI (the AI Studio endpoint does not accept service
-        # accounts). API key wins when both are present.
-        api_key = self._get_api_key()
-        bearer_token: str | None = None
-        project_id: str | None = None
-        if not api_key:
-            if not service_account_configured():
-                return ToolResult(
-                    success=False,
-                    error="No Google credentials found. " + self.install_instructions,
-                )
-            try:
-                bearer_token, creds_project = get_access_token()
-            except RuntimeError as exc:
-                return ToolResult(success=False, error=str(exc))
-            project_id = resolve_project_id(creds_project)
-            if not project_id:
-                return ToolResult(
-                    success=False,
-                    error=(
-                        "Vertex AI needs a project id. Set GOOGLE_CLOUD_PROJECT "
-                        "(or include project_id in the service-account key)."
-                    ),
-                )
+        bearer_token, creds_project = get_access_token()
+        project_id = resolve_project_id(creds_project)
 
         import requests
 
@@ -406,26 +376,13 @@ class GoogleImagen(BaseTool):
             "aspectRatio": aspect_ratio,
         }
 
-        if bearer_token:
-            location = resolve_google_location()
-            url = (
-                f"https://{location}-aiplatform.googleapis.com/v1/projects/"
-                f"{project_id}/locations/{location}/publishers/google/models/"
-                f"{model}:predict"
-            )
-            headers = {
-                "Content-Type": "application/json",
-                "Authorization": f"Bearer {bearer_token}",
-            }
-        else:
-            url = (
-                f"https://generativelanguage.googleapis.com/v1beta/models/"
-                f"{model}:predict"
-            )
-            headers = {
-                "Content-Type": "application/json",
-                "x-goog-api-key": api_key or "",
-            }
+        location = resolve_google_location()
+        host = "aiplatform.googleapis.com" if location == "global" else f"{location}-aiplatform.googleapis.com"
+        url = (
+            f"https://{host}/v1/projects/{project_id}/locations/{location}/"
+            f"publishers/google/models/{model}:predict"
+        )
+        headers = {"Content-Type": "application/json", "Authorization": f"Bearer {bearer_token}"}
 
         try:
             response = requests.post(

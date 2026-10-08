@@ -36,6 +36,7 @@ class VeoVideo(BaseTool):
     tier = ToolTier.GENERATE
     capability = "video_generation"
     provider = "veo"
+    hosting_provider = "google"
     stability = ToolStability.EXPERIMENTAL
     execution_mode = ExecutionMode.SYNC
     determinism = Determinism.STOCHASTIC
@@ -43,12 +44,8 @@ class VeoVideo(BaseTool):
 
     dependencies = []
     install_instructions = (
-        "Configure at least one backend API key:\n"
-        "  - Direct Google GenAI backend: Set GEMINI_API_KEY (or GOOGLE_API_KEY).\n"
-        "    Get a key at https://aistudio.google.com/\n"
-        "    Or set GOOGLE_APPLICATION_CREDENTIALS for Vertex AI service account.\n"
-        "  - FAL.ai backend: Set FAL_KEY (or FAL_AI_API_KEY).\n"
-        "    Get one at https://fal.ai/dashboard/keys"
+        "Set GOOGLE_APPLICATION_CREDENTIALS to a Vertex AI service-account JSON. "
+        "backend='google' is the default; fal requires an explicit backend='fal'."
     )
     agent_skills = ["ai-video-gen"]
 
@@ -83,7 +80,7 @@ class VeoVideo(BaseTool):
             "backend": {
                 "type": "string",
                 "enum": ["auto", "google", "fal"],
-                "default": "auto",
+                "default": "google",
                 "description": "API backend provider to use for generation",
             },
             "operation": {
@@ -169,7 +166,7 @@ class VeoVideo(BaseTool):
     ]
 
     def _get_google_credentials_status(self) -> bool:
-        """Check whether Google API keys or Vertex AI service account credentials are set."""
+        """Check whether Vertex service-account JSON is configured."""
         from tools.google_credentials import has_google_credentials
 
         return has_google_credentials()
@@ -180,21 +177,16 @@ class VeoVideo(BaseTool):
 
     def get_status(self) -> ToolStatus:
         """Determine whether the tool is available based on configured credentials."""
-        if self._get_google_credentials_status() or self._get_fal_api_key():
+        if self._get_google_credentials_status():
             return ToolStatus.AVAILABLE
         return ToolStatus.UNAVAILABLE
 
     def estimate_cost(self, inputs: dict[str, Any]) -> float:
         """Estimate the generation cost in USD based on input parameters."""
         # Determine active backend using inputs and environment
-        backend = inputs.get("backend", "auto")
+        backend = inputs.get("backend", "google")
         if backend == "auto":
-            if self._get_google_credentials_status():
-                backend = "google"
-            elif self._get_fal_api_key():
-                backend = "fal"
-            else:
-                backend = "google"
+            backend = "google"
 
         duration_text = str(inputs.get("duration", "8s")).lower().replace("s", "")
         try:
@@ -226,9 +218,9 @@ class VeoVideo(BaseTool):
 
     def estimate_runtime(self, inputs: dict[str, Any]) -> float:
         """Estimate the expected runtime in seconds."""
-        backend = inputs.get("backend", "auto")
+        backend = inputs.get("backend", "google")
         if backend == "auto":
-            backend = "google" if self._get_google_credentials_status() else "fal"
+            backend = "google"
 
         if backend == "google":
             return 90.0
@@ -262,18 +254,9 @@ class VeoVideo(BaseTool):
 
     def execute(self, inputs: dict[str, Any]) -> ToolResult:
         """Execute the video generation tool using the selected backend."""
-        backend = inputs.get("backend", "auto")
+        backend = inputs.get("backend", "google")
         if backend == "auto":
-            if self._get_google_credentials_status():
-                backend = "google"
-            elif self._get_fal_api_key():
-                backend = "fal"
-            else:
-                return ToolResult(
-                    success=False,
-                    error="No backend credentials configured. "
-                    + self.install_instructions,
-                )
+            backend = "google"
 
         if backend == "google":
             return self._execute_google(inputs)

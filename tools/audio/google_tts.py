@@ -7,7 +7,6 @@ WaveNet, Neural2, Studio, and Journey voice types — strong for localization.
 from __future__ import annotations
 
 import base64
-import os
 import time
 from pathlib import Path
 from typing import Any
@@ -36,6 +35,7 @@ class GoogleTTS(BaseTool):
     tier = ToolTier.VOICE
     capability = "tts"
     provider = "google_tts"
+    hosting_provider = "google"
     stability = ToolStability.BETA
     execution_mode = ExecutionMode.SYNC
     determinism = Determinism.DETERMINISTIC
@@ -43,12 +43,9 @@ class GoogleTTS(BaseTool):
 
     dependencies = []
     install_instructions = (
-        "Auth option A — TTS-only API key: set GOOGLE_TTS_API_KEY.\n"
-        "  GOOGLE_API_KEY or GEMINI_API_KEY remain supported for broader Google setups.\n"
-        "  Google Cloud API key with Text-to-Speech enabled.\n"
+        "Set GOOGLE_APPLICATION_CREDENTIALS to a service-account JSON key.\n"
         "  Enable the API at https://console.cloud.google.com/apis/library/texttospeech.googleapis.com\n"
-        "Auth option B — service account: set GOOGLE_APPLICATION_CREDENTIALS to the\n"
-        "  path of a service-account JSON key (needs the 'google-auth' package)."
+        "  Cloud TTS uses the same JSON as Vertex, but a separate API."
     )
     fallback = "openai_tts"
     fallback_tools = ["openai_tts", "elevenlabs_tts", "piper_tts"]
@@ -148,17 +145,8 @@ class GoogleTTS(BaseTool):
         "ALAW": "wav",
     }
 
-    def _get_api_key(self) -> str | None:
-        return (
-            os.environ.get("GOOGLE_TTS_API_KEY")
-            or os.environ.get("GOOGLE_API_KEY")
-            or os.environ.get("GEMINI_API_KEY")
-        )
-
     def get_status(self) -> ToolStatus:
-        # Available via either an API key or a service-account JSON. Both paths
-        # are honoured by execute() — so this no longer over-reports.
-        if self._get_api_key() or service_account_configured():
+        if service_account_configured():
             return ToolStatus.AVAILABLE
         return ToolStatus.UNAVAILABLE
 
@@ -187,29 +175,14 @@ class GoogleTTS(BaseTool):
         return round(char_count * rate_per_char, 4)
 
     def execute(self, inputs: dict[str, Any]) -> ToolResult:
-        # Prefer an API key (cheapest path); otherwise mint a Bearer token from
-        # the service-account JSON. This is what makes
-        # GOOGLE_APPLICATION_CREDENTIALS actually work for TTS.
-        api_key = self._get_api_key()
-        bearer_token: str | None = None
-        if not api_key:
-            if service_account_configured():
-                try:
-                    bearer_token, _ = get_access_token()
-                except RuntimeError as exc:
-                    return ToolResult(success=False, error=str(exc))
-            else:
-                return ToolResult(
-                    success=False,
-                    error="No Google credentials found. " + self.install_instructions,
-                )
+        bearer_token, _ = get_access_token()
 
         start = time.time()
         try:
-            result = self._generate(inputs, api_key=api_key, bearer_token=bearer_token)
+            result = self._generate(inputs, bearer_token=bearer_token)
         except Exception as exc:
             safe_error = str(exc)
-            for credential in (api_key, bearer_token):
+            for credential in (bearer_token,):
                 if credential:
                     safe_error = safe_error.replace(credential, "[REDACTED]")
             return ToolResult(success=False, error=f"Google TTS failed: {safe_error}")
@@ -221,7 +194,6 @@ class GoogleTTS(BaseTool):
     def _generate(
         self,
         inputs: dict[str, Any],
-        api_key: str | None = None,
         bearer_token: str | None = None,
     ) -> ToolResult:
         import requests
@@ -276,8 +248,6 @@ class GoogleTTS(BaseTool):
         headers = {"Content-Type": "application/json"}
         if bearer_token:
             headers["Authorization"] = f"Bearer {bearer_token}"
-        elif api_key:
-            headers["x-goog-api-key"] = api_key
 
         response = requests.post(
             url,

@@ -7,8 +7,22 @@ def filter_explicit_route(inputs, candidates):
     tool_name = inputs.get("preferred_tool")
     host = inputs.get("hosting_provider")
     model = inputs.get("model") or inputs.get("model_id") or inputs.get("model_name")
+    # Google model requests default to our direct JSON-authenticated adapters.
+    if not tool_name and not host and model:
+        if model.startswith("gemini-omni"):
+            tool_name = "gemini_omni_video"
+        elif model.startswith("gemini-") and "tts" in model:
+            tool_name = "gemini_tts"
+        elif model.startswith("imagen-") or (model.startswith("gemini-") and "image" in model):
+            tool_name = "google_imagen"
+        elif model.startswith("veo"):
+            tool_name = "veo_video"
+        elif model.startswith("lyria"):
+            tool_name = "google_music"
     selected = []
     for tool in candidates:
+        if not tool_name and not host and tool.name in {"gemini_fal_image", "gemini_replicate_image", "gemini_omni_fal"}:
+            continue
         if tool_name and tool.name != tool_name:
             continue
         if host and getattr(tool, "hosting_provider", tool.provider) != host:

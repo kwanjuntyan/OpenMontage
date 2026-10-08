@@ -1,14 +1,4 @@
-"""Shared Google service-account authentication for OpenMontage tools.
-
-Lets the Google provider tools (``google_tts``, ``google_imagen``)
-authenticate with a service-account JSON key file via OAuth Bearer tokens —
-in addition to the existing API-key path. This is what makes
-``GOOGLE_APPLICATION_CREDENTIALS`` actually work end to end.
-
-The ``google-auth`` package is imported lazily so this module never adds an
-import-time cost for tools that only use API keys, and so a missing dependency
-surfaces as an actionable runtime error rather than a hard import failure.
-"""
+"""Google tools use the configured service-account JSON, never API-key fallback."""
 
 from __future__ import annotations
 
@@ -36,45 +26,28 @@ def service_account_configured() -> bool:
 
 
 def has_google_credentials() -> bool:
-    """True when GOOGLE_API_KEY, GEMINI_API_KEY, or service account is configured."""
-    return bool(
-        os.environ.get("GOOGLE_API_KEY")
-        or os.environ.get("GEMINI_API_KEY")
-        or service_account_configured()
-    )
+    """Report JSON configuration only; this does not verify model entitlement."""
+    return service_account_configured()
 
 
 def get_genai_client(
     http_options: Any | None = None,
     location: str | None = None,
 ) -> Any:
-    """Initialize Google GenAI using the configured credential mode.
-
-    ``location`` overrides the Vertex region for globally hosted models. It is
-    deliberately ignored by the API-key backend, which has no region setting.
-    """
+    """Create a Vertex client with explicit JSON credentials and optional region."""
     from google import genai
+    from google.oauth2 import service_account
 
-    api_key = os.environ.get("GOOGLE_API_KEY") or os.environ.get("GEMINI_API_KEY")
-    use_vertex = os.environ.get("GOOGLE_GENAI_USE_VERTEXAI", "").lower() in (
-        "true",
-        "1",
-    ) or os.environ.get("GOOGLE_GENAI_USE_ENTERPRISE", "").lower() in ("true", "1")
-
-    if use_vertex or (not api_key and service_account_configured()):
-        kwargs = {
-            "vertexai": True,
-            "location": resolve_google_location(location),
-            "http_options": http_options,
-        }
-        project_id = resolve_project_id()
-        if project_id:
-            kwargs["project"] = project_id
-        return genai.Client(**kwargs)
-    else:
-        if api_key:
-            return genai.Client(api_key=api_key, http_options=http_options)
-        return genai.Client(http_options=http_options)
+    credentials = service_account.Credentials.from_service_account_file(
+        os.environ["GOOGLE_APPLICATION_CREDENTIALS"], scopes=[CLOUD_PLATFORM_SCOPE]
+    )
+    return genai.Client(
+        enterprise=True,
+        credentials=credentials,
+        project=resolve_project_id(credentials.project_id),
+        location=resolve_google_location(location),
+        http_options=http_options,
+    )
 
 
 def resolve_project_id(creds_project_id: str | None = None) -> str | None:
