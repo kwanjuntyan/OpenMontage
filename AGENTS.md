@@ -18,6 +18,9 @@
 ## 協作方式
 
 - **用繁體中文，簡短回覆。** 不寫長篇計畫文件；動手前用一張「檔案／改什麼／約幾行」小表說明，使用者同意就做。
+- **Google 模型固定預設 Vertex AI＋服務帳戶 JSON**（`GOOGLE_APPLICATION_CREDENTIALS`）；不再詢問認證方式，不自動改用 AI Studio API key 或第三方代管。憑證／模型不可用直接報錯。
+- **OM 統一使用本專案 `.venv/Scripts/python.exe`**，依賴版本以 OM 需求為準（Gemini 3.8 TTS 需要 `google-genai >= 2.25.0`）；不為未使用的 `google-cloud-aiplatform`／`langchain-google-genai` 降版或維持相容性。
+- Omni 預設 `gemini-omni-1.1-flash-preview`，Gemini TTS 預設 `gemini-3.8-flash-tts`，兩者使用 `global`。舊 Cloud TTS 仍是不同 API，但同樣用 JSON 認證。
 - **需要使用者決定時**：編號列出選項，標出建議與預設，讓使用者能用「1① 2 可以」一行回覆。一次問完，不要一題一題來回。
 - **先看再改。** 改之前先讀相關程式碼確認現況（不要憑記憶或推測 API）；改完立刻用 `.tmp/` 的小腳本或相關測試驗證，再回報。
 - **錯誤先找根因再修**，修完記到 `docs/kj-lean-status.md` 的「踩過的坑」。

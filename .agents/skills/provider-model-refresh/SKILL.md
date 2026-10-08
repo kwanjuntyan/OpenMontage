@@ -9,6 +9,8 @@ For media production, first follow AGENT_GUIDE.md and the selected pipeline.
 These adapters are discoverable through the normal BaseTool registry. Inspect
 their input schema and status before making a request. An API credential indicates
 configuration, not verified account entitlement. No paid live test is implied.
+On lean, Google models default to Vertex service-account JSON and the project
+`.venv` (google-genai >= 2.25.0); no automatic API-key or gateway fallback.
 
 ## Routing
 
@@ -81,8 +83,19 @@ Unknown pricing is reported explicitly, never treated as a free service.
 Direct Eleven IDs are `eleven_v4` / `eleven_v4_turbo`; fal uses `eleven-v4`.
 fal v4 accepts at most 5,000 characters and has no speed/style control.
 Direct v4 accepts up to 10,000. Voice catalogs and rights differ by host.
-Gemini TTS uses Interactions with speech annotations; configure each dialogue
-speaker's voice and turn text separately. Its current adapter outputs WAV.
+Gemini TTS uses Vertex `generateContent` in `global`, model
+`gemini-3.8-flash-tts` (default) or explicitly `gemini-3.8-flash-lite-tts`.
+Use `text`, `voice_id`, `style` for one speaker; `turns` plus exactly two
+`speakers` for dialogue. Each turn has `speaker`, verbatim `text`, optional
+`style`; each speaker maps `speaker` to `voice`. Emotion, pacing and volume
+belong in style; pauses and vocal events such as `<sigh>` stay in text.
+`output_format`: `wav` (default), `pcm`, `mulaw`, `alaw`; file extension must
+match. WAV/PCM is 24 kHz mono; mu-law/A-law is 8 kHz mono. Language is detected
+from text. Existing custom voice IDs are accepted; creating/cloning voices and
+streaming are outside this adapter. `operation=list_voices` uses the same JSON;
+optional `voice_types`, `search`, `page_size` (1-50), `page_token` browse results.
+Use `preferred_tool="gemini_tts"` through `tts_selector`, including dialogue.
+Reference: https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/text-to-speech/overview
 Cartesia uses API version 2026-08-14 and WAV. Inworld uses a portal-issued
 Base64 credential with Basic auth, MP3, and at most 2,000 UTF-16 code units.
 Lyria duration is a prompt target, not guaranteed exact timing.

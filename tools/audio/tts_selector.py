@@ -45,7 +45,6 @@ class TTSSelector(BaseTool):
 
     input_schema = {
         "type": "object",
-        "required": ["text"],
         "properties": {
             "preferred_tool": {
                 "type": "string",
@@ -56,6 +55,12 @@ class TTSSelector(BaseTool):
                 "description": "Required API host, e.g. fal.ai, atlascloud, replicate.",
             },
             "text": {"type": "string"},
+            "turns": {"type": "array", "items": {"type": "object"}},
+            "speakers": {"type": "array", "items": {"type": "object"}},
+            "voice_types": {"type": "array", "items": {"type": "string"}},
+            "search": {"type": "string"},
+            "page_size": {"type": "integer"},
+            "page_token": {"type": "string"},
             "voice_id": {
                 "type": "string",
                 "description": "Provider-specific voice ID. Passed through to the selected TTS provider.",
@@ -93,7 +98,7 @@ class TTSSelector(BaseTool):
             },
             "style": {
                 "type": ["number", "string"],
-                "description": "Style exaggeration (ElevenLabs). Higher = more expressive.",
+                "description": "Numeric style for ElevenLabs; turn-level delivery instructions for Gemini TTS.",
             },
             "instructions": {
                 "type": "string",
@@ -165,7 +170,7 @@ class TTSSelector(BaseTool):
             },
             "operation": {
                 "type": "string",
-                "enum": ["generate", "rank"],
+                "enum": ["generate", "rank", "list_voices"],
                 "default": "generate",
                 "description": "Operation mode. 'rank' returns scored provider rankings without generating.",
             },
