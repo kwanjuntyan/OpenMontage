@@ -31,6 +31,15 @@
 - 指定 `model="gemini-nano-banana-2.1"`、有參考素材時用 `generation_mode="edit"`；例如 `video_paths=[".tmp/vertex-omni-amy.mp4"]`、`video_metadata={"start_offset":"0s","end_offset":"3s","fps":2}`。時間及取樣率套用本次所有影片，未指定就沿用 Google 預設；影片合計最多 10 支，長度／檔案容量仍受 Google 限制。
 - `thinking_level` 可選 `MINIMAL`／`MEDIUM`／`HIGH`（省略沿用模型預設 MEDIUM）；`aspect_ratio` 開放官方全部 15 種，含 `21:9`、`9:21`、`8:1`、`1:8`，由 width/height 推算時亦使用完整比例。新選項須明確指定 Nano，其他模型不會默默忽略；原有預設模型不變。
 - **進階離線 smoke 通過**：`.tmp/nano_banana_media_smoke.py` 使用真實 SDK＋模擬 HTTP，確認本機／GCS 影片與 PDF、混合圖片、起訖／FPS、三種推理等級、15 種比例與路由；產出可讀 PNG。6 次模擬請求、0 次真實請求，本次費用 US$0；搜尋與多輪編輯未加入。
+- **MiniMax／海螺 TTS 已接入**：使用者指定國際版，`minimax_tts` 固定連接 `https://api.minimax.io/v1/`，目前僅開放 `speech-2.6-hd`，也是預設模型；使用 `MINIMAX_API_KEY`，沿用現有 requests，未安裝新套件。Google 仍使用 Vertex JSON。
+- `tts_selector` 可指定 `preferred_tool="minimax_tts"`，或用 `model_id="speech-2.6-hd"` 路由；支援既有 Voice ID、`speed`（0.5–2）、`volume`（大於 0 至 10）、`pitch`（整數 -12 至 12）、`emotion`、`language_boost`、`output_format="wav"/"mp3"`。輸出固定 32 kHz／單聲道，`output_path` 副檔名須一致。
+- **MiniMax 人工校準 baseline 已保存**：`config/minimax_voice_baselines.json` 匯入 Excel 的 7 個角色；綁定供應商 `minimax`、模型 `speech-2.6-hd` 及各自 Voice ID。別名：`wang/chen/linda/li/george/amy/biao`，語速依序為 `1.2/1/1/1/1.05/1.2/1`。來源：`D:/Dropbox/_AI動畫製作_ESG/A2_聲音庫/ESG_人物語音參數表.xlsx`，未複製金鑰。
+- 呼叫 `tts_selector.execute({"voice_baseline":"amy", "text":"台詞", "output_path":".tmp/amy.wav"})`，自動路由 MiniMax 並帶入模型、Voice ID、語速；可加 `speed=1.1` 單次覆寫，不改 JSON。明確換成其他 Voice ID 時不沿用原 baseline 語速；省略 speed 即用工具預設 1.0。跨供應商或未支援模型不套用，直接報錯。
+- `operation="list_voices"` 可搭配 `voice_type="all"/"system"/"voice_cloning"/"voice_generation"`；生成費用保持 `unquoted`，不冒稱免費。模型價格／首次使用聲音的費用，須於真實合成前確認。
+- **MiniMax 離線 smoke 通過**：`.tmp/minimax_tts_smoke.py` 驗證 registry 自動發現、selector 路由、官方請求規格、列出聲音、Amy 參數／停頓、WAV／MP3 寫入及 FFmpeg 解碼；參數／HTTP／API 錯誤直接拋出，沒有重試或切換供應商。6 次模擬 HTTP、0 次真實呼叫、US$0；輸出為本機測試音，非生成語音。
+- **MiniMax baseline 離線 smoke 通過**：`.tmp/minimax_baseline_smoke.py` 確認 7 個角色的路由、模型／Voice ID／語速對應、覆寫不改檔、換聲音不沿用語速，以及 Google 等其他供應商不接受此 baseline；9 次模擬請求、0 次真實生成。
+- **MiniMax Amy 實測通過**：使用者已在 `.env` 設定 `MINIMAX_API_KEY`，國際版 `get_voice` 成功找到 Amy 的既有 clone；授權本輪測試並同意 4 個檔案。`tts_selector`＋`voice_baseline="amy"` 自動帶入 1.2 倍語速，唯一一次生成 `.tmp/minimax-amy-baseline.wav`：7.4705 秒、32 kHz／16-bit／單聲道，FFmpeg 完整解碼、非靜音通過（平均 -19.3 dB、峰值 -3.9 dB）；使用者已確認試音成功並核准 commit。
+- 本次 Amy 試音事前估低於 US$0.01；API 回報 `usage_characters=79`，按 [官方 speech-2.6-hd 價格](https://platform.minimax.io/docs/pricing/overview) US$100／百萬字元估 US$0.0079，未核對帳單。請求／結果記錄在 `.tmp/minimax-amy-result.json`；其他 6 個聲音尚未逐一連線試音，未 clone／重試／安裝套件。
 
 ## 驗證過的流程（測試專案 `projects/esg-act1-kj/`，未 commit）
 
@@ -46,6 +55,7 @@
 
 ## 踩過的坑
 
+- **MiniMax 情緒與音訊格式**：`speech-2.6-hd` 支援 `happy/sad/angry/fearful/disgusted/surprised/calm/fluent/whisper`；用 `emotion` 指定整次合成，省略則由模型決定。Excel 的 `(happy)` 等標記不自動解析，`Neutral` 不是 API 列舉值；多種情緒請分句呼叫，`<#0.4#>` 停頓原樣傳送。API 的 `output_format="hex"` 是傳輸編碼，WAV／MP3 則放在 `audio_setting.format`，回傳用十六進位解碼。
 - **PowerShell**：不要用 `python -c` 塞複雜引號，改寫成 `.tmp/*.py` 再跑。
   - 跑之前設 `$env:PYTHONPATH=(pwd).Path; $env:PYTHONIOENCODING="utf-8"`。
   - 主控台中文顯示亂碼不代表檔案壞了。

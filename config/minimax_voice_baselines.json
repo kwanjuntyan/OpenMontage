@@ -1,0 +1,41 @@
+{
+  "provider": "minimax",
+  "model_id": "speech-2.6-hd",
+  "voices": {
+    "wang": {
+      "name": "採購部王大哥",
+      "voice_id": "moss_audio_17521452-df51-11f0-b6ad-361fa8492242",
+      "speed": 1.2
+    },
+    "chen": {
+      "name": "研發部小陳",
+      "voice_id": "moss_audio_eb4525a0-d26b-11f0-b6a1-a6e5682c1a93",
+      "speed": 1.0
+    },
+    "linda": {
+      "name": "IT部Linda",
+      "voice_id": "moss_audio_45a91805-d26b-11f0-825a-da3ca3ba36b8",
+      "speed": 1.0
+    },
+    "li": {
+      "name": "行銷部小李",
+      "voice_id": "moss_audio_b4e9e7ab-d26a-11f0-b43a-0a252ea6303e",
+      "speed": 1.0
+    },
+    "george": {
+      "name": "George",
+      "voice_id": "moss_audio_b49eb6fd-bbad-11f0-ba60-b6db28c1b568",
+      "speed": 1.05
+    },
+    "amy": {
+      "name": "Amy",
+      "voice_id": "moss_audio_dad599e9-d269-11f0-b508-5aba68234996",
+      "speed": 1.2
+    },
+    "biao": {
+      "name": "廠務部標哥",
+      "voice_id": "Chinese (Mandarin)_Humorous_Elder",
+      "speed": 1.0
+    }
+  }
+}

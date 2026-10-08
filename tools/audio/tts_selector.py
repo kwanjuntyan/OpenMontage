@@ -65,6 +65,7 @@ class TTSSelector(BaseTool):
                 "type": "string",
                 "description": "Provider-specific voice ID. Passed through to the selected TTS provider.",
             },
+            "voice_baseline": {"type": "string", "description": "MiniMax calibrated voice alias, e.g. amy; defaults routing to minimax_tts."},
             "voice": {
                 "type": "string",
                 "description": "Provider-specific voice name or ID. fal.ai ElevenLabs accepts names such as Rachel.",
@@ -116,6 +117,10 @@ class TTSSelector(BaseTool):
                 "maximum": 4.0,
                 "description": "Alias for speaking speed used by some providers.",
             },
+            "emotion": {"type": "string", "description": "MiniMax emotion, e.g. happy, calm, fluent or whisper; omit for automatic delivery."},
+            "volume": {"type": "number", "description": "MiniMax volume, greater than 0 and at most 10; default 1."},
+            "language_boost": {"type": "string", "description": "MiniMax language hint, e.g. Chinese, Chinese,Yue, English or auto."},
+            "voice_type": {"type": "string", "description": "MiniMax list_voices category: all, system, voice_cloning or voice_generation."},
             "pitch": {
                 "type": "number",
                 "minimum": -50,
@@ -205,6 +210,8 @@ class TTSSelector(BaseTool):
         return ToolStatus.UNAVAILABLE
 
     def estimate_cost(self, inputs: dict[str, Any]) -> float:
+        if inputs.get("voice_baseline"):
+            inputs = {"preferred_tool": "minimax_tts", **inputs}
         candidates = self._providers()
         if not candidates:
             return 0.0
@@ -216,6 +223,8 @@ class TTSSelector(BaseTool):
     def execute(self, inputs: dict[str, Any]) -> ToolResult:
         from lib.scoring import rank_providers
 
+        if inputs.get("voice_baseline"):
+            inputs = {"preferred_tool": "minimax_tts", **inputs}
         task_context = self._prepare_task_context(inputs)
         from tools.provider_routing import filter_explicit_route
 
@@ -258,6 +267,8 @@ class TTSSelector(BaseTool):
     @staticmethod
     def _adapt_inputs(tool: BaseTool, inputs: dict[str, Any]) -> dict[str, Any]:
         """Translate capability-level controls to provider-native inputs."""
+        if inputs.get("voice_baseline") and tool.name != "minimax_tts":
+            raise ValueError("voice_baseline is only supported by minimax_tts")
         adapted = dict(inputs)
         if tool.name != "azure_tts":
             return adapted
