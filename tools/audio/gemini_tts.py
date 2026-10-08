@@ -54,11 +54,7 @@ class GeminiTTS(BaseTool):
             "text": {"type": "string", "minLength": 1},
             "voice_id": {"type": "string", "default": "Kore"},
             "style": {"type": "string"},
-            "output_format": {"type": "string", "enum": ["wav", "pcm", "mulaw", "alaw"], "default": "wav"},
-            "voice_types": {"type": "array", "items": {"enum": ["prebuilt", "prompted", "replicated"]}},
-            "search": {"type": "string"},
-            "page_size": {"type": "integer", "minimum": 1, "maximum": 50},
-            "page_token": {"type": "string"},
+            "output_format": {"type": "string", "enum": ["wav"], "default": "wav"},
             "turns": {
                 "type": "array",
                 "minItems": 1,
@@ -133,8 +129,7 @@ class GeminiTTS(BaseTool):
             content.append(
                 {"text": turn["text"], "speech_metadata": metadata}
             )
-        encoding = {"wav": "AUDIO_WAV", "pcm": "AUDIO_L16", "mulaw": "AUDIO_MULAW", "alaw": "AUDIO_ALAW"}
-        audio_format = {"audio": {"mimeType": encoding[inputs.get("output_format", "wav")]}}
+        audio_format = {"audio": {"mimeType": "AUDIO_WAV"}}
         return {
             "model": inputs.get("model_id", "gemini-3.8-flash-tts"),
             "contents": [{"role": "user", "parts": content}],
@@ -149,16 +144,12 @@ class GeminiTTS(BaseTool):
 
         try:
             if inputs.get("operation") == "list_voices":
-                params = {k: inputs[k] for k in ("search", "page_size", "page_token") if k in inputs}
-                if "voice_types" in inputs:
-                    params["type_"] = inputs["voice_types"]
                 with get_genai_client(location="global") as client:
-                    voices = client.voices.list(**params)
+                    voices = client.voices.list()
                 return ToolResult(success=True, data=voices.model_dump(mode="json", exclude_none=True), cost_usd=0.0)
-            output_format = inputs.get("output_format", "wav")
-            path = Path(inputs.get("output_path", f"gemini_tts.{output_format}"))
-            if path.suffix.lower() != f".{output_format}":
-                raise ValueError("output_path extension must match output_format")
+            path = Path(inputs.get("output_path", "gemini_tts.wav"))
+            if path.suffix.lower() != ".wav":
+                raise ValueError("output_path must use .wav")
             request = self.build_request(inputs)
             with get_genai_client(location="global", http_options={"timeout": GOOGLE_API_TIMEOUT_MS}) as client:
                 result = client.models.generate_content(**request)
@@ -177,8 +168,8 @@ class GeminiTTS(BaseTool):
                     "provider": self.provider,
                     "model": request["model"],
                     "output": str(path),
-                    "format": output_format,
-                    "sample_rate": 8000 if output_format in {"mulaw", "alaw"} else 24000,
+                    "format": "wav",
+                    "sample_rate": 24000,
                     "channels": 1,
                     "cost_status": "unquoted",
                 },

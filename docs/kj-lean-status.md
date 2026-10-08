@@ -19,7 +19,8 @@
 - `tools/graphics/google_imagen.py`：`gemini-3*` 與 `gemini-nano-banana-*` 模型自動走 Vertex `global` 區域。
 - **2026-10-08 Google 更新**：共用 SDK、Imagen、Cloud TTS 改用服務帳戶 JSON；Google 模型預設直接工具，Veo 不自動改走 fal。
 - Omni 預設 `gemini-omni-1.1-flash-preview`：整數 3–10 秒、首尾幀、圖片／影片參考、360p/720p/1080p/4k、編輯／延長、interaction state；預設 inline MP4，可指定 GCS 輸出。
-- Gemini TTS 改接 Vertex `global` 的 `generateContent`：3.8 Flash／Flash-Lite、單人／雙人、逐句風格、聲音清單、WAV/PCM/μ-law/A-law。共用 selector 已接通。
+- **Omni 介面精簡**：素材只用 `reference_image_path(s)`、`last_image_path`、`reference_video_paths`、`input_video_path`，同欄位接受本機或 `gs://`；續接用 `previous_interaction_id`。刪 URL 欄位及其他素材別名，冪等欄位同步縮減；Omni 只用 `edit_video`，共用 selector 保留其他供應商的 `video_edit`。
+- Gemini TTS 使用 Vertex `global` 的 `generateContent`：3.8 Flash／Flash-Lite、單人／雙人、逐句風格；僅 Gemini 限定 WAV，共用 selector 保留供應商格式與 Azure 轉換。`list_voices` 直接呼叫 `voices.list()`，不提供 search/page_size/page_token/voice_types。
 - **執行環境**：使用 `.venv/Scripts/python.exe`；已安裝 `google-genai 2.25.0`、`google-auth 2.61.0`，專案 `pip check` 通過。
 - **使用者決定**：OM 不需遷就共用環境的 `google-cloud-aiplatform`／`langchain-google-genai`；目前程式與依賴清單未使用它們，專案 `.venv` 亦未安裝。OM 只維護專案環境，升級依 OM 需求，不維持這兩個舊套件的相容性。
 - **離線驗證通過**：`.tmp/google_upgrade_smoke.py` 使用真實 SDK 序列化＋模擬 HTTP，驗證 JSON 認證、TTS／圖片、Omni 參數及 selector；WAV／MP4 可讀。付費實測結果見下。
@@ -27,19 +28,20 @@
 - **Omni 1.1 實測通過**：使用者改選 Amy 後，`video_selector`＋Vertex JSON＋人物／會議室參考圖成功產出 `.tmp/vertex-omni-amy.mp4`；影片 5.000 秒、1280×720、24 fps，含 AAC 音訊（容器 5.035 秒），完整解碼及首／中／尾抽幀通過。這是唯一生成的影片，首尾幀輸入／編輯／延長仍僅離線驗證。
 - **Nano Banana 2.1 已加入**：指定 `model="gemini-nano-banana-2.1"`，由 `image_selector` 直接路由 `google_imagen`，使用 Vertex JSON／global；支援既有生圖、參考圖編輯及 1K/2K/4K 參數。預設模型不變，沿用 genai 2.25.0，未另裝套件。
 - **Nano 實測**：兩次相同純文字請求成功，已檢視草圖的繁體中文 ESG 字卡文字正確；第二次保存全部回應，修正草圖誤取後離線重播得到原始正式圖 `.tmp/nano-banana-21-final.png`（2752×1536，2K 級，非本機放大）。兩次各回報輸入 127、圖片輸出 1680 tokens，依官方單價合計估 US$0.101181，未核對帳單；本輪上限 US$0.20。參考圖編輯僅離線驗證，未實測 1K/4K 或角色一致性。
-- **Nano 進階參數已接入（尚未付費實測）**：`video_paths`／`pdf_paths` 接受本機檔案陣列，`video_uris`／`pdf_uris` 接受 GCS URI 陣列，可混合原有圖片參考；仍使用 Vertex JSON／global、genai 2.25.0，輸出圖片。
-- 指定 `model="gemini-nano-banana-2.1"`、有參考素材時用 `generation_mode="edit"`；例如 `video_paths=[".tmp/vertex-omni-amy.mp4"]`、`video_metadata={"start_offset":"0s","end_offset":"3s","fps":2}`。時間及取樣率套用本次所有影片，未指定就沿用 Google 預設；影片合計最多 10 支，長度／檔案容量仍受 Google 限制。
-- `thinking_level` 可選 `MINIMAL`／`MEDIUM`／`HIGH`（省略沿用模型預設 MEDIUM）；`aspect_ratio` 開放官方全部 15 種，含 `21:9`、`9:21`、`8:1`、`1:8`，由 width/height 推算時亦使用完整比例。新選項須明確指定 Nano，其他模型不會默默忽略；原有預設模型不變。
-- **進階離線 smoke 通過**：`.tmp/nano_banana_media_smoke.py` 使用真實 SDK＋模擬 HTTP，確認本機／GCS 影片與 PDF、混合圖片、起訖／FPS、三種推理等級、15 種比例與路由；產出可讀 PNG。6 次模擬請求、0 次真實請求，本次費用 US$0；搜尋與多輪編輯未加入。
+- **圖片參考媒體介面已精簡（尚未付費實測）**：原 video_paths/video_uris/pdf_paths/pdf_uris 合併成 `media_paths` 陣列，本機讀檔、`gs://` 用 `from_uri`，MIME 依副檔名判斷；可混合原有圖片參考，沿用 Vertex JSON／global、genai 2.25.0。
+- 有參考素材時用 `generation_mode="edit"`；例如 `model="gemini-nano-banana-2.1", media_paths=[".tmp/vertex-omni-amy.mp4", "gs://bucket/reference.pdf"]`、`video_metadata={"start_offset":"0s","end_offset":"3s","fps":2}`。metadata 只附加於影片，未提供影片時不附加；長度與容量限制由供應商處理。
+- `thinking_level` 可選 `MINIMAL`／`MEDIUM`／`HIGH`；Nano 的 `aspect_ratio` 支援 15 種，依 width/height 推算時亦使用完整比例。已刪「非 Nano 不可用」與「video_metadata 需要影片」檢查；其他模型是否支援須由 API 回應確認，移除本機限制不代表已實測相容。
+- **進階離線 smoke 通過**：`.tmp/nano_banana_media_smoke.py` 使用真實 SDK＋模擬 HTTP，確認 media_paths 的本機／GCS 影片與 PDF、混合圖片、起訖／FPS、推理等級、15 種比例及移除限制後的請求；產出可讀 PNG。8 次模擬請求、0 次真實請求；搜尋與多輪編輯未加入。
 - **MiniMax／海螺 TTS 已接入**：使用者指定國際版，`minimax_tts` 固定連接 `https://api.minimax.io/v1/`，目前僅開放 `speech-2.6-hd`，也是預設模型；使用 `MINIMAX_API_KEY`，沿用現有 requests，未安裝新套件。Google 仍使用 Vertex JSON。
-- `tts_selector` 可指定 `preferred_tool="minimax_tts"`，或用 `model_id="speech-2.6-hd"` 路由；支援既有 Voice ID、`speed`（0.5–2）、`volume`（大於 0 至 10）、`pitch`（整數 -12 至 12）、`emotion`、`language_boost`、`output_format="wav"/"mp3"`。輸出固定 32 kHz／單聲道，`output_path` 副檔名須一致。
+- `tts_selector` 可指定 `preferred_tool="minimax_tts"`，或用 `model_id="speech-2.6-hd"` 路由；支援既有 Voice ID、`speed`（0.5–2）、`volume`（大於 0 至 10）、`pitch`（整數 -12 至 12）、`emotion`、`language_boost`。經 selector 或直接呼叫均可選 WAV／MP3；輸出固定 32 kHz／單聲道，`output_path` 副檔名須一致。
 - **MiniMax 人工校準 baseline 已保存**：`config/minimax_voice_baselines.json` 匯入 Excel 的 7 個角色；綁定供應商 `minimax`、模型 `speech-2.6-hd` 及各自 Voice ID。別名：`wang/chen/linda/li/george/amy/biao`，語速依序為 `1.2/1/1/1/1.05/1.2/1`。來源：`D:/Dropbox/_AI動畫製作_ESG/A2_聲音庫/ESG_人物語音參數表.xlsx`，未複製金鑰。
-- 呼叫 `tts_selector.execute({"voice_baseline":"amy", "text":"台詞", "output_path":".tmp/amy.wav"})`，自動路由 MiniMax 並帶入模型、Voice ID、語速；可加 `speed=1.1` 單次覆寫，不改 JSON。明確換成其他 Voice ID 時不沿用原 baseline 語速；省略 speed 即用工具預設 1.0。跨供應商或未支援模型不套用，直接報錯。
+- 呼叫 `tts_selector.execute({"voice_baseline":"amy", "text":"台詞", "output_path":".tmp/amy.wav"})`，自動路由 MiniMax 並帶入模型、Voice ID、語速；可加 `speed=1.1` 單次覆寫，不改 JSON。明確換成其他 Voice ID 時不沿用原 baseline 語速；省略 speed 即用工具預設 1.0。baseline 只由 MiniMax 工具讀取；已移除設定檔 provider 檢查與 selector 的跨供應商報錯。
 - `operation="list_voices"` 可搭配 `voice_type="all"/"system"/"voice_cloning"/"voice_generation"`；生成費用保持 `unquoted`，不冒稱免費。模型價格／首次使用聲音的費用，須於真實合成前確認。
 - **MiniMax 離線 smoke 通過**：`.tmp/minimax_tts_smoke.py` 驗證 registry 自動發現、selector 路由、官方請求規格、列出聲音、Amy 參數／停頓、WAV／MP3 寫入及 FFmpeg 解碼；參數／HTTP／API 錯誤直接拋出，沒有重試或切換供應商。6 次模擬 HTTP、0 次真實呼叫、US$0；輸出為本機測試音，非生成語音。
-- **MiniMax baseline 離線 smoke 通過**：`.tmp/minimax_baseline_smoke.py` 確認 7 個角色的路由、模型／Voice ID／語速對應、覆寫不改檔、換聲音不沿用語速，以及 Google 等其他供應商不接受此 baseline；9 次模擬請求、0 次真實生成。
+- **MiniMax baseline 歷史驗證**：7 個角色的路由、模型／Voice ID／語速對應、覆寫不改檔、換聲音不沿用語速曾通過。本輪 `.tmp/minimax_tts_smoke.py` 的 WAV／MP3 均經 selector，WAV 使用 Amy baseline；舊 `.tmp/minimax_baseline_smoke.py` 含已刪除的跨供應商報錯斷言，本輪未跑。
 - **MiniMax Amy 實測通過**：使用者已在 `.env` 設定 `MINIMAX_API_KEY`，國際版 `get_voice` 成功找到 Amy 的既有 clone；授權本輪測試並同意 4 個檔案。`tts_selector`＋`voice_baseline="amy"` 自動帶入 1.2 倍語速，唯一一次生成 `.tmp/minimax-amy-baseline.wav`：7.4705 秒、32 kHz／16-bit／單聲道，FFmpeg 完整解碼、非靜音通過（平均 -19.3 dB、峰值 -3.9 dB）；使用者已確認試音成功並核准 commit。
 - 本次 Amy 試音事前估低於 US$0.01；API 回報 `usage_characters=79`，按 [官方 speech-2.6-hd 價格](https://platform.minimax.io/docs/pricing/overview) US$100／百萬字元估 US$0.0079，未核對帳單。請求／結果記錄在 `.tmp/minimax-amy-result.json`；其他 6 個聲音尚未逐一連線試音，未 clone／重試／安裝套件。
+- **review/gpt-start..lean 精簡完成**：Veo backend 只留 `google`／`fal`（預設 Google）；Cloud TTS 憑證遮罩改直接 replace。指定 3 支 `.tmp/` 離線 smoke（google_upgrade_smoke、nano_banana_media_smoke、minimax_tts_smoke）均通過；補驗 Atlas 編輯路由、Azure 轉換、ElevenLabs 格式直傳與 MiniMax selector MP3，WAV／MP4／PNG 可讀。真實 API 呼叫 0 次、US$0。
 
 ## 驗證過的流程（測試專案 `projects/esg-act1-kj/`，未 commit）
 
@@ -73,7 +75,7 @@
 - **`write_checkpoint`** 要求前面的 stage 都是 completed 且已核准；寫入時會用 schema 驗證 artifact。
 - **scene_plan** 的 scene 物件 `additionalProperties: false`：CLP 標註放在 `required_assets` 項目（可加 `clp_id`）和 `character_actions[].character_id`。
 - **asset_manifest** 的 asset 物件也不能加欄位：CLP 記在 `generation_summary` 開頭，格式 `clp: amy, ... | ...`。
-- 已知失敗、與我們無關：`tests/contracts/test_phase3_contracts.py::TestVeoVideo::test_backend_auto_detect`（因為 `.env` 有 Vertex 憑證；乾淨的 upstream 也會失敗）。
+- **共用 selector 不套用單一工具限制**：先前誤刪通用 `video_edit` 並把所有 TTS 限為 WAV；已恢復影片操作、通用格式與 Azure 轉換。已刪除失效的 Veo `test_backend_auto_detect`；只跑指定 3 支離線 smoke。
 - 舊專案 `projects/esg-act1-crisis/` 是複雜版格式，不要還原或混用。
 
 ## 下一步候選（使用者決定順序）

@@ -110,7 +110,7 @@ class GoogleImagen(BaseTool):
                 "type": "string",
                 "enum": NANO_ASPECT_RATIOS,
                 "default": "1:1",
-                "description": "Nano Banana 2.1 supports all 15 ratios; other models retain the original five.",
+                "description": "Explicit aspect ratio; Nano Banana 2.1 supports all 15 listed values.",
             },
             "width": {
                 "type": "integer",
@@ -151,21 +151,9 @@ class GoogleImagen(BaseTool):
                 "maxItems": 14,
             },
             "resolution": {"type": "string", "enum": ["1K", "2K", "4K"]},
-            "video_paths": {
-                "type": "array", "items": {"type": "string"}, "maxItems": 10,
-                "description": "Nano Banana 2.1: local reference videos; use edit mode.",
-            },
-            "video_uris": {
-                "type": "array", "items": {"type": "string"}, "maxItems": 10,
-                "description": "Nano Banana 2.1: reference video GCS URIs; use edit mode.",
-            },
-            "pdf_paths": {
+            "media_paths": {
                 "type": "array", "items": {"type": "string"},
-                "description": "Nano Banana 2.1: local reference PDFs; use edit mode.",
-            },
-            "pdf_uris": {
-                "type": "array", "items": {"type": "string"},
-                "description": "Nano Banana 2.1: reference PDF GCS URIs; use edit mode.",
+                "description": "Reference videos or PDFs: local paths or gs:// URIs; use edit mode.",
             },
             "video_metadata": {
                 "type": "object", "additionalProperties": False,
@@ -178,7 +166,7 @@ class GoogleImagen(BaseTool):
             },
             "thinking_level": {
                 "type": "string", "enum": ["MINIMAL", "MEDIUM", "HIGH"],
-                "description": "Nano Banana 2.1 only; omitted uses the model default MEDIUM.",
+                "description": "Reasoning level; omitted uses the model default.",
             },
         },
     }
@@ -195,7 +183,7 @@ class GoogleImagen(BaseTool):
         "image_paths",
         "resolution",
         "number_of_images",
-        "video_paths", "video_uris", "pdf_paths", "pdf_uris",
+        "media_paths",
         "video_metadata", "thinking_level",
     ]
     side_effects = [
@@ -319,9 +307,7 @@ class GoogleImagen(BaseTool):
                 paths.insert(0, inputs["image_path"])
             if len(paths) > 14:
                 raise ValueError("At most 14 reference images")
-            has_sources = paths or any(inputs.get(k) for k in (
-                "video_paths", "video_uris", "pdf_paths", "pdf_uris",
-            ))
+            has_sources = paths or inputs.get("media_paths")
             if inputs.get("generation_mode") == "edit" and not has_sources:
                 raise ValueError("Edit requires source images, videos or PDFs")
             if inputs.get("generation_mode") == "generate" and has_sources:
@@ -333,23 +319,16 @@ class GoogleImagen(BaseTool):
                 )
                 for p in paths
             )
-            for kind in ("video", "pdf"):
-                for source_type in ("paths", "uris"):
-                    for source in inputs.get(f"{kind}_{source_type}", []):
-                        mime = (
-                            "application/pdf" if kind == "pdf"
-                            else mimetypes.guess_type(source)[0]
-                        )
-                        if not mime:
-                            raise ValueError(f"Cannot determine video MIME type: {source}")
-                        part = (
-                            types.Part.from_uri(file_uri=source, mime_type=mime)
-                            if source_type == "uris"
-                            else types.Part.from_bytes(data=Path(source).read_bytes(), mime_type=mime)
-                        )
-                        if kind == "video" and inputs.get("video_metadata"):
-                            part.video_metadata = types.VideoMetadata(**inputs["video_metadata"])
-                        contents.append(part)
+            for source in inputs.get("media_paths", []):
+                mime = mimetypes.guess_type(source)[0]
+                part = (
+                    types.Part.from_uri(file_uri=source, mime_type=mime)
+                    if source.startswith("gs://")
+                    else types.Part.from_bytes(data=Path(source).read_bytes(), mime_type=mime)
+                )
+                if mime.startswith("video/") and inputs.get("video_metadata"):
+                    part.video_metadata = types.VideoMetadata(**inputs["video_metadata"])
+                contents.append(part)
         except Exception as exc:
             return ToolResult(success=False, error=str(exc))
 
@@ -410,16 +389,6 @@ class GoogleImagen(BaseTool):
         # Gemini image models go through generate_content via the shared genai
         # client, which uses the configured service-account JSON.
         model = inputs.get("model", "imagen-4.0-generate-001")
-        nano_options = (
-            "video_paths", "video_uris", "pdf_paths", "pdf_uris", "video_metadata", "thinking_level",
-        )
-        if model != "gemini-nano-banana-2.1":
-            if any(inputs.get(k) is not None for k in nano_options):
-                return ToolResult(success=False, error="These media/thinking options require gemini-nano-banana-2.1")
-            if inputs.get("aspect_ratio", "1:1") not in ASPECT_RATIOS:
-                return ToolResult(success=False, error="Extended aspect ratios require gemini-nano-banana-2.1")
-        if inputs.get("video_metadata") and not (inputs.get("video_paths") or inputs.get("video_uris")):
-            return ToolResult(success=False, error="video_metadata requires a reference video")
         if model not in self.input_schema["properties"]["model"]["enum"]:
             return ToolResult(
                 success=False, error=f"Unsupported Google image model: {model}"

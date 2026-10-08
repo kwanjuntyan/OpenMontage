@@ -59,8 +59,6 @@ class MiniMaxTTS(BaseTool):
         if inputs.get("voice_baseline") and inputs.get("operation") != "list_voices":
             path = Path(__file__).resolve().parents[2] / "config/minimax_voice_baselines.json"
             catalog = json.loads(path.read_text(encoding="utf-8"))
-            if catalog["provider"] != self.provider:
-                raise ValueError("Voice baseline provider must be minimax")
             voice = catalog["voices"][inputs["voice_baseline"].lower()]
             inputs.setdefault("model_id", catalog["model_id"])
             inputs.setdefault("voice_id", voice["voice_id"])

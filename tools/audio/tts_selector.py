@@ -57,10 +57,6 @@ class TTSSelector(BaseTool):
             "text": {"type": "string"},
             "turns": {"type": "array", "items": {"type": "object"}},
             "speakers": {"type": "array", "items": {"type": "object"}},
-            "voice_types": {"type": "array", "items": {"type": "string"}},
-            "search": {"type": "string"},
-            "page_size": {"type": "integer"},
-            "page_token": {"type": "string"},
             "voice_id": {
                 "type": "string",
                 "description": "Provider-specific voice ID. Passed through to the selected TTS provider.",
@@ -267,8 +263,6 @@ class TTSSelector(BaseTool):
     @staticmethod
     def _adapt_inputs(tool: BaseTool, inputs: dict[str, Any]) -> dict[str, Any]:
         """Translate capability-level controls to provider-native inputs."""
-        if inputs.get("voice_baseline") and tool.name != "minimax_tts":
-            raise ValueError("voice_baseline is only supported by minimax_tts")
         adapted = dict(inputs)
         if tool.name != "azure_tts":
             return adapted

@@ -181,10 +181,7 @@ class GoogleTTS(BaseTool):
         try:
             result = self._generate(inputs, bearer_token=bearer_token)
         except Exception as exc:
-            safe_error = str(exc)
-            for credential in (bearer_token,):
-                if credential:
-                    safe_error = safe_error.replace(credential, "[REDACTED]")
+            safe_error = str(exc).replace(bearer_token, "[REDACTED]")
             return ToolResult(success=False, error=f"Google TTS failed: {safe_error}")
 
         result.duration_seconds = round(time.time() - start, 2)

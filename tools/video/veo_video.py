@@ -79,7 +79,7 @@ class VeoVideo(BaseTool):
             "prompt": {"type": "string"},
             "backend": {
                 "type": "string",
-                "enum": ["auto", "google", "fal"],
+                "enum": ["google", "fal"],
                 "default": "google",
                 "description": "API backend provider to use for generation",
             },
@@ -183,10 +183,8 @@ class VeoVideo(BaseTool):
 
     def estimate_cost(self, inputs: dict[str, Any]) -> float:
         """Estimate the generation cost in USD based on input parameters."""
-        # Determine active backend using inputs and environment
+        # Use the explicitly selected backend (Google by default).
         backend = inputs.get("backend", "google")
-        if backend == "auto":
-            backend = "google"
 
         duration_text = str(inputs.get("duration", "8s")).lower().replace("s", "")
         try:
@@ -219,8 +217,6 @@ class VeoVideo(BaseTool):
     def estimate_runtime(self, inputs: dict[str, Any]) -> float:
         """Estimate the expected runtime in seconds."""
         backend = inputs.get("backend", "google")
-        if backend == "auto":
-            backend = "google"
 
         if backend == "google":
             return 90.0
@@ -255,12 +251,7 @@ class VeoVideo(BaseTool):
     def execute(self, inputs: dict[str, Any]) -> ToolResult:
         """Execute the video generation tool using the selected backend."""
         backend = inputs.get("backend", "google")
-        if backend == "auto":
-            backend = "google"
-
-        if backend == "google":
-            return self._execute_google(inputs)
-        return self._execute_fal(inputs)
+        return {"google": self._execute_google, "fal": self._execute_fal}[backend](inputs)
 
     def _execute_google(self, inputs: dict[str, Any]) -> ToolResult:
         """Execute the generation request using the Google GenAI SDK backend."""

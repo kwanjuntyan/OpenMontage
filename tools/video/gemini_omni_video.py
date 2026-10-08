@@ -45,7 +45,7 @@ class GeminiOmniVideo(BaseTool):
     )
     agent_skills = ["gemini-omni", "ai-video-gen"]
 
-    capabilities = ["text_to_video", "image_to_video", "reference_to_video", "first_last_frame_to_video", "edit_video", "video_edit", "extend_video"]
+    capabilities = ["text_to_video", "image_to_video", "reference_to_video", "first_last_frame_to_video", "edit_video", "extend_video"]
     supports = {
         "text_to_video": True,
         "image_to_video": True,
@@ -59,7 +59,6 @@ class GeminiOmniVideo(BaseTool):
         "seed": False,
         "negative_prompt": False,
         "first_last_frame_to_video": True,
-        "video_edit": True,
         "extend_video": True,
     }
     best_for = [
@@ -81,16 +80,8 @@ class GeminiOmniVideo(BaseTool):
         "properties": {
             "model": {"type": "string", "enum": [_DEFAULT_MODEL], "default": _DEFAULT_MODEL},
             "resolution": {"type": "string", "enum": list(_VIDEO_TOKENS), "default": "720p"},
-            "last_image_path": {"type": "string"},
-            "last_image_url": {"type": "string"},
-            "reference_image_url": {"type": "string"},
-            "reference_image_urls": {"type": "array", "items": {"type": "string"}},
-            "reference_video_path": {"type": "string"},
-            "reference_video_url": {"type": "string"},
-            "reference_video_paths": {"type": "array", "items": {"type": "string"}},
-            "reference_video_urls": {"type": "array", "items": {"type": "string"}},
-            "video_path": {"type": "string"},
-            "video_url": {"type": "string"},
+            "last_image_path": {"type": "string", "description": "Last frame: local path or gs:// URI."},
+            "reference_video_paths": {"type": "array", "items": {"type": "string"}, "description": "Reference videos: local paths or gs:// URIs."},
             "gcs_uri": {"type": "string", "description": "Optional gs:// output; otherwise inline bytes."},
             "prompt": {
                 "type": "string",
@@ -102,7 +93,7 @@ class GeminiOmniVideo(BaseTool):
             },
             "operation": {
                 "type": "string",
-                "enum": ["text_to_video", "image_to_video", "reference_to_video", "first_last_frame_to_video", "edit_video", "video_edit", "extend_video"],
+                "enum": ["text_to_video", "image_to_video", "reference_to_video", "first_last_frame_to_video", "edit_video", "extend_video"],
                 "default": "text_to_video",
             },
             "aspect_ratio": {
@@ -116,12 +107,12 @@ class GeminiOmniVideo(BaseTool):
             },
             "reference_image_path": {
                 "type": "string",
-                "description": "Local reference image (jpg/png) for image_to_video.",
+                "description": "Reference image (jpg/png): local path or gs:// URI for image_to_video.",
             },
             "reference_image_paths": {
                 "type": "array",
                 "items": {"type": "string"},
-                "description": "Local reference images, bound in the prompt as <IMAGE_REF_0>, <IMAGE_REF_1>, ...",
+                "description": "Reference images: local paths or gs:// URIs, bound as <IMAGE_REF_0>, <IMAGE_REF_1>, ...",
             },
             "previous_interaction_id": {
                 "type": "string",
@@ -151,9 +142,8 @@ class GeminiOmniVideo(BaseTool):
     )
     idempotency_key_fields = [
         "prompt", "model", "operation", "aspect_ratio", "resolution", "duration",
-        "reference_image_path", "reference_image_paths", "reference_image_url", "reference_image_urls",
-        "last_image_path", "last_image_url", "input_video_path", "video_path", "video_url",
-        "reference_video_path", "reference_video_paths", "reference_video_url", "reference_video_urls",
+        "reference_image_path", "reference_image_paths", "last_image_path",
+        "input_video_path", "reference_video_paths",
         "previous_interaction_id", "store", "gcs_uri",
     ]
     side_effects = [
@@ -189,7 +179,7 @@ class GeminiOmniVideo(BaseTool):
     def _media_part(source: str, kind: str) -> dict[str, Any]:
         mime = mimetypes.guess_type(urlparse(source).path)[0] or {"image": "image/png", "video": "video/mp4"}[kind]
         part = {"type": kind, "mime_type": mime}
-        if source.startswith(("gs://", "https://")):
+        if source.startswith("gs://"):
             part["uri"] = source
         else:
             part["data"] = base64.b64encode(Path(source).read_bytes()).decode("ascii")
@@ -200,20 +190,18 @@ class GeminiOmniVideo(BaseTool):
 
         validate(inputs, self.input_schema)
         operation = inputs.get("operation", "text_to_video")
-        operation = "edit_video" if operation == "video_edit" else operation
-        images = list(inputs.get("reference_image_paths") or []) + list(inputs.get("reference_image_urls") or [])
-        first = inputs.get("reference_image_path") or inputs.get("reference_image_url")
+        images = list(inputs.get("reference_image_paths") or [])
+        first = inputs.get("reference_image_path")
         if first:
             images.insert(0, first)
-        last = inputs.get("last_image_path") or inputs.get("last_image_url")
+        last = inputs.get("last_image_path")
         if last or operation == "first_last_frame_to_video":
             if len(images) != 1 or not last or operation not in {"image_to_video", "first_last_frame_to_video"}:
                 raise ValueError("First/last generation requires one first frame, one last frame and image_to_video operation")
             images.append(last)
             operation = "image_to_video"
-        videos = list(inputs.get("reference_video_paths") or []) + list(inputs.get("reference_video_urls") or [])
-        source = (inputs.get("input_video_path") or inputs.get("video_path") or inputs.get("video_url")
-                  or inputs.get("reference_video_path") or inputs.get("reference_video_url"))
+        videos = list(inputs.get("reference_video_paths") or [])
+        source = inputs.get("input_video_path")
         if source:
             videos.insert(0, source)
         previous = inputs.get("previous_interaction_id")

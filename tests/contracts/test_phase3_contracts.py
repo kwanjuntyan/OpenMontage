@@ -458,26 +458,6 @@ class TestVeoVideo:
         assert info["capability"] == "video_generation"
         assert info["provider"] == "veo"
 
-    def test_backend_auto_detect(self):
-        tool = VeoVideo()
-
-        with patch.dict(os.environ, {"GEMINI_API_KEY": "test_key", "FAL_KEY": ""}):
-            if "FAL_KEY" in os.environ:
-                del os.environ["FAL_KEY"]
-            if "FAL_AI_API_KEY" in os.environ:
-                del os.environ["FAL_AI_API_KEY"]
-            assert tool._get_google_credentials_status() is True
-            assert not tool._get_fal_api_key()
-            assert tool.get_status() == ToolStatus.AVAILABLE
-
-        with patch.dict(
-            os.environ,
-            {"GEMINI_API_KEY": "", "GOOGLE_API_KEY": "", "FAL_KEY": "test_fal_key"},
-        ):
-            assert tool._get_google_credentials_status() is False
-            assert tool._get_fal_api_key() == "test_fal_key"
-            assert tool.get_status() == ToolStatus.AVAILABLE
-
     @patch("tools.video._shared.probe_output")
     def test_duration_coercion(self, mock_probe):
         tool = VeoVideo()

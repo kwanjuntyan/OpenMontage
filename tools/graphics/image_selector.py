@@ -86,14 +86,8 @@ class ImageSelector(BaseTool):
                 "type": "string",
                 "description": "Resolution tier for providers that support named resolutions.",
             },
-            "video_paths": {"type": "array", "items": {"type": "string"},
-                            "description": "Nano Banana 2.1 local reference videos; edit mode."},
-            "video_uris": {"type": "array", "items": {"type": "string"},
-                           "description": "Nano Banana 2.1 reference video GCS URIs; edit mode."},
-            "pdf_paths": {"type": "array", "items": {"type": "string"},
-                          "description": "Nano Banana 2.1 local reference PDFs; edit mode."},
-            "pdf_uris": {"type": "array", "items": {"type": "string"},
-                         "description": "Nano Banana 2.1 reference PDF GCS URIs; edit mode."},
+            "media_paths": {"type": "array", "items": {"type": "string"},
+                            "description": "Reference videos or PDFs: local paths or gs:// URIs; edit mode."},
             "video_metadata": {
                 "type": "object", "description": "Nano Banana 2.1: start_offset/end_offset (e.g. 2s), fps; applies to all videos.",
             },
@@ -269,12 +263,6 @@ class ImageSelector(BaseTool):
         import logging
         from lib.scoring import rank_providers
 
-        nano_options = (
-            "video_paths", "video_uris", "pdf_paths", "pdf_uris", "video_metadata", "thinking_level",
-        )
-        if any(inputs.get(k) is not None for k in nano_options):
-            if (inputs.get("model") or inputs.get("model_name")) != "gemini-nano-banana-2.1":
-                return ToolResult(success=False, error="Specify model=gemini-nano-banana-2.1 for these media/thinking options")
         logger = logging.getLogger(__name__)
         task_context = self._prepare_task_context(inputs)
         candidates = self._filter_candidates(inputs, self._providers())
