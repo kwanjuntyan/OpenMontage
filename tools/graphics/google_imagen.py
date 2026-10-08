@@ -28,6 +28,10 @@ from tools.google_credentials import (
     has_google_credentials,
 )
 
+_TOKEN_PRICED_MODELS = {
+    "gemini-3-pro-image", "gemini-3.1-flash-image", "gemini-nano-banana-2.1",
+}
+
 # Aspect ratio to approximate pixel dimensions (for cost/reporting only)
 ASPECT_RATIOS = {
     "1:1": (1024, 1024),
@@ -122,6 +126,7 @@ class GoogleImagen(BaseTool):
                     "gemini-2.5-flash-image",
                     "gemini-3-pro-image",
                     "gemini-3.1-flash-image",
+                    "gemini-nano-banana-2.1",
                 ],
                 "default": "imagen-4.0-generate-001",
                 "description": "Imagen model variant, or a Gemini image model "
@@ -193,7 +198,7 @@ class GoogleImagen(BaseTool):
     def estimate_cost(self, inputs: dict[str, Any]) -> float:
         model = inputs.get("model", "imagen-4.0-generate-001")
         n = inputs.get("number_of_images", 1)
-        if model in {"gemini-3-pro-image", "gemini-3.1-flash-image"}:
+        if model in _TOKEN_PRICED_MODELS:
             raise PriceQuoteRequired(
                 "Gemini image pricing depends on input and output tokens/resolution; obtain a current quote"
             )
@@ -234,7 +239,9 @@ class GoogleImagen(BaseTool):
             from google.genai import types
             from tools.google_credentials import get_genai_client
 
-            client = get_genai_client(location="global" if model.startswith("gemini-3") else None)
+            client = get_genai_client(
+                location="global" if model.startswith(("gemini-3", "gemini-nano-banana-")) else None
+            )
         except Exception as e:
             return ToolResult(
                 success=False,
@@ -258,7 +265,7 @@ class GoogleImagen(BaseTool):
             if model == "gemini-2.5-flash-image":
                 return ToolResult(
                     success=False,
-                    error="Resolution control requires Gemini 3 image models",
+                    error="Resolution control requires Gemini 3 image models or Nano Banana 2.1",
                 )
             image_config["image_size"] = inputs["resolution"]
         config = types.GenerateContentConfig(
@@ -297,7 +304,7 @@ class GoogleImagen(BaseTool):
                 )
                 for part in response.candidates[0].content.parts or []:
                     inline = getattr(part, "inline_data", None)
-                    if inline and inline.data:
+                    if inline and inline.data and not part.thought:
                         image_bytes.append(inline.data)
                         break
         except Exception as e:
@@ -329,12 +336,12 @@ class GoogleImagen(BaseTool):
                 "outputs": outputs,
                 "images_generated": len(outputs),
                 "cost_status": "unquoted"
-                if model in {"gemini-3-pro-image", "gemini-3.1-flash-image"}
+                if model in _TOKEN_PRICED_MODELS
                 else "estimated",
             },
             artifacts=outputs,
             cost_usd=self.estimate_cost(inputs)
-            if model not in {"gemini-3-pro-image", "gemini-3.1-flash-image"}
+            if model not in _TOKEN_PRICED_MODELS
             else None,
             duration_seconds=round(time.time() - start, 2),
             model=model,
@@ -426,12 +433,12 @@ class GoogleImagen(BaseTool):
                 "outputs": outputs,
                 "images_generated": len(outputs),
                 "cost_status": "unquoted"
-                if model in {"gemini-3-pro-image", "gemini-3.1-flash-image"}
+                if model in _TOKEN_PRICED_MODELS
                 else "estimated",
             },
             artifacts=outputs,
             cost_usd=self.estimate_cost(inputs)
-            if model not in {"gemini-3-pro-image", "gemini-3.1-flash-image"}
+            if model not in _TOKEN_PRICED_MODELS
             else None,
             duration_seconds=round(time.time() - start, 2),
             model=model,

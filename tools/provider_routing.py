@@ -13,7 +13,7 @@ def filter_explicit_route(inputs, candidates):
             tool_name = "gemini_omni_video"
         elif model.startswith("gemini-") and "tts" in model:
             tool_name = "gemini_tts"
-        elif model.startswith("imagen-") or (model.startswith("gemini-") and "image" in model):
+        elif model.startswith(("imagen-", "gemini-nano-banana-")) or (model.startswith("gemini-") and "image" in model):
             tool_name = "google_imagen"
         elif model.startswith("veo"):
             tool_name = "veo_video"
