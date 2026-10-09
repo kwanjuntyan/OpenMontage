@@ -1,0 +1,50 @@
+identity:
+  name: kj-pixar-fairytale
+  category: custom
+  mood: whimsical 3D animated fairytale, expressive, rich storybook lighting
+  pace: moderate
+  best_for: Animated fables, storytelling, and Pixar-style character shorts
+
+visual_language:
+  color_palette:
+    primary:
+      - "#2E7D32"  # Vibrant leafy green (Frog)
+      - "#D84315"  # Warm amber-rust (Scorpion)
+    accent:
+      - "#0288D1"  # Crystal clear river blue
+      - "#FFD54F"  # Golden dappled sunlight
+    background: "#F1F8E9"
+    text: "#1B2A1E"
+  composition: cinematic 3D macro framing, shallow depth of field, fairytale book lighting
+  texture: velvety Pixar skin shaders, translucent chitin gloss, ripple water physics
+
+asset_generation:
+  image_prompt_prefix: "3D Pixar animation style, highly detailed 3D render, expressive stylized character design, warm storybook cinematic lighting, Octane render, 8k, "
+  image_negative_prompt: "photorealistic, live-action, 2D flat, lowpoly, distorted anatomy, ugly, dark horror, low quality, glitch, watermark"
+  consistency_anchors:
+    - "Frog: bright emerald-green, big expressive amber eyes, friendly round cheeks, wearing a tiny moss vest"
+    - "Scorpion: warm amber-orange translucent shell, expressive curious eyes, curved segmented tail with glowing golden tip"
+    - "Environment: lush enchanted riverbank, mossy rocks, sparkling sunlit stream with gentle ripples"
+
+audio:
+  music_mood: enchanting orchestral fable, beginning whimsical with flutes, building tension with strings, ending in soft melancholic harp
+  music_volume: 0.15
+  voice_style: warm and captivating fairytale storyteller, rich emotional range, expressive pacing
+
+motion:
+  animation_style: cinematic slow push-in, subtle breathing motion, gentle water ripple pan
+  pacing_rules:
+    min_scene_hold_seconds: 3.0
+    max_scene_hold_seconds: 9.0
+    transition_duration_seconds: 0.5
+  transitions:
+    - dissolve
+    - crossfade
+
+typography:
+  headings:
+    font: Inter
+    weight: 800
+  body:
+    font: Inter
+    weight: 400

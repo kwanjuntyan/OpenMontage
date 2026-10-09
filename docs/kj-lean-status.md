@@ -10,8 +10,15 @@
 - 同步 upstream：`git fetch origin; git switch main; git merge --ff-only origin/main; git switch lean; git merge main`。
 
 ## 已完成
+- **2026-10-09 咖啡館 `/360view` 概念測試**：使用者改選 ChatGPT 內建生圖；Dropbox 正面圖先縮至 `.tmp/cafe_360view_reference.jpg`（原始大圖遇 base64 傳輸錯誤），一次成功生成八視角拼圖，保存於 `C:/Users/user/.codex/generated_images/01a120c4-9227-75c2-8031-ff2c5c320dcf/exec-3bee21ef-e1a9-4232-8887-92030a54c5a7.png`；完整提示詞在 `.tmp/cafe_360view_prompt.txt`。目視風格延續，但門／層架／黑板為推測，桌椅朝向有漂移且315度格近正面；僅概念預覽，未驗證Blender幾何，未替換CLP資產；使用帳號額度，工具未回報美元費用。
+- **2026-10-09 ESG 2.1.3～2.1.5 R2I 提示詞與實測（部分通過）**：`.tmp/run_r2i_2_1_perspective.py` 保存結構化提示詞，Vertex JSON／global、`gemini-nano-banana-2.1`、2K／16:9；幾何取白模、角色取人物圖、場景圖提供材質。2.1.5 的 `scene_plan.json` 已改成與 2.1.3 共用左偏15度中景白模。
+- **本輪圖像結果**：`.tmp/shot_2_1_3_banana_perspective.png` 人物位置、牆腳斜線及掛畫縮短改善（未證明精確15度）；`shot_2_1_4_banana_perspective_v2.png` 歪頭改善但臉仍偏正面，45度側臉未過；`shot_2_1_5_banana_perspective.png` 食指手勢正確，但白模綠牆及跨鏡背景漂移仍未解。四張成功圖均2752×1536，原圖、首版與各次 `.request.json`／`.result.json` 均保留，未升為正式核准資產。
+- **費用與中斷**：四張成功圖按回報用量及官方單價估US$0.248283，未核對帳單。2.1.5 全木質補測（`--suffix perspective_v2`）兩次在 OAuth 認證連線逾時，未送到生圖端點；TLS檢查曾成功，根因未確認，停止重送。將新生2.1.3當第五張連戲參考的方案被自動核准審查拒絕，未上傳；現行腳本只用使用者原本指定的參考圖。
+- **2026-10-09 ESG 完整課程五幕劇本與 32 件 CLP 資產清單就位**：在 `projects/esg-whole-course/` 完成全套劇本（222 分鏡／1,631.62 秒真實錄音校準）。正式產出 `artifacts/clp_manifest.json`，完整登記 10 位角色、8 大場景、14 件關鍵道具，綁定 5.5K 實體圖檔並完成出場分鏡自動標註，100% 通過 `clp_manifest.schema.json` 驗證；花費 US$0。
+- **2026-10-09 童話 HyperFrames 側欄階梯排版**：右側半透明磨砂欄加寬 20%（288px）並全程常駐；段落標題階梯式依序累積出現不消失、新段落出現時前段自動降低亮度；完成 1080p／30fps／40.1 秒渲染 (`renders/frog_and_scorpion_hyperframes.mp4`)，關鍵幀抽樣檢查通過；無額外費用。
 
 - `AGENTS.md`：開發原則與協作方式；`CLAUDE.md`、`CODEX.md` 等都指向它。
+- **2026-10-08 開發規則精修**：使用者同意將高推理用於找根因與縮小修改範圍；區分開發／影片製作，按修改內容做最小驗證，驗收通過即停止。既有大檔允許局部修改，已授權範圍不重複詢問；上游影片製作關卡、花費與 commit／push 規則保留。
 - 自訂風格：`styles/custom/kj-esg-pixar-hybrid.yaml`、`kj-vox-paper-collage.yaml`。prompt 前綴在 `asset_generation.image_prompt_prefix`，用 `styles.playbook_loader.load_playbook()` 讀。
 - **kj-cinematic pipeline**：`pipeline_defs/kj-cinematic.yaml`（= upstream cinematic + `clp` stage，在 script 與 scene_plan 之間）。
   - `schemas/artifacts/clp_manifest.schema.json`（寬鬆）。
@@ -41,9 +48,10 @@
 - **MiniMax baseline 歷史驗證**：7 個角色的路由、模型／Voice ID／語速對應、覆寫不改檔、換聲音不沿用語速曾通過。本輪 `.tmp/minimax_tts_smoke.py` 的 WAV／MP3 均經 selector，WAV 使用 Amy baseline；舊 `.tmp/minimax_baseline_smoke.py` 含已刪除的跨供應商報錯斷言，本輪未跑。
 - **MiniMax Amy 實測通過**：使用者已在 `.env` 設定 `MINIMAX_API_KEY`，國際版 `get_voice` 成功找到 Amy 的既有 clone；授權本輪測試並同意 4 個檔案。`tts_selector`＋`voice_baseline="amy"` 自動帶入 1.2 倍語速，唯一一次生成 `.tmp/minimax-amy-baseline.wav`：7.4705 秒、32 kHz／16-bit／單聲道，FFmpeg 完整解碼、非靜音通過（平均 -19.3 dB、峰值 -3.9 dB）；使用者已確認試音成功並核准 commit。
 - 本次 Amy 試音事前估低於 US$0.01；API 回報 `usage_characters=79`，按 [官方 speech-2.6-hd 價格](https://platform.minimax.io/docs/pricing/overview) US$100／百萬字元估 US$0.0079，未核對帳單。請求／結果記錄在 `.tmp/minimax-amy-result.json`；其他 6 個聲音尚未逐一連線試音，未 clone／重試／安裝套件。
-- **review/gpt-start..lean 精簡完成**：Veo backend 只留 `google`／`fal`（預設 Google）；Cloud TTS 憑證遮罩改直接 replace。指定 3 支 `.tmp/` 離線 smoke（google_upgrade_smoke、nano_banana_media_smoke、minimax_tts_smoke）均通過；補驗 Atlas 編輯路由、Azure 轉換、ElevenLabs 格式直傳與 MiniMax selector MP3，WAV／MP4／PNG 可讀。真實 API 呼叫 0 次、US$0。
+- **童話專案實測通過（`projects/frog-and-scorpion/`）**：`kj-cinematic` pipeline；Google TTS `gemini-3.8-flash-tts`（Kore）4 段旁白 WAV（40 秒）；CLP 3 實體通過；Agent Native 生成 4 張 16:9 皮克斯畫面；成功完成 FFmpeg 平滑版與 HyperFrames 成品版（Chrome + GSAP 30fps，皮克斯金色動態標題 + 磨砂篇章字幕卡 + GPU 浮點運鏡）渲染出片 (`renders/frog_and_scorpion_hyperframes.mp4`)。
 
 ## 驗證過的流程（測試專案 `projects/esg-act1-kj/`，未 commit）
+
 
 - CLP 匯入現成圖並看圖改寫描述：6 張 ✅
 - CLP 自行寫 prompt 生圖（Nano Banana Pro）：2 張 ✅
@@ -56,6 +64,8 @@
 - 輔助腳本在 `.tmp/`：`seed_esg_act1_kj.py`、`gen_clp.py`、`write_clp.py`、`write_scene_plan.py`、`approve_clp.py`。
 
 ## 踩過的坑
+- **R2I 幾何與材質仍可能互相污染**：只寫「依白模視角」不足；指定牆腳、畫框上下邊、木條間距朝同一消失方向收斂可改善背景，但本輪仍出現白模綠牆被當成材質、Amy被生為正臉。現行2.1.5新增全牆／柱包覆原木的正向描述，受認證逾時影響尚未驗證；未宣稱全鏡一致性通過。
+- **人物文字也要服從實圖**：目前George實體設定圖是棕色背心、奶油白襯衫、領帶及深色方框眼鏡；本輪提示詞直接引用人物圖，未沿用交接文字的深灰針織背心／圓框描述，未改動角色圖與CLP清單。
 
 - **MiniMax 情緒與音訊格式**：`speech-2.6-hd` 支援 `happy/sad/angry/fearful/disgusted/surprised/calm/fluent/whisper`；用 `emotion` 指定整次合成，省略則由模型決定。Excel 的 `(happy)` 等標記不自動解析，`Neutral` 不是 API 列舉值；多種情緒請分句呼叫，`<#0.4#>` 停頓原樣傳送。API 的 `output_format="hex"` 是傳輸編碼，WAV／MP3 則放在 `audio_setting.format`，回傳用十六進位解碼。
 - **PowerShell**：不要用 `python -c` 塞複雜引號，改寫成 `.tmp/*.py` 再跑。
@@ -77,8 +87,12 @@
 - **asset_manifest** 的 asset 物件也不能加欄位：CLP 記在 `generation_summary` 開頭，格式 `clp: amy, ... | ...`。
 - **共用 selector 不套用單一工具限制**：先前誤刪通用 `video_edit` 並把所有 TTS 限為 WAV；已恢復影片操作、通用格式與 Azure 轉換。已刪除失效的 Veo `test_backend_auto_detect`；只跑指定 3 支離線 smoke。
 - 舊專案 `projects/esg-act1-crisis/` 是複雜版格式，不要還原或混用。
+- **Windows Backlot MIME 陷阱**：Windows 登錄檔易將 `.js` 誤註冊為 `text/plain` 導致 ES Module 被拒呈黑畫面；已在 `backlot/server.py` 加入 `mimetypes.add_type` 並更新檔案 mtime 破除 304 快取。
+- **FFmpeg 單圖 Ken Burns 抖動陷阱**：禁止在 zoompan 前加 `-loop 1`（會引發影格衝突重算），且須先升至 4K（3840×2160）超採樣再縮回 1080p，搭配 30fps 徹底消除子像素截斷抖動。
+- **CLP Manifest 文字污染陷阱**：CLP 描述文字不可套用通用模板或臆造（如咖啡廳紅磚牆與鐵框窗、咖啡杯紅陶底）；文字與參考圖脫節會導致模型受文字干擾發明背景。實體圖片為唯一真理（Source of Truth），描述必須嚴格對齊圖片特徵。
 
 ## 下一步候選（使用者決定順序）
+- 本輪R2I待續：先處理Vertex OAuth連線，再執行 `.tmp/run_r2i_2_1_perspective.py 5 --suffix perspective_v2 --live` 驗證全木質背景；Amy45度側臉及3／5跨鏡佈景仍待解，下一次付費前重新報價。所有測試沿用專案`.venv`，不需重跑整套影片。
 
 1. 從 `team-main` 搬回 `pixar-course` pipeline（在 `gemini/pixar-course-pipeline` 分支）。
 2. Omni／3.8 TTS 呼叫實測已通過，樣片／樣音待使用者觀看與聽審。繼續 `esg-act1-kj` 前，決定如何使用 Amy 測試片；原 Harrison s04 尚無影片，不再自動加生第二段。

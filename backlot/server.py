@@ -9,14 +9,20 @@ from __future__ import annotations
 
 import asyncio
 import json
+import mimetypes
 import time
 from contextlib import asynccontextmanager, suppress
 from pathlib import Path
 from typing import Optional
 
+# Ensure standard MIME types on Windows where registry may misconfigure .js as text/plain
+mimetypes.add_type("application/javascript", ".js")
+mimetypes.add_type("text/css", ".css")
+
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
+
 
 from backlot.state import PROJECTS_DIR, REPO_ROOT, list_projects, load_board_state, summarize_project
 
