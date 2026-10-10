@@ -4,8 +4,8 @@ description: >
   KJ fork of the cinematic pipeline. Adds a formal CLP stage (Character / Location / Prop)
   between script and scene_plan: the agent proposes CLP entities from the script, the user
   approves, then reference images are generated (style playbook + type template) or imported.
-  Downstream image/video prompts reference CLP ids and attach their reference images instead
-  of re-describing appearance. All other stages reuse the upstream cinematic skills.
+  Local assets instructions own audio-first preparation and eight visual recipes, using
+  verified CLP features, set layout and shot geometry. Other stages reuse cinematic skills.
 category: cinematic
 stability: production
 default_checkpoint_policy: guided
@@ -43,8 +43,8 @@ required_skills:
   - pipelines/kj-cinematic/clp-director
   - pipelines/cinematic/scene-director
   - pipelines/kj-cinematic/scene-director
-  - pipelines/cinematic/asset-director
   - pipelines/kj-cinematic/asset-director
+  - pipelines/kj-cinematic/prompt-recipes
   - pipelines/cinematic/edit-director
   - pipelines/cinematic/compose-director
   - pipelines/cinematic/publish-director
@@ -191,9 +191,12 @@ stages:
     optional_artifacts_in:
       - script
       - brief
+      - proposal_packet
     produces:
       - asset_manifest
     optional_tools:
+      - tts_selector
+      - music_library
       - subtitle_gen
       - audio_enhance
       - image_selector
@@ -207,6 +210,8 @@ stages:
       - freesound_music
       - music_gen
     tools_available:
+      - tts_selector
+      - music_library
       - subtitle_gen
       - audio_enhance
       - image_selector
@@ -222,12 +227,12 @@ stages:
     checkpoint_required: true
     human_approval_default: true
     review_focus:
-      - Source selects and support assets are clearly separated
+      - Planned audio and visual recipes preserve CLP identity, set layout and shot framing
       - Motion-required beats use actual video clips rather than still-image substitutes
       - Music and ambience plan matches the beat map
-      - Optional generated inserts stay limited and justified
+      - Dialogue timing uses measured audio duration and W2V reuses its approved W2I frame
       - Explicit 3D worlds preserve one coherent scene graph across global, regional, and walk views
-      - Hero 3D worlds use the production fidelity tier with licensed textured models and PBR terrain layers; primitive-only blockouts cannot pass
+      - Delivered hero 3D worlds require production fidelity; clay references are layout and motion guides
     success_criteria:
       - Schema-valid asset_manifest artifact
       - All referenced asset files exist on disk

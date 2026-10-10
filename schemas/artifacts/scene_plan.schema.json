@@ -105,6 +105,14 @@
               },
               "required": ["type", "description", "source"]
             }
+          },
+          "render_stages": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["T2I", "I2I", "R2I", "W2I", "T2V", "I2V", "R2V", "W2V"]
+            },
+            "description": "Production recipe stages for this scene (e.g. ['W2I', 'W2V'])"
           }
         },
         "additionalProperties": false

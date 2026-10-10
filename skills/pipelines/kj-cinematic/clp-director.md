@@ -44,6 +44,12 @@ negative: {style 的 image_negative_prompt}
 
 ## 步驟 3：寫出 clp_manifest
 
+- 生成與匯入的參考圖都先看最終實圖，再將 `description` 整理成可獨立摘錄的簡短正向特徵句，以分號或句號分隔，作為跨鏡共用文字來源；不能直接把生圖用的 `prompt_used` 當成實圖描述。
+- 人物記穩定外觀、服裝與辨識特徵，道具記形狀／材質；動作、表情、視線及鏡位留給分鏡，不寫成共用設定。
+- 場景記佈景結構、物件關係與材質，例如「窗邊座位」，不用依賴照片視角的「吧台在右側」；不確定的方位、遮蔽區域或材質不臆補。
+- 多張參考圖需核對描述所指區域；不同視角未顯示某物件，不等於該物件不存在。實圖互相矛盾時回報，不拼湊成新格局。
+- Asset Director 按本鏡需求摘錄原有特徵句，保留特徵用詞；省略只作用於該鏡 Prompt，不刪改 CLP 共用描述。
+
 ```json
 {"version": "1.0", "style_playbook": "kj-esg-pixar-hybrid",
  "entities": [{"id": "amy", "type": "character", "name": "Amy",
