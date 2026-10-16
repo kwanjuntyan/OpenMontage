@@ -26,7 +26,7 @@
 ## 2. 視覺裝配與分流
 
 1. 先按 scene 的 `render_stages` 盤點整鏡所需素材與步驟，再依序執行當前模態；八個代號是 Agent 配方，不是直接傳入 API 的 generation_mode。缺省或空陣列沿用原分鏡與素材意圖，不強制改成白模流程。
-2. 從 `required_assets` 解析本鏡所需素材。CLP 的 `reference_images` 相對於專案根目錄；送工具前解析成實際路徑。先看圖；本鏡使用白模影片時，檢視起訖及關鍵動作。
+2. 從 `required_assets` 解析本鏡所需素材。CLP 的 `reference_images` 相對於專案根目錄；送工具前解析成實際路徑。先看圖；本鏡使用白模影片時，檢視起訖及關鍵動作。有參考 3D 模型的場景，所有角度圖統一存於 `references/scenes/<location>/cameras/`（`renders/` 僅留給場景全景測試或過程歸檔，不放分鏡機位圖）：W2I 裝配時，由 `camera_ref.path`（預設指向 `cameras/<基底名稱>_block_blender.png`）於同目錄直接配對相同基底名稱 `cam_<主體>_<景別縮寫>_<角度或修飾>` 的 `_empty_<banana|gpt|blender>.png` 空景圖，不再跨 `renders/`、`blocks/`、`gpt/`、`banana/` 子目錄查找。
 3. 確定當前模態後，在 repo 根目錄執行 `.venv/Scripts/python.exe scripts/read_prompt_recipe.py <本步模態>`，以實際代號替換佔位；只讀命令回傳的配方與適用共通規則，不先讀八類全文。按範本組裝素材與 prompt，不混套其他模態寫法；完成後依本檔呼叫工具、驗收及交接。只附本鏡需要的參考圖，數量依用途及選定工具限制，不固定限三張。
    - 工具只縮小本次讀取內容，不清除先前對話上下文；切換步驟時重新讀取當前模態，避免沿用前一模態的範本。
 4. **CLP 共用描述與逐鏡摘錄**：人物／場景／道具以實圖為依據。W2I 的參考圖說明只列圖號、檔名、素材類型及角色與 blocks 色標的對應；圖片已提供的外觀不強制轉寫。其他模態沿用名稱／CLP id、圖片編號及 `clp_manifest.description` 的本鏡相關短句。

@@ -99,8 +99,8 @@
 
 有序參考圖：
 
-1. [references/scenes/coffee_shop/renders/blocks_blender_s02_medium_two_shot.png](../references/scenes/coffee_shop/renders/blocks_blender_s02_medium_two_shot.png)
-2. [references/scenes/coffee_shop/cameras/empty_banana_s02_medium_two_shot.png](../references/scenes/coffee_shop/cameras/empty_banana_s02_medium_two_shot.png)
+1. [references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_block_blender.png](../references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_block_blender.png)
+2. [references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_empty_banana.png](../references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_empty_banana.png)
 3. [clp/char_esg_george.png](../clp/char_esg_george.png)
 4. [clp/char_esg_amy.jpeg](../clp/char_esg_amy.jpeg)
 5. [clp/prop_coffee_cup.png](../clp/prop_coffee_cup.png)
@@ -120,8 +120,8 @@ Amy 愁眉微皺，一手握小匙、匙端仍在拿鐵中，抬眼望向 George
 
 有序參考圖：
 
-1. [references/scenes/coffee_shop/renders/blocks_blender_s02_medium_two_shot.png](../references/scenes/coffee_shop/renders/blocks_blender_s02_medium_two_shot.png)
-2. [references/scenes/coffee_shop/cameras/empty_banana_s02_medium_two_shot.png](../references/scenes/coffee_shop/cameras/empty_banana_s02_medium_two_shot.png)
+1. [references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_block_blender.png](../references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_block_blender.png)
+2. [references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_empty_banana.png](../references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_empty_banana.png)
 3. [clp/char_esg_george.png](../clp/char_esg_george.png)
 4. [clp/char_esg_amy.jpeg](../clp/char_esg_amy.jpeg)
 5. [clp/prop_coffee_cup.png](../clp/prop_coffee_cup.png)
@@ -141,8 +141,8 @@ Amy 愁眉微皺，一手握小匙、匙端仍在拿鐵中，抬眼望向 George
 
 有序參考圖：
 
-1. [references/scenes/coffee_shop/renders/blocks_blender_s06_amy_medium_close_up.png](../references/scenes/coffee_shop/renders/blocks_blender_s06_amy_medium_close_up.png)
-2. [references/scenes/coffee_shop/cameras/empty_banana_s06_amy_medium_close_up.png](../references/scenes/coffee_shop/cameras/empty_banana_s06_amy_medium_close_up.png)
+1. [references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_block_blender.png](../references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_block_blender.png)
+2. [references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_empty_banana.png](../references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_empty_banana.png)
 3. [clp/char_esg_george.png](../clp/char_esg_george.png)
 4. [clp/char_esg_amy.jpeg](../clp/char_esg_amy.jpeg)
 
@@ -161,8 +161,8 @@ Amy 已停止攪拌，眉心皺起、嘴角下垂、頭微偏，望向 George �
 
 有序參考圖：
 
-1. [references/scenes/coffee_shop/renders/blocks_blender_s03_ots_to_george.png](../references/scenes/coffee_shop/renders/blocks_blender_s03_ots_to_george.png)
-2. [references/scenes/coffee_shop/cameras/empty_banana_s03_ots_to_george.png](../references/scenes/coffee_shop/cameras/empty_banana_s03_ots_to_george.png)
+1. [references/scenes/coffee_shop/cameras/cam_george_ots_amy_block_blender.png](../references/scenes/coffee_shop/cameras/cam_george_ots_amy_block_blender.png)
+2. [references/scenes/coffee_shop/cameras/cam_george_ots_amy_empty_banana.png](../references/scenes/coffee_shop/cameras/cam_george_ots_amy_empty_banana.png)
 3. [clp/char_esg_george.png](../clp/char_esg_george.png)
 4. [clp/char_esg_amy.jpeg](../clp/char_esg_amy.jpeg)
 5. [clp/prop_coffee_cup.png](../clp/prop_coffee_cup.png)
@@ -182,8 +182,8 @@ George 溫和微笑看向 Amy，一手握咖啡杯柄，準備放回原杯碟；
 
 有序參考圖：
 
-1. [references/scenes/coffee_shop/cameras/empty_banana_s03_ots_to_george.png](../references/scenes/coffee_shop/cameras/empty_banana_s03_ots_to_george.png)
-2. [references/scenes/coffee_shop/renders/blocks_blender_s03_ots_to_george.png](../references/scenes/coffee_shop/renders/blocks_blender_s03_ots_to_george.png)
+1. [references/scenes/coffee_shop/cameras/cam_george_ots_amy_empty_banana.png](../references/scenes/coffee_shop/cameras/cam_george_ots_amy_empty_banana.png)
+2. [references/scenes/coffee_shop/cameras/cam_george_ots_amy_block_blender.png](../references/scenes/coffee_shop/cameras/cam_george_ots_amy_block_blender.png)
 3. [clp/char_esg_george.png](../clp/char_esg_george.png)
 4. [clp/char_esg_amy.jpeg](../clp/char_esg_amy.jpeg)
 5. [clp/prop_coffee_cup.png](../clp/prop_coffee_cup.png)
@@ -205,8 +205,8 @@ George 溫和微笑看向 Amy，一手握住原有咖啡杯的杯柄，準備放
 
 有序參考圖：
 
-1. [references/scenes/coffee_shop/cameras/empty_banana_s03_ots_to_george.png](../references/scenes/coffee_shop/cameras/empty_banana_s03_ots_to_george.png)
-2. [references/scenes/coffee_shop/renders/blocks_blender_s03_ots_to_george.png](../references/scenes/coffee_shop/renders/blocks_blender_s03_ots_to_george.png)
+1. [references/scenes/coffee_shop/cameras/cam_george_ots_amy_empty_banana.png](../references/scenes/coffee_shop/cameras/cam_george_ots_amy_empty_banana.png)
+2. [references/scenes/coffee_shop/cameras/cam_george_ots_amy_block_blender.png](../references/scenes/coffee_shop/cameras/cam_george_ots_amy_block_blender.png)
 3. [clp/char_esg_george.png](../clp/char_esg_george.png)
 4. [clp/char_esg_amy.jpeg](../clp/char_esg_amy.jpeg)
 5. [clp/prop_coffee_cup.png](../clp/prop_coffee_cup.png)
@@ -228,8 +228,8 @@ George 溫和微笑看向 Amy，一手握住原有咖啡杯的杯柄，準備放
 
 有序參考圖：
 
-1. [references/scenes/coffee_shop/renders/blocks_blender_s08_amy_close_up.png](../references/scenes/coffee_shop/renders/blocks_blender_s08_amy_close_up.png)
-2. [references/scenes/coffee_shop/cameras/empty_banana_s08_amy_close_up.png](../references/scenes/coffee_shop/cameras/empty_banana_s08_amy_close_up.png)
+1. [references/scenes/coffee_shop/cameras/cam_amy_cu_emotion_block_blender.png](../references/scenes/coffee_shop/cameras/cam_amy_cu_emotion_block_blender.png)
+2. [references/scenes/coffee_shop/cameras/cam_amy_cu_emotion_empty_banana.png](../references/scenes/coffee_shop/cameras/cam_amy_cu_emotion_empty_banana.png)
 3. [clp/char_esg_amy.jpeg](../clp/char_esg_amy.jpeg)
 
 完整 prompt：
@@ -247,8 +247,8 @@ Amy 聽見「企業健康指標」而睜大眼睛、微抬眉、輕輕歪頭，�
 
 有序參考圖：
 
-1. [references/scenes/coffee_shop/cameras/empty_banana_s08_amy_close_up.png](../references/scenes/coffee_shop/cameras/empty_banana_s08_amy_close_up.png)
-2. [references/scenes/coffee_shop/renders/blocks_blender_s08_amy_close_up.png](../references/scenes/coffee_shop/renders/blocks_blender_s08_amy_close_up.png)
+1. [references/scenes/coffee_shop/cameras/cam_amy_cu_emotion_empty_banana.png](../references/scenes/coffee_shop/cameras/cam_amy_cu_emotion_empty_banana.png)
+2. [references/scenes/coffee_shop/cameras/cam_amy_cu_emotion_block_blender.png](../references/scenes/coffee_shop/cameras/cam_amy_cu_emotion_block_blender.png)
 3. [clp/char_esg_amy.jpeg](../clp/char_esg_amy.jpeg)
 
 完整 prompt：
@@ -268,8 +268,8 @@ Amy 睜大眼睛、微抬眉，輕輕歪頭，嘴唇微張。歪頭只調整頭�
 
 有序參考圖：
 
-1. [references/scenes/coffee_shop/cameras/empty_banana_s07_george_close_up.png](../references/scenes/coffee_shop/cameras/empty_banana_s07_george_close_up.png)
-2. [references/scenes/coffee_shop/renders/blocks_blender_s07_george_close_up.png](../references/scenes/coffee_shop/renders/blocks_blender_s07_george_close_up.png)
+1. [references/scenes/coffee_shop/cameras/cam_george_cu_emotion_empty_banana.png](../references/scenes/coffee_shop/cameras/cam_george_cu_emotion_empty_banana.png)
+2. [references/scenes/coffee_shop/cameras/cam_george_cu_emotion_block_blender.png](../references/scenes/coffee_shop/cameras/cam_george_cu_emotion_block_blender.png)
 3. [clp/char_esg_george.png](../clp/char_esg_george.png)
 
 完整 prompt：
@@ -295,8 +295,8 @@ George 下巴略收，帶著肯定的神情與溫和微笑，嘴唇自然微張�
 
 有序參考圖：
 
-1. [references/scenes/coffee_shop/cameras/empty_banana_s09_table_insert.png](../references/scenes/coffee_shop/cameras/empty_banana_s09_table_insert.png)
-2. [references/scenes/coffee_shop/renders/blocks_blender_s09_table_insert.png](../references/scenes/coffee_shop/renders/blocks_blender_s09_table_insert.png)
+1. [references/scenes/coffee_shop/cameras/cam_table_insert_top_empty_banana.png](../references/scenes/coffee_shop/cameras/cam_table_insert_top_empty_banana.png)
+2. [references/scenes/coffee_shop/cameras/cam_table_insert_top_block_blender.png](../references/scenes/coffee_shop/cameras/cam_table_insert_top_block_blender.png)
 3. [clp/char_esg_george.png](../clp/char_esg_george.png)
 4. [clp/char_esg_amy.jpeg](../clp/char_esg_amy.jpeg)
 5. [clp/prop_coffee_set.png](../clp/prop_coffee_set.png)
@@ -330,8 +330,8 @@ George 已將咖啡杯放回杯碟。兩人的手自然停在桌邊，兩只咖�
 
 有序參考圖：
 
-1. [references/scenes/coffee_shop/cameras/empty_banana_s09_table_insert.png](../references/scenes/coffee_shop/cameras/empty_banana_s09_table_insert.png)
-2. [references/scenes/coffee_shop/renders/blocks_blender_s09_table_insert.png](../references/scenes/coffee_shop/renders/blocks_blender_s09_table_insert.png)
+1. [references/scenes/coffee_shop/cameras/cam_table_insert_top_empty_banana.png](../references/scenes/coffee_shop/cameras/cam_table_insert_top_empty_banana.png)
+2. [references/scenes/coffee_shop/cameras/cam_table_insert_top_block_blender.png](../references/scenes/coffee_shop/cameras/cam_table_insert_top_block_blender.png)
 3. [clp/char_esg_george.png](../clp/char_esg_george.png)
 4. [clp/char_esg_amy.jpeg](../clp/char_esg_amy.jpeg)
 5. [clp/prop_coffee_set.png](../clp/prop_coffee_set.png)
@@ -451,8 +451,8 @@ George 已將咖啡杯放回杯碟。兩人的手自然停在桌邊，兩只咖�
 - Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成；以使用者最新「不要自拍」與確認的 prompt 為準。
 - 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法報價。
 - 呼叫：一次、生成一張；transparent_background=false；prompt 原文送出，未追加創意條件。
-- 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/cameras/empty_gpt_s06_amy_medium_close_up.png
-- 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/blocks_blender_s06_amy_medium_close_up.png
+- 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/archive/cameras_新增資料夾/empty_gpt_s06_amy_medium_close_up.png
+- 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/archive/renders_v1/blocks_blender_s06_amy_medium_close_up.png
 - 圖 3：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg
 - 輸出：../assets/images/shot_4.6.1_gpt_template_v1.png
 - 原生來源：C:/Users/servi/.codex/generated_images/01a14365-4ddb-7872-9254-b032d636e172/exec-0b9d39b0-7077-4abf-b9fd-8054a2c6b2f2.png
@@ -489,8 +489,8 @@ George 已將咖啡杯放回杯碟。兩人的手自然停在桌邊，兩只咖�
 - Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成；以使用者最新「不要自拍」與確認的 prompt 為準。
 - 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法報價。
 - 呼叫：依使用者明確要求重新生成一次、一張；使用與 v1 完全相同的 prompt、三張參考圖及順序，transparent_background=false，未追加修正條件。
-- 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/cameras/empty_gpt_s06_amy_medium_close_up.png
-- 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/blocks_blender_s06_amy_medium_close_up.png
+- 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/archive/cameras_新增資料夾/empty_gpt_s06_amy_medium_close_up.png
+- 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/archive/renders_v1/blocks_blender_s06_amy_medium_close_up.png
 - 圖 3：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg
 - 輸出：../assets/images/shot_4.6.1_gpt_template_v2.png
 - 原生來源：C:/Users/servi/.codex/generated_images/01a14365-4ddb-7872-9254-b032d636e172/exec-fdfe952c-94bd-483a-9142-91aac53ac034.png
@@ -527,8 +527,8 @@ George 已將咖啡杯放回杯碟。兩人的手自然停在桌邊，兩只咖�
 - Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成；以使用者最新「不要自拍」與核准的完整人物替換 prompt 為準。
 - 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法報價。
 - 呼叫：一次、一張；使用本輪核准 prompt 原文與原三張參考圖，transparent_background=false；未改用 v1／v2 成果作底圖。
-- 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/cameras/empty_gpt_s06_amy_medium_close_up.png
-- 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/blocks_blender_s06_amy_medium_close_up.png
+- 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/archive/cameras_新增資料夾/empty_gpt_s06_amy_medium_close_up.png
+- 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/archive/renders_v1/blocks_blender_s06_amy_medium_close_up.png
 - 圖 3：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg
 - 輸出：../assets/images/shot_4.6.1_gpt_template_v3.png
 - 原生來源：C:/Users/servi/.codex/generated_images/01a14365-4ddb-7872-9254-b032d636e172/exec-21d907ac-f69b-4a48-804b-dbb1905977ce.png
@@ -572,8 +572,8 @@ George 已將咖啡杯放回杯碟。兩人的手自然停在桌邊，兩只咖�
 - Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成；以使用者最新 SH01 雙人全景、非自拍及白板圖文參考為準。
 - 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法報價。
 - 呼叫：一次、一張；使用本輪核准 prompt 原文與五張獨立參考圖，transparent_background=false；未以舊成果作底圖。
-- 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/cameras/empty_gpt_s01_wide_two_shot.png
-- 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/blocks_blender_s01_wide_two_shot.png
+- 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/archive/cameras_新增資料夾/empty_gpt_s01_wide_two_shot.png
+- 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/archive/renders_v1/blocks_blender_s01_wide_two_shot.png
 - 圖 3：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg
 - 圖 4：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_li.jpeg
 - 圖 5：D:/kj-openMontage/projects/course-51-esg/clp/prop_whiteboard_incorrect.png
@@ -624,8 +624,8 @@ George 已將咖啡杯放回杯碟。兩人的手自然停在桌邊，兩只咖�
 - Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成；以使用者本輪貼上的雙人中景 prompt 為準。
 - 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法報價。
 - 呼叫：一次、一張；使用使用者 prompt 原文與五張獨立參考圖，transparent_background=false；未改用 SH01 wide、舊 SH02 或舊成果作底圖。
-- 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/cameras/empty_gpt_s01_medium_two_shot.png
-- 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/blocks_blender_s01_medium_two_shot.png
+- 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/cameras/cam_twoshot_ms_level_empty_gpt.png
+- 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/archive/b1723_blocks_blender_s01_medium_two_shot.png
 - 圖 3：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg
 - 圖 4：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_li.jpeg
 - 圖 5：D:/kj-openMontage/projects/course-51-esg/clp/prop_whiteboard_incorrect.png
@@ -676,8 +676,8 @@ George 已將咖啡杯放回杯碟。兩人的手自然停在桌邊，兩只咖�
 - Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成。
 - 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法報價。
 - 呼叫：一次、一張；使用本輪核准的 4.6.2 prompt 原文與四張參考圖，transparent_background=false，未追加修正條件。
-- 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/cameras/empty_gpt_s02_medium_two_shot.png
-- 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/blocks_blender_s02_medium_two_shot.png
+- 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/archive/cameras_新增資料夾/empty_gpt_s02_medium_two_shot.png
+- 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/archive/renders_v1/blocks_blender_s02_medium_two_shot.png
 - 圖 3：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg
 - 圖 4：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_li.jpeg
 - 輸出：../assets/images/shot_4.6.2_gpt_template_v1.png
@@ -726,8 +726,8 @@ George 已將咖啡杯放回杯碟。兩人的手自然停在桌邊，兩只咖�
 - 輸出：`../assets/images/shot_4.6.2_gpt_template_v2.png`
 - 原始輸出：`C:/Users/servi/.codex/generated_images/01a14365-4ddb-7872-9254-b032d636e172/exec-e05dd814-6afe-4225-942d-0860d188ba8f.png`
 - 參考圖依下列 prompt 圖號順序傳入；prompt 原文未改寫。
-- 圖 1：`../references/scenes/marketing_department/cameras/empty_gpt_s02_li_medium_close_up.png`
-- 圖 2：`../references/scenes/marketing_department/renders/blocks_blender_s02_li_medium_close_up.png`
+- 圖 1：`../references/scenes/marketing_department/cameras/cam_li_mcu_15deg_empty_gpt.png`
+- 圖 2：`../references/scenes/marketing_department/renders/archive/b1723_blocks_blender_s02_li_medium_close_up.png`
 - 圖 3：`../clp/char_esg_li.jpeg`
 - 圖 4：`../clp/prop_whiteboard_incorrect.png`
 
@@ -784,8 +784,8 @@ Amy、雙手與原本展示的海報皆留在本鏡的畫外範圍，不為了�
 - 輸出：`../assets/images/shot_4.6.2_gpt_template_v3.png`
 - 原始輸出：`C:/Users/servi/.codex/generated_images/01a14365-4ddb-7872-9254-b032d636e172/exec-1f7e72ad-57ad-490f-846a-eaabcf856e75.png`
 - 參考圖依下列 prompt 圖號順序傳入；prompt 原文未改寫。
-- 圖 1：`../references/scenes/marketing_department/cameras/empty_gpt_s02_li_medium_close_up.png`
-- 圖 2：`../references/scenes/marketing_department/renders/blocks_blender_s02_li_medium_close_up.png`
+- 圖 1：`../references/scenes/marketing_department/cameras/cam_li_mcu_15deg_empty_gpt.png`
+- 圖 2：`../references/scenes/marketing_department/renders/archive/b1723_blocks_blender_s02_li_medium_close_up.png`
 - 圖 3：`../clp/char_esg_li.jpeg`
 - 圖 4：`../clp/prop_whiteboard_incorrect.png`
 
@@ -843,8 +843,8 @@ Amy、雙手與原本展示的海報皆留在本鏡的畫外範圍，不為了�
 - 輸出：`../assets/images/shot_4.6.3_gpt_template_v1.png`
 - 原始輸出：`C:/Users/servi/.codex/generated_images/01a14365-4ddb-7872-9254-b032d636e172/exec-35cd7a18-4fc4-4f20-a925-82488d52dae9.png`
 - 參考圖依下列 prompt 圖號順序傳入；prompt 原文未改寫。
-- 圖 1：`../references/scenes/marketing_department/cameras/empty_gpt_s03_amy_medium_close_up.png`
-- 圖 2：`../references/scenes/marketing_department/renders/blocks_blender_s03_amy_medium_close_up.png`
+- 圖 1：`../references/scenes/marketing_department/cameras/cam_amy_mcu_15deg_empty_gpt.png`
+- 圖 2：`../references/scenes/marketing_department/renders/archive/b1723_blocks_blender_s03_amy_medium_close_up.png`
 - 圖 3：`../clp/char_esg_amy.jpeg`
 - 圖 4：`../clp/prop_whiteboard_incorrect.png`
 - 圖 5：`../clp/prop_smartphone.png`

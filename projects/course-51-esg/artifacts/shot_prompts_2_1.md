@@ -13,8 +13,8 @@
 
 ## 2.1.1｜Amy 求救｜s02_medium_two_shot／40mm
 
-- 圖 1 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/renders/blocks_blender_s02_medium_two_shot.png)
-- 圖 2 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/empty_banana_s02_medium_two_shot.png)
+- 圖 1 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_block_blender.png)
+- 圖 2 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_empty_banana.png)
 - 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
 - 圖 4 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
 - 圖 5 [prop_coffee_cup.png](D:/kj-openMontage/projects/course-51-esg/clp/prop_coffee_cup.png)
@@ -27,8 +27,8 @@
 
 ## 2.1.2｜Amy 訴苦｜s06_amy_medium_close_up／65mm
 
-- 圖 1 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/renders/blocks_blender_s06_amy_medium_close_up.png)
-- 圖 2 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/empty_banana_s06_amy_medium_close_up.png)
+- 圖 1 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_block_blender.png)
+- 圖 2 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_empty_banana.png)
 - 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
 - 圖 4 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
 
@@ -40,8 +40,8 @@
 
 ## 2.1.3｜George 解惑｜s03_ots_to_george／60mm
 
-- 圖 1 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/renders/blocks_blender_s03_ots_to_george.png)
-- 圖 2 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/empty_banana_s03_ots_to_george.png)
+- 圖 1 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_george_ots_amy_block_blender.png)
+- 圖 2 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_george_ots_amy_empty_banana.png)
 - 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
 - 圖 4 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
 - 圖 5 [prop_coffee_cup.png](D:/kj-openMontage/projects/course-51-esg/clp/prop_coffee_cup.png)
@@ -54,8 +54,8 @@
 
 ## 2.1.4｜Amy 反問｜s08_amy_close_up／100mm
 
-- 圖 1 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/renders/blocks_blender_s08_amy_close_up.png)
-- 圖 2 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/empty_banana_s08_amy_close_up.png)
+- 圖 1 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_amy_cu_emotion_block_blender.png)
+- 圖 2 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_amy_cu_emotion_empty_banana.png)
 - 圖 3 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
 
 短指令：Amy 聽見「企業健康指標」而睜大眼睛、微抬眉、輕輕歪頭，嘴唇微張，望向畫外 George 驚奇反問。維持單人頭肩特寫。身體維持 blocks 中朝向對坐的 George，肩膀與軀幹不轉動，只輕輕歪頭；頭與胸口朝向同一位對坐者，不做側身回頭姿勢。
@@ -71,8 +71,8 @@
 
 ## 2.1.5｜George 講解 EPS｜s07_george_close_up／100mm
 
-- 圖 1 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/renders/blocks_blender_s07_george_close_up.png)
-- 圖 2 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/empty_banana_s07_george_close_up.png)
+- 圖 1 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_george_cu_emotion_block_blender.png)
+- 圖 2 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_george_cu_emotion_empty_banana.png)
 - 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
 
 短指令：George 下巴略收，帶著剛點頭後的肯定神情與溫和微笑，嘴唇自然微張，望向畫外 Amy 解釋 EPS。維持單人頭肩特寫，手部與杯子留在畫外。身體維持 blocks 中朝向對坐的 Amy，肩膀與軀幹不額外轉動，頭與胸口朝向同一位對坐者，不做側身回頭姿勢。
@@ -87,8 +87,8 @@
 
 ## 2.1.6｜ESG 概念轉折｜s09_table_insert／50mm
 
-- 圖 1 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/renders/blocks_blender_s09_table_insert.png)
-- 圖 2 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/empty_banana_s09_table_insert.png)
+- 圖 1 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_table_insert_top_block_blender.png)
+- 圖 2 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_table_insert_top_empty_banana.png)
 - 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
 - 圖 4 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
 - 圖 5 [prop_coffee_set.png](D:/kj-openMontage/projects/course-51-esg/clp/prop_coffee_set.png)

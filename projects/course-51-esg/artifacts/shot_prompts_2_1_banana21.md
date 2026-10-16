@@ -7,8 +7,8 @@
 
 ## 2.1.1
 
-- 圖 1 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/empty_banana_s02_medium_two_shot.png)
-- 圖 2 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/renders/blocks_blender_s02_medium_two_shot.png)
+- 圖 1 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_empty_banana.png)
+- 圖 2 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_block_blender.png)
 - 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
 - 圖 4 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
 - 圖 5 [prop_coffee_cup.png](D:/kj-openMontage/projects/course-51-esg/clp/prop_coffee_cup.png)
@@ -138,8 +138,8 @@ Banana 2.1 v6（新流程）：[成品](../assets/images/shot_2.1.1_banana21_v6.
 
 ## 2.1.2
 
-- 圖 1 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/empty_banana_s06_amy_medium_close_up.png)
-- 圖 2 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/renders/blocks_blender_s06_amy_medium_close_up.png)
+- 圖 1 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_empty_banana.png)
+- 圖 2 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_block_blender.png)
 - 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
 - 圖 4 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
 
@@ -215,8 +215,8 @@ Banana 2.1 v4（2026-10-13，依使用者要求重新生成）：[成品](../ass
 
 ## 2.1.3
 
-- 圖 1 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/empty_banana_s03_ots_to_george.png)
-- 圖 2 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/renders/blocks_blender_s03_ots_to_george.png)
+- 圖 1 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_george_ots_amy_empty_banana.png)
+- 圖 2 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_george_ots_amy_block_blender.png)
 - 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
 - 圖 4 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
 - 圖 5 [prop_coffee_cup.png](D:/kj-openMontage/projects/course-51-esg/clp/prop_coffee_cup.png)
@@ -272,8 +272,8 @@ v4：[成品](../assets/images/shot_2.1.3_banana21_v4.png)；使用者新版原�
 
 ## 2.1.4
 
-- 圖 1 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/empty_banana_s08_amy_close_up.png)
-- 圖 2 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/renders/blocks_blender_s08_amy_close_up.png)
+- 圖 1 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_amy_cu_emotion_empty_banana.png)
+- 圖 2 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_amy_cu_emotion_block_blender.png)
 - 圖 3 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
 
 ```text
@@ -385,8 +385,8 @@ Amy 保持坐姿，整個上半身轉向畫面左前方的畫外 George，呈三
 
 ## 2.1.5
 
-- 圖 1 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/empty_banana_s07_george_close_up.png)
-- 圖 2 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/renders/blocks_blender_s07_george_close_up.png)
+- 圖 1 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_george_cu_emotion_empty_banana.png)
+- 圖 2 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_george_cu_emotion_block_blender.png)
 - 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
 
 ```text
@@ -442,8 +442,8 @@ GPT 同指令比較：[成品](../assets/images/shot_2.1.5_gpt_compare_v1.png)�
 
 ## 2.1.6
 
-- 圖 1 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/empty_banana_s09_table_insert.png)
-- 圖 2 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/renders/blocks_blender_s09_table_insert.png)
+- 圖 1 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_table_insert_top_empty_banana.png)
+- 圖 2 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_table_insert_top_block_blender.png)
 - 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
 - 圖 4 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
 - 圖 5 [prop_coffee_set.png](D:/kj-openMontage/projects/course-51-esg/clp/prop_coffee_set.png)

@@ -119,7 +119,7 @@
 
 ### Shot 2.1.1 裝配例
 
-- 依 `course-51-esg` 的 SH02 設定，五圖依序為 `empty_banana_s02_medium_two_shot.png`、`blocks_blender_s02_medium_two_shot.png`、`char_esg_george.png`、`char_esg_amy.jpeg`、`prop_coffee_cup.png`。
+- 依 `course-51-esg` 的雙人中景（SH02）設定，五圖依序為 `cam_twoshot_ms_level_empty_banana.png`、`cam_twoshot_ms_level_block_blender.png`、`char_esg_george.png`、`char_esg_amy.jpeg`、`prop_coffee_cup.png`（前兩張均位於 `references/scenes/coffee_shop/cameras/`）。
 - 畫面描述整合雙人中景、George 左／Amy 右、對坐及可見部位，再寫 Amy 握匙攪拌拿鐵、抬眼求助與 George 聆聽；攪拌手勢可調整，肩膀與軀幹沿用 blocks。
 - 相同 prompt／五圖已用 GPT 與 Banana 生成；完整請求及觀察存專案 `artifacts/shot_prompts_2_1_banana21.md`。案例人物、道具與景別不套用其他 shot；生成成功不等於構圖完全一致。
 
