@@ -52,7 +52,7 @@ def filter_explicit_route(inputs, candidates):
                 continue
         if tool.capability == "image_generation":
             props = tool.input_schema.get("properties", {})
-            if any(inputs.get(k) and k not in props for k in ("mask_path", "mask_url")):
+            if any(inputs.get(k) and k not in props for k in ("mask_path", "mask_url", "media_paths")):
                 continue
             if any(
                 inputs.get(k) and k not in props and "images" not in props

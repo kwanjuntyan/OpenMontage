@@ -328,6 +328,9 @@ class ImageSelector(BaseTool):
                 "n",
                 "aspect_ratio",
                 "resolution",
+                "media_paths",
+                "video_metadata",
+                "thinking_level",
                 "generation_mode",
                 "image_url",
                 "image_path",
@@ -487,6 +490,7 @@ class ImageSelector(BaseTool):
             or inputs.get("image_path")
             or inputs.get("image_urls")
             or inputs.get("image_paths")
+            or inputs.get("media_paths")
         )
         if not wants_edit:
             return candidates
