@@ -12,9 +12,11 @@
 五大專案的媒體檔（`assets/audio/`、`assets/images/`、`assets/videos/`）均由 Dropbox 自動同步，更新前請先確認電腦右下角 **Dropbox 已完成同步**。
 
 ### 2. 更新 Git 程式碼與專案食譜
-打開 PowerShell 進入專案根目錄（例如 `cd D:\kj-openMontage`），執行：
+打開 PowerShell，進入 **OpenMontage 程式根目錄**（即當初 `git clone` 下來的 `kj-openMontage` 資料夾，例如 `D:\kj-openMontage`，**注意：不是 Dropbox 的 `kj-om-projects` 資料夾**），執行：
 
 ```powershell
+cd D:\kj-openMontage   # 請改為你電腦上 kj-openMontage 的實際路徑
+
 # 若當初依下方「第一步」直接 clone kwanjuntyan/OpenMontage，遠端名稱為 origin：
 git fetch origin lean
 git reset --hard origin/lean
@@ -24,9 +26,10 @@ git reset --hard origin/lean
 *(註：因 `projects/*/artifacts/` 已納入 Git 版控，使用 `fetch + reset --hard` 可避免與 Dropbox 已同步之相同檔案發生未追蹤衝突。)*
 
 ### 3. 啟動 Backlot 看板與 Scene Player（毛片預覽器）
-在專案根目錄執行：
+同樣在 **OpenMontage 程式根目錄（`kj-openMontage`，內含 `.venv` 與 `backlot` 資料夾處）** 執行：
 
 ```powershell
+cd D:\kj-openMontage   # 請改為你電腦上 kj-openMontage 的實際路徑
 $env:PYTHONPATH="."; .venv\Scripts\python.exe -m backlot serve --port 4750
 ```
 
