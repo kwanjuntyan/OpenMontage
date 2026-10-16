@@ -1,98 +1,49 @@
 # kj lean 分支：現況與交接
-> 給接手的 agent（Claude / GPT / Gemini）。開始前先讀完；做完一段工作後更新本檔。
-## 分支與 remote
-- **2026-10-12 建立三個辦公室 Blender 場景包**：依同事模型在 `course-51-esg/references/scenes/` 建立 `admin_office`、`marketing_department` 與 `factory_affairs`（均含 cameras/layouts/renders），導入 `admin_office.blend`（9.5MB）、`marketing_department.blend`（8.3MB）與 `fac.blend`（10.3MB）。
-- **2026-10-12 projects 資產庫遷移至 Dropbox**：已將 `D:\kj-projects-assets` 內 5 大專案及全課程批次腳本（共 1,213 個檔案、2.9 GB）完整遷移至 `D:\Dropbox\kj-om-projects`（校驗檔案數與 Byte 數 100% 一致）；同步將 OpenMontage 之 `projects` Junction 連結改指向 `D:\Dropbox\kj-om-projects`，5 大專案資產與影片透過 OM 讀取全部通過。
-- **2026-10-12 相機封存目錄重整與清理**：將 `course-51-esg/archive/` 下之 `legacy_dropbox_cameras` 原地改名為 `legacy_yuting_cameras`；將完全重複之 `archive_legacy_manual`（31 張圖）備份至 `.tmp/archive_legacy_manual-backup.zip` 後刪除；將 `coffee_shop_cameras/archive_sh01_sh09` 壓平成單層 `archive/coffee_shop_sh01_sh09/`，同步更新 `scene_camera_char_meta.json`；將 `assets/images/` 內未列入 manifest 之 13 張 Banana 測試圖刪除，僅保留 5 張正式 `.jpg`。
-- **2026-10-12 專案命名規範化與冗餘專案安全移除**：依規則將 `foxconn-core-values-course` 改為 `client-01-foxconn-core-values`、`mole-stargazer` 改為 `fairytale-02-mole-stargazer`、`frog-and-scorpion` 改為 `fairytale-01-frog-and-scorpion`、`esg-whole-course` 改為 `course-51-esg`，同步更新各專案設定檔、批次腳本與測試腳本；冗餘之 `esg-act1-kj` 與 `attention-benchmark-pilot` 分別備份至 `.tmp/` 後自 projects 刪除。
-- **2026-10-12 course-31-pdca 專案整併與精簡完成**：將原本分散於 projects 之 8 個 `course-31-*` 章節收納至第一階目錄 `course-31-pdca\`，精簡去除子目錄 `course-31-` 前綴；3 支全課程批次腳本收納至 `course-31-pdca/scripts/`，根目錄只保留 5 大專案；5 支內部腳本同步更新為動態路徑，經 OM `projects/` 聯結驗證讀取全部通過。
-- **2026-10-12 九個咖啡館空景完成 GPT／CLP 重繪**：依使用者改用 GPT，內建 `image_gen` 逐鏡輸入原 `SH01～SH09 *_empty.png` 與 `clp/loc_esg_coffee_shop_front_far.jpg`，選定九張成品依使用者指示統一改名為 `renders/SH*_empty_gpt.png`（原生 1672×941 RGB，無人物）；採用的生成版本仍為 SH03／SH04 v2、其餘 v1，僅從檔名移除 `_clp` 與版本號；九張改名前後 SHA256 一致，總覽頁及提示詞的成品檔名引用已同步。初版 SH03 把綠牆改成木護牆、SH04 加窗與掛畫，收緊對應牆面／畫外窗光提示各修正一次，已恢復；共 11 次生成，確切模型／費用未提供，本輪未呼叫 Banana。九張逐張看圖、完整解碼通過，木紋／陶瓷／金屬／金色窗光改善，主要構圖保留，局部植物、配件與表面細節仍有 AI 差異，非像素級或 3D 幾何保證。九張原 empty 的 SHA256 均不變；未改 blend、blocks 或整體 assets 核准。成品總覽 `renders/empty_clp_gpt_gallery.html`；完整提示詞／原生生成路徑 `renders/empty_clp_gpt_v1_prompts.txt`；淘汰 SH03／SH04 v1 移至 `.tmp/`，不混在九張成品中。
-- **2026-10-12 咖啡館機位整理與 18 張 Blender 圖統一命名完成**：原始 `coffee_shop.blend` 與材質版 `coffee_shop_reference.blend` 均依指定刪除 4 個 V003/V004 基礎及 7 個 V006/V007 Review 機位；重新載入確認剩 31／32 個，其餘名稱與啟用鏡頭不變，scene_plan／機位 metadata 無被刪名稱引用。刪除前備份為 `.tmp/coffee_shop_before_camera_delete_20261012_002611.blend`、`.tmp/coffee_shop_reference_before_camera_delete_20261012_002611.blend`。材質版已完成 SH01～SH09 空景與藍紅 block 人物各九張（1920×1080，Cycles CUDA／96 samples）；George 全身藍／Amy 全身紅，沿用原坐姿、材質光影與機位，逐張看圖及解碼通過，空景約 387 秒、人物 SH02～SH09 共 358.49 秒。依使用者同意，18 張在 `references/scenes/coffee_shop/renders/` 原地改名為 `SH01_wide_two_shot_empty.png`／`SH01_wide_two_shot_blocks.png` 等；SH 編號保留大寫，其餘小寫、空格／連字號改底線，SH02～SH09 同規則。已確認 `_empty`／`_blocks` 各九張，18 張改名前後 SHA256 一致。未改 AI 生成图、blend 或圖片內容，無外部費用。歷史 `.tmp/render_coffee_sh*.py`、`.tmp/run_sh01_banana21*.py` 及結果紀錄保留當時舊檔名，重跑前需使用新命名。 最新依使用者規則將四組正式 SH01～SH09 圖共 36 張原地改名為 `empty_gpt_sNN_機位.png`、`empty_blender_sNN_機位.png`、`blocks_blender_sNN_機位.png`、`empty_banana_sNN_機位.png`（NN=01～09，機位文字不變）；36 張改名前後 SHA256 相同，兩個總覽頁全部本機引用有效並同步新名稱。前述 SH 開頭檔名及提示詞／.tmp 請求屬歷史紀錄；未改 vines_refined 底圖、比較試圖、blend 或圖片內容，無生成費用。
-- **2026-10-12 咖啡館九張 Banana 空景完成**：使用者選定 front_far 方案 A；SH01 沿用該圖並改名為 `references/scenes/coffee_shop/renders/SH01_wide_two_shot_empty_banana.png`，改名前後 SHA256 相同。從 `coffee_shop_vines_refined_v3.blend` 補渲染 SH02～SH09 底圖（1920×1080、Cycles CUDA／96 samples），再各用底圖＋`clp/loc_esg_coffee_shop_front_far.jpg`，經 Vertex JSON／global／`gemini-nano-banana-2.1` 生成。九張正式成品均為 `renders/SH*_empty_banana.png`、2752×1536 RGB；原九張 GPT 保持 `_empty_gpt.png`。已逐張看圖、完整解碼及確認 27 個總覽連結，主要取景與空景成立；SH02 藤蔓增密，SH03 新增小盆栽，SH05 新增窗邊杯具，掛畫／機器細節仍有 AI 差異，未宣稱跨鏡幾何完全一致。SH05 初版窗外疑似人形，補充無人窗外要求修正一次，初版保留 `.tmp/coffee_banana_SH05_first_with_window_shape.png`；SH06 先遇 OAuth timeout、再遇 429，兩次無圖／無用量回傳，後續原參數補送成功。八張採用圖估 US$0.44025，含 SH05 初版合計 US$0.4947435，未核帳；SH01 未重生。腳本 `.tmp/finish_coffee_banana.py`、請求及用量 `.tmp/coffee_banana_SH*_result.json`；九張 GPT、SH01 與來源 blend 共 11 個 SHA256 均不變。既有 `renders/banana21/SH01_two_methods_comparison.html` 已補九張總覽及 Blender／GPT 對照連結，保留 SH01 A/B 比較；舊 A 請求 `.tmp/sh01_banana21_A_front_far_result.json` 記錄新檔名，B 與歷史試圖保留。未推進整體 assets 核准。
-- **2026-10-12 咖啡館參考材質／藤蔓修正版，待人工比對**：以 `clp/loc_esg_coffee_shop_front_far.jpg` 調整既有模型木紋、墨綠牆、窗框、瓷器與金色窗光；另存 `references/scenes/coffee_shop/coffee_shop_reference.blend`，輸出 `renders/coffee_shop_front_far.png`（兩者皆位於咖啡館場景包內；2752×1536，Blender 5.2.2／Cycles CUDA／160 samples，外部費用 US$0）。已看圖、重新載入 blend 並確認無缺貼圖，原檔雜湊不變；木紋細節、家具比例與光斑仍不同，未宣稱與 CLP 一模一樣，未推進整體 assets 核准。最新依使用者要求另存 `coffee_shop_vines_refined.blend`：246 片方塊藤葉替換成有曲率的心形葉、細圓藤枝／葉柄，加入四種綠色、薄葉透光與暖色補光；只渲染 `renders/SH01_wide_two_shot_empty_vines_refined.png`（1920×1080，Cycles CUDA／96 samples，約 52 秒）。v1 可見葉面明暗與投影，但使用者指出鼓厚、葉形重複，未通過外觀評鑑；重新載入確認 32 個機位名稱不變、舊藤蔓在副本隱藏、新集合正常，來源 blend SHA256 不變。腳本 `.tmp/refine_coffee_vines.py`；未渲染其餘八張、未做 Banana 再生成，無外部費用。最新 v2 另存 `coffee_shop_vines_refined_v2.blend` 與 `renders/SH01_wide_two_shot_empty_vines_refined_v2.png`：改為 204 片無加厚的薄面葉，長寬、不對稱、折彎／下垂與朝向各有變化，疏開排列、降低材質光滑度；SH01 1920×1080／96 samples 約 50 秒。已看圖確認鼓起愛心輪廓消除，仍為程序化植物，待使用者評鑑；重新載入確認 7 組薄葉與 32 機位，來源 SHA256 不變，v1 保留。使用者接受 v2 葉形，要求補枝條及左牆掛畫厚度減半；已另存 `coffee_shop_vines_refined_v3.blend`／`renders/SH01_wide_two_shot_empty_vines_refined_v3.png`，SH01 1920×1080／96 samples 約 48 秒。v3 保留 204 片葉網格，主藤／側枝／葉柄分別使用 6／4／2.8mm 基礎半徑並逐段收細，共 7 條主藤、178 條側枝（含 46 條短分枝）及 204 條葉柄；左牆 `Side botanical frame` 深度由 85mm 精確減至 42.5mm，靠牆面及寬高不變，畫面同步向牆移動。已看圖、重開 blend，逐葉頂點雜湊與 v2 一致、32 機位相同、框深比值 0.5；原檔及前版保留，無外部費用。
-- **Remote 與分支**：`origin` = upstream `calesthio/OpenMontage`；`team-fork` = `kwanjuntyan/OpenMontage`。日常開發在 `lean`，push 到 `team-fork lean`。舊複雜版在 `team-main`（tag `archive/complex-v1`）。同步 upstream 用 `git switch main; git merge --ff-only origin/main; git switch lean; git merge main`。
-- **2026-10-11 場景結構精整與投資辦公室場景包建立**：建立 `references/scenes/investment_office/`（導入 `investment_office.blend` 36.2MB 及 cameras/layouts/renders 目錄）；將 `references/camera/` 53 張歷史截圖完整移至 `archive/legacy_dropbox_cameras/`。
-- **2026-10-11 Shot 2.1.6 零文字干擾實測完全成功**：證實「場景視覺資訊充分，零文字位置干涉原則」。澈底刪除 Prompt 內「無桌椅」干擾字句並清除 2D 圖誤導標籤後，Nano Banana 2.1 生成 `projects/esg-whole-course/assets/images/shot_2_1_6_banana.png`（2K，US$0.059）；George 與 Amy 坐椅（Windsor chair）完整重現、窗戶古怪橫木消失回歸自然採光大木窗、立柱植物畫與 60mm OTS 透視景深完美成立。
-- **2026-10-11 咖啡館 Blender 座標匯出與 2D/3D 中繼**：完成 `coffee_shop.blend` 雜物排除、Blender 世界座標匯出（`.tmp/scene_exact_coords.json`）、31 組機位圖與 CLP 套裝道具登記，`scene_plan.json` 綁定機位通過 schema 驗證。
-- **2026-10-10 咖啡館 Blender 3D 場景包與機位人物中繼完成**：建立 `references/scenes/coffee_shop/`；匯入 `coffee_shop.blend`，建立 `cameras/`（31 張角度圖）、`layouts/` 與 `renders/`；產出 `scene_camera_char_meta.json` 登記 31 組機位、角色 Block 命名色標及家具道具規範。
-- **2026-10-10 Shot 2.1.5 W2I 雙場景實測**：依 Asset Director 與 W2I 配方（白模→front+left_far雙場景→George→杯碟共五圖），使用 Vertex JSON／global／Nano Banana 2.1／2K／16:9 生成 `.tmp/shot_2_1_5_w2i.png`（2752×1536），估約 US$0.0607。George 右手食指引導手勢精確成立，左側大窗、中央綠柱植物畫與右側第二扇窗幾何完美對齊白模。
-- **2026-10-10 Shot 2.1.4 W2I 實測**：依 Asset Director 與 W2I 配方，Vertex JSON／global／Nano Banana 2.1／2K／16:9 生成 `.tmp/shot_2_1_4_w2i_v2.png`（2752×1536），特寫取景與人物佔位忠實對齊白模。
-- **2026-10-11 咖啡館 CLP 視角替換與同步**：將 `clp/loc_esg_coffee_shop_left.jpg` 換為 `v1`（全景母圖）；將 `clp/loc_esg_coffee_shop_left_far.jpg` 同步為 Dropbox 原版超廣角圖（含吧台），兩圖均與 Dropbox 同名資產一致。
-- **2026-10-10 kj-cinematic assets 自足化與 W2I 配方整理**：移除上游 Asset Director 繼承，補音訊先行、八類 `prompt-recipes.md`；CLP 共用描述修正通過 schema；W2I 確立五段結構與素材分工。
-- **2026-10-09 ESG 2.1.3～2.1.5 探索歷程**：早期 R2I 測試曾遇白模綠牆材質污染與角度漂移；後續轉向 W2I 實測驗證，發現單一鏡頭需平衡白模取景與場景幾何。
-- **2026-10-10 scene_plan.schema.json 擴充 render_stages**：在 `scenes.items.properties` 局部新增 `render_stages`（枚舉限定八大模態：T2I/I2I/R2I/W2I/T2V/I2V/R2V/W2V），已通過離線 schema 驗證與非破壞相容性測試。
-- **2026-10-09 ESG 完整課程五幕劇本與 32 件 CLP 資產清單就位**：在 `projects/esg-whole-course/` 完成全套劇本（222 分鏡／1,631.62 秒真實錄音校準）。正式產出 `artifacts/clp_manifest.json`，完整登記 10 位角色、8 大場景、14 件關鍵道具，綁定 5.5K 實體圖檔並完成出場分鏡自動標註，100% 通過 `clp_manifest.schema.json` 驗證；花費 US$0。
-- **2026-10-09 童話 HyperFrames 側欄階梯排版**：右側半透明磨砂欄加寬 20%（288px）並全程常駐；段落標題階梯式依序累積出現不消失、新段落出現時前段自動降低亮度；完成 1080p／30fps／40.1 秒渲染 (`renders/frog_and_scorpion_hyperframes.mp4`)，關鍵幀抽樣檢查通過；無額外費用。
-- `AGENTS.md`：開發原則與協作方式；`CLAUDE.md`、`CODEX.md` 等都指向它。**2026-10-11** 依使用者核准原文新增「既有專案的局部修改與續作」六點，明定中途介入沿用原 pipeline、限制修改／探索範圍並保留既有製作程序；僅完成文件一致性檢查，未驗證 Agent 實際遵循，未改 `AGENT_GUIDE.md` 或新增 Python／核准關卡。
-- **2026-10-08 開發規則精修**：使用者同意將高推理用於找根因與縮小修改範圍；區分開發／影片製作，按修改內容做最小驗證，驗收通過即停止。既有大檔允許局部修改，已授權範圍不重複詢問；上游影片製作關卡、花費與 commit／push 規則保留。
-- 自訂風格：`styles/custom/kj-esg-pixar-hybrid.yaml`、`kj-vox-paper-collage.yaml`。prompt 前綴在 `asset_generation.image_prompt_prefix`，用 `styles.playbook_loader.load_playbook()` 讀。
-- **kj-cinematic pipeline**：`pipeline_defs/kj-cinematic.yaml`（= upstream cinematic + `clp` stage，在 script 與 scene_plan 之間）。
-  - `schemas/artifacts/clp_manifest.schema.json`（寬鬆）。
-  - skills：`skills/pipelines/kj-cinematic/clp-director.md`、`scene-director.md`、`asset-director.md`；scene 仍繼承 cinematic，assets 自足並搭配 `prompt-recipes.md`，共用既有工具與製作 checkpoint。
-- `tools/graphics/google_imagen.py`：`gemini-3*` 與 `gemini-nano-banana-*` 模型自動走 Vertex `global` 區域。
-- **2026-10-08 Google 更新**：共用 SDK、Imagen、Cloud TTS 改用服務帳戶 JSON；Google 模型預設直接工具，Veo 不自動改走 fal。
-- Omni 預設 `gemini-omni-1.1-flash-preview`：整數 3–10 秒、首尾幀、圖片／影片參考、360p/720p/1080p/4k、編輯／延長、interaction state；預設 inline MP4，可指定 GCS 輸出。
-- **Omni 介面精簡**：素材只用 `reference_image_path(s)`、`last_image_path`、`reference_video_paths`、`input_video_path`，同欄位接受本機或 `gs://`；續接用 `previous_interaction_id`。刪 URL 欄位及其他素材別名，冪等欄位同步縮減；Omni 只用 `edit_video`，共用 selector 保留其他供應商的 `video_edit`。
-- Gemini TTS 使用 Vertex `global` 的 `generateContent`：3.8 Flash／Flash-Lite、單人／雙人、逐句風格；僅 Gemini 限定 WAV，共用 selector 保留供應商格式與 Azure 轉換。`list_voices` 直接呼叫 `voices.list()`，不提供 search/page_size/page_token/voice_types。
-- **執行環境**：使用 `.venv/Scripts/python.exe`；已安裝 `google-genai 2.25.0`、`google-auth 2.61.0`，專案 `pip check` 通過。
-- **使用者決定**：OM 不需遷就共用環境的 `google-cloud-aiplatform`／`langchain-google-genai`；目前程式與依賴清單未使用它們，專案 `.venv` 亦未安裝。OM 只維護專案環境，升級依 OM 需求，不維持這兩個舊套件的相容性。
-- **離線驗證通過**：`.tmp/google_upgrade_smoke.py` 使用真實 SDK 序列化＋模擬 HTTP，驗證 JSON 認證、TTS／圖片、Omni 參數及 selector；WAV／MP4 可讀。付費實測結果見下。
-- **Gemini 3.8 TTS 實測通過**：Vertex JSON＋`tts_selector` 成功列出聲音、生成單人中文 6.52 秒及雙人中文 5.20 秒 WAV；24 kHz／16-bit／單聲道，FFmpeg 完整解碼與非靜音檢查通過。輸出 `.tmp/vertex-tts-single.wav`、`.tmp/vertex-tts-duo.wav`；尚未人工聽審。
-- **Omni 1.1 實測通過**：使用者改選 Amy 後，`video_selector`＋Vertex JSON＋人物／會議室參考圖成功產出 `.tmp/vertex-omni-amy.mp4`；影片 5.000 秒、1280×720、24 fps，含 AAC 音訊（容器 5.035 秒），完整解碼及首／中／尾抽幀通過。這是唯一生成的影片，首尾幀輸入／編輯／延長仍僅離線驗證。
-- **Nano Banana 2.1 已加入**：指定 `model="gemini-nano-banana-2.1"`，由 `image_selector` 直接路由 `google_imagen`，使用 Vertex JSON／global；支援既有生圖、參考圖編輯及 1K/2K/4K 參數。預設模型不變，沿用 genai 2.25.0，未另裝套件。
-- **Nano 實測**：兩次相同純文字請求成功，已檢視草圖的繁體中文 ESG 字卡文字正確；第二次保存全部回應，修正草圖誤取後離線重播得到原始正式圖 `.tmp/nano-banana-21-final.png`（2752×1536，2K 級，非本機放大）。兩次各回報輸入 127、圖片輸出 1680 tokens，依官方單價合計估 US$0.101181，未核對帳單；本輪上限 US$0.20。參考圖編輯僅離線驗證，未實測 1K/4K 或角色一致性。
-- **圖片參考媒體介面已精簡（尚未付費實測）**：原 video_paths/video_uris/pdf_paths/pdf_uris 合併成 `media_paths` 陣列，本機讀檔、`gs://` 用 `from_uri`，MIME 依副檔名判斷；可混合原有圖片參考，沿用 Vertex JSON／global、genai 2.25.0。
-- 有參考素材時用 `generation_mode="edit"`；例如 `model="gemini-nano-banana-2.1", media_paths=[".tmp/vertex-omni-amy.mp4", "gs://bucket/reference.pdf"]`、`video_metadata={"start_offset":"0s","end_offset":"3s","fps":2}`。metadata 只附加於影片，未提供影片時不附加；長度與容量限制由供應商處理。
-- `thinking_level` 可選 `MINIMAL`／`MEDIUM`／`HIGH`；Nano 的 `aspect_ratio` 支援 15 種，依 width/height 推算時亦使用完整比例。已刪「非 Nano 不可用」與「video_metadata 需要影片」檢查；其他模型是否支援須由 API 回應確認，移除本機限制不代表已實測相容。
-- **進階離線 smoke 通過**：`.tmp/nano_banana_media_smoke.py` 使用真實 SDK＋模擬 HTTP，確認 media_paths 的本機／GCS 影片與 PDF、混合圖片、起訖／FPS、推理等級、15 種比例及移除限制後的請求；產出可讀 PNG。8 次模擬請求、0 次真實請求；搜尋與多輪編輯未加入。
-- **MiniMax／海螺 TTS 已接入**：使用者指定國際版，`minimax_tts` 固定連接 `https://api.minimax.io/v1/`，目前僅開放 `speech-2.6-hd`，也是預設模型；使用 `MINIMAX_API_KEY`，沿用現有 requests，未安裝新套件。Google 仍使用 Vertex JSON。
-- `tts_selector` 可指定 `preferred_tool="minimax_tts"`，或用 `model_id="speech-2.6-hd"` 路由；支援既有 Voice ID、`speed`（0.5–2）、`volume`（大於 0 至 10）、`pitch`（整數 -12 至 12）、`emotion`、`language_boost`。經 selector 或直接呼叫均可選 WAV／MP3；輸出固定 32 kHz／單聲道，`output_path` 副檔名須一致。
-- **MiniMax 人工校準 baseline 已保存**：`config/minimax_voice_baselines.json` 匯入 Excel 的 7 個角色；綁定供應商 `minimax`、模型 `speech-2.6-hd` 及各自 Voice ID。別名：`wang/chen/linda/li/george/amy/biao`，語速依序為 `1.2/1/1/1/1.05/1.2/1`。來源：`D:/Dropbox/_AI動畫製作_ESG/A2_聲音庫/ESG_人物語音參數表.xlsx`，未複製金鑰。
-- 呼叫 `tts_selector.execute({"voice_baseline":"amy", "text":"台詞", "output_path":".tmp/amy.wav"})`，自動路由 MiniMax 並帶入模型、Voice ID、語速；可加 `speed=1.1` 單次覆寫，不改 JSON。明確換成其他 Voice ID 時不沿用原 baseline 語速；省略 speed 即用工具預設 1.0。baseline 只由 MiniMax 工具讀取；已移除設定檔 provider 檢查與 selector 的跨供應商報錯。
-- `operation="list_voices"` 可搭配 `voice_type="all"/"system"/"voice_cloning"/"voice_generation"`；生成費用保持 `unquoted`，不冒稱免費。模型價格／首次使用聲音的費用，須於真實合成前確認。
-- **MiniMax 離線 smoke 通過**：`.tmp/minimax_tts_smoke.py` 驗證 registry 自動發現、selector 路由、官方請求規格、列出聲音、Amy 參數／停頓、WAV／MP3 寫入及 FFmpeg 解碼；參數／HTTP／API 錯誤直接拋出，沒有重試或切換供應商。6 次模擬 HTTP、0 次真實呼叫、US$0；輸出為本機測試音，非生成語音。
-- **MiniMax baseline 歷史驗證**：7 個角色的路由、模型／Voice ID／語速對應、覆寫不改檔、換聲音不沿用語速曾通過。本輪 `.tmp/minimax_tts_smoke.py` 的 WAV／MP3 均經 selector，WAV 使用 Amy baseline；舊 `.tmp/minimax_baseline_smoke.py` 含已刪除的跨供應商報錯斷言，本輪未跑。
-- **MiniMax Amy 實測通過**：使用者已在 `.env` 設定 `MINIMAX_API_KEY`，國際版 `get_voice` 成功找到 Amy 的既有 clone；授權本輪測試並同意 4 個檔案。`tts_selector`＋`voice_baseline="amy"` 自動帶入 1.2 倍語速，唯一一次生成 `.tmp/minimax-amy-baseline.wav`：7.4705 秒、32 kHz／16-bit／單聲道，FFmpeg 完整解碼、非靜音通過（平均 -19.3 dB、峰值 -3.9 dB）；使用者已確認試音成功並核准 commit。
-- 本次 Amy 試音事前估低於 US$0.01；API 回報 `usage_characters=79`，按 [官方 speech-2.6-hd 價格](https://platform.minimax.io/docs/pricing/overview) US$100／百萬字元估 US$0.0079，未核對帳單。請求／結果記錄在 `.tmp/minimax-amy-result.json`；其他 6 個聲音尚未逐一連線試音，未 clone／重試／安裝套件。
-- **童話專案實測通過（`projects/frog-and-scorpion/`）**：`kj-cinematic` pipeline；Google TTS `gemini-3.8-flash-tts`（Kore）4 段旁白 WAV（40 秒）；CLP 3 實體通過；Agent Native 生成 4 張 16:9 皮克斯畫面；成功完成 FFmpeg 平滑版與 HyperFrames 成品版（Chrome + GSAP 30fps，皮克斯金色動態標題 + 磨砂篇章字幕卡 + GPU 浮點運鏡）渲染出片 (`renders/frog_and_scorpion_hyperframes.mp4`)。
-## 驗證過的流程（測試專案 `projects/esg-act1-kj/`，未 commit）
-- CLP 匯入現成圖並看圖改寫描述：6 張 ✅
-- CLP 自行寫 prompt 生圖（Nano Banana Pro）：2 張 ✅
-- **2026-10-08 分鏡已核准**：主管通話採辦公室（測試沿用 `amy_office`），s01 倫敦外景不列 CLP。
-- 使用者要求僅生成 **1 段影片，其餘用圖片**；已生成唯一一段 Amy 技術測試片，保存在 `.tmp/`，未冒充 Harrison 的 s04；專案 assets 仍為 `in_progress`。
-- 已準備 s04 Harrison 提問的約 5 秒樣片；其餘預計重用 6 張情境圖。腳本 `.tmp/esg_smoke.py`。
-- **2026-10-08 實測授權**：使用者授權 Omni／3.8 TTS 驗證合計 US$3，明確允許人物／會議室參考圖與提示詞送至 Google Vertex AI，後續明確指定改用 `clp/amy.jpeg` 取代 Harrison；沙箱網路需升權。
-- **Harrison 參考圖未通過**：Omni HTTP 400 `prohibited_content`，Google 判定輸入涉及知名人物。未產出影片；使用者改選 Amy 後，同模型／參考圖模式成功，不代表 Harrison 素材問題已解除。
-- `.tmp/google_live_smoke.py` 保存請求／結果；兩次 400 留存 `.tmp/vertex-omni-error-01.json`、`-02.json`。Amy API 用量為輸入 2386、影片輸出 28960、推理 524 tokens，按官方單價估 US$0.515095。TTS 未回報用量，整輪費用估低於 US$0.60，實際帳單未核對；失敗結果的 `cost_usd=0` 不是帳單證明。
-- 輔助腳本在 `.tmp/`：`seed_esg_act1_kj.py`、`gen_clp.py`、`write_clp.py`、`write_scene_plan.py`、`approve_clp.py`。
-## 踩過的坑
-- **咖啡館白模、窗光與人物可見性**：原 blend 使用 Workbench，切 Cycles 才顯示既有材質；中央桌面另有白模專用材質。窗外樹冠與玻璃影響直射窗光，須檢查光線遮擋與主光／補光比例；本次只在另存版恢復木桌、關閉窗玻璃及大道樹木的陰影可見性並調光，樹木仍可見，未移動原幾何。人物集合 `12 v008...`／五官集合 `13 v009...` 都位於 `07 People` 下；僅開啟子集合仍會被母集合 `hide_render` 隱藏。人物版腳本已同步開啟母集合，以 SH01 實際看圖確認藍／紅人物出現。藤蔓菱形輪廓來自實際方塊幾何（約 4.4cm 厚），單改綠色材質不會改變輪廓；已在獨立修正版替換成薄曲面葉片。v1 雖只加厚 0.6mm，中央仍隆起葉長的 10%，配合同一對稱愛心與平滑明暗而顯得充氣；v2 移除中央鼓包及加厚，改用沿葉脈的薄面折彎和多種輪廓比例。v2 主藤與葉柄同為 4mm 直徑，遠景不易辨識；v3 分級粗細並補側枝，葉片本身不變。
-- **R2I 幾何與材質仍可能互相污染**：只寫「依白模視角」不足；指定牆腳、畫框上下邊、木條間距朝同一消失方向收斂可改善背景，但本輪仍出現白模綠牆被當成材質、Amy被生為正臉。現行2.1.5新增全牆／柱包覆原木的正向描述，受認證逾時影響尚未驗證；未宣稱全鏡一致性通過。SH01 彩色 Blender → Banana I2I 的 v1 將細部幾何保留得過強，可能限制美術替換；v2 放寬限制並指定替換方塊藤葉後仍留菱形葉，僅文字修正未解決本例，不能因地板／配件改善就通過背景驗收。 空景也要檢查窗外與玻璃倒影：本輪 SH05 首版出現疑似人形，指定窗外為無人的空店面與建築反射後消除，但仍增加窗邊杯具，不能宣稱零新增配件。
-- **W2I 圖文職責衝突**：Shot 2.1.3 曾出現窗區木板化與杯子提前落碟。2026-10-10 v3 實測保留人物外觀、部分玻璃窗／綠意及右手持杯，但右後方新增梳背椅與牆面、窗區改變，頭部比白模大、頭頂留白減少，杯底離碟空隙偏小，首幀未完全通過。驗收曾漏掉佈景偏差；新版 W2I 從場景元素關係與鏡位轉換編寫通用保留要求，不逐項把案例禁令加入 skill，v5 實測局部改善佈景與杯底空隙，但原文指定右手仍生為左手，最右木牆／掛畫仍帶入，不能因文字規則齊全就判定驗收通過。v6 直接辨識／保留指令及左右手消歧後，右手正確、杯底空隙保留，但右窗區變成木牆、窗格及白模取景仍未過；每版一張且場景規則與手部文字同時調整，不能單獨歸因。首輪被 sandbox 網路限制擋在 OAuth（WinError 10013），未送生圖；取得網路權限後同一請求成功，錯誤另存 `.tmp/shot_2_1_3_w2i_v3.oauth-error.json`，未換認證／模型。George manifest 已依實圖修正棕色背心、奶油色襯衫、深棕領帶／長褲、方框眼鏡、銀灰髮／白色短鬍鬚，移除固定表情與性格；schema 驗證通過，實體與參考圖未改。
-- **assets 指引載入與維護落差**：上游未提供完整 Audio-First，已移除 YAML 的上游 required_skill 並接通 TTS；四圖需求不能沿用舊三圖上限。Director／Recipe 曾重複維護細則，且「只交代職責」與 CLP 摘錄衝突、R 類混入白模條款、W2I 一律當首幀；現已按工序／配方分工，改為省略多餘空間定位、R 類依分鏡、獨立 W2I 呈現指定瞬間。2026-10-10 再修正「刪除與素材不符指令」的歧義：依素材職責判斷，本鏡指定表演與白模／CLP 展示姿態不同不算衝突。八類索引後直接接共用五段式，容易讓 T／I／R 也套 W 模板；現已分節並提供各自範本，以章節讀取工具輸出當前配方，避免先讀八類全文；它不清除已讀上下文。場景通則曾混入窗牆等具體設定，現已改為依經核對的 CLP 保留，I2I 的明確修改另按本次要求。後半部只詳述 W2I→W2V 交接，其他多步組合與交付適用範圍不夠清楚；現已補共通交接、W2V 特例及圖片／影片驗收差異，未新增核准關卡。本輪另修正 W2I 將原五段縮成工序摘要、白模職責過度縮窄的問題：恢復原 Prompt 結構、分鏡欄位、完整風格與輸出要求，以使用者原例文字裝配核對。上述僅離線驗證，未生成。 W2I 曾把十項設計選項全數當作送出欄位、抄入過長 CLP 摘錄；已分開設計選單與引擎範本，要求 Agent 取捨、省略及合併，未以精簡篇幅宣稱品質提升。本輪將 W2I 素材核對與引擎規則分開：Agent 不需轉寫整個場景，僅具體歧義補短句；第三段直接要求引擎辨識並保留構件造型、分割、連接與相對位置，沿用白模鏡位，僅離線核對。
-- **MiniMax 情緒與音訊格式**：`speech-2.6-hd` 支援 `happy/sad/angry/fearful/disgusted/surprised/calm/fluent/whisper`；用 `emotion` 指定整次合成，省略則由模型決定。Excel 的 `(happy)` 等標記不自動解析，`Neutral` 不是 API 列舉值；多種情緒請分句呼叫，`<#0.4#>` 停頓原樣傳送。API 的 `output_format="hex"` 是傳輸編碼，WAV／MP3 則放在 `audio_setting.format`，回傳用十六進位解碼。
-- **PowerShell**：不要用 `python -c` 塞複雜引號，改寫成 `.tmp/*.py` 再跑；跑之前設 `$env:PYTHONPATH=(pwd).Path; $env:PYTHONIOENCODING="utf-8"`；主控台中文顯示亂碼不代表檔案壞了。
-- **Nano Banana Pro**：`google_imagen` + `model="gemini-3-pro-image"`；參考圖用 `image_paths`（本機路徑最多 14 張）配 `generation_mode="edit"`；不支援 `negative_prompt`，要避免的寫進 prompt（`Avoid: ...`）；報價估計值：2K 約 US$0.13／張，4K 約 US$0.24／張。
-- **Vertex 憑證**在 `.env`；獨立腳本要先 `load_dotenv()`。共用 client 明確載入 JSON；不再因環境裡有 API key 就改走 AI Studio。 本次 Banana 批次曾在 OAuth 連線逾時，補送時回 429 RESOURCE_EXHAUSTED；錯誤各保留於 `.tmp/coffee_banana_SH06_auth_timeout.json`／`coffee_banana_SH06_resource_exhausted.json`，待其他請求完成後同參數成功，未改認證或增加重試框架。
-- **Nano 2K 草圖誤取已修**：真實 SDK 請求已送 `imageSize=2K`，回應依序含 `thought=true` 的 1376×768 草圖與 2752×1536 正式圖；舊碼遇第一張即停止，現在略過 thought 圖。`.tmp/nano_banana_smoke.py offline` 可重現修前失敗／修後通過，`.tmp/nano_banana_replay.py` 用保存的真實圖驗證，不再付費。新模型 ID 沒有 `image` 字樣，selector 路由亦已補上；費用按 tokens，保持 `unquoted`，不套舊固定單張價。
-- **SDK 離線測試注意**：2.25.0 的巢狀媒體／思考欄位保留 snake_case，二進位使用 URL-safe Base64；測試原先誤設 lowerCamelCase／一般 Base64，已依實際序列化及 ProtoJSON 規格修正，未修改 SDK 或另加轉換層。新功能的 Google 端接受度與生成品質仍待實測。
-- **Omni 根因已修**：upstream 10/4 台北版仍是舊模型、只讀 API key、duration 僅估價；新版改用 Vertex REST 與 `response_format.duration`（如 `5s`）。費用估算隨解析度計算影片輸出，輸入／推理 token 另計。
-- **Omni HTTP 錯誤明細**：`raise_for_status()` 原本只留下 400 狀態碼，已補回 Google 回應本文，才能區分參數錯誤與內容過濾；實測動畫參考圖也可能觸發知名人物過濾，不繞過。
-- **SDK 依賴歷史**：2.25.0 要求 google-auth ≥2.56；先前為共用環境的 aiplatform／LangChain 限制，曾恢復共用套件至 1.65.0／2.48.0，新版裝在專案 `.venv`。使用者後續決定不再遷就這兩個舊套件；共用環境原有 gtts/click 衝突未動。
-- **Vertex 媒體**：不使用 AI Studio Files API；本機圖片／影片送 inline data，GCS 使用 URI。URI 輸出要提供 `gcs_uri`，否則使用 inline。
-- **`write_checkpoint`** 要求前面的 stage 都是 completed 且已核准；寫入時會用 schema 驗證 artifact。
-- **scene_plan** 的 scene 物件 `additionalProperties: false`：CLP 標註放在 `required_assets` 項目（可加 `clp_id`）和 `character_actions[].character_id`。
-- **asset_manifest** 的 asset 物件也不能加欄位：CLP 記在 `generation_summary` 開頭，格式 `clp: amy, ... | ...`。
-- **共用 selector 不套用單一工具限制**：先前誤刪通用 `video_edit` 並把所有 TTS 限為 WAV；已恢復影片操作、通用格式與 Azure 轉換。已刪除失效的 Veo `test_backend_auto_detect`；只跑指定 3 支離線 smoke。
-- 舊專案 `projects/esg-act1-crisis/` 是複雜版格式，不要還原或混用。
-- **Windows Backlot MIME 陷阱**：Windows 登錄檔易將 `.js` 誤註冊為 `text/plain` 導致 ES Module 被拒呈黑畫面；已在 `backlot/server.py` 加入 `mimetypes.add_type` 並更新檔案 mtime 破除 304 快取。
-- **FFmpeg 單圖 Ken Burns 抖動陷阱**：禁止在 zoompan 前加 `-loop 1`（會引發影格衝突重算），且須先升至 4K（3840×2160）超採樣再縮回 1080p，搭配 30fps 徹底消除子像素截斷抖動。
-- **白模與文字位置衝突陷阱**：Prompt 內若包含「居中偏左、右側留出呼吸空間、嚴禁遮擋」等文字空間約束，模型會將文字負面約束置於白模之上，強行把角色擠到左側、拉長桌子並抹除前景角色。應遵守「白模管幾何構圖，Prompt 只管表演材質」的零位置干擾原則。
-- **場景參考圖視角干擾陷阱（View Hijacking）**：非本鏡頭朝向的全局場景圖（如 `front.jpg` 面向底部木牆）會強行劫持生圖模型的相機透視，導致整間店旋轉 90 度（大窗被甩至側邊、走道多出切斷長桌、背後換成木壁板）。特寫/過肩鏡頭只應傳入視角與本鏡朝向一致的場景圖（`left.jpg`），避免跨軸向視覺污染。
-- **特徵擠壓陷阱（Feature Packing）**：特寫鏡頭傳入全局 2D 拓撲圖會導致模型硬塞深處物件（窗格碎裂、多生掛畫）。**解法**：裁切為「局部拓撲圖（Local Crop Schematic）」排除視錐外幾何。
-- **空椅入座陷阱（Occupy vs Spawn）**：I2I 置入人物若寫「保留所有桌椅」，模型會鎖死空椅另造新椅入座導致雙胞。**解法**：寫「直接坐入既有木椅（入座佔用，不額外加椅）」，即可精確融合。
+> 給接手的 agent（Claude / GPT / Gemini）。開始前先讀完；做完一段工作後更新本檔（保持 100 行內）。歷次逐鏡生圖與 Blender 精修流水帳已完整歸檔於 [`docs/kj-lean-history.md`](kj-lean-history.md)。
+
+## 分支、環境與專案結構
+- **Remote 與分支**：`origin` = upstream `calesthio/OpenMontage`；`team-fork` = `kwanjuntyan/OpenMontage`。日常開發在 `lean`，push 到 `team-fork lean`。舊複雜版在 `team-main`（tag `archive/complex-v1`）。同步 upstream：`git switch main; git merge --ff-only origin/main; git switch lean; git merge main`。
+- **開發與協作規則**：見 [`AGENTS.md`](../AGENTS.md)（`CLAUDE.md`、`CODEX.md` 等均指向它）。含「既有專案的局部修改與續作」六點，以及「少碰原始檔、單點插入、一題一 Commit」原則。
+- **執行環境**：統一使用 `.venv/Scripts/python.exe`（已裝 `google-genai 2.25.0`、`google-auth 2.61.0`，`pip check` 通過）；不遷就未使用的 `google-cloud-aiplatform`／`langchain-google-genai`。
+- **`projects/` 資產庫**：透過 Windows Junction 指向 `D:\Dropbox\kj-om-projects`，根目錄保留五大專案：`course-51-esg`、`course-31-pdca`（收納 8 章節與批次腳本）、`client-01-foxconn-core-values`、`fairytale-01-frog-and-scorpion`、`fairytale-02-mole-stargazer`。團隊建置步驟見 [`docs/team-setup.md`](team-setup.md)。
+
+## 核心 Pipeline 與已接通工具
+- **`kj-cinematic` pipeline**：[`pipeline_defs/kj-cinematic.yaml`](../pipeline_defs/kj-cinematic.yaml)（在 `script` 與 `scene_plan` 間加入 `clp` 階段，產出 `clp_manifest`）。
+  - Schema：`schemas/artifacts/clp_manifest.schema.json`；`schemas/artifacts/scene_plan.schema.json` 擴充 `render_stages`（枚舉 `T2I/I2I/R2I/W2I/T2V/I2V/R2V/W2V`）。
+  - Checkpoint／Backlot：`lib/checkpoint.py` 與 `backlot/state.py` 已註冊 `clp` 階段與 `clp_manifest.json`（2026-10-16 A1 完成）。
+  - Skills：`skills/pipelines/kj-cinematic/clp-director.md`、`scene-director.md`、`asset-director.md`（音訊先行＋模態調度＋4.1 圖片版本與採用規範）與 `prompt-recipes.md`（由 `scripts/read_prompt_recipe.py <模態>` 按章節讀取，避免一次讀全文）。
+  - 自訂風格：`styles/custom/kj-esg-pixar-hybrid.yaml`、`kj-pixar-fairytale.yaml`、`kj-vox-paper-collage.yaml`。
+- **Google 模型（固定預設 Vertex AI＋`GOOGLE_APPLICATION_CREDENTIALS` 服務帳戶 JSON，不 fallback API key）**：
+  - **圖片（`google_imagen`）**：`gemini-3*` 與 `gemini-nano-banana-2.1` 自動走 `global`；支援 `generation_mode="edit"`、`1K/2K/4K`、`thinking_level`（`MINIMAL/MEDIUM/HIGH`）、15 種 `aspect_ratio`、最多 14 張 `image_paths` 及 `media_paths`（本機或 `gs://` 影片／PDF）與 `video_metadata`。
+  - **影片（`gemini_omni_video`）**：預設 `gemini-omni-1.1-flash-preview`（`global` Interactions REST），支援整數 3–10 秒、360p/720p/1080p/4k、`reference_image_path(s)`、`last_image_path`、`reference_video_paths`、`input_video_path`、`edit_video`/`extend_video` 與 `previous_interaction_id`。`veo_video` 預設直接走 Google Vertex。
+  - **語音（`gemini_tts`）**：預設 `gemini-3.8-flash-tts`（`global` `generateContent`），支援單人／雙人與逐句 style，限定輸出 `.wav`（24kHz/16-bit/單聲道）。舊 `google_tts` 同樣使用 JSON 憑證。
+- **MiniMax 語音（`minimax_tts`）**：連接國際版 `https://api.minimax.io/v1/`，預設 `speech-2.6-hd`（讀 `MINIMAX_API_KEY`），輸出 32kHz 單聲道 WAV／MP3。`config/minimax_voice_baselines.json` 保存 7 角色人工校準 baseline（`wang/chen/linda/li/george/amy/biao`），呼叫 `tts_selector` 帶 `voice_baseline="amy"` 即自動路由並帶入 Voice ID 與語速。
+
+## 專案製作進度摘要（詳見 [`docs/kj-lean-history.md`](kj-lean-history.md)）
+- **`course-51-esg`**：
+  - 全五幕劇本（222 分鏡／1,631.62 秒真實錄音校準）與 `artifacts/clp_manifest.json`（33 件角色／場景／道具，綁定實體圖檔）已通過 schema 驗證。
+  - 已建置 5 組 Blender 場景包（`references/scenes/` 下的 `coffee_shop`、`investment_office`、`admin_office`、`marketing_department`、`factory_affairs`），完成機位、藍紅定位人物 blocks 與材質／細節精修渲染。
+  - 場景 2.1（咖啡館六鏡 `shot_2_1_1`～`2_1_6`）已完成九鏡重設（SH02/06/03/08/07/09）、W2I 新模板更新及多輪 GPT／Nano Banana 2.1 生成；目前確認採用版本登記於 `artifacts/asset_manifest.json`，全部 46 張試圖與完整 prompt 索引於 `artifacts/image_generation_history.md`。
+- **`fairytale-01-frog-and-scorpion`**：以 `kj-cinematic` 完成 Gemini 3.8 TTS 旁白、CLP 3 實體、4 張皮克斯分鏡圖，並完成 FFmpeg 平滑版與 HyperFrames 成品版（`renders/frog_and_scorpion_hyperframes.mp4`，1080p/30fps/40.1s，含右側常駐階梯式磨砂字幕欄）。
+
+## 踩過的坑（核心結論）
+- **Blender 場景與白模**：原檔多為 Workbench，切 Cycles 才顯示材質；開啟子集合人物（如 `12 v008...`）須同時確認母集合 `07 People` 未設 `hide_render`。全景檢查需暫時解除 timeline camera marker 綁定。修改道具／鋼架尺度須以模型公尺實測並重貼掛板、檢查前後排深度與覆蓋率。
+- **W2I／R2I 生圖與構圖控制**：
+  - W2I 唯一模板採「參考圖說明 → 生圖指引 → 單段畫面描述 → 輸出」，圖片固定按「場景 → blocks → 人物 → 道具」排序；以 blocks 為編輯底圖鎖定取景與佔位，場景圖僅供材質與光影，指定表演合併進畫面描述，不寫與 blocks 矛盾的指令。
+  - **視角劫持（View Hijacking）**：特寫／過肩鏡只傳與本鏡朝向一致的場景參考圖，勿傳反向全局圖以免整間店旋轉 90 度。
+  - **空椅入座（Occupy vs Spawn）**：I2I／W2I 置入人物寫「直接坐入既有木椅（入座佔用，不額外加椅）」，避免寫「保留所有桌椅」導致雙胞椅。
+  - **驗收紀律**：AI 生成圖常有頭部放大、頭頂留白減少或局部配件增減，須逐張看圖驗收，不能僅因文字規則齊全或檔案存在就判定通過。
+- **Schema 與 Manifest 規範**：`scene_plan` 與 `asset_manifest` 的項目皆為 `additionalProperties: false`；CLP 標註放 `required_assets[].clp_id` 與 `character_actions[].character_id`，manifest 記於 `generation_summary` 開頭（`clp: ... | ...`）。選填 `lens_mm` 若枚舉無實值則省略並記於描述。未知模型／費用省略不填 0。
+- **Google／MiniMax API 細節**：
+  - Nano Banana Pro／2.1 不支援 `negative_prompt`（改寫 `Avoid: ...`）；2K 回應含 `thought=true` 的 1376×768 草圖，adapter 已自動略過並取正式圖；費用保持 `unquoted`。
+  - Omni 1.1 遇 HTTP 400 時須看回應本文區分參數錯誤與 `prohibited_content`（知名人物過濾，動畫圖亦可能觸發）。
+  - MiniMax `emotion` 僅接受 9 種列舉值（無 `Neutral`），`<#0.4#>` 停頓原樣傳送；`output_format="hex"` 為傳輸編碼，WAV／MP3 設於 `audio_setting.format`。
+- **Windows 與合成環境**：
+  - PowerShell 勿用 `python -c` 塞複雜引號，改寫入 `.tmp/*.py` 並先設 `$env:PYTHONPATH=(pwd).Path; $env:PYTHONIOENCODING="utf-8"`。獨立腳本讀 `.env` 需先 `load_dotenv()`。
+  - Windows 登錄檔易將 `.js` 誤設為 `text/plain` 致 Backlot 黑畫面，已在 `backlot/server.py` 強制設定 MIME。
+  - FFmpeg 單圖 Ken Burns 禁止在 `zoompan` 前加 `-loop 1`，須先升 4K（3840×2160）超採樣再縮回 1080p/30fps 消除抖動。
+
 ## 下一步候選（使用者決定順序）
-- **W2I Shot 2.1.3 本輪已結案（使用者接受 v13）**：使用者決策為增加場景參考圖、採用 v8／v13 的 Prompt 寫法；暫不追加生成。已將 v8／v13 寫法同步至既有 W2I 唯一範本：第一段只說圖片內容，第三段採簡潔素材分工與保留正文；單張／多張場景共用一份範本，多張只加經核對的互補範圍。
-1. 從 `team-main` 搬回 `pixar-course` pipeline（在 `gemini/pixar-course-pipeline` 分支）。
-2. 評估是否進行投資辦公室（Act 01）或後續場景之機位與分鏡生成。
-3. 影片製作流程之 checkpoint／人工核准關卡精簡評估。
+1. 依序討論與處理專案評估項目（A3～A5）及 `projects/kj-om-openMontage修改意見.md`（B1～B5）。
+2. 從 `team-main` 搬回 `pixar-course` pipeline（在 `gemini/pixar-course-pipeline` 分支）。
+3. 評估是否進行投資辦公室（Act 01）或後續場景之機位與分鏡生成。
