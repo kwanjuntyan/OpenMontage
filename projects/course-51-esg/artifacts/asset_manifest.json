@@ -1,0 +1,77 @@
+{
+  "version": "1.0",
+  "assets": [
+    {
+      "id": "img_shot_2_1_1",
+      "type": "image",
+      "path": "assets/images/shot_2_1_1_gpt_template_v2.png",
+      "source_tool": "image_gen",
+      "scene_id": "shot_2_1_1",
+      "prompt": "參考圖說明：\n圖 1 [empty_banana_s02_medium_two_shot.png]：場景外觀參考圖。\n圖 2 [blocks_blender_s02_medium_two_shot.png]：構圖底圖。\n圖 3 [char_esg_george.png]：George 人物參考圖，對應圖 2 的藍色人物。\n圖 4 [char_esg_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。\n圖 5 [prop_coffee_cup.png]：咖啡杯碟外觀參考圖。\n\n生圖指引：\n以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、顯示範圍與遮擋關係。\n\n將定位人物替換為對應角色，只呈現圖 2 中可見的部位，不補出畫外身體。George 的外觀與服裝採用圖 3，Amy 的外觀與服裝採用圖 4，不採用其展示姿態或構圖。\n\n將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。\n咖啡杯碟的外觀採用圖 5；該圖的其他物件不參與生成。\n\n畫面描述：\n這是一張接近坐姿眼高、略微俯拍的雙人中景。George 位於畫面左側，Amy 位於右側，兩人坐在木椅上隔桌相向。畫面呈現兩人的完整頭部、上半身、伸向桌面的前臂與手部；腿部只呈現圖 2 中露出的範圍，沿用桌面的遮擋與畫面下緣的裁切。Amy 愁眉微皺，一手握著小匙，匙端仍在面前杯中的拿鐵裡，呈現攪拌時抬眼望向 George 求助的瞬間；George 神情沉著，注視 Amy 聆聽。除上述指定調整外，其餘沿用圖 2。\n\n輸出一張 16:9 彩色分鏡圖，不加入字幕。",
+      "resolution": "1672x941",
+      "format": "png",
+      "generation_summary": "clp: char_george, char_amy, loc_coffee_shop, prop_coffee_cup | W2I | 場景外觀依空景、人物構圖依 blocks、外觀依 CLP；2026-10-13 使用者確認採用 shot_2_1_1_gpt_template_v2",
+      "provider": "OpenAI"
+    },
+    {
+      "id": "img_shot_2_1_2",
+      "type": "image",
+      "path": "assets/images/shot_2_1_2_gpt_template_v1.png",
+      "source_tool": "image_gen",
+      "scene_id": "shot_2_1_2",
+      "prompt": "參考圖說明：\n圖 1 [empty_banana_s06_amy_medium_close_up.png]：場景外觀參考圖。\n圖 2 [blocks_blender_s06_amy_medium_close_up.png]：構圖底圖。\n圖 3 [char_esg_george.png]：George 人物參考圖，對應圖 2 的藍色人物。\n圖 4 [char_esg_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。\n圖 5 [prop_coffee_cup.png]：咖啡杯碟外觀參考圖。\n圖 6 [prop_sugar_jar.png]：糖罐外觀參考圖。\n\n生圖指引：\n以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、顯示範圍與遮擋關係。\n\n將定位人物替換為對應角色，只呈現圖 2 中可見的部位，不補出畫外身體。George 的外觀與服裝採用圖 3，Amy 的外觀與服裝採用圖 4，不採用其展示姿態或構圖。\n\n將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。\n咖啡杯碟的外觀採用圖 5；糖罐的外觀採用圖 6；各道具參考圖的其他物件不參與生成。\n\n畫面描述：\n這是一張接近坐姿眼高、微側拍攝的 Amy 中特寫。Amy 位於畫面中右側，完整頭部、肩膀與胸部可見，手臂及手部僅呈現圖 2 下緣可見的部分，下半身在畫外。George 只在左下角露出局部身體，頭部與臉部不入鏡。前景杯碟與糖罐沿用圖 2 的位置及下緣裁切。Amy 已停止攪拌，眉心皺起、嘴角下垂，頭部微偏，望向畫面左側的 George 訴苦，呈現焦慮與無奈；小幅攤手僅在原取景容納的範圍內呈現，肩膀與軀幹維持圖 2 的朝向。除上述指定調整外，其餘沿用圖 2。\n\n輸出一張 16:9 彩色分鏡圖，不加入字幕。",
+      "resolution": "1672x941",
+      "format": "png",
+      "generation_summary": "clp: char_george, char_amy, loc_coffee_shop, prop_coffee_cup, prop_sugar_jar | W2I | 場景外觀依空景、人物構圖依 blocks、外觀依 CLP；2026-10-13 使用者確認採用 shot_2_1_2_gpt_template_v1",
+      "provider": "OpenAI"
+    },
+    {
+      "id": "img_shot_2_1_3",
+      "type": "image",
+      "path": "assets/images/shot_2_1_3_short_v1.png",
+      "source_tool": "image_gen",
+      "scene_id": "shot_2_1_3",
+      "prompt": "圖 1 是 blocks，圖 2 是同鏡空景，圖 3 是 George CLP，圖 4 是 Amy CLP，圖 5 是杯碟外觀。\n\n背景沿用本鏡空景；依 blocks 的人物位置、整體大小、朝向與遮擋置入 CLP 角色，藍色是 George、紅色是 Amy。角色外觀與自身頭身比例依 CLP，表演依逐鏡指令。人物坐入既有椅子。維持參考圖的既有 3D 動畫風格、取景與暖色日光，輸出一張 16:9 彩色分鏡圖；不呈現方塊、參考圖展示排版或新增字幕。\n\nGeorge 溫和微笑看向 Amy，一手握咖啡杯柄，準備放回原杯碟；杯底尚未接觸碟面，保留清楚空隙。Amy 以頭肩背影聆聽。握起原有杯子，碟上不留重複杯。",
+      "resolution": "1672x941",
+      "format": "png",
+      "generation_summary": "clp: char_george, char_amy, loc_coffee_shop, prop_coffee_cup | W2I | 場景外觀依空景、人物構圖依 blocks、外觀依 CLP；2026-10-13 使用者確認採用 shot_2_1_3_short_v1",
+      "provider": "OpenAI"
+    },
+    {
+      "id": "img_shot_2_1_4",
+      "type": "image",
+      "path": "assets/images/shot_2_1_4_short_v2.png",
+      "source_tool": "image_gen",
+      "scene_id": "shot_2_1_4",
+      "prompt": "圖 1 是 blocks，圖 2 是同鏡空景，圖 3 是 Amy CLP。\n\n背景沿用本鏡空景；依 blocks 的人物位置、整體大小、朝向與遮擋置入 CLP 角色，藍色是 George、紅色是 Amy。角色外觀與自身頭身比例依 CLP，表演依逐鏡指令。人物坐入既有椅子。維持參考圖的既有 3D 動畫風格、取景與暖色日光，輸出一張 16:9 彩色分鏡圖；不呈現方塊、參考圖展示排版或新增字幕。\n\nAmy 聽見「企業健康指標」而睜大眼睛、微抬眉、輕輕歪頭，嘴唇微張，望向畫外 George 驚奇反問。維持單人頭肩特寫。身體維持 blocks 中朝向對坐的 George，肩膀與軀幹不轉動，只輕輕歪頭；頭與胸口朝向同一位對坐者，不做側身回頭姿勢。",
+      "resolution": "1672x941",
+      "format": "png",
+      "generation_summary": "clp: char_amy, loc_coffee_shop | W2I | 場景外觀依空景、人物構圖依 blocks、外觀依 CLP；2026-10-13 使用者確認採用 shot_2_1_4_short_v2",
+      "provider": "OpenAI"
+    },
+    {
+      "id": "img_shot_2_1_5",
+      "type": "image",
+      "path": "assets/images/shot_2_1_5_short_v1.png",
+      "source_tool": "image_gen",
+      "scene_id": "shot_2_1_5",
+      "prompt": "圖 1 是 blocks，圖 2 是同鏡空景，圖 3 是 George CLP。\n\n背景沿用本鏡空景；依 blocks 的人物位置、整體大小、朝向與遮擋置入 CLP 角色，藍色是 George、紅色是 Amy。角色外觀與自身頭身比例依 CLP，表演依逐鏡指令。人物坐入既有椅子。維持參考圖的既有 3D 動畫風格、取景與暖色日光，輸出一張 16:9 彩色分鏡圖；不呈現方塊、參考圖展示排版或新增字幕。\n\nGeorge 下巴略收，帶著剛點頭後的肯定神情與溫和微笑，嘴唇自然微張，望向畫外 Amy 解釋 EPS。維持單人頭肩特寫，手部與杯子留在畫外。身體維持 blocks 中朝向對坐的 Amy，肩膀與軀幹不額外轉動，頭與胸口朝向同一位對坐者，不做側身回頭姿勢。",
+      "resolution": "1672x941",
+      "format": "png",
+      "generation_summary": "clp: char_george, loc_coffee_shop | W2I | 場景外觀依空景、人物構圖依 blocks、外觀依 CLP；2026-10-13 使用者確認採用 shot_2_1_5_short_v1",
+      "provider": "OpenAI"
+    },
+    {
+      "id": "img_shot_2_1_6",
+      "type": "image",
+      "scene_id": "shot_2_1_6",
+      "path": "assets/images/shot_2_1_6_short_v1.png",
+      "source_tool": "image_gen",
+      "provider": "OpenAI",
+      "prompt": "圖 1 是 blocks，圖 2 是同鏡空景，圖 3 是 George CLP，圖 4 是 Amy CLP，圖 5 是咖啡組 CLP。\n\n背景沿用本鏡空景；依 blocks 的人物位置、整體大小、朝向與遮擋置入 CLP 角色，藍色是 George、紅色是 Amy。角色外觀與自身頭身比例依 CLP，表演依逐鏡指令。人物坐入既有椅子。維持參考圖的既有 3D 動畫風格、取景與暖色日光，輸出一張 16:9 彩色分鏡圖；不呈現方塊、參考圖展示排版或新增字幕。\n\n維持桌面斜俯拍：兩人的局部前臂與手自然停在桌邊，兩只咖啡杯均在各自杯碟上，保留背景的白色金色金屬蓋罐。只見 blocks 所示局部身體，不出現臉；George 為畫外音。E／S／G 留待後製，這張不生成字卡。咖啡組 CLP 僅取杯碟，不採用木蓋罐。",
+      "resolution": "1672x941",
+      "format": "png",
+      "generation_summary": "clp: char_george, char_amy, loc_coffee_shop, prop_coffee_set | W2I | 場景外觀依空景、人物構圖依 blocks、外觀依 CLP；2026-10-13 使用者確認採用 shot_2_1_6_short_v1"
+    }
+  ]
+}

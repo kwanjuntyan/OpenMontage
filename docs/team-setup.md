@@ -28,9 +28,11 @@ pip install -r requirements.txt
 ---
 
 ### 第三步：連結 Dropbox 專案資料庫 (Windows Junction)
-專案所有影片、圖片、Blender 模型與算圖成果均存於 Dropbox。請在 **命令提示字元 (CMD)** 執行目錄聯結：
+專案所有影片、圖片、Blender 模型與算圖成果均存於 Dropbox（GitHub 僅版控各專案輕量的 `artifacts/`、`project.json` 與 `checkpoint_*.json`）。請在 **命令提示字元 (CMD)** 依序執行：
 ```cmd
+rmdir /s /q projects
 mklink /J "projects" "你的Dropbox路徑\kj-om-projects"
+git checkout -- projects
 ```
 *範例（若 Dropbox 位於 D 槽）：*
 `mklink /J "projects" "D:\Dropbox\kj-om-projects"`

@@ -1,0 +1,103 @@
+{
+  "version": "1.0",
+  "style_playbook": "kj-pixar-fairytale",
+  "scenes": [
+    {
+      "id": "s01",
+      "type": "character_scene",
+      "start_seconds": 0.0,
+      "end_seconds": 11.28,
+      "narrative_role": "establish_context",
+      "description": "Subject: 青蛙 frog 穿著苔蘚背心蹲在水草旁，眼神帶著警戒與猶豫；蝎子 scorpion 趴在光滑溪石上仰頭懇求。Motion: 蝎子雙螯微動央求，青蛙眼神狐疑打量。Scene: 陽光溪畔 stream。Framing: 中景，兩側對峙。Camera: 緩慢推近，淺景深。",
+      "shot_language": {
+        "shot_size": "medium",
+        "camera_movement": "dolly_in",
+        "lens_mm": 50,
+        "lighting_key": "warm_dappled",
+        "depth_of_field": "shallow",
+        "color_temperature": "warm"
+      },
+      "transition_in": "fade from black",
+      "transition_out": "dissolve",
+      "hero_moment": false,
+      "shot_intent": "建立角色對比與故事前提：蝎子的誠懇懇求與青蛙的戒心",
+      "required_assets": [
+        { "type": "clp", "description": "frog", "source": "provided", "clp_id": "frog" },
+        { "type": "clp", "description": "scorpion", "source": "provided", "clp_id": "scorpion" },
+        { "type": "clp", "description": "stream", "source": "provided", "clp_id": "stream" }
+      ]
+    },
+    {
+      "id": "s02",
+      "type": "character_scene",
+      "start_seconds": 11.28,
+      "end_seconds": 19.04,
+      "narrative_role": "development",
+      "description": "Subject: 青蛙 frog 在陽光溪水中奮力游水，蝎子 scorpion 緊抓青蛙背上的苔蘚背心。Motion: 青蛙踢水前進，波光粼粼水花向後濺射。Scene: 溪流 stream 中央。Framing: 俯角中景。Camera: 順著前進方向緩慢橫移跟拍。",
+      "shot_language": {
+        "shot_size": "medium",
+        "camera_movement": "tracking_pan",
+        "lens_mm": 35,
+        "lighting_key": "bright_sunlit",
+        "depth_of_field": "medium",
+        "color_temperature": "warm"
+      },
+      "transition_in": "dissolve",
+      "transition_out": "cut",
+      "hero_moment": false,
+      "shot_intent": "呈現信任與和平氛圍，波光粼粼展現童話美好",
+      "required_assets": [
+        { "type": "clp", "description": "frog", "source": "provided", "clp_id": "frog" },
+        { "type": "clp", "description": "scorpion", "source": "provided", "clp_id": "scorpion" }
+      ]
+    },
+    {
+      "id": "s03",
+      "type": "character_scene",
+      "start_seconds": 19.04,
+      "end_seconds": 28.72,
+      "narrative_role": "climax",
+      "description": "Subject: 蝎子 scorpion 尾巴猛然高高拱起，毒針深深刺入青蛙背部；青蛙 frog 大眼圓睜露出震驚與極大劇痛。Motion: 毒尾下刺，水花劇烈炸開。Scene: 湍急溪流。Framing: 特寫 dramatic close-up。Camera: 快速微晃推近。",
+      "shot_language": {
+        "shot_size": "close_up",
+        "camera_movement": "whip_zoom",
+        "lens_mm": 85,
+        "lighting_key": "dramatic_contrast",
+        "depth_of_field": "shallow",
+        "color_temperature": "dynamic"
+      },
+      "transition_in": "cut",
+      "transition_out": "crossfade",
+      "hero_moment": true,
+      "shot_intent": "高潮轉折：難以預料的背叛與本能驅使的致命一擊",
+      "required_assets": [
+        { "type": "clp", "description": "frog", "source": "provided", "clp_id": "frog" },
+        { "type": "clp", "description": "scorpion", "source": "provided", "clp_id": "scorpion" }
+      ]
+    },
+    {
+      "id": "s04",
+      "type": "character_scene",
+      "start_seconds": 28.72,
+      "end_seconds": 40.08,
+      "narrative_role": "resolution",
+      "description": "Subject: 水底光束下，青蛙 frog 漸漸闔眼無力下沉，身旁蝎子 scorpion 面露悲傷懊悔與淚光。Motion: 緩緩下沉，氣泡升騰。Scene: 碧綠幽深河底。Framing: 寬景遠景。Camera: 緩慢仰拍拉遠，逐漸淡出。",
+      "shot_language": {
+        "shot_size": "wide",
+        "camera_movement": "pedestal_down",
+        "lens_mm": 28,
+        "lighting_key": "underwater_caustic",
+        "depth_of_field": "deep",
+        "color_temperature": "cool_ethereal"
+      },
+      "transition_in": "crossfade",
+      "transition_out": "fade to black",
+      "hero_moment": true,
+      "shot_intent": "寓言結局：悲劇與無奈的嘆息，留給觀眾深遠沉思",
+      "required_assets": [
+        { "type": "clp", "description": "frog", "source": "provided", "clp_id": "frog" },
+        { "type": "clp", "description": "scorpion", "source": "provided", "clp_id": "scorpion" }
+      ]
+    }
+  ]
+}

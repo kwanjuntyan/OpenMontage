@@ -1,0 +1,3881 @@
+{
+  "version": "1.0",
+  "title": "ESG 企業動畫培訓全套課程：全五幕完整大劇本",
+  "total_duration_seconds": 1631.62,
+  "voice_performance": {
+    "performance_intent": "場景1.1為冷靜嚴謹的英倫高端商務投資審查；場景1.2急轉為緊張搞笑的辦公室危機台語/中文口氣；場景1.3為誇張魔性的電視購物風格。",
+    "pacing_profile": "cinematic",
+    "energy_curve": "全劇五幕弧線完整：第一幕海外審查危機爆笑開場；第二幕咖啡館解惑建立ESG三大支柱；第三幕行動地圖推演並在深夜頓悟化身尋寶獵人；第四幕Vlog走訪五大部門挖掘超能力；第五幕文化落地全員覺醒，以海外投資人深沉讚許『Now, that is attractive』震撼APPROVED完美逆轉收尾。",
+    "pause_policy": "Harrison冷冷宣判後空拍留白0.5秒；主管電話掛斷後Amy喃喃自語拉長停頓。"
+  },
+  "sections": [
+    {
+      "id": "shot_1_1_1",
+      "label": "第1幕 · 場景1.1 倫敦投資會議室 · 遠景雨景金融大樓",
+      "text": "（開場從倫敦雨景的大遠景開始，鏡頭緩慢推進到一座金融大樓，背景伴隨沉穩低音雨聲與大提琴懸疑鋪陳。）",
+      "start_seconds": 0.0,
+      "end_seconds": 3.03,
+      "speaker_directions": "純視覺運鏡，無旁白台詞",
+      "delivery_cues": {
+        "pace": "slow",
+        "energy": "cinematic, atmospheric",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.0,
+        "pause_after_seconds": 0.5
+      }
+    },
+    {
+      "id": "shot_1_1_2",
+      "label": "第1幕 · 場景1.1 倫敦投資會議室 · 會議全景建立",
+      "text": "（長桌旁坐著三位投資審查委員。哈里森先生眼神銳利坐在首位，分析師Sandy站在投影螢幕前展示財務報表。）",
+      "start_seconds": 3.03,
+      "end_seconds": 6.06,
+      "speaker_directions": "純視覺運鏡，會議室安靜肅穆",
+      "delivery_cues": {
+        "pace": "slow",
+        "energy": "restrained, tense",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.0,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_1_1_3",
+      "label": "第1幕 · 場景1.1 倫敦投資會議室 · Sandy匯報財務亮眼",
+      "text": "Mr. Harrison, as you can see, the financial projections are solid. Gross margins are healthy, and their market share is growing.",
+      "start_seconds": 6.06,
+      "end_seconds": 14.16,
+      "speaker_directions": "Sandy（分析師）：語調自信、專業，手勢指向成長曲線長條圖",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "confident and professional",
+        "emphasis_words": [
+          "solid",
+          "healthy",
+          "growing"
+        ],
+        "pause_before_seconds": 0.2,
+        "pause_after_seconds": 0.4
+      }
+    },
+    {
+      "id": "shot_1_1_4",
+      "label": "第1幕 · 場景1.1 倫敦投資會議室 · Harrison犀利質疑ESG",
+      "text": "And the non-financials? Where do they stand on ESG metrics?",
+      "start_seconds": 14.16,
+      "end_seconds": 18.01,
+      "speaker_directions": "Mr. Harrison（哈里森董事）：沉思後眼神銳利直視，冷靜而具穿透力的英式英語",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "stern, authoritative",
+        "emphasis_words": [
+          "non-financials",
+          "ESG metrics"
+        ],
+        "pause_before_seconds": 0.2,
+        "pause_after_seconds": 0.5
+      }
+    },
+    {
+      "id": "shot_1_1_5",
+      "label": "第1幕 · 場景1.1 倫敦投資會議室 · Sandy尷尬按遙控器",
+      "text": "（Sandy臉上笑容頓時僵住，表情尷尬，手有些發抖地按下了投影螢幕的遙控器。）",
+      "start_seconds": 18.01,
+      "end_seconds": 21.04,
+      "speaker_directions": "純視覺鏡頭，緊張沈默",
+      "delivery_cues": {
+        "pace": "slow",
+        "energy": "awkward silence",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.0,
+        "pause_after_seconds": 0.4
+      }
+    },
+    {
+      "id": "shot_1_1_6",
+      "label": "第1幕 · 場景1.1 倫敦投資會議室 · Sandy坦承毫無數據",
+      "text": "That is... precisely the issue, sir. We have zero data on their emissions, and no verification of labor standards.",
+      "start_seconds": 21.04,
+      "end_seconds": 28.56,
+      "speaker_directions": "Sandy（分析師）：吞吞吐吐，神情心虛緊張，尾音微顫",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "nervous, apologetic",
+        "emphasis_words": [
+          "precisely",
+          "zero data",
+          "no verification"
+        ],
+        "pause_before_seconds": 0.3,
+        "pause_after_seconds": 0.5
+      }
+    },
+    {
+      "id": "shot_1_1_7",
+      "label": "第1幕 · 場景1.1 倫敦投資會議室 · 桌面敲擊寂靜壓迫",
+      "text": "（哈里森先生手指在胡桃木桌上輕敲了幾下。整座會議室陷入一片死寂，只有窗外的雨聲。）",
+      "start_seconds": 28.56,
+      "end_seconds": 31.59,
+      "speaker_directions": "純視覺與音效細節，指節敲擊聲伴隨心跳壓迫感",
+      "delivery_cues": {
+        "pace": "slow",
+        "energy": "oppressive tension",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.0,
+        "pause_after_seconds": 0.5
+      }
+    },
+    {
+      "id": "shot_1_1_8",
+      "label": "第1幕 · 場景1.1 倫敦投資會議室 · Harrison宣判黑箱",
+      "text": "So, it's a black box. We can't verify if their healthy margins come from efficiency... or exploitation. We are flying blind here.",
+      "start_seconds": 31.59,
+      "end_seconds": 39.65,
+      "speaker_directions": "Mr. Harrison（哈里森董事）：面無表情，宣判般冷酷，字字如刀",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "cold, resolute",
+        "emphasis_words": [
+          "black box",
+          "exploitation",
+          "flying blind"
+        ],
+        "pause_before_seconds": 0.2,
+        "pause_after_seconds": 0.4
+      }
+    },
+    {
+      "id": "shot_1_1_9",
+      "label": "第1幕 · 場景1.1 倫敦投資會議室 · Sandy無力爭取",
+      "text": "but, the potential return is still attractive...",
+      "start_seconds": 39.65,
+      "end_seconds": 42.49,
+      "speaker_directions": "Sandy（分析師）：微弱地試圖爭辯，在對方威壓下聲音越來越小",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "tentative, hesitant",
+        "emphasis_words": [
+          "attractive"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_1_1_10",
+      "label": "第1幕 · 場景1.1 倫敦投資會議室 · Harrison下達凍結投資",
+      "text": "Risk is not attractive. Put it on hold. I want to see a credible ESG roadmap from them before we proceed. Make that clear to them.",
+      "start_seconds": 42.49,
+      "end_seconds": 50.37,
+      "speaker_directions": "Mr. Harrison（哈里森董事）：果斷打斷對方，語氣帶著不可違抗的高階權威，用力闔上資料夾",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "commanding, definitive",
+        "emphasis_words": [
+          "Risk",
+          "on hold",
+          "credible ESG roadmap"
+        ],
+        "pause_before_seconds": 0.2,
+        "pause_after_seconds": 0.6
+      }
+    },
+    {
+      "id": "shot_1_1_11",
+      "label": "第1幕 · 場景1.1 倫敦投資會議室 · 增資案重蓋 ON HOLD",
+      "text": "（大成公司的增資計畫書上，被重重地蓋上一個血紅色的「ON HOLD」印章！慢動作特寫，震耳欲聾的蓋印巨響。）",
+      "start_seconds": 50.37,
+      "end_seconds": 53.4,
+      "speaker_directions": "純視覺動作與音效打擊點，重擊聲震撼",
+      "delivery_cues": {
+        "pace": "slow",
+        "energy": "impactful shock",
+        "emphasis_words": [
+          "ON HOLD"
+        ],
+        "pause_before_seconds": 0.0,
+        "pause_after_seconds": 0.4
+      }
+    },
+    {
+      "id": "shot_1_1_12",
+      "label": "第1幕 · 場景1.1 倫敦投資會議室 · 聲音橋接轉換",
+      "text": "（「ON HOLD」印章聲響未歇，立刻聲音橋接切入Amy辦公桌上手機極度急促刺耳的鈴聲。）",
+      "start_seconds": 53.4,
+      "end_seconds": 57.34,
+      "speaker_directions": "聲音橋接轉場，音效突變",
+      "delivery_cues": {
+        "pace": "fast",
+        "energy": "transition alarm",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.0,
+        "pause_after_seconds": 0.2
+      }
+    },
+    {
+      "id": "shot_1_2_1",
+      "label": "第1幕 · 場景1.2 Amy辦公室 · 主管奪命連環Call",
+      "text": "（Amy正在埋頭整理文件，手機在桌面上狂震跳動，來電顯示是主管的大頭貼與名字。）",
+      "start_seconds": 57.34,
+      "end_seconds": 61.28,
+      "speaker_directions": "純視覺動作建立，緊張感驟升",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "sudden panic",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.0,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_1_2_2",
+      "label": "第1幕 · 場景1.2 Amy辦公室 · 主管大吼增資被卡",
+      "text": "Amy！大事不妙！增資案被卡住了！投資方說我們是個「ESG 黑箱」，不相信我們的財務報表！",
+      "start_seconds": 61.28,
+      "end_seconds": 69.2,
+      "speaker_directions": "主管（電話另一端氣喘吁吁，大吼狂飆，神情極度焦慮滿頭大汗）（原作指示：Amy接起手機，主管（@Supervisor）焦急的聲音從電話中傳來。畫面切分成兩個panels。左邊panel是主管，右邊panel是Amy）",
+      "delivery_cues": {
+        "pace": "fast",
+        "energy": "panicked, explosive",
+        "emphasis_words": [
+          "大事不妙",
+          "卡住了",
+          "ESG黑箱"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_1_2_3",
+      "label": "第1幕 · 場景1.2 Amy辦公室 · 主管威脅年終泡湯",
+      "text": "如果這筆錢沒進來，明年的擴廠計畫不但要停，連大家的年終獎金恐怕都發不出來了！",
+      "start_seconds": 69.2,
+      "end_seconds": 75.93,
+      "speaker_directions": "主管（用力揮舞雙手，聲音帶著哭腔與世界末日的威脅感）",
+      "delivery_cues": {
+        "pace": "fast",
+        "energy": "anxious, desperate",
+        "emphasis_words": [
+          "擴廠計畫",
+          "年終獎金",
+          "發不出來"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_1_2_4",
+      "label": "第1幕 · 場景1.2 Amy辦公室 · Amy震驚不解",
+      "text": "這麼嚴重？可是協理，我們公司不是一直都很守規矩嗎？",
+      "start_seconds": 75.93,
+      "end_seconds": 81.01,
+      "speaker_directions": "Amy（眼睛瞪大，一手拿著電話一手僵在半空，滿臉錯愕）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "shocked, bewildered",
+        "emphasis_words": [
+          "這麼嚴重",
+          "很守規矩"
+        ],
+        "pause_before_seconds": 0.2,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_1_2_5",
+      "label": "第1幕 · 場景1.2 Amy辦公室 · 主管指派ESG簡報",
+      "text": "現在沒時間解釋！下禮拜有場高階主管會議，妳就先準備一場ESG簡報吧！",
+      "start_seconds": 81.01,
+      "end_seconds": 87.42,
+      "speaker_directions": "主管（火急火燎打斷Amy，不容拒絕的霸道語速）",
+      "delivery_cues": {
+        "pace": "fast",
+        "energy": "urgent, direct",
+        "emphasis_words": [
+          "沒時間解釋",
+          "ESG簡報"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_1_2_6",
+      "label": "第1幕 · 場景1.2 Amy辦公室 · Amy求饒坦承不懂",
+      "text": "報告協理，ESG我也不懂啊...",
+      "start_seconds": 87.42,
+      "end_seconds": 90.52,
+      "speaker_directions": "Amy（聲音發抖，苦著一張臉弱弱地回覆）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "whimpering, anxious",
+        "emphasis_words": [
+          "我也不懂"
+        ],
+        "pause_before_seconds": 0.2,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_1_2_7",
+      "label": "第1幕 · 場景1.2 Amy辦公室 · 主管撂狠話掛斷",
+      "text": "不懂就去搞懂啊！這關係到公司的生存，也關係到妳我的飯碗！就這樣！我要去安撫老闆了！",
+      "start_seconds": 90.52,
+      "end_seconds": 97.65,
+      "speaker_directions": "主管（激動咆哮，說完啪一聲掛斷電話）",
+      "delivery_cues": {
+        "pace": "fast",
+        "energy": "furious, stressed",
+        "emphasis_words": [
+          "生存",
+          "飯碗"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.4
+      }
+    },
+    {
+      "id": "shot_1_2_8",
+      "label": "第1幕 · 場景1.2 Amy辦公室 · Amy喃喃自語救命仙丹",
+      "text": "E...S...G...這到底是什麼救命仙丹？能幫公司募資？還能救我的年終獎金？",
+      "start_seconds": 97.65,
+      "end_seconds": 106.58,
+      "speaker_directions": "Amy（對著發出嘟嘟聲的手機發呆，一臉茫然、喃喃自語）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "contemplative, bewildered",
+        "emphasis_words": [
+          "救命仙丹",
+          "年終獎金"
+        ],
+        "pause_before_seconds": 0.3,
+        "pause_after_seconds": 0.5
+      }
+    },
+    {
+      "id": "shot_1_2_9",
+      "label": "第1幕 · 場景1.2 Amy辦公室 · 眼神失焦鏡頭過渡",
+      "text": "（鏡頭特寫推進到Amy的眼睛，眼神逐漸失焦，背景辦公室模糊，魔幻般無縫轉接到她的幻想世界。）",
+      "start_seconds": 106.58,
+      "end_seconds": 109.61,
+      "speaker_directions": "純視覺過渡鏡頭，魔幻音效淡入",
+      "delivery_cues": {
+        "pace": "slow",
+        "energy": "surreal transition",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.0,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_1_3_1",
+      "label": "第1幕 · 場景1.3 Amy幻想電視購物 · 主管推銷ESG濃縮膠囊",
+      "text": "還在擔心年終獎金泡湯嗎？試試全新的「ESG 濃縮膠囊」!一口吞下，保證你訂單滿載，股價飆升，老闆笑呵呵！",
+      "start_seconds": 109.61,
+      "end_seconds": 119.98,
+      "speaker_directions": "主管（幻想化身為電視購物台主持人，手持發光的金色膠囊罐，笑容無比燦爛、魔性瘋狂推銷）（原作指示：綜藝感十足的電視購物場景（@TV_Shopping_Studio）。主管（@Supervisor）化身購物台主持人，拿著一罐ESG濃縮膠囊熱情推銷；@ESG_Capsules）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "hyper-enthusiastic, infomercial pitch",
+        "emphasis_words": [
+          "年終獎金",
+          "ESG濃縮膠囊",
+          "老闆笑呵呵"
+        ],
+        "pause_before_seconds": 0.2,
+        "pause_after_seconds": 0.5
+      }
+    },
+    {
+      "id": "shot_2_1_1",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_1",
+      "text": "George，救救我！我老闆臨時要我做一場ESG簡報！",
+      "start_seconds": 119.98,
+      "end_seconds": 124.98,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [
+          "Amy",
+          "George"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_2",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_2",
+      "text": "但我完全不知道這是什麼東西。我只知道再不趕快搞懂ESG，我的KPI就要GG了。",
+      "start_seconds": 124.98,
+      "end_seconds": 132.32,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_3",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_3",
+      "text": "別緊張，GG跟ESG，雖然都有G，差別可大了。簡單來說，你可以把ESG想像成是一種「新型態的企業健康指標」！",
+      "start_seconds": 132.32,
+      "end_seconds": 144.74,
+      "speaker_directions": "George 說話（原作指示：放下手中的咖啡杯（@Coffee_Cup），溫和地微笑）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [
+          "新型態的企業健康指標"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_4",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_4",
+      "text": "企業健康指標？",
+      "start_seconds": 144.74,
+      "end_seconds": 146.4,
+      "speaker_directions": "Amy 說話（原作指示：眼睛因驚奇而睜大）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_5",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_5",
+      "text": "沒錯。以前投資機構評估一間公司值不值得投資，就看這公司的EPS！",
+      "start_seconds": 146.4,
+      "end_seconds": 152.88,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_6",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_6",
+      "text": "但這就像評估一個人的健康狀態，卻只測他的體重一樣，是以偏概全，很不準確的。現在時代進步了，全球的投資機構都知道，要再加上E、S、G三大指標，才能準確評估公司的價值！",
+      "start_seconds": 152.88,
+      "end_seconds": 168.07,
+      "speaker_directions": "George（畫外音）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_7",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_7",
+      "text": "那這三大指標一定很複雜，很難懂吧？",
+      "start_seconds": 168.07,
+      "end_seconds": 171.49,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_8",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_8",
+      "text": "不會不會，你只要小學有畢業就可以猜得出來！",
+      "start_seconds": 171.49,
+      "end_seconds": 175.56,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_9",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_9",
+      "text": "呵呵，這麼好？",
+      "start_seconds": 175.56,
+      "end_seconds": 177.21,
+      "speaker_directions": "Amy 說話（原作指示：笑容中充滿期待）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_10",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_10",
+      "text": "不然我問你好了，妳覺得一間『好公司』，除了賺錢，還應該有什麼特質？",
+      "start_seconds": 177.21,
+      "end_seconds": 182.68,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [
+          "好公司"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_11",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_11",
+      "text": "如果這間公司開在你家隔壁，你希望它符合什麼條件？",
+      "start_seconds": 182.68,
+      "end_seconds": 187.18,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_12",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_12",
+      "text": "開在我家隔壁？嗯...那我希望它不要製造噪音、不要亂排廢水、不要有奇怪的味道。",
+      "start_seconds": 187.18,
+      "end_seconds": 194.81,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_13",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_13",
+      "text": "最好是很乾淨、很環保的樣子。",
+      "start_seconds": 194.81,
+      "end_seconds": 197.33,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_14",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_14",
+      "text": "很好。妳剛才所說的幾點",
+      "start_seconds": 197.33,
+      "end_seconds": 200.1,
+      "speaker_directions": "George 說話（原作指示：微笑）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_15",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_15",
+      "text": "就是指標中的E，Environment，環境保護，目的就是希望公司能對地球好一點。",
+      "start_seconds": 200.1,
+      "end_seconds": 206.9,
+      "speaker_directions": "George（畫外音）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_16",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_16",
+      "text": "（點頭表示同意）",
+      "start_seconds": 206.9,
+      "end_seconds": 208.94,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_17",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_17",
+      "text": "那對『人』呢？妳會希望這間公司怎麼對待它的員工、鄰居、客戶、供應商？",
+      "start_seconds": 208.94,
+      "end_seconds": 215.46,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [
+          "人"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_18",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_18",
+      "text": "嗯...對員工，當然要提供合理的薪資福利，關心他們的成長和幸福感囉。",
+      "start_seconds": 215.46,
+      "end_seconds": 221.4,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_19",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_19",
+      "text": "對客戶，則是要誠實，賣給他們安全又可靠的產品。",
+      "start_seconds": 221.4,
+      "end_seconds": 226.22,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_20",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_20",
+      "text": "對供應商，要像夥伴一樣，公平合作，一起進步。然後對附近的鄰居啊，如果能回饋社區，那就更棒了！",
+      "start_seconds": 226.22,
+      "end_seconds": 235.36,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_21",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_21",
+      "text": "（畫面簡報與視覺呈現）",
+      "start_seconds": 235.36,
+      "end_seconds": 250.36,
+      "speaker_directions": "純視覺鏡頭/畫面動作描寫",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_22",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_22",
+      "text": "完全正確。妳講的這幾點，也就是S，Social，社會責任。目的就是希望公司能對社會好一點。",
+      "start_seconds": 250.36,
+      "end_seconds": 258.96,
+      "speaker_directions": "George（畫外音）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_23",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_23",
+      "text": "（看著所抄的筆記，點頭表示同意）",
+      "start_seconds": 258.96,
+      "end_seconds": 261.0,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_24",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_24",
+      "text": "最後一個問題，妳會希望這間公司的『管理方式』是什麼樣子？",
+      "start_seconds": 261.0,
+      "end_seconds": 266.98,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [
+          "管理方式"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_25",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_25",
+      "text": "如果你是投資大眾，妳會不會擔心它的決策不透明、或是老闆自肥？",
+      "start_seconds": 266.98,
+      "end_seconds": 272.74,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_26",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_26",
+      "text": "如果可以許願，我當然希望它是一家誠實、透明的公司，賺錢的方法要正當，決策要公平，",
+      "start_seconds": 272.74,
+      "end_seconds": 280.34,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_27",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_27",
+      "text": "不能欺騙股東和客戶，不要危害金融市場的穩定。",
+      "start_seconds": 280.34,
+      "end_seconds": 284.66,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_28",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_28",
+      "text": "沒錯，而你所說的，也正就是 G，Governance，公司治理。目的就是希望公司能遵守誠信原則。",
+      "start_seconds": 284.66,
+      "end_seconds": 293.26,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_29",
+      "label": "第2幕 · 場景2.1．風格咖啡館．日 · shot_2_1_29",
+      "text": "恭喜妳，Amy。妳已經把ESG的核心精神，全都自己說出來了。",
+      "start_seconds": 293.26,
+      "end_seconds": 298.55,
+      "speaker_directions": "George 說話（原作指示：攤開手）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_1_30",
+      "label": "第2幕 · 場景2.2．風格咖啡館．日 · shot_2_1_30",
+      "text": "ESG的三大指標就是這麼簡單，一點都不難，對吧？",
+      "start_seconds": 298.55,
+      "end_seconds": 303.27,
+      "speaker_directions": "George（畫外音）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_2_1",
+      "label": "第2幕 · 場景2.2．風格咖啡館．日 · shot_2_2_1",
+      "text": "等一下，George。你說的這些指標，聽起來都很美好。可是每一項都是白花花的銀子啊！",
+      "start_seconds": 303.27,
+      "end_seconds": 309.79,
+      "speaker_directions": "Amy 說話（原作指示：眉頭微皺）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_2_2",
+      "label": "第2幕 · 場景2.2．風格咖啡館．日 · shot_2_2_2",
+      "text": "做好事是美德，這我同意。但在公司，把錢花在不賺錢的地方就是浪費，這是現實啊。",
+      "start_seconds": 309.79,
+      "end_seconds": 317.67,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_2_3",
+      "label": "第2幕 · 場景2.2．風格咖啡館．日 · shot_2_2_3",
+      "text": "我如果這樣去報告，老闆肯定覺得我頭殼壞去，他要的是漂亮的財報數字，不是諾貝爾和平獎啊！",
+      "start_seconds": 317.67,
+      "end_seconds": 325.41,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_2_4",
+      "label": "第2幕 · 場景2.2．風格咖啡館．日 · shot_2_2_4",
+      "text": "妳問的，正是現在所有老闆們的痛點，因為大家都有個成見，以為企業「做好事」=「不賺錢」。但妳知道嗎？",
+      "start_seconds": 325.41,
+      "end_seconds": 334.7,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [
+          "做好事",
+          "不賺錢"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_2_5",
+      "label": "第2幕 · 場景2.2．風格咖啡館．日 · shot_2_2_5",
+      "text": "那種時代已經過去了。國際監管機構和各國政府花了將近20年，已經把公司的營運規則全都改寫了，以後的企業必須做好事，才能賺到錢！",
+      "start_seconds": 334.7,
+      "end_seconds": 346.11,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_2_6",
+      "label": "第2幕 · 場景2.2．風格咖啡館．日 · shot_2_2_6",
+      "text": "而這套新規則，就是妳說服老闆的最大王牌！",
+      "start_seconds": 346.11,
+      "end_seconds": 351.22,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_2_7",
+      "label": "第2幕 · 場景2.3．風格咖啡館．日 · shot_2_2_7",
+      "text": "企業做好事，才能賺到錢？天啊，這改變太大了，這些監管機構是怎麼做到的？",
+      "start_seconds": 351.22,
+      "end_seconds": 358.46,
+      "speaker_directions": "Amy 說話（原作指示：眼睛一亮）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_3_1",
+      "label": "第2幕 · 場景2.3．風格咖啡館．日 · shot_2_3_1",
+      "text": "他們是透過三個階段的努力，才逐漸實現這個理想：",
+      "start_seconds": 358.46,
+      "end_seconds": 362.67,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_3_2",
+      "label": "第2幕 · 場景2.3．風格咖啡館．日 · shot_2_3_2",
+      "text": "第一個階段，是先讓企業「做好事」成為「能不能拿到錢」的門檻。",
+      "start_seconds": 362.67,
+      "end_seconds": 368.11,
+      "speaker_directions": "George（畫外音）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [
+          "做好事",
+          "能不能拿到錢"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_3_3",
+      "label": "第2幕 · 場景2.3．風格咖啡館．日 · shot_2_3_3",
+      "text": "早在2004年，聯合國就在一份叫做《Who Cares Wins》的報告裡，呼籲全球的投資機構，應該把企業是否符合ESG，也納入評估指標之一。從此之後，做好事的企業，例如省碳的企業，就比較容易募到錢。而企業做好事，也就有了「資本價值」。\\",
+      "start_seconds": 368.11,
+      "end_seconds": 390.25,
+      "speaker_directions": "George（畫外音）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [
+          "資本價值",
+          "資本價值"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_3_4",
+      "label": "第2幕 · 場景2.3．風格咖啡館．日 · shot_2_3_4",
+      "text": "第二個階段，是讓企業「做好事」成為全球政府的法規政策。",
+      "start_seconds": 390.25,
+      "end_seconds": 396.15,
+      "speaker_directions": "George（畫外音）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [
+          "做好事"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_3_5",
+      "label": "第2幕 · 場景2.3．風格咖啡館．日 · shot_2_3_5",
+      "text": "在2015年，近200個國家聯合簽訂了《巴黎協定》，承諾要共同減碳。之後各國開始制訂相關法規，要求企業必須配合遵守。 從那時起，企業做好事，便開始有了「政策價值」。",
+      "start_seconds": 396.15,
+      "end_seconds": 412.64,
+      "speaker_directions": "George（畫外音）（原作指示：畫面動畫：快速閃現2015《巴黎協定》）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [
+          "政策價值"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_3_6",
+      "label": "第2幕 · 場景2.3．風格咖啡館．日 · shot_2_3_6",
+      "text": "第三個階段，則是為企業「做好事」打造一把全球通用的量尺。",
+      "start_seconds": 412.64,
+      "end_seconds": 418.33,
+      "speaker_directions": "George（畫外音）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [
+          "做好事"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_3_7",
+      "label": "第2幕 · 場景2.3．風格咖啡館．日 · shot_2_3_7",
+      "text": "在 2023年，負責制定全球財報準則的 IFRS 基金會，正式發布了全球共通的「永續揭露準則」。有了這把尺，企業做多少好事，例如節省了多少碳，就能被公平地衡量，進而定價、交易，甚至課稅。從那時起，企業做好事，就有了『市場價值』。」",
+      "start_seconds": 418.33,
+      "end_seconds": 439.82,
+      "speaker_directions": "George（畫外音）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [
+          "永續揭露準則",
+          "市場價值"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_3_8",
+      "label": "第2幕 · 場景2.4．風格咖啡館．日 · shot_2_3_8",
+      "text": "所以妳看，透過這三個階段的努力，企業投入ESG的努力，就從原本注定會賠錢的項目，逐漸變成『能幫助賺錢』的項目了。",
+      "start_seconds": 439.82,
+      "end_seconds": 449.72,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [
+          "能幫助賺錢"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_4_1",
+      "label": "第2幕 · 場景2.4．風格咖啡館．日 · shot_2_4_1",
+      "text": "可是...上有政策，下有對策，企業宣稱投入ESG，也可能只是喊喊口號，敷衍一下，實際上根本沒有落實啊？",
+      "start_seconds": 449.72,
+      "end_seconds": 459.8,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_4_2",
+      "label": "第2幕 · 場景2.4．風格咖啡館．日 · shot_2_4_2",
+      "text": "沒錯，光有政策，企業不見得會認真落實。所以，真正讓企業踩足油門的，是因為這幾年",
+      "start_seconds": 459.8,
+      "end_seconds": 468.19,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_4_3",
+      "label": "第2幕 · 場景2.4．風格咖啡館．日 · shot_2_4_3",
+      "text": "有三股真金白銀的力量撞了過來，讓企業警覺到「哇，再不落實ESG，生意就沒得做了！」：",
+      "start_seconds": 468.19,
+      "end_seconds": 475.97,
+      "speaker_directions": "George（畫外音）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [
+          "哇，再不落實ESG，生意就沒得"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_4_4",
+      "label": "第2幕 · 場景2.4．風格咖啡館．日 · shot_2_4_4",
+      "text": "第一，是地球的反撲：全球暖化導致各種氣候災害，企業要繳的保險費越來越高；供應鏈也經常因此中斷，導致營運越來越困難，這讓企業終於瞭解，再不把地球顧好，生意就做不下去了；",
+      "start_seconds": 475.97,
+      "end_seconds": 492.57,
+      "speaker_directions": "George（畫外音）（原作指示：畫面動畫：使用紀錄片風格的震撼畫面（冰川崩塌、森林大火），搭配真實環境音效）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_4_5",
+      "label": "第2幕 · 場景2.4．風格咖啡館．日 · shot_2_4_5",
+      "text": "第二，是公民意識的覺醒：消費者開始用錢包抵制黑心企業，沒有善盡社會責任的企業，形象大受影響，不僅產品賣不出去，連招募員工都有困難；",
+      "start_seconds": 492.57,
+      "end_seconds": 505.17,
+      "speaker_directions": "George（畫外音）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [
+          "街道上，年輕人高舉寫著 \\'C"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_4_6",
+      "label": "第2幕 · 場景2.4．風格咖啡館．日 · shot_2_4_6",
+      "text": "第三，則是法遵壓力大幅增加：各國政府的法規越訂越嚴，而且罰金都是天文數字！罰一次就倒閉也是可能的事！",
+      "start_seconds": 505.17,
+      "end_seconds": 515.39,
+      "speaker_directions": "George（畫外音）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_4_7",
+      "label": "第2幕 · 場景2.5．風格咖啡館．日 · shot_2_4_7",
+      "text": "這三股力量來得又急又猛，讓ESG一下子就成為各大企業必須馬上處理的生存問題！",
+      "start_seconds": 515.39,
+      "end_seconds": 522.45,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_5_1",
+      "label": "第2幕 · 場景2.5．風格咖啡館．日 · shot_2_5_1",
+      "text": "的確，你講的這些全球暖化，企業責任之類的趨勢，我在電視上也常看到。可是George，",
+      "start_seconds": 522.45,
+      "end_seconds": 529.83,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_5_2",
+      "label": "第2幕 · 場景2.5．風格咖啡館．日 · shot_2_5_2",
+      "text": "這些議題應該是Apple、Nike那種國際級大鯨魚才要煩惱的吧？",
+      "start_seconds": 529.83,
+      "end_seconds": 535.27,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_5_3",
+      "label": "第2幕 · 場景2.5．風格咖啡館．日 · shot_2_5_3",
+      "text": "我們公司在供應鏈裡，可能連小蝦米都算不上，有必要這麼緊張嗎？人家打個噴嚏，我們這裡就要地震嗎？",
+      "start_seconds": 535.27,
+      "end_seconds": 543.48,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_5_4",
+      "label": "第2幕 · 場景2.5．風格咖啡館．日 · shot_2_5_4",
+      "text": "Amy，妳這樣就太小看自己公司的地位了。台灣雖小，卻是全球供應鏈的重要成員！ 供應鏈是環環相扣的，很容易就會產生連鎖反應：",
+      "start_seconds": 543.48,
+      "end_seconds": 555.83,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_5_7",
+      "label": "第2幕 · 場景2.5．風格咖啡館．日 · shot_2_5_7",
+      "text": "當上游的品牌企業為了自己的聲譽，決定推動ESG時，它就會要求第一線供應商，必須提供符合ESG標準的產品或材料。 接著，第一線供應商，又會往下要求第二、三線的供應商，也要提供符合ESG標準的產品或材料。",
+      "start_seconds": 555.83,
+      "end_seconds": 575.05,
+      "speaker_directions": "George（畫外音）（原作指示：畫面動畫：上游品牌企業，打電話給第一線供應商；第一線供應商轉而打電話給第二、三線的企業）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_5_8",
+      "label": "第2幕 · 場景2.5．風格咖啡館．日 · shot_2_5_8",
+      "text": "結果就是，整個供應鏈一下子就形成了一個巨大的ESG稽核網路，讓供應鏈裡面的所有企業，都必須符合ESG標準。",
+      "start_seconds": 575.05,
+      "end_seconds": 585.81,
+      "speaker_directions": "George（畫外音）（原作指示：畫面動畫：一顆巨大的骨牌（印有 Apple/Nike Logo）倒下，推動中型骨牌，最後推動無數個微小的骨牌（台灣工廠），形成波浪般的視覺衝擊）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_5_9",
+      "label": "第2幕 · 場景2.6．George的家．日 · shot_2_5_9",
+      "text": "你如果不符合，就等著被踢出供應鏈。這壓力大到，我家的貓聽到了都會失眠啊！",
+      "start_seconds": 585.81,
+      "end_seconds": 594.23,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_6_1",
+      "label": "第2幕 · 場景2.6．George的家．日 · shot_2_6_1",
+      "text": "（George家裡的貓正在沙發上睡覺，聽到「這壓力大到」三個字，忽然驚醒過來四處張望，然後喵了一聲，翻身繼續睡覺。）",
+      "start_seconds": 594.23,
+      "end_seconds": 597.23,
+      "speaker_directions": "純視覺運鏡與趣味音效，喜劇過場節奏",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "playful comic relief",
+        "emphasis_words": [
+          "這壓力大到",
+          "喵了一聲"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_7_1",
+      "label": "第2幕 · 場景2.7．風格咖啡館．日 · shot_2_7_1",
+      "text": "這麼說來，台灣企業追求ESG不是跟風，而是為了生存的奮鬥，因為不改變就沒生意做了？",
+      "start_seconds": 597.23,
+      "end_seconds": 605.26,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_7_2",
+      "label": "第2幕 · 場景2.7．風格咖啡館．日 · shot_2_7_2",
+      "text": "沒錯，這就是台灣企業現在面臨的處境。這是一場身不由己，卻必須全力以赴的全球競賽。",
+      "start_seconds": 605.26,
+      "end_seconds": 613.14,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_7_3",
+      "label": "第2幕 · 場景2.7．風格咖啡館．日 · shot_2_7_3",
+      "text": "當全球的法規、品牌客戶、甚至競爭對手，都已經在跑道上全力衝刺了，我們能不急起直追嗎？",
+      "start_seconds": 613.14,
+      "end_seconds": 621.24,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_7_4",
+      "label": "第2幕 · 場景2.7．風格咖啡館．日 · shot_2_7_4",
+      "text": "嗯，這的確是一場...不能輸的比賽！那我們政府有沒有提供什麼輔導措施，來幫助企業轉型啊？",
+      "start_seconds": 621.24,
+      "end_seconds": 629.38,
+      "speaker_directions": "Amy 說話（原作指示：倒抽一口氣）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_7_5",
+      "label": "第2幕 · 場景2.7．風格咖啡館．日 · shot_2_7_5",
+      "text": "當然有啊，我們政府也擔心企業輸掉這場全球競賽，所以很早就進行跨部會動員，並制訂出相關的輔導政策！",
+      "start_seconds": 629.38,
+      "end_seconds": 639.42,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_7_6",
+      "label": "第2幕 · 場景2.7．風格咖啡館．日 · shot_2_7_6",
+      "text": "比方說，國發會就訂下「2050淨零排放」的國家級目標，環境部也在2026年對「排碳大戶」正式開徵碳費，金管會更針對上市櫃公司訂出一套逐年加強的揭露規範，這都是為了確保台灣產業能跟上世界潮流，維持競爭力啊！",
+      "start_seconds": 639.42,
+      "end_seconds": 660.23,
+      "speaker_directions": "George（畫外音）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [
+          "2050淨零排放",
+          "排碳大戶"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_7_7",
+      "label": "第2幕 · 場景2.7．風格咖啡館．日 · shot_2_7_7",
+      "text": "逐年緊縮的法規？聽起來壓力好大，到底是怎麼個緊縮法？",
+      "start_seconds": 660.23,
+      "end_seconds": 665.41,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_7_8",
+      "label": "第2幕 · 場景2.7．風格咖啡館．日 · shot_2_7_8",
+      "text": "簡單來說，就是涵蓋的企業範圍越來越廣，數據要求的嚴謹度也越來越高，逐步推動。",
+      "start_seconds": 665.41,
+      "end_seconds": 672.68,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_7_9",
+      "label": "第2幕 · 場景2.7．風格咖啡館．日 · shot_2_7_9",
+      "text": "首先在 2023 年，要求資本額 20 億以上的公司提交『永續報告書』；到 2025 年，擴大到『所有』上市櫃公司都得交。到了 2027 年標準更高了，還得完成溫室氣體盤查；到 2029 年更是終極考驗，不僅要盤查，還得全數通過第三方驗證！也就是說，未來的 ESG 資訊就跟財報一樣，數據必須經得起嚴格查核，容不得半點造假！",
+      "start_seconds": 672.68,
+      "end_seconds": 702.2,
+      "speaker_directions": "George（畫外音）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [
+          "永續報告書",
+          "所有"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_7_10",
+      "label": "第2幕 · 場景2.7．風格咖啡館．日 · shot_2_7_10",
+      "text": "啊，這套規則真像緊箍咒，越唸越緊啊！",
+      "start_seconds": 702.2,
+      "end_seconds": 705.98,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_7_11",
+      "label": "第2幕 · 場景2.7．風格咖啡館．日 · shot_2_7_11",
+      "text": "呵呵，是啊，目的就是要透過法規的力量，讓所有的上市櫃公司，最終都符合ESG標準啊！",
+      "start_seconds": 705.98,
+      "end_seconds": 713.43,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_7_12",
+      "label": "第2幕 · 場景2.7．風格咖啡館．日 · shot_2_7_12",
+      "text": "那未上市櫃的中小企業呢？啊，他們也會接受到供應鏈本身的稽核壓力，最終也都得符合ESG標準！",
+      "start_seconds": 713.43,
+      "end_seconds": 722.79,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_7_13",
+      "label": "第2幕 · 場景2.8．主管辦公室．日 · shot_2_7_13",
+      "text": "沒錯，只有符合ESG的企業才能存活下來，不符合的最終都會被淘汰！",
+      "start_seconds": 722.79,
+      "end_seconds": 729.23,
+      "speaker_directions": "George 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_8_1",
+      "label": "第2幕 · 場景2.8．主管辦公室．日 · shot_2_8_1",
+      "text": "恩，你這份報告寫得很好，把ESG對我們公司的影響分析地非常到位！看來推動ESG是勢在必行了！",
+      "start_seconds": 729.23,
+      "end_seconds": 738.43,
+      "speaker_directions": "主管 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "assertive, managerial",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_8_2",
+      "label": "第2幕 · 場景2.8．主管辦公室．日 · shot_2_8_2",
+      "text": "謝謝協理的肯定",
+      "start_seconds": 738.43,
+      "end_seconds": 740.31,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_8_3",
+      "label": "第2幕 · 場景2.8．主管辦公室．日 · shot_2_8_3",
+      "text": "不過老闆接下來一定會問，那具體該怎麼推動呢？你想好了沒有？",
+      "start_seconds": 740.31,
+      "end_seconds": 745.54,
+      "speaker_directions": "主管 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "assertive, managerial",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_8_4",
+      "label": "第2幕 · 場景2.8．主管辦公室．日 · shot_2_8_4",
+      "text": "蝦？推動策略也要我規劃嗎？",
+      "start_seconds": 745.54,
+      "end_seconds": 748.0,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_8_5",
+      "label": "第2幕 · 場景2.8．主管辦公室．日 · shot_2_8_5",
+      "text": "當然啊，你現在也算是ESG專家了，不找你找誰啊？這可是在老闆面前展現能力的大好機會喔，你得好好把握啊！",
+      "start_seconds": 748.0,
+      "end_seconds": 757.78,
+      "speaker_directions": "主管 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "assertive, managerial",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_2_8_6",
+      "label": "第2幕 · 場景2.8．主管辦公室．日 · shot_2_8_6",
+      "text": "喔？好吧！",
+      "start_seconds": 757.78,
+      "end_seconds": 759.87,
+      "speaker_directions": "Amy 說話",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "normal",
+        "emphasis_words": [],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_1_1a",
+      "label": "第3幕 · 場景3.1．新潮咖啡館．日 - 行動地圖五步驟 · shot_3_1_1a",
+      "text": "顧問，這是我專門幫您泡的咖啡，請您嚐嚐！",
+      "start_seconds": 759.87,
+      "end_seconds": 763.94,
+      "speaker_directions": "Amy（熱情端上咖啡，帶著討好期待神情）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "friendly, eager",
+        "emphasis_words": [
+          "專門",
+          "咖啡"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_1_1b",
+      "label": "第3幕 · 場景3.1．新潮咖啡館．日 - 行動地圖五步驟 · shot_3_1_1b",
+      "text": "呵呵，你又有什麼疑難雜症了？就直說吧！",
+      "start_seconds": 763.94,
+      "end_seconds": 768.01,
+      "speaker_directions": "George（接過咖啡輕啜，看穿對方心思般呵呵笑）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "amused, warm mentor",
+        "emphasis_words": [
+          "疑難雜症",
+          "直說"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_1_2",
+      "label": "第3幕 · 場景3.1．新潮咖啡館．日 - 行動地圖五步驟 · shot_3_1_2",
+      "text": "唉唷，被您料中了，我是想請問：如果我們公司要推動ESG，該怎麼進行比較好啦？",
+      "start_seconds": 768.01,
+      "end_seconds": 775.03,
+      "speaker_directions": "Amy（雙手合十，面露苦笑請教）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "humble, seeking advice",
+        "emphasis_words": [
+          "推動ESG",
+          "怎麼進行"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_1_3a",
+      "label": "第3幕 · 場景3.1．新潮咖啡館．日 - 行動地圖五步驟 · shot_3_1_3a",
+      "text": "要推動ESG啊？一杯咖啡可能不夠啊！",
+      "start_seconds": 775.03,
+      "end_seconds": 778.97,
+      "speaker_directions": "George（放下咖啡杯，帶著幽默調侃笑意）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "humorous, teasing",
+        "emphasis_words": [
+          "一杯咖啡",
+          "不夠"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_1_3b",
+      "label": "第3幕 · 場景3.1．新潮咖啡館．日 - 行動地圖五步驟 · shot_3_1_3b",
+      "text": "沒問題，下次我請您吃飯，您就教教我吧！",
+      "start_seconds": 778.97,
+      "end_seconds": 782.91,
+      "speaker_directions": "Amy（急忙連忙點頭，打蛇隨棍上）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "enthusiastic, eager",
+        "emphasis_words": [
+          "請您吃飯",
+          "教教我"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_1_4",
+      "label": "第3幕 · 場景3.1．新潮咖啡館．日 - 行動地圖五步驟 · shot_3_1_4",
+      "text": "呵呵，我建議妳，可以把推動ESG，想像成一個健身教練要輔導一個選手減重，整個過程可以區分成五個步驟。",
+      "start_seconds": 782.91,
+      "end_seconds": 792.41,
+      "speaker_directions": "George（語調平穩權威，打出清晰的比喻）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, instructional mentor",
+        "emphasis_words": [
+          "健身教練",
+          "輔導選手減重",
+          "五個步驟"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_1_5",
+      "label": "第3幕 · 場景3.1．新潮咖啡館．日 - 行動地圖五步驟 · shot_3_1_5",
+      "text": "（畫面簡報：顯示行動地圖五步驟：〔1. 健康盤點〕、〔2. 設定目標〕、〔3. 制定對策〕、〔4. 貫徹執行〕、〔5. 稽核改善〕。）",
+      "start_seconds": 792.41,
+      "end_seconds": 795.44,
+      "speaker_directions": "純視覺運鏡，簡報圖解動畫呈現",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "neutral visual presentation",
+        "emphasis_words": [
+          "健康盤點",
+          "設定目標",
+          "制定對策",
+          "貫徹執行",
+          "稽核改善"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_2_1",
+      "label": "第3幕 · 場景3.2．新潮咖啡館．日 - 步驟一～健康盤點 · shot_3_2_1",
+      "text": "第一步，就是幫這選手做一套全面的「健康盤點」，瞭解這選手的身體現況和理想目標差距有多少。推動 ESG 也是如此。我們必須先用 E、S、G 三大指標，全面檢視公司的現況。",
+      "start_seconds": 795.44,
+      "end_seconds": 810.49,
+      "speaker_directions": "George（畫外音，條理分明沉穩解說）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "instructional, authoritative",
+        "emphasis_words": [
+          "健康盤點",
+          "現況",
+          "差距",
+          "ESG三大指標"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_2_2",
+      "label": "第3幕 · 場景3.2．新潮咖啡館．日 - 步驟一～健康盤點 · shot_3_2_2",
+      "text": "例如在E，環境面，我們要檢視公司在營運中對自然環境造成了哪些影響。",
+      "start_seconds": 810.49,
+      "end_seconds": 818.27,
+      "speaker_directions": "George（畫外音，搭配E指標圖標彈出解說）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "instructional mentor",
+        "emphasis_words": [
+          "E",
+          "環境面",
+          "自然環境"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_2_3",
+      "label": "第3幕 · 場景3.2．新潮咖啡館．日 - 步驟一～健康盤點 · shot_3_2_3",
+      "text": "接著在S，社會面，要檢視公司對所有「利害關係人」有沒有善盡責任。",
+      "start_seconds": 818.27,
+      "end_seconds": 825.18,
+      "speaker_directions": "George（畫外音，搭配S指標圖標彈出解說）（原作指示：畫面簡報：「S」區塊發光，彈出：〔安全帽圖標+勞動權益〕、〔愛心圖標+員工福利〕、〔手拉手圖標+多樣性與包容性〕、〔房子圖標+社會參與〕、〔盾牌圖標+顧客權益〕、〔鏈條圖標+供應鏈管理〕）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "instructional mentor",
+        "emphasis_words": [
+          "S",
+          "社會面",
+          "利益關係人"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_2_4",
+      "label": "第3幕 · 場景3.2．新潮咖啡館．日 - 步驟一～健康盤點 · shot_3_2_4",
+      "text": "最後在G，治理面，要檢視公司的「決策中樞」有沒有遵守誠信原則。",
+      "start_seconds": 825.18,
+      "end_seconds": 832.31,
+      "speaker_directions": "George（畫外音，搭配G指標圖標彈出解說）（原作指示：畫面簡報：「G」區塊發光，彈出：〔一群人圖標+董事會結構〕、〔錢袋圖標+管理層薪酬〕、〔放大鏡圖標+資訊透明度〕、〔天秤圖標+道德合規〕、〔股價圖標+股東權益保護〕、〔警示牌圖標+風險管理〕）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "instructional mentor",
+        "emphasis_words": [
+          "G",
+          "治理面",
+          "透明",
+          "誠信經營"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_2_5",
+      "label": "第3幕 · 場景3.2．新潮咖啡館．日 - 步驟一～健康盤點 · shot_3_2_5",
+      "text": "George！光聽你念完要盤點的項目，我就頭皮發麻了。這些項目那麼多，我們公司即使完成盤點了，也沒有足夠的人力來改善啊！",
+      "start_seconds": 832.31,
+      "end_seconds": 843.51,
+      "speaker_directions": "Amy（面露難色抓頭，倒抽一口涼氣，感到沉重負擔）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "anxious, overwhelmed",
+        "emphasis_words": [
+          "頭皮發麻",
+          "那麼多",
+          "沒有足夠人力"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_2_6",
+      "label": "第3幕 · 場景3.2．新潮咖啡館．日 - 步驟一～健康盤點 · shot_3_2_6",
+      "text": "妳的擔心完全合理，",
+      "start_seconds": 843.51,
+      "end_seconds": 845.67,
+      "speaker_directions": "George（微笑點頭，語氣溫和安撫）（原作指示：點點頭）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "comforting, reassuring mentor",
+        "emphasis_words": [
+          "完全合理",
+          "不可能",
+          "沒有必要一次做完"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_3_1",
+      "label": "第3幕 · 場景3.3．新潮咖啡館．日 - 步驟二～設定目標 · shot_3_3_1",
+      "text": "所以，這就是步驟二「設定目標」的重點。也就是要學會「抓重點」。",
+      "start_seconds": 845.67,
+      "end_seconds": 851.68,
+      "speaker_directions": "George（畫外音，重點切入）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "clear, focused",
+        "emphasis_words": [
+          "設定目標",
+          "抓重點"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_3_2",
+      "label": "第3幕 · 場景3.3．新潮咖啡館．日 - 步驟二～設定目標 · shot_3_3_2",
+      "text": "不要想一次做完所有事，而是要優先處理那些對公司最重要、最迫切的議題。",
+      "start_seconds": 851.68,
+      "end_seconds": 858.63,
+      "speaker_directions": "George（凝視Amy，傳授策略思維）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "instructive, practical",
+        "emphasis_words": [
+          "優先處理",
+          "最重要",
+          "最迫切"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_3_3",
+      "label": "第3幕 · 場景3.3．新潮咖啡館．日 - 步驟二～設定目標 · shot_3_3_3",
+      "text": "怎麼找出最重要，最迫切的議題？",
+      "start_seconds": 858.63,
+      "end_seconds": 861.29,
+      "speaker_directions": "Amy（好奇探身提問）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "inquisitive",
+        "emphasis_words": [
+          "最重要",
+          "最迫切"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_3_4",
+      "label": "第3幕 · 場景3.3．新潮咖啡館．日 - 步驟二～設定目標 · shot_3_3_4",
+      "text": "這得透過一個專業的篩選過程，在 ESG 領域，我們稱之為 「重大性分析 (Materiality Analysis)」。",
+      "start_seconds": 861.29,
+      "end_seconds": 870.94,
+      "speaker_directions": "George（從容引出關鍵專業詞彙）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "authoritative, academic",
+        "emphasis_words": [
+          "篩選過程",
+          "重大性分析"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_3_5",
+      "label": "第3幕 · 場景3.3．新潮咖啡館．日 - 步驟二～設定目標 · shot_3_3_5",
+      "text": "我們可以畫一個矩陣圖來幫忙思考。橫軸是『對公司的衝擊程度』，縱軸則是『對利害關係人的衝擊程度』！",
+      "start_seconds": 870.94,
+      "end_seconds": 878.82,
+      "speaker_directions": "George（手指在桌面畫出十字坐標軸，生動比劃）（原作指示：畫面簡報：原〔2. 設定目標〕畫面，zoom out 成為一個白板上的矩陣圖。標題浮現精緻的字樣：「重大性分析矩陣 (Materiality Matrix)」。X軸顯示「對公司的衝擊程度」，Y軸顯示「利害關係人的在乎程度」）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "visual explanation",
+        "emphasis_words": [
+          "矩陣圖",
+          "營運衝擊程度",
+          "利益關係人的衝擊程度"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_3_6",
+      "label": "第3幕 · 場景3.3．新潮咖啡館．日 - 步驟二～設定目標 · shot_3_3_6",
+      "text": "接著就可以把步驟一所盤點出來的議題，一個一個貼在矩陣圖上的相對位置。最後，那些落在右上角區域的議題，代表他們「對公司衝擊大」而「利害關係人也很在乎」，就屬於「重大性議題」，也就是最該優先處理的目標了！",
+      "start_seconds": 878.82,
+      "end_seconds": 897.9,
+      "speaker_directions": "George（畫外音，配合矩陣圖動畫浮現）（原作指示：畫面動畫：相關議題圖標被一一放到相對位置。最後，右上角的幾個圖標，如「碳排放」、「供應鏈勞工人權」、「能源使用」等，被紅色虛線框起來，旁邊標註 Material Topics）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "instructional, clarifying",
+        "emphasis_words": [
+          "右上角區塊",
+          "關鍵議題",
+          "影響大"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_3_7",
+      "label": "第3幕 · 場景3.3．新潮咖啡館．日 - 步驟二～設定目標 · shot_3_3_7",
+      "text": "以我們公司來說，身為製造業，「碳排放」直接關係到未來的經營與轉型成本，對公司衝擊很大；它更是國際大客戶挑選供應商的硬指標，客戶非常在乎，所以絕對是我們的「重大性議題」！",
+      "start_seconds": 897.9,
+      "end_seconds": 913.7,
+      "speaker_directions": "George（畫外音，結合大成科技實例）（原作指示：畫面動畫：矩陣圖上的「碳排放」圖標發光）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "insightful, context-driven",
+        "emphasis_words": [
+          "溫室氣體排放",
+          "碳稅",
+          "優先處理"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_3_8",
+      "label": "第3幕 · 場景3.3．新潮咖啡館．日 - 步驟二～設定目標 · shot_3_3_8",
+      "text": "同樣的，「供應鏈管理」也是。如果供應商有人權問題，我們訂單可能會被取消，對公司衝擊很大，客戶也擔心被波及，自然也很在乎這議題，所以這也是重大性議題。",
+      "start_seconds": 913.7,
+      "end_seconds": 927.06,
+      "speaker_directions": "George（畫外音，進一步舉出S面向實例）（原作指示：畫面動畫：矩陣圖上的「供應鏈管理」圖標發光）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "logical, convincing",
+        "emphasis_words": [
+          "資訊安全管理",
+          "機密外洩",
+          "重大議題"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_3_9",
+      "label": "第3幕 · 場景3.3．新潮咖啡館．日 - 步驟二～設定目標 · shot_3_3_9",
+      "text": "一旦找出重大性議題，接著就針對該議題，訂出合理的改善期限與改善幅度，就成為一個理想的目標了。",
+      "start_seconds": 927.06,
+      "end_seconds": 936.22,
+      "speaker_directions": "George（畫外音，收斂核心邏輯）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "conclusive, crisp",
+        "emphasis_words": [
+          "關鍵議題",
+          "合理改善目標",
+          "時程"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_3_10",
+      "label": "第3幕 · 場景3.3．新潮咖啡館．日 - 步驟二～設定目標 · shot_3_3_10",
+      "text": "我懂了！我們不是什麼都要做，而是要優先改善那些落在右上角的重大性議題！那鎖定好目標之後呢？",
+      "start_seconds": 936.22,
+      "end_seconds": 944.36,
+      "speaker_directions": "Amy（豁然開朗，用力拍手點頭）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "bright, enlightened",
+        "emphasis_words": [
+          "集中資源",
+          "右上角",
+          "最重大議題"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_4_1",
+      "label": "第3幕 · 場景3.4．新潮咖啡館．日 - 步驟三～制定對策 · shot_3_4_1",
+      "text": "接著就要進入第三步：「制定對策」。",
+      "start_seconds": 944.36,
+      "end_seconds": 947.92,
+      "speaker_directions": "George（畫外音，順暢推進下一步）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "clear transition",
+        "emphasis_words": [
+          "制定對策",
+          "第三步"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_4_2",
+      "label": "第3幕 · 場景3.4．新潮咖啡館．日 - 步驟三～制定對策 · shot_3_4_2",
+      "text": "也就是針對步驟二所訂出的每個目標，逐一設計出合適的對策。比方說，如果我們有個目標是「四年內減碳20%」",
+      "start_seconds": 947.92,
+      "end_seconds": 958.11,
+      "speaker_directions": "George（具體指導行動計畫的展開）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "practical mentor",
+        "emphasis_words": [
+          "解決方案",
+          "廠房用電減少20%"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_4_3",
+      "label": "第3幕 · 場景3.4．新潮咖啡館．日 - 步驟三～制定對策 · shot_3_4_3",
+      "text": "根據我們公司的條件，我們想出的對策，可能就包括：「導入綠電、更換節能設備、優化物流路線、採用綠色原料」。",
+      "start_seconds": 958.11,
+      "end_seconds": 968.59,
+      "speaker_directions": "George（列舉實務節能對策）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "detailed, structured",
+        "emphasis_words": [
+          "屋頂太陽能板",
+          "節能設備",
+          "優化製程",
+          "隨手關燈"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_4_4",
+      "label": "第3幕 · 場景3.4．新潮咖啡館．日 - 步驟三～制定對策 · shot_3_4_4",
+      "text": "接著就要為每個對策，訂出明確的工作項目，並把完成時間、負責部門、所需資源、稽核方式都羅列清楚。而最後，當你把這一整套的目標、對策、工作項目都彙整起來，就是一份完整的專案計畫了！",
+      "start_seconds": 968.59,
+      "end_seconds": 985.47,
+      "speaker_directions": "George（畫外音，展示執行藍圖架構）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "structured, encouraging",
+        "emphasis_words": [
+          "工作項目",
+          "負責部門",
+          "專案計畫"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_4_5",
+      "label": "第3幕 · 場景3.4．新潮咖啡館．日 - 步驟三～制定對策 · shot_3_4_5",
+      "text": "嗯，有了這份專案計畫，感覺就踏實多了！",
+      "start_seconds": 985.47,
+      "end_seconds": 989.32,
+      "speaker_directions": "Amy（長吁一口氣，露出踏實放鬆的神采）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "relieved, cheerful",
+        "emphasis_words": [
+          "專案計畫",
+          "踏實多了"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_5_1",
+      "label": "第3幕 · 場景3.5．新潮咖啡館．日 - 步驟四～貫徹執行 · shot_3_5_1",
+      "text": "沒錯，但計畫不能只是掛在牆上，所以第四步就是",
+      "start_seconds": 989.32,
+      "end_seconds": 994.04,
+      "speaker_directions": "George（會心一笑，點出紙上計畫與實踐的差距）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "wry humor, transitioning",
+        "emphasis_words": [
+          "紙上談兵",
+          "第四步"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_5_2",
+      "label": "第3幕 · 場景3.5．新潮咖啡館．日 - 步驟四～貫徹執行 · shot_3_5_2",
+      "text": "「貫徹執行」。這一步最實在，也最挑戰！",
+      "start_seconds": 994.04,
+      "end_seconds": 998.72,
+      "speaker_directions": "George（畫外音，強調執行的重量與挑戰）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "serious, impactful",
+        "emphasis_words": [
+          "貫徹執行",
+          "最關鍵",
+          "最挑戰"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_5_3",
+      "label": "第3幕 · 場景3.5．新潮咖啡館．日 - 步驟四～貫徹執行 · shot_3_5_3",
+      "text": "這需要跨部門的合作，例如採購部要去找綠色原料，廠務部要研究節能設備，人資部要規劃相關的員工訓練，大家都要動起來，才能把藍圖變成真正的大樓！",
+      "start_seconds": 998.72,
+      "end_seconds": 1012.94,
+      "speaker_directions": "George（畫外音，描繪各部門通力合作的生動動態）（原作指示：畫面簡報：原〔4. 貫徹執行〕移到中間放大）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "inspiring, dynamic",
+        "emphasis_words": [
+          "跨部門合作",
+          "採購部",
+          "廠務部",
+          "人資部",
+          "動起來"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_6_1",
+      "label": "第3幕 · 場景3.6．新潮咖啡館．日 - 步驟五～稽核改善 · shot_3_6_1",
+      "text": "最後，則是第五步：「稽核改善」。也就是在執行之後要認真地檢討成果，看看當初設定的目標，例如減碳20%，有沒有達成？如果沒達成，就要找出原因，加以改善。如果達成了，也要維持成果，甚至挑戰更高的標準，進行下一輪的改善循環。",
+      "start_seconds": 1012.94,
+      "end_seconds": 1035.26,
+      "speaker_directions": "George（畫外音，傳授PDCA閉環關鍵）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "conclusive, professional",
+        "emphasis_words": [
+          "稽核改善",
+          "定期檢視",
+          "達成沒有",
+          "滾動修正"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_6_2",
+      "label": "第3幕 · 場景3.6．新潮咖啡館．日 - 步驟五～稽核改善 · shot_3_6_2",
+      "text": "恩，健康盤點、設定目標、制定對策、貫徹執行、稽核改善... 這五個步驟非常清楚！謝謝George，我現在知道，該怎麼幫公司推動ESG了！",
+      "start_seconds": 1035.26,
+      "end_seconds": 1047.01,
+      "speaker_directions": "Amy（雙手在白板/筆記本上快速筆記，眼神發亮自信回顧）（原作指示：Amy得意地微笑，眼神發亮，在筆記本上振筆疾書）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "confident, empowered",
+        "emphasis_words": [
+          "五個步驟",
+          "太清晰了",
+          "徹底搞懂"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_7_1",
+      "label": "第3幕 · 場景3.7．主管辦公室．日 - 主管指派Amy宣導 · shot_3_7_1",
+      "text": "Amy，你這份推動計畫寫得很具體，非常好！",
+      "start_seconds": 1047.01,
+      "end_seconds": 1051.19,
+      "speaker_directions": "主管（拿著Amy整理的五步驟報告，滿面春風讚不絕口）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "proud, complimentary",
+        "emphasis_words": [
+          "太有條理",
+          "非常好"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_7_2",
+      "label": "第3幕 · 場景3.7．主管辦公室．日 - 主管指派Amy宣導 · shot_3_7_2",
+      "text": "謝謝協理的肯定，George幫了我很大的忙！",
+      "start_seconds": 1051.19,
+      "end_seconds": 1054.75,
+      "speaker_directions": "Amy（謙虛地欠身微笑）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "modest, respectful",
+        "emphasis_words": [
+          "謝謝肯定",
+          "關鍵指導"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_7_3",
+      "label": "第3幕 · 場景3.7．主管辦公室．日 - 主管指派Amy宣導 · shot_3_7_3",
+      "text": "接下來可能得組成工作小組來負責推動。",
+      "start_seconds": 1054.75,
+      "end_seconds": 1058.14,
+      "speaker_directions": "主管（收起笑容，正色提出下一步規劃）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "business-like, strategic",
+        "emphasis_words": [
+          "各部門",
+          "工作小組"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_7_4",
+      "label": "第3幕 · 場景3.7．主管辦公室．日 - 主管指派Amy宣導 · shot_3_7_4",
+      "text": "是的！",
+      "start_seconds": 1058.14,
+      "end_seconds": 1059.14,
+      "speaker_directions": "Amy（點頭應答）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "responsive",
+        "emphasis_words": [
+          "好的"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_7_5",
+      "label": "第3幕 · 場景3.7．主管辦公室．日 - 主管指派Amy宣導 · shot_3_7_5",
+      "text": "不過，工作小組中也得有個人來負責宣導，鼓勵同仁動起來！這個人選...我看...就由你擔任吧！",
+      "start_seconds": 1059.14,
+      "end_seconds": 1067.9,
+      "speaker_directions": "主管（身體前傾，眼神熱切盯著Amy，語帶重託）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "persuasive, delegating",
+        "emphasis_words": [
+          "宣導觀念",
+          "調動積極性",
+          "非妳莫屬"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_7_6",
+      "label": "第3幕 · 場景3.7．主管辦公室．日 - 主管指派Amy宣導 · shot_3_7_6",
+      "text": "蝦？怎麼又是我？不能找別人嗎？",
+      "start_seconds": 1067.9,
+      "end_seconds": 1071.0,
+      "speaker_directions": "Amy（愣住瞪大眼睛，聲音差點破音）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "shocked, resistant",
+        "emphasis_words": [
+          "蝦",
+          "又是我",
+          "找別人"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_7_7",
+      "label": "第3幕 · 場景3.7．主管辦公室．日 - 主管指派Amy宣導 · shot_3_7_7",
+      "text": "你就已經搞懂ESG了，也設計出推動步驟了，還有George幫忙，找你是剛剛好啊！放心啦，成功之後我一定會好好地獎勵你！",
+      "start_seconds": 1071.0,
+      "end_seconds": 1081.63,
+      "speaker_directions": "主管（拍拍桌子畫大餅，語氣誠懇而堅定）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "encouraging, firm boss",
+        "emphasis_words": [
+          "最熟",
+          "最透",
+          "最合適",
+          "好好獎勵"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_7_8",
+      "label": "第3幕 · 場景3.7．主管辦公室．日 - 主管指派Amy宣導 · shot_3_7_8",
+      "text": "這...這，好吧",
+      "start_seconds": 1081.63,
+      "end_seconds": 1086.03,
+      "speaker_directions": "Amy（滿臉苦瓜臉，無可奈何地苦笑屈服）（原作指示：面有難色）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "reluctant, resigned",
+        "emphasis_words": [
+          "好吧",
+          "盡力試試看"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_8_1",
+      "label": "第3幕 · 場景3.8．公園涼椅．日 - 請益George · shot_3_8_1",
+      "text": "Hi, George！真高興碰到你！",
+      "start_seconds": 1086.03,
+      "end_seconds": 1088.6,
+      "speaker_directions": "Amy（快步走到涼椅旁，氣喘吁吁打招呼）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "friendly, slightly breathless",
+        "emphasis_words": [
+          "真巧",
+          "遇到您"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_8_2",
+      "label": "第3幕 · 場景3.8．公園涼椅．日 - 請益George · shot_3_8_2",
+      "text": "你是剛好碰到我？還是專門在這等我啊？",
+      "start_seconds": 1088.6,
+      "end_seconds": 1091.85,
+      "speaker_directions": "George（放下手上的書，半開玩笑打趣）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "witty, amused",
+        "emphasis_words": [
+          "真巧",
+          "專門堵我"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_8_3",
+      "label": "第3幕 · 場景3.8．公園涼椅．日 - 請益George · shot_3_8_3",
+      "text": "唉幽，被料到了，我知道您會走這條路搭捷運，所以在這兒等您的！",
+      "start_seconds": 1091.85,
+      "end_seconds": 1096.88,
+      "speaker_directions": "Amy（吐了吐舌頭，不好意思地在旁邊坐下）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "sheepish, cheerful",
+        "emphasis_words": [
+          "被看穿",
+          "特地等您"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_8_4",
+      "label": "第3幕 · 場景3.8．公園涼椅．日 - 請益George · shot_3_8_4",
+      "text": "說吧，這次又碰到什麼瓶頸了？",
+      "start_seconds": 1096.88,
+      "end_seconds": 1099.83,
+      "speaker_directions": "George（微笑闔上書本，溫和傾聽）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "gentle, supportive",
+        "emphasis_words": [
+          "說吧",
+          "瓶頸"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_8_5",
+      "label": "第3幕 · 場景3.8．公園涼椅．日 - 請益George · shot_3_8_5",
+      "text": "先前承蒙您幫忙，設計出很好的ESG推廣步驟，結果主管要我負責宣導了！",
+      "start_seconds": 1099.83,
+      "end_seconds": 1105.75,
+      "speaker_directions": "Amy（嘆了一大口氣，垮下雙肩倒苦水）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "venting, frustrated",
+        "emphasis_words": [
+          "行動步驟",
+          "全公司宣導"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_8_6",
+      "label": "第3幕 · 場景3.8．公園涼椅．日 - 請益George · shot_3_8_6",
+      "text": "這是很好的職涯發展機會啊！",
+      "start_seconds": 1105.75,
+      "end_seconds": 1108.35,
+      "speaker_directions": "George（笑著拍手恭喜）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "supportive, optimistic",
+        "emphasis_words": [
+          "好歷練",
+          "表現機會"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_8_7",
+      "label": "第3幕 · 場景3.8．公園涼椅．日 - 請益George · shot_3_8_7",
+      "text": "可是，寫報告我很行，但要去「說服同事改變工作習慣」這我就不行啦！大家都忙，誰會想理我這種「增加工作量」的苦差事啊？",
+      "start_seconds": 1108.35,
+      "end_seconds": 1119.56,
+      "speaker_directions": "Amy（抓狂抱頭，連珠炮般訴苦）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "frustrated, anxious rant",
+        "emphasis_words": [
+          "改變習慣",
+          "死定了",
+          "增加工作量"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_8_8",
+      "label": "第3幕 · 場景3.8．公園涼椅．日 - 請益George · shot_3_8_8",
+      "text": "別擔心，你這麼機靈，懂得幫我泡咖啡，也懂得在路上攔我，一定能想出方法的！",
+      "start_seconds": 1119.56,
+      "end_seconds": 1126.33,
+      "speaker_directions": "George（平靜看著Amy，帶著洞悉一切的睿智笑意）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "calm, witty, reassuring",
+        "emphasis_words": [
+          "別急",
+          "免費顧問牌",
+          "出主意"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_8_9",
+      "label": "第3幕 · 場景3.8．公園涼椅．日 - 請益George · shot_3_8_9",
+      "text": "唉幽，別損我了！我真的很想聽聽您的建議嘛！",
+      "start_seconds": 1126.33,
+      "end_seconds": 1130.43,
+      "speaker_directions": "Amy（眼眶泛淚，雙手合十期待）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "pleading, grateful",
+        "emphasis_words": [
+          "再造恩人",
+          "真的很需要"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_8_10",
+      "label": "第3幕 · 場景3.8．公園涼椅．日 - 請益George · shot_3_8_10",
+      "text": "呵呵，那我就給你一個建議吧：在公司推動任何變革時，最關鍵的，永遠是「人」。",
+      "start_seconds": 1130.43,
+      "end_seconds": 1137.56,
+      "speaker_directions": "George（神情收斂轉為認真，緩緩點出變革的核心）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "profound, impactful",
+        "emphasis_words": [
+          "任何變革",
+          "關鍵",
+          "人"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_8_11",
+      "label": "第3幕 · 場景3.8．公園涼椅．日 - 請益George · shot_3_8_11",
+      "text": "人？",
+      "start_seconds": 1137.56,
+      "end_seconds": 1138.57,
+      "speaker_directions": "Amy（疑惑歪頭）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "puzzled",
+        "emphasis_words": [
+          "人"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_8_12",
+      "label": "第3幕 · 場景3.8．公園涼椅．日 - 請益George · shot_3_8_12",
+      "text": "沒錯。冰冷的報告是打動不了人的，妳得讓同事們感受到，ESG和他們的利益是緊緊相連的！",
+      "start_seconds": 1138.57,
+      "end_seconds": 1146.99,
+      "speaker_directions": "George（循循善誘，點出利益共振思維）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "instructive, thoughtful",
+        "emphasis_words": [
+          "冰冷政策",
+          "情感",
+          "切身利益",
+          "關聯"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_8_13",
+      "label": "第3幕 · 場景3.8．公園涼椅．日 - 請益George · shot_3_8_13",
+      "text": "要讓他們相信，ESG不是來找麻煩的，而是能提升他們競爭力、讓工作變得更有價值的好機會！",
+      "start_seconds": 1146.99,
+      "end_seconds": 1154.69,
+      "speaker_directions": "George（進一步強化正向激勵的重要性）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "inspiring, persuasive",
+        "emphasis_words": [
+          "不是找麻煩",
+          "提升競爭力",
+          "工作更有價值"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_8_14",
+      "label": "第3幕 · 場景3.8．公園涼椅．日 - 請益George · shot_3_8_14",
+      "text": "恩？ESG還能提昇個人競爭力？ 讓工作變得更有價值？",
+      "start_seconds": 1154.69,
+      "end_seconds": 1160.77,
+      "speaker_directions": "Amy（睜大眼睛，露出若有所思的神情）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "curious, intrigued",
+        "emphasis_words": [
+          "提升個人競爭力",
+          "更有價值"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_8_15",
+      "label": "第3幕 · 場景3.8．公園涼椅．日 - 請益George · shot_3_8_15",
+      "text": "是啊！以採購來說好了，如果他有能力透過ESG，幫公司打造出綠色供應鏈，他就不再是花成本的單位，而是為公司創造利潤的英雄！那ESG對他而言，就不會是口號，而是提昇工作價值的好機會啦！",
+      "start_seconds": 1160.77,
+      "end_seconds": 1178.16,
+      "speaker_directions": "George（畫外音，舉例生動說明）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "vivid, empowering",
+        "emphasis_words": [
+          "綠色供應鏈",
+          "幕後英雄",
+          "職場升級"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_8_16",
+      "label": "第3幕 · 場景3.8．公園涼椅．日 - 請益George · shot_3_8_16",
+      "text": "喔，所以我要想辦法，讓大家瞭解這個道理？",
+      "start_seconds": 1178.16,
+      "end_seconds": 1181.94,
+      "speaker_directions": "Amy（頻頻點頭，摸索著推動方向）（原作指示：若有所思）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "thoughtful, grasping",
+        "emphasis_words": [
+          "大帽子",
+          "看見好處"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_8_17",
+      "label": "第3幕 · 場景3.8．公園涼椅．日 - 請益George · shot_3_8_17",
+      "text": "沒錯，但要記住，與其說大道理，不如找出大家身邊已經在做的「小勝利」，更能激發他們的熱情！至於接下來該怎麼進行，這就看你的創意啦！你這麼聰明，我相信你一定能找到方法的！",
+      "start_seconds": 1181.94,
+      "end_seconds": 1196.48,
+      "speaker_directions": "George（笑著起身拍拍Amy肩膀，給予溫暖信任）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "warm, encouraging, trusting",
+        "emphasis_words": [
+          "小勝利",
+          "激發共鳴",
+          "創意"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_9_1",
+      "label": "第3幕 · 場景3.9．Amy辦公室．深夜 - 頓悟發想Vlog · shot_3_9_1",
+      "text": "（辦公室空無一人，只剩Amy的桌燈亮著。她盯著電腦螢幕，眼神死氣沈沈。螢幕特寫：一份空白Word文件，標題赫然寫著《ESG 推動管理辦法與獎懲細則草案》，游標在第一行寂寞地閃爍著。）",
+      "start_seconds": 1196.48,
+      "end_seconds": 1199.51,
+      "speaker_directions": "純視覺運鏡，深夜寂靜辦公室氣氛",
+      "delivery_cues": {
+        "pace": "slow",
+        "energy": "heavy, tired atmosphere",
+        "emphasis_words": [
+          "空無一人",
+          "死氣沈沈",
+          "管理辦法與獎懲細則"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_9_2",
+      "label": "第3幕 · 場景3.9．Amy辦公室．深夜 - 頓悟發想Vlog · shot_3_9_2",
+      "text": "管理辦法... 獎懲細則... 這種官僚八股文，別說同事不想看，連我自己都寫不下去啊！",
+      "start_seconds": 1199.51,
+      "end_seconds": 1208.34,
+      "speaker_directions": "Amy（煩躁地猛抓頭髮，趴在鍵盤前哀嚎）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "exhausted, frustrated",
+        "emphasis_words": [
+          "管理辦法",
+          "官僚八股文",
+          "寫不下去"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_9_3",
+      "label": "第3幕 · 場景3.9．Amy辦公室．深夜 - 頓悟發想Vlog · shot_3_9_3",
+      "text": "冰冷的報告是打動不了人的... 與其說大道理，不如找出大家身邊已經在做的「小勝利」...",
+      "start_seconds": 1208.34,
+      "end_seconds": 1215.97,
+      "speaker_directions": "George（畫外音回音，如心靈導師般在耳邊響起）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "dreamy echo, wise mentor",
+        "emphasis_words": [
+          "冰冷報告",
+          "打動不了人",
+          "小勝利"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_9_4",
+      "label": "第3幕 · 場景3.9．Amy辦公室．深夜 - 頓悟發想Vlog · shot_3_9_4",
+      "text": "沒人愛看硬梆梆的報告... 那大家到底愛看什麼？",
+      "start_seconds": 1215.97,
+      "end_seconds": 1219.69,
+      "speaker_directions": "Amy（抬起頭若有所思滑動手機短影音，眼神逐漸亮起來）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "curious, spark of insight",
+        "emphasis_words": [
+          "硬梆梆報告",
+          "愛看什麼"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_9_5",
+      "label": "第3幕 · 場景3.9．Amy辦公室．深夜 - 頓悟發想Vlog · shot_3_9_5",
+      "text": "大家愛看故事！愛看驚喜！如果... 我不是來管他們的，而是來「發現」他們的價值呢？對！我不該當惹人厭的「風紀股長」，我要當——「ESG 尋寶獵人」！",
+      "start_seconds": 1219.69,
+      "end_seconds": 1233.17,
+      "speaker_directions": "Amy（興奮地猛然站起，雙拳緊握，眼中爆發頓悟狂喜）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "epiphany, exhilarated breakthrough",
+        "emphasis_words": [
+          "愛看故事",
+          "發現價值",
+          "風紀股長",
+          "ESG尋寶獵人"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_9_6",
+      "label": "第3幕 · 場景3.9．Amy辦公室．深夜 - 頓悟發想Vlog · shot_3_9_6",
+      "text": "（Amy鬥志昂揚坐回電腦前，狠狠按住 Backspace 刪除死板標題。鍵盤敲擊聲節奏輕快有力，螢幕特寫逐字打出新標題——《Amy 的 ESG 大尋寶：全體員工升級計畫》！）",
+      "start_seconds": 1233.17,
+      "end_seconds": 1236.2,
+      "speaker_directions": "純視覺動作與音效，俐落果決",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "dynamic, victorious",
+        "emphasis_words": [
+          "Amy的ESG大尋寶",
+          "員工升級計畫"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_3_9_7",
+      "label": "第3幕 · 場景3.9．Amy辦公室．深夜 - 頓悟發想Vlog · shot_3_9_7",
+      "text": "好戲... 要上場囉！",
+      "start_seconds": 1236.2,
+      "end_seconds": 1238.67,
+      "speaker_directions": "Amy（對著手機自拍鏡頭整理瀏海，露出自信俏皮的微笑，按下錄影鍵）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "confident, playful hook",
+        "emphasis_words": [
+          "好戲",
+          "上場囉"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_1_1",
+      "label": "第4幕 · 場景4.1．Amy的Vlog開場 · shot_4_1_1",
+      "text": "哈囉！大家好，歡迎來到「Amy的ESG大尋寶」！大家可能以為我們公司的 ESG剛開始做， 評分一定不及格吧？",
+      "start_seconds": 1238.67,
+      "end_seconds": 1247.06,
+      "speaker_directions": "Amy（手持自拍棒鏡頭微晃，燦爛笑容，元氣滿滿 Vlog 風格）（原作指示：Amy 手持手機自拍視角，畫面略微晃動，更有臨場感。背景是忙碌的辦公室）",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "bright, energetic vlogger",
+        "emphasis_words": [
+          "哈囉",
+          "Amy的ESG大尋寶",
+          "不及格"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_1_2",
+      "label": "第4幕 · 場景4.1．Amy的Vlog開場 · shot_4_1_2",
+      "text": "但其實，根據我明察暗訪，發現我們公司各部門都藏著許多「被封印的寶藏」。今天，我就要帶領大家，一起把它們挖出來！",
+      "start_seconds": 1247.06,
+      "end_seconds": 1257.57,
+      "speaker_directions": "Amy（自拍鏡頭轉向忙碌的開放辦公區，挑眉露出神秘笑容）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "intriguing, playful",
+        "emphasis_words": [
+          "明察暗訪",
+          "被封印的寶藏",
+          "挖出來"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_1_3",
+      "label": "第4幕 · 場景4.1．Amy的Vlog開場 · shot_4_1_3",
+      "text": "看看我們的工作中，都藏著哪些能改變世界的超能力！Let's Go!",
+      "start_seconds": 1257.57,
+      "end_seconds": 1263.29,
+      "speaker_directions": "Amy（對著鏡頭熱血比出衝鋒手勢）",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "hype, excited punch",
+        "emphasis_words": [
+          "改變世界",
+          "超能力",
+          "Let's Go"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_2_1",
+      "label": "第4幕 · 場景4.2．研發部（被封印的毛毯） · shot_4_2_1",
+      "text": "哈囉！尋寶的第一站，我們來到公司的心臟------研發部！小陳，聽說你有個秘密武器被藏起來了？",
+      "start_seconds": 1263.29,
+      "end_seconds": 1271.35,
+      "speaker_directions": "Amy（手持手機自拍走進研發樣品室，熱情打招呼）（原作指示：Amy 鏡頭轉向研發部雜亂的樣品室；對鏡頭，充滿活力地展示一個回收寶特瓶（@Recycled_Bottle；@小陳）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "cheerful vlogger",
+        "emphasis_words": [
+          "第一站",
+          "研發部",
+          "秘密武器"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_2_2",
+      "label": "第4幕 · 場景4.2．研發部（被封印的毛毯） · shot_4_2_2",
+      "text": "唉，這是兩年前試做的環保毛毯。那時候是用回收寶特瓶做的，但老闆嫌成本太高，不讓開發，我就把它丟在這邊了。",
+      "start_seconds": 1271.35,
+      "end_seconds": 1280.64,
+      "speaker_directions": "小陳（從樣品堆最底層翻出一塊灰綠色毛毯，靦腆苦笑）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "shy, self-deprecating",
+        "emphasis_words": [
+          "環保毛毯",
+          "回收寶特瓶",
+          "成本太高"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_2_3",
+      "label": "第4幕 · 場景4.2．研發部（被封印的毛毯） · shot_4_2_3",
+      "text": "小陳，現在不一樣了！這個毛毯等於在幫地球解決塑膠垃圾問題！這就是E (Environment) 的最佳實踐啊！",
+      "start_seconds": 1280.64,
+      "end_seconds": 1289.35,
+      "speaker_directions": "Amy（鏡頭推近特寫毛毯細緻質感，雙眼發亮）（原作指示：鏡頭特寫毛毯質感，眼神發亮）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "enthusiastic, validating",
+        "emphasis_words": [
+          "塑膠垃圾問題",
+          "Environment",
+          "最佳實踐"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_2_4",
+      "label": "第4幕 · 場景4.2．研發部（被封印的毛毯） · shot_4_2_4",
+      "text": "歐盟現在就愛這種東西！你這個「賠錢貨」未來可能會成為公司的「搖錢樹」喔！",
+      "start_seconds": 1289.35,
+      "end_seconds": 1295.97,
+      "speaker_directions": "Amy（神情興奮拍拍小陳肩膀，指點全球市場趨勢）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "inspired, encouraging",
+        "emphasis_words": [
+          "歐盟",
+          "賠錢貨",
+          "搖錢樹"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_2_5",
+      "label": "第4幕 · 場景4.2．研發部（被封印的毛毯） · shot_4_2_5",
+      "text": "真的假的？行銷部上星期也跟我講類似的話，看來這毛毯真有翻身機會了！",
+      "start_seconds": 1295.97,
+      "end_seconds": 1302.23,
+      "speaker_directions": "小陳（雙眼猛然發亮，驚喜之中燃起鬥志）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "awakened, hopeful",
+        "emphasis_words": [
+          "真的假的",
+          "行銷部",
+          "翻身機會"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_2_6",
+      "label": "第4幕 · 場景4.2．研發部（被封印的毛毯） · shot_4_2_6",
+      "text": "看到了嗎？環保也可以是一門好生意～而這就是我們研發部的ESG超能力！",
+      "start_seconds": 1302.23,
+      "end_seconds": 1310.01,
+      "speaker_directions": "Amy（轉向自拍鏡頭自信比讚）（原作指示：對鏡頭比讚）",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "proud, victorious",
+        "emphasis_words": [
+          "好生意",
+          "研發部",
+          "ESG超能力"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_3_1",
+      "label": "第4幕 · 場景4.3．採購部（算盤俠的覺醒） · shot_4_3_1",
+      "text": "尋寶的第二站，我們來到公司的帳房----採購部！",
+      "start_seconds": 1310.01,
+      "end_seconds": 1315.09,
+      "speaker_directions": "Amy（鏡頭帶到採購部辦公桌前，壓低聲音趣味介紹）（原作指示：Amy 來到採購部，看到王大哥（@王大哥）在按計算機（@Calculator）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "playful intro",
+        "emphasis_words": [
+          "第二站",
+          "帳房",
+          "採購部"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_3_2",
+      "label": "第4幕 · 場景4.3．採購部（算盤俠的覺醒） · shot_4_3_2",
+      "text": "王大哥，還在為那個貴 5% 的綠色供應商傷腦筋喔？",
+      "start_seconds": 1315.09,
+      "end_seconds": 1319.63,
+      "speaker_directions": "Amy（湊近王大哥桌旁，笑著探頭搭話）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "friendly, teasing",
+        "emphasis_words": [
+          "王大哥",
+          "貴5%",
+          "綠色供應商"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_3_3",
+      "label": "第4幕 · 場景4.3．採購部（算盤俠的覺醒） · shot_4_3_3",
+      "text": "對啊，老闆最計較成本了，這單我怎麼簽得下去？",
+      "start_seconds": 1319.63,
+      "end_seconds": 1323.52,
+      "speaker_directions": "王大哥（狂按計算機，深深嘆了一大口氣）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "stressed, burdened accountant",
+        "emphasis_words": [
+          "老闆",
+          "計較成本",
+          "怎麼簽得下去"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_3_4",
+      "label": "第4幕 · 場景4.3．採購部（算盤俠的覺醒） · shot_4_3_4",
+      "text": "王大哥，George教我一個「綠色碳成本」小抄，我們一起來算算看！你看，雖然綠色原料單價貴了5%，但它碳足跡直接少三成！如果把大客戶要求的「超標碳扣款」、還有出口要繳的碳關稅全算進去...",
+      "start_seconds": 1323.52,
+      "end_seconds": 1340.04,
+      "speaker_directions": "Amy（掏出筆記小抄，和王大哥湊在螢幕前敲計算機）（原作指示：兩人湊在一起按計算機）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "confident, calculating",
+        "emphasis_words": [
+          "綠色碳成本",
+          "少三成",
+          "碳稅"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_3_5",
+      "label": "第4幕 · 場景4.3．採購部（算盤俠的覺醒） · shot_4_3_5",
+      "text": "咦？如果不做減碳，被客戶扣款反而賠更多；用這款綠色材料，總成本反而省了快10%？！",
+      "start_seconds": 1340.04,
+      "end_seconds": 1348.72,
+      "speaker_directions": "王大哥（緊盯著計算機上的結算數字，難以置信地驚呼）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "astounded, enlightened",
+        "emphasis_words": [
+          "扣款反而賠更多",
+          "反而省了快10%"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_3_6",
+      "label": "第4幕 · 場景4.3．採購部（算盤俠的覺醒） · shot_4_3_6",
+      "text": "是啊！王大哥，你這不是多花錢，而是幫公司避開未來的碳稅地雷，賺回真正的利潤耶！",
+      "start_seconds": 1348.72,
+      "end_seconds": 1356.28,
+      "speaker_directions": "Amy（開心跟王大哥擊掌慶祝）",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "delighted, validating",
+        "emphasis_words": [
+          "碳稅地雷",
+          "賺回真正的利潤"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_3_7",
+      "label": "第4幕 · 場景4.3．採購部（算盤俠的覺醒） · shot_4_3_7",
+      "text": "太好了！這下有憑有據，我知道該怎麼跟老闆報告了！",
+      "start_seconds": 1356.28,
+      "end_seconds": 1361.21,
+      "speaker_directions": "王大哥（收起愁容，自信挺起胸膛整裝）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "confident, empowered",
+        "emphasis_words": [
+          "有憑有據",
+          "跟老闆報告"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_4_1",
+      "label": "第4幕 · 場景4.4．IT部（私房工具變神器） · shot_4_4_1",
+      "text": "尋寶的第三站，我們來到公司的IT部！",
+      "start_seconds": 1361.21,
+      "end_seconds": 1364.81,
+      "speaker_directions": "Amy（手持自拍鏡頭轉入充滿螢幕與伺服器機櫃的IT部）（原作指示：Amy 來到 IT 部）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "cheerful vlogger",
+        "emphasis_words": [
+          "第三站",
+          "IT部"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_4_2",
+      "label": "第4幕 · 場景4.4．IT部（私房工具變神器） · shot_4_4_2",
+      "text": "Linda，聽說妳寫了一個程式，可以自動抓供應商的數據？",
+      "start_seconds": 1364.81,
+      "end_seconds": 1369.42,
+      "speaker_directions": "Amy（探頭看向工程師 Linda 的多螢幕終端）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "curious, friendly",
+        "emphasis_words": [
+          "Linda",
+          "自動抓供應商數據"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_4_3",
+      "label": "第4幕 · 場景4.4．IT部（私房工具變神器） · shot_4_4_3",
+      "text": "喔，那個喔...因為各家廠商寄來的資料格式都不一樣，我懶得整理，就寫個程式，幫忙自動抓資料，順便分析他們的用電量跟碳排的關係...",
+      "start_seconds": 1369.42,
+      "end_seconds": 1381.8,
+      "speaker_directions": "Linda（推了推黑框眼鏡，靦腆地側身示意終端畫面）（原作指示：推眼鏡，有點不好意思）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "modest, low-key engineer",
+        "emphasis_words": [
+          "格式都不一樣",
+          "懶得整理",
+          "用電量跟碳排"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_4_4",
+      "label": "第4幕 · 場景4.4．IT部（私房工具變神器） · shot_4_4_4",
+      "text": "天啊 Linda！妳知道這叫什麼嗎？這就是現在政府最推崇的 「雙軸轉型」 啊！",
+      "start_seconds": 1381.8,
+      "end_seconds": 1388.46,
+      "speaker_directions": "Amy（看著螢幕上清晰流暢的即時圖表，張大嘴巴驚呼）（原作指示：看著螢幕上的圖表驚呼）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "amazed, enthusiastic revelation",
+        "emphasis_words": [
+          "天啊",
+          "最推崇",
+          "雙軸轉型"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_4_5",
+      "label": "第4幕 · 場景4.4．IT部（私房工具變神器） · shot_4_4_5",
+      "text": "雙軸轉型？",
+      "start_seconds": 1388.46,
+      "end_seconds": 1390.3,
+      "speaker_directions": "Linda（茫然地眨眨眼睛，困惑詢問）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "puzzled, naive",
+        "emphasis_words": [
+          "雙軸轉型"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_4_6",
+      "label": "第4幕 · 場景4.4．IT部（私房工具變神器） · shot_4_4_6",
+      "text": "就是用 「數位轉型」 的技術，來解決 「淨零轉型」的難題！",
+      "start_seconds": 1390.3,
+      "end_seconds": 1395.59,
+      "speaker_directions": "Amy（比劃著雙手手勢，深入淺出地解說）（原作指示：興奮解釋）",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "clear, punchy definition",
+        "emphasis_words": [
+          "數位轉型",
+          "淨零轉型"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_4_7",
+      "label": "第4幕 · 場景4.4．IT部（私房工具變神器） · shot_4_4_7",
+      "text": "妳這個「供應商碳足跡管理系統」一旦開發完整，就是利用數位力來驅動永續力，將來客戶絕對會跪求合作！",
+      "start_seconds": 1395.59,
+      "end_seconds": 1404.84,
+      "speaker_directions": "Amy（指著螢幕上的架構，讚嘆不已）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "visionary, uplifting",
+        "emphasis_words": [
+          "供應商碳足跡管理系統",
+          "數位力驅動永續力"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_4_8",
+      "label": "第4幕 · 場景4.4．IT部（私房工具變神器） · shot_4_4_8",
+      "text": "真的嗎？我以為這只是個偷懶的小工具，沒想到這麼厲害！",
+      "start_seconds": 1404.84,
+      "end_seconds": 1410.2,
+      "speaker_directions": "Linda（嘴角忍不住揚起驚喜微笑）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "pleasantly surprised, validated",
+        "emphasis_words": [
+          "真的嗎",
+          "偷懶小腳本",
+          "這麼厲害"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_4_9",
+      "label": "第4幕 · 場景4.4．IT部（私房工具變神器） · shot_4_4_9",
+      "text": "沒錯！這就是 IT 部門最強的 ESG 超能力！",
+      "start_seconds": 1410.2,
+      "end_seconds": 1414.59,
+      "speaker_directions": "Amy（轉向自拍鏡頭熱烈比讚）（原作指示：對鏡頭總結）",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "proud, emphatic closing",
+        "emphasis_words": [
+          "最強大",
+          "ESG超能力"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_5_1",
+      "label": "第4幕 · 場景4.5．廠務現場（黃金獵人） · shot_4_5_1",
+      "text": "尋寶第四站，來到公司的幕後英雄基地------廠務部！大家以為 ESG 只是辦公室的事嗎？錯！這裡才是真正的戰場！",
+      "start_seconds": 1414.59,
+      "end_seconds": 1424.49,
+      "speaker_directions": "Amy（頭戴黃色工安帽，自拍鏡頭帶出乾淨整齊的廠區暫存區）（原作指示：Vlog畫面，廢棄物暫存區，整齊乾淨；戴工安帽）",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "energetic field reporter",
+        "emphasis_words": [
+          "第四站",
+          "廠務部",
+          "幕後英雄",
+          "硬核戰場"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_5_2",
+      "label": "第4幕 · 場景4.5．廠務現場（黃金獵人） · shot_4_5_2",
+      "text": "標哥！聽說你最近變成了公司的「黃金獵人」？",
+      "start_seconds": 1424.49,
+      "end_seconds": 1428.49,
+      "speaker_directions": "Amy（鏡頭轉向神采奕奕的資深領班標哥）（原作指示：Amy 訪問資深領班標哥）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "lively, inquisitive",
+        "emphasis_words": [
+          "標哥",
+          "黃金獵人"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_5_3",
+      "label": "第4幕 · 場景4.5．廠務現場（黃金獵人） · shot_4_5_3",
+      "text": "哈哈，什麼獵人啦！我是發現以前那些邊角料都當垃圾丟，要付錢請人載走。現在我們把它分乾淨，反而有回收商搶著買回去當原料！",
+      "start_seconds": 1428.49,
+      "end_seconds": 1440.87,
+      "speaker_directions": "標哥（豪爽大笑，指著分類標籤井然有序的金屬與料件箱）（原作指示：爽朗笑）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "hearty, proud frontline worker",
+        "emphasis_words": [
+          "邊角料",
+          "分乾淨",
+          "高價買回去"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_5_4",
+      "label": "第4幕 · 場景4.5．廠務現場（黃金獵人） · shot_4_5_4",
+      "text": "這一來一回，不只省清運費，還賺回饋金！這就是那個什麼...E...E指標對吧？",
+      "start_seconds": 1440.87,
+      "end_seconds": 1449.44,
+      "speaker_directions": "標哥（手比劃著進出帳目，笑得合不攏嘴）（原作指示：動畫：垃圾堆顯示「-\\$10,000」；分類後變資源顯示「+\\$5,000」）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "jovial, practical pride",
+        "emphasis_words": [
+          "省清運費",
+          "賺回饋金",
+          "E指標"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_5_5",
+      "label": "第4幕 · 場景4.5．廠務現場（黃金獵人） · shot_4_5_5",
+      "text": "沒錯！這就符合 E 指標了，而且我還聽說，因為你們把分類做好了，走道變寬敞，堆高機運作更安全，部門的工安意外這半年直接歸零？",
+      "start_seconds": 1449.44,
+      "end_seconds": 1461.82,
+      "speaker_directions": "Amy（用力點頭，並指著寬敞明亮的走道補充關鍵數據）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "impressed, praising",
+        "emphasis_words": [
+          "E指標",
+          "工安意外",
+          "歸零"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_5_6",
+      "label": "第4幕 · 場景4.5．廠務現場（黃金獵人） · shot_4_5_6",
+      "text": "是啊，維護安全，人人有責嘛！難道...這也是 ESG？",
+      "start_seconds": 1461.82,
+      "end_seconds": 1468.62,
+      "speaker_directions": "標哥（抓抓安全帽，憨厚一笑）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "warm, humble realization",
+        "emphasis_words": [
+          "弟兄安全",
+          "人人有責",
+          "這也是ESG"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_5_7",
+      "label": "第4幕 · 場景4.5．廠務現場（黃金獵人） · shot_4_5_7",
+      "text": "沒錯！照顧員工安全，這就是 S (社會責任) 的基本功！謝謝標哥，你太棒了！",
+      "start_seconds": 1468.62,
+      "end_seconds": 1475.46,
+      "speaker_directions": "Amy（對鏡頭豎起雙大拇指）",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "enthusiastic tribute",
+        "emphasis_words": [
+          "照顧員工安全",
+          "Social社會責任",
+          "基本功"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_6_1",
+      "label": "第4幕 · 場景4.6．行銷部（避免漂綠） · shot_4_6_1",
+      "text": "最後一站，我們要來挖掘行銷部的寶藏",
+      "start_seconds": 1475.46,
+      "end_seconds": 1479.2,
+      "speaker_directions": "Amy（快步走向行銷部會議桌，自拍開場）（原作指示：Amy 來到行銷部，大家正興奮地討論海報）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "cheerful vlogger",
+        "emphasis_words": [
+          "最後一站",
+          "創意寶藏"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_6_2",
+      "label": "第4幕 · 場景4.6．行銷部（避免漂綠） · shot_4_6_2",
+      "text": "Amy 妳看！這是我們新產品的標語「地球救星毯！100%純天然，給您一個無毒的擁抱！」怎麼樣？夠聳動吧？",
+      "start_seconds": 1479.2,
+      "end_seconds": 1489.46,
+      "speaker_directions": "小李（興奮舉起剛印出的炫彩新海報給 Amy 看）",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "over-excited marketer",
+        "emphasis_words": [
+          "地球救星毯",
+          "100%純天然",
+          "無毒的擁抱"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_6_3",
+      "label": "第4幕 · 場景4.6．行銷部（避免漂綠） · shot_4_6_3",
+      "text": "等等，小李，我剛查了一下ESG規定，這樣寫可能有「漂綠」的嫌疑喔",
+      "start_seconds": 1489.46,
+      "end_seconds": 1495.44,
+      "speaker_directions": "Amy（低頭看著海報皺起眉頭，拿出手機嚴肅查證）（原作指示：皺眉，拿出手機 Google）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "serious warning, caution",
+        "emphasis_words": [
+          "漂綠",
+          "Greenwashing",
+          "法律風險"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_6_4",
+      "label": "第4幕 · 場景4.6．行銷部（避免漂綠） · shot_4_6_4",
+      "text": "漂綠？這是什麼？",
+      "start_seconds": 1495.44,
+      "end_seconds": 1497.71,
+      "speaker_directions": "小李（愣住抓頭，一臉困惑）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "confused, startled",
+        "emphasis_words": [
+          "漂綠",
+          "什麼意思"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_6_5",
+      "label": "第4幕 · 場景4.6．行銷部（避免漂綠） · shot_4_6_5",
+      "text": "「漂綠」，就是宣傳做得比實際投入的多，變成誤導消費者，這是不可以的。",
+      "start_seconds": 1497.71,
+      "end_seconds": 1504.84,
+      "speaker_directions": "Amy（畫外音，切入趣味動畫比喻）（原作指示：畫面動畫：一隻貓笨拙地想用綠色油漆把自己漆成綠色，結果弄得一團亂，還不小心打翻油漆桶絆倒）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "clear, instructive rule",
+        "emphasis_words": [
+          "漂綠",
+          "誤導消費者",
+          "絕對不允許"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_6_6",
+      "label": "第4幕 · 場景4.6．行銷部（避免漂綠） · shot_4_6_6",
+      "text": "可是我們的產品真的環保啊？",
+      "start_seconds": 1504.84,
+      "end_seconds": 1507.86,
+      "speaker_directions": "小李（委屈地小聲辯解）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "defensive, puzzled",
+        "emphasis_words": [
+          "回收再生",
+          "真環保"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_6_7",
+      "label": "第4幕 · 場景4.6．行銷部（避免漂綠） · shot_4_6_7",
+      "text": "沒錯，但宣傳一定要有真實依據啊！我們是用回收寶特瓶抽絲做成的再生纖維，不能宣稱「純天然」；而且除非有正式檢驗報告，也不能隨便喊「無毒」，不然就是漂綠！",
+      "start_seconds": 1507.86,
+      "end_seconds": 1521.86,
+      "speaker_directions": "Amy（溫和但立場堅定地釐清事實邊界）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "firm, protective mentor",
+        "emphasis_words": [
+          "百分之百精準",
+          "不能宣稱純天然",
+          "誠信大翻車"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_6_8",
+      "label": "第4幕 · 場景4.6．行銷部（避免漂綠） · shot_4_6_8",
+      "text": "這樣啊...那如果改成「每件毛毯，都是由8個回收寶特瓶製成，溫暖你，也溫暖地球！」這樣可以了吧？",
+      "start_seconds": 1521.86,
+      "end_seconds": 1531.76,
+      "speaker_directions": "小李（若有所悟點頭，拿起筆飛快塗改文案）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "receptive, proactive learner",
+        "emphasis_words": [
+          "8個回收寶特瓶",
+          "循環製成",
+          "守護地球"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_6_9",
+      "label": "第4幕 · 場景4.6．行銷部（避免漂綠） · shot_4_6_9",
+      "text": "方向很棒！不過「是不是剛好8個寶特瓶製成」，這數字還要請研發部小陳提供確切製程數據佐證喔！做ESG宣傳，數據得經得起檢驗才行！",
+      "start_seconds": 1531.76,
+      "end_seconds": 1544.29,
+      "speaker_directions": "Amy（笑著點頭提醒，給出專業建議）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "constructive, rigorous",
+        "emphasis_words": [
+          "數據佐證",
+          "禁得起檢驗"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_6_10",
+      "label": "第4幕 · 場景4.6．行銷部（避免漂綠） · shot_4_6_10",
+      "text": "各位觀眾，這就是G (Governance) 裡最重要的誠信原則！做多少，說多少。誠實，不僅是最好的策略，更是最強大的行銷！",
+      "start_seconds": 1544.29,
+      "end_seconds": 1554.91,
+      "speaker_directions": "Amy（轉向自拍鏡頭，語氣誠懇而堅定地做總結）（原作指示：對著鏡頭，語氣誠懇）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "inspirational, authoritative moral",
+        "emphasis_words": [
+          "Governance公司治理",
+          "誠信原則",
+          "做多少說多少",
+          "誠實"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_7_1",
+      "label": "第4幕 · 場景4.7．Amy's Vlog 結尾．日 · shot_4_7_1",
+      "text": "今天的ESG大尋寶就到這裡！相信大家都看到了，ESG不是遙不可及的口號，它就藏在我們每個人的日常工作中。",
+      "start_seconds": 1554.91,
+      "end_seconds": 1564.09,
+      "speaker_directions": "Amy（回到自己工位，背後是燈火通明充滿活力的辦公室，神采奕奕自拍總結）（原作指示：Vlog畫面，Amy回到自己的座位上，背景是充滿活力的辦公室。她對著鏡頭，臉上充滿了自信與熱情）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "passionate, uplifting climax",
+        "emphasis_words": [
+          "ESG大尋寶",
+          "不是高冷口號",
+          "日常工作"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_7_2",
+      "label": "第4幕 · 場景4.7．Amy's Vlog 結尾．日 · shot_4_7_2",
+      "text": "ESG不是一場個人的百米衝刺，而是一場全員參與的馬拉松！當我們每個人的「小行動」匯集起來，就會成為公司最堅實的競爭力！",
+      "start_seconds": 1564.09,
+      "end_seconds": 1573.59,
+      "speaker_directions": "Amy（目光堅定直視鏡頭，傳遞全員參與的力量）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "profound, rallying cry",
+        "emphasis_words": [
+          "全員馬拉松",
+          "小行動",
+          "護城河"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_4_7_3",
+      "label": "第4幕 · 場景4.7．Amy's Vlog 結尾．日 · shot_4_7_3",
+      "text": "你，準備好開發你的ESG超能力了嗎？我們下次見！掰掰！",
+      "start_seconds": 1573.59,
+      "end_seconds": 1578.23,
+      "speaker_directions": "Amy（對鏡頭燦爛揮手眨眼，按下手機停止鍵）（原作指示：Amy對鏡頭揮手，按下停止錄影。她看著手機裡的影片，露出了滿意的微笑）",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "warm, playful call-to-action",
+        "emphasis_words": [
+          "專屬ESG超能力",
+          "下集見",
+          "掰掰"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_5_1_1",
+      "label": "第5幕 · 場景5.1．Amy公司辦公室．三個月後 · shot_5_1_1",
+      "text": "（時間來到三個月後。公司的電子公佈欄上，正在輪播一張色彩鮮豔的海報，標題寫著「第一屆ESG推廣大使」，畫面上是Amy、研發部小陳、採購部王大哥、IT部Linda與現場夥伴們燦爛自信的合照。）",
+      "start_seconds": 1578.23,
+      "end_seconds": 1581.26,
+      "speaker_directions": "純視覺運鏡，陽光明亮充滿生機",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "bright, inspiring atmosphere",
+        "emphasis_words": [
+          "第一屆ESG推廣大使",
+          "燦爛自信"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_5_1_2a",
+      "label": "第5幕 · 場景5.1．Amy公司辦公室．三個月後 · shot_5_1_2a",
+      "text": "聽說我們下一季的減碳目標是5%耶，有點挑戰喔！",
+      "start_seconds": 1581.26,
+      "end_seconds": 1587.16,
+      "speaker_directions": "員工A（畫外音，端著咖啡經過，語氣帶著興奮躍躍欲試）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "excited, challenged peer",
+        "emphasis_words": [
+          "減碳目標5%",
+          "有點挑戰"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_5_1_2b",
+      "label": "第5幕 · 場景5.1．Amy公司辦公室．三個月後 · shot_5_1_2b",
+      "text": "怕什麼！我想到一個點子，可以優化我們部門的用電，絕對能達標！",
+      "start_seconds": 1587.16,
+      "end_seconds": 1593.66,
+      "speaker_directions": "員工B（畫外音，滿懷自信笑著回應）",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "confident, motivated peer",
+        "emphasis_words": [
+          "怕什麼",
+          "優化用電",
+          "絕對能達標"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_5_1_3",
+      "label": "第5幕 · 場景5.1．Amy公司辦公室．三個月後 · shot_5_1_3",
+      "text": "（鏡頭緩緩移至公司透亮的玻璃大門，金黃陽光灑落。原本只有公司Logo的玻璃上，多了一個由三片綠葉組成的永續綠色標章，在光芒下閃耀著榮耀光澤。）",
+      "start_seconds": 1593.66,
+      "end_seconds": 1596.69,
+      "speaker_directions": "純視覺運鏡，企業永續綠色認證標章特寫",
+      "delivery_cues": {
+        "pace": "slow",
+        "energy": "prestigious, serene triumph",
+        "emphasis_words": [
+          "玻璃大門",
+          "三片綠葉",
+          "永續綠色標章"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_5_2_1",
+      "label": "第5幕 · 場景5.2．海外投資機構會議室．日 · shot_5_2_1",
+      "text": "Mr. Harrison, an update on that case we put on hold. They've sent us a new proposal package.",
+      "start_seconds": 1596.69,
+      "end_seconds": 1602.63,
+      "speaker_directions": "分析師Sandy（自信步入明亮會議室，將平板雙手遞給哈里森先生）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "confident, respectful professional",
+        "emphasis_words": [
+          "Mr. Harrison",
+          "update",
+          "new proposal package"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_5_2_2",
+      "label": "第5幕 · 場景5.2．海外投資機構會議室．日 · shot_5_2_2",
+      "text": "Look at this verified sustainability report. The data confirms their margins come from efficiency, not exploitation. And... you should see this video.",
+      "start_seconds": 1602.63,
+      "end_seconds": 1613.57,
+      "speaker_directions": "分析師Sandy（眼神明亮直視董事，指著平板上的數據與影片）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "persuasive, impressed",
+        "emphasis_words": [
+          "verified sustainability report",
+          "efficiency",
+          "video"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_5_2_3",
+      "label": "第5幕 · 場景5.2．海外投資機構會議室．日 · shot_5_2_3",
+      "text": "（平板上正播放著Amy的ESG大尋寶Vlog，畫面在熱鬧掌聲中定格於全員攜手匯聚成一棵大樹的動態插畫。哈里森先生凝視著螢幕，深邃的眼神中浮現難得的思索。）",
+      "start_seconds": 1613.57,
+      "end_seconds": 1616.6,
+      "speaker_directions": "純視覺運鏡與平板螢幕特寫，會議室安靜聚焦",
+      "delivery_cues": {
+        "pace": "slow",
+        "energy": "deep contemplative tension",
+        "emphasis_words": [
+          "平板特寫",
+          "全員匯聚大樹",
+          "哈里森沉思"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_5_2_4",
+      "label": "第5幕 · 場景5.2．海外投資機構會議室．日 · shot_5_2_4",
+      "text": "(沉默片刻，抬起頭，嘴角勾起一抹幾乎無法察覺的微笑。)",
+      "start_seconds": 1616.6,
+      "end_seconds": 1618.11,
+      "speaker_directions": "哈里森先生（沉默良久，緩緩抬起頭，嘴角揚起一抹極微但意味深長的笑意）（原作指示：Risk is not attractive.）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "calm, deliberate authority",
+        "emphasis_words": [
+          "Risk",
+          "not attractive"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_5_2_5",
+      "label": "第5幕 · 場景5.2．海外投資機構會議室．日 · shot_5_2_5",
+      "text": "But... The data proves their compliance, and this video... shows their commitment. Now, that is attractive.",
+      "start_seconds": 1618.11,
+      "end_seconds": 1626.0,
+      "speaker_directions": "哈里森先生（手指沉穩地先點了點數據報告，再點向平板影片，語調帶著罕見的由衷讚許）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "profound, definitive admiration",
+        "emphasis_words": [
+          "data",
+          "compliance",
+          "commitment",
+          "attractive"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_5_2_6",
+      "label": "第5幕 · 場景5.2．海外投資機構會議室．日 · shot_5_2_6",
+      "text": "Proceed.",
+      "start_seconds": 1626.0,
+      "end_seconds": 1626.9,
+      "speaker_directions": "哈里森先生（果斷宣判指示，伴隨重擊蓋章聲震撼全場）",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "commanding, final verdict",
+        "emphasis_words": [
+          "Proceed"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    },
+    {
+      "id": "shot_5_2_7",
+      "label": "第5幕 · 場景5.2．海外投資機構會議室．日 · shot_5_2_7",
+      "text": "And... Get Benjamin on the line. Tell him I want to show him an interesting case.",
+      "start_seconds": 1626.9,
+      "end_seconds": 1631.62,
+      "speaker_directions": "哈里森先生（畫外音，畫面在綠色APPROVED印章特寫中優雅淡出，帶著期待與格局）",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "warm, visionary closing",
+        "emphasis_words": [
+          "Benjamin",
+          "interesting case"
+        ],
+        "pause_before_seconds": 0.1,
+        "pause_after_seconds": 0.3
+      }
+    }
+  ]
+}

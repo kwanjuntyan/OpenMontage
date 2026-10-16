@@ -1,0 +1,86 @@
+{
+  "version": "1.0",
+  "render_runtime": "hyperframes",
+  "renderer_family": "cinematic-trailer",
+  "composition_mode": "templated",
+  "cuts": [
+    {
+      "id": "cut_s01",
+      "source": "assets/images/s01.jpg",
+      "in_seconds": 0.0,
+      "out_seconds": 11.28,
+      "speed": 1.0,
+      "layer": "primary",
+      "transform": {
+        "scale": 1.0,
+        "position": "center",
+        "animation": "ken-burns-slow-zoom"
+      },
+      "transition_in": "fade",
+      "transition_out": "dissolve",
+      "transition_duration": 0.5,
+      "reason": "建立河岸對話氛圍，微推近強調雙方心境"
+    },
+    {
+      "id": "cut_s02",
+      "source": "assets/images/s02.jpg",
+      "in_seconds": 0.0,
+      "out_seconds": 7.76,
+      "speed": 1.0,
+      "layer": "primary",
+      "transform": {
+        "scale": 1.0,
+        "position": "center",
+        "animation": "pan-right"
+      },
+      "transition_in": "dissolve",
+      "transition_out": "cut",
+      "transition_duration": 0.3,
+      "reason": "順著青蛙游動方向微移，展現波光與和諧"
+    },
+    {
+      "id": "cut_s03",
+      "source": "assets/images/s03.jpg",
+      "in_seconds": 0.0,
+      "out_seconds": 9.68,
+      "speed": 1.0,
+      "layer": "primary",
+      "transform": {
+        "scale": 1.05,
+        "position": "center",
+        "animation": "dramatic-zoom-in"
+      },
+      "transition_in": "cut",
+      "transition_out": "crossfade",
+      "transition_duration": 0.5,
+      "reason": "致命螫刺高潮瞬間，聚焦震驚與水花"
+    },
+    {
+      "id": "cut_s04",
+      "source": "assets/images/s04.jpg",
+      "in_seconds": 0.0,
+      "out_seconds": 11.36,
+      "speed": 1.0,
+      "layer": "primary",
+      "transform": {
+        "scale": 1.0,
+        "position": "center",
+        "animation": "slow-pull-back"
+      },
+      "transition_in": "crossfade",
+      "transition_out": "fade",
+      "transition_duration": 0.8,
+      "reason": "沉入幽暗水底，拉遠淡出留白"
+    }
+  ],
+  "audio": {
+    "narration": {
+      "segments": [
+        { "asset_id": "narr_s01", "start_seconds": 0.0, "end_seconds": 11.28 },
+        { "asset_id": "narr_s02", "start_seconds": 11.28, "end_seconds": 19.04 },
+        { "asset_id": "narr_s03", "start_seconds": 19.04, "end_seconds": 28.72 },
+        { "asset_id": "narr_s04", "start_seconds": 28.72, "end_seconds": 40.08 }
+      ]
+    }
+  }
+}

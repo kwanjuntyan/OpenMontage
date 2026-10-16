@@ -1,0 +1,1628 @@
+{
+  "version": "1.0",
+  "style_playbook": "kj-esg-pixar-hybrid",
+  "scenes": [
+    {
+      "id": "shot_2_1_1",
+      "type": "character_scene",
+      "script_section_id": "shot_2_1_1",
+      "start_seconds": 119.98,
+      "end_seconds": 124.98,
+      "narrative_role": "introduce_subject",
+      "description": "Subject: Amy 愁眉苦臉地攪拌拿鐵，抬眼向 George 求救；George 安靜聆聽。Scene: loc_coffee_shop，日間暖陽，背牆植物畫與垂藤、左側窗邊吧台、右側服務吧台及點心櫃。Framing: SH02 雙人中景，George 在左、Amy 在右對坐，桌面及雙方手部可見，位置與比例依同機位 blocks。Camera: 40mm，坐姿近眼高、輕微俯拍，正常速度、固定鏡頭，兩人與桌面清楚；無字卡。",
+      "shot_language": {
+        "shot_size": "medium",
+        "camera_movement": "static",
+        "lighting_key": "natural",
+        "depth_of_field": "medium",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": false,
+      "shot_intent": "以雙人與桌面建立請益關係，透過攪拌拿鐵與抬眼求救呈現 Amy 焦慮，對比 George 沉著傾聽",
+      "information_role": "帶出本幕主題：Amy 必須緊急搞懂 ESG 簡報",
+      "character_actions": [
+        {
+          "character_id": "char_amy",
+          "emotion": "panicked",
+          "action_sequence": [
+            "stir_latte",
+            "look_up_at_george",
+            "anxious_pleading"
+          ],
+          "dialogue": "George，救救我！我老闆臨時要我做一場ESG簡報！",
+          "target": "char_george"
+        },
+        {
+          "character_id": "char_george",
+          "emotion": "calm_attentive",
+          "action_sequence": [
+            "listen_attentively",
+            "nod_slowly"
+          ],
+          "target": "char_amy"
+        }
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "Amy",
+          "source": "provided",
+          "clp_id": "char_amy"
+        },
+        {
+          "type": "clp",
+          "description": "George",
+          "source": "provided",
+          "clp_id": "char_george"
+        },
+        {
+          "type": "clp",
+          "description": "風格咖啡館",
+          "source": "provided",
+          "clp_id": "loc_coffee_shop"
+        },
+        {
+          "type": "clp",
+          "description": "白色拿鐵杯碟；攪拌小匙依劇本動作加入",
+          "source": "provided",
+          "clp_id": "prop_coffee_cup"
+        },
+        {
+          "type": "camera_ref",
+          "description": "SH02 雙人中景（40mm），George 左、Amy 右對坐，桌面與雙方手部可見。 背景依本空景，人物位置比例依 metadata 同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/coffee_shop/cameras/empty_banana_s02_medium_two_shot.png"
+        }
+      ]
+    },
+    {
+      "id": "shot_2_1_2",
+      "type": "character_scene",
+      "script_section_id": "shot_2_1_2",
+      "start_seconds": 124.98,
+      "end_seconds": 132.32,
+      "narrative_role": "emotional_beat",
+      "description": "Subject: Amy 停下攪拌，皺眉搖頭，向畫外 George 訴苦，說到 KPI 要 GG 時無奈攤手。Scene: loc_coffee_shop，日間暖陽，背景為原木服務牆、磨豆機與咖啡機。Framing: SH06 Amy 中特寫，Amy 為唯一可辨識面孔，George 只沿 blocks 留左下角局部前景；手勢維持下方可見範圍。Camera: 65mm，坐姿近眼高微側拍，正常速度、固定鏡頭，焦點在 Amy；無字卡。",
+      "shot_language": {
+        "shot_size": "medium_close",
+        "camera_movement": "static",
+        "lighting_key": "natural",
+        "depth_of_field": "shallow",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": false,
+      "shot_intent": "放大 Amy 生動誇張的職場焦慮表情，強調「KPI要GG」的喜劇化危機感",
+      "information_role": "強化職場人共鳴：聽不懂 ESG 將直接衝擊績效",
+      "character_actions": [
+        {
+          "character_id": "char_amy",
+          "emotion": "overwhelmed_frustrated",
+          "action_sequence": [
+            "shake_head",
+            "dramatic_frown",
+            "small_open_palm_gesture"
+          ],
+          "dialogue": "但我完全不知道這是什麼東西。我只知道再不趕快搞懂ESG，我的KPI就要GG了。"
+        }
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "Amy",
+          "source": "provided",
+          "clp_id": "char_amy"
+        },
+        {
+          "type": "clp",
+          "description": "左下角局部前景 George，無臉部",
+          "source": "provided",
+          "clp_id": "char_george"
+        },
+        {
+          "type": "clp",
+          "description": "風格咖啡館",
+          "source": "provided",
+          "clp_id": "loc_coffee_shop"
+        },
+        {
+          "type": "camera_ref",
+          "description": "SH06 Amy 中特寫（65mm），微側取景，咖啡機與木牆背景，George 只留左下角局部前景。 背景依本空景，人物位置比例依 metadata 同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/coffee_shop/cameras/empty_banana_s06_amy_medium_close_up.png"
+        }
+      ]
+    },
+    {
+      "id": "shot_2_1_3",
+      "type": "character_scene",
+      "script_section_id": "shot_2_1_3",
+      "start_seconds": 132.32,
+      "end_seconds": 144.74,
+      "narrative_role": "deliver_payload",
+      "description": "Subject: George 手持白色咖啡杯，先放回面前杯碟，再溫和微笑解釋企業健康指標；Amy 聆聽。Scene: loc_coffee_shop，日間暖陽，George 背後為木框大窗、墨綠柱與植物掛畫。Framing: SH03 Amy 過肩看 George，兩人可見，George 在左中景、Amy 頭肩在右前景；桌面杯碟完整入鏡，人物比例與遮擋依 blocks。Camera: 60mm，坐姿近眼高微俯拍，正常速度、固定鏡頭，焦點在 George 與放杯動作；無字卡。",
+      "shot_language": {
+        "shot_size": "over_shoulder",
+        "camera_movement": "static",
+        "lighting_key": "natural",
+        "depth_of_field": "shallow",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": false,
+      "shot_intent": "透過 George 沉穩優雅的動作扭轉焦慮氣氛，揭示 ESG 就是「新型態的企業健康指標」",
+      "information_role": "建立核心記憶點：ESG等於企業健康檢查",
+      "character_actions": [
+        {
+          "character_id": "char_george",
+          "emotion": "warm_reassuring",
+          "action_sequence": [
+            "lower_coffee_cup_to_saucer",
+            "gentle_smile",
+            "open_hand_gesture"
+          ],
+          "dialogue": "別緊張，GG跟ESG，雖然都有G，差別可大了。簡單來說，你可以把ESG想像成是一種「新型態的企業健康指標」！",
+          "target": "char_amy"
+        }
+      ],
+      "render_stages": [
+        "W2I",
+        "W2V"
+      ],
+      "required_assets": [
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "SH03 Amy 過肩拍 George（60mm），George 左中景、Amy 頭肩右前景，窗與綠柱背景，George 杯碟可見。 背景依本空景，人物位置比例依 metadata 同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/coffee_shop/cameras/empty_banana_s03_ots_to_george.png"
+        },
+        {
+          "type": "clp",
+          "description": "George",
+          "source": "provided",
+          "clp_id": "char_george"
+        },
+        {
+          "type": "clp",
+          "description": "右前景聆聽的 Amy 頭肩",
+          "source": "provided",
+          "clp_id": "char_amy"
+        },
+        {
+          "type": "clp",
+          "description": "風格咖啡館",
+          "source": "provided",
+          "clp_id": "loc_coffee_shop"
+        },
+        {
+          "type": "clp",
+          "description": "白色陶瓷咖啡杯",
+          "source": "provided",
+          "clp_id": "prop_coffee_cup"
+        }
+      ]
+    },
+    {
+      "id": "shot_2_1_4",
+      "type": "character_scene",
+      "script_section_id": "shot_2_1_4",
+      "start_seconds": 144.74,
+      "end_seconds": 146.4,
+      "narrative_role": "emotional_beat",
+      "description": "Subject: Amy 聽到新比喻，眼睛因驚奇睜大，微微歪頭反問畫外 George。Scene: loc_coffee_shop，日間暖陽，背景為咖啡機、磨豆機與木牆。Framing: SH08 Amy 微側臉部特寫，可見一人頭肩，不安排桌面或手部動作，位置比例依 blocks。Camera: 100mm，坐姿近眼高，正常速度、固定鏡頭，焦點在 Amy 雙眼；無字卡。",
+      "shot_language": {
+        "shot_size": "close_up",
+        "camera_movement": "static",
+        "lighting_key": "natural",
+        "depth_of_field": "shallow",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": false,
+      "shot_intent": "呈現 Amy 接收到新名詞時的驚奇反問，作為節奏換拍點",
+      "information_role": "引導觀眾聚焦在下一句「企業健康指標」的具體定義",
+      "character_actions": [
+        {
+          "character_id": "char_amy",
+          "emotion": "curious_surprised",
+          "action_sequence": [
+            "wide_eyes",
+            "slight_head_tilt"
+          ],
+          "dialogue": "企業健康指標？",
+          "target": "char_george"
+        }
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "Amy",
+          "source": "provided",
+          "clp_id": "char_amy"
+        },
+        {
+          "type": "clp",
+          "description": "風格咖啡館",
+          "source": "provided",
+          "clp_id": "loc_coffee_shop"
+        },
+        {
+          "type": "camera_ref",
+          "description": "SH08 Amy 臉部特寫（100mm），一人頭肩，咖啡機與木牆背景，手與桌面在畫外。 背景依本空景，人物位置比例依 metadata 同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/coffee_shop/cameras/empty_banana_s08_amy_close_up.png"
+        }
+      ]
+    },
+    {
+      "id": "shot_2_1_5",
+      "type": "character_scene",
+      "script_section_id": "shot_2_1_5",
+      "start_seconds": 146.4,
+      "end_seconds": 152.88,
+      "narrative_role": "comparison",
+      "description": "Subject: George 微笑點頭說沒錯，接著專注向畫外 Amy 解釋過去投資機構只看 EPS。Scene: loc_coffee_shop，日間暖陽，背景為墨綠柱、局部木框窗及植物掛畫。Framing: SH07 George 微側臉部特寫，可見一人頭肩，以眼神與口吻強調 EPS，不安排畫外手勢，位置比例依 blocks。Camera: 100mm，坐姿近眼高，正常速度、固定鏡頭，焦點在 George；無字卡。",
+      "shot_language": {
+        "shot_size": "close_up",
+        "camera_movement": "static",
+        "lighting_key": "natural",
+        "depth_of_field": "shallow",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": false,
+      "shot_intent": "以熟悉的 EPS 做對比鋪墊，由導師 George 正式揭開傳統財務與 ESG 全面體檢的差異",
+      "information_role": "喚起受眾對 EPS 財務指標的認知，為 ESG 登場建立比較基準",
+      "character_actions": [
+        {
+          "character_id": "char_george",
+          "emotion": "confident_instructional",
+          "action_sequence": [
+            "affirmative_nod",
+            "explain_eps",
+            "look_toward_amy"
+          ],
+          "dialogue": "沒錯。以前投資機構評估一間公司值不值得投資，就看這公司的EPS！",
+          "target": "char_amy"
+        }
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "George",
+          "source": "provided",
+          "clp_id": "char_george"
+        },
+        {
+          "type": "clp",
+          "description": "風格咖啡館",
+          "source": "provided",
+          "clp_id": "loc_coffee_shop"
+        },
+        {
+          "type": "camera_ref",
+          "description": "SH07 George 臉部特寫（100mm），一人頭肩，局部窗、綠柱與植物畫背景，手與桌面在畫外。 背景依本空景，人物位置比例依 metadata 同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/coffee_shop/cameras/empty_banana_s07_george_close_up.png"
+        }
+      ]
+    },
+    {
+      "id": "shot_2_1_6",
+      "type": "character_scene",
+      "script_section_id": "shot_2_1_6",
+      "start_seconds": 152.88,
+      "end_seconds": 168.07,
+      "narrative_role": "deliver_payload",
+      "description": "Subject: George 畫外音以只量體重比喻只看 EPS；畫面維持兩人對話桌的杯碟與手部。Scene: loc_coffee_shop，日間窗光照在原木桌面，兩杯咖啡與白色金色金屬蓋罐沿用空景。Framing: SH09 桌面俯拍插鏡，George 手臂在左、Amy 手臂在右，僅見局部手臂與身體邊緣、不見臉，位置比例依 blocks。Camera: 50mm，高位斜俯拍，正常速度、固定鏡頭，桌面清楚；E、S、G 為獨立後製疊字，見 overlay_notes。",
+      "shot_language": {
+        "shot_size": "insert",
+        "camera_movement": "static",
+        "lens_mm": 50,
+        "lighting_key": "natural",
+        "depth_of_field": "deep",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": true,
+      "shot_intent": "以桌面插鏡承接對話，讓 George 畫外音的健康比喻與依序出現的 E、S、G 字卡成為核心觀念轉折",
+      "information_role": "揭示本課程核心概念：ESG 才是企業全方位的健康指標",
+      "character_actions": [
+        {
+          "character_id": "char_george",
+          "emotion": "instructional_warm",
+          "action_sequence": [
+            "voiceover_health_analogy",
+            "voiceover_introduce_esg"
+          ],
+          "dialogue": "但這就像評估一個人的健康狀態，卻只測他的體重一樣，是以偏概全，很不準確的。現在時代進步了，全球的投資機構都知道，要再加上E、S、G三大指標，才能準確評估公司的價值！",
+          "target": "char_amy",
+          "notes": "George 依 script 為畫外音；本鏡不見臉，不安排嘴型、微笑或人物對鏡講述。"
+        }
+      ],
+      "render_stages": [
+        "W2I"
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "George",
+          "source": "provided",
+          "clp_id": "char_george"
+        },
+        {
+          "type": "clp",
+          "description": "Amy",
+          "source": "provided",
+          "clp_id": "char_amy"
+        },
+        {
+          "type": "clp",
+          "description": "新潮風格咖啡館",
+          "source": "provided",
+          "clp_id": "loc_coffee_shop"
+        },
+        {
+          "type": "clp",
+          "description": "杯碟外觀參考；罐體沿用 cameras 白色金色金屬蓋罐，不置換成 CLP 圖的木蓋罐",
+          "source": "provided",
+          "clp_id": "prop_coffee_set"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "SH09 桌面俯拍插鏡（50mm），兩杯碟與白色金色金屬蓋罐；blocks 中 George 手臂在左、Amy 手臂在右，無臉部。 背景依本空景，人物位置比例依 metadata 同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/coffee_shop/cameras/empty_banana_s09_table_insert.png"
+        }
+      ],
+      "overlay_notes": "依原始劇本，George 說到 E、S、G 時在桌面中央依序出現三個大字，最後同時保留；使用清楚向量字卡，可加半透明底，避開兩側手部與杯碟。文字為後製圖層，不生成於桌面材質。"
+    },
+    {
+      "id": "shot_4_5_1",
+      "type": "character_scene",
+      "script_section_id": "shot_4_5_1",
+      "start_seconds": 1414.59,
+      "end_seconds": 1424.49,
+      "narrative_role": "establish_context",
+      "description": "Subject: Amy 戴黃色工安帽、沿用角色 CLP 原有服裝且不穿反光背心，以 Vlog 自拍對鏡介紹廠務部；說到「錯！」時俐落搖頭，再強調「硬核戰場」。Scene: loc_factory_affairs，日間整齊乾淨的暫存區，沿用既有紙板堆、貨架與工具板；無額外人物或車輛動作。Framing: 只見 Amy 一人，上半身近景交代工安帽與原有服裝，站在既有訪談位置，背景朝紙板堆與後牆。Camera: 正常速度、約 24mm 自拍廣角且不誇張變形，略高於眼睛向下拍，人物與背景可辨，手持輕微晃動；自拍白模仍須製作，無疊字。",
+      "shot_language": {
+        "shot_size": "medium",
+        "camera_movement": "handheld",
+        "lighting_key": "natural",
+        "depth_of_field": "medium",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": true,
+      "shot_intent": "以廠務現場的自拍開場打破「ESG 只屬於辦公室」的印象。",
+      "information_role": "尋寶第四站聚焦第一線人員的 ESG 貢獻。",
+      "character_actions": [
+        {
+          "character_id": "char_amy",
+          "emotion": "energetic_confident",
+          "action_sequence": [
+            "face_selfie_camera",
+            "introduce_factory_affairs",
+            "shake_head_then_emphasize_frontline"
+          ],
+          "dialogue": "尋寶第四站，來到公司的幕後英雄基地------廠務部！大家以為 ESG 只是辦公室的事嗎？錯！這裡才是真正的戰場！",
+          "target": "camera",
+          "notes": "依使用者本次修正：Amy 不穿反光背心，保留黃色工安帽與角色 CLP 原有服裝；全場連戲。"
+        }
+      ],
+      "render_stages": [
+        "W2I",
+        "I2V"
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "Amy；依使用者修正不穿反光背心，保留黃色工安帽；原有服裝沿用角色 CLP，本場各鏡一致。",
+          "source": "provided",
+          "clp_id": "char_amy"
+        },
+        {
+          "type": "clp",
+          "description": "廠務廢棄物暫存區；沿用已檢視的場景 CLP 與精修 Blender 佈景。",
+          "source": "provided",
+          "clp_id": "loc_factory_affairs"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "依既有廠務模型與 CAM_22 訪談位置製作 Amy 單人自拍白模；鏡頭略高於眼睛，朝紙板堆與後牆，維持原佈景。renders/blocks_blender_s01_wide_two_shot.png 僅供站位與背景參考，不是自拍首幀。",
+          "source": "generate"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "依 script.json 的 shot_4_5_1 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "shot_4_5_2",
+      "type": "character_scene",
+      "script_section_id": "shot_4_5_2",
+      "start_seconds": 1424.49,
+      "end_seconds": 1428.49,
+      "narrative_role": "introduce_subject",
+      "description": "Subject: Amy 帶笑轉向神采奕奕的標哥，詢問他成為全公司傳說中的「黃金獵人」；標哥看向 Amy，笑著準備回答。Scene: loc_factory_affairs，同一日間訪談位置，後方紙板堆、貨架與工具板沿用既有佈景。Framing: 兩人可見，CAM_22 雙人全景起始，Amy 左、標哥右，沿用人物比例及對話軸線。Camera: 正常速度、40mm、近站姿眼高，兩人清晰；從自拍切入後輕微向右轉向標哥，將注意力帶到受訪者，保留說話中的 Amy，不跨軸、不快速甩鏡；無疊字。",
+      "shot_language": {
+        "shot_size": "wide",
+        "camera_movement": "pan_right",
+        "lighting_key": "natural",
+        "depth_of_field": "medium",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": false,
+      "shot_intent": "建立 Amy 與標哥的訪談關係，用「黃金獵人」引出分類的價值。",
+      "information_role": "標哥是廠務部的資深領班，本段將解釋他為何成為黃金獵人。",
+      "character_actions": [
+        {
+          "character_id": "char_amy",
+          "emotion": "curious_playful",
+          "action_sequence": [
+            "turn_to_biaoge",
+            "ask_about_gold_hunter"
+          ],
+          "dialogue": "標哥！聽說你最近變成了公司的「黃金獵人」？",
+          "target": "char_biaoge"
+        },
+        {
+          "character_id": "char_biaoge",
+          "emotion": "friendly_amused",
+          "action_sequence": [
+            "look_at_amy",
+            "smile_before_reply"
+          ],
+          "target": "char_amy"
+        }
+      ],
+      "render_stages": [
+        "W2I",
+        "I2V"
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "Amy；依使用者修正不穿反光背心，保留黃色工安帽；原有服裝沿用角色 CLP，本場各鏡一致。",
+          "source": "provided",
+          "clp_id": "char_amy"
+        },
+        {
+          "type": "clp",
+          "description": "標哥（資深廠務領班）；造型沿用角色 CLP。",
+          "source": "provided",
+          "clp_id": "char_biaoge"
+        },
+        {
+          "type": "clp",
+          "description": "廠務廢棄物暫存區；沿用已檢視的場景 CLP 與精修 Blender 佈景。",
+          "source": "provided",
+          "clp_id": "loc_factory_affairs"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "CAM_22／40mm，Amy 左、標哥右的雙人全景，作為向右轉鏡的起始構圖；紙板堆、貨架、工具板與人物比例依本圖。 灰色／黃色白模僅供人物比例、站位與取景；手勢依本鏡表演。",
+          "source": "provided",
+          "path": "references/scenes/factory_affairs/renders/blocks_blender_s01_wide_two_shot.png"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "依 script.json 的 shot_4_5_2 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "shot_4_5_3",
+      "type": "character_scene",
+      "script_section_id": "shot_4_5_3",
+      "start_seconds": 1428.49,
+      "end_seconds": 1440.87,
+      "narrative_role": "deliver_payload",
+      "description": "Subject: 標哥豪爽大笑，先說明以前邊角料當一般垃圾丟棄且每月需付清運費，再指向身旁既有料件箱，說明金屬與塑料分類後由特約回收商高價買作再生原料。Scene: loc_factory_affairs，同一日間訪談；紙板堆、工具板與貨架依原佈景，料件箱分類標籤須補妥，不能把紙板堆當成金屬或塑料。Framing: 只見標哥一人，CAM_27 腰部以上中景，視線回到畫左鏡外 Amy，手臂與指向料件箱的手勢在畫內；料件箱位置沿用白模畫面右側。Camera: 正常速度、60mm、近站姿眼高側拍，焦點在標哥，保留箱體辨識度，鏡頭固定；無額外字卡。",
+      "shot_language": {
+        "shot_size": "medium",
+        "camera_movement": "static",
+        "lighting_key": "natural",
+        "depth_of_field": "medium",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": false,
+      "shot_intent": "讓第一線人員親口說明從付費丟棄到資源回收的改變。",
+      "information_role": "把邊角料分乾淨，能讓原本的垃圾成為可出售的原料。",
+      "character_actions": [
+        {
+          "character_id": "char_biaoge",
+          "emotion": "hearty_proud",
+          "action_sequence": [
+            "laugh_warmly",
+            "explain_old_disposal_cost",
+            "point_to_sorted_metal_and_plastic_bins_and_explain_resale"
+          ],
+          "dialogue": "哈哈，什麼獵人啦！我是發現以前那些邊角料都當垃圾丟，要付錢請人載走。現在我們把它分乾淨，反而有回收商搶著買回去當原料！",
+          "target": "char_amy",
+          "notes": "Amy 在鏡外；依 speaker_directions 保留指向分類料件箱的動作，不能沿用手部全在畫外的舊頭肩近景。"
+        }
+      ],
+      "render_stages": [
+        "W2I",
+        "I2V"
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "標哥（資深廠務領班）；造型沿用角色 CLP。",
+          "source": "provided",
+          "clp_id": "char_biaoge"
+        },
+        {
+          "type": "clp",
+          "description": "廠務廢棄物暫存區；沿用已檢視的場景 CLP 與精修 Blender 佈景。",
+          "source": "provided",
+          "clp_id": "loc_factory_affairs"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "CAM_27／60mm，標哥單人腰部以上中景，視線朝畫左 Amy，保留指向畫右既有料件箱的手勢空間。 灰色／黃色白模僅供人物比例、站位與取景；手勢依本鏡表演。",
+          "source": "provided",
+          "path": "references/scenes/factory_affairs/renders/blocks_blender_s04_biao_medium.png"
+        },
+        {
+          "type": "set_detail",
+          "description": "沿用 CAM_27 既有料件箱，補可辨識的金屬／塑料分類標籤；現有白模無法確認標籤內容，須在首幀製作時處理，箱體位置及紙板堆不變。",
+          "source": "generate"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "依 script.json 的 shot_4_5_3 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "shot_4_5_4",
+      "type": "character_scene",
+      "script_section_id": "shot_4_5_4",
+      "start_seconds": 1440.87,
+      "end_seconds": 1449.44,
+      "narrative_role": "comparison",
+      "description": "Subject: 標哥笑得合不攏嘴，在胸前用雙手比劃支出減少與收入增加，說明省清運費、每季賺回饋金；說到「E... E指標」時短暫遲疑，再看向畫外 Amy 確認。Scene: loc_factory_affairs，日間，接續前鏡紙板堆、工具板與貨架；沒有實體帳本或新增道具。Framing: 只見標哥一人，CAM_24 胸部以上中近景，雙手抬至胸前、完整落在畫面下半部，不遮擋臉部，視線朝畫左 Amy。Camera: 正常速度、75mm、近站姿眼高側拍，淺景深聚焦表情與手勢，鏡頭固定；直接拍人物表演，無金額或圖表疊加。",
+      "shot_language": {
+        "shot_size": "medium_close",
+        "camera_movement": "static",
+        "lighting_key": "natural",
+        "depth_of_field": "shallow",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": true,
+      "shot_intent": "用標哥比劃進出帳目的手勢與自豪表情，連結節省成本、回收收益與 E 指標。",
+      "information_role": "分類同時減少清運支出並帶來每季回饋金；script.json 未指定金額，不另造數字。",
+      "character_actions": [
+        {
+          "character_id": "char_biaoge",
+          "emotion": "pleased_then_searching_for_term",
+          "action_sequence": [
+            "gesture_reduced_disposal_cost_at_chest_level",
+            "gesture_quarterly_recycling_income_with_broad_smile",
+            "hesitate_on_e_then_ask"
+          ],
+          "dialogue": "這一來一回，不只省清運費，還賺回饋金！這就是那個什麼...E...E指標對吧？",
+          "target": "char_amy",
+          "notes": "標哥在畫內說話並比劃帳目，依 script.json 保留 E 前的遲疑；Amy 僅為鏡外視線目標。"
+        }
+      ],
+      "render_stages": [
+        "W2I",
+        "I2V"
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "標哥（資深廠務領班）；造型沿用角色 CLP。",
+          "source": "provided",
+          "clp_id": "char_biaoge"
+        },
+        {
+          "type": "clp",
+          "description": "廠務廢棄物暫存區；沿用已檢視的場景 CLP 與精修 Blender 佈景。",
+          "source": "provided",
+          "clp_id": "loc_factory_affairs"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "CAM_24／75mm，標哥單人胸部以上中近景，視線朝畫左 Amy；雙手在胸前比劃，保持於畫面下半部且不遮臉。 灰色／黃色白模僅供人物比例、站位與取景；手勢依本鏡表演。",
+          "source": "provided",
+          "path": "references/scenes/factory_affairs/renders/blocks_blender_s06_biao_medium_close_up.png"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "依 script.json 的 shot_4_5_4 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "shot_4_5_5",
+      "type": "character_scene",
+      "script_section_id": "shot_4_5_5",
+      "start_seconds": 1449.44,
+      "end_seconds": 1461.82,
+      "narrative_role": "evidence",
+      "description": "Subject: Amy 用力點頭肯定 E 指標，再指向訪談位置前側的寬敞走道，以讚許語氣補充料件動線分清楚、堆高機視線無死角與半年工安意外歸零。Scene: loc_factory_affairs，日間，沿用紙板堆、貨架與回收桶背景；走道在本鏡前側畫外，不新增行駛中的堆高機或統計牌。Framing: 只見 Amy 一人，CAM_26 腰部以上中景，視線朝畫右標哥，再隨手勢短暫看向走道；保留手臂及指向畫外走道的動作。Camera: 正常速度、60mm、近站姿眼高側拍，焦點在 Amy、背景稍柔化，固定鏡頭；以肯定陳述收尾，無疊字。",
+      "shot_language": {
+        "shot_size": "medium",
+        "camera_movement": "static",
+        "lighting_key": "natural",
+        "depth_of_field": "medium",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": false,
+      "shot_intent": "由資源分類帶出工作環境與員工安全的改善，鋪墊 S 指標。",
+      "information_role": "同一項分類改善兼具環境效益與工安效益，半年事故歸零是本劇情的成果。",
+      "character_actions": [
+        {
+          "character_id": "char_amy",
+          "emotion": "affirming_impressed",
+          "action_sequence": [
+            "nod_emphatically_to_confirm_e",
+            "point_toward_clear_aisle_and_explain_forklift_visibility",
+            "praise_six_months_without_accidents"
+          ],
+          "dialogue": "沒錯！這就符合 E 指標了，而且我還聽說，因為你們把分類做好了，走道變寬敞，堆高機運作更安全，部門的工安意外這半年直接歸零？",
+          "target": "char_biaoge",
+          "notes": "標哥在鏡外；依 script.json 改為肯定陳述，保留用力點頭與指走道，不沿用舊稿問句或 8 秒限制。"
+        }
+      ],
+      "render_stages": [
+        "W2I",
+        "I2V"
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "Amy；依使用者修正不穿反光背心，保留黃色工安帽；原有服裝沿用角色 CLP，本場各鏡一致。",
+          "source": "provided",
+          "clp_id": "char_amy"
+        },
+        {
+          "type": "clp",
+          "description": "廠務廢棄物暫存區；沿用已檢視的場景 CLP 與精修 Blender 佈景。",
+          "source": "provided",
+          "clp_id": "loc_factory_affairs"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "CAM_26／60mm，Amy 單人腰部以上中景，視線朝畫右標哥；保留指向前側畫外走道的手臂空間。 灰色／黃色白模僅供人物比例、站位與取景；手勢依本鏡表演。",
+          "source": "provided",
+          "path": "references/scenes/factory_affairs/renders/blocks_blender_s03_amy_medium.png"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "依 script.json 的 shot_4_5_5 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "shot_4_5_6",
+      "type": "character_scene",
+      "script_section_id": "shot_4_5_6",
+      "start_seconds": 1461.82,
+      "end_seconds": 1468.62,
+      "narrative_role": "emotional_beat",
+      "description": "Subject: 標哥坦率說維護弟兄安全本來人人有責，接著抬手抓抓安全帽、憨厚一笑，帶著意外領悟向 Amy 問「這也是 ESG 喔？」。Scene: loc_factory_affairs，日間，紙板堆、工具板與貨架接續前鏡。Framing: 只見標哥一人，CAM_27 腰部以上中景，視線朝畫左鏡外 Amy；抬手到帽側的動作與整頂帽子須完整在畫內，動作後放下手。Camera: 正常速度、60mm、近站姿眼高側拍，焦點在標哥、背景稍柔化，鏡頭固定；無疊字。",
+      "shot_language": {
+        "shot_size": "medium",
+        "camera_movement": "static",
+        "lighting_key": "natural",
+        "depth_of_field": "medium",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": false,
+      "shot_intent": "透過標哥真誠的反問，讓觀眾看見日常安全工作與 ESG 的連結。",
+      "information_role": "第一線人員原本就做的安全工作，也是 ESG 的一部分。",
+      "character_actions": [
+        {
+          "character_id": "char_biaoge",
+          "emotion": "warm_humble_realization",
+          "action_sequence": [
+            "affirm_shared_responsibility_for_coworker_safety",
+            "scratch_hardhat_and_smile_humbly",
+            "ask_if_this_is_esg"
+          ],
+          "dialogue": "是啊，維護安全，人人有責嘛！難道...這也是 ESG？",
+          "target": "char_amy",
+          "notes": "依 script.json 明確呈現抓安全帽與憨厚一笑，保留問句前停頓；Amy 不入鏡。"
+        }
+      ],
+      "render_stages": [
+        "W2I",
+        "I2V"
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "標哥（資深廠務領班）；造型沿用角色 CLP。",
+          "source": "provided",
+          "clp_id": "char_biaoge"
+        },
+        {
+          "type": "clp",
+          "description": "廠務廢棄物暫存區；沿用已檢視的場景 CLP 與精修 Blender 佈景。",
+          "source": "provided",
+          "clp_id": "loc_factory_affairs"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "CAM_27／60mm，標哥單人腰部以上中景；保留整頂安全帽與抬手抓帽側的空間，視線朝畫左 Amy。 灰色／黃色白模僅供人物比例、站位與取景；手勢依本鏡表演。",
+          "source": "provided",
+          "path": "references/scenes/factory_affairs/renders/blocks_blender_s04_biao_medium.png"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "依 script.json 的 shot_4_5_6 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "shot_4_5_7",
+      "type": "character_scene",
+      "script_section_id": "shot_4_5_7",
+      "start_seconds": 1468.62,
+      "end_seconds": 1475.46,
+      "narrative_role": "resolution",
+      "description": "Subject: Amy 先肯定照顧員工健康與安全是 S（Social）社會責任的基本功，再轉向鏡頭豎起雙大拇指，熱情感謝標哥與第一線同仁；標哥微笑點頭。Scene: loc_factory_affairs，日間，同一整齊暫存區，背景紙板堆、貨架與工具板連續。Framing: 兩人可見，CAM_25 雙人腰部以上中景，Amy 左、標哥右；Amy 雙手抬至胸前比讚並面向觀眾，完整保留雙手及安全帽。Camera: 正常速度、45mm、近站姿眼高拍攝，兩人清晰，固定機位讓 Amy 雙手能自由表演；無新增標語或字卡。",
+      "shot_language": {
+        "shot_size": "medium",
+        "camera_movement": "static",
+        "lighting_key": "natural",
+        "depth_of_field": "medium",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": true,
+      "shot_intent": "以對第一線工作者的肯定收束訪談，將安全工作明確連結到 S。",
+      "information_role": "照顧員工健康與安全，是 Social 社會責任最扎實的基本功。",
+      "character_actions": [
+        {
+          "character_id": "char_amy",
+          "emotion": "enthusiastic_tribute",
+          "action_sequence": [
+            "confirm_employee_health_and_safety_is_social_responsibility",
+            "turn_to_camera",
+            "give_double_thumbs_up_and_thank_frontline_team"
+          ],
+          "dialogue": "沒錯！照顧員工安全，這就是 S (社會責任) 的基本功！謝謝標哥，你太棒了！",
+          "target": "camera"
+        },
+        {
+          "character_id": "char_biaoge",
+          "emotion": "pleased_humble",
+          "action_sequence": [
+            "smile",
+            "nod_in_acknowledgement"
+          ],
+          "target": "char_amy"
+        }
+      ],
+      "render_stages": [
+        "W2I",
+        "I2V"
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "Amy；依使用者修正不穿反光背心，保留黃色工安帽；原有服裝沿用角色 CLP，本場各鏡一致。",
+          "source": "provided",
+          "clp_id": "char_amy"
+        },
+        {
+          "type": "clp",
+          "description": "標哥（資深廠務領班）；造型沿用角色 CLP。",
+          "source": "provided",
+          "clp_id": "char_biaoge"
+        },
+        {
+          "type": "clp",
+          "description": "廠務廢棄物暫存區；沿用已檢視的場景 CLP 與精修 Blender 佈景。",
+          "source": "provided",
+          "clp_id": "loc_factory_affairs"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "CAM_25／45mm，Amy 左、標哥右的雙人腰部以上構圖；Amy 面向鏡頭、雙手在胸前比讚。 灰色／黃色白模僅供人物比例、站位與取景；手勢依本鏡表演。",
+          "source": "provided",
+          "path": "references/scenes/factory_affairs/renders/blocks_blender_s02_medium_two_shot.png"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "依 script.json 的 shot_4_5_7 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "shot_4_6_1",
+      "type": "character_scene",
+      "script_section_id": "shot_4_6_1",
+      "start_seconds": 1475.46,
+      "end_seconds": 1479.2,
+      "narrative_role": "establish_context",
+      "description": "Subject: Amy 面對自拍鏡頭，快步朝行銷部會議桌方向走，帶著期待介紹最後一站。Scene: loc_marketing_department，日間，沿用現有辦公區、暖色窗光與材質；劇本所稱會議桌保持畫外，現有場景圖未標示其位置，行走路線須在自拍白模製作前確認，不自行補造桌位。Framing: 只見 Amy 一人，手機前鏡頭視角的胸部以上中近景，伸臂朝鏡頭，手機本體在鏡頭後；背景隨行走自然位移。Camera: 正常速度、規劃 24mm 等效廣角、略高於眼睛向下拍，臉部清楚而不誇張變形；輕微手持步伐起伏，無甩鏡，無疊字。",
+      "shot_language": {
+        "shot_size": "medium_close",
+        "camera_movement": "handheld",
+        "lens_mm": 24,
+        "lighting_key": "natural",
+        "depth_of_field": "deep",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": true,
+      "shot_intent": "以原稿的快步自拍開場，建立最後一站的探索感。",
+      "information_role": "Amy 來到行銷部，準備挖掘創意寶藏。",
+      "character_actions": [
+        {
+          "character_id": "char_amy",
+          "emotion": "cheerful_expectant",
+          "action_sequence": [
+            "hold_selfie_camera_at_arm_length",
+            "walk_briskly_toward_meeting_table",
+            "introduce_final_stop_to_camera"
+          ],
+          "dialogue": "最後一站，我們要來挖掘行銷部的寶藏",
+          "target": "camera",
+          "notes": "依 script.json 的自拍開場，不套用其他場景取消自拍的決定；語氣與停頓依原 delivery_cues。"
+        }
+      ],
+      "render_stages": [
+        "W2I",
+        "I2V"
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "Amy；外觀與日常服裝沿用角色 CLP。",
+          "source": "provided",
+          "clp_id": "char_amy"
+        },
+        {
+          "type": "clp",
+          "description": "行銷部；沿用場景參考與現有 Blender 空間，不沿用廠務工安配件。",
+          "source": "provided",
+          "clp_id": "loc_marketing_department"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "待製作自拍行走首幀白模：Amy 單人、伸臂自拍、24mm 等效廣角、略高眼位；會議桌保持畫外。先確認劇本會議桌的實際位置與行走路線，現有 SH01～SH15 不是此自拍機位。",
+          "source": "generate"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "逐字使用 script.json 的 shot_4_6_1.text 與 delivery_cues；沿用 3.74 秒時間槽，實製前以同文音訊核驗，不刪句、不改詞。",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "shot_4_6_2",
+      "type": "character_scene",
+      "script_section_id": "shot_4_6_2",
+      "start_seconds": 1479.2,
+      "end_seconds": 1489.46,
+      "narrative_role": "introduce_subject",
+      "description": "Subject: 小李興奮舉起剛印出的炫彩海報給 Amy 看，先展示標語，再期待她回應；Amy 看向海報並聆聽，不接話。Scene: loc_marketing_department，日間，兩人位於既有白板前，後方空白白板、黑窗格、窗外樹景與右側窗台盆栽沿用 SH02。Framing: 兩人可見，Amy 左、小李右，雙人中景；海報舉至兩人之間胸腹高度，文字面斜朝 Amy 並可供觀眾辨讀，不遮擋臉。Camera: 正常速度、沿用 SH02 的 46mm 與近眼高視角，保持兩人、海報及背景的取景關係，固定鏡頭；海報字樣由後製貼合紙面，無獨立標語疊字。",
+      "shot_language": {
+        "shot_size": "medium",
+        "camera_movement": "static",
+        "lighting_key": "natural",
+        "depth_of_field": "deep",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": true,
+      "shot_intent": "用小李自信展示海報的表演，提出後續需要修正的宣傳內容。",
+      "information_role": "海報宣稱純天然與無毒；這是角色提出的待檢視文案，並非影片認可的產品事實。",
+      "character_actions": [
+        {
+          "character_id": "char_li",
+          "emotion": "overexcited_proud",
+          "action_sequence": [
+            "raise_freshly_printed_colorful_poster",
+            "show_slogan_to_amy_enthusiastically",
+            "look_to_amy_for_reaction"
+          ],
+          "dialogue": "Amy 妳看！這是我們新產品的標語「地球救星毯！100%純天然，給您一個無毒的擁抱！」怎麼樣？夠聳動吧？",
+          "target": "char_amy"
+        },
+        {
+          "character_id": "char_amy",
+          "emotion": "attentive",
+          "action_sequence": [
+            "look_at_poster",
+            "listen_without_speaking"
+          ],
+          "target": "char_li"
+        }
+      ],
+      "render_stages": [
+        "W2I",
+        "I2V"
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "小李；外觀沿用角色 CLP。",
+          "source": "provided",
+          "clp_id": "char_li"
+        },
+        {
+          "type": "clp",
+          "description": "Amy；外觀沿用角色 CLP。",
+          "source": "provided",
+          "clp_id": "char_amy"
+        },
+        {
+          "type": "clp",
+          "description": "行銷部；以本鏡參考圖決定可見佈景。",
+          "source": "provided",
+          "clp_id": "loc_marketing_department"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "SH02／46mm 雙人中景，Amy 左、小李右；保留白模人物比例及取景，依劇本將小李垂手改為舉海報，Amy 看海報。",
+          "source": "provided",
+          "path": "references/scenes/marketing_department/renders/blocks_blender_s02_medium_two_shot.png"
+        },
+        {
+          "type": "poster_artwork",
+          "role": "prop_texture",
+          "description": "炫彩新海報及清晰文字貼圖；標語逐字取自本鏡原文：地球救星毯！100%純天然，給您一個無毒的擁抱！由後製將文字貼合紙面並追蹤手持運動，不讓生圖模型自行拼寫；此版保留至 4.6.8 塗改。",
+          "source": "generate"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "逐字使用 script.json 的 shot_4_6_2.text 與 delivery_cues；沿用 10.26 秒時間槽，保留全部標語及問句，實製前核驗同文音訊與口型。",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "shot_4_6_3",
+      "type": "character_scene",
+      "script_section_id": "shot_4_6_3",
+      "start_seconds": 1489.46,
+      "end_seconds": 1495.44,
+      "narrative_role": "build_tension",
+      "description": "Subject: Amy 先低頭看畫外小李手中的海報，皺眉，接著拿出手機查證，再抬眼嚴肅提醒小李。Scene: loc_marketing_department，日間，Amy 留在白板前原站位；背景為 SH13 的左側木門與牆面、右側白板局部及下方輪架。Framing: 只見 Amy 一人，單人中景保留頭部、軀幹與雙手；手機抬在胸前，螢幕朝 Amy，視線先向下再朝畫右的小李；海報與小李均在畫外。Camera: 正常速度、沿用 SH13 的 50mm 與近眼高朝向，保持既有取景與景深，固定機位；不展示虛構法規頁面，不加警告字卡。",
+      "shot_language": {
+        "shot_size": "medium",
+        "camera_movement": "static",
+        "lens_mm": 50,
+        "lighting_key": "natural",
+        "depth_of_field": "deep",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": false,
+      "shot_intent": "以查證與表情變化中斷小李的興奮，建立漂綠風險的轉折。",
+      "information_role": "Amy 提醒文案可能涉及漂綠風險，引出下一鏡的疑問。",
+      "character_actions": [
+        {
+          "character_id": "char_amy",
+          "emotion": "concerned_serious",
+          "action_sequence": [
+            "look_down_at_offscreen_poster_and_frown",
+            "take_out_phone_and_check",
+            "look_up_to_li_and_warn"
+          ],
+          "dialogue": "等等，小李，我剛查了一下ESG規定，這樣寫可能有「漂綠」的嫌疑喔",
+          "target": "char_li",
+          "notes": "小李為鏡外視線目標；完整保留英文、括號、空格與省略號，不因 5.98 秒時間槽濃縮台詞。"
+        }
+      ],
+      "render_stages": [
+        "W2I",
+        "I2V"
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "Amy；表情由專注轉為嚴肅。",
+          "source": "provided",
+          "clp_id": "char_amy"
+        },
+        {
+          "type": "clp",
+          "description": "行銷部；沿用 SH13 可見背景，不補入全景圖中畫外的家具。",
+          "source": "provided",
+          "clp_id": "loc_marketing_department"
+        },
+        {
+          "type": "clp",
+          "description": "Amy 的手機；沿用實體外觀，查證時螢幕朝角色，不照搬 CLP 的錄影介面。",
+          "source": "provided",
+          "clp_id": "prop_smartphone"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "SH13／50mm，Amy 單人中景，雙手可見；沿用人物尺度與門／白板取景，手勢依本鏡拿手機查證的表演。",
+          "source": "provided",
+          "path": "references/scenes/marketing_department/renders/blocks_blender_s13_amy_medium_shot.png"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "逐字使用 script.json 的 shot_4_6_3.text 與 delivery_cues；沿用 5.98 秒時間槽，包含 Greenwashing 的原句須先核驗同文音訊時長，不刪字或強制加速以塞入。",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "shot_4_6_4",
+      "type": "character_scene",
+      "script_section_id": "shot_4_6_4",
+      "start_seconds": 1495.44,
+      "end_seconds": 1497.71,
+      "narrative_role": "emotional_beat",
+      "description": "Subject: 小李愣住，抬起一手抓頭側，困惑地向畫外 Amy 發問；另一手持海報，海報留在取景下方。Scene: loc_marketing_department，日間，背景接續白板與黑窗格；以 SH12 的左側白板、後方窗景為準。Framing: 只見小李一人，依實圖採胸部以上中近景，頭側留出抓頭手的空間，手掌不遮眼鏡與表情；Amy 不入鏡。Camera: 正常速度、沿用 SH12 的 50mm、近眼高，人物清楚，保持原取景與景深，固定鏡頭，無疊字。",
+      "shot_language": {
+        "shot_size": "medium_close",
+        "camera_movement": "static",
+        "lens_mm": 50,
+        "lighting_key": "natural",
+        "depth_of_field": "deep",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": false,
+      "shot_intent": "以短暫的困惑反應提出觀眾的問題，銜接定義動畫。",
+      "information_role": "小李不理解漂綠，需要 Amy 說明。",
+      "character_actions": [
+        {
+          "character_id": "char_li",
+          "emotion": "startled_confused",
+          "action_sequence": [
+            "freeze_briefly",
+            "scratch_side_of_head",
+            "ask_amy_what_greenwashing_means"
+          ],
+          "dialogue": "漂綠？這是什麼？",
+          "target": "char_amy",
+          "notes": "保留抓頭表演；海報由另一手持在畫外下方，不能因切近景而無故消失。"
+        }
+      ],
+      "render_stages": [
+        "W2I",
+        "I2V"
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "小李；困惑反應與抬手抓頭。",
+          "source": "provided",
+          "clp_id": "char_li"
+        },
+        {
+          "type": "clp",
+          "description": "行銷部；沿用本鏡白板與窗景。",
+          "source": "provided",
+          "clp_id": "loc_marketing_department"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "SH12／50mm；雖檔名為 medium_shot，實圖為胸部以上取景。保留人物尺度與頭頂留白，抬手至頭側完成抓頭，不使用更緊的 SH07 臉部特寫。",
+          "source": "provided",
+          "path": "references/scenes/marketing_department/renders/blocks_blender_s12_li_medium_shot.png"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "逐字使用 script.json 的 shot_4_6_4.text 與 delivery_cues；沿用 2.27 秒時間槽，完整保留兩個疑問句。",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "shot_4_6_5",
+      "type": "animation",
+      "script_section_id": "shot_4_6_5",
+      "start_seconds": 1497.71,
+      "end_seconds": 1504.84,
+      "narrative_role": "deliver_payload",
+      "description": "Subject: 以抽象圖形比喻漂綠，不出現人物；一小片代表實際投入的綠葉，被遠大於它的綠色宣傳外殼包覆。Motion: 外殼先誇張膨脹，接著像紙套掀開，露出小綠葉與大部分空白，最後紅色叉號落在誇大的外殼上。Scene: 獨立教學動畫，淺色乾淨背景、藍綠與警示紅沿用 playbook；不描繪特定企業、認證或數據。Framing: 正面完整呈現圖形，輪廓尺度對比為唯一焦點，無辦公室前中後景。Camera: 正常播放速度、正交無透視畸變、正面平視、全圖清晰、固定鏡頭；Amy 僅作畫外音，無口型角色或新增旁白。",
+      "shot_language": {
+        "shot_size": "insert",
+        "camera_movement": "static",
+        "lighting_key": "high_key",
+        "depth_of_field": "deep",
+        "color_temperature": "neutral"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": true,
+      "shot_intent": "用宣傳外殼與實際投入的尺寸差，呈現原稿指定的趣味動畫比喻。",
+      "information_role": "依 Amy 原文解釋漂綠；圖形只表達宣傳與實際不相稱，不增補法規或罰款資訊。",
+      "overlay_notes": "無文字疊加；紅色叉號是動畫圖形的一部分，不是新增標語。",
+      "character_actions": [
+        {
+          "character_id": "char_amy",
+          "emotion": "clear_instructive",
+          "action_sequence": [
+            "explain_greenwashing_in_voiceover_only"
+          ],
+          "dialogue": "「漂綠」，就是宣傳做得比實際投入的多，變成誤導消費者，這是不可以的。",
+          "target": "audience",
+          "notes": "Amy 全程畫外音；不得改成鏡內講解，不生成 Amy 或小李的可見形象。"
+        }
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "Amy 僅供聲音身份對應；本鏡沒有可見角色，不把人物參考圖送入圖形生成。",
+          "source": "provided",
+          "clp_id": "char_amy",
+          "role": "voice_identity_only"
+        },
+        {
+          "type": "animation",
+          "description": "待製作 7.13 秒的本地圖形動畫：小綠葉、膨脹的綠色宣傳外殼、掀開揭露與紅叉；按原文三段語意安排節點，不加入文字、數值、認證章或新角色。此為後製動畫，沒有 AI 圖片／影片生成工序。",
+          "source": "generate"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "逐字使用 script.json 的 shot_4_6_5.text 與 delivery_cues 作 Amy 畫外音；沿用 7.13 秒時間槽，以同文音訊決定動畫節點，不增加解說。",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "shot_4_6_6",
+      "type": "character_scene",
+      "script_section_id": "shot_4_6_6",
+      "start_seconds": 1504.84,
+      "end_seconds": 1507.86,
+      "narrative_role": "emotional_beat",
+      "description": "Subject: 小李稍微收起肩膀，帶著委屈向畫外 Amy 小聲辯解；視線先短暫下垂，再抬向 Amy。Scene: 從動畫切回 loc_marketing_department 原對談位置，日間，背景依 SH05 保留左側白板、窗台盆栽與黑窗格。Framing: 只見小李一人，胸部以上中近景，視線朝畫左；雙手與持有的海報在畫外下方，不另外拿出寶特瓶或毛毯。Camera: 正常速度、沿用 SH05 的 62mm 與近眼高視角，表情清楚，保留原景深，固定鏡頭，無疊字。",
+      "shot_language": {
+        "shot_size": "medium_close",
+        "camera_movement": "static",
+        "lighting_key": "natural",
+        "depth_of_field": "deep",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": false,
+      "shot_intent": "讓小李的委屈反應引出環保原料與宣傳精確性之間的差別。",
+      "information_role": "小李認為使用回收再生原料就足以支持原有宣傳。",
+      "character_actions": [
+        {
+          "character_id": "char_li",
+          "emotion": "hurt_defensive",
+          "action_sequence": [
+            "lower_gaze_briefly",
+            "draw_shoulders_in_slightly",
+            "look_toward_amy_and_defend_quietly"
+          ],
+          "dialogue": "可是我們的產品真的環保啊？",
+          "target": "char_amy",
+          "notes": "語氣小聲、委屈，不改成憤怒爭辯；海報沿用前鏡，在本鏡取景之外。"
+        }
+      ],
+      "render_stages": [
+        "W2I",
+        "I2V"
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "小李；委屈與小聲辯解的表情。",
+          "source": "provided",
+          "clp_id": "char_li"
+        },
+        {
+          "type": "clp",
+          "description": "行銷部；沿用 SH05 可見佈景。",
+          "source": "provided",
+          "clp_id": "loc_marketing_department"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "SH05／62mm，小李胸部以上中近景；維持白板、盆栽與窗格的相對位置，Amy 不入鏡。",
+          "source": "provided",
+          "path": "references/scenes/marketing_department/renders/blocks_blender_s05_li_medium_close_up.png"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "逐字使用 script.json 的 shot_4_6_6.text 與 delivery_cues；沿用 3.02 秒時間槽，先核驗小聲委屈表演的實際時長，不用加速抵銷情緒停頓。",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "shot_4_6_7",
+      "type": "character_scene",
+      "script_section_id": "shot_4_6_7",
+      "start_seconds": 1507.86,
+      "end_seconds": 1521.86,
+      "narrative_role": "deliver_payload",
+      "description": "Subject: Amy 先溫和點頭肯定，再以一隻空手在胸前分別比劃原料與宣稱的界線；說到檢驗認證時稍停並收攏手勢，最後以堅定眼神提醒誠信風險。Scene: loc_marketing_department，日間，沿用白板前原站位、SH13 左側木門牆面與右側白板局部；查證後手機保持在另一手低位，不新增實體證書。Framing: 只見 Amy 一人，單人中景保留雙手，朝畫右的小李說話；手勢不遮臉，鏡內不切插入畫面。Camera: 正常速度、沿用 SH13 的 50mm、近眼高與原景深，固定機位，以表情、視線及三段手勢支撐完整 14 秒台詞；無新增圖表或標語。",
+      "shot_language": {
+        "shot_size": "medium",
+        "camera_movement": "static",
+        "lens_mm": 50,
+        "lighting_key": "natural",
+        "depth_of_field": "deep",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": false,
+      "shot_intent": "用清晰而不責備的表演，逐項釐清原稿中的原料、宣稱與證據界線。",
+      "information_role": "依原文說明再生聚酯纖維不能宣稱純天然，無毒宣稱須有正式檢驗認證，並連結企業誠信。",
+      "character_actions": [
+        {
+          "character_id": "char_amy",
+          "emotion": "gentle_firm",
+          "action_sequence": [
+            "nod_to_acknowledge_recycled_material",
+            "use_free_hand_to_distinguish_material_from_claim",
+            "pause_and_clarify_certification_boundary",
+            "finish_with_firm_eye_contact"
+          ],
+          "dialogue": "沒錯，但宣傳一定要有真實依據啊！我們是用回收寶特瓶抽絲做成的再生纖維，不能宣稱「純天然」；而且除非有正式檢驗報告，也不能隨便喊「無毒」，不然就是漂綠！",
+          "target": "char_li",
+          "notes": "小李保持畫外；手機在另一手低位，空手完成比劃，不新增報告、瓶子或示範產品。"
+        }
+      ],
+      "render_stages": [
+        "W2I",
+        "I2V"
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "Amy；溫和但立場堅定，沿用角色 CLP。",
+          "source": "provided",
+          "clp_id": "char_amy"
+        },
+        {
+          "type": "clp",
+          "description": "行銷部；與 4.6.3 同一站位與拍攝朝向。",
+          "source": "provided",
+          "clp_id": "loc_marketing_department"
+        },
+        {
+          "type": "clp",
+          "description": "Amy 的手機；接續查證後持於低位，螢幕內容不展示。",
+          "source": "provided",
+          "clp_id": "prop_smartphone"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "SH13／50mm，Amy 單人中景，雙手與頭部完整；原白模手勢僅作佔位，本鏡按三段解說調整空手動作。",
+          "source": "provided",
+          "path": "references/scenes/marketing_department/renders/blocks_blender_s13_amy_medium_shot.png"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "逐字使用 script.json 的 shot_4_6_7.text 與 delivery_cues；保留原 14.00 秒時間槽與單一鏡號，不為生成時長限制拆句、刪詞或改寫。",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "shot_4_6_8",
+      "type": "character_scene",
+      "script_section_id": "shot_4_6_8",
+      "start_seconds": 1521.86,
+      "end_seconds": 1531.76,
+      "narrative_role": "resolution",
+      "description": "Subject: 小李若有所悟地點頭，拿起筆快速塗改原海報，說出新文案後抬眼向 Amy 確認。Scene: loc_marketing_department，日間，沿用白板前對談區；小李將原海報暫貼靠既有白板支撐，一手扶紙、一手改稿，不新增工作桌。Framing: 只見小李一人，規劃腰部以上中景，同時包含完整頭部、雙手與海報；從白板側前方看見紙面，Amy 在畫外。Camera: 正常速度、規劃 50mm、近眼高斜向紙面，人物與文案均清楚，固定鏡頭；需專用白模，現有 SH12 取景過緊，SH15 也未涵蓋完整塗改動作，不直接充當本鏡首幀。",
+      "shot_language": {
+        "shot_size": "medium",
+        "camera_movement": "static",
+        "lens_mm": 50,
+        "lighting_key": "natural",
+        "depth_of_field": "deep",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": true,
+      "shot_intent": "把理解轉化為實際改稿，提出仍待 Amy 確認的新文案。",
+      "information_role": "小李提出每件毛毯由 8 個回收寶特瓶製成的文案；數字尚待下一鏡要求的佐證，不視為已驗證成果。",
+      "overlay_notes": "文案僅貼合實體海報紙面；不加合格勾號、認證章或獨立數據圖卡。",
+      "character_actions": [
+        {
+          "character_id": "char_li",
+          "emotion": "realizing_proactive",
+          "action_sequence": [
+            "nod_with_realization",
+            "take_pen_and_support_original_poster_against_whiteboard",
+            "cross_out_and_rewrite_copy_quickly",
+            "look_to_amy_for_confirmation"
+          ],
+          "dialogue": "這樣啊...那如果改成「每件毛毯，都是由8個回收寶特瓶製成，溫暖你，也溫暖地球！」這樣可以了吧？",
+          "target": "char_amy",
+          "notes": "原海報沿用 4.6.2 的紙張與版型；新文案是提案，結尾保持詢問，不自行新增肯定回覆。"
+        }
+      ],
+      "render_stages": [
+        "W2I",
+        "I2V"
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "小李；若有所悟與積極修改文案。",
+          "source": "provided",
+          "clp_id": "char_li"
+        },
+        {
+          "type": "clp",
+          "description": "行銷部；使用既有白板作改稿支撐，不另造房間格局或會議桌。",
+          "source": "provided",
+          "clp_id": "loc_marketing_department"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "待製作小李塗改海報的單人中景白模：50mm、近眼高側前方，完整頭部、雙手與靠在白板上的海報，延續既有對談軸線；不以現有 SH12／SH15 假充已完成構圖。",
+          "source": "generate"
+        },
+        {
+          "type": "poster_artwork",
+          "role": "prop_texture",
+          "description": "沿用 4.6.2 原海報，保留可辨識的刪改痕跡；新增文案逐字取自本鏡原文：每件毛毯，由8個回收寶特瓶循環製成，溫暖你，也守護地球！以後製文字及手寫揭露動畫貼合紙面，依筆尖動作顯現，不交由 AI 自行拼字。",
+          "source": "generate"
+        },
+        {
+          "type": "prop",
+          "description": "塗改海報用筆；沿用既有白板筆槽中的筆，不增添品牌或文字。",
+          "source": "generate"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "逐字使用 script.json 的 shot_4_6_8.text 與 delivery_cues；沿用 9.90 秒時間槽，保留開頭遲疑、完整新標語及最後問句。",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "shot_4_6_9",
+      "type": "character_scene",
+      "script_section_id": "shot_4_6_9",
+      "start_seconds": 1531.76,
+      "end_seconds": 1544.29,
+      "narrative_role": "evidence",
+      "description": "Subject: Amy 笑著點頭肯定方向，提到數據時轉為專注，稍微放慢點頭，最後以平穩目光提醒每個字都要禁得起檢驗。Scene: loc_marketing_department，日間，仍在同一白板前，背景依 SH06 保留牆面與白板局部；不切至研發部，也不顯示尚不存在的製程報告。Framing: 只見 Amy 一人，胸部以上中近景，朝畫右的小李說話；雙手與手機主要在畫外下方，表情為焦點。Camera: 正常速度、沿用 SH06 的 62mm、近眼高與原景深，固定機位；保留完整 12.53 秒台詞，不插入暗示 8 個數值已確認的圖表。",
+      "shot_language": {
+        "shot_size": "medium_close",
+        "camera_movement": "static",
+        "lighting_key": "natural",
+        "depth_of_field": "deep",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": false,
+      "shot_intent": "在肯定創意的同時保留證據要求，避免新文案被誤讀為已獲核准。",
+      "information_role": "8 個寶特瓶的數據仍需研發部提供確切製程質量報告佐證。",
+      "character_actions": [
+        {
+          "character_id": "char_amy",
+          "emotion": "encouraging_rigorous",
+          "action_sequence": [
+            "smile_and_nod_to_encourage",
+            "become_focused_when_asking_for_evidence",
+            "finish_with_clear_steady_eye_contact"
+          ],
+          "dialogue": "方向很棒！不過「是不是剛好8個寶特瓶製成」，這數字還要請研發部小陳提供確切製程數據佐證喔！做ESG宣傳，數據得經得起檢驗才行！",
+          "target": "char_li",
+          "notes": "小陳僅在台詞中被提及，不入鏡、不新增其回覆；原文的「禁得起」照錄，不自行校訂。"
+        }
+      ],
+      "render_stages": [
+        "W2I",
+        "I2V"
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "Amy；笑著肯定後給出嚴謹建議。",
+          "source": "provided",
+          "clp_id": "char_amy"
+        },
+        {
+          "type": "clp",
+          "description": "行銷部；沿用 SH06 的牆面及白板背景。",
+          "source": "provided",
+          "clp_id": "loc_marketing_department"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "SH06／62mm，Amy 單人中近景；沿用頭部比例、頭頂留白與背景遮擋關係，視線朝畫右的小李。",
+          "source": "provided",
+          "path": "references/scenes/marketing_department/renders/blocks_blender_s06_amy_medium_close_up.png"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "逐字使用 script.json 的 shot_4_6_9.text 與 delivery_cues；沿用 12.53 秒時間槽，完整保留數據佐證條件與最後提醒，不自行校字。",
+          "source": "generate"
+        }
+      ]
+    },
+    {
+      "id": "shot_4_6_10",
+      "type": "character_scene",
+      "script_section_id": "shot_4_6_10",
+      "start_seconds": 1544.29,
+      "end_seconds": 1554.91,
+      "narrative_role": "resolution",
+      "description": "Subject: Amy 將注意力從小李轉向自拍鏡頭，伸臂持手機，以誠懇堅定的眼神向觀眾總結；說到做多少、說多少時輕點頭，結尾穩定直視鏡頭。Scene: loc_marketing_department，日間，保留本場白板、窗格與暖色自然光；自拍朝向與可見背景依待製作白模確認，不照搬第三人稱機位。Framing: 只見 Amy 一人，手機前鏡頭視角的胸部以上中近景，伸臂可見局部、手機本體在鏡頭後，小李在畫外。Camera: 正常速度、規劃 24mm 等效廣角、略高眼位，臉部清楚且不誇張變形；站定手持，微幅自然晃動，無推拉或甩鏡，無額外結語字卡。",
+      "shot_language": {
+        "shot_size": "medium_close",
+        "camera_movement": "handheld",
+        "lens_mm": 24,
+        "lighting_key": "natural",
+        "depth_of_field": "deep",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": true,
+      "shot_intent": "回到原稿的自拍敘事，以誠信原則收束行銷部訪談。",
+      "information_role": "Amy 將做多少、說多少連結到 G 公司治理、風控與品牌行銷。",
+      "character_actions": [
+        {
+          "character_id": "char_amy",
+          "emotion": "sincere_resolute",
+          "action_sequence": [
+            "turn_attention_from_li_to_selfie_camera",
+            "raise_phone_at_arm_length_and_address_audience",
+            "nod_gently_on_do_and_say",
+            "finish_with_steady_sincere_eye_contact"
+          ],
+          "dialogue": "各位觀眾，這就是G (Governance) 裡最重要的誠信原則！做多少，說多少。誠實，不僅是最好的策略，更是最強大的行銷！",
+          "target": "camera",
+          "notes": "依 script.json 保留自拍與完整結語；不增加小李附和、旁白或新的行動呼籲。"
+        }
+      ],
+      "render_stages": [
+        "W2I",
+        "I2V"
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "Amy；外觀沿用角色 CLP，自拍時誠懇堅定。",
+          "source": "provided",
+          "clp_id": "char_amy"
+        },
+        {
+          "type": "clp",
+          "description": "行銷部；與本場對談的材質、光線及佈景連續。",
+          "source": "provided",
+          "clp_id": "loc_marketing_department"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "待製作站定自拍收尾白模：Amy 單人、伸臂持手機、24mm 等效廣角、略高眼位，視線對準前鏡頭；確認轉向自拍後的實際背景，不將 SH06／SH08 標成自拍圖。",
+          "source": "generate"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "逐字使用 script.json 的 shot_4_6_10.text 與 delivery_cues；沿用 10.62 秒時間槽，完整保留 G (Governance) 與結語。",
+          "source": "generate"
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "scene_4_6": {
+      "source": "artifacts/script.json",
+      "source_scene": "場景4.6．行銷部（避免漂綠）",
+      "director_mode": "Vlogger 自拍開場與收尾，接白板前對談及一段 Amy 畫外音動畫",
+      "purpose": "依原稿呈現宣傳、實際投入與可驗證證據之間的界線，收束於公司治理的誠信原則。",
+      "shot_ids": [
+        "shot_4_6_1",
+        "shot_4_6_2",
+        "shot_4_6_3",
+        "shot_4_6_4",
+        "shot_4_6_5",
+        "shot_4_6_6",
+        "shot_4_6_7",
+        "shot_4_6_8",
+        "shot_4_6_9",
+        "shot_4_6_10"
+      ],
+      "timing_basis": "逐鏡採 script.json 的 start_seconds／end_seconds：3.74／10.26／5.98／2.27／7.13／3.02／14.00／9.90／12.53／10.62 秒，1475.46～1554.91 秒，共 79.45 秒。",
+      "dialogue_basis": "十鏡 dialogue 逐字採 script.json.sections[].text；說話者與主要動作依 speaker_directions，語氣、重音、停頓依 delivery_cues。保留全部中英文、標點、空格與原稿用字，包括 4.6.9 的「禁得起」，不改寫或新增台詞。",
+      "audio_timing_note": "本次只沿用原稿時間槽，未取得同文音檔核驗；4.6.3／4.6.6 台詞相對密集，先核驗正常表演時長，不強制加速。4.6.2／4.6.7／4.6.9／4.6.10 超過風格建議 10 秒，優先保留使用者指定鏡號與原文；生成工具時長限制留待素材階段處理，不在此自行拆鏡。",
+      "aspect_ratio_rule": "沿用專案 1920×1080／16:9／30fps；現有 Blender 參考圖保持原人物比例、取景與景深，不拉伸。",
+      "visual_style": "沿用 kj-esg-pixar-hybrid 的角色 CLP、3D 動畫材質與辦公室自然暖光；動畫比喻用乾淨藍綠圖形及警示紅。",
+      "location_rule": "以已檢視的場景 CLP 與各機位實圖為準；不照抄 CLP 舊文字中的圓桌、吊燈與情緒板。會議桌未在現有圖中定位，4.6.1 保留原動作並在白模製作前確認行走路線。",
+      "camera_rule": "既有鏡位引用 2026-10-16 renders/blocks_blender 圖；46mm／62mm 等非 schema 枚舉焦距保留於 description，不另改 schema。4.6.1／4.6.8／4.6.10 的專用白模列 source=generate，不虛填現成路徑。",
+      "prop_continuity": "小李從 4.6.2 持同一張海報，4.6.4／4.6.6 取景較緊時海報留畫外，4.6.8 靠在既有白板上塗改。Amy 在 4.6.3 拿出手機查證，4.6.7 仍持於低位，4.6.10 再舉起自拍。僅在台詞被提及的瓶子、毛毯、小陳與製程報告不因此入鏡。",
+      "hero_frames": [
+        "shot_4_6_1：Amy 快步自拍介紹最後一站",
+        "shot_4_6_2：小李向 Amy 舉起原版海報",
+        "shot_4_6_5：誇大宣傳外殼掀開，露出小得多的實際投入",
+        "shot_4_6_8：小李在同一張海報上改寫文案，等待確認",
+        "shot_4_6_10：Amy 對自拍鏡頭誠懇總結"
+      ],
+      "transition_rule": "鏡間均直接切換；4.6.5 以獨立動畫承接 Amy 畫外音，4.6.6 回到原對談位置。對談以固定機位與表演推進，自拍僅保留自然手持動態。",
+      "overlays": [],
+      "text_rule": "海報原版與改稿版是實體紙面的文字貼圖，逐字摘自對應原文，以後製貼合及追蹤完成；不另造標語、字幕或數據。4.6.8 的 8 個數值保持為角色提案，4.6.9 仍要求佐證，不加核准或認證標記。"
+    },
+    "scene_4_5": {
+      "source": "artifacts/script.json",
+      "source_scene": "場景4.5．廠務現場（黃金獵人）",
+      "director_mode": "Vlogger 自拍開場，接廠務現場對談",
+      "purpose": "展示第一線人員的貢獻",
+      "shot_ids": [
+        "shot_4_5_1",
+        "shot_4_5_2",
+        "shot_4_5_3",
+        "shot_4_5_4",
+        "shot_4_5_5",
+        "shot_4_5_6",
+        "shot_4_5_7"
+      ],
+      "timing_basis": "逐鏡採 script.json 的 start_seconds／end_seconds：9.90／4.00／12.38／8.57／12.38／6.80／6.84 秒，1414.59～1475.46 秒，共 60.87 秒；其他分鏡不變。",
+      "dialogue_basis": "七鏡對白逐字採 script.json.sections[].text；動作依 speaker_directions，語氣／重音／停頓依 delivery_cues。使用者本次修正 Amy 不穿反光背心，保留黃色工安帽，已同步 script.json 的 4.5.1。",
+      "audio_timing_note": "本次沿用 script.json 的時間槽；專案未找到本場對應音檔，尚未重新實測配音。實製時按相同台詞核驗時長與口型，不自行刪句或加速；4.5.3／4.5.5 各 12.38 秒超過風格建議 10 秒，優先保留指定鏡號與台詞。",
+      "aspect_ratio_rule": "沿用專案 1920×1080／16:9／30fps；本輪引用的 Blender 白模均 1920×1080，保持人物比例與取景，不拉伸參考圖。",
+      "hero_frames": [
+        "shot_4_5_1：Amy 戴黃色工安帽、不穿反光背心的廠務自拍開場",
+        "shot_4_5_4：標哥笑著比劃進出帳目，連結分類效益與 E",
+        "shot_4_5_7：Amy 對鏡頭雙手比讚，向第一線同仁致意"
+      ],
+      "transition_rule": "鏡間均直接切換；4.5.2 鏡內輕微向右轉向標哥，其餘對談以固定機位及人物表演支撐節奏。",
+      "overlays": []
+    }
+  }
+}

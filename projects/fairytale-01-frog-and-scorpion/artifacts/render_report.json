@@ -1,0 +1,20 @@
+{
+  "version": "1.0",
+  "output_file": "projects/fairytale-01-frog-and-scorpion/renders/frog_and_scorpion_hyperframes.mp4",
+  "total_duration_seconds": 40.1,
+  "resolution": "1920x1080",
+  "fps": 30,
+  "format": "mp4",
+  "scenes_count": 4,
+  "render_runtime": "hyperframes",
+  "features": [
+    "pixar_golden_animated_title",
+    "persistent_glassmorphic_sidebar_width_288px",
+    "stepper_accumulative_titles_dim_previous",
+    "gpu_gsap_subpixel_ken_burns",
+    "smooth_crossfade_transitions",
+    "google_tts_kore_narration"
+  ],
+  "render_time_seconds": 119.1,
+  "status": "completed"
+}
