@@ -43,8 +43,8 @@
 - **Review 聚焦實際使用。** 只把會影響目前使用路徑的具體問題列為必修，附觸發案例；假設性風險、未來擴充與風格偏好只列建議，不自動實作。
 - **錯誤先找根因再修**，修完記到 `docs/kj-lean-status.md` 的「踩過的坑」。
 - **花錢前必報**：工具、供應商、模型、原因、預估費用。使用者選過的供應商可直接用，但換模型要先問。
-- **commit／push**：使用者確認後再做；push 到 `team-fork lean`。`projects/` 測試資料預設不 commit。
-- **不要動** `AGENT_GUIDE.md`（保持可和 upstream 合併）、其他 `codex/*` 分支與 worktree。
+- **commit／push（一題一 Commit）**：使用者確認後再做；每完成一個獨立議題做一次 commit（不逐檔拆碎，也不把多個無關議題混成一包），push 到 `team-fork lean`。`projects/` 測試資料預設不 commit。
+- **保持可與 upstream 無痛合併（少碰原始檔、單點插入）**：優先改 `kj-*` 專屬檔、設定或專案資料；非必要不動 OM 原始檔。必須改 OM 原始檔時，只做單點插入，不重排 import、不改鄰近縮排與排版。**不要動** `AGENT_GUIDE.md`、其他 `codex/*` 分支與 worktree。
 - 每次回覆結尾列「我刻意沒做的事」。
 
 ## 現況與交接
