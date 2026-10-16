@@ -957,8 +957,9 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "待製作自拍行走首幀白模：Amy 單人、伸臂自拍、24mm 等效廣角、略高眼位；會議桌保持畫外。先確認劇本會議桌的實際位置與行走路線，現有 SH01～SH15 不是此自拍機位。",
-          "source": "generate"
+          "description": "SH01 雙人中景（Amy 左、小李右，後方白板中央）；構圖底圖 blocks_blender_s01_medium_two_shot.png，場景外觀 empty_gpt_s01_medium_two_shot.png。",
+          "source": "provided",
+          "path": "references/scenes/marketing_department/renders/blocks_blender_s01_medium_two_shot.png"
         },
         {
           "type": "dialogue_audio",
@@ -1035,9 +1036,9 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "SH02／46mm 雙人中景，Amy 左、小李右；保留白模人物比例及取景，依劇本將小李垂手改為舉海報，Amy 看海報。",
+          "description": "SH02 小李單人中近景（小李偏右、視線朝左，左後方白板局部）；構圖底圖 blocks_blender_s02_li_medium_close_up.png，場景外觀 empty_gpt_s02_li_medium_close_up.png。",
           "source": "provided",
-          "path": "references/scenes/marketing_department/renders/blocks_blender_s02_medium_two_shot.png"
+          "path": "references/scenes/marketing_department/renders/blocks_blender_s02_li_medium_close_up.png"
         },
         {
           "type": "poster_artwork",
@@ -1113,9 +1114,9 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "SH13／50mm，Amy 單人中景，雙手可見；沿用人物尺度與門／白板取景，手勢依本鏡拿手機查證的表演。",
+          "description": "SH03 Amy 單人中近景（Amy 偏左持手機查證、視線朝右，右後方白板局部）；構圖底圖 blocks_blender_s03_amy_medium_close_up.png，場景外觀 empty_gpt_s03_amy_medium_close_up.png。",
           "source": "provided",
-          "path": "references/scenes/marketing_department/renders/blocks_blender_s13_amy_medium_shot.png"
+          "path": "references/scenes/marketing_department/renders/blocks_blender_s03_amy_medium_close_up.png"
         },
         {
           "type": "dialogue_audio",

@@ -71,13 +71,13 @@
 | 2.1.6 | [shot_2.1.6_short_v1.png](../assets/images/shot_2.1.6_short_v1.png) | G | [原紀錄第 98 行](shot_prompts_2_1.md#216esg-概念轉折s09_table_insert50mm) | manifest 現行 |
 | 4.6.1 | `shot_4.6.1_gpt_template_v1.png`（本機未留存） | G | [生成紀錄](#shot_4.6.1_gpt_template_v1) | 未留存副本（僅存紀錄） |
 | 4.6.1 | `shot_4.6.1_gpt_template_v2.png`（本機未留存） | G | [生成紀錄](#shot_4.6.1_gpt_template_v2) | 未留存副本（僅存紀錄） |
-| 4.6.1 | [shot_4.6.1_gpt_template_v3.png](../assets/images/shot_4.6.1_gpt_template_v3.png) | G | [生成紀錄](#shot_4.6.1_gpt_template_v3) | 保留版本（待確認） |
-| 4.6.1 | [shot_4.6.1_gpt_template_v4.png](../assets/images/shot_4.6.1_gpt_template_v4.png) | G | [生成紀錄](#shot_4.6.1_gpt_template_v4) | 保留版本（待確認） |
-| 4.6.1 | [shot_4.6.1_gpt_template_v5.png](../assets/images/shot_4.6.1_gpt_template_v5.png) | G | [生成紀錄](#shot_4.6.1_gpt_template_v5) | 保留版本（待確認） |
-| 4.6.2 | [shot_4.6.2_gpt_template_v1.png](../assets/images/shot_4.6.2_gpt_template_v1.png) | G | [生成紀錄](#shot_4.6.2_gpt_template_v1) | 保留版本（待確認） |
-| 4.6.2 | [shot_4.6.2_gpt_template_v2.png](../assets/images/shot_4.6.2_gpt_template_v2.png) | G | [生成紀錄](#shot_4.6.2_gpt_template_v2) | 保留版本（待確認） |
-| 4.6.2 | [shot_4.6.2_gpt_template_v3.png](../assets/images/shot_4.6.2_gpt_template_v3.png) | G | [生成紀錄](#shot_4.6.2_gpt_template_v3) | 保留版本（待確認） |
-| 4.6.3 | [shot_4.6.3_gpt_template_v1.png](../assets/images/shot_4.6.3_gpt_template_v1.png) | G | [生成紀錄](#shot_4.6.3_gpt_template_v1) | 保留版本（待確認） |
+| 4.6.1 | [shot_4.6.1_gpt_template_v3.png](../assets/images/shot_4.6.1_gpt_template_v3.png) | G | [生成紀錄](#shot_4.6.1_gpt_template_v3) | 保留版本 |
+| 4.6.1 | [shot_4.6.1_gpt_template_v4.png](../assets/images/shot_4.6.1_gpt_template_v4.png) | G | [生成紀錄](#shot_4.6.1_gpt_template_v4) | 保留版本 |
+| 4.6.1 | [shot_4.6.1_gpt_template_v5.png](../assets/images/shot_4.6.1_gpt_template_v5.png) | G | [生成紀錄](#shot_4.6.1_gpt_template_v5) | manifest 現行 |
+| 4.6.2 | [shot_4.6.2_gpt_template_v1.png](../assets/images/shot_4.6.2_gpt_template_v1.png) | G | [生成紀錄](#shot_4.6.2_gpt_template_v1) | 保留版本 |
+| 4.6.2 | [shot_4.6.2_gpt_template_v2.png](../assets/images/shot_4.6.2_gpt_template_v2.png) | G | [生成紀錄](#shot_4.6.2_gpt_template_v2) | 保留版本 |
+| 4.6.2 | [shot_4.6.2_gpt_template_v3.png](../assets/images/shot_4.6.2_gpt_template_v3.png) | G | [生成紀錄](#shot_4.6.2_gpt_template_v3) | manifest 現行 |
+| 4.6.3 | [shot_4.6.3_gpt_template_v1.png](../assets/images/shot_4.6.3_gpt_template_v1.png) | G | [生成紀錄](#shot_4.6.3_gpt_template_v1) | manifest 現行 |
 
 ## 缺件與歷史例外
 
