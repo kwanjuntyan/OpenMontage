@@ -1,8 +1,43 @@
-# OpenMontage 團隊協作環境建置手冊 (Lean 分支)
+# OpenMontage 團隊協作環境建置與更新手冊 (Lean 分支)
 
-> 給新加入或更換電腦的協作成員。依照以下 4 個步驟即可完成配置並與正式專案同步。
+> 本手冊分為兩部分：
+> - **一、既有環境：日常更新與啟動 Scene Player（常用）**
+> - **二、新電腦／首次建置：4 步驟完成配置**
 
 ---
+
+## 一、既有環境：日常更新與啟動 Scene Player
+
+### 1. 確認 Dropbox 同步完成
+五大專案的媒體檔（`assets/audio/`、`assets/images/`、`assets/videos/`）均由 Dropbox 自動同步，更新前請先確認電腦右下角 **Dropbox 已完成同步**。
+
+### 2. 更新 Git 程式碼與專案食譜
+打開 PowerShell 進入專案根目錄（例如 `cd D:\kj-openMontage`），執行：
+
+```powershell
+# 若當初依下方「第一步」直接 clone kwanjuntyan/OpenMontage，遠端名稱為 origin：
+git fetch origin lean
+git reset --hard origin/lean
+
+# （若你的遠端名稱設為 team-fork，請改跑：git fetch team-fork lean; git reset --hard team-fork/lean）
+```
+*(註：因 `projects/*/artifacts/` 已納入 Git 版控，使用 `fetch + reset --hard` 可避免與 Dropbox 已同步之相同檔案發生未追蹤衝突。)*
+
+### 3. 啟動 Backlot 看板與 Scene Player（毛片預覽器）
+在專案根目錄執行：
+
+```powershell
+$env:PYTHONPATH="."; .venv\Scripts\python.exe -m backlot serve --port 4750
+```
+
+啟動後，用瀏覽器開啟：
+- **🎬 Scene Player（毛片預覽器）**：`http://127.0.0.1:4750/ui/player.html`
+  - 支援切換專案、幕／場篩選、對白音檔 vs 影片原音、分鏡圖 vs 影片、Camera 視角圖／並排對照，以及檢視／複製生成 Prompt。
+- **📋 專案看板（Backlot）**：`http://127.0.0.1:4750/p/course-51-esg`（右下角亦可點擊 `🎬 Scene Player` 進入）
+
+---
+
+## 二、新電腦／首次建置：4 步驟完成配置
 
 ### 第一步：指定下載 `lean` 正式分支
 請在終端機（PowerShell 或 CMD）執行（務必加上 `-b lean` 參數，避開其他歷史分支）：
@@ -28,7 +63,7 @@ pip install -r requirements.txt
 ---
 
 ### 第三步：連結 Dropbox 專案資料庫 (Windows Junction)
-專案所有影片、圖片、Blender 模型與算圖成果均存於 Dropbox（GitHub 僅版控各專案輕量的 `artifacts/`、`project.json` 與 `checkpoint_*.json`）。請在 **命令提示字元 (CMD)** 依序執行：
+專案所有影片、圖片、音檔與 Blender 模型均存於 Dropbox（GitHub 僅版控各專案輕量的 `artifacts/`、`project.json` 與 `checkpoint_*.json`）。請在 **命令提示字元 (CMD)** 依序執行：
 ```cmd
 rmdir /s /q projects
 mklink /J "projects" "你的Dropbox路徑\kj-om-projects"
