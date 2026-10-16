@@ -1,0 +1,306 @@
+{
+  "version": "1.0",
+  "project_id": "foxconn-core-values-course",
+  "decisions": [
+    {
+      "decision_id": "d-001",
+      "stage": "proposal",
+      "category": "pipeline_selection",
+      "subject": "Production Pipeline",
+      "options_considered": [
+        {
+          "option_id": "opt-pipe-explainer",
+          "label": "animated-explainer",
+          "score": 1.0,
+          "reason": "完美支援 course_form 學習架構、course_manifest 結構化教學單元及前置 Research/Proposal 流程"
+        },
+        {
+          "option_id": "opt-pipe-cinematic",
+          "label": "cinematic",
+          "score": 0.4,
+          "reason": "偏向短片視覺氛圍，缺乏完整的課程微課單元組織能力",
+          "rejected_because": "不符合企業內訓課程微課與學習評量結構需求"
+        }
+      ],
+      "selected": "opt-pipe-explainer",
+      "reason": "選擇 animated-explainer 搭配 content_form='course_form' 作為課程生產專用管線",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    },
+    {
+      "decision_id": "d-002",
+      "stage": "proposal",
+      "category": "render_runtime_selection",
+      "subject": "Composition Render Engine",
+      "options_considered": [
+        {
+          "option_id": "opt-runtime-hyperframes",
+          "label": "HyperFrames (HTML/CSS/GSAP)",
+          "score": 0.95,
+          "reason": "本地已驗證可用 (doctor passed)，擅長動態排版、幾何插畫與微動畫，與 Atelier 模式高度契合"
+        },
+        {
+          "option_id": "opt-runtime-remotion",
+          "label": "Remotion (React Scene Stack)",
+          "score": 0.0,
+          "reason": "環境中未安裝 node_modules，套件解析超時無法執行",
+          "rejected_because": "runtime not available on this machine"
+        },
+        {
+          "option_id": "opt-runtime-ffmpeg",
+          "label": "FFmpeg Direct Stitch",
+          "score": 0.5,
+          "reason": "作為最後降級備案，但缺乏豐富的前端動態表現力",
+          "rejected_because": "無法呈現細緻的情境劇動態文字與分鏡轉場"
+        }
+      ],
+      "selected": "opt-runtime-hyperframes",
+      "reason": "Remotion 在本環境未安裝，HyperFrames 本地驗證完全就緒且具備優秀的動態表現力",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 0.95
+    },
+    {
+      "decision_id": "d-003",
+      "stage": "proposal",
+      "category": "composition_mode",
+      "subject": "Authoring Mode (Atelier vs Templated)",
+      "options_considered": [
+        {
+          "option_id": "opt-mode-atelier",
+          "label": "Atelier (匠意手作模式)",
+          "score": 0.95,
+          "reason": "針對鴻海品牌特色量身訂製專屬色彩、字體與情境舞台，維繫沉浸感"
+        },
+        {
+          "option_id": "opt-mode-templated",
+          "label": "Templated (模板拼裝模式)",
+          "score": 0.4,
+          "reason": "依賴 Remotion 預設 scene components，但在 HyperFrames 下無法套用現成公版",
+          "rejected_because": "受限於 Remotion 依賴且風格較為刻板公版"
+        }
+      ],
+      "selected": "opt-mode-atelier",
+      "reason": "推薦 Atelier 模式，為企業集團核心價值形象大作打造專屬視覺語言",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 0.95
+    },
+    {
+      "decision_id": "d-004",
+      "stage": "proposal",
+      "category": "provider_selection",
+      "subject": "TTS & Media Generation Providers",
+      "options_considered": [
+        {
+          "option_id": "opt-prov-google",
+          "label": "Google AI APIs (Google TTS + Google Imagen)",
+          "score": 0.9,
+          "reason": "已完成配置且具備中文台灣語音合成能力，預估成本為 0.00 USD"
+        },
+        {
+          "option_id": "opt-prov-paid",
+          "label": "ElevenLabs & fal.ai Seedance 2.0",
+          "score": 0.8,
+          "reason": "需外部付費 API 授權，受限於未事先核准原則",
+          "rejected_because": "本案堅持零付費呼叫原則，待樣品批准後方可評估"
+        }
+      ],
+      "selected": "opt-prov-google",
+      "reason": "遵循零未授權付費原則，優先使用已配置之 Google 憑證與本地渲染引擎",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 0.95
+    },
+    {
+      "decision_id": "d-005",
+      "stage": "clp",
+      "category": "visual_accuracy_check",
+      "subject": "Character CLP Policy",
+      "options_considered": [
+        {
+          "option_id": "opt-clp-strict-ref",
+          "label": "Strict Reference (9 master reference images)",
+          "score": 1.0,
+          "reason": "User provided 9 character master reference images from HH_chacter.md to enforce exact facial, costume, and style consistency across all shots."
+        },
+        {
+          "option_id": "opt-clp-text-only",
+          "label": "Text Anchor Only",
+          "score": 0.4,
+          "reason": "Text-only prompts result in face and clothing drift across shots.",
+          "rejected_because": "Does not meet corporate quality bar for character consistency."
+        }
+      ],
+      "selected": "opt-clp-strict-ref",
+      "reason": "Strict Reference binding ensures zero drift across 40 minutes of course footage.",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    },
+    {
+      "decision_id": "d-006",
+      "stage": "clp",
+      "category": "playbook_selection",
+      "subject": "Production Style Playbook",
+      "options_considered": [
+        {
+          "option_id": "opt-style-pixar",
+          "label": "3D Pixar Animation Style (esg-pixar-hybrid)",
+          "score": 1.0,
+          "reason": "Bound project to 3D Pixar Animation style as instructed by Director, ensuring Pixar shaders and character consistency."
+        },
+        {
+          "option_id": "opt-style-clean",
+          "label": "Clean Professional Flat Vector",
+          "score": 0.5,
+          "reason": "Clean professional style lacks 3D depth and emotional engagement.",
+          "rejected_because": "Director chose 3D Pixar animation style."
+        }
+      ],
+      "selected": "opt-style-pixar",
+      "reason": "Director selected 3D Pixar animation style for emotional resonance and corporate prestige.",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    },
+    {
+      "decision_id": "d-007",
+      "stage": "clp",
+      "category": "visual_accuracy_check",
+      "subject": "Character Visual Prompt & Reference Image Alignment",
+      "options_considered": [
+        {
+          "option_id": "opt-clp-align-verbatim",
+          "label": "Exact Design Sheet Alignment",
+          "score": 1.0,
+          "reason": "Aligned all 9 character prompt anchors, visual traits, and costumes to verbatim match 鴻海人物SS圖prompt.docx and master reference JPEGs."
+        },
+        {
+          "option_id": "opt-clp-align-generic",
+          "label": "Generic Corporate Character Prompts",
+          "score": 0.3,
+          "reason": "Generic descriptions do not match the approved design sheet details.",
+          "rejected_because": "Violates explicit costume and facial trait specifications."
+        }
+      ],
+      "selected": "opt-clp-align-verbatim",
+      "reason": "Ensures prompt anchors match the exact design sheets and ingested reference assets.",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    },
+    {
+      "decision_id": "d-008",
+      "stage": "clp",
+      "category": "visual_accuracy_check",
+      "subject": "Location CLP Policy & Reference Image Ingestion",
+      "options_considered": [
+        {
+          "option_id": "opt-loc-strict-ref",
+          "label": "Strict Reference with local CAS-verified empty plates (5504x3072)",
+          "score": 1.0,
+          "reason": "User provided 7 high-resolution 5504x3072 empty plate location master images in HH_chacter.md. All 7 locations ingested with CAS SHA-256 digests."
+        },
+        {
+          "option_id": "opt-loc-text-only",
+          "label": "Text Anchor Only",
+          "score": 0.4,
+          "reason": "Generates random office layouts without spatial consistency.",
+          "rejected_because": "Fails location continuity requirements across units."
+        }
+      ],
+      "selected": "opt-loc-strict-ref",
+      "reason": "Ingested 7 high-res empty plates with SHA-256 digests to lock background layouts.",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    },
+    {
+      "decision_id": "d-009",
+      "stage": "scene_plan",
+      "category": "render_runtime_selection",
+      "subject": "Composition Render Engine",
+      "options_considered": [
+        {
+          "option_id": "opt-runtime-video-first",
+          "label": "Remotion & FFmpeg Video-First Composition",
+          "score": 1.0,
+          "reason": "Video-first assembly for Veo/Omni clips with automated audio replacement, speech duration conform, side-panel overlay, and caption burning."
+        },
+        {
+          "option_id": "opt-runtime-hyperframes",
+          "label": "HyperFrames (HTML/CSS/GSAP Foreground Render)",
+          "score": 0.2,
+          "reason": "HyperFrames code-rendered foreground would break character appearance and visual continuity with prequel course.",
+          "rejected_because": "User explicitly excluded HyperFrames in foreground to maintain realistic visual continuity with prequel course."
+        }
+      ],
+      "selected": "opt-runtime-video-first",
+      "reason": "User explicitly decided against foreground HyperFrames; video-led pipeline with Remotion/FFmpeg handles clip stitching, TTS dubbing, and layout overlays.",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    },
+    {
+      "decision_id": "d-010",
+      "stage": "scene_plan",
+      "category": "motion_commitment",
+      "subject": "Amy Presenter Generation & Audio Dubbing Policy",
+      "options_considered": [
+        {
+          "option_id": "opt-motion-chaining",
+          "label": "First-Last Frame Chaining with Chinese Dialogue Prompt & TTS Dubbing",
+          "score": 1.0,
+          "reason": "First-to-last frame chaining ensures zero jump cuts; Chinese dialogue prompt ensures natural Chinese lip motion; assembly dubbing with Google TTS ensures pristine enterprise audio."
+        },
+        {
+          "option_id": "opt-motion-single-cut",
+          "label": "Independent Video Clip Generations",
+          "score": 0.3,
+          "reason": "Generating separate clips causes severe character drift, clothing shifts, and jarring jump cuts between shots.",
+          "rejected_because": "Fails character continuity and creates visual glitches between cuts."
+        }
+      ],
+      "selected": "opt-motion-chaining",
+      "reason": "Eliminates jump cuts between presenter clips, achieves authentic Chinese lip cadence, and guarantees crystal-clear enterprise audio.",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    },
+    {
+      "decision_id": "d-011",
+      "stage": "scene_plan",
+      "category": "renderer_family_selection",
+      "subject": "Dual-Track Production Policy (Spokesperson vs Cinematic Drama)",
+      "options_considered": [
+        {
+          "option_id": "opt-dual-track-hybrid",
+          "label": "Dual-Track Hybrid: Spokesperson for Intro/Bridge/Outro, Cinematic Drama for Neg/Pos",
+          "score": 1.0,
+          "reason": "Intro, bridge, and outro use Amy spokesperson setup (chained video + side-panel instructional cards); Neg (dilemma) and Pos (solution) use Cinematic 5-Aspect multi-character workplace drama with concrete physical action sequences."
+        },
+        {
+          "option_id": "opt-single-track-explainer",
+          "label": "Uniform Explainer Slides for All Scenes",
+          "score": 0.4,
+          "reason": "Treating neg/pos scenes as generic explainer slides ignores emotional workplace conflict and weakens behavioral impact.",
+          "rejected_because": "Office workplace dilemmas cannot be effectively delivered through talking head or static cards alone; requires cinematic dramatic tension."
+        },
+        {
+          "option_id": "opt-pure-cinematic",
+          "label": "Pure Cinematic for All Scenes",
+          "score": 0.5,
+          "reason": "Applying cinematic multi-shot drama to introductory lecturing adds unnecessary complexity and lacks direct instructional clarity.",
+          "rejected_because": "Course structure requires a dedicated instructor anchor to deliver structured learning objectives."
+        }
+      ],
+      "selected": "opt-dual-track-hybrid",
+      "reason": "Optimal pedagogical architecture: Amy anchors instructional intent, while cinematic drama vividly illustrates complex workplace dilemmas and correct behavioral solutions.",
+      "user_visible": true,
+      "user_approved": true,
+      "confidence": 1.0
+    }
+  ]
+}

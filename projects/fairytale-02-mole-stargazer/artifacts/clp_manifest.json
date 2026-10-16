@@ -1,0 +1,23 @@
+{
+  "version": "1.0",
+  "style_playbook": "kj-pixar-fairytale",
+  "entities": [
+    {
+      "id": "mole_hero",
+      "type": "character",
+      "name": "巴納比 (Barnaby the Mole)",
+      "description": "圓潤可愛的深棕毛髮小鼴鼠，戴著寬大復古雙筒黃銅飛行員護目鏡（厚凸透鏡），大眼睛水潤黑曜石瞳孔，粉紅鼻頭與耳朵具次表面散射質感。",
+      "reference_images": [
+        "clp/clp_mole.jpg"
+      ],
+      "source": "generated",
+      "appears_in": [
+        "shot_1.1.1",
+        "shot_1.1.2",
+        "shot_1.1.3",
+        "shot_1.1.4",
+        "shot_1.1.5"
+      ]
+    }
+  ]
+}

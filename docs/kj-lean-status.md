@@ -10,7 +10,7 @@
 ## 核心 Pipeline 與已接通工具
 - **`kj-cinematic` pipeline**：[`pipeline_defs/kj-cinematic.yaml`](../pipeline_defs/kj-cinematic.yaml)（在 `script` 與 `scene_plan` 間加入 `clp` 階段，產出 `clp_manifest`）。
   - Schema：`schemas/artifacts/clp_manifest.schema.json`；`schemas/artifacts/scene_plan.schema.json` 擴充 `render_stages`（枚舉 `T2I/I2I/R2I/W2I/T2V/I2V/R2V/W2V`）。
-  - Checkpoint／Backlot：`lib/checkpoint.py` 與 `backlot/state.py` 已註冊 `clp` 階段與 `clp_manifest.json`、支援中途切入專案並由 `artifacts/` 自動推導看板階段完成狀態；`backlot/ui/board.js` 支援小數點分鏡號 `shot_2.1.1` 顯示（2026-10-16 A1/A3/B5 完成）。
+  - Checkpoint／Backlot：`lib/checkpoint.py` 與 `backlot/state.py` 已註冊 `clp` 階段與 `clp_manifest.json`、支援中途切入專案並由 `artifacts/` 自動推導看板階段完成狀態；`backlot/ui/board.js` 支援小數點分鏡號 `shot_2.1.1` 顯示；新增毛片預覽器 `backlot/ui/player.html`＋`player.js`（由看板右下角 `🎬 Scene Player` 開啟，支援專案／幕／場篩選、對白音檔 vs 影片原音、圖像 vs 影片、分鏡圖 vs Camera 視角圖／並排對照及評鑑資訊面板；2026-10-16 A1～A5、B1～B5 全數完成）。
   - Skills：`skills/pipelines/kj-cinematic/clp-director.md`、`scene-director.md`（含對白逐字忠於原稿、動作括號拆離對白與 `shot_2.1.1` 編號規範）、`asset-director.md`（音訊先行統一存 `assets/audio/` 並登記於 `asset_manifest.json`、預錄採 `shot_<編號>.<格式>`／TTS 採 `shot_<編號>_<來源>_v<版本號>.<格式>`＋4.1 圖片版本與採用規範）與 `prompt-recipes.md`（由 `scripts/read_prompt_recipe.py <模態>` 按章節讀取；`T2V/I2V/R2V/W2V` 強制於 Prompt 正文明寫 `影片長度 [N] 秒`）。
   - 自訂風格：`styles/custom/kj-esg-pixar-hybrid.yaml`、`kj-pixar-fairytale.yaml`、`kj-vox-paper-collage.yaml`。
 - **Google 模型（固定預設 Vertex AI＋`GOOGLE_APPLICATION_CREDENTIALS` 服務帳戶 JSON，不 fallback API key）**：
@@ -25,6 +25,9 @@
   - 已建置 5 組 Blender 場景包（`references/scenes/` 下的 `coffee_shop`、`investment_office`、`admin_office`、`marketing_department`、`factory_affairs`），完成機位、藍紅定位人物 blocks 與材質／細節精修渲染。
   - 場景 2.1（咖啡館六鏡 `shot_2.1.1`～`2.1.6`）已完成九鏡重設（SH02/06/03/08/07/09）、W2I 新模板更新及多輪 GPT／Nano Banana 2.1 生成；目前確認採用版本登記於 `artifacts/asset_manifest.json`，全部 46 張試圖與完整 prompt 索引於 `artifacts/image_generation_history.md`。
 - **`fairytale-01-frog-and-scorpion`**：以 `kj-cinematic` 完成 Gemini 3.8 TTS 旁白（`assets/audio/shot_1.1.1_gemini_v1.wav`～`1.1.4`）、CLP 3 實體（`artifacts/clp_manifest.json`）、4 張皮克斯分鏡圖（`assets/images/shot_1.1.1_native_v1.jpg`～`1.1.4`），全數對齊統一編號／命名規則並通過 6 項 artifact schema 驗證，完成 FFmpeg 平滑版與 HyperFrames 成品版（`renders/frog_and_scorpion_hyperframes.mp4`，1080p/30fps/40.1s，含右側常駐階梯式磨砂字幕欄）。
+- **`fairytale-02-mole-stargazer`**：自 `archive/complex-v1` 還原並升級 8 項 `artifacts/*.json`（`shot_1.1.1`～`1.1.5` 共 5 鏡），對齊統一命名（`shot_1.1.X_edgetts_v1.mp3`、`shot_1.1.X_banana_v1.png`、`shot_1.1.X_ffmpeg_v1.mp4`），支援 Scene Player 圖像與影片雙模式預覽。
+- **`course-31-pdca`**：自 `archive/complex-v1` 合併還原第 2～6 幕共 7 章節、**143 鏡**（`shot_2.1.1`～`shot_6.3.4`）至根目錄 `artifacts/`，並將 143 組音檔、縮圖、Vox 剪紙影片對齊至 `assets/{audio,images,videos}/shot_X.Y.Z_<source>_v1.<ext>`（共 429 件媒體資產），支援 Scene Player 跨幕／跨場篩選及圖像／影片預覽。
+- **`client-01-foxconn-core-values`**：自 `archive/complex-v1` 還原 5 項 `artifacts/*.json`（含 `script.json` 20 段劇本與 `clp_manifest.json` 16 件 CLP 資產，尚未進入 `scene_plan` 分鏡階段）。
 
 ## 踩過的坑（核心結論）
 - **Blender 場景與白模**：原檔多為 Workbench，切 Cycles 才顯示材質；開啟子集合人物（如 `12 v008...`）須同時確認母集合 `07 People` 未設 `hide_render`。全景檢查需暫時解除 timeline camera marker 綁定。修改道具／鋼架尺度須以模型公尺實測並重貼掛板、檢查前後排深度與覆蓋率。
@@ -44,6 +47,6 @@
   - FFmpeg 單圖 Ken Burns 禁止在 `zoompan` 前加 `-loop 1`，須先升 4K（3840×2160）超採樣再縮回 1080p/30fps 消除抖動。
 
 ## 下一步候選（使用者決定順序）
-1. 確認並處理 `projects/kj-om-openMontage修改意見.md` 中暫跳過的「修正 Scene Player」（B4；A1～A5 及 B1/B2/B3/B5 已於 2026-10-16 完成）。
-2. 從 `team-main` 搬回 `pixar-course` pipeline（在 `gemini/pixar-course-pipeline` 分支）。
-3. 評估是否進行投資辦公室（Act 01）或後續場景之機位與分鏡生成。
+1. `projects/kj-om-openMontage修改意見.md` 與評估報告之 A1～A5、B1～B5（含 Scene Player 毛片預覽器）已於 2026-10-16 全數完成。
+2. 評估是否推進 `course-51-esg` 場景 4.5／4.6 或投資辦公室（Act 01）之分鏡生圖／生影片。
+3. 從 `team-main` 搬回 `pixar-course` pipeline（在 `gemini/pixar-course-pipeline` 分支）。

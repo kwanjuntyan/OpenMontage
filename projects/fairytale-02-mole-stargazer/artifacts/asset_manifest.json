@@ -1,0 +1,175 @@
+{
+  "version": "1.0",
+  "assets": [
+    {
+      "id": "audio_shot_1.1.1",
+      "type": "narration",
+      "path": "assets/audio/shot_1.1.1_edgetts_v1.mp3",
+      "source_tool": "edge_tts",
+      "scene_id": "shot_1.1.1",
+      "duration_seconds": 6.0,
+      "format": "mp3",
+      "generation_summary": "Edge-TTS 台灣中文繪本旁白（6.0s）"
+    },
+    {
+      "id": "img_shot_1.1.1",
+      "type": "image",
+      "path": "assets/images/shot_1.1.1_banana_v1.png",
+      "source_tool": "google_imagen",
+      "scene_id": "shot_1.1.1",
+      "prompt": "Pixar 3D animation style, PixarPremiumStyle. A charming, fluffy, chubby little brown mole in a cozy underground burrow lit by a warm amber tungsten lantern. The mole wears oversized vintage brass aviator goggles with convex glass lenses reflecting the soft golden light. Incredibly detailed soft fur grooming with individual strands and velvety texture, rosy pink nose and translucent ears with realistic subsurface scattering (SSS). The mole's front paws with neat digging claws are resting on fresh damp soil. Cinematic lighting, soft bokeh, warm and whimsical storytelling mood, 8k render quality, highly detailed 3D CGI masterpiece.",
+      "model": "google/nano-banana-2",
+      "resolution": "3840x2160",
+      "format": "png",
+      "generation_summary": "採用 Google Banana Pro 生成皮克斯風格角色錨定圖：地底洞穴中戴著黃銅護目鏡的小鼴鼠，呈現暖調鎢絲光與細緻毛髮 SSS",
+      "provider": "google_imagen"
+    },
+    {
+      "id": "vid_shot_1.1.1",
+      "type": "video",
+      "path": "assets/videos/shot_1.1.1_ffmpeg_v1.mp4",
+      "source_tool": "ffmpeg_25d",
+      "scene_id": "shot_1.1.1",
+      "duration_seconds": 6.0,
+      "resolution": "1920x1080",
+      "format": "mp4",
+      "generation_summary": "clp: mole_hero | I2V | 4K 超採樣 60fps Ken Burns 單鏡動態影片（6.0s）"
+    },
+    {
+      "id": "audio_shot_1.1.2",
+      "type": "narration",
+      "path": "assets/audio/shot_1.1.2_edgetts_v1.mp3",
+      "source_tool": "edge_tts",
+      "scene_id": "shot_1.1.2",
+      "duration_seconds": 5.0,
+      "format": "mp3",
+      "generation_summary": "Edge-TTS 台灣中文繪本旁白（5.0s）"
+    },
+    {
+      "id": "img_shot_1.1.2",
+      "type": "image",
+      "path": "assets/images/shot_1.1.2_banana_v1.png",
+      "source_tool": "google_imagen",
+      "scene_id": "shot_1.1.2",
+      "prompt": "Pixar 3D animation style, PixarPremiumStyle. Low angle extreme close-up of a night meadow floor. A small mound of rich dark soil is cracking open among dewy green clover and blades of grass. The same chubby little mole from before is popping up: its wet, cute pink snout emerges first, followed by the vintage brass aviator goggles flecked with tiny bits of soil and peat. Deep twilight blue and indigo atmosphere with soft warm rim lighting catching the fluffy brown fur. Whimsical, suspenseful, and adorable. High-end Pixar feature film quality, macro lens depth of field, 8k render.",
+      "model": "google/nano-banana-2",
+      "resolution": "3840x2160",
+      "format": "png",
+      "generation_summary": "採用 Google Banana Pro 生成破土鏡頭參考圖：夜色草甸中粉紅濕潤小鼻子與沾泥黃銅護目鏡探出地面",
+      "provider": "google_imagen"
+    },
+    {
+      "id": "vid_shot_1.1.2",
+      "type": "video",
+      "path": "assets/videos/shot_1.1.2_ffmpeg_v1.mp4",
+      "source_tool": "ffmpeg_25d",
+      "scene_id": "shot_1.1.2",
+      "duration_seconds": 5.0,
+      "resolution": "1920x1080",
+      "format": "mp4",
+      "generation_summary": "clp: mole_hero | I2V | 4K 超採樣 60fps Ken Burns 單鏡動態影片（5.0s）"
+    },
+    {
+      "id": "audio_shot_1.1.3",
+      "type": "narration",
+      "path": "assets/audio/shot_1.1.3_edgetts_v1.mp3",
+      "source_tool": "edge_tts",
+      "scene_id": "shot_1.1.3",
+      "duration_seconds": 7.0,
+      "format": "mp3",
+      "generation_summary": "Edge-TTS 台灣中文繪本旁白（7.0s）"
+    },
+    {
+      "id": "img_shot_1.1.3",
+      "type": "image",
+      "path": "assets/images/shot_1.1.3_banana_v1.png",
+      "source_tool": "google_imagen",
+      "scene_id": "shot_1.1.3",
+      "prompt": "Pixar 3D animation style, PixarPremiumStyle. Medium shot. The adorable fluffy brown mole has completely wriggled out of the earth hole and is sitting happily on a lush meadow carpeted with clover flowers and dew. The mole has pushed its brass aviator goggles up onto its forehead, revealing its gigantic, expressive, glistening glossy black Pixar eyes full of wonder and curiosity. Its soft fur is puffing up as a gentle evening breeze blows through, with tiny particles of soil floating away like magic dust. A couple of soft golden bioluminescent fireflies float gently around it. Twilight blue sky transitioning to night. Pixar feature film quality, warm emotional lighting, 8k render.",
+      "model": "google/nano-banana-2",
+      "resolution": "3840x2160",
+      "format": "png",
+      "generation_summary": "採用 Google Banana Pro 生成小鼴鼠坐草地抖泥並推上護目鏡露出大眼睛的特寫參考圖",
+      "provider": "google_imagen"
+    },
+    {
+      "id": "vid_shot_1.1.3",
+      "type": "video",
+      "path": "assets/videos/shot_1.1.3_ffmpeg_v1.mp4",
+      "source_tool": "ffmpeg_25d",
+      "scene_id": "shot_1.1.3",
+      "duration_seconds": 7.0,
+      "resolution": "1920x1080",
+      "format": "mp4",
+      "generation_summary": "clp: mole_hero | I2V | 4K 超採樣 60fps Ken Burns 單鏡動態影片（7.0s）"
+    },
+    {
+      "id": "audio_shot_1.1.4",
+      "type": "narration",
+      "path": "assets/audio/shot_1.1.4_edgetts_v1.mp3",
+      "source_tool": "edge_tts",
+      "scene_id": "shot_1.1.4",
+      "duration_seconds": 7.0,
+      "format": "mp3",
+      "generation_summary": "Edge-TTS 台灣中文繪本旁白（7.0s）"
+    },
+    {
+      "id": "img_shot_1.1.4",
+      "type": "image",
+      "path": "assets/images/shot_1.1.4_banana_v1.png",
+      "source_tool": "google_imagen",
+      "scene_id": "shot_1.1.4",
+      "prompt": "Pixar 3D animation style, PixarPremiumStyle. Epic cinematic extreme wide shot, Crane Up perspective. At the bottom center on a rolling grassy hill, the tiny cute mole is seen from behind and side, gazing up in utter awe. Above it arches an unimaginably vast, breathtaking starry night sky filled with a glowing, vibrant Milky Way galaxy. Cosmic nebulae in deep indigo, violet, and soft golden stardust swirls with millions of glittering stars and soft shooting stars. The contrast between the tiny, innocent mole on earth and the majestic, infinite cosmos creates pure emotional wonder. Pixar feature film climax moment, masterpiece, volumetric atmospheric lighting, 8k render.",
+      "model": "google/nano-banana-2",
+      "resolution": "3840x2160",
+      "format": "png",
+      "generation_summary": "採用 Google Banana Pro 生成全片高潮 (Hero Moment) 史詩星空全景：小鼴鼠仰望壯麗無垠的銀河星海",
+      "provider": "google_imagen"
+    },
+    {
+      "id": "vid_shot_1.1.4",
+      "type": "video",
+      "path": "assets/videos/shot_1.1.4_ffmpeg_v1.mp4",
+      "source_tool": "ffmpeg_25d",
+      "scene_id": "shot_1.1.4",
+      "duration_seconds": 7.0,
+      "resolution": "1920x1080",
+      "format": "mp4",
+      "generation_summary": "clp: mole_hero | I2V | 4K 超採樣 60fps Ken Burns 單鏡動態影片（7.0s）"
+    },
+    {
+      "id": "audio_shot_1.1.5",
+      "type": "narration",
+      "path": "assets/audio/shot_1.1.5_edgetts_v1.mp3",
+      "source_tool": "edge_tts",
+      "scene_id": "shot_1.1.5",
+      "duration_seconds": 5.0,
+      "format": "mp3",
+      "generation_summary": "Edge-TTS 台灣中文繪本旁白（5.0s）"
+    },
+    {
+      "id": "img_shot_1.1.5",
+      "type": "image",
+      "path": "assets/images/shot_1.1.5_banana_v1.png",
+      "source_tool": "google_imagen",
+      "scene_id": "shot_1.1.5",
+      "prompt": "Pixar 3D animation style, PixarPremiumStyle. Extreme macro close-up of the cute mole's face and vintage brass aviator goggles. Through the thick convex optical glass lens of the goggles, we see a crystal-clear, vivid reflection of the shimmering Milky Way galaxy and swirling nebula stars. Inside the eye, the dark pupil is dilated with awe, catching pinpoint starlight glints. On the mole's soft, velvety cheek next to the brass rim, a single pure, glistening teardrop of deep emotion and wonder catches the prismatic starlight with soft rainbow caustics. Warm and deeply moving, cinematic Pixar animation finale, 8k render quality.",
+      "model": "google/nano-banana-2",
+      "resolution": "3840x2160",
+      "format": "png",
+      "generation_summary": "採用 Google Banana Pro 生成護目鏡微距倒影與淚珠收尾圖：鏡片清晰倒映旋轉銀河，眼角滑落感動淚光",
+      "provider": "google_imagen"
+    },
+    {
+      "id": "vid_shot_1.1.5",
+      "type": "video",
+      "path": "assets/videos/shot_1.1.5_ffmpeg_v1.mp4",
+      "source_tool": "ffmpeg_25d",
+      "scene_id": "shot_1.1.5",
+      "duration_seconds": 5.0,
+      "resolution": "1920x1080",
+      "format": "mp4",
+      "generation_summary": "clp: mole_hero | I2V | 4K 超採樣 60fps Ken Burns 單鏡動態影片（5.0s）"
+    }
+  ]
+}

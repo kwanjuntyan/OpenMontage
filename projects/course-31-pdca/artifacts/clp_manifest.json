@@ -1,0 +1,21 @@
+{
+  "version": "1.0",
+  "style_playbook": "kj-vox-paper-collage",
+  "entities": [
+    {
+      "id": "deming_cutout",
+      "type": "character",
+      "name": "戴明博士剪紙立牌 (Dr. W. Edwards Deming)",
+      "description": "1950 年代黑白半色調網點報紙剪紙肖像，圓框眼鏡、領結與西裝，具厚卡紙邊緣與立體落影。",
+      "reference_images": [
+        "pdca-vox/clp/char_deming.png"
+      ],
+      "source": "generated",
+      "appears_in": [
+        "shot_2.1.1",
+        "shot_2.1.4",
+        "shot_2.2.1"
+      ]
+    }
+  ]
+}

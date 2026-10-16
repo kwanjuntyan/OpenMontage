@@ -1,0 +1,13 @@
+{
+  "version": "1.0",
+  "outputs": [
+    {
+      "path": "renders/mole_stargazer_25d_master.mp4",
+      "format": "mp4",
+      "resolution": "1920x1080",
+      "fps": 60,
+      "duration_seconds": 30.0
+    }
+  ],
+  "render_grammar": "cinematic-trailer"
+}

@@ -1,0 +1,166 @@
+{
+  "version": "1.0",
+  "style_playbook": "kj-esg-pixar-hybrid",
+  "entities": [
+    {
+      "id": "char_amy",
+      "type": "character",
+      "name": "Amy",
+      "description": "培訓部門資深培訓講師 / 課程主持人；活力親切、神情溫暖自信、雙頰帶有自然雀斑、大而有神棕色雙眼、及下巴長度微捲淺棕鮑伯短髮(voluminous chin-length wavy light brown bob)；服裝：淺灰色立體紋理西裝外套(textured light grey blazer)與同色西裝長褲、簡約純白內搭上衣、黑色跟鞋，俐落現代商務休閒風",
+      "reference_images": [
+        "assets/clp/characters/Amy_新造型_SS2.jpeg"
+      ],
+      "source": "imported"
+    },
+    {
+      "id": "char_mike",
+      "type": "character",
+      "name": "Mike",
+      "description": "研發暨營運部門主管 (經理/協理)；親切且專業的男性主管、棕色短髮立體向上梳整有型、濃密深色眉毛、細長方形金屬框眼鏡(thin rectangular wire-rimmed glasses)、溫暖棕眼、乾淨面部帶些許微雀斑、禮貌自信微笑；服裝：合身淺灰色西裝外套(tailored light grey suit jacket)、純白翻領襯衫繫亮藍色絲質領帶(bright blue silk tie)、同款灰色西裝長褲、亮面黑皮鞋",
+      "reference_images": [
+        "assets/clp/characters/Mike_SS2.jpeg"
+      ],
+      "source": "imported"
+    },
+    {
+      "id": "char_tina",
+      "type": "character",
+      "name": "Tina",
+      "description": "專案新人管理師 / 工程師；精明能幹且親切的新人專案管理師、及下巴深棕色大旁分短鮑伯頭(chic chin-length dark brunette bob with deep side part)、光滑白皙肌膚微帶紅潤面頰、大而明亮的溫暖棕眼、溫和自信微笑；服裝：專屬橘色斜紋布西裝外套(tailored orange twill blazer，非亮面)、純白立領襯衫(clean white collared shirt)、幹練現代商務風",
+      "reference_images": [
+        "assets/clp/characters/Tina_SS2.jpeg"
+      ],
+      "source": "imported"
+    },
+    {
+      "id": "char_tom",
+      "type": "character",
+      "name": "Tom",
+      "description": "資深專案工程師 / 技術骨幹；帥氣且具親和力的資深專業工程師、濃密蓬鬆微風吹拂波浪棕髮(thick wavy brown hair styled in voluminous wind-swept look)、濃密黑眉、溫暖棕眼、雙頰帶微雀斑、誠懇真摯的親切閉口微笑；服裝：現代海軍藍西裝外套(modern navy blue blazer)、純白襯衫領口微開不繫領帶(clean white dress shirt unbuttoned at collar)、同色長褲、黑色休閒皮鞋，率真聰敏工作風",
+      "reference_images": [
+        "assets/clp/characters/Tom_SS2.jpeg"
+      ],
+      "source": "imported"
+    },
+    {
+      "id": "char_sophia",
+      "type": "character",
+      "name": "Sophia",
+      "description": "資深營運分析師 / 跨部門協調專家；優雅幹練且專業的女性分析師、深色頭髮梳成溫柔典雅低髮髻並自然散落飄逸微捲髮絲修飾臉龐(dark hair in a soft elegant updo with loose strands framing face)、白皙肌膚、顯眼黑色圓弧貓眼眼鏡(distinct black rounded cat-eye glasses)、從容冷靜專注神情；服裝：純白微垂直細紋理長袖襯衫(crisp white button-up shirt with subtle vertical ribbed texture)、修身炭灰色西裝長褲(tailored charcoal grey trousers)、高跟鞋，端莊冷靜具高度信賴感",
+      "reference_images": [
+        "assets/clp/characters/Sophia_SS4.jpeg"
+      ],
+      "source": "imported"
+    },
+    {
+      "id": "char_sam",
+      "type": "character",
+      "name": "Sam",
+      "description": "關鍵合作夥伴 / 大海科技總經理；德高望重且具仁厚風範的高齡男性企業領袖、梳理整齊銀灰頭髮(neatly combed silver-grey hair)、濃密灰色長眉、深邃笑紋、紅潤氣色、大鼻子與大耳朵、具長者智慧的溫和閉口微笑；服裝：高級訂製炭灰色西裝外套(tailored charcoal grey suit jacket)、純白正裝襯衫繫深酒紅微紋理領帶(dark burgundy textured tie)、黑皮鞋，莊重威嚴且令人信賴的高管姿態",
+      "reference_images": [
+        "assets/clp/characters/Sam_SS2.jpeg"
+      ],
+      "source": "imported"
+    },
+    {
+      "id": "char_victor",
+      "type": "character",
+      "name": "Victor",
+      "description": "供應商資深技術協理 (大海科技技術負責人)；充滿魅力與充沛精力的中年技術營運主管、濃密定型灰黑相間短髮(stylishly coiffed salt-and-pepper hair)、深色濃眉、眼角溫和歲月細紋、熱情自信有力的笑容；服裝：黑色羽絨背心帶有皮革Logo小標牌(black puffy down vest with small leather logo patch)、內搭合身灰色長袖上衣(fitted grey long-sleeved shirt)，務實俐落的實戰領導風範",
+      "reference_images": [
+        "assets/clp/characters/Victor_SS3.jpeg"
+      ],
+      "source": "imported"
+    },
+    {
+      "id": "char_general_chen",
+      "type": "character",
+      "name": "陳總",
+      "description": "主要客戶高階決策主管 / 總經理；權威莊嚴且具遠見的資深高階決策主管、微帶銀霜的整齊後梳深色短髮、目光銳利深沉、神情威嚴果決、具大企業戰略家的談判氣魄；服裝：訂製深炭灰色細條紋商務西裝外套(tailored dark charcoal pinstripe suit)、純白高磅數襯衫繫深海藍立體織紋絲質領帶(sapphire blue textured silk tie)，高層領袖風範",
+      "reference_images": [
+        "assets/clp/characters/Amy_新造型_SS2.jpeg"
+      ],
+      "source": "imported"
+    },
+    {
+      "id": "char_auditor",
+      "type": "character",
+      "name": "稽核員",
+      "description": "全球法務內部獨立稽核專員；一絲不苟且嚴格的男性內部稽核官、窄長臉型(long narrow face)、整齊後梳服貼油頭黑髮(neat slicked-back black hair)、大鼻子與大耳朵、細金屬圓框眼鏡(thin round wire-rimmed glasses)、半垂眼皮帶懷疑與審視眼神、嚴肅不苟言笑微蹙眉頭；服裝：紋理炭灰色羊毛西裝外套(textured charcoal grey wool suit jacket)、純白鈕扣襯衫繫窄版黑領帶(crisp white shirt with slim black tie)、手持查核板夾(holding clipboard firmly in hand)，身形挺拔嚴謹",
+      "reference_images": [
+        "assets/clp/characters/稽核員_SS2.jpeg"
+      ],
+      "source": "imported"
+    },
+    {
+      "id": "loc_studio",
+      "type": "location",
+      "name": "主培訓演播室",
+      "description": "loc_studio",
+      "reference_images": [
+        "assets/clp/locations/loc_studio.jpeg"
+      ],
+      "source": "imported"
+    },
+    {
+      "id": "loc_meeting_room",
+      "type": "location",
+      "name": "部門核心會議室",
+      "description": "loc_meeting_room",
+      "reference_images": [
+        "assets/clp/locations/loc_meeting_room.jpeg"
+      ],
+      "source": "imported"
+    },
+    {
+      "id": "loc_mike_office",
+      "type": "location",
+      "name": "主管獨立辦公室",
+      "description": "loc_mike_office",
+      "reference_images": [
+        "assets/clp/locations/loc_mike_office.jpeg"
+      ],
+      "source": "imported"
+    },
+    {
+      "id": "loc_open_office",
+      "type": "location",
+      "name": "研發營運開放辦公區",
+      "description": "loc_open_office",
+      "reference_images": [
+        "assets/clp/locations/loc_open_office.jpeg"
+      ],
+      "source": "imported"
+    },
+    {
+      "id": "loc_pantry_cafe",
+      "type": "location",
+      "name": "員工休憩咖啡廳與茶水間",
+      "description": "loc_pantry_cafe",
+      "reference_images": [
+        "assets/clp/locations/loc_pantry_cafe.jpeg"
+      ],
+      "source": "imported"
+    },
+    {
+      "id": "loc_partner_room",
+      "type": "location",
+      "name": "大海科技合作夥伴會議室",
+      "description": "loc_partner_room",
+      "reference_images": [
+        "assets/clp/locations/loc_partner_room.jpeg"
+      ],
+      "source": "imported"
+    },
+    {
+      "id": "loc_audit_room",
+      "type": "location",
+      "name": "全球法務稽核專用會議室",
+      "description": "loc_audit_room",
+      "reference_images": [
+        "assets/clp/locations/loc_audit_room.jpeg"
+      ],
+      "source": "imported"
+    }
+  ]
+}

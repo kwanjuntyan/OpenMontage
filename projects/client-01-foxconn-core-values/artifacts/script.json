@@ -1,0 +1,2319 @@
+{
+  "version": "1.0",
+  "title": "鴻海六大核心價值實戰情境引導課程",
+  "total_duration_seconds": 2400.0,
+  "voice_performance": {
+    "performance_intent": "以訓練部門 Amy 專業講師作為主軸貫穿全案，情境劇部分則具體刻畫基層員工、資深同仁與專案主管在真實工作衝突下的鮮明個性。",
+    "pacing_profile": "conversational",
+    "energy_curve": "開場熱情自信，案例衝突緊湊急促，講師解說沉穩權威，正面示範理性堅定，結尾金句深具感染力",
+    "pause_policy": "段落間留白 0.8~1.2 秒，重點關鍵詞與金句前後停頓 0.6 秒，避免聽覺疲勞",
+    "sample_section_id": "sec-01",
+    "provider_notes": {
+      "google_tts": "選用台灣中文標準女聲 cmn-TW-Standard-A，語速平穩 160-180 wpm，發音清晰自然"
+    }
+  },
+  "sections": [
+    {
+      "id": "sec-01",
+      "label": "Unit 0 - 0.1_opening",
+      "text": "AMY，穿著俐落的商務套裝，專業且充滿熱情地面對學員。她身後的大螢幕上，展示著鴻海的Logo以及「六大核心價值」關鍵字。) AMY： 各位同仁好，我是訓練部門的 Amy，歡迎參加鴻海六大核心價值 訓練課程！ 相信大家對「誠信、勤奮、敏捷、分享、合作、共榮」一定不陌生，但難免會有些疑惑：為什麼這六個價值如此關鍵？它們真正的內涵是什麼？我們在日常工作中面對複雜挑戰時，又該如何運用這些原則做出判斷與決策？ 別擔心！這堂課的目的，就是要把抽象的價值變得更具體、可理解、可應用。我們希望全球同仁不只對核心價值有共識，更能形成跨團隊、跨文化、跨區域的一致工作語言與行為準則，真正做到「分享、合作、共榮」的 One Foxconn 精神！ 為了讓大家輕鬆學習，寓教於樂，今天的課程絕不枯燥說教！我將會採用「案例教學」，針對每個核心價值，先展示一段「反面案例」，讓你看見在日常工作中，若缺乏核心價值會有什麼後果；接著再展示一段「正面案例」，讓你看見同樣的情境，若實踐了核心價值，將會帶來什麼轉機。透過這種「情境對照」，相信聰明的你，一定能秒懂核心價值的威力！準備好了嗎？那我們開始吧！！ # 單元一：誠信 (HONESTY)",
+      "start_seconds": 0.0,
+      "end_seconds": 240.0,
+      "speaker_directions": "在演講廳中，主持人",
+      "delivery_cues": {
+        "pace": "conversational",
+        "energy": "親和熱情、清晰流暢",
+        "emphasis_words": [
+          "誠信",
+          "勤奮",
+          "敏捷"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 0.1_opening 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "AMY，穿著俐落的商務套裝，專業且充滿熱情地面對學員。她身後的大螢幕上，展示著鴻海的Logo以及「六大核心價值」關鍵字。) AMY： 各位同仁好，我是訓練部門的 Amy，歡迎參加鴻海六大核心價值 訓練課程！ 相信大家對「誠信、勤奮、敏捷、分享、合作、共榮」一定不陌生，但難免會有些疑惑：為什麼這六個價值如此關鍵？它們真正的內涵是什麼？我們在日常工作中面對複雜挑戰時，又該如何運用這些原則做出判斷與決策？ 別擔心！這堂課的目的，就是要把抽象的價值變得更具體、可理解、可應用。我們希望全球同仁不只對核心價值有共識，更能形成跨團隊、跨文化、跨區域的一致工作語言與行為準則，真正做到「分享、合作、共榮」的 One Foxconn 精神！ 為了讓大家輕鬆學習，寓教於樂，今天的課程絕不枯燥說教！我將會採用「案例教學」，針對每個核心價值，先展示一段「反面案例」，讓你看見在日常工作中，若缺乏核心價值會有什麼後果；接著再展示一段「正面案例」，讓你看見同樣的情境，若實踐了核心價值，將會帶來什麼轉機。透過這種「情境對照」，相信聰明的你，一定能秒懂核心價值的威力！準備好了嗎？那我們開始吧！！ # 單元一：誠信 (HONESTY)"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "顯示章節主題卡與重點金句：0.1_opening",
+          "timestamp_seconds": 1.0
+        }
+      ],
+      "pronunciation_guides": [
+        {
+          "word": "One Foxconn",
+          "phonetic": "萬·富士康"
+        }
+      ],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-02",
+      "label": "Unit 1 - 1.1_core1_intro",
+      "text": "AMY：第一個單元要探討的是「誠信」！大家在工作中有沒有碰過那種「灰色地帶」？一筆錢、一個數據，處理起來好像怎麼做都說得通\\...但真的是這樣嗎？讓我們想一想，如果你碰到影片中的情況，你會怎麼做？",
+      "start_seconds": 240.0,
+      "end_seconds": 259.7,
+      "speaker_directions": "場景設定：內. 主攝影棚 - 日 | Amy站在攝影棚，身後的大螢幕主題換成了「誠信」。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "導師風範、溫暖啟發、權威自信",
+        "emphasis_words": [
+          "誠信"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 1.1_core1_intro 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "AMY：第一個單元要探討的是「誠信」！大家在工作中有沒有碰過那種「灰色地帶」？一筆錢、一個數據，處理起來好像怎麼做都說得通\\...但真的是這樣嗎？讓我們想一想，如果你碰到影片中的情況，你會怎麼做？"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 主攝影棚 - 日",
+          "timestamp_seconds": 241.0
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 241.0
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-03",
+      "label": "Unit 1 - 1.2_core1_neg",
+      "text": "TINA：Mike，我這幾天整理H客戶的付款記錄，發現他們去年有筆訂單，在下單時選了免稅模式，但付款時卻還是付了稅金，這多出來的錢該怎麼處理啊？ TOM：什麼？客戶多付錢，卻沒有人發現，有這麼好康的事？ TINA：是啊，現在兩邊都已經關帳了，根本沒人理了！ TOM：我看...就把它轉成部門公積金，年底辦場聚餐慰勞大家吧！ TINA：可是這是客戶的錢？ TOM：沒關係啦，當初這個專案超累的，現在多請我們吃頓飯也不為過啊！ SOPHIA：我也覺得，多一事不如少一事。這筆錢拖了這麼久都沒處理，如果現在忽然通知他們，可能會被質疑我們流程有問題，乾脆當作不知道，省得麻煩！ 重視道德及操守、遵紀守法，真誠待人、不容許「公司政治」。)** MIKE：嗯\\...你們的考量都有道理。這筆錢是客戶的疏忽，只要我們沒放自己口袋，應該不算違規。Tina，你就把它轉到部門公積金吧。不過，大家心照不宣啊，可別說漏嘴了。 重視道德及操守、遵紀守法，真誠待人、不容許「公司政治」。)**",
+      "start_seconds": 259.7,
+      "end_seconds": 346.1,
+      "speaker_directions": "場景設定：內. 部門會議室 - 日 | 部門主管MIKE、資深同仁TOM和SOPHIA、新人TINA圍坐在會議桌旁，氣氛融洽。 | Mike沉默著，手指輕敲桌面，眼神在三人之間游移，權衡著利弊。 | Tom和Sophia交換了一個得意的眼神。Tina顯得有些不安，但最終還是點了點頭。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 1.2_core1_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "TINA：Mike，我這幾天整理H客戶的付款記錄，發現他們去年有筆訂單，在下單時選了免稅模式，但付款時卻還是付了稅金，這多出來的錢該怎麼處理啊？ TOM：什麼？客戶多付錢，卻沒有人發現，有這麼好康的事？ TINA：是啊，現在兩邊都已經關帳了，根本沒人理了！ TOM：我看...就把它轉成部門公積金，年底辦場聚餐慰勞大家吧！ TINA：可是這是客戶的錢？ TOM：沒關係啦，當初這個專案超累的，現在多請我們吃頓飯也不為過啊！ SOPHIA：我也覺得，多一事不如少一事。這筆錢拖了這麼久都沒處理，如果現在忽然通知他們，可能會被質疑我們流程有問題，乾脆當作不知道，省得麻煩！ 重視道德及操守、遵紀守法，真誠待人、不容許「公司政治」。)** MIKE：嗯\\...你們的考量都有道理。這筆錢是客戶的疏忽，只要我們沒放自己口袋，應該不算違規。Tina，你就把它轉到部門公積金吧。不過，大家心照不宣啊，可別說漏嘴了。 重視道德及操守、遵紀守法，真誠待人、不容許「公司政治」。)**"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 部門會議室 - 日",
+          "timestamp_seconds": 260.7
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標1.2 實事求是，講清廉、公平公正。",
+          "timestamp_seconds": 260.7
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標1.1 客觀陳述事實，信守承諾、言行一致。",
+          "timestamp_seconds": 260.7
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-04",
+      "label": "Unit 1 - 1.3_core1_neg",
+      "text": "稽查人員：(清晰、冷靜) 我們核對了相關流程，發現有筆客戶的溢付款被你們挪用了，這當初是誰的決定？ SOPHIA：是Tom提議的..我只是不想得罪人\\... TOM：是Mike同意的！他是主管，當然是他說了算！ MIKE：是Tom 和Sophia 的想法\\...我只是\\...尊重他們的意見\\... 稽查人員：Tina，這客戶是你負責的，錢也是你匯的，整個過程你都非常清楚吧？ TINA：(崩潰哭泣) 我\\...我\\...我不知道\\...我才來沒多久，只能奉命行事\\...",
+      "start_seconds": 346.1,
+      "end_seconds": 387.6,
+      "speaker_directions": "場景設定：內. 稽核室 - 日 (六個月後) | 背景音效充滿壓力，各種聲音碎片交疊。 | 稽核室門口，掛著「請勿打擾」的告示。 | 特寫Tina的臉，她抬起頭，眼神充滿恐懼與無助，嘴唇顫抖，最終眼淚潰堤。 | 畫面分割為四格，同時顯示四人充滿壓力、懊悔、互相猜忌的表情，畫面凍結。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 1.3_core1_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "稽查人員：(清晰、冷靜) 我們核對了相關流程，發現有筆客戶的溢付款被你們挪用了，這當初是誰的決定？ SOPHIA：是Tom提議的..我只是不想得罪人\\... TOM：是Mike同意的！他是主管，當然是他說了算！ MIKE：是Tom 和Sophia 的想法\\...我只是\\...尊重他們的意見\\... 稽查人員：Tina，這客戶是你負責的，錢也是你匯的，整個過程你都非常清楚吧？ TINA：(崩潰哭泣) 我\\...我\\...我不知道\\...我才來沒多久，只能奉命行事\\..."
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 稽核室 - 日 (六個月後)",
+          "timestamp_seconds": 347.1
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 347.1
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-05",
+      "label": "Unit 1 - 1.4_core1_bridge",
+      "text": "AMY：從影片中可以清楚看到，違背誠信的作法，剛開始讓主角們嘗到一些甜頭，最後卻導致他們彼此猜疑，職涯蒙上陰影，還危及公司信譽，真是悔不當初啊！如果時光可以倒流，讓主角們在起點可以重新選擇，結果又會是如何呢？讓我們觀賞第二段影片。",
+      "start_seconds": 387.6,
+      "end_seconds": 412.6,
+      "speaker_directions": "場景設定：內. 主攝影棚 - 日 | Amy回到畫面，表情嚴肅。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "導師風範、溫暖啟發、權威自信",
+        "emphasis_words": [
+          "誠信"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 1.4_core1_bridge 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "AMY：從影片中可以清楚看到，違背誠信的作法，剛開始讓主角們嘗到一些甜頭，最後卻導致他們彼此猜疑，職涯蒙上陰影，還危及公司信譽，真是悔不當初啊！如果時光可以倒流，讓主角們在起點可以重新選擇，結果又會是如何呢？讓我們觀賞第二段影片。"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 主攝影棚 - 日",
+          "timestamp_seconds": 388.6
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 388.6
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-06",
+      "label": "Unit 1 - 1.5_core1_pos",
+      "text": "TINA：Mike，我這幾天整理H客戶的付款記錄，發現他們去年有筆訂單，在下單時選了免稅模式，但付款時卻還是付了稅金，這多出來的錢該怎麼處理啊？ TOM：哦？客戶多付錢？直接退回不就好了？ **(符合指標1.2 實事求是，講清廉、公平公正。)** TINA：現在兩邊都已經關帳了，退回去手續很麻煩的！ TOM：還是得退啊，畢竟當初和客戶約好免稅，現在就得遵守承諾啊！ TINA：可是這是客戶的疏忽，怎麼變成我們的責任了？ TOM：是他們的疏忽沒錯，但我們既然發現了，就有告知的義務。如果知情不報，哪天被稽核抓到，那才真的麻煩大了！！ 重視道德及操守、遵紀守法，真誠待人、不容許「公司政治」。)** SOPHIA：我也贊成退款啦，不過我擔心，這筆錢拖了這麼久都沒人理，現在忽然通知他們要退款，會不會被懷疑我們流程有問題，覺得我們不專業呢？ MIKE：嗯，你們的顧慮都很有道理。我們注重誠信，即使要多跑些流程，該退給客戶的就要退給客戶。但我們也不想因此讓客戶覺得我們不專業！這樣吧，Tina，你先寫封信給對方窗口，附上相關單據，說明事實經過及退款流程，然後再打個電話和他確認，是否認同我們的作法。我相信，透過充分的溝通，客戶不僅會感激我們的誠信，也會認同我們的專業！ 重視道德及操守、遵紀守法，真誠待人、不容許「公司政治」。)**",
+      "start_seconds": 412.6,
+      "end_seconds": 526.7,
+      "speaker_directions": "場景設定：內. 部門會議室 - 日 | 同樣的會議室，同樣的四個人。 | Tom和Sophia都點頭認同這樣的處理方式。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "誠信"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 1.5_core1_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "TINA：Mike，我這幾天整理H客戶的付款記錄，發現他們去年有筆訂單，在下單時選了免稅模式，但付款時卻還是付了稅金，這多出來的錢該怎麼處理啊？ TOM：哦？客戶多付錢？直接退回不就好了？ **(符合指標1.2 實事求是，講清廉、公平公正。)** TINA：現在兩邊都已經關帳了，退回去手續很麻煩的！ TOM：還是得退啊，畢竟當初和客戶約好免稅，現在就得遵守承諾啊！ TINA：可是這是客戶的疏忽，怎麼變成我們的責任了？ TOM：是他們的疏忽沒錯，但我們既然發現了，就有告知的義務。如果知情不報，哪天被稽核抓到，那才真的麻煩大了！！ 重視道德及操守、遵紀守法，真誠待人、不容許「公司政治」。)** SOPHIA：我也贊成退款啦，不過我擔心，這筆錢拖了這麼久都沒人理，現在忽然通知他們要退款，會不會被懷疑我們流程有問題，覺得我們不專業呢？ MIKE：嗯，你們的顧慮都很有道理。我們注重誠信，即使要多跑些流程，該退給客戶的就要退給客戶。但我們也不想因此讓客戶覺得我們不專業！這樣吧，Tina，你先寫封信給對方窗口，附上相關單據，說明事實經過及退款流程，然後再打個電話和他確認，是否認同我們的作法。我相信，透過充分的溝通，客戶不僅會感激我們的誠信，也會認同我們的專業！ 重視道德及操守、遵紀守法，真誠待人、不容許「公司政治」。)**"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 部門會議室 - 日",
+          "timestamp_seconds": 413.6
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標1.1 客觀陳述事實，信守承諾、言行一致。",
+          "timestamp_seconds": 413.6
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標1.3",
+          "timestamp_seconds": 413.6
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-07",
+      "label": "Unit 1 - 1.6_core1_pos",
+      "text": "MIKE：各位，跟大家分享一個好消息！剛剛H客戶的林總打電話來\\... TOM：(好奇地)別賣關子了， 有什麼好事啊？ MIKE：他說，因為我們團隊所展現的誠信與專業，讓他對鴻海的信任大大提升，決定追加下一季的訂單，還指名要我們團隊負責！ TINA：哇！太棒了！好心有好報！ SOPHIA：光這筆訂單的績效獎金，就夠我們吃好幾頓大餐啦！ TOM：（大笑）而且吃的光明正大，心安理得，哈哈哈！ MIKE：還不止這樣！公司高層也對我們的處理方式給予高度肯定，決定表揚我們！這都是大家堅持誠信的成果！",
+      "start_seconds": 526.7,
+      "end_seconds": 576.2,
+      "speaker_directions": "場景設定：內. 部門會議室 - 日 (一個月後) | Mike笑容滿面地報告消息 | 眾人期待地看著Mike | 畫面定格在團隊成員互相擊掌、笑容滿面的場景。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "誠信",
+          "分享"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 1.6_core1_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：各位，跟大家分享一個好消息！剛剛H客戶的林總打電話來\\... TOM：(好奇地)別賣關子了， 有什麼好事啊？ MIKE：他說，因為我們團隊所展現的誠信與專業，讓他對鴻海的信任大大提升，決定追加下一季的訂單，還指名要我們團隊負責！ TINA：哇！太棒了！好心有好報！ SOPHIA：光這筆訂單的績效獎金，就夠我們吃好幾頓大餐啦！ TOM：（大笑）而且吃的光明正大，心安理得，哈哈哈！ MIKE：還不止這樣！公司高層也對我們的處理方式給予高度肯定，決定表揚我們！這都是大家堅持誠信的成果！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 部門會議室 - 日 (一個月後)",
+          "timestamp_seconds": 527.7
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 527.7
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-08",
+      "label": "Unit 1 - 1.7_core1_outro",
+      "text": "AMY：同樣的起點，卻有天差地遠的終點。看來，誠信就像一筆『長期投資』**，當下看似吃虧，但時間會證明，它所累積的**『信任複利』，會利上加利，帶來千百倍的回收！所以，守住誠信，就是守護你職涯最珍貴的長期資產！ # 單元二：勤奮 (DILIGENCE)",
+      "start_seconds": 576.2,
+      "end_seconds": 600.0,
+      "speaker_directions": "場景設定：內. 主攝影棚 - 日 | Amy回到畫面中，面帶微笑。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "導師風範、溫暖啟發、權威自信",
+        "emphasis_words": [
+          "誠信",
+          "勤奮"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 1.7_core1_outro 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "AMY：同樣的起點，卻有天差地遠的終點。看來，誠信就像一筆『長期投資』**，當下看似吃虧，但時間會證明，它所累積的**『信任複利』，會利上加利，帶來千百倍的回收！所以，守住誠信，就是守護你職涯最珍貴的長期資產！ # 單元二：勤奮 (DILIGENCE)"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 主攝影棚 - 日",
+          "timestamp_seconds": 577.2
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 577.2
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-09",
+      "label": "Unit 2 - 2.1_core2_intro",
+      "text": "AMY：第二個單元要探討的是「勤奮」！相信大家平常工作一定非常忙碌，但「努力」和「瞎忙」，往往只有一線之隔！你確定你都有忙在關鍵點嗎？我們現在就來看看，主角Tom，究竟是個「瞎忙族」，還是個高效的「勤奮者」呢？",
+      "start_seconds": 600.0,
+      "end_seconds": 613.9,
+      "speaker_directions": "場景設定：內. 主攝影棚 - 日 | Amy站在攝影棚，身後的大螢幕主題換成了「勤奮」。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "導師風範、溫暖啟發、權威自信",
+        "emphasis_words": [
+          "勤奮",
+          "高效"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 2.1_core2_intro 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "AMY：第二個單元要探討的是「勤奮」！相信大家平常工作一定非常忙碌，但「努力」和「瞎忙」，往往只有一線之隔！你確定你都有忙在關鍵點嗎？我們現在就來看看，主角Tom，究竟是個「瞎忙族」，還是個高效的「勤奮者」呢？"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 主攝影棚 - 日",
+          "timestamp_seconds": 601.0
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 601.0
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-10",
+      "label": "Unit 2 - 2.2_core2_neg",
+      "text": "MIKE：Tom，我過幾天要動手術，接下來得休養兩個月，但我手邊這個專案非常重要，下個月就得提案！我希望你能接手，把它給簽下來！ TOM：這\\...Mike，我自己的KPI都還沒完成，沒空接這案子啊！ **(違反指標2.1 遵守工作紀律，依輕重緩急排定優先順序，妥善運用時間與資源，積極投入工作。)** MIKE：其他工作都可先暫緩，這個案子最重要，我也會請Sophia和Tina全力支援你。 TOM：(不情願地) 這\\...好吧\\...我儘量幫忙就是了。",
+      "start_seconds": 613.9,
+      "end_seconds": 643.1,
+      "speaker_directions": "場景設定：內. MIKE辦公室 - 日 | Mike看著Tom，表情嚴肅。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 2.2_core2_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：Tom，我過幾天要動手術，接下來得休養兩個月，但我手邊這個專案非常重要，下個月就得提案！我希望你能接手，把它給簽下來！ TOM：這\\...Mike，我自己的KPI都還沒完成，沒空接這案子啊！ **(違反指標2.1 遵守工作紀律，依輕重緩急排定優先順序，妥善運用時間與資源，積極投入工作。)** MIKE：其他工作都可先暫緩，這個案子最重要，我也會請Sophia和Tina全力支援你。 TOM：(不情願地) 這\\...好吧\\...我儘量幫忙就是了。"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. MIKE辦公室 - 日",
+          "timestamp_seconds": 614.9
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 614.9
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-11",
+      "label": "Unit 2 - 2.3_core2_neg",
+      "text": "TINA：聽說Mike把專案交給你了，他一定很看好你喔！ TOM：(沒好氣地) 哪裡是看好？是看我好欺負，才會把這種沒人要的案子丟給我好嗎！**(違反指標2.2 遭受挫折仍朝目標前進，屢敗屢戰毅力。)** TINA：別這樣想嘛。不過我聽說這案子很趕，你來得及嗎？ TOM：唉！我家馬桶漏水都三天了，再不修，我老婆就要把我給休了！現在又多了這案子，怎麼可能來得及！ 遵守工作紀律，依輕重緩急排定優先順序，妥善運用時間與資源，積極投入工作。)** TINA：你要不要把一些不緊急，或者沒那麼重要的工作先丟出來，也許我和Sophia可以幫忙？ TOM：找你們幫忙，我也得先把你們教會，這樣不是更花時間？你的好意我心領了，我還是自己處理吧！ 遵守工作紀律，依輕重緩急排定優先順序，妥善運用時間與資源，積極投入工作。)**",
+      "start_seconds": 643.1,
+      "end_seconds": 691.0,
+      "speaker_directions": "場景設定：內. Tom辦公區 - 日 | Tom 坐在自己位置，Tina從旁走過。 | Tom一邊用手機上網搜尋「水電工推薦」，一邊更煩躁地說。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 2.3_core2_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "TINA：聽說Mike把專案交給你了，他一定很看好你喔！ TOM：(沒好氣地) 哪裡是看好？是看我好欺負，才會把這種沒人要的案子丟給我好嗎！**(違反指標2.2 遭受挫折仍朝目標前進，屢敗屢戰毅力。)** TINA：別這樣想嘛。不過我聽說這案子很趕，你來得及嗎？ TOM：唉！我家馬桶漏水都三天了，再不修，我老婆就要把我給休了！現在又多了這案子，怎麼可能來得及！ 遵守工作紀律，依輕重緩急排定優先順序，妥善運用時間與資源，積極投入工作。)** TINA：你要不要把一些不緊急，或者沒那麼重要的工作先丟出來，也許我和Sophia可以幫忙？ TOM：找你們幫忙，我也得先把你們教會，這樣不是更花時間？你的好意我心領了，我還是自己處理吧！ 遵守工作紀律，依輕重緩急排定優先順序，妥善運用時間與資源，積極投入工作。)**"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. Tom辦公區 - 日",
+          "timestamp_seconds": 644.1
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標2.1",
+          "timestamp_seconds": 644.1
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標2.1",
+          "timestamp_seconds": 644.1
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-12",
+      "label": "Unit 2 - 2.4_core2_neg",
+      "text": "TOM：喂，Sophia妳看！這什麼鬼數據啊？IT部門的資料根本對不起來！這樣我專案要怎麼做啦？ SOPHIA：嗯，看來是撈資料的欄位設定有錯？你要不要打個電話跟IT確認一下？ TOM：我每次打給IT，他們都愛理不理，我才懶得跟他們囉嗦，直接寫個Email叫他們重送資料就是了！ SOPHIA：可是Email往返可能拖好幾天啊？ TOM：拖也是他們的責任！好在Email會記錄時間，到時候如果要追究，我也不怕他們抵賴。",
+      "start_seconds": 691.0,
+      "end_seconds": 720.8,
+      "speaker_directions": "場景設定：內. Tom辦公區 - 日 | Tom看著電腦上的數據，一臉煩躁，Sophia路過。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 2.4_core2_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "TOM：喂，Sophia妳看！這什麼鬼數據啊？IT部門的資料根本對不起來！這樣我專案要怎麼做啦？ SOPHIA：嗯，看來是撈資料的欄位設定有錯？你要不要打個電話跟IT確認一下？ TOM：我每次打給IT，他們都愛理不理，我才懶得跟他們囉嗦，直接寫個Email叫他們重送資料就是了！ SOPHIA：可是Email往返可能拖好幾天啊？ TOM：拖也是他們的責任！好在Email會記錄時間，到時候如果要追究，我也不怕他們抵賴。"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. Tom辦公區 - 日",
+          "timestamp_seconds": 692.0
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標2.2 遭受挫折仍朝目標前進，屢敗屢戰毅力。",
+          "timestamp_seconds": 692.0
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標2.2 遭受挫折仍朝目標前進，屢敗屢戰毅力。",
+          "timestamp_seconds": 692.0
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-13",
+      "label": "Unit 2 - 2.5_core2_neg",
+      "text": "SOPHIA：怎麼樣，IT有解釋出錯的原因嗎？ TOM：說是我們當初給的數據太凌亂，導致他們系統轉換錯誤！ SOPHIA：對喔，上次客戶也有抱怨過類似問題，要不要做個Excel模版把格式處理好，免得下次又出錯？ TOM：饒了我吧，手工調整一下就可以啦，再改下去我今天就得睡辦公室了。",
+      "start_seconds": 720.8,
+      "end_seconds": 740.8,
+      "speaker_directions": "場景設定：內. 走廊區 - - 日 | Tom看著剛從IT拿到的數據檔案，Sophia也靠過來。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 2.5_core2_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "SOPHIA：怎麼樣，IT有解釋出錯的原因嗎？ TOM：說是我們當初給的數據太凌亂，導致他們系統轉換錯誤！ SOPHIA：對喔，上次客戶也有抱怨過類似問題，要不要做個Excel模版把格式處理好，免得下次又出錯？ TOM：饒了我吧，手工調整一下就可以啦，再改下去我今天就得睡辦公室了。"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 走廊區 - - 日",
+          "timestamp_seconds": 721.8
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標2.3 持續精進，以高標準檢討工作流程與進度。",
+          "timestamp_seconds": 721.8
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 721.8
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-14",
+      "label": "Unit 2 - 2.6_core2_neg",
+      "text": "MIKE：Tom，我回來之後才知道，客戶不但拒絕了我們的提案，連後續合作也暫停了。 TOM：(低頭) 我\\...我\\...我當時太忙了\\... MIKE：我把這麼重要的專案交給你，是信任你。但你根本沒把心思放在這裡！不僅工作拖延、遇事抱怨、連客戶曾提出的錯誤都不改！你這次的表現，不只讓公司損失了一個重要客戶，更讓我對你非常失望！",
+      "start_seconds": 740.8,
+      "end_seconds": 762.3,
+      "speaker_directions": "場景設定：內. MIKE辦公室 - 日 (一個月後) | C. Mike的辦公室，Mike語氣沉重而失望，Tom低頭站在他面前。 | Tom低著頭，無言以對，辦公室氣氛凝重。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "合作"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 2.6_core2_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：Tom，我回來之後才知道，客戶不但拒絕了我們的提案，連後續合作也暫停了。 TOM：(低頭) 我\\...我\\...我當時太忙了\\... MIKE：我把這麼重要的專案交給你，是信任你。但你根本沒把心思放在這裡！不僅工作拖延、遇事抱怨、連客戶曾提出的錯誤都不改！你這次的表現，不只讓公司損失了一個重要客戶，更讓我對你非常失望！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. MIKE辦公室 - 日 (一個月後)",
+          "timestamp_seconds": 741.8
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 741.8
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-15",
+      "label": "Unit 2 - 2.7_core2_bridge",
+      "text": "AMY：Tom的瞎忙，不僅導致他專案失敗，還因此失去主管信任，為職涯蒙上陰影。如果時光倒流，Tom在一開始就掌握了勤奮的核心價值，能區分優先順序，妥善運用資源、不屈不撓、持續精進，結果又會是如何呢？讓我們觀賞第二段影片。",
+      "start_seconds": 762.3,
+      "end_seconds": 778.1,
+      "speaker_directions": "場景設定：內. 主攝影棚 - 日 | Amy回到畫面，表情嚴肅。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "導師風範、溫暖啟發、權威自信",
+        "emphasis_words": [
+          "勤奮",
+          "價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 2.7_core2_bridge 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "AMY：Tom的瞎忙，不僅導致他專案失敗，還因此失去主管信任，為職涯蒙上陰影。如果時光倒流，Tom在一開始就掌握了勤奮的核心價值，能區分優先順序，妥善運用資源、不屈不撓、持續精進，結果又會是如何呢？讓我們觀賞第二段影片。"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 主攝影棚 - 日",
+          "timestamp_seconds": 763.3
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 763.3
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-16",
+      "label": "Unit 2 - 2.8_core2_pos",
+      "text": "MIKE：Tom，我過幾天要動手術，接下來得休養兩個月，但我手邊這個客戶的專案非常重要，下個月就得提案！我希望你能接手，把它給簽下來！ TOM：(眼神堅定)謝謝Mike的肯定，您就好好休養吧，我會把這案子當成優先任務，全力以赴！ 遵守工作紀律，依輕重緩急排定優先順序，妥善運用時間與資源，積極投入工作。)** MIKE：太好了，我就知道我沒看錯人！ TOM：可是，我KPI中的某些工作，可能會來不及完成，可不可以請Sophia 和 Tina幫忙？ **(符合指標2.1 遵守工作紀律，依輕重緩急排定優先順序，妥善運用時間與資源，積極投入工作。)** MIKE：沒問題，我會請他們全力支援你。",
+      "start_seconds": 778.1,
+      "end_seconds": 817.5,
+      "speaker_directions": "場景設定：內. MIKE辦公室 - 日",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 2.8_core2_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：Tom，我過幾天要動手術，接下來得休養兩個月，但我手邊這個客戶的專案非常重要，下個月就得提案！我希望你能接手，把它給簽下來！ TOM：(眼神堅定)謝謝Mike的肯定，您就好好休養吧，我會把這案子當成優先任務，全力以赴！ 遵守工作紀律，依輕重緩急排定優先順序，妥善運用時間與資源，積極投入工作。)** MIKE：太好了，我就知道我沒看錯人！ TOM：可是，我KPI中的某些工作，可能會來不及完成，可不可以請Sophia 和 Tina幫忙？ **(符合指標2.1 遵守工作紀律，依輕重緩急排定優先順序，妥善運用時間與資源，積極投入工作。)** MIKE：沒問題，我會請他們全力支援你。"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. MIKE辦公室 - 日",
+          "timestamp_seconds": 779.1
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標2.1",
+          "timestamp_seconds": 779.1
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 779.1
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-17",
+      "label": "Unit 2 - 2.9_core2_pos",
+      "text": "TINA：聽說Mike把專案交給你了，他一定很看好你喔！ TOM：(自信微笑) 呵呵，謝謝鼓勵，這案子如果真做成了，我會超有成就感的！ TINA：哇，有志氣！需要我幫什麼忙嗎？ TOM：哈哈，就等你這句話。Mike說我可以把一些不緊急，或者沒那麼重要的項目，請你和Sophia幫忙，可以嗎？ 遵守工作紀律，依輕重緩急排定優先順序，妥善運用時間與資源，積極投入工作。)** TINA：沒問題，我現在就去把Sophia找來，我們開個會討論一下吧！",
+      "start_seconds": 817.5,
+      "end_seconds": 847.3,
+      "speaker_directions": "場景設定：內. Tom辦公區 - 日",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 2.9_core2_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "TINA：聽說Mike把專案交給你了，他一定很看好你喔！ TOM：(自信微笑) 呵呵，謝謝鼓勵，這案子如果真做成了，我會超有成就感的！ TINA：哇，有志氣！需要我幫什麼忙嗎？ TOM：哈哈，就等你這句話。Mike說我可以把一些不緊急，或者沒那麼重要的項目，請你和Sophia幫忙，可以嗎？ 遵守工作紀律，依輕重緩急排定優先順序，妥善運用時間與資源，積極投入工作。)** TINA：沒問題，我現在就去把Sophia找來，我們開個會討論一下吧！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. Tom辦公區 - 日",
+          "timestamp_seconds": 818.5
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標2.2 遭受挫折仍朝目標前進，屢敗屢戰毅力。",
+          "timestamp_seconds": 818.5
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標2.1",
+          "timestamp_seconds": 818.5
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-18",
+      "label": "Unit 2 - 2.10_core2_pos",
+      "text": "TOM：Sophia，妳來得正好。IT提供的這批數據和實際狀況對不起來。妳能不能幫我看看問題出在哪裡？ SOPHIA：嗯\\...看起來是撈取資料的欄位設定錯了，這得找IT確認一下比較好！ TOM：可是每次我打電話給IT，他們都愛理不理的\\... SOPHIA：是啊，他們就這個性！ TOM：不然我們一起去找他們當面請教好不好？我會多買幾杯咖啡當伴手禮，再加上你這大美女幫忙說情，那些IT們絕對服服貼貼，把數據雙手奉上！ SOPHIA：(笑) 厚，油腔滑調！好啦，看在你連咖啡都買好的份上，姐就陪你走一趟吧！ TOM：哈哈，太感謝了！",
+      "start_seconds": 847.3,
+      "end_seconds": 883.3,
+      "speaker_directions": "場景設定：內. Tom辦公區 - 日 | Tom正在研究數據，眉頭微蹙，Sophia路過。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 2.10_core2_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "TOM：Sophia，妳來得正好。IT提供的這批數據和實際狀況對不起來。妳能不能幫我看看問題出在哪裡？ SOPHIA：嗯\\...看起來是撈取資料的欄位設定錯了，這得找IT確認一下比較好！ TOM：可是每次我打電話給IT，他們都愛理不理的\\... SOPHIA：是啊，他們就這個性！ TOM：不然我們一起去找他們當面請教好不好？我會多買幾杯咖啡當伴手禮，再加上你這大美女幫忙說情，那些IT們絕對服服貼貼，把數據雙手奉上！ SOPHIA：(笑) 厚，油腔滑調！好啦，看在你連咖啡都買好的份上，姐就陪你走一趟吧！ TOM：哈哈，太感謝了！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. Tom辦公區 - 日",
+          "timestamp_seconds": 848.3
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標2.2 遭受挫折仍朝目標前進，屢敗屢戰毅力。",
+          "timestamp_seconds": 848.3
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標2.2 遭受挫折仍朝目標前進，屢敗屢戰毅力。",
+          "timestamp_seconds": 848.3
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-19",
+      "label": "Unit 2 - 2.11_core2_pos",
+      "text": "SOPHIA：怎麼樣，IT有查出問題原因嗎？ TOM：說是我們當初給的數據太凌亂，導致他們系統轉換錯誤！ SOPHIA：啊，上次簡報時，客戶也有抱怨類似問題！ TOM：看來這是會經常發生的問題，不如我們這次就用EXCEL建個模板，把數據格式都先處理好！ SOPHIA：好主意！這樣就可以一勞永逸，不會再發生同樣錯誤了！",
+      "start_seconds": 883.3,
+      "end_seconds": 905.6,
+      "speaker_directions": "場景設定：內. 走廊區 - 日",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 2.11_core2_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "SOPHIA：怎麼樣，IT有查出問題原因嗎？ TOM：說是我們當初給的數據太凌亂，導致他們系統轉換錯誤！ SOPHIA：啊，上次簡報時，客戶也有抱怨類似問題！ TOM：看來這是會經常發生的問題，不如我們這次就用EXCEL建個模板，把數據格式都先處理好！ SOPHIA：好主意！這樣就可以一勞永逸，不會再發生同樣錯誤了！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 走廊區 - 日",
+          "timestamp_seconds": 884.3
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標2.3 持續精進，以高標準檢討工作流程與進度。",
+          "timestamp_seconds": 884.3
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 884.3
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-20",
+      "label": "Unit 2 - 2.12_core2_pos",
+      "text": "MIKE：Tom，我一回來就聽到好消息！客戶對我們的提案讚不絕口，你這次可是立了大功啊！ TOM：(笑著) 您過獎了！Sophia和Tina也都幫了很大的忙！ MIKE：你們這次做得太棒了！尤其是Tom，你臨危受命，沒有退縮，反而能積極投入，妥善運用時間，堅持克服問題，並持續改進缺失！這是我們最看重的『勤奮』價值！我已經呈報公司，提報你為這個月的模範員工了！ SOPHIA ：恭喜Tom, 這也是我們部門的光榮喔！ （眾人鼓掌看向Tom） TOM：(眼神充滿感激) 謝謝Mike！也謝謝大家！(轉頭對鏡頭獨白) 看來，當初覺得最麻煩、最不想碰的事，才是真正重要的事。",
+      "start_seconds": 905.6,
+      "end_seconds": 943.7,
+      "speaker_directions": "場景設定：內. 部門會議室 - 日",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "勤奮",
+          "價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 2.12_core2_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：Tom，我一回來就聽到好消息！客戶對我們的提案讚不絕口，你這次可是立了大功啊！ TOM：(笑著) 您過獎了！Sophia和Tina也都幫了很大的忙！ MIKE：你們這次做得太棒了！尤其是Tom，你臨危受命，沒有退縮，反而能積極投入，妥善運用時間，堅持克服問題，並持續改進缺失！這是我們最看重的『勤奮』價值！我已經呈報公司，提報你為這個月的模範員工了！ SOPHIA ：恭喜Tom, 這也是我們部門的光榮喔！ （眾人鼓掌看向Tom） TOM：(眼神充滿感激) 謝謝Mike！也謝謝大家！(轉頭對鏡頭獨白) 看來，當初覺得最麻煩、最不想碰的事，才是真正重要的事。"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 部門會議室 - 日",
+          "timestamp_seconds": 906.6
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 906.6
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-21",
+      "label": "Unit 2 - 2.14_core2_outro",
+      "text": "AMY：看到了嗎？真正的勤奮，不是看你流了多少汗，而是看你解決了多少難題。**勤奮是一種「選擇」**------選擇去做那些需要動腦、需要溝通、甚至需要勇氣去面對的難事！別讓瞎忙偷走你的成就感，要做，就做高價值的勤奮者！ # 單元三：敏捷 (AGILITY)",
+      "start_seconds": 943.7,
+      "end_seconds": 960.0,
+      "speaker_directions": "場景設定：內. 主攝影棚 - 日 | Amy回到畫面中，面帶微笑。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "導師風範、溫暖啟發、權威自信",
+        "emphasis_words": [
+          "勤奮",
+          "敏捷",
+          "價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 2.14_core2_outro 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "AMY：看到了嗎？真正的勤奮，不是看你流了多少汗，而是看你解決了多少難題。**勤奮是一種「選擇」**------選擇去做那些需要動腦、需要溝通、甚至需要勇氣去面對的難事！別讓瞎忙偷走你的成就感，要做，就做高價值的勤奮者！ # 單元三：敏捷 (AGILITY)"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 主攝影棚 - 日",
+          "timestamp_seconds": 944.7
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 944.7
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-22",
+      "label": "Unit 3 - 3.1_core3_intro",
+      "text": "AMY：第三個核心價值「敏捷」。今天的世界，唯一的「不變」就是「變」！當黑天鵝滿天飛，灰犀牛滿街跑的時候，你是像鴕鳥一樣把頭埋進沙裡，還是像獵豹一樣，能瞬間轉向？這比的不僅是速度，而包括了「覺察」與「應變」。接下來讓我們看看，當危機來敲門時，Mike的反應是哪一種？",
+      "start_seconds": 960.0,
+      "end_seconds": 979.4,
+      "speaker_directions": "場景設定：內. 主攝影棚 - 日 | Amy站在攝影棚，身後的大螢幕主題換成了「敏捷」。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "導師風範、溫暖啟發、權威自信",
+        "emphasis_words": [
+          "敏捷",
+          "價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 3.1_core3_intro 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "AMY：第三個核心價值「敏捷」。今天的世界，唯一的「不變」就是「變」！當黑天鵝滿天飛，灰犀牛滿街跑的時候，你是像鴕鳥一樣把頭埋進沙裡，還是像獵豹一樣，能瞬間轉向？這比的不僅是速度，而包括了「覺察」與「應變」。接下來讓我們看看，當危機來敲門時，Mike的反應是哪一種？"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 主攝影棚 - 日",
+          "timestamp_seconds": 961.0
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 961.0
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-23",
+      "label": "Unit 3 - 3.2_core3_neg",
+      "text": "MIKE：今天的會議就到這裡，大家還有什麼要補充的？ TINA：我聽說最近出現一種傳染病，不知道會不會影響到我們？ TOM：唉呀，這種傳言每年都有，別自己嚇自己了！ **(違反指標3.1 預見問題，發現機會，勇於創新。)** MIKE：沒錯，我們現在最重要的任務，是把這季的產能拉上來，才能達成年度目標！大家要專心，別為了無關緊要的小事而分心了！",
+      "start_seconds": 979.4,
+      "end_seconds": 1004.6,
+      "speaker_directions": "場景設定：內. 部門會議室 - 日 | Mike主持會議，氣氛輕鬆。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 3.2_core3_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：今天的會議就到這裡，大家還有什麼要補充的？ TINA：我聽說最近出現一種傳染病，不知道會不會影響到我們？ TOM：唉呀，這種傳言每年都有，別自己嚇自己了！ **(違反指標3.1 預見問題，發現機會，勇於創新。)** MIKE：沒錯，我們現在最重要的任務，是把這季的產能拉上來，才能達成年度目標！大家要專心，別為了無關緊要的小事而分心了！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 部門會議室 - 日",
+          "timestamp_seconds": 980.4
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標3.1 預見問題，發現機會，勇於創新。",
+          "timestamp_seconds": 980.4
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 980.4
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-24",
+      "label": "Unit 3 - 3.2B_core3_neg",
+      "text": "（畫面特寫電視螢幕。新聞主播神情專業，背景圖表顯示感染曲線緩步上升。螢幕下方跑馬燈顯示：「衛生單位呼籲民眾勤洗手、戴口罩，密切注意疫情資訊」。) 近期部分地區疫情有升溫趨勢，雖然尚未全面影響經貿活動，但衛生單位仍呼籲民眾，應勤洗手、戴口罩，若有接觸風險應配合居家隔離，並密切注意疫情資訊.",
+      "start_seconds": 1004.6,
+      "end_seconds": 1026.9,
+      "speaker_directions": "場景設定：內. 走廊電視牆 - 日",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 3.2B_core3_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "（畫面特寫電視螢幕。新聞主播神情專業，背景圖表顯示感染曲線緩步上升。螢幕下方跑馬燈顯示：「衛生單位呼籲民眾勤洗手、戴口罩，密切注意疫情資訊」。) 近期部分地區疫情有升溫趨勢，雖然尚未全面影響經貿活動，但衛生單位仍呼籲民眾，應勤洗手、戴口罩，若有接觸風險應配合居家隔離，並密切注意疫情資訊."
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 走廊電視牆 - 日",
+          "timestamp_seconds": 1005.6
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-25",
+      "label": "Unit 3 - 3.3_core3_neg",
+      "text": "TINA：Mike，疫情越來越嚴重了，很多同仁都得居家隔離，我們要不要考慮遠距辦公啊？ TOM：開什麼玩笑？生產線人員怎麼遠距辦公？即使行政人員，在家工作效率也不好啊！ SOPHIA：對啊，而且設備還得採購，人員也需要訓練，現在哪有時間搞那個！ MIKE：Tina，我知道你點子多，但遠距辦公不適合傳統產業，我們還是按照老規矩做事吧！ TINA：那如果疫情繼續惡化下去怎麼辦？ MIKE：別擔心，船到橋頭自然直，到時候我們跟著別人做就可以了！",
+      "start_seconds": 1026.9,
+      "end_seconds": 1060.8,
+      "speaker_directions": "場景設定：內. 部門會議室 - 日",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 3.3_core3_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "TINA：Mike，疫情越來越嚴重了，很多同仁都得居家隔離，我們要不要考慮遠距辦公啊？ TOM：開什麼玩笑？生產線人員怎麼遠距辦公？即使行政人員，在家工作效率也不好啊！ SOPHIA：對啊，而且設備還得採購，人員也需要訓練，現在哪有時間搞那個！ MIKE：Tina，我知道你點子多，但遠距辦公不適合傳統產業，我們還是按照老規矩做事吧！ TINA：那如果疫情繼續惡化下去怎麼辦？ MIKE：別擔心，船到橋頭自然直，到時候我們跟著別人做就可以了！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 部門會議室 - 日",
+          "timestamp_seconds": 1027.9
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標3.3 靈活反應、持續修正、保持彈性。",
+          "timestamp_seconds": 1027.9
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標3.3 靈活反應、持續修正、保持彈性。",
+          "timestamp_seconds": 1027.9
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-26",
+      "label": "Unit 3 - 3.4_core3_neg",
+      "text": "TINA：Mike！今天又有三個生產線同仁請假，產線人力已經少了快一半！怎麼辦？ TOM：(手拿電話) Mike，供應商說他們的物流公司無法運貨！這樣我們下週就會缺料無法生產了，怎麼辦？ MIKE：等等\\...等等\\...人力不足\\...生產缺料\\...你們先寫份報告給我，讓我消化一下\\... TINA：可是，產線那邊已經在等指示了！ MIKE：我知道\\...我知道\\...你請他們再等等。 TOM：那缺料的問題呢？要替代供應商嗎？ MIKE：要\\...要找\\...可是換供應商得重新認證，我\\...我再想想，看怎麼跟上面報告\\...",
+      "start_seconds": 1060.8,
+      "end_seconds": 1095.1,
+      "speaker_directions": "場景設定：內. 白板簡報室 - 日 | 所有人都戴著口罩。Tina和Tom先後進入Mike辦公室，神色慌張。 | Mike手足無措，額頭冒汗。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 3.4_core3_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "TINA：Mike！今天又有三個生產線同仁請假，產線人力已經少了快一半！怎麼辦？ TOM：(手拿電話) Mike，供應商說他們的物流公司無法運貨！這樣我們下週就會缺料無法生產了，怎麼辦？ MIKE：等等\\...等等\\...人力不足\\...生產缺料\\...你們先寫份報告給我，讓我消化一下\\... TINA：可是，產線那邊已經在等指示了！ MIKE：我知道\\...我知道\\...你請他們再等等。 TOM：那缺料的問題呢？要替代供應商嗎？ MIKE：要\\...要找\\...可是換供應商得重新認證，我\\...我再想想，看怎麼跟上面報告\\..."
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 白板簡報室 - 日",
+          "timestamp_seconds": 1061.8
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標3.2 科學方法決策，產出最佳方案。",
+          "timestamp_seconds": 1061.8
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標3.3 靈活反應、持續修正、保持彈性。",
+          "timestamp_seconds": 1061.8
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-27",
+      "label": "Unit 3 - 3.5_core3_neg",
+      "text": "客戶代表：什麼？還要再延一個星期？看來你們的問題不小啊。這樣吧，這批貨我們會收下，但後續的訂單就先取消吧！ SOPHIA：(臉色蒼白，試圖挽回) 陳總，請您再給我們一次機會！我們正在努力克服困難\\... SOPHIA：Mike，接下來怎麼辦？ MIKE：我\\...我\\...我會再問問上級，大家就\\...先保持平常心吧！",
+      "start_seconds": 1095.1,
+      "end_seconds": 1116.7,
+      "speaker_directions": "場景設定：內. 視訊會議 - 日 | Mike居家辦公，他的電腦螢幕上，顯示四個人，分別是客戶、Tom、Sophia、Linda。 | 客戶代表掛斷視訊，畫面變黑。螢幕上剩下Mike、Tom、Sophia、Tina各自沮喪的特寫。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 3.5_core3_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "客戶代表：什麼？還要再延一個星期？看來你們的問題不小啊。這樣吧，這批貨我們會收下，但後續的訂單就先取消吧！ SOPHIA：(臉色蒼白，試圖挽回) 陳總，請您再給我們一次機會！我們正在努力克服困難\\... SOPHIA：Mike，接下來怎麼辦？ MIKE：我\\...我\\...我會再問問上級，大家就\\...先保持平常心吧！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 視訊會議 - 日",
+          "timestamp_seconds": 1096.1
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1096.1
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-28",
+      "label": "Unit 3 - 3.6_core3_bridge",
+      "text": "AMY：影片中的團隊，其實不是輸給了疫情，而是輸給了「僥倖心態」**。他們把「慣性」當成了安全感，把「改變」當成了麻煩。但在快速變遷的時代，**「等等看」往往是最危險的決策。如果當初團隊能掌握「敏捷」的核心價值，原本的災難將會如何演變呢？我們繼續往下看！",
+      "start_seconds": 1116.7,
+      "end_seconds": 1134.9,
+      "speaker_directions": "場景設定：內. 主攝影棚 - 日 | Amy回到畫面，表情凝重。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "導師風範、溫暖啟發、權威自信",
+        "emphasis_words": [
+          "敏捷",
+          "價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 3.6_core3_bridge 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "AMY：影片中的團隊，其實不是輸給了疫情，而是輸給了「僥倖心態」**。他們把「慣性」當成了安全感，把「改變」當成了麻煩。但在快速變遷的時代，**「等等看」往往是最危險的決策。如果當初團隊能掌握「敏捷」的核心價值，原本的災難將會如何演變呢？我們繼續往下看！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 主攝影棚 - 日",
+          "timestamp_seconds": 1117.7
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1117.7
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-29",
+      "label": "Unit 3 - 3.7_core3_pos",
+      "text": "MIKE：各位，今天召集這個臨時會議，是因為最近這個傳染病很不尋常，我們得預作準備才好！ TOM：有這麼嚴重嗎？會不會跟上次一樣，只是虛驚一場？ MIKE：所謂有備無患。如果最後是虛驚一場，我們頂多損失一些準備時間，但如果疫情發生了我們卻完全沒準備，損失的可能是產能、業績、甚至商譽，後果不堪設想啊！ SOPHIA：恩，那要怎麼準備呢?",
+      "start_seconds": 1134.9,
+      "end_seconds": 1160.6,
+      "speaker_directions": "場景設定：內. 部門會議室 - 日",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 3.7_core3_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：各位，今天召集這個臨時會議，是因為最近這個傳染病很不尋常，我們得預作準備才好！ TOM：有這麼嚴重嗎？會不會跟上次一樣，只是虛驚一場？ MIKE：所謂有備無患。如果最後是虛驚一場，我們頂多損失一些準備時間，但如果疫情發生了我們卻完全沒準備，損失的可能是產能、業績、甚至商譽，後果不堪設想啊！ SOPHIA：恩，那要怎麼準備呢?"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 部門會議室 - 日",
+          "timestamp_seconds": 1135.9
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標3.1 預見問題，發現機會，勇於創新。",
+          "timestamp_seconds": 1135.9
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標3.1 預見問題，發現機會，勇於創新。",
+          "timestamp_seconds": 1135.9
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-30",
+      "label": "Unit 3 - 3.8_core3_pos",
+      "text": "MIKE：請大家用便利貼列出來：如果疫情發生了，你們所負責的項目，會面臨哪些風險與機會？現在該做什麼準備，才能降低風險，掌握機會呢？Tom，你先來吧！ Cut)的剪輯風格。鏡頭會在以下畫面中快速切換：) - (特寫：白板上，一個關鍵字被用力地寫下（如「人力缺口？」、「供應鏈中斷？」、「在家辦公？」）。) - (中景：Tom指著白板上的「供應鏈中斷？」口中念念有詞，表情嚴肅。) - (特寫：Tina快速地將一張寫著「AB輪班」的便利貼貼上白板「人力缺口？」之下。) - (中景：Sophia抱著手臂，皺眉思考，然後恍然大悟地點頭，將一張寫著「設計培訓」「購買設備」的便利貼放在「「在家辦公？」之下。) - (特寫：Mike的手在白板上畫出一個大圈，將「提前篩選、申請認證」放在「供應鏈中斷？」之下 - (全景：四人互相點頭、擊掌，眼神中充滿「就是這樣！」的肯定。)\\ MIKE：(用力地點了一下頭) 好！這就是我們的應變計畫，到時候就這麼辦！",
+      "start_seconds": 1160.6,
+      "end_seconds": 1216.3,
+      "speaker_directions": "場景設定：內. 白板簡報室 - 日 | 場景視覺：會議室中央有一塊大型白板。Mike、Tom、Sophia、Tina四人圍繞著白板，手裡拿著不同顏色的馬克筆和便利貼。氣氛是專注而緊張的。 | Mike在會議室的白板上，畫出一個巨大的「T字型」，左邊寫上「風險Risk」，右邊寫上「機會Opportunity」。 | 腦力激盪蒙太奇 | 鏡頭與節奏：採用快速跳接 Jump | 聲音設計：背景是充滿現代感、節奏強勁的電子樂。音效是馬克筆的「唰唰」聲、便利貼的「啪」聲、鍵盤敲擊聲。人聲是模糊不清、疊加在一起的隻字片語畫外音，如：「\\...生產線怎麼辦\\...」、「\\...但設備不夠\\...」、「\\..",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 3.8_core3_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：請大家用便利貼列出來：如果疫情發生了，你們所負責的項目，會面臨哪些風險與機會？現在該做什麼準備，才能降低風險，掌握機會呢？Tom，你先來吧！ Cut)的剪輯風格。鏡頭會在以下畫面中快速切換：) - (特寫：白板上，一個關鍵字被用力地寫下（如「人力缺口？」、「供應鏈中斷？」、「在家辦公？」）。) - (中景：Tom指著白板上的「供應鏈中斷？」口中念念有詞，表情嚴肅。) - (特寫：Tina快速地將一張寫著「AB輪班」的便利貼貼上白板「人力缺口？」之下。) - (中景：Sophia抱著手臂，皺眉思考，然後恍然大悟地點頭，將一張寫著「設計培訓」「購買設備」的便利貼放在「「在家辦公？」之下。) - (特寫：Mike的手在白板上畫出一個大圈，將「提前篩選、申請認證」放在「供應鏈中斷？」之下 - (全景：四人互相點頭、擊掌，眼神中充滿「就是這樣！」的肯定。)\\ MIKE：(用力地點了一下頭) 好！這就是我們的應變計畫，到時候就這麼辦！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 白板簡報室 - 日",
+          "timestamp_seconds": 1161.6
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標3.2 科學方法決策，產出最佳方案。",
+          "timestamp_seconds": 1161.6
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1161.6
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-31",
+      "label": "Unit 3 - 3.9_core3_pos",
+      "text": "TINA：Mike！生產線有三個員工因社區管制而請假，生產線人力下降25%，這是最新數據！ TOM：供應商說他們的物流公司已經無法供貨，我們是不是要啟用替代供應商了？ SOPHIA：陳總剛也打電話來，關心我們是否能準時交貨？ MIKE：好的，情況惡化的速度比預期快，好在我們都有準備。Tina，通知相關同仁，啟動上週公布的應變計畫。另外，你的遠距辦公計畫，準備得怎麼樣了？ TINA：今天下午就能完成全員基礎培訓！ MIKE：很好，那就照進度實施吧！",
+      "start_seconds": 1216.3,
+      "end_seconds": 1250.7,
+      "speaker_directions": "場景設定：內. 白板簡報室 - 日 | 所有人都戴著口罩。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 3.9_core3_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "TINA：Mike！生產線有三個員工因社區管制而請假，生產線人力下降25%，這是最新數據！ TOM：供應商說他們的物流公司已經無法供貨，我們是不是要啟用替代供應商了？ SOPHIA：陳總剛也打電話來，關心我們是否能準時交貨？ MIKE：好的，情況惡化的速度比預期快，好在我們都有準備。Tina，通知相關同仁，啟動上週公布的應變計畫。另外，你的遠距辦公計畫，準備得怎麼樣了？ TINA：今天下午就能完成全員基礎培訓！ MIKE：很好，那就照進度實施吧！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 白板簡報室 - 日",
+          "timestamp_seconds": 1217.3
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標3.3 靈活反應、持續修正、保持彈性。",
+          "timestamp_seconds": 1217.3
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1217.3
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-32",
+      "label": "Unit 3 - 3.10_core3_pos",
+      "text": "TINA：Mike！好消息，經過幾週的持續優化，本週的產能已經提升到85%！ TOM：替代供應商的品質也相當穩定，第二批的成本還降低了3%。 SOPHIA：(Sophia的電話響起)啊，我接一下陳總的電話！(接聽電話) 陳總您好\\...是\\...是的，我們目前的產能很穩定\\...真的嗎？太好了！是的，我們可以承接！沒問題！我們一定會全力以赴！非常感謝您的信任！(掛上電話，難掩興奮) MIKE：（微笑）聽起來是個好消息？ SOPHIA：(興奮地)陳總說，他們其他供應商現在都亂成一團，只有我們展現了真正的韌性和可靠性，所以決定把訂單都轉給我們！ TOM：哇！太棒了！ TINA：這簡直是奇蹟！ MIKE：這不是奇蹟，是我們發揮了敏捷的力量，才能把這場危機變成了轉機！各位，為我們的團隊鼓掌！(成員在各自畫面歡呼、鼓掌，充滿成就感。)",
+      "start_seconds": 1250.7,
+      "end_seconds": 1302.8,
+      "speaker_directions": "場景設定：內. 視訊會議 - 日 | 電腦螢幕上，四人正在進行視訊會議。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "敏捷"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 3.10_core3_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "TINA：Mike！好消息，經過幾週的持續優化，本週的產能已經提升到85%！ TOM：替代供應商的品質也相當穩定，第二批的成本還降低了3%。 SOPHIA：(Sophia的電話響起)啊，我接一下陳總的電話！(接聽電話) 陳總您好\\...是\\...是的，我們目前的產能很穩定\\...真的嗎？太好了！是的，我們可以承接！沒問題！我們一定會全力以赴！非常感謝您的信任！(掛上電話，難掩興奮) MIKE：（微笑）聽起來是個好消息？ SOPHIA：(興奮地)陳總說，他們其他供應商現在都亂成一團，只有我們展現了真正的韌性和可靠性，所以決定把訂單都轉給我們！ TOM：哇！太棒了！ TINA：這簡直是奇蹟！ MIKE：這不是奇蹟，是我們發揮了敏捷的力量，才能把這場危機變成了轉機！各位，為我們的團隊鼓掌！(成員在各自畫面歡呼、鼓掌，充滿成就感。)"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 視訊會議 - 日",
+          "timestamp_seconds": 1251.7
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1251.7
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-33",
+      "label": "Unit 3 - 3.11_core3_outro",
+      "text": "AMY： 敏捷，就是「預判風向，提早揚帆」**。別等雨下大了才開始找傘，別等客戶跑了才開始檢討。要保持彈性、擁抱數據、小步快跑。在這個時代，大魚不一定吃小魚，但**快魚絕對會吃慢魚。讓我們一起做那條聰明的快魚！ # 單元四：分享 (SHARING)",
+      "start_seconds": 1302.8,
+      "end_seconds": 1320.0,
+      "speaker_directions": "場景設定：內. 主攝影棚 - 日 | Amy回到畫面中，充滿活力。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "導師風範、溫暖啟發、權威自信",
+        "emphasis_words": [
+          "敏捷",
+          "分享"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 3.11_core3_outro 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "AMY： 敏捷，就是「預判風向，提早揚帆」**。別等雨下大了才開始找傘，別等客戶跑了才開始檢討。要保持彈性、擁抱數據、小步快跑。在這個時代，大魚不一定吃小魚，但**快魚絕對會吃慢魚。讓我們一起做那條聰明的快魚！ # 單元四：分享 (SHARING)"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 主攝影棚 - 日",
+          "timestamp_seconds": 1303.8
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1303.8
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-34",
+      "label": "Unit 4 - 4.1_core4_intro",
+      "text": "AMY：第四個核心價值是「分享」。職場上有個有趣的現象：有些人怕教會了徒弟，就餓死了師父，所以把知識藏得緊緊的。但這種人的職場之路，是越走越寬？還是越走越窄呢？接下來，讓我們來看看Sophia 的故事！",
+      "start_seconds": 1320.0,
+      "end_seconds": 1339.8,
+      "speaker_directions": "場景設定：內. 主攝影棚 - 日 | Amy站在攝影棚，身後的大螢幕主題換成了「分享」。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "導師風範、溫暖啟發、權威自信",
+        "emphasis_words": [
+          "分享",
+          "價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 4.1_core4_intro 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "AMY：第四個核心價值是「分享」。職場上有個有趣的現象：有些人怕教會了徒弟，就餓死了師父，所以把知識藏得緊緊的。但這種人的職場之路，是越走越寬？還是越走越窄呢？接下來，讓我們來看看Sophia 的故事！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 主攝影棚 - 日",
+          "timestamp_seconds": 1321.0
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1321.0
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-35",
+      "label": "Unit 4 - 4.2_core4_neg",
+      "text": "MIKE：Tina，這次的校園博覽會專案，就交給你負責！這對新人來說是個很好的學習機會，你要好好把握！ TINA：(慌亂) 啊，我\\...我\\...我沒辦過這種活動，擔心做不好\\... TOM：(輕笑) 唉幽，沒經驗很正常，我們也是這樣走過來的！ 敏銳覺察解對方需求，主動提出分享。)**",
+      "start_seconds": 1339.8,
+      "end_seconds": 1363.8,
+      "speaker_directions": "場景設定：內. 部門會議室 - 日",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "分享"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 4.2_core4_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：Tina，這次的校園博覽會專案，就交給你負責！這對新人來說是個很好的學習機會，你要好好把握！ TINA：(慌亂) 啊，我\\...我\\...我沒辦過這種活動，擔心做不好\\... TOM：(輕笑) 唉幽，沒經驗很正常，我們也是這樣走過來的！ 敏銳覺察解對方需求，主動提出分享。)**"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 部門會議室 - 日",
+          "timestamp_seconds": 1340.8
+        },
+        {
+          "type": "stat_card",
+          "description": "Sophia表情平淡，選擇沉默，低頭看自己的文件。 違反指標4.1",
+          "timestamp_seconds": 1340.8
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1340.8
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-36",
+      "label": "Unit 4 - 4.2B_core4_neg",
+      "text": "場景設定：內. Tina辦公區 - 日 蒙太奇 MONTAGE A. Tina閱讀書面檔案，眉頭深鎖。 B. Tina上網搜尋資料，滿臉困惑。 C. 她看向Sophia的座位，猶豫了很久，最終鼓起勇气走過去。",
+      "start_seconds": 1363.8,
+      "end_seconds": 1382.1,
+      "speaker_directions": "場景設定：內. Tina辦公區 - 日 | 蒙太奇 MONTAGE | A. Tina閱讀書面檔案，眉頭深鎖。 | B. Tina上網搜尋資料，滿臉困惑。 | C. 她看向Sophia的座位，猶豫了很久，最終鼓起勇气走過去。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 4.2B_core4_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "場景設定：內. Tina辦公區 - 日 蒙太奇 MONTAGE A. Tina閱讀書面檔案，眉頭深鎖。 B. Tina上網搜尋資料，滿臉困惑。 C. 她看向Sophia的座位，猶豫了很久，最終鼓起勇气走過去。"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. Tina辦公區 - 日",
+          "timestamp_seconds": 1364.8
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-37",
+      "label": "Unit 4 - 4.3_core4_neg",
+      "text": "TINA：Sophia姐，我聽說您之前有辦過校園博覽會，可以給我一些指點嗎？ SOPHIA：不只我啦，公司很多人都做過這種專案，網路也有很多資料，你只要多花點心思，一定可以找得到！ TINA：那你能不能以過來人的身份，分享一下經驗？ SOPHIA：這專案我很久沒碰了，都忘得差不多了，你找別人問會比較清楚喔！",
+      "start_seconds": 1382.1,
+      "end_seconds": 1412.7,
+      "speaker_directions": "場景設定：內.部門茶水間 - 日 | Tina面露失望。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "分享"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 4.3_core4_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "TINA：Sophia姐，我聽說您之前有辦過校園博覽會，可以給我一些指點嗎？ SOPHIA：不只我啦，公司很多人都做過這種專案，網路也有很多資料，你只要多花點心思，一定可以找得到！ TINA：那你能不能以過來人的身份，分享一下經驗？ SOPHIA：這專案我很久沒碰了，都忘得差不多了，你找別人問會比較清楚喔！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內.部門茶水間 - 日",
+          "timestamp_seconds": 1383.1
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標4.2 能依成員特性提供關鍵資訊。",
+          "timestamp_seconds": 1383.1
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標4.3 以開放思維和溝通，提供他人資源。",
+          "timestamp_seconds": 1383.1
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-38",
+      "label": "Unit 4 - 4.4_core4_neg",
+      "text": "場景設定：內. Tina辦公區 - 夜 蒙太奇 MONTAGE A. Tina常加班，時間很晚，辦公室只剩她一人。 B. 她問其他同事，同事雙手一攤表示愛莫能助。 C. 鏡頭帶到她桌上的小盆栽，葉子已經開始枯黃。 D. Tina偷偷哭泣。 E. Tina打開電腦，打了一份辭職信。",
+      "start_seconds": 1412.7,
+      "end_seconds": 1437.1,
+      "speaker_directions": "場景設定：內. Tina辦公區 - 夜 | 蒙太奇 MONTAGE | A. Tina常加班，時間很晚，辦公室只剩她一人。 | B. 她問其他同事，同事雙手一攤表示愛莫能助。 | C. 鏡頭帶到她桌上的小盆栽，葉子已經開始枯黃。 | D. Tina偷偷哭泣。 | E. Tina打開電腦，打了一份辭職信。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 4.4_core4_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "場景設定：內. Tina辦公區 - 夜 蒙太奇 MONTAGE A. Tina常加班，時間很晚，辦公室只剩她一人。 B. 她問其他同事，同事雙手一攤表示愛莫能助。 C. 鏡頭帶到她桌上的小盆栽，葉子已經開始枯黃。 D. Tina偷偷哭泣。 E. Tina打開電腦，打了一份辭職信。"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. Tina辦公區 - 夜",
+          "timestamp_seconds": 1413.7
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1413.7
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-39",
+      "label": "Unit 4 - 4.5_core4_neg",
+      "text": "MIKE：Sophia，校園博覽會這個專案能不能請你接手？ SOPHIA：這不是Tina的專案嗎，怎麼會找我？ MIKE：唉，Tina說她壓力太大撐不住，剛提了辭職，我讓她先休息再說，但這案子有急迫性，你比較有經驗，只好麻煩你了。",
+      "start_seconds": 1437.1,
+      "end_seconds": 1459.7,
+      "speaker_directions": "場景設定：內. MIKE辦公室 - 日 | 特寫：Sophia看著堆積的文件，表情疲憊無奈。氣氛沉重。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 4.5_core4_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：Sophia，校園博覽會這個專案能不能請你接手？ SOPHIA：這不是Tina的專案嗎，怎麼會找我？ MIKE：唉，Tina說她壓力太大撐不住，剛提了辭職，我讓她先休息再說，但這案子有急迫性，你比較有經驗，只好麻煩你了。"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. MIKE辦公室 - 日",
+          "timestamp_seconds": 1438.1
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1438.1
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-40",
+      "label": "Unit 4 - 4.6_core4_bridge",
+      "text": "AMY：Sophia 的拒絕分享，雖然看似節省時間，也保住本身的專業優勢，最後卻導致其他同仁缺乏接手的能力，自己也必須承擔舊業務的壓力，這就是「知識孤島」的代價！如果讓故事回到起點，Sophia當初樂於分享，結果又會是如何呢？讓我們再看一段影片。",
+      "start_seconds": 1459.7,
+      "end_seconds": 1484.6,
+      "speaker_directions": "場景設定：內. 主攝影棚 - 日 | Amy回到畫面，語氣帶有惋惜。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "導師風範、溫暖啟發、權威自信",
+        "emphasis_words": [
+          "分享"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 4.6_core4_bridge 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "AMY：Sophia 的拒絕分享，雖然看似節省時間，也保住本身的專業優勢，最後卻導致其他同仁缺乏接手的能力，自己也必須承擔舊業務的壓力，這就是「知識孤島」的代價！如果讓故事回到起點，Sophia當初樂於分享，結果又會是如何呢？讓我們再看一段影片。"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 主攝影棚 - 日",
+          "timestamp_seconds": 1460.7
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1460.7
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-41",
+      "label": "Unit 4 - 4.7_core4_pos",
+      "text": "MIKE：Tina，這次的校園博覽會的專案就交給你負責，這對新人來說是個很好的學習機會，你要好好把握！ TINA：(慌亂) 啊，我\\...我\\...我沒辦過這種活動，擔心做不好\\... TOM：(輕笑) 唉幽，沒經驗很正常，我們也是這樣走過來的！ SOPHIA：Tina別擔心，這案子我正好有經驗，會後我們聊一下？也許可以幫到你。 TINA：(驚訝又感激) 太好了！謝謝Sophia姐！",
+      "start_seconds": 1484.6,
+      "end_seconds": 1518.4,
+      "speaker_directions": "場景設定：內. 部門會議室 - 日",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 4.7_core4_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：Tina，這次的校園博覽會的專案就交給你負責，這對新人來說是個很好的學習機會，你要好好把握！ TINA：(慌亂) 啊，我\\...我\\...我沒辦過這種活動，擔心做不好\\... TOM：(輕笑) 唉幽，沒經驗很正常，我們也是這樣走過來的！ SOPHIA：Tina別擔心，這案子我正好有經驗，會後我們聊一下？也許可以幫到你。 TINA：(驚訝又感激) 太好了！謝謝Sophia姐！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 部門會議室 - 日",
+          "timestamp_seconds": 1485.6
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標4.1 敏銳覺察解對方需求，主動提出分享。",
+          "timestamp_seconds": 1485.6
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1485.6
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-42",
+      "label": "Unit 4 - 4.8_core4_pos",
+      "text": "SOPHIA：我當初和你一樣，沒經驗又不敢問人，結果在這裡踩了好幾個坑！後來費盡心血，才找出這幾個要領，你只要好好參考，應該就不會有問題了\\... TINA：真是太感謝了！您當初是怎麼找到這些要領的？ SOPHIA：我啊，請教了好幾個前輩，讀了好多網站！然後寫成筆記，最後還整理一份SOP呢！怎麼樣，你想看嗎？ TINA：哇！SOP？如果能借我參考一下，那就真的太救命了！ SOPHIA：沒問題，我整理一下，等下傳連結給妳。你有不懂的地方再問我。 建立共享機制與平台。)** TINA：太棒了，你真是我的好姐姐！",
+      "start_seconds": 1518.4,
+      "end_seconds": 1566.5,
+      "speaker_directions": "場景設定：內. 咖啡廳 - 日 | Sophia和Tina在咖啡廳輕鬆交談，手拿平板。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 4.8_core4_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "SOPHIA：我當初和你一樣，沒經驗又不敢問人，結果在這裡踩了好幾個坑！後來費盡心血，才找出這幾個要領，你只要好好參考，應該就不會有問題了\\... TINA：真是太感謝了！您當初是怎麼找到這些要領的？ SOPHIA：我啊，請教了好幾個前輩，讀了好多網站！然後寫成筆記，最後還整理一份SOP呢！怎麼樣，你想看嗎？ TINA：哇！SOP？如果能借我參考一下，那就真的太救命了！ SOPHIA：沒問題，我整理一下，等下傳連結給妳。你有不懂的地方再問我。 建立共享機制與平台。)** TINA：太棒了，你真是我的好姐姐！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 咖啡廳 - 日",
+          "timestamp_seconds": 1519.4
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標4.2 能依成員特性提供關鍵資訊。",
+          "timestamp_seconds": 1519.4
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標4.3 以開放思維和溝通，提供他人資源。 & 符合指標4.4",
+          "timestamp_seconds": 1519.4
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-43",
+      "label": "Unit 4 - 4.8B_core4_pos",
+      "text": "A.  Tina在電腦前認真查看資料，閱讀筆記) B.  Tina 與 Sophia 共同討論資料） C.  Tina在電腦前認真規劃，而桌上的小盆栽，在陽光下恢復生機，甚至冒出新芽。) D.  Tina自信地在簡報室專案進度。) E.  眾人給予讚賞的目光與掌聲。)",
+      "start_seconds": 1566.5,
+      "end_seconds": 1589.3,
+      "speaker_directions": "場景設定：內. Tina辦公區 - 日 | 蒙太奇 MONTAGE",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 4.8B_core4_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "A.  Tina在電腦前認真查看資料，閱讀筆記) B.  Tina 與 Sophia 共同討論資料） C.  Tina在電腦前認真規劃，而桌上的小盆栽，在陽光下恢復生機，甚至冒出新芽。) D.  Tina自信地在簡報室專案進度。) E.  眾人給予讚賞的目光與掌聲。)"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. Tina辦公區 - 日",
+          "timestamp_seconds": 1567.5
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-44",
+      "label": "Unit 4 - 4.9_core4_pos",
+      "text": "TINA：\\...謝謝大家的鼓勵。在此我要特別感謝Sophia姐，她所分享的經驗及資料，幫了我很大的忙！ SOPHIA：別這麼說，舉手之勞而已。 Mike：（微笑點頭，表示肯定）",
+      "start_seconds": 1589.3,
+      "end_seconds": 1605.5,
+      "speaker_directions": "標準演播室環境，自然親和表達",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "分享"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 4.9_core4_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "TINA：\\...謝謝大家的鼓勵。在此我要特別感謝Sophia姐，她所分享的經驗及資料，幫了我很大的忙！ SOPHIA：別這麼說，舉手之勞而已。 Mike：（微笑點頭，表示肯定）"
+      },
+      "enhancement_cues": [
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1590.3
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-45",
+      "label": "Unit 4 - 4.10_core4_pos",
+      "text": "MIKE：Sophia，妳這次指導Tina的過程，我都看在眼裡。你的無私分享，不僅協助Tina成長，還提昇了團隊績效！這樣的特質，正是我們鴻海重視的核心價值，所以我已經提報妳為儲備幹部候選人，希望你繼續努力。 SOPHIA：(露出開朗的笑容) 謝謝Mike！ MIKE：對了，Sophia，你分享給Tina的資料可以公開嗎？其他部門應該也有不少人有類似需求？ SOPHIA：可以啊，我再花點時間潤飾一下好了，讓它更適合讓大家在網站閱讀！ MIKE：太好了，這樣的「分享」能讓更多鴻海人受惠，謝謝你！",
+      "start_seconds": 1605.5,
+      "end_seconds": 1654.3,
+      "speaker_directions": "場景設定：內. MIKE辦公室 - 日",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "分享",
+          "價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 4.10_core4_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：Sophia，妳這次指導Tina的過程，我都看在眼裡。你的無私分享，不僅協助Tina成長，還提昇了團隊績效！這樣的特質，正是我們鴻海重視的核心價值，所以我已經提報妳為儲備幹部候選人，希望你繼續努力。 SOPHIA：(露出開朗的笑容) 謝謝Mike！ MIKE：對了，Sophia，你分享給Tina的資料可以公開嗎？其他部門應該也有不少人有類似需求？ SOPHIA：可以啊，我再花點時間潤飾一下好了，讓它更適合讓大家在網站閱讀！ MIKE：太好了，這樣的「分享」能讓更多鴻海人受惠，謝謝你！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. MIKE辦公室 - 日",
+          "timestamp_seconds": 1606.5
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1606.5
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-46",
+      "label": "Unit 4 - 4.11_core4_outro",
+      "text": "AMY： 很多人擔心分享會讓自己變弱，但事實恰恰相反。當你點亮別人的蠟燭，你自己的光並不會變暗，反而會讓整個房間更亮！**分享，是建立影響力最快的方式**。在鴻海，願意成就他人的人，最終都會成就更強大的自己。而這就是「分享」的力量！ # 單元五：合作 (COOPERATION)",
+      "start_seconds": 1654.3,
+      "end_seconds": 1680.0,
+      "speaker_directions": "場景設定：內. 主攝影棚 - 日 | Amy回到畫面中，笑容溫暖。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "導師風範、溫暖啟發、權威自信",
+        "emphasis_words": [
+          "分享",
+          "合作"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 4.11_core4_outro 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "AMY： 很多人擔心分享會讓自己變弱，但事實恰恰相反。當你點亮別人的蠟燭，你自己的光並不會變暗，反而會讓整個房間更亮！**分享，是建立影響力最快的方式**。在鴻海，願意成就他人的人，最終都會成就更強大的自己。而這就是「分享」的力量！ # 單元五：合作 (COOPERATION)"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 主攝影棚 - 日",
+          "timestamp_seconds": 1655.3
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：FADE OUT.",
+          "timestamp_seconds": 1655.3
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-47",
+      "label": "Unit 5 - 5.1_core5_intro",
+      "text": "AMY：第五個核心價值是「合作」。很多人為了證明自己能力強，寧願一個人做到累死，也不願開口請人幫忙。但這樣的行為，究竟是「負責」還是「逞強」？而這樣的成果，對團隊是加分還是減分？讓我們先看看Tina的作法，再來回答這個問題。",
+      "start_seconds": 1680.0,
+      "end_seconds": 1697.4,
+      "speaker_directions": "場景設定：內. 主攝影棚 - 日 | Amy站在攝影棚，身後的大螢幕主題換成了「合作」。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "導師風範、溫暖啟發、權威自信",
+        "emphasis_words": [
+          "合作",
+          "價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 5.1_core5_intro 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "AMY：第五個核心價值是「合作」。很多人為了證明自己能力強，寧願一個人做到累死，也不願開口請人幫忙。但這樣的行為，究竟是「負責」還是「逞強」？而這樣的成果，對團隊是加分還是減分？讓我們先看看Tina的作法，再來回答這個問題。"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 主攝影棚 - 日",
+          "timestamp_seconds": 1681.0
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1681.0
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-48",
+      "label": "Unit 5 - 5.2_core5_neg",
+      "text": "MIKE：各位，公司新大樓已經完工，三個月後要搬過去。現在各部門都得指派專人負責本身的空間規劃及打包事項。Tina，這件事就由妳負責吧，下週做個簡報跟大家說明一下。 TINA：謝謝Mike給我一個證明能力的機會，我一定會全力以赴，絕對不浪費大家時間！",
+      "start_seconds": 1697.4,
+      "end_seconds": 1717.9,
+      "speaker_directions": "場景設定：內. 部門會議室 - 日",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 5.2_core5_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：各位，公司新大樓已經完工，三個月後要搬過去。現在各部門都得指派專人負責本身的空間規劃及打包事項。Tina，這件事就由妳負責吧，下週做個簡報跟大家說明一下。 TINA：謝謝Mike給我一個證明能力的機會，我一定會全力以赴，絕對不浪費大家時間！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 部門會議室 - 日",
+          "timestamp_seconds": 1698.4
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標5.1 辨識內外部合作機會，尋找可合作夥伴。",
+          "timestamp_seconds": 1698.4
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1698.4
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-49",
+      "label": "Unit 5 - 5.3_core5_neg",
+      "text": "SOPHIA：你開始規劃啦？ TINA：(專注電腦，沒看Sophia) 對啊，好多資料要看! SOPHIA：要不要我把Tom找來討論一下各單位需求？ TINA：不用啦，這我一個人就可以搞定！ **(違反指標5.2 提出可行合作模式，建立團隊意識和共同目標。)** SOPHIA（皺眉）：好吧，那你有需要時再找我們啦。 TINA：嗯，我明天會把調查表email給你們，你們直接回覆就可以了！ SOPHIA：蛤，用Email？不能當面討論嗎？ TINA：把意見寫下來可以節省溝通時間，也避免誤會啊！ **(違反指標5.3 相互尊重及信任，透過良好溝通解決衝突。)** SOPHIA（皺眉）。",
+      "start_seconds": 1717.9,
+      "end_seconds": 1760.0,
+      "speaker_directions": "場景設定：內. 部門茶水間 - 日 | Tina站著喝咖啡，Sophia也帶著咖啡走進詢問",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "合作"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 5.3_core5_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "SOPHIA：你開始規劃啦？ TINA：(專注電腦，沒看Sophia) 對啊，好多資料要看! SOPHIA：要不要我把Tom找來討論一下各單位需求？ TINA：不用啦，這我一個人就可以搞定！ **(違反指標5.2 提出可行合作模式，建立團隊意識和共同目標。)** SOPHIA（皺眉）：好吧，那你有需要時再找我們啦。 TINA：嗯，我明天會把調查表email給你們，你們直接回覆就可以了！ SOPHIA：蛤，用Email？不能當面討論嗎？ TINA：把意見寫下來可以節省溝通時間，也避免誤會啊！ **(違反指標5.3 相互尊重及信任，透過良好溝通解決衝突。)** SOPHIA（皺眉）。"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 部門茶水間 - 日",
+          "timestamp_seconds": 1718.9
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1718.9
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-50",
+      "label": "Unit 5 - 5.4_core5_neg",
+      "text": "TINA：(驕傲得意) 大家好，這份搬遷計畫，*可是我熬了好幾個通宵，一個人拼出來的喔*！請先看這個3D模擬圖，是我用AI做的，很漂亮吧？AI說這種格局最美觀，座位也最整齊。至於搬遷時間，就訂在三個月後的第一週吧，那時候我比較有空，可以全心投入\\... TOM：等等Tina，你這個規劃，給IT設備的空間不夠啊？到時候伺服器要擺哪裡？ SOPHIA：還有，座位安排也不合理啊，完全沒考慮團隊的溝通需求？我不是都寫給你了？ TINA：(臉色漲紅) 我\\...我\\...我都忙到週末加班了，你們怎麼還不滿意？而且你們寫的意見都很零散，專業術語又那麼多，我即使上網查也不可能一下子全懂啊，這怎麼能怪我\\......**(違反指標5.3 相互尊重及信任，透過良好溝通解決衝突。)** MIKE：(語氣失望) Tina，我看得出來你花了很多心血，但這份規劃顯然還不夠成熟。這個專案的重點，不是妳一個人做多少事，而是你能不能統合出部門的整體需求，這需要更周全的考慮和團隊合作，看來我們得重新開始了！",
+      "start_seconds": 1760.0,
+      "end_seconds": 1826.1,
+      "speaker_directions": "場景設定：內. 白板簡報室 - 日 | 一週後。Tina進行簡報。 | 會議氣氛尷尬。Tina低頭覺得挫敗委屈，Tom和Sophia無奈地對視。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "合作"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 5.4_core5_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "TINA：(驕傲得意) 大家好，這份搬遷計畫，*可是我熬了好幾個通宵，一個人拼出來的喔*！請先看這個3D模擬圖，是我用AI做的，很漂亮吧？AI說這種格局最美觀，座位也最整齊。至於搬遷時間，就訂在三個月後的第一週吧，那時候我比較有空，可以全心投入\\... TOM：等等Tina，你這個規劃，給IT設備的空間不夠啊？到時候伺服器要擺哪裡？ SOPHIA：還有，座位安排也不合理啊，完全沒考慮團隊的溝通需求？我不是都寫給你了？ TINA：(臉色漲紅) 我\\...我\\...我都忙到週末加班了，你們怎麼還不滿意？而且你們寫的意見都很零散，專業術語又那麼多，我即使上網查也不可能一下子全懂啊，這怎麼能怪我\\......**(違反指標5.3 相互尊重及信任，透過良好溝通解決衝突。)** MIKE：(語氣失望) Tina，我看得出來你花了很多心血，但這份規劃顯然還不夠成熟。這個專案的重點，不是妳一個人做多少事，而是你能不能統合出部門的整體需求，這需要更周全的考慮和團隊合作，看來我們得重新開始了！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 白板簡報室 - 日",
+          "timestamp_seconds": 1761.0
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標5.4 工作相互配合，承擔自己責任，且優勢互補。",
+          "timestamp_seconds": 1761.0
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1761.0
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-51",
+      "label": "Unit 5 - 5.5_core5_bridge",
+      "text": "AMY： Tina真的很努力，她甚至學了新軟體、熬夜加班，但她把同事當成「填表單的路人」，而不是「共同解決問題的夥伴」。她的失敗告訴我們：**在複雜的專案裡，單打獨鬥不是英雄，而是災難。**如果當初她能放下「我一個人搞定」的執著，懂得借力使力，這場簡報會不會變成她的高光時刻？我們繼續往下看！",
+      "start_seconds": 1826.1,
+      "end_seconds": 1848.2,
+      "speaker_directions": "場景設定：內. 主攝影棚 - 日 | Amy回到畫面。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "導師風範、溫暖啟發、權威自信",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 5.5_core5_bridge 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "AMY： Tina真的很努力，她甚至學了新軟體、熬夜加班，但她把同事當成「填表單的路人」，而不是「共同解決問題的夥伴」。她的失敗告訴我們：**在複雜的專案裡，單打獨鬥不是英雄，而是災難。**如果當初她能放下「我一個人搞定」的執著，懂得借力使力，這場簡報會不會變成她的高光時刻？我們繼續往下看！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 主攝影棚 - 日",
+          "timestamp_seconds": 1827.1
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1827.1
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-52",
+      "label": "Unit 5 - 5.6_core5_pos",
+      "text": "MIKE：各位，公司新大樓已經完工，三個月後要搬過去。現在各部門都得指派專人負責本身的空間規劃及打包事項。Tina，這件事就由妳負責吧，下週做個簡報跟大家說明一下。 TINA：(深吸一口氣，神堅定)好的！我會努力完成！但我想先問一下，公司有沒有一份整體的搬遷規劃？我需要跟誰對接嗎？ MIKE：有的！總務處會統籌所有的搬遷事項，等下我就把窗口的聯絡方式給妳！ TINA：太好了，另外，(轉向Tom和Sophia)，能不能請Tom 和Sophia和我開個會，討論各單位的需求，讓規劃能更完整？ **(符合指標5.1 辨識內外部合作機會，尋找可合作夥伴。 & 符合指標5.2 提出可行合作模式，建立團隊意識和共同目標。)** TOM：沒問題，我下週一、二都可以！ SOPHIA：週二我OK。 TINA：那我們就約下週二討論吧。我會先去總務處把相關資料蒐集好，方便大家討論！",
+      "start_seconds": 1848.2,
+      "end_seconds": 1906.6,
+      "speaker_directions": "場景設定：內. 部門會議室 - 日",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "合作"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 5.6_core5_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：各位，公司新大樓已經完工，三個月後要搬過去。現在各部門都得指派專人負責本身的空間規劃及打包事項。Tina，這件事就由妳負責吧，下週做個簡報跟大家說明一下。 TINA：(深吸一口氣，神堅定)好的！我會努力完成！但我想先問一下，公司有沒有一份整體的搬遷規劃？我需要跟誰對接嗎？ MIKE：有的！總務處會統籌所有的搬遷事項，等下我就把窗口的聯絡方式給妳！ TINA：太好了，另外，(轉向Tom和Sophia)，能不能請Tom 和Sophia和我開個會，討論各單位的需求，讓規劃能更完整？ **(符合指標5.1 辨識內外部合作機會，尋找可合作夥伴。 & 符合指標5.2 提出可行合作模式，建立團隊意識和共同目標。)** TOM：沒問題，我下週一、二都可以！ SOPHIA：週二我OK。 TINA：那我們就約下週二討論吧。我會先去總務處把相關資料蒐集好，方便大家討論！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 部門會議室 - 日",
+          "timestamp_seconds": 1849.2
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標5.1 辨識內外部合作機會，尋找可合作夥伴。",
+          "timestamp_seconds": 1849.2
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1849.2
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-53",
+      "label": "Unit 5 - 5.7_core5_pos",
+      "text": "TINA：根據總務處的藍圖，新辦公室的格局大概是這樣。Tom，IT設備是你負責的，你覺得IT設備放哪裡比較合適？ TOM：(在白板上標註一個角落) 放這裡吧，散熱和佈線都方便。另外，這裡必須有獨立迴路和加強空調。 TINA：好的，我會和總務處溝通確認。Sophia，妳經常負責帶團隊，你覺得座位區怎麼安排比較好？ SOPHIA：(指著Tom標註的角落旁邊) 最好把專案小組的座位都安排在這裡，靠近窗邊採光好，離會議桌和茶水間也近\\... TOM：(皺眉)等一下，這旁邊就是IT設備區，會有噪音也會發熱，而且IT設備旁最好保持淨空，人員頻繁走動不太好。 TINA：嗯，Tom希望這塊區域保持淨空，以免影響IT設備運作；但Sophia希望把這塊區域劃給座位區，採光好，溝通也方便。這兩個需求有衝突，我們來看看有沒有兩全其美的方法？恩...不然﹑把IT設備區用矮櫃或隔板稍微隔一下，你們覺得可行嗎？ SOPHIA：嗯\\...用矮櫃隔開聽起來不錯，這樣視覺上還是通透的。 TOM：只要確保通道暢通，不影響散熱，我都OK。 TINA：太好了！那這個區域就先這樣規劃，我們繼續討論下個需求。",
+      "start_seconds": 1906.6,
+      "end_seconds": 1982.2,
+      "speaker_directions": "場景設定：內. 建築圖白板 - 日 | Tina、Tom、Sophia圍在會議室的白板前，Tina主持討論。 | 三人繼續討論其他細節，氣氛恢復融洽。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 5.7_core5_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "TINA：根據總務處的藍圖，新辦公室的格局大概是這樣。Tom，IT設備是你負責的，你覺得IT設備放哪裡比較合適？ TOM：(在白板上標註一個角落) 放這裡吧，散熱和佈線都方便。另外，這裡必須有獨立迴路和加強空調。 TINA：好的，我會和總務處溝通確認。Sophia，妳經常負責帶團隊，你覺得座位區怎麼安排比較好？ SOPHIA：(指著Tom標註的角落旁邊) 最好把專案小組的座位都安排在這裡，靠近窗邊採光好，離會議桌和茶水間也近\\... TOM：(皺眉)等一下，這旁邊就是IT設備區，會有噪音也會發熱，而且IT設備旁最好保持淨空，人員頻繁走動不太好。 TINA：嗯，Tom希望這塊區域保持淨空，以免影響IT設備運作；但Sophia希望把這塊區域劃給座位區，採光好，溝通也方便。這兩個需求有衝突，我們來看看有沒有兩全其美的方法？恩...不然﹑把IT設備區用矮櫃或隔板稍微隔一下，你們覺得可行嗎？ SOPHIA：嗯\\...用矮櫃隔開聽起來不錯，這樣視覺上還是通透的。 TOM：只要確保通道暢通，不影響散熱，我都OK。 TINA：太好了！那這個區域就先這樣規劃，我們繼續討論下個需求。"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 建築圖白板 - 日",
+          "timestamp_seconds": 1907.6
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標5.3 相互尊重及信任，透過良好溝通解決衝突。",
+          "timestamp_seconds": 1907.6
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標5.4 工作相互配合，承擔自己責任，且優勢互補。",
+          "timestamp_seconds": 1907.6
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-54",
+      "label": "Unit 5 - 5.8_core5_pos",
+      "text": "TINA：這份搬遷計畫，是我匯集了Sophia和Tom的意見所整理出來的，以下就由我一一介紹\\... MIKE：Tina的方案你們覺得如何？ TOM：很周全，有把IT的需求都考慮進來。 SOPHIA：挺好的，以後團隊溝通就更方便了。 MIKE：(滿意地點頭)嗯，Tina，這份簡報相當好。看得出來，你有發揮合作技巧，把部門的需求都整合進來了。這是非常好的工作技巧，我很滿意你的規劃成果，你就按照這個規劃去執行吧！",
+      "start_seconds": 1982.2,
+      "end_seconds": 2014.2,
+      "speaker_directions": "場景設定：內. 白板簡報室 - 日 | 一週後，同樣的會議室。Tina進行簡報。 | 壓縮時間快剪影片，直到簡報結束 | Tom和Sophia對Tina投以肯定的目光，Tina表情充滿自信和喜悅。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "合作"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 5.8_core5_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "TINA：這份搬遷計畫，是我匯集了Sophia和Tom的意見所整理出來的，以下就由我一一介紹\\... MIKE：Tina的方案你們覺得如何？ TOM：很周全，有把IT的需求都考慮進來。 SOPHIA：挺好的，以後團隊溝通就更方便了。 MIKE：(滿意地點頭)嗯，Tina，這份簡報相當好。看得出來，你有發揮合作技巧，把部門的需求都整合進來了。這是非常好的工作技巧，我很滿意你的規劃成果，你就按照這個規劃去執行吧！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 白板簡報室 - 日",
+          "timestamp_seconds": 1983.2
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標5.4 工作相互配合，承擔自己責任，且優勢互補。",
+          "timestamp_seconds": 1983.2
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 1983.2
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-55",
+      "label": "Unit 5 - 5.9_core5_outro",
+      "text": "AMY：看到沒有，Tina藉由合作，把同事的智慧與經驗融入自己的簡報中，最後不僅順利完成專案，還提昇了自身能力，更獲得同事與主管的讚揚！原來在職場上，真正的強者，不是看你有多少資源，而是看你能「連結」**多少資源！**下一次，當你覺得壓力山大時，記得轉頭看看你的夥伴------最強的隊友，往往就在你身邊！ # 單元六：共榮 (PROSPERITY)",
+      "start_seconds": 2014.2,
+      "end_seconds": 2040.0,
+      "speaker_directions": "場景設定：內. 主攝影棚 - 日 | Amy回到畫面。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "導師風範、溫暖啟發、權威自信",
+        "emphasis_words": [
+          "合作",
+          "共榮"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 5.9_core5_outro 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "AMY：看到沒有，Tina藉由合作，把同事的智慧與經驗融入自己的簡報中，最後不僅順利完成專案，還提昇了自身能力，更獲得同事與主管的讚揚！原來在職場上，真正的強者，不是看你有多少資源，而是看你能「連結」**多少資源！**下一次，當你覺得壓力山大時，記得轉頭看看你的夥伴------最強的隊友，往往就在你身邊！ # 單元六：共榮 (PROSPERITY)"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 主攝影棚 - 日",
+          "timestamp_seconds": 2015.2
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 2015.2
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-56",
+      "label": "Unit 6 - 6.1_core6_intro",
+      "text": "第六個核心價值是「共榮」。做生意有兩種人：一種人想著「我要怎麼從你身上挖走最後一塊銅板」；另一種人想著「我們要怎麼把餅做大」，而後者，就是共榮的真諦！讓我們想一想，如果領導者缺乏共榮價值，會對團隊或合作伙伴造成什麼影響呢？來看看這段影片！",
+      "start_seconds": 2040.0,
+      "end_seconds": 2058.5,
+      "speaker_directions": "場景設定：內. 主攝影棚 - 日 | Amy站在攝影棚，身後的大螢幕主題換成了「共榮」。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "導師風範、溫暖啟發、權威自信",
+        "emphasis_words": [
+          "合作",
+          "共榮",
+          "價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 6.1_core6_intro 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "第六個核心價值是「共榮」。做生意有兩種人：一種人想著「我要怎麼從你身上挖走最後一塊銅板」；另一種人想著「我們要怎麼把餅做大」，而後者，就是共榮的真諦！讓我們想一想，如果領導者缺乏共榮價值，會對團隊或合作伙伴造成什麼影響呢？來看看這段影片！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 主攝影棚 - 日",
+          "timestamp_seconds": 2041.0
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 2041.0
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-57",
+      "label": "Unit 6 - 6.2_core6_neg",
+      "text": "MIKE：各位同仁，為了滿足H客戶的產品規格，同時也達成我們集團的ESG目標，公司已經決定，要在明年導入新型環保材料了！ SOPHIA：真的假的？那我們的供應商也都得跟著調整生產線？ TOM：哇，大海科技一定會跳腳，他們對成本非常敏感啊！ MIKE：這是上面已經決定的事，由不得他們挑三揀四！Tom，你把技術規格彙整一下，我們後天就去拜訪他們，明確傳達公司立場！",
+      "start_seconds": 2058.5,
+      "end_seconds": 2086.8,
+      "speaker_directions": "場景設定：內. 部門會議室 - 日 | Tom和Sophia對視一眼，無可奈何的神情。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "ESG"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 6.2_core6_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：各位同仁，為了滿足H客戶的產品規格，同時也達成我們集團的ESG目標，公司已經決定，要在明年導入新型環保材料了！ SOPHIA：真的假的？那我們的供應商也都得跟著調整生產線？ TOM：哇，大海科技一定會跳腳，他們對成本非常敏感啊！ MIKE：這是上面已經決定的事，由不得他們挑三揀四！Tom，你把技術規格彙整一下，我們後天就去拜訪他們，明確傳達公司立場！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 部門會議室 - 日",
+          "timestamp_seconds": 2059.5
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標6.1 引領利害關係人認同集團理念。",
+          "timestamp_seconds": 2059.5
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 2059.5
+        }
+      ],
+      "pronunciation_guides": [
+        {
+          "word": "ESG",
+          "phonetic": "E-S-G"
+        }
+      ],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-58",
+      "label": "Unit 6 - 6.3_core6_neg",
+      "text": "MIKE：我們今天來，是要通知貴公司，鴻海明年將全面採用新型的環保材料，規格都在這裡了，希望你們也配合在明年導入。 SAM：(面露難色)這...這...這太突然了。這種材料成本高，製程改變也大，明年要導入有困難啊\\... TOM：(身體後靠，表情顯得不耐煩) 成本和技術本來就是供應商該解決的問題。我們評估過，以你們的能力絕對做得出來，就看你們想不想做而已！ VICTOR：(忍不住開口) 這不是想不想的問題。如果沒有鴻海的技術支援或充分的緩衝時間，我們承擔不起這個風險啊\\... MIKE：(語氣強硬)很抱歉，採用環保材料是鴻海的既定政策，沒有討價還價的空間。況且，市場上也不是只有你們能做，如果你們做不到，我們只好找別家了。我希望你們下週五前給我們答覆！",
+      "start_seconds": 2086.8,
+      "end_seconds": 2135.7,
+      "speaker_directions": "場景設定：內. 大海科技會議室 - 日 | 鴻海團隊Mike, Tom 坐左邊，大海科技團隊SAM, VICTOR坐右邊 | 鴻海團隊收拾文件準備離開，留下臉色凝重、充滿挫敗感與憤怒的大海科技團隊。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 6.3_core6_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：我們今天來，是要通知貴公司，鴻海明年將全面採用新型的環保材料，規格都在這裡了，希望你們也配合在明年導入。 SAM：(面露難色)這...這...這太突然了。這種材料成本高，製程改變也大，明年要導入有困難啊\\... TOM：(身體後靠，表情顯得不耐煩) 成本和技術本來就是供應商該解決的問題。我們評估過，以你們的能力絕對做得出來，就看你們想不想做而已！ VICTOR：(忍不住開口) 這不是想不想的問題。如果沒有鴻海的技術支援或充分的緩衝時間，我們承擔不起這個風險啊\\... MIKE：(語氣強硬)很抱歉，採用環保材料是鴻海的既定政策，沒有討價還價的空間。況且，市場上也不是只有你們能做，如果你們做不到，我們只好找別家了。我希望你們下週五前給我們答覆！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 大海科技會議室 - 日",
+          "timestamp_seconds": 2087.8
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標6.2 闡明益處與理念，激發熱情與行動。",
+          "timestamp_seconds": 2087.8
+        },
+        {
+          "type": "stat_card",
+          "description": "違反指標6.3 凝聚團隊合作，實現共興共贏。",
+          "timestamp_seconds": 2087.8
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-59",
+      "label": "Unit 6 - 6.4_core6_neg",
+      "text": "MIKE：(電話)是的，已經明確傳達了我們的要求\\...他們有點意見，但我想最後還是會配合的，他們不敢失去鴻海的訂單\\...",
+      "start_seconds": 2135.7,
+      "end_seconds": 2144.3,
+      "speaker_directions": "場景設定：內. MIKE的車內 - 日 | Mike在車內打電話。Tom開車",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 6.4_core6_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：(電話)是的，已經明確傳達了我們的要求\\...他們有點意見，但我想最後還是會配合的，他們不敢失去鴻海的訂單\\..."
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. MIKE的車內 - 日",
+          "timestamp_seconds": 2136.7
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 2136.7
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-60",
+      "label": "Unit 6 - 6.5_core6_neg",
+      "text": "VICTOR：鴻海這次太不尊重人了，簡直把我們當工具，完全沒考慮我們的困難，這樣的夥伴關係，還能走多遠？ SAM：唉",
+      "start_seconds": 2144.3,
+      "end_seconds": 2153.3,
+      "speaker_directions": "場景設定：內. 大海科技會議室 - 日 | Sam和Victor一起開會，面色凝重。 | 疲憊地揉著額頭，也不要得罪他們，就先應付一下吧，不過等下把幹部們都找來，研究一下，是不是該去找別的合作夥伴了\\... | Sam無奈地看著窗外，Victor則憤憤不平地收拾文件，畫面淡出。",
+      "delivery_cues": {
+        "pace": "brisk",
+        "energy": "緊張、權衡、略帶焦慮與衝突感",
+        "emphasis_words": [
+          "核心價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 6.5_core6_neg 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "VICTOR：鴻海這次太不尊重人了，簡直把我們當工具，完全沒考慮我們的困難，這樣的夥伴關係，還能走多遠？ SAM：唉"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 大海科技會議室 - 日",
+          "timestamp_seconds": 2145.3
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 2145.3
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-61",
+      "label": "Unit 6 - 6.6_core6_bridge",
+      "text": "AMY： 仗著地位或權勢去壓迫對方，看起來最簡單、最威風，但效果往往最差，所以影片中的Mike，不僅沒解決問題，反而埋下了供應鏈斷鏈的危機。如果當初Mike掌握「共榮」價值，把對方當成伙伴，好好溝通理念與益處，故事又會如何發展呢？讓我們觀賞第二段影片！",
+      "start_seconds": 2153.3,
+      "end_seconds": 2173.0,
+      "speaker_directions": "場景設定：內. 主攝影棚 - 日 | Amy回到畫面。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "導師風範、溫暖啟發、權威自信",
+        "emphasis_words": [
+          "共榮",
+          "價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 6.6_core6_bridge 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "AMY： 仗著地位或權勢去壓迫對方，看起來最簡單、最威風，但效果往往最差，所以影片中的Mike，不僅沒解決問題，反而埋下了供應鏈斷鏈的危機。如果當初Mike掌握「共榮」價值，把對方當成伙伴，好好溝通理念與益處，故事又會如何發展呢？讓我們觀賞第二段影片！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 主攝影棚 - 日",
+          "timestamp_seconds": 2154.3
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 2154.3
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-62",
+      "label": "Unit 6 - 6.7_core6_pos",
+      "text": "MIKE：各位同仁，為了滿足H客戶的產品規格，同時也達成我們集團的ESG目標，公司已經決定，要在明年導入新型環保材料了！ SOPHIA：真的假的？那我們的供應商也都得跟著調整生產線？ TOM：哇，大海科技一定會跳腳，他們對成本非常敏感啊！ MIKE：嗯，這我也有想到。雖然推動ESG是鴻海的既定政策，但供應鏈在初期的抗拒也在所難免！所以我們必須好好溝通，讓他們知道，我們不是要壓迫他們，而是為了和他們一起成長，一起創造雙贏！ TOM：那接下來該怎麼進行？ MIKE：這樣吧，Sophia，你把ESG的市場趨勢和潛在商機的資料都先準備好；Tom，你把新材料的技術挑戰，以及我們可提供的支援也都寫成方案。下週我們一起去拜訪大海科技，讓他們感受到我們的誠意！",
+      "start_seconds": 2173.0,
+      "end_seconds": 2224.4,
+      "speaker_directions": "場景設定：內. 部門會議室 - 日 | Tom和Sophia點頭，眼中充滿幹勁。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "ESG"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 6.7_core6_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：各位同仁，為了滿足H客戶的產品規格，同時也達成我們集團的ESG目標，公司已經決定，要在明年導入新型環保材料了！ SOPHIA：真的假的？那我們的供應商也都得跟著調整生產線？ TOM：哇，大海科技一定會跳腳，他們對成本非常敏感啊！ MIKE：嗯，這我也有想到。雖然推動ESG是鴻海的既定政策，但供應鏈在初期的抗拒也在所難免！所以我們必須好好溝通，讓他們知道，我們不是要壓迫他們，而是為了和他們一起成長，一起創造雙贏！ TOM：那接下來該怎麼進行？ MIKE：這樣吧，Sophia，你把ESG的市場趨勢和潛在商機的資料都先準備好；Tom，你把新材料的技術挑戰，以及我們可提供的支援也都寫成方案。下週我們一起去拜訪大海科技，讓他們感受到我們的誠意！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 部門會議室 - 日",
+          "timestamp_seconds": 2174.0
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標6.1 引領利害關係人認同集團理念。",
+          "timestamp_seconds": 2174.0
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 2174.0
+        }
+      ],
+      "pronunciation_guides": [
+        {
+          "word": "ESG",
+          "phonetic": "E-S-G"
+        }
+      ],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-63",
+      "label": "Unit 6 - 6.8_core6_pos",
+      "text": "MIKE：(微笑，展現誠意)我們這次來，是想和貴公司討論，明年導入新型環保材料的事情。這是鴻海實踐永續發展的關鍵一步，我們希望得到貴公司的支持，一起開發新的藍海市場！ SAM：(點頭，略帶保留)您客氣了。資料我們都看過了，但這對我們現有產線和成本，是很大的挑戰啊！ MIKE：(身體微微前傾，誠懇溝通的姿態)我們完全理解，這個改變對大海科技是很大的挑戰。但我想強調的是，ESG不是鴻海單方面的期待，而是全球產業的發展趨勢！我們一直把大海科技當成最重要的戰略夥伴，所以才想邀請你們一起開發這個新市場，共同打造更符合未來需求的綠色供應鏈！ SAM：話是這麼說，但投入這麼大，萬一回收不了怎麼辦\\... **SOPHIA：Sam總，做生意最講究的就是投資報酬率！您先看看這份我們內部的市場分析，這可是只給戰略夥伴看的機密資料。現在全球前十大客戶，都把 ESG 當成下單的必要條件，所以這塊新材料的市場規模，比以前大了十倍以上！如果大海科技能搶得先機，再加上有鴻海掛保證，未來要拿下那些國際大單，肯定沒問題！ VICTOR：商機是看到了，但如果良率拉不上來，做越多虧越多，風險還是太高了\\... TOM：這點我們也考慮到了，所以我們打算把鴻海的材料工程團隊也找來，和貴公司的技術團隊組成一個聯合工作小組，一起找出最佳的製程方案。 VICTOR（眼睛一亮，轉憂為喜）：鴻海願意派工程團隊進駐？如果有你們的技術兜底，那我們在良率上的風險就低多了，這倒是可以試試！ MIKE：(微笑總結) 太好了！看來我們對合作已經達成共識，那接下來就可以討論執行細節，包括時程規劃、技術合作項目、甚至預估未來訂單了！ SAM：哈哈，Mike，您真是有備而來啊！連接下來的三步都先想好了！ MIKE：(笑著與Sam握手) 那當然！因為我們追求的不是誰贏，而是一起贏，這樣才能成為長長久久的好伙伴啊！",
+      "start_seconds": 2224.4,
+      "end_seconds": 2345.5,
+      "speaker_directions": "場景設定：內. 大海科技會議室 - 日 | 鴻海團隊與大海科技團隊相對而坐。會議桌上放著樣品和技術文件。 | Sam雖感興趣，仍仍有許多顧慮。 | Sophia在此時順勢拿出平板，回應Sam的顧慮。 | Sam被數據說服，點點頭，轉向Victor。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "合作",
+          "ESG"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 6.8_core6_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "MIKE：(微笑，展現誠意)我們這次來，是想和貴公司討論，明年導入新型環保材料的事情。這是鴻海實踐永續發展的關鍵一步，我們希望得到貴公司的支持，一起開發新的藍海市場！ SAM：(點頭，略帶保留)您客氣了。資料我們都看過了，但這對我們現有產線和成本，是很大的挑戰啊！ MIKE：(身體微微前傾，誠懇溝通的姿態)我們完全理解，這個改變對大海科技是很大的挑戰。但我想強調的是，ESG不是鴻海單方面的期待，而是全球產業的發展趨勢！我們一直把大海科技當成最重要的戰略夥伴，所以才想邀請你們一起開發這個新市場，共同打造更符合未來需求的綠色供應鏈！ SAM：話是這麼說，但投入這麼大，萬一回收不了怎麼辦\\... **SOPHIA：Sam總，做生意最講究的就是投資報酬率！您先看看這份我們內部的市場分析，這可是只給戰略夥伴看的機密資料。現在全球前十大客戶，都把 ESG 當成下單的必要條件，所以這塊新材料的市場規模，比以前大了十倍以上！如果大海科技能搶得先機，再加上有鴻海掛保證，未來要拿下那些國際大單，肯定沒問題！ VICTOR：商機是看到了，但如果良率拉不上來，做越多虧越多，風險還是太高了\\... TOM：這點我們也考慮到了，所以我們打算把鴻海的材料工程團隊也找來，和貴公司的技術團隊組成一個聯合工作小組，一起找出最佳的製程方案。 VICTOR（眼睛一亮，轉憂為喜）：鴻海願意派工程團隊進駐？如果有你們的技術兜底，那我們在良率上的風險就低多了，這倒是可以試試！ MIKE：(微笑總結) 太好了！看來我們對合作已經達成共識，那接下來就可以討論執行細節，包括時程規劃、技術合作項目、甚至預估未來訂單了！ SAM：哈哈，Mike，您真是有備而來啊！連接下來的三步都先想好了！ MIKE：(笑著與Sam握手) 那當然！因為我們追求的不是誰贏，而是一起贏，這樣才能成為長長久久的好伙伴啊！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 大海科技會議室 - 日",
+          "timestamp_seconds": 2225.4
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標6.1 引領利害關係人認同集團理念。",
+          "timestamp_seconds": 2225.4
+        },
+        {
+          "type": "stat_card",
+          "description": "符合指標6.1 引領利害關係人認同集團理念。",
+          "timestamp_seconds": 2225.4
+        }
+      ],
+      "pronunciation_guides": [
+        {
+          "word": "ESG",
+          "phonetic": "E-S-G"
+        }
+      ],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-64",
+      "label": "Unit 6 - 6.9_core6_pos",
+      "text": "的側臉，他坐在辦公桌前，嘴角上揚，眼神充滿成就感地看著電腦螢幕。)** 螢幕上的內容：一系列的成果剪報。)** 新聞標題：「供應鏈綠色革命！鴻海攜手大海科技開發環保新材，成功打入歐美頂級供應鏈！」** 前往拜會，背景是高科技感的綠色展板。Mike 與 Sam 雙手緊握，展現強強聯手的氣勢。)** 通訊標題：「實踐『共榮』典範！大海科技獲頒『年度最佳戰略夥伴』，Mike 團隊同獲殊榮！」** 和 Victor 手持水晶獎座，與鴻海團隊 Mike, Tom, Sophia, Tina 合影。大家比出讚的手勢，笑容燦爛且充滿自信。)**",
+      "start_seconds": 2345.5,
+      "end_seconds": 2381.9,
+      "speaker_directions": "場景設定：內. MIKE的辦公室 - 日 (一年後) | 鏡頭首先特寫 Mike | 鏡頭切換為主觀視角 POV，顯示 Mike | CUT 1：外部媒體報導 | 畫面特寫電腦螢幕上的新聞網頁截圖 | 新聞照片：大海科技參加國際 ESG 商展，Mike | Mike 輕點滑鼠，將畫面從瀏覽器切換到公司的內部通訊軟體介面 | CUT 2：集團內部通訊 | 畫面特寫電腦螢幕上的內部公告或電子報 | 內部通訊照片：頒獎典禮現場，背景是大螢幕顯示『共興共贏』字樣。Sam",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "堅定、專業、理性且具說服力",
+        "emphasis_words": [
+          "共榮"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 6.9_core6_pos 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "的側臉，他坐在辦公桌前，嘴角上揚，眼神充滿成就感地看著電腦螢幕。)** 螢幕上的內容：一系列的成果剪報。)** 新聞標題：「供應鏈綠色革命！鴻海攜手大海科技開發環保新材，成功打入歐美頂級供應鏈！」** 前往拜會，背景是高科技感的綠色展板。Mike 與 Sam 雙手緊握，展現強強聯手的氣勢。)** 通訊標題：「實踐『共榮』典範！大海科技獲頒『年度最佳戰略夥伴』，Mike 團隊同獲殊榮！」** 和 Victor 手持水晶獎座，與鴻海團隊 Mike, Tom, Sophia, Tina 合影。大家比出讚的手勢，笑容燦爛且充滿自信。)**"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. MIKE的辦公室 - 日 (一年後)",
+          "timestamp_seconds": 2346.5
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：CUT TO:",
+          "timestamp_seconds": 2346.5
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    },
+    {
+      "id": "sec-65",
+      "label": "Unit 6 - 6.10_core6_outro",
+      "text": "共榮，是一種格局，更是一種智慧。它告訴我們：**生意的本質不是掠奪，而是價值交換與共同成長**。當我們願意拉夥伴一把，我們就創造了牢不可破的生態系。各位鴻海人，讓我們不只做第一，更要做那個「讓大家都能一起贏」的領導者，實現真正的共興共贏！",
+      "start_seconds": 2381.9,
+      "end_seconds": 2400.0,
+      "speaker_directions": "場景設定：內. 主攝影棚 - 日 | Amy回到畫面。",
+      "delivery_cues": {
+        "pace": "measured",
+        "energy": "導師風範、溫暖啟發、權威自信",
+        "emphasis_words": [
+          "共榮",
+          "價值"
+        ],
+        "pause_before_seconds": 0.4,
+        "pause_after_seconds": 0.8,
+        "delivery_note": "針對 6.10_core6_outro 傳遞鮮明語氣，對白部分呈現角色交鋒",
+        "provider_text": "共榮，是一種格局，更是一種智慧。它告訴我們：**生意的本質不是掠奪，而是價值交換與共同成長**。當我們願意拉夥伴一把，我們就創造了牢不可破的生態系。各位鴻海人，讓我們不只做第一，更要做那個「讓大家都能一起贏」的領導者，實現真正的共興共贏！"
+      },
+      "enhancement_cues": [
+        {
+          "type": "overlay",
+          "description": "場景字幕：內. 主攝影棚 - 日",
+          "timestamp_seconds": 2382.9
+        },
+        {
+          "type": "animation",
+          "description": "場景切換轉場：FADE OUT.",
+          "timestamp_seconds": 2382.9
+        }
+      ],
+      "pronunciation_guides": [],
+      "source_ref": "https://www.honhai.com/zh-tw/about/corporate-culture"
+    }
+  ]
+}
