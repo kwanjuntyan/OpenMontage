@@ -8,7 +8,7 @@
 - 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/blocks_blender_s02_medium_two_shot.png
 - 圖 3：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg
 - 圖 4：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_li.jpeg
-- 輸出：../assets/images/shot_4_6_2_gpt_template_v1.png
+- 輸出：../assets/images/shot_4.6.2_gpt_template_v1.png
 - 原生來源：C:/Users/servi/.codex/generated_images/01a14365-4ddb-7872-9254-b032d636e172/exec-bd8816b5-1e7d-4e5f-9f5d-93011cc189dd.png
 - 尺寸：1672×941 RGB PNG，接近但非精確 16:9；未放大或裁切。
 - 檢視：兩個定位人物已完整替換，無殘留白模；Amy 灰西裝、小李花襯衫與無眼鏡符合實圖，小李雙手舉彩色海報、興奮說話與看向 Amy，Amy 看海報／閉嘴聆聽、海報空白標語區及無字幕成立。人物較 blocks 靠近中央，兩人間距縮小、頭頂留白減少；Amy 改成托下巴與橫臂，未沿用 blocks 手勢。構圖與姿勢未完全通過。

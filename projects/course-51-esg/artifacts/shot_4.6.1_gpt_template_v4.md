@@ -9,7 +9,7 @@
 - 圖 3：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg
 - 圖 4：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_li.jpeg
 - 圖 5：D:/kj-openMontage/projects/course-51-esg/clp/prop_whiteboard_incorrect.png
-- 輸出：../assets/images/shot_4_6_1_gpt_template_v4.png
+- 輸出：../assets/images/shot_4.6.1_gpt_template_v4.png
 - 原生來源：C:/Users/servi/.codex/generated_images/01a14365-4ddb-7872-9254-b032d636e172/exec-1d31015b-a69f-423b-adc4-83b08b7d6256.png
 - 尺寸：1672×941 RGB PNG，接近但非精確 16:9；未放大或裁切。
 - 檢視：Amy 左／小李右且全身入鏡，定位人物完整替換、無白模，Amy 開口介紹與小李閉嘴看向 Amy、垂放雙手、非自拍／無手機／無字幕成立。既有白板已帶入十張彩色便條紙及圖文，未新增第二塊白板；但人物較 blocks 高、頭頂及腳下留白減少，小李偏右，部分便條紙位置／間距有調整，未完全保留構圖。白板文字已目視檢視，未宣稱逐字或逐像素一致。

@@ -29,3 +29,4 @@
 
 1. **台詞不可加油添醋。** `character_actions[].dialogue`（及上游 `script.json` 的台詞 `sections[].text`）必須逐字忠於核准劇本原詞，嚴禁自行改寫、擴寫或潤飾詞句。
 2. **括號動作歸入畫面描述，不放對白。** 劇本括號內的舞台指示、動作、表情或道具標記（如 `（放下手中的咖啡杯，溫和地微笑。）`、`（@Coffee_Cup）`）必須拆入 `description`（畫面提示詞）、`character_actions[].action_sequence` 或 `speaker_directions`，`dialogue` 與台詞 `text` 只保留角色實際開口說出的台詞。
+3. **分鏡編號格式。** 多層次分鏡 ID 統一以小數點分隔（如 `shot_2.1.1`），不以底線分隔數字。

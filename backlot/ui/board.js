@@ -662,6 +662,8 @@ function renderActivity(s) {
 // ---------------------------------------------------------------------------
 
 function sceneLabel(id) {
+  const shot = String(id).match(/^shot[_-](\d+[._]\d+(?:[._]\w+)*)$/i);
+  if (shot) return `shot_${shot[1].replaceAll("_", ".")}`;
   // "sc4" → "SC 04", "scene-11" → "SC 11", anything else → uppercased id
   const m = String(id).match(/(\d+)\s*$/);
   if (m) return `SC ${m[1].padStart(2, "0")}`;

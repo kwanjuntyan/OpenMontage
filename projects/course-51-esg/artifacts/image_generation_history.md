@@ -23,58 +23,58 @@
 
 | shot | 圖片檔名 | 工具 | prompt／參考圖與生成紀錄 | 採用狀態 |
 |---|---|---|---|---|
-| 2.1.1 | [shot_2_1_1.jpg](../assets/images/shot_2_1_1.jpg) | L | [原 manifest 快照](#2026-10-13-選版前的-manifest-快照)；有序參考圖檔名未留存 | 舊版（已替換） |
-| 2.1.1 | [shot_2_1_1_banana21_v1.png](../assets/images/shot_2_1_1_banana21_v1.png) | B | [補回原請求](#shot_2_1_1_banana21_v1) | 保留版本 |
-| 2.1.1 | [shot_2_1_1_banana21_v2.png](../assets/images/shot_2_1_1_banana21_v2.png) | B | [補回原請求](#shot_2_1_1_banana21_v2) | 保留版本 |
-| 2.1.1 | [shot_2_1_1_banana21_v3.png](../assets/images/shot_2_1_1_banana21_v3.png) | B | [原紀錄第 28 行](shot_prompts_2_1_banana21.md#211) | 保留版本 |
-| 2.1.1 | [shot_2_1_1_banana21_v4.png](../assets/images/shot_2_1_1_banana21_v4.png) | B | [原紀錄第 55 行](shot_prompts_2_1_banana21.md#211) | 保留版本 |
-| 2.1.1 | [shot_2_1_1_banana21_v5.png](../assets/images/shot_2_1_1_banana21_v5.png) | B | [原紀錄第 84 行](shot_prompts_2_1_banana21.md#211) | 保留版本 |
-| 2.1.1 | [shot_2_1_1_banana21_v6.png](../assets/images/shot_2_1_1_banana21_v6.png) | B | [原紀錄第 137 行](shot_prompts_2_1_banana21.md#211) | 保留版本 |
-| 2.1.1 | [shot_2_1_1_gpt_template_v1.png](../assets/images/shot_2_1_1_gpt_template_v1.png) | G | [原紀錄第 30 行](shot_prompts_2_1_banana21.md#211) | 保留版本 |
-| 2.1.1 | [shot_2_1_1_gpt_template_v2.png](../assets/images/shot_2_1_1_gpt_template_v2.png) | G | [原紀錄第 57 行](shot_prompts_2_1_banana21.md#211) | manifest 現行 |
-| 2.1.1 | [shot_2_1_1_gpt_template_v3.png](../assets/images/shot_2_1_1_gpt_template_v3.png) | G | [原紀錄第 112 行](shot_prompts_2_1_banana21.md#211) | 保留版本 |
-| 2.1.1 | [shot_2_1_1_short_v1.png](../assets/images/shot_2_1_1_short_v1.png) | G | [原紀錄第 24 行](shot_prompts_2_1.md#211amy-求救s02_medium_two_shot40mm) | 保留版本 |
-| 2.1.2 | [shot_2_1_2.jpg](../assets/images/shot_2_1_2.jpg) | L | [原 manifest 快照](#2026-10-13-選版前的-manifest-快照)；有序參考圖檔名未留存 | 舊版（已替換） |
-| 2.1.2 | [shot_2_1_2_banana21_v1.png](../assets/images/shot_2_1_2_banana21_v1.png) | B | [補回原請求](#shot_2_1_2_banana21_v1) | 保留版本 |
-| 2.1.2 | [shot_2_1_2_banana21_v2.png](../assets/images/shot_2_1_2_banana21_v2.png) | B | [原紀錄第 155 行](shot_prompts_2_1_banana21.md#212) | 保留版本 |
-| 2.1.2 | [shot_2_1_2_banana21_v3.png](../assets/images/shot_2_1_2_banana21_v3.png) | B | [原紀錄第 185 行](shot_prompts_2_1_banana21.md#212) | 保留版本 |
-| 2.1.2 | [shot_2_1_2_banana21_v4.png](../assets/images/shot_2_1_2_banana21_v4.png) | B | [原紀錄第 213 行](shot_prompts_2_1_banana21.md#212) | 保留版本 |
-| 2.1.2 | [shot_2_1_2_gpt_template_v1.png](../assets/images/shot_2_1_2_gpt_template_v1.png) | G | [原紀錄第 157 行](shot_prompts_2_1_banana21.md#212) | manifest 現行 |
-| 2.1.2 | [shot_2_1_2_short_v1.png](../assets/images/shot_2_1_2_short_v1.png) | G | [原紀錄第 37 行](shot_prompts_2_1.md#212amy-訴苦s06_amy_medium_close_up65mm) | 保留版本 |
-| 2.1.3 | [shot_2_1_3.jpg](../assets/images/shot_2_1_3.jpg) | L | [原 manifest 快照](#2026-10-13-選版前的-manifest-快照)；有序參考圖檔名未留存 | 舊版（已替換） |
-| 2.1.3 | [shot_2_1_3_banana21_v1.png](../assets/images/shot_2_1_3_banana21_v1.png) | B | [補回原請求](#shot_2_1_3_banana21_v1) | 保留版本 |
-| 2.1.3 | [shot_2_1_3_banana21_v2.png](../assets/images/shot_2_1_3_banana21_v2.png) | B | [補回原請求](#shot_2_1_3_banana21_v2) | 保留版本 |
-| 2.1.3 | [shot_2_1_3_banana21_v3.png](../assets/images/shot_2_1_3_banana21_v3.png) | B | [補回原請求](#shot_2_1_3_banana21_v3) | 保留版本 |
-| 2.1.3 | [shot_2_1_3_banana21_v4.png](../assets/images/shot_2_1_3_banana21_v4.png) | B | [原紀錄第 237 行](shot_prompts_2_1_banana21.md#213) | 保留版本 |
-| 2.1.3 | [shot_2_1_3_banana21_v5.png](../assets/images/shot_2_1_3_banana21_v5.png) | B | [原紀錄第 270 行](shot_prompts_2_1_banana21.md#213) | 保留版本 |
-| 2.1.3 | [shot_2_1_3_gpt_template_v1.png](../assets/images/shot_2_1_3_gpt_template_v1.png) | G | [原紀錄第 264 行](shot_prompts_2_1_banana21.md#213) | 保留版本 |
-| 2.1.3 | [shot_2_1_3_short_v1.png](../assets/images/shot_2_1_3_short_v1.png) | G | [原紀錄第 51 行](shot_prompts_2_1.md#213george-解惑s03_ots_to_george60mm) | manifest 現行 |
-| 2.1.4 | [shot_2_1_4.jpg](../assets/images/shot_2_1_4.jpg) | L | [原 manifest 快照](#2026-10-13-選版前的-manifest-快照)；有序參考圖檔名未留存 | 舊版（已替換） |
-| 2.1.4 | [shot_2_1_4_banana21_v1.png](../assets/images/shot_2_1_4_banana21_v1.png) | B | [補回原請求](#shot_2_1_4_banana21_v1) | 保留版本 |
-| 2.1.4 | [shot_2_1_4_banana21_v2.png](../assets/images/shot_2_1_4_banana21_v2.png) | B | [補回原請求](#shot_2_1_4_banana21_v2) | 保留版本 |
-| 2.1.4 | [shot_2_1_4_banana21_v4.png](../assets/images/shot_2_1_4_banana21_v4.png) | B | [原紀錄第 383 行](shot_prompts_2_1_banana21.md#214) | 保留版本 |
-| 2.1.4 | [shot_2_1_4_gpt_template_v1.png](../assets/images/shot_2_1_4_gpt_template_v1.png) | G | [原紀錄第 318 行](shot_prompts_2_1_banana21.md#214) | 保留版本 |
-| 2.1.4 | [shot_2_1_4_gpt_template_v2.png](../assets/images/shot_2_1_4_gpt_template_v2.png) | G | [原紀錄第 343 行](shot_prompts_2_1_banana21.md#214) | 保留版本 |
-| 2.1.4 | [shot_2_1_4_gpt_template_v3.png](../assets/images/shot_2_1_4_gpt_template_v3.png) | G | [原紀錄第 378 行](shot_prompts_2_1_banana21.md#214) | 保留版本 |
-| 2.1.4 | [shot_2_1_4_short_v1.png](../assets/images/shot_2_1_4_short_v1.png) | G | [原紀錄第 63 行](shot_prompts_2_1.md#214amy-反問s08_amy_close_up100mm) | 保留版本 |
-| 2.1.4 | [shot_2_1_4_short_v2.png](../assets/images/shot_2_1_4_short_v2.png) | G | [原紀錄第 68 行](shot_prompts_2_1.md#214amy-反問s08_amy_close_up100mm) | manifest 現行 |
-| 2.1.5 | [shot_2_1_5.jpg](../assets/images/shot_2_1_5.jpg) | L | [原 manifest 快照](#2026-10-13-選版前的-manifest-快照)；有序參考圖檔名未留存 | 舊版（已替換） |
-| 2.1.5 | [shot_2_1_5_banana21_v1.png](../assets/images/shot_2_1_5_banana21_v1.png) | B | [補回原請求](#shot_2_1_5_banana21_v1) | 保留版本 |
-| 2.1.5 | [shot_2_1_5_banana21_v2.png](../assets/images/shot_2_1_5_banana21_v2.png) | B | [原紀錄第 412 行](shot_prompts_2_1_banana21.md#215) | 保留版本 |
-| 2.1.5 | [shot_2_1_5_gpt_compare_v1.png](../assets/images/shot_2_1_5_gpt_compare_v1.png) | G | [原紀錄第 414 行](shot_prompts_2_1_banana21.md#215) | 保留版本 |
-| 2.1.5 | [shot_2_1_5_gpt_template_v1.png](../assets/images/shot_2_1_5_gpt_template_v1.png) | G | [原紀錄第 440 行](shot_prompts_2_1_banana21.md#215) | 保留版本 |
-| 2.1.5 | [shot_2_1_5_short_v1.png](../assets/images/shot_2_1_5_short_v1.png) | G | [原紀錄第 84 行](shot_prompts_2_1.md#215george-講解-epss07_george_close_up100mm) | manifest 現行 |
-| 2.1.6 | [shot_2_1_6_banana21_v1.png](../assets/images/shot_2_1_6_banana21_v1.png) | B | [原紀錄第 478 行](shot_prompts_2_1_banana21.md#216) | 保留版本 |
-| 2.1.6 | [shot_2_1_6_gpt_template_v1.png](../assets/images/shot_2_1_6_gpt_template_v1.png) | G | [補回原請求](#shot_2_1_6_gpt_template_v1) | 保留版本 |
-| 2.1.6 | [shot_2_1_6_gpt_template_v2.png](../assets/images/shot_2_1_6_gpt_template_v2.png) | G | [補回原請求](#shot_2_1_6_gpt_template_v2) | 保留版本 |
-| 2.1.6 | [shot_2_1_6_gpt_template_v3.png](../assets/images/shot_2_1_6_gpt_template_v3.png) | G | [原紀錄第 476 行](shot_prompts_2_1_banana21.md#216) | 保留版本 |
-| 2.1.6 | [shot_2_1_6_short_v1.png](../assets/images/shot_2_1_6_short_v1.png) | G | [原紀錄第 98 行](shot_prompts_2_1.md#216esg-概念轉折s09_table_insert50mm) | manifest 現行 |
+| 2.1.1 | [shot_2.1.1.jpg](../assets/images/shot_2.1.1.jpg) | L | [原 manifest 快照](#2026-10-13-選版前的-manifest-快照)；有序參考圖檔名未留存 | 舊版（已替換） |
+| 2.1.1 | [shot_2.1.1_banana21_v1.png](../assets/images/shot_2.1.1_banana21_v1.png) | B | [補回原請求](#shot_2.1.1_banana21_v1) | 保留版本 |
+| 2.1.1 | [shot_2.1.1_banana21_v2.png](../assets/images/shot_2.1.1_banana21_v2.png) | B | [補回原請求](#shot_2.1.1_banana21_v2) | 保留版本 |
+| 2.1.1 | [shot_2.1.1_banana21_v3.png](../assets/images/shot_2.1.1_banana21_v3.png) | B | [原紀錄第 28 行](shot_prompts_2_1_banana21.md#211) | 保留版本 |
+| 2.1.1 | [shot_2.1.1_banana21_v4.png](../assets/images/shot_2.1.1_banana21_v4.png) | B | [原紀錄第 55 行](shot_prompts_2_1_banana21.md#211) | 保留版本 |
+| 2.1.1 | [shot_2.1.1_banana21_v5.png](../assets/images/shot_2.1.1_banana21_v5.png) | B | [原紀錄第 84 行](shot_prompts_2_1_banana21.md#211) | 保留版本 |
+| 2.1.1 | [shot_2.1.1_banana21_v6.png](../assets/images/shot_2.1.1_banana21_v6.png) | B | [原紀錄第 137 行](shot_prompts_2_1_banana21.md#211) | 保留版本 |
+| 2.1.1 | [shot_2.1.1_gpt_template_v1.png](../assets/images/shot_2.1.1_gpt_template_v1.png) | G | [原紀錄第 30 行](shot_prompts_2_1_banana21.md#211) | 保留版本 |
+| 2.1.1 | [shot_2.1.1_gpt_template_v2.png](../assets/images/shot_2.1.1_gpt_template_v2.png) | G | [原紀錄第 57 行](shot_prompts_2_1_banana21.md#211) | manifest 現行 |
+| 2.1.1 | [shot_2.1.1_gpt_template_v3.png](../assets/images/shot_2.1.1_gpt_template_v3.png) | G | [原紀錄第 112 行](shot_prompts_2_1_banana21.md#211) | 保留版本 |
+| 2.1.1 | [shot_2.1.1_short_v1.png](../assets/images/shot_2.1.1_short_v1.png) | G | [原紀錄第 24 行](shot_prompts_2_1.md#211amy-求救s02_medium_two_shot40mm) | 保留版本 |
+| 2.1.2 | [shot_2.1.2.jpg](../assets/images/shot_2.1.2.jpg) | L | [原 manifest 快照](#2026-10-13-選版前的-manifest-快照)；有序參考圖檔名未留存 | 舊版（已替換） |
+| 2.1.2 | [shot_2.1.2_banana21_v1.png](../assets/images/shot_2.1.2_banana21_v1.png) | B | [補回原請求](#shot_2.1.2_banana21_v1) | 保留版本 |
+| 2.1.2 | [shot_2.1.2_banana21_v2.png](../assets/images/shot_2.1.2_banana21_v2.png) | B | [原紀錄第 155 行](shot_prompts_2_1_banana21.md#212) | 保留版本 |
+| 2.1.2 | [shot_2.1.2_banana21_v3.png](../assets/images/shot_2.1.2_banana21_v3.png) | B | [原紀錄第 185 行](shot_prompts_2_1_banana21.md#212) | 保留版本 |
+| 2.1.2 | [shot_2.1.2_banana21_v4.png](../assets/images/shot_2.1.2_banana21_v4.png) | B | [原紀錄第 213 行](shot_prompts_2_1_banana21.md#212) | 保留版本 |
+| 2.1.2 | [shot_2.1.2_gpt_template_v1.png](../assets/images/shot_2.1.2_gpt_template_v1.png) | G | [原紀錄第 157 行](shot_prompts_2_1_banana21.md#212) | manifest 現行 |
+| 2.1.2 | [shot_2.1.2_short_v1.png](../assets/images/shot_2.1.2_short_v1.png) | G | [原紀錄第 37 行](shot_prompts_2_1.md#212amy-訴苦s06_amy_medium_close_up65mm) | 保留版本 |
+| 2.1.3 | [shot_2.1.3.jpg](../assets/images/shot_2.1.3.jpg) | L | [原 manifest 快照](#2026-10-13-選版前的-manifest-快照)；有序參考圖檔名未留存 | 舊版（已替換） |
+| 2.1.3 | [shot_2.1.3_banana21_v1.png](../assets/images/shot_2.1.3_banana21_v1.png) | B | [補回原請求](#shot_2.1.3_banana21_v1) | 保留版本 |
+| 2.1.3 | [shot_2.1.3_banana21_v2.png](../assets/images/shot_2.1.3_banana21_v2.png) | B | [補回原請求](#shot_2.1.3_banana21_v2) | 保留版本 |
+| 2.1.3 | [shot_2.1.3_banana21_v3.png](../assets/images/shot_2.1.3_banana21_v3.png) | B | [補回原請求](#shot_2.1.3_banana21_v3) | 保留版本 |
+| 2.1.3 | [shot_2.1.3_banana21_v4.png](../assets/images/shot_2.1.3_banana21_v4.png) | B | [原紀錄第 237 行](shot_prompts_2_1_banana21.md#213) | 保留版本 |
+| 2.1.3 | [shot_2.1.3_banana21_v5.png](../assets/images/shot_2.1.3_banana21_v5.png) | B | [原紀錄第 270 行](shot_prompts_2_1_banana21.md#213) | 保留版本 |
+| 2.1.3 | [shot_2.1.3_gpt_template_v1.png](../assets/images/shot_2.1.3_gpt_template_v1.png) | G | [原紀錄第 264 行](shot_prompts_2_1_banana21.md#213) | 保留版本 |
+| 2.1.3 | [shot_2.1.3_short_v1.png](../assets/images/shot_2.1.3_short_v1.png) | G | [原紀錄第 51 行](shot_prompts_2_1.md#213george-解惑s03_ots_to_george60mm) | manifest 現行 |
+| 2.1.4 | [shot_2.1.4.jpg](../assets/images/shot_2.1.4.jpg) | L | [原 manifest 快照](#2026-10-13-選版前的-manifest-快照)；有序參考圖檔名未留存 | 舊版（已替換） |
+| 2.1.4 | [shot_2.1.4_banana21_v1.png](../assets/images/shot_2.1.4_banana21_v1.png) | B | [補回原請求](#shot_2.1.4_banana21_v1) | 保留版本 |
+| 2.1.4 | [shot_2.1.4_banana21_v2.png](../assets/images/shot_2.1.4_banana21_v2.png) | B | [補回原請求](#shot_2.1.4_banana21_v2) | 保留版本 |
+| 2.1.4 | [shot_2.1.4_banana21_v4.png](../assets/images/shot_2.1.4_banana21_v4.png) | B | [原紀錄第 383 行](shot_prompts_2_1_banana21.md#214) | 保留版本 |
+| 2.1.4 | [shot_2.1.4_gpt_template_v1.png](../assets/images/shot_2.1.4_gpt_template_v1.png) | G | [原紀錄第 318 行](shot_prompts_2_1_banana21.md#214) | 保留版本 |
+| 2.1.4 | [shot_2.1.4_gpt_template_v2.png](../assets/images/shot_2.1.4_gpt_template_v2.png) | G | [原紀錄第 343 行](shot_prompts_2_1_banana21.md#214) | 保留版本 |
+| 2.1.4 | [shot_2.1.4_gpt_template_v3.png](../assets/images/shot_2.1.4_gpt_template_v3.png) | G | [原紀錄第 378 行](shot_prompts_2_1_banana21.md#214) | 保留版本 |
+| 2.1.4 | [shot_2.1.4_short_v1.png](../assets/images/shot_2.1.4_short_v1.png) | G | [原紀錄第 63 行](shot_prompts_2_1.md#214amy-反問s08_amy_close_up100mm) | 保留版本 |
+| 2.1.4 | [shot_2.1.4_short_v2.png](../assets/images/shot_2.1.4_short_v2.png) | G | [原紀錄第 68 行](shot_prompts_2_1.md#214amy-反問s08_amy_close_up100mm) | manifest 現行 |
+| 2.1.5 | [shot_2.1.5.jpg](../assets/images/shot_2.1.5.jpg) | L | [原 manifest 快照](#2026-10-13-選版前的-manifest-快照)；有序參考圖檔名未留存 | 舊版（已替換） |
+| 2.1.5 | [shot_2.1.5_banana21_v1.png](../assets/images/shot_2.1.5_banana21_v1.png) | B | [補回原請求](#shot_2.1.5_banana21_v1) | 保留版本 |
+| 2.1.5 | [shot_2.1.5_banana21_v2.png](../assets/images/shot_2.1.5_banana21_v2.png) | B | [原紀錄第 412 行](shot_prompts_2_1_banana21.md#215) | 保留版本 |
+| 2.1.5 | [shot_2.1.5_gpt_compare_v1.png](../assets/images/shot_2.1.5_gpt_compare_v1.png) | G | [原紀錄第 414 行](shot_prompts_2_1_banana21.md#215) | 保留版本 |
+| 2.1.5 | [shot_2.1.5_gpt_template_v1.png](../assets/images/shot_2.1.5_gpt_template_v1.png) | G | [原紀錄第 440 行](shot_prompts_2_1_banana21.md#215) | 保留版本 |
+| 2.1.5 | [shot_2.1.5_short_v1.png](../assets/images/shot_2.1.5_short_v1.png) | G | [原紀錄第 84 行](shot_prompts_2_1.md#215george-講解-epss07_george_close_up100mm) | manifest 現行 |
+| 2.1.6 | [shot_2.1.6_banana21_v1.png](../assets/images/shot_2.1.6_banana21_v1.png) | B | [原紀錄第 478 行](shot_prompts_2_1_banana21.md#216) | 保留版本 |
+| 2.1.6 | [shot_2.1.6_gpt_template_v1.png](../assets/images/shot_2.1.6_gpt_template_v1.png) | G | [補回原請求](#shot_2.1.6_gpt_template_v1) | 保留版本 |
+| 2.1.6 | [shot_2.1.6_gpt_template_v2.png](../assets/images/shot_2.1.6_gpt_template_v2.png) | G | [補回原請求](#shot_2.1.6_gpt_template_v2) | 保留版本 |
+| 2.1.6 | [shot_2.1.6_gpt_template_v3.png](../assets/images/shot_2.1.6_gpt_template_v3.png) | G | [原紀錄第 476 行](shot_prompts_2_1_banana21.md#216) | 保留版本 |
+| 2.1.6 | [shot_2.1.6_short_v1.png](../assets/images/shot_2.1.6_short_v1.png) | G | [原紀錄第 98 行](shot_prompts_2_1.md#216esg-概念轉折s09_table_insert50mm) | manifest 現行 |
 
 ## 缺件與歷史例外
 
 - 2.1.4 Banana v3 有兩次失敗嘗試，原紀錄保留 OAuth 逾時及未取得正式圖片的錯誤；沒有可歸檔的 v3 圖片，版本跳號保留，不補造圖片。
 - 2.1.4 GPT 身體修正的第一次未採用試圖，僅記錄原生路徑 `C:/Users/servi/.codex/generated_images/01a133fe-9f94-7881-8661-889a33653287/exec-14593896-6b08-49d4-ba29-51194578b02d.png`，本機不存在；其完整 prompt 與唯一底圖仍見[原紀錄第 347 行](shot_prompts_2_1_banana21.md#214-gpt-身體朝向修正-v32026-10-13)。不以已歸檔的第二次結果冒充。
-- 2.1.2 GPT template v1 實際附件為場景、blocks、George、Amy、杯碟／糖罐拼接圖，共五個檔案；prompt 內的圖 5／6 共用最後一張。`D:/kj-openMontage/.tmp/shot_2_1_2_props_5_6.png` 本機缺件，保留[原紀錄第 157 行](shot_prompts_2_1_banana21.md#212)的圖序與來源說明，不改記成 Banana 的六張獨立參考圖。
+- 2.1.2 GPT template v1 實際附件為場景、blocks、George、Amy、杯碟／糖罐拼接圖，共五個檔案；prompt 內的圖 5／6 共用最後一張。`D:/kj-openMontage/.tmp/shot_2.1.2_props_5_6.png` 本機缺件，保留[原紀錄第 157 行](shot_prompts_2_1_banana21.md#212)的圖序與來源說明，不改記成 Banana 的六張獨立參考圖。
 - 五張舊 JPG 的完整 prompt 與其他資料已保存在本檔「選版前的 manifest 快照」；工具原記錄與圖片尺寸可核對，但參考圖有序檔名、確切模型、實際費用缺乏可核實紀錄，明列未知，不用現行場景圖回填。
 - 既有 `_short_`、`_gpt_template_`、`_gpt_compare_` 等檔名依 4.1 保留。後續同一 shot 使用穩定來源簡稱並接續該來源既有最大版本號；失敗且已有紀錄的版本號也保留，不重用。
 - 舊紀錄中的 `.tmp/` 是當時請求／輸出位置。兩張已歸檔 Banana v1 的現行圖片位置以上表為準；原始請求不改寫，避免竄改當時實際輸入。
@@ -83,7 +83,7 @@
 
 以下均為既有生成，不是本次重生。圖片均連結至上方版本索引；參考圖依實際傳入順序列出，路徑轉為專案相對連結，prompt 原文保留。
 
-### shot_2_1_1_banana21_v1
+### shot_2.1.1_banana21_v1
 
 來源：OM `.tmp/banana21_six_short_1_result.json`；工具代號 B；實際費用未知。
 原始用量：{"prompt_token_count": 5811, "candidates_token_count": 1680}；生成耗時 32.73 秒。
@@ -104,7 +104,7 @@
 Amy 愁眉微皺，一手握小匙、匙端仍在拿鐵中，抬眼望向 George 求助；George 沉著聆聽。保留雙人中景與桌面互動。
 ```
 
-### shot_2_1_1_banana21_v2
+### shot_2.1.1_banana21_v2
 
 來源：OM `.tmp/banana21_first_v2_result.json`；工具代號 B；實際費用未知。原紀錄估 US$0.059262，未核帳。
 原始用量：{"prompt_token_count": 5908, "candidates_token_count": 1680}；生成耗時 35.11 秒。
@@ -125,7 +125,7 @@ Amy 愁眉微皺，一手握小匙、匙端仍在拿鐵中，抬眼望向 George
 Amy 愁眉微皺，一手握小匙、匙端仍在拿鐵中，抬眼望向 George 求助；George 沉著聆聽。肩膀與軀幹保持原本對坐朝向。只為這個表演調整表情、視線、手臂與原杯中飲品。維持雙人中景、既有 3D 動畫風格，輸出一張 16:9 彩色分鏡圖；不呈現方塊、展示排版或字幕。
 ```
 
-### shot_2_1_2_banana21_v1
+### shot_2.1.2_banana21_v1
 
 來源：OM `.tmp/banana21_six_short_2_result.json`；工具代號 B；實際費用未知。
 原始用量：{"prompt_token_count": 4699, "candidates_token_count": 1680}；生成耗時 31.68 秒。
@@ -145,7 +145,7 @@ Amy 愁眉微皺，一手握小匙、匙端仍在拿鐵中，抬眼望向 George
 Amy 已停止攪拌，眉心皺起、嘴角下垂、頭微偏，望向 George 訴說 KPI 要 GG 的無奈；小幅攤手僅在原取景容納處呈現。George 只保留 圖 1 所示局部前景，不補出臉。
 ```
 
-### shot_2_1_3_banana21_v1
+### shot_2.1.3_banana21_v1
 
 來源：OM `.tmp/banana21_six_short_3_result.json`；工具代號 B；實際費用未知。
 原始用量：{"prompt_token_count": 5823, "candidates_token_count": 1680, "thoughts_token_count": 1505}；生成耗時 38.87 秒。
@@ -166,7 +166,7 @@ Amy 已停止攪拌，眉心皺起、嘴角下垂、頭微偏，望向 George �
 George 溫和微笑看向 Amy，一手握咖啡杯柄，準備放回原杯碟；杯底尚未接觸碟面，保留清楚空隙。Amy 以頭肩背影聆聽。握起原有杯子，碟上不留重複杯。
 ```
 
-### shot_2_1_3_banana21_v2
+### shot_2.1.3_banana21_v2
 
 來源：OM `.tmp/banana21_third_v2_result.json`；工具代號 B；實際費用未知。原紀錄估 US$0.0675855，未核帳。
 原始用量：{"prompt_token_count": 5732, "candidates_token_count": 1680, "thoughts_token_count": 1145}；生成耗時 40.14 秒。
@@ -189,7 +189,7 @@ George 溫和微笑看向 Amy，一手握住原有咖啡杯的杯柄，準備放
 輸出一張 16:9 彩色分鏡圖，不加入字幕。
 ```
 
-### shot_2_1_3_banana21_v3
+### shot_2.1.3_banana21_v3
 
 來源：OM `.tmp/banana21_third_v3_result.json`；工具代號 B；實際費用未知。原紀錄估 US$0.063372，未核帳。
 原始用量：{"prompt_token_count": 5738, "candidates_token_count": 1714, "thoughts_token_count": 548}；生成耗時 33.8 秒。
@@ -212,7 +212,7 @@ George 溫和微笑看向 Amy，一手握住原有咖啡杯的杯柄，準備放
 輸出一張 16:9 彩色分鏡圖，不加入字幕。
 ```
 
-### shot_2_1_4_banana21_v1
+### shot_2.1.4_banana21_v1
 
 來源：OM `.tmp/banana21_six_short_4_result.json`；工具代號 B；實際費用未知。
 原始用量：{"prompt_token_count": 3599, "candidates_token_count": 1680, "thoughts_token_count": 554}；生成耗時 31.96 秒。
@@ -231,7 +231,7 @@ George 溫和微笑看向 Amy，一手握住原有咖啡杯的杯柄，準備放
 Amy 聽見「企業健康指標」而睜大眼睛、微抬眉、輕輕歪頭，嘴唇微張，望向畫外 George 驚奇反問。維持單人頭肩特寫。身體維持 圖 1 中朝向對坐的 George，肩膀與軀幹不轉動，只輕輕歪頭；頭與胸口朝向同一位對坐者，不做側身回頭姿勢。
 ```
 
-### shot_2_1_4_banana21_v2
+### shot_2.1.4_banana21_v2
 
 來源：OM `.tmp/banana21_fourth_v2_result.json`；工具代號 B；實際費用未知。原紀錄估 US$0.0556035，未核帳。
 原始用量：{"prompt_token_count": 3469, "candidates_token_count": 1680}；生成耗時 35.87 秒。
@@ -252,7 +252,7 @@ Amy 睜大眼睛、微抬眉，輕輕歪頭，嘴唇微張。歪頭只調整頭�
 輸出一張 16:9 彩色分鏡圖，不加入字幕。
 ```
 
-### shot_2_1_5_banana21_v1
+### shot_2.1.5_banana21_v1
 
 來源：OM `.tmp/banana21_fifth_v1_result.json`；工具代號 B；實際費用未知。原紀錄估 US$0.0558105，未核帳。
 原始用量：{"prompt_token_count": 3607, "candidates_token_count": 1680}；生成耗時 31.17 秒。
@@ -280,7 +280,7 @@ George 下巴略收，帶著肯定的神情與溫和微笑，嘴唇自然微張�
 輸出一張 16:9 彩色分鏡圖，不加入字幕。
 ```
 
-### shot_2_1_6_gpt_template_v1
+### shot_2.1.6_gpt_template_v1
 
 來源：OM `.tmp/gpt_sixth_template_v1_result.json`；工具代號 G；實際費用未知。
 
@@ -315,7 +315,7 @@ George 已將咖啡杯放回杯碟。兩人的手自然停在桌邊，兩只咖�
 輸出一張 16:9 彩色分鏡圖，不加入字幕。
 ```
 
-### shot_2_1_6_gpt_template_v2
+### shot_2.1.6_gpt_template_v2
 
 來源：OM `.tmp/gpt_sixth_template_v2_result.json`；工具代號 G；實際費用未知。
 
@@ -359,55 +359,55 @@ George 已將咖啡杯放回杯碟。兩人的手自然停在桌邊，兩只咖�
   "version": "1.0",
   "assets": [
     {
-      "id": "img_shot_2_1_1",
+      "id": "img_shot_2.1.1",
       "type": "image",
-      "path": "assets/images/shot_2_1_1.jpg",
+      "path": "assets/images/shot_2.1.1.jpg",
       "source_tool": "agent_native_image",
-      "scene_id": "shot_2_1_1",
+      "scene_id": "shot_2.1.1",
       "prompt": "3D Pixar animation style, warm studio rim lighting, 8k render.\n\n[Reference Roles & Spatial Hierarchy]:\n- Image 1 (PRIMARY 3D ANCHOR): Strictly governs the entire 3D spatial geometry, camera perspective, room depth, and vanishing lines for the FULL scene. All foreground, midground, and background cafe elements must align with Image 1's perspective.\n- Image 2: Character identity and attire for Amy.\n- Image 3: Character identity and attire for George.\n- Image 4 (STYLE & MATERIAL ONLY): Reference for cafe materials, color palette, and lighting style only. DO NOT copy Image 4's camera angle or frontal layout.\n\n[Shot Synthesis & 3D Parallax]:\nRender shot 2.1.1 in a single unified 3D perspective strictly matching Image 1:\nThe camera looks over George's (Image 3) right shoulder in the foreground. The coffee table and the entire cafe background (walls, windows, lighting) must rotate coherently with the camera's line of sight, creating realistic 3D parallax depth behind Amy (Image 2).\nAmy leans forward with both hands on the table, face full of panic and anxious pleading. George sits calmly listening.",
       "resolution": "1376x768",
       "format": "jpg",
       "generation_summary": "clp: char_amy, char_george, loc_coffee_shop | Agent Native R2I: George右肩過肩中景看Amy慌張求救（全景透視主從對齊）"
     },
     {
-      "id": "img_shot_2_1_2",
+      "id": "img_shot_2.1.2",
       "type": "image",
-      "path": "assets/images/shot_2_1_2.jpg",
+      "path": "assets/images/shot_2.1.2.jpg",
       "source_tool": "agent_native_image",
-      "scene_id": "shot_2_1_2",
+      "scene_id": "shot_2.1.2",
       "prompt": "3D Pixar animation style, warm studio rim lighting, 8k render.\n\n[Reference Roles & Spatial Hierarchy]:\n- Image 1 (PRIMARY 3D ANCHOR): Strictly governs the 3D camera angle (15-degree right turn), close-up framing, and background spatial perspective. Background room vanishing lines must align with this camera view.\n- Image 2: Character identity and attire for Amy.\n- Image 3 (STYLE & MATERIAL ONLY): Reference for cafe materials, color palette, and lighting style only. DO NOT copy its camera angle or frontal layout.\n\n[Shot Synthesis & 3D Parallax]:\nRender shot 2.1.2 in a single unified 3D perspective strictly matching Image 1:\nAmy (Image 2) sits at the cafe table, clutching the sides of her head with both hands in dramatic, comical panic and frustration, face squished into an exaggerated overwhelmed pout. The background cafe elements rotate coherently with the 15-degree camera angle, smoothly blurred with shallow depth of field.",
       "resolution": "1376x768",
       "format": "jpg",
       "generation_summary": "clp: char_amy, loc_coffee_shop | Agent Native R2I: Amy抱頭苦瓜臉特寫抓狂KPI要GG（15度背景透視消逝對齊）"
     },
     {
-      "id": "img_shot_2_1_3",
+      "id": "img_shot_2.1.3",
       "type": "image",
-      "path": "assets/images/shot_2_1_3.jpg",
+      "path": "assets/images/shot_2.1.3.jpg",
       "source_tool": "agent_native_image",
-      "scene_id": "shot_2_1_3",
+      "scene_id": "shot_2.1.3",
       "prompt": "3D Pixar animation style, warm studio rim lighting, 8k render.\n\n[Reference Roles & Spatial Hierarchy]:\n- Image 1 (PRIMARY 3D ANCHOR): Strictly governs the 3D camera angle (15-degree left turn), framing, and room depth. Background cafe depth and vanishing perspective must strictly align with Image 1.\n- Image 2: Character identity and attire for George.\n- Image 3 (STYLE & MATERIAL ONLY): Reference for cafe materials, color palette, and lighting style only. DO NOT copy its camera angle or flat backdrop.\n\n[Shot Synthesis & 3D Parallax]:\nRender shot 2.1.3 in a single unified 3D perspective strictly matching Image 1:\nGeorge (Image 2) sits at the table, placing a white coffee cup onto a saucer, looking across with a warm reassuring smile. The cafe background rotates coherently with the 15-degree camera orientation, creating realistic 3D depth and soft bokeh.",
       "resolution": "1376x768",
       "format": "jpg",
       "generation_summary": "clp: char_george, prop_coffee_cup, loc_coffee_shop | Agent Native R2I: George放下咖啡杯溫和微笑中景（15度左偏室內縱深對齊）"
     },
     {
-      "id": "img_shot_2_1_4",
+      "id": "img_shot_2.1.4",
       "type": "image",
-      "path": "assets/images/shot_2_1_4.jpg",
+      "path": "assets/images/shot_2.1.4.jpg",
       "source_tool": "agent_native_image",
-      "scene_id": "shot_2_1_4",
+      "scene_id": "shot_2.1.4",
       "prompt": "3D Pixar animation style, warm studio rim lighting, 8k render.\n\n[Reference Roles & Spatial Hierarchy]:\n- Image 1 (PRIMARY 3D ANCHOR): Strictly governs the 3D camera angle (45-degree right turn), close-up framing, and background spatial perspective. Background room vanishing lines must align with this diagonal view.\n- Image 2: Character identity and attire for Amy.\n- Image 3 (STYLE & MATERIAL ONLY): Reference for cafe materials, color palette, and lighting style only. DO NOT copy its camera angle or frontal layout.\n\n[Shot Synthesis & 3D Parallax]:\nRender shot 2.1.4 in a single unified 3D perspective strictly matching Image 1:\nAmy (Image 2) is shown in close-up with head tilted slightly, wide curious eyes and raised eyebrows in surprise and questioning reaction. The cafe background rotates coherently to match the 45-degree camera orientation, smoothly throwing background cafe lights and textures into soft bokeh.",
       "resolution": "1376x768",
       "format": "jpg",
       "generation_summary": "clp: char_amy, loc_coffee_shop | Agent Native R2I: Amy歪頭大眼好奇驚訝特寫（45度對角線吧台中島透視對齊）"
     },
     {
-      "id": "img_shot_2_1_5",
+      "id": "img_shot_2.1.5",
       "type": "image",
-      "path": "assets/images/shot_2_1_5.jpg",
+      "path": "assets/images/shot_2.1.5.jpg",
       "source_tool": "agent_native_image",
-      "scene_id": "shot_2_1_5",
+      "scene_id": "shot_2.1.5",
       "prompt": "3D Pixar animation style, warm studio rim lighting, 8k render.\n\n[Reference Roles & Spatial Hierarchy]:\n- Image 1 (PRIMARY 3D ANCHOR): Strictly governs the front eye-level 3D camera angle, close-up framing, and centered room depth. Background cafe depth and vanishing perspective must strictly align with Image 1.\n- Image 2: Character identity and attire for George.\n- Image 3 (STYLE & MATERIAL ONLY): Reference for cafe materials, color palette, and lighting style only. DO NOT copy its camera angle or flat backdrop.\n\n[Shot Synthesis & 3D Parallax]:\nRender shot 2.1.5 in a single unified 3D perspective strictly matching Image 1:\nGeorge (Image 2) sits at the table, raising his right hand with the index finger extended upward in a clear, confident instructional gesture, speaking warmly. The cafe interior background extends directly behind him with balanced, centered symmetrical perspective matching Image 1's depth.",
       "resolution": "1376x768",
       "format": "jpg",
@@ -419,15 +419,15 @@ George 已將咖啡杯放回杯碟。兩人的手自然停在桌邊，兩只咖�
 
 ## 2026-10-13 使用者確認採用
 
-依使用者本次逐檔指定更新 manifest：前五鏡沿用既有 id，第六鏡新增 `img_shot_2_1_6`。六張均為內建 image_gen／OpenAI，確切模型與費用未提供，相關選填欄位省略。prompt 沿用各版歷史；short 版本按原紀錄的圖片角色說明＋共用短指令＋該鏡完整短指令拼接，未改寫。實際尺寸皆為 1672×941 PNG。
+依使用者本次逐檔指定更新 manifest：前五鏡沿用既有 id，第六鏡新增 `img_shot_2.1.6`。六張均為內建 image_gen／OpenAI，確切模型與費用未提供，相關選填欄位省略。prompt 沿用各版歷史；short 版本按原紀錄的圖片角色說明＋共用短指令＋該鏡完整短指令拼接，未改寫。實際尺寸皆為 1672×941 PNG。
 
 | shot | 採用圖片 |
 |---|---|
-| 2.1.1 | [shot_2_1_1_gpt_template_v2.png](../assets/images/shot_2_1_1_gpt_template_v2.png) |
-| 2.1.2 | [shot_2_1_2_gpt_template_v1.png](../assets/images/shot_2_1_2_gpt_template_v1.png) |
-| 2.1.3 | [shot_2_1_3_short_v1.png](../assets/images/shot_2_1_3_short_v1.png) |
-| 2.1.4 | [shot_2_1_4_short_v2.png](../assets/images/shot_2_1_4_short_v2.png) |
-| 2.1.5 | [shot_2_1_5_short_v1.png](../assets/images/shot_2_1_5_short_v1.png) |
-| 2.1.6 | [shot_2_1_6_short_v1.png](../assets/images/shot_2_1_6_short_v1.png) |
+| 2.1.1 | [shot_2.1.1_gpt_template_v2.png](../assets/images/shot_2.1.1_gpt_template_v2.png) |
+| 2.1.2 | [shot_2.1.2_gpt_template_v1.png](../assets/images/shot_2.1.2_gpt_template_v1.png) |
+| 2.1.3 | [shot_2.1.3_short_v1.png](../assets/images/shot_2.1.3_short_v1.png) |
+| 2.1.4 | [shot_2.1.4_short_v2.png](../assets/images/shot_2.1.4_short_v2.png) |
+| 2.1.5 | [shot_2.1.5_short_v1.png](../assets/images/shot_2.1.5_short_v1.png) |
+| 2.1.6 | [shot_2.1.6_short_v1.png](../assets/images/shot_2.1.6_short_v1.png) |
 
 舊圖片與既有生成紀錄保留；專案沒有既有 checkpoint／partial_progress 可同步。本次只確認六張 shot image，不代表整個 assets 階段完成。

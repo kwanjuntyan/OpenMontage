@@ -3,9 +3,9 @@
   "style_playbook": "kj-esg-pixar-hybrid",
   "scenes": [
     {
-      "id": "shot_2_1_1",
+      "id": "shot_2.1.1",
       "type": "character_scene",
-      "script_section_id": "shot_2_1_1",
+      "script_section_id": "shot_2.1.1",
       "start_seconds": 119.98,
       "end_seconds": 124.98,
       "narrative_role": "introduce_subject",
@@ -78,9 +78,9 @@
       ]
     },
     {
-      "id": "shot_2_1_2",
+      "id": "shot_2.1.2",
       "type": "character_scene",
-      "script_section_id": "shot_2_1_2",
+      "script_section_id": "shot_2.1.2",
       "start_seconds": 124.98,
       "end_seconds": 132.32,
       "narrative_role": "emotional_beat",
@@ -137,9 +137,9 @@
       ]
     },
     {
-      "id": "shot_2_1_3",
+      "id": "shot_2.1.3",
       "type": "character_scene",
-      "script_section_id": "shot_2_1_3",
+      "script_section_id": "shot_2.1.3",
       "start_seconds": 132.32,
       "end_seconds": 144.74,
       "narrative_role": "deliver_payload",
@@ -208,9 +208,9 @@
       ]
     },
     {
-      "id": "shot_2_1_4",
+      "id": "shot_2.1.4",
       "type": "character_scene",
-      "script_section_id": "shot_2_1_4",
+      "script_section_id": "shot_2.1.4",
       "start_seconds": 144.74,
       "end_seconds": 146.4,
       "narrative_role": "emotional_beat",
@@ -261,9 +261,9 @@
       ]
     },
     {
-      "id": "shot_2_1_5",
+      "id": "shot_2.1.5",
       "type": "character_scene",
-      "script_section_id": "shot_2_1_5",
+      "script_section_id": "shot_2.1.5",
       "start_seconds": 146.4,
       "end_seconds": 152.88,
       "narrative_role": "comparison",
@@ -315,9 +315,9 @@
       ]
     },
     {
-      "id": "shot_2_1_6",
+      "id": "shot_2.1.6",
       "type": "character_scene",
-      "script_section_id": "shot_2_1_6",
+      "script_section_id": "shot_2.1.6",
       "start_seconds": 152.88,
       "end_seconds": 168.07,
       "narrative_role": "deliver_payload",
@@ -387,9 +387,9 @@
       "overlay_notes": "依原始劇本，George 說到 E、S、G 時在桌面中央依序出現三個大字，最後同時保留；使用清楚向量字卡，可加半透明底，避開兩側手部與杯碟。文字為後製圖層，不生成於桌面材質。"
     },
     {
-      "id": "shot_4_5_1",
+      "id": "shot_4.5.1",
       "type": "character_scene",
-      "script_section_id": "shot_4_5_1",
+      "script_section_id": "shot_4.5.1",
       "start_seconds": 1414.59,
       "end_seconds": 1424.49,
       "narrative_role": "establish_context",
@@ -445,15 +445,15 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "依 script.json 的 shot_4_5_1 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
+          "description": "依 script.json 的 shot_4.5.1 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
           "source": "generate"
         }
       ]
     },
     {
-      "id": "shot_4_5_2",
+      "id": "shot_4.5.2",
       "type": "character_scene",
-      "script_section_id": "shot_4_5_2",
+      "script_section_id": "shot_4.5.2",
       "start_seconds": 1424.49,
       "end_seconds": 1428.49,
       "narrative_role": "introduce_subject",
@@ -523,15 +523,15 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "依 script.json 的 shot_4_5_2 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
+          "description": "依 script.json 的 shot_4.5.2 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
           "source": "generate"
         }
       ]
     },
     {
-      "id": "shot_4_5_3",
+      "id": "shot_4.5.3",
       "type": "character_scene",
-      "script_section_id": "shot_4_5_3",
+      "script_section_id": "shot_4.5.3",
       "start_seconds": 1428.49,
       "end_seconds": 1440.87,
       "narrative_role": "deliver_payload",
@@ -593,15 +593,15 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "依 script.json 的 shot_4_5_3 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
+          "description": "依 script.json 的 shot_4.5.3 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
           "source": "generate"
         }
       ]
     },
     {
-      "id": "shot_4_5_4",
+      "id": "shot_4.5.4",
       "type": "character_scene",
-      "script_section_id": "shot_4_5_4",
+      "script_section_id": "shot_4.5.4",
       "start_seconds": 1440.87,
       "end_seconds": 1449.44,
       "narrative_role": "comparison",
@@ -658,15 +658,15 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "依 script.json 的 shot_4_5_4 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
+          "description": "依 script.json 的 shot_4.5.4 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
           "source": "generate"
         }
       ]
     },
     {
-      "id": "shot_4_5_5",
+      "id": "shot_4.5.5",
       "type": "character_scene",
-      "script_section_id": "shot_4_5_5",
+      "script_section_id": "shot_4.5.5",
       "start_seconds": 1449.44,
       "end_seconds": 1461.82,
       "narrative_role": "evidence",
@@ -723,15 +723,15 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "依 script.json 的 shot_4_5_5 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
+          "description": "依 script.json 的 shot_4.5.5 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
           "source": "generate"
         }
       ]
     },
     {
-      "id": "shot_4_5_6",
+      "id": "shot_4.5.6",
       "type": "character_scene",
-      "script_section_id": "shot_4_5_6",
+      "script_section_id": "shot_4.5.6",
       "start_seconds": 1461.82,
       "end_seconds": 1468.62,
       "narrative_role": "emotional_beat",
@@ -788,15 +788,15 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "依 script.json 的 shot_4_5_6 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
+          "description": "依 script.json 的 shot_4.5.6 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
           "source": "generate"
         }
       ]
     },
     {
-      "id": "shot_4_5_7",
+      "id": "shot_4.5.7",
       "type": "character_scene",
-      "script_section_id": "shot_4_5_7",
+      "script_section_id": "shot_4.5.7",
       "start_seconds": 1468.62,
       "end_seconds": 1475.46,
       "narrative_role": "resolution",
@@ -867,15 +867,15 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "依 script.json 的 shot_4_5_7 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
+          "description": "依 script.json 的 shot_4.5.7 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
           "source": "generate"
         }
       ]
     },
     {
-      "id": "shot_4_6_1",
+      "id": "shot_4.6.1",
       "type": "character_scene",
-      "script_section_id": "shot_4_6_1",
+      "script_section_id": "shot_4.6.1",
       "start_seconds": 1475.46,
       "end_seconds": 1479.2,
       "narrative_role": "establish_context",
@@ -932,15 +932,15 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4_6_1.text 與 delivery_cues；沿用 3.74 秒時間槽，實製前以同文音訊核驗，不刪句、不改詞。",
+          "description": "逐字使用 script.json 的 shot_4.6.1.text 與 delivery_cues；沿用 3.74 秒時間槽，實製前以同文音訊核驗，不刪句、不改詞。",
           "source": "generate"
         }
       ]
     },
     {
-      "id": "shot_4_6_2",
+      "id": "shot_4.6.2",
       "type": "character_scene",
-      "script_section_id": "shot_4_6_2",
+      "script_section_id": "shot_4.6.2",
       "start_seconds": 1479.2,
       "end_seconds": 1489.46,
       "narrative_role": "introduce_subject",
@@ -1017,15 +1017,15 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4_6_2.text 與 delivery_cues；沿用 10.26 秒時間槽，保留全部標語及問句，實製前核驗同文音訊與口型。",
+          "description": "逐字使用 script.json 的 shot_4.6.2.text 與 delivery_cues；沿用 10.26 秒時間槽，保留全部標語及問句，實製前核驗同文音訊與口型。",
           "source": "generate"
         }
       ]
     },
     {
-      "id": "shot_4_6_3",
+      "id": "shot_4.6.3",
       "type": "character_scene",
-      "script_section_id": "shot_4_6_3",
+      "script_section_id": "shot_4.6.3",
       "start_seconds": 1489.46,
       "end_seconds": 1495.44,
       "narrative_role": "build_tension",
@@ -1089,15 +1089,15 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4_6_3.text 與 delivery_cues；沿用 5.98 秒時間槽，包含 Greenwashing 的原句須先核驗同文音訊時長，不刪字或強制加速以塞入。",
+          "description": "逐字使用 script.json 的 shot_4.6.3.text 與 delivery_cues；沿用 5.98 秒時間槽，包含 Greenwashing 的原句須先核驗同文音訊時長，不刪字或強制加速以塞入。",
           "source": "generate"
         }
       ]
     },
     {
-      "id": "shot_4_6_4",
+      "id": "shot_4.6.4",
       "type": "character_scene",
-      "script_section_id": "shot_4_6_4",
+      "script_section_id": "shot_4.6.4",
       "start_seconds": 1495.44,
       "end_seconds": 1497.71,
       "narrative_role": "emotional_beat",
@@ -1155,15 +1155,15 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4_6_4.text 與 delivery_cues；沿用 2.27 秒時間槽，完整保留兩個疑問句。",
+          "description": "逐字使用 script.json 的 shot_4.6.4.text 與 delivery_cues；沿用 2.27 秒時間槽，完整保留兩個疑問句。",
           "source": "generate"
         }
       ]
     },
     {
-      "id": "shot_4_6_5",
+      "id": "shot_4.6.5",
       "type": "animation",
-      "script_section_id": "shot_4_6_5",
+      "script_section_id": "shot_4.6.5",
       "start_seconds": 1497.71,
       "end_seconds": 1504.84,
       "narrative_role": "deliver_payload",
@@ -1208,15 +1208,15 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4_6_5.text 與 delivery_cues 作 Amy 畫外音；沿用 7.13 秒時間槽，以同文音訊決定動畫節點，不增加解說。",
+          "description": "逐字使用 script.json 的 shot_4.6.5.text 與 delivery_cues 作 Amy 畫外音；沿用 7.13 秒時間槽，以同文音訊決定動畫節點，不增加解說。",
           "source": "generate"
         }
       ]
     },
     {
-      "id": "shot_4_6_6",
+      "id": "shot_4.6.6",
       "type": "character_scene",
-      "script_section_id": "shot_4_6_6",
+      "script_section_id": "shot_4.6.6",
       "start_seconds": 1504.84,
       "end_seconds": 1507.86,
       "narrative_role": "emotional_beat",
@@ -1273,15 +1273,15 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4_6_6.text 與 delivery_cues；沿用 3.02 秒時間槽，先核驗小聲委屈表演的實際時長，不用加速抵銷情緒停頓。",
+          "description": "逐字使用 script.json 的 shot_4.6.6.text 與 delivery_cues；沿用 3.02 秒時間槽，先核驗小聲委屈表演的實際時長，不用加速抵銷情緒停頓。",
           "source": "generate"
         }
       ]
     },
     {
-      "id": "shot_4_6_7",
+      "id": "shot_4.6.7",
       "type": "character_scene",
-      "script_section_id": "shot_4_6_7",
+      "script_section_id": "shot_4.6.7",
       "start_seconds": 1507.86,
       "end_seconds": 1521.86,
       "narrative_role": "deliver_payload",
@@ -1346,15 +1346,15 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4_6_7.text 與 delivery_cues；保留原 14.00 秒時間槽與單一鏡號，不為生成時長限制拆句、刪詞或改寫。",
+          "description": "逐字使用 script.json 的 shot_4.6.7.text 與 delivery_cues；保留原 14.00 秒時間槽與單一鏡號，不為生成時長限制拆句、刪詞或改寫。",
           "source": "generate"
         }
       ]
     },
     {
-      "id": "shot_4_6_8",
+      "id": "shot_4.6.8",
       "type": "character_scene",
-      "script_section_id": "shot_4_6_8",
+      "script_section_id": "shot_4.6.8",
       "start_seconds": 1521.86,
       "end_seconds": 1531.76,
       "narrative_role": "resolution",
@@ -1424,15 +1424,15 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4_6_8.text 與 delivery_cues；沿用 9.90 秒時間槽，保留開頭遲疑、完整新標語及最後問句。",
+          "description": "逐字使用 script.json 的 shot_4.6.8.text 與 delivery_cues；沿用 9.90 秒時間槽，保留開頭遲疑、完整新標語及最後問句。",
           "source": "generate"
         }
       ]
     },
     {
-      "id": "shot_4_6_9",
+      "id": "shot_4.6.9",
       "type": "character_scene",
-      "script_section_id": "shot_4_6_9",
+      "script_section_id": "shot_4.6.9",
       "start_seconds": 1531.76,
       "end_seconds": 1544.29,
       "narrative_role": "evidence",
@@ -1489,15 +1489,15 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4_6_9.text 與 delivery_cues；沿用 12.53 秒時間槽，完整保留數據佐證條件與最後提醒，不自行校字。",
+          "description": "逐字使用 script.json 的 shot_4.6.9.text 與 delivery_cues；沿用 12.53 秒時間槽，完整保留數據佐證條件與最後提醒，不自行校字。",
           "source": "generate"
         }
       ]
     },
     {
-      "id": "shot_4_6_10",
+      "id": "shot_4.6.10",
       "type": "character_scene",
-      "script_section_id": "shot_4_6_10",
+      "script_section_id": "shot_4.6.10",
       "start_seconds": 1544.29,
       "end_seconds": 1554.91,
       "narrative_role": "resolution",
@@ -1555,7 +1555,7 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4_6_10.text 與 delivery_cues；沿用 10.62 秒時間槽，完整保留 G (Governance) 與結語。",
+          "description": "逐字使用 script.json 的 shot_4.6.10.text 與 delivery_cues；沿用 10.62 秒時間槽，完整保留 G (Governance) 與結語。",
           "source": "generate"
         }
       ]
@@ -1568,16 +1568,16 @@
       "director_mode": "Vlogger 自拍開場與收尾，接白板前對談及一段 Amy 畫外音動畫",
       "purpose": "依原稿呈現宣傳、實際投入與可驗證證據之間的界線，收束於公司治理的誠信原則。",
       "shot_ids": [
-        "shot_4_6_1",
-        "shot_4_6_2",
-        "shot_4_6_3",
-        "shot_4_6_4",
-        "shot_4_6_5",
-        "shot_4_6_6",
-        "shot_4_6_7",
-        "shot_4_6_8",
-        "shot_4_6_9",
-        "shot_4_6_10"
+        "shot_4.6.1",
+        "shot_4.6.2",
+        "shot_4.6.3",
+        "shot_4.6.4",
+        "shot_4.6.5",
+        "shot_4.6.6",
+        "shot_4.6.7",
+        "shot_4.6.8",
+        "shot_4.6.9",
+        "shot_4.6.10"
       ],
       "timing_basis": "逐鏡採 script.json 的 start_seconds／end_seconds：3.74／10.26／5.98／2.27／7.13／3.02／14.00／9.90／12.53／10.62 秒，1475.46～1554.91 秒，共 79.45 秒。",
       "dialogue_basis": "十鏡 dialogue 逐字採 script.json.sections[].text；說話者與主要動作依 speaker_directions，語氣、重音、停頓依 delivery_cues。保留全部中英文、標點、空格與原稿用字，包括 4.6.9 的「禁得起」，不改寫或新增台詞。",
@@ -1588,11 +1588,11 @@
       "camera_rule": "既有鏡位引用 2026-10-16 renders/blocks_blender 圖；46mm／62mm 等非 schema 枚舉焦距保留於 description，不另改 schema。4.6.1／4.6.8／4.6.10 的專用白模列 source=generate，不虛填現成路徑。",
       "prop_continuity": "小李從 4.6.2 持同一張海報，4.6.4／4.6.6 取景較緊時海報留畫外，4.6.8 靠在既有白板上塗改。Amy 在 4.6.3 拿出手機查證，4.6.7 仍持於低位，4.6.10 再舉起自拍。僅在台詞被提及的瓶子、毛毯、小陳與製程報告不因此入鏡。",
       "hero_frames": [
-        "shot_4_6_1：Amy 快步自拍介紹最後一站",
-        "shot_4_6_2：小李向 Amy 舉起原版海報",
-        "shot_4_6_5：誇大宣傳外殼掀開，露出小得多的實際投入",
-        "shot_4_6_8：小李在同一張海報上改寫文案，等待確認",
-        "shot_4_6_10：Amy 對自拍鏡頭誠懇總結"
+        "shot_4.6.1：Amy 快步自拍介紹最後一站",
+        "shot_4.6.2：小李向 Amy 舉起原版海報",
+        "shot_4.6.5：誇大宣傳外殼掀開，露出小得多的實際投入",
+        "shot_4.6.8：小李在同一張海報上改寫文案，等待確認",
+        "shot_4.6.10：Amy 對自拍鏡頭誠懇總結"
       ],
       "transition_rule": "鏡間均直接切換；4.6.5 以獨立動畫承接 Amy 畫外音，4.6.6 回到原對談位置。對談以固定機位與表演推進，自拍僅保留自然手持動態。",
       "overlays": [],
@@ -1604,22 +1604,22 @@
       "director_mode": "Vlogger 自拍開場，接廠務現場對談",
       "purpose": "展示第一線人員的貢獻",
       "shot_ids": [
-        "shot_4_5_1",
-        "shot_4_5_2",
-        "shot_4_5_3",
-        "shot_4_5_4",
-        "shot_4_5_5",
-        "shot_4_5_6",
-        "shot_4_5_7"
+        "shot_4.5.1",
+        "shot_4.5.2",
+        "shot_4.5.3",
+        "shot_4.5.4",
+        "shot_4.5.5",
+        "shot_4.5.6",
+        "shot_4.5.7"
       ],
       "timing_basis": "逐鏡採 script.json 的 start_seconds／end_seconds：9.90／4.00／12.38／8.57／12.38／6.80／6.84 秒，1414.59～1475.46 秒，共 60.87 秒；其他分鏡不變。",
       "dialogue_basis": "七鏡對白逐字採 script.json.sections[].text；動作依 speaker_directions，語氣／重音／停頓依 delivery_cues。使用者本次修正 Amy 不穿反光背心，保留黃色工安帽，已同步 script.json 的 4.5.1。",
       "audio_timing_note": "本次沿用 script.json 的時間槽；專案未找到本場對應音檔，尚未重新實測配音。實製時按相同台詞核驗時長與口型，不自行刪句或加速；4.5.3／4.5.5 各 12.38 秒超過風格建議 10 秒，優先保留指定鏡號與台詞。",
       "aspect_ratio_rule": "沿用專案 1920×1080／16:9／30fps；本輪引用的 Blender 白模均 1920×1080，保持人物比例與取景，不拉伸參考圖。",
       "hero_frames": [
-        "shot_4_5_1：Amy 戴黃色工安帽、不穿反光背心的廠務自拍開場",
-        "shot_4_5_4：標哥笑著比劃進出帳目，連結分類效益與 E",
-        "shot_4_5_7：Amy 對鏡頭雙手比讚，向第一線同仁致意"
+        "shot_4.5.1：Amy 戴黃色工安帽、不穿反光背心的廠務自拍開場",
+        "shot_4.5.4：標哥笑著比劃進出帳目，連結分類效益與 E",
+        "shot_4.5.7：Amy 對鏡頭雙手比讚，向第一線同仁致意"
       ],
       "transition_rule": "鏡間均直接切換；4.5.2 鏡內輕微向右轉向標哥，其餘對談以固定機位及人物表演支撐節奏。",
       "overlays": []

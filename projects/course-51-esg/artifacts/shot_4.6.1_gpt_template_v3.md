@@ -7,7 +7,7 @@
 - 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/cameras/empty_gpt_s06_amy_medium_close_up.png
 - 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/blocks_blender_s06_amy_medium_close_up.png
 - 圖 3：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg
-- 輸出：../assets/images/shot_4_6_1_gpt_template_v3.png
+- 輸出：../assets/images/shot_4.6.1_gpt_template_v3.png
 - 原生來源：C:/Users/servi/.codex/generated_images/01a14365-4ddb-7872-9254-b032d636e172/exec-21d907ac-f69b-4a48-804b-dbb1905977ce.png
 - 尺寸：1672×941 RGB PNG，接近但非精確 16:9；未放大或裁切。
 - 檢視：灰色人物白模軀幹、手臂及手部不再殘留；Amy 的自然上身、服裝、手臂與開朗說話表情成立，無自拍／手機／字幕。但 blocks 右下角原可見手部被裁掉，頭頂留白減少，背景白板左邊界向右偏移，仍未完全符合原構圖與可見範圍，未宣稱整鏡驗收通過。
