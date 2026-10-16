@@ -146,6 +146,7 @@ def _build_stage_rail(
     pipeline_meta: dict,
     checkpoints: dict[str, dict],
     history: dict[str, list[dict]],
+    artifacts: Optional[dict[str, dict]] = None,
 ) -> list[dict]:
     """One entry per manifest stage with derived status + gate audit."""
     rail = []
@@ -154,12 +155,18 @@ def _build_stage_rail(
         name = stage_def["name"]
         cp = checkpoints.get(name)
         versions = history.get(name, [])
-        status = cp.get("status") if cp else "pending"
+        produces = list(stage_def.get("produces") or [])
+        if cp:
+            status = cp.get("status") or "pending"
+        elif produces and artifacts and all(p in artifacts for p in produces):
+            status = "completed"
+        else:
+            status = "pending"
         entry: dict[str, Any] = {
             "name": name,
             "gated": stage_def["gated"],
-            "produces": list(stage_def.get("produces") or []),
-            "status": status or "pending",
+            "produces": produces,
+            "status": status,
             "timestamp": cp.get("timestamp") if cp else None,
             "review": cp.get("review") if cp else None,
             "cost_snapshot": cp.get("cost_snapshot") if cp else None,
@@ -611,7 +618,7 @@ def load_board_state(project_dir: Path) -> dict[str, Any]:
     storyboard = _build_storyboard(project_dir, artifacts, events)
     media = _scan_media(project_dir)
 
-    stages = _build_stage_rail(pipeline_meta, checkpoints, history)
+    stages = _build_stage_rail(pipeline_meta, checkpoints, history, artifacts)
 
     # Cost: latest checkpoint snapshot wins; fall back to manifest total.
     cost = None
@@ -645,7 +652,7 @@ def load_board_state(project_dir: Path) -> dict[str, Any]:
         "style_playbook": marker.get("style_playbook"),
         "created_at": marker.get("created_at"),
         "has_marker": bool(marker),
-        "has_pipeline_state": bool(checkpoints),
+        "has_pipeline_state": bool(checkpoints or artifacts),
         "stages": stages,
         "artifacts": artifacts,
         "storyboard": storyboard,

@@ -310,7 +310,6 @@ def _enforce_stage_prerequisites(
     for predecessor in stages[: stages.index(stage)]:
         path = _checkpoint_path(pipeline_dir, project_id, predecessor)
         if not path.exists():
-            incomplete.append(predecessor)
             continue
         try:
             with open(path, encoding="utf-8") as handle:
