@@ -1,0 +1,57 @@
+{
+  "version": "1.0",
+  "style_playbook": "kj-pixar-fairytale",
+  "entities": [
+    {
+      "id": "frog",
+      "type": "character",
+      "name": "青蛙 (Frog)",
+      "description": "翠綠色圓潤身形、大而明亮的琥珀色雙眼、表情豐富可愛、穿著苔蘚編織的小背心（皮克斯 3D 質感，溫暖親切）。",
+      "reference_images": [
+        "clp/frog.png"
+      ],
+      "source": "generated",
+      "appears_in": [
+        "shot_1.1.1",
+        "shot_1.1.2",
+        "shot_1.1.3",
+        "shot_1.1.4"
+      ],
+      "prompt_used": "3D Pixar animation style, highly detailed 3D render, expressive stylized character design, warm storybook cinematic lighting, Octane render, 8k, character reference sheet, front / three-quarter / side views, full body, neutral pose, plain light-grey background, cute emerald-green frog, big expressive amber eyes, wearing a tiny moss vest. Avoid: photorealistic, live-action, 2D flat, lowpoly, distorted anatomy, ugly, dark horror"
+    },
+    {
+      "id": "scorpion",
+      "type": "character",
+      "name": "蝎子 (Scorpion)",
+      "description": "琥珀紅橙色半透明甲殼、好奇又帶點狡黠的大眼睛、帶有微光尖銳毒針的分節尾巴、精緻的小螯（皮克斯 3D 質感，具童話反差萌與危險感）。",
+      "reference_images": [
+        "clp/scorpion.png"
+      ],
+      "source": "generated",
+      "appears_in": [
+        "shot_1.1.1",
+        "shot_1.1.2",
+        "shot_1.1.3",
+        "shot_1.1.4"
+      ],
+      "prompt_used": "3D Pixar animation style, highly detailed 3D render, expressive stylized character design, warm storybook cinematic lighting, Octane render, 8k, character reference sheet, front / three-quarter / side views, full body, neutral pose, plain light-grey background, cute friendly yet mischievous scorpion, warm translucent amber-orange exoskeleton, big expressive curious eyes, curved segmented tail with glowing golden stinger, delicate claws. Avoid: photorealistic, live-action, 2D flat, lowpoly, distorted anatomy, ugly, dark horror"
+    },
+    {
+      "id": "stream",
+      "type": "location",
+      "name": "森林溪流 (Enchanted Stream)",
+      "description": "童話森林邊緣的清澈急流，陽光透過林蔭灑在波光粼粼的水面，河岸有長滿青苔的圓石與水草，水底有漸層光影。",
+      "reference_images": [
+        "clp/stream.png"
+      ],
+      "source": "generated",
+      "appears_in": [
+        "shot_1.1.1",
+        "shot_1.1.2",
+        "shot_1.1.3",
+        "shot_1.1.4"
+      ],
+      "prompt_used": "3D Pixar animation style, highly detailed 3D render, expressive stylized character design, warm storybook cinematic lighting, Octane render, 8k, wide establishing shot, empty of people, clear layout, lush enchanted fairytale riverbank, sparkling crystal clear sunlit stream with gentle ripples, mossy river rocks, soft dappled sunlight through canopy, vibrant nature. Avoid: photorealistic, live-action, 2D flat, lowpoly, distorted anatomy, ugly, dark horror"
+    }
+  ]
+}

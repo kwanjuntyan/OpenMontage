@@ -993,7 +993,7 @@
     {
       "id": "shot_2.3.3",
       "label": "第2幕 · 場景2.3．風格咖啡館．日 · shot_2.3.3",
-      "text": "早在2004年，聯合國就在一份叫做《Who Cares Wins》的報告裡，呼籲全球的投資機構，應該把企業是否符合ESG，也納入評估指標之一。從此之後，做好事的企業，例如省碳的企業，就比較容易募到錢。而企業做好事，也就有了「資本價值」。\\",
+      "text": "早在2004年，聯合國就在一份叫做《Who Cares Wins》的報告裡，呼籲全球的投資機構，應該把企業是否符合ESG，也納入評估指標之一。從此之後，做好事的企業，例如省碳的企業，就比較容易募到錢。而企業做好事，也就有了「資本價值」。",
       "start_seconds": 368.11,
       "end_seconds": 390.25,
       "speaker_directions": "George（畫外音）",
@@ -1618,34 +1618,18 @@
       }
     },
     {
-      "id": "shot_3.1.1a",
-      "label": "第3幕 · 場景3.1．新潮咖啡館．日 - 行動地圖五步驟 · shot_3.1.1a",
-      "text": "顧問，這是我專門幫您泡的咖啡，請您嚐嚐！",
+      "id": "shot_3.1.1",
+      "label": "第3幕 · 場景3.1．新潮咖啡館．日 - 行動地圖五步驟 · shot_3.1.1",
+      "text": "顧問，這是我專門幫您泡的咖啡，請您嚐嚐！ 呵呵，你又有什麼疑難雜症了？就直說吧！",
       "start_seconds": 759.87,
-      "end_seconds": 763.94,
-      "speaker_directions": "Amy（熱情端上咖啡，帶著討好期待神情）",
+      "end_seconds": 768.01,
+      "speaker_directions": "Amy（熱情端上咖啡，帶著討好期待神情）；George（接過咖啡輕啜，看穿對方心思般呵呵笑）",
       "delivery_cues": {
         "pace": "conversational",
         "energy": "friendly, eager",
         "emphasis_words": [
           "專門",
-          "咖啡"
-        ],
-        "pause_before_seconds": 0.1,
-        "pause_after_seconds": 0.3
-      }
-    },
-    {
-      "id": "shot_3.1.1b",
-      "label": "第3幕 · 場景3.1．新潮咖啡館．日 - 行動地圖五步驟 · shot_3.1.1b",
-      "text": "呵呵，你又有什麼疑難雜症了？就直說吧！",
-      "start_seconds": 763.94,
-      "end_seconds": 768.01,
-      "speaker_directions": "George（接過咖啡輕啜，看穿對方心思般呵呵笑）",
-      "delivery_cues": {
-        "pace": "conversational",
-        "energy": "amused, warm mentor",
-        "emphasis_words": [
+          "咖啡",
           "疑難雜症",
           "直說"
         ],
@@ -1672,34 +1656,18 @@
       }
     },
     {
-      "id": "shot_3.1.3a",
-      "label": "第3幕 · 場景3.1．新潮咖啡館．日 - 行動地圖五步驟 · shot_3.1.3a",
-      "text": "要推動ESG啊？一杯咖啡可能不夠啊！",
+      "id": "shot_3.1.3",
+      "label": "第3幕 · 場景3.1．新潮咖啡館．日 - 行動地圖五步驟 · shot_3.1.3",
+      "text": "要推動ESG啊？一杯咖啡可能不夠啊！ 沒問題，下次我請您吃飯，您就教教我吧！",
       "start_seconds": 775.03,
-      "end_seconds": 778.97,
-      "speaker_directions": "George（放下咖啡杯，帶著幽默調侃笑意）",
+      "end_seconds": 782.91,
+      "speaker_directions": "George（放下咖啡杯，帶著幽默調侃笑意）；Amy（急忙連忙點頭，打蛇隨棍上）",
       "delivery_cues": {
         "pace": "conversational",
         "energy": "humorous, teasing",
         "emphasis_words": [
           "一杯咖啡",
-          "不夠"
-        ],
-        "pause_before_seconds": 0.1,
-        "pause_after_seconds": 0.3
-      }
-    },
-    {
-      "id": "shot_3.1.3b",
-      "label": "第3幕 · 場景3.1．新潮咖啡館．日 - 行動地圖五步驟 · shot_3.1.3b",
-      "text": "沒問題，下次我請您吃飯，您就教教我吧！",
-      "start_seconds": 778.97,
-      "end_seconds": 782.91,
-      "speaker_directions": "Amy（急忙連忙點頭，打蛇隨棍上）",
-      "delivery_cues": {
-        "pace": "conversational",
-        "energy": "enthusiastic, eager",
-        "emphasis_words": [
+          "不夠",
           "請您吃飯",
           "教教我"
         ],
@@ -3807,10 +3775,10 @@
     {
       "id": "shot_5.2.4",
       "label": "第5幕 · 場景5.2．海外投資機構會議室．日 · shot_5.2.4",
-      "text": "(沉默片刻，抬起頭，嘴角勾起一抹幾乎無法察覺的微笑。)",
+      "text": "Risk is not attractive.",
       "start_seconds": 1616.6,
       "end_seconds": 1618.11,
-      "speaker_directions": "哈里森先生（沉默良久，緩緩抬起頭，嘴角揚起一抹極微但意味深長的笑意）（原作指示：Risk is not attractive.）",
+      "speaker_directions": "哈里森先生（沉默良久，緩緩抬起頭，嘴角揚起一抹極微但意味深長的笑意）（原作指示：沉默片刻，抬起頭，嘴角勾起一抹幾乎無法察覺的微笑。）",
       "delivery_cues": {
         "pace": "measured",
         "energy": "calm, deliberate authority",

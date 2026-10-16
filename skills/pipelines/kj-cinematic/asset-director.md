@@ -14,13 +14,14 @@
 
 ## 1. 音訊先行
 
-1. 有台詞／旁白時，先把 script 段落與鏡頭對上；優先沿用已核准錄音。沒有語音需求的鏡頭略過 TTS。
-2. 缺少錄音才使用 `tts_selector`；保留角色 Voice ID、已核准 baseline、語速與 delivery_cues。動作括號是表演指令，不讀成台詞；provider_text 依相應工具格式傳入。
-3. Google TTS 使用 Vertex AI＋`GOOGLE_APPLICATION_CREDENTIALS` 服務帳戶 JSON／global；其他聲音依既有工具及專案選擇，不在本檔重建音訊 adapter。
-4. 用 ffprobe 取得實際秒數，記入音訊 asset 的 `duration_seconds`；先對齊台詞、停頓、動作，再安排影片時長。超出核准鏡頭時回報並調整 scene_plan，不偷偷加速或刪台詞。
-5. BGM 優先既有音軌／`music_library`，需要檢索時用 `pixabay_music`／`freesound_music`；付費生成依核准選擇使用 `music_gen`。SFX 同樣先找已有素材。
-6. 在 manifest 的 `metadata.music_plan`／`metadata.ambience_plan` 記錄音軌用途、對應鏡頭、進出點與來源授權；混音留給 compose。需要字幕才使用 `subtitle_gen`。
-7. 影片原生音訊不得默默取代已核准台詞；有對嘴需求時明確交代採用方法，首幀或參考圖本身不保證對嘴。
+1. 有台詞／旁白時，先把 script 段落與鏡頭對上；所有對白音檔（預錄匯入與 TTS 生成）統一存於 `projects/<project-id>/assets/audio/`，並登記於 `artifacts/asset_manifest.json`（`type: "narration"`、`scene_id: "shot_<鏡頭編號>"`）。優先沿用已核准錄音；沒有語音需求的鏡頭略過 TTS。
+2. **音檔命名與採用**：預錄匯入音檔因一鏡只有唯一正本，命名為 `shot_<鏡頭編號>.<實際格式>`（例如 `assets/audio/shot_2.1.1.mp3`，`source_tool: "imported"`）；TTS 生成音檔命名為 `shot_<鏡頭編號>_<生成來源>_v<版本號>.<實際格式>`（例如 `assets/audio/shot_2.1.1_minimax_v1.wav`），同一鏡頭的多個候選版本保留於 `assets/audio/`，但 `artifacts/asset_manifest.json` 每個鏡頭只指向唯一確認採用的版本。
+3. 缺少錄音才使用 `tts_selector`；保留角色 Voice ID、已核准 baseline、語速與 delivery_cues。動作括號是表演指令，不讀成台詞；provider_text 依相應工具格式傳入。
+4. Google TTS 使用 Vertex AI＋`GOOGLE_APPLICATION_CREDENTIALS` 服務帳戶 JSON／global；其他聲音依既有工具及專案選擇，不在本檔重建音訊 adapter。
+5. 用 ffprobe 取得實際秒數，記入音訊 asset 的 `duration_seconds`；先對齊台詞、停頓、動作，再安排影片時長。超出核准鏡頭時回報並調整 scene_plan，不偷偷加速或刪台詞。
+6. BGM 優先既有音軌／`music_library`，需要檢索時用 `pixabay_music`／`freesound_music`；付費生成依核准選擇使用 `music_gen`。SFX 同樣先找已有素材。
+7. 在 manifest 的 `metadata.music_plan`／`metadata.ambience_plan` 記錄音軌用途、對應鏡頭、進出點與來源授權；混音留給 compose。需要字幕才使用 `subtitle_gen`。
+8. 影片原生音訊不得默默取代已核准台詞；有對嘴需求時明確交代採用方法，首幀或參考圖本身不保證對嘴。
 
 ## 2. 視覺裝配與分流
 

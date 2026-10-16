@@ -21,10 +21,10 @@
           ],
           "source": "generated",
           "appears_in": [
-            "s01",
-            "s02",
-            "s03",
-            "s04"
+            "shot_1.1.1",
+            "shot_1.1.2",
+            "shot_1.1.3",
+            "shot_1.1.4"
           ],
           "prompt_used": "3D Pixar animation style, highly detailed 3D render, expressive stylized character design, warm storybook cinematic lighting, Octane render, 8k, character reference sheet, front / three-quarter / side views, full body, neutral pose, plain light-grey background, cute emerald-green frog, big expressive amber eyes, wearing a tiny moss vest. Avoid: photorealistic, live-action, 2D flat, lowpoly, distorted anatomy, ugly, dark horror"
         },
@@ -38,10 +38,10 @@
           ],
           "source": "generated",
           "appears_in": [
-            "s01",
-            "s02",
-            "s03",
-            "s04"
+            "shot_1.1.1",
+            "shot_1.1.2",
+            "shot_1.1.3",
+            "shot_1.1.4"
           ],
           "prompt_used": "3D Pixar animation style, highly detailed 3D render, expressive stylized character design, warm storybook cinematic lighting, Octane render, 8k, character reference sheet, front / three-quarter / side views, full body, neutral pose, plain light-grey background, cute friendly yet mischievous scorpion, warm translucent amber-orange exoskeleton, big expressive curious eyes, curved segmented tail with glowing golden stinger, delicate claws. Avoid: photorealistic, live-action, 2D flat, lowpoly, distorted anatomy, ugly, dark horror"
         },
@@ -55,10 +55,10 @@
           ],
           "source": "generated",
           "appears_in": [
-            "s01",
-            "s02",
-            "s03",
-            "s04"
+            "shot_1.1.1",
+            "shot_1.1.2",
+            "shot_1.1.3",
+            "shot_1.1.4"
           ],
           "prompt_used": "3D Pixar animation style, highly detailed 3D render, expressive stylized character design, warm storybook cinematic lighting, Octane render, 8k, wide establishing shot, empty of people, clear layout, lush enchanted fairytale riverbank, sparkling crystal clear sunlit stream with gentle ripples, mossy river rocks, soft dappled sunlight through canopy, vibrant nature. Avoid: photorealistic, live-action, 2D flat, lowpoly, distorted anatomy, ugly, dark horror"
         }

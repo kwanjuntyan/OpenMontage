@@ -11,7 +11,7 @@
 - **`kj-cinematic` pipeline**：[`pipeline_defs/kj-cinematic.yaml`](../pipeline_defs/kj-cinematic.yaml)（在 `script` 與 `scene_plan` 間加入 `clp` 階段，產出 `clp_manifest`）。
   - Schema：`schemas/artifacts/clp_manifest.schema.json`；`schemas/artifacts/scene_plan.schema.json` 擴充 `render_stages`（枚舉 `T2I/I2I/R2I/W2I/T2V/I2V/R2V/W2V`）。
   - Checkpoint／Backlot：`lib/checkpoint.py` 與 `backlot/state.py` 已註冊 `clp` 階段與 `clp_manifest.json`、支援中途切入專案並由 `artifacts/` 自動推導看板階段完成狀態；`backlot/ui/board.js` 支援小數點分鏡號 `shot_2.1.1` 顯示（2026-10-16 A1/A3/B5 完成）。
-  - Skills：`skills/pipelines/kj-cinematic/clp-director.md`、`scene-director.md`（含對白逐字忠於原稿、動作括號拆離對白與 `shot_2.1.1` 編號規範）、`asset-director.md`（音訊先行＋模態調度＋4.1 圖片版本與採用規範）與 `prompt-recipes.md`（由 `scripts/read_prompt_recipe.py <模態>` 按章節讀取；`T2V/I2V/R2V/W2V` 強制於 Prompt 正文明寫 `影片長度 [N] 秒`）。
+  - Skills：`skills/pipelines/kj-cinematic/clp-director.md`、`scene-director.md`（含對白逐字忠於原稿、動作括號拆離對白與 `shot_2.1.1` 編號規範）、`asset-director.md`（音訊先行統一存 `assets/audio/` 並登記於 `asset_manifest.json`、預錄採 `shot_<編號>.<格式>`／TTS 採 `shot_<編號>_<來源>_v<版本號>.<格式>`＋4.1 圖片版本與採用規範）與 `prompt-recipes.md`（由 `scripts/read_prompt_recipe.py <模態>` 按章節讀取；`T2V/I2V/R2V/W2V` 強制於 Prompt 正文明寫 `影片長度 [N] 秒`）。
   - 自訂風格：`styles/custom/kj-esg-pixar-hybrid.yaml`、`kj-pixar-fairytale.yaml`、`kj-vox-paper-collage.yaml`。
 - **Google 模型（固定預設 Vertex AI＋`GOOGLE_APPLICATION_CREDENTIALS` 服務帳戶 JSON，不 fallback API key）**：
   - **圖片（`google_imagen`）**：`gemini-3*` 與 `gemini-nano-banana-2.1` 自動走 `global`；支援 `generation_mode="edit"`、`1K/2K/4K`、`thinking_level`（`MINIMAL/MEDIUM/HIGH`）、15 種 `aspect_ratio`、最多 14 張 `image_paths` 及 `media_paths`（本機或 `gs://` 影片／PDF，已接通 `image_selector`／`provider_routing` 過濾）與 `video_metadata`。
@@ -21,10 +21,10 @@
 
 ## 專案製作進度摘要（詳見 [`docs/kj-lean-history.md`](kj-lean-history.md)）
 - **`course-51-esg`**：
-  - 全五幕劇本（222 分鏡／1,631.62 秒真實錄音校準，台詞已逐字對齊 `master_script.md` 並拆離動作括號）、`artifacts/clp_manifest.json`（33 件角色／場景／道具）與分鏡／圖檔編號已全面統一為小數點格式（如 `shot_2.1.1`），全數通過 schema 驗證。
+  - 全五幕劇本（220 分鏡／1,631.62 秒真實錄音校準，台詞已逐字對齊 `master_script.md` 並拆離動作括號）、`artifacts/clp_manifest.json`（33 件角色／場景／道具）、分鏡／圖檔編號已全面統一為小數點格式（如 `shot_2.1.1`），且 218 個預錄對白音檔已統一移入 `assets/audio/shot_X.Y.Z.mp3` 並全數登記於 `artifacts/asset_manifest.json`（全數通過 schema 驗證）。
   - 已建置 5 組 Blender 場景包（`references/scenes/` 下的 `coffee_shop`、`investment_office`、`admin_office`、`marketing_department`、`factory_affairs`），完成機位、藍紅定位人物 blocks 與材質／細節精修渲染。
   - 場景 2.1（咖啡館六鏡 `shot_2.1.1`～`2.1.6`）已完成九鏡重設（SH02/06/03/08/07/09）、W2I 新模板更新及多輪 GPT／Nano Banana 2.1 生成；目前確認採用版本登記於 `artifacts/asset_manifest.json`，全部 46 張試圖與完整 prompt 索引於 `artifacts/image_generation_history.md`。
-- **`fairytale-01-frog-and-scorpion`**：以 `kj-cinematic` 完成 Gemini 3.8 TTS 旁白、CLP 3 實體、4 張皮克斯分鏡圖，並完成 FFmpeg 平滑版與 HyperFrames 成品版（`renders/frog_and_scorpion_hyperframes.mp4`，1080p/30fps/40.1s，含右側常駐階梯式磨砂字幕欄）。
+- **`fairytale-01-frog-and-scorpion`**：以 `kj-cinematic` 完成 Gemini 3.8 TTS 旁白（`assets/audio/shot_1.1.1_gemini_v1.wav`～`1.1.4`）、CLP 3 實體（`artifacts/clp_manifest.json`）、4 張皮克斯分鏡圖（`assets/images/shot_1.1.1_native_v1.jpg`～`1.1.4`），全數對齊統一編號／命名規則並通過 6 項 artifact schema 驗證，完成 FFmpeg 平滑版與 HyperFrames 成品版（`renders/frog_and_scorpion_hyperframes.mp4`，1080p/30fps/40.1s，含右側常駐階梯式磨砂字幕欄）。
 
 ## 踩過的坑（核心結論）
 - **Blender 場景與白模**：原檔多為 Workbench，切 Cycles 才顯示材質；開啟子集合人物（如 `12 v008...`）須同時確認母集合 `07 People` 未設 `hide_render`。全景檢查需暫時解除 timeline camera marker 綁定。修改道具／鋼架尺度須以模型公尺實測並重貼掛板、檢查前後排深度與覆蓋率。

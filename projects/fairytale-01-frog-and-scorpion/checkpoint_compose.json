@@ -1,19 +1,24 @@
 {
   "version": "1.0",
+  "project_id": "fairytale-01-frog-and-scorpion",
+  "pipeline_type": "kj-cinematic",
   "stage": "compose",
   "status": "completed",
   "human_approved": true,
   "artifacts": {
     "render_report": {
       "version": "1.0",
-      "output_file": "projects\\fairytale-01-frog-and-scorpion\\renders\\frog_and_scorpion.mp4",
-      "total_duration_seconds": 40.08,
-      "resolution": "1920x1080",
-      "fps": 24,
-      "format": "mp4",
-      "scenes_count": 4,
-      "render_runtime": "ffmpeg",
-      "status": "completed"
+      "outputs": [
+        {
+          "path": "renders/frog_and_scorpion_hyperframes.mp4",
+          "format": "mp4",
+          "resolution": "1920x1080",
+          "fps": 30,
+          "duration_seconds": 40.1
+        }
+      ],
+      "render_time_seconds": 119.1,
+      "render_grammar": "cinematic-trailer"
     }
   }
 }

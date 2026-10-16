@@ -1,24 +1,24 @@
 {
   "version": "1.0",
   "title": "青蛙與蝎子",
-  "total_duration_seconds": 30.0,
+  "total_duration_seconds": 40.08,
   "voice_performance": {
     "performance_intent": "童話說書人風格，具戲劇張力與寓意深遠的收尾",
     "pacing_profile": "cinematic",
     "energy_curve": "由好奇說服、平穩過渡、轉折驚駭、最終沉靜嘆息",
     "pause_policy": "句間微停頓 0.3 秒，強化轉折與情緒",
-    "sample_section_id": "s03",
+    "sample_section_id": "shot_1.1.3",
     "provider_notes": {
       "google_tts": "gemini-3.8-flash-tts，繁體中文，溫暖且富感情的旁白聲線"
     }
   },
   "sections": [
     {
-      "id": "s01",
+      "id": "shot_1.1.1",
       "label": "河岸相遇與懇求",
       "text": "湍急的河岸邊，蝎子懇求青蛙背牠過河。「你會螫我！」「傻瓜，螫了你，我也會淹死呀。」",
       "start_seconds": 0.0,
-      "end_seconds": 7.5,
+      "end_seconds": 11.28,
       "speaker_directions": "說書人語調，蝎子誠懇、青蛙疑惑警惕",
       "delivery_cues": {
         "pace": "measured",
@@ -28,11 +28,11 @@
       }
     },
     {
-      "id": "s02",
+      "id": "shot_1.1.2",
       "label": "渡河與信任",
       "text": "青蛙信了。牠背起蝎子，在波光粼粼的溪流中奮力游向對岸。",
-      "start_seconds": 7.5,
-      "end_seconds": 15.0,
+      "start_seconds": 11.28,
+      "end_seconds": 19.04,
       "speaker_directions": "平和輕快，充滿希望",
       "delivery_cues": {
         "pace": "conversational",
@@ -42,11 +42,11 @@
       }
     },
     {
-      "id": "s03",
+      "id": "shot_1.1.3",
       "label": "致命一擊與背叛",
       "text": "游到河中央，蝎子尾巴猛然一揚，毒針狠狠刺入！「為什麼？我們都會淹死啊！」",
-      "start_seconds": 15.0,
-      "end_seconds": 22.5,
+      "start_seconds": 19.04,
+      "end_seconds": 28.72,
       "speaker_directions": "突然急促，轉折震驚，青蛙劇痛不解",
       "delivery_cues": {
         "pace": "brisk",
@@ -56,11 +56,11 @@
       }
     },
     {
-      "id": "s04",
+      "id": "shot_1.1.4",
       "label": "沉沒與本性",
       "text": "毒性蔓延，兩者緩緩沉入河底。蝎子無奈嘆息：「對不起……這就是我的本性。」",
-      "start_seconds": 22.5,
-      "end_seconds": 30.0,
+      "start_seconds": 28.72,
+      "end_seconds": 40.08,
       "speaker_directions": "低沉平緩，水底空靈感，帶點命運的無奈",
       "delivery_cues": {
         "pace": "slow",

@@ -74,6 +74,11 @@
           "description": "SH02 雙人中景（40mm），George 左、Amy 右對坐，桌面與雙方手部可見。 背景依本空景，人物位置比例依 metadata 同機位 blocks。",
           "source": "provided",
           "path": "references/scenes/coffee_shop/cameras/empty_banana_s02_medium_two_shot.png"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "預錄對白音檔 assets/audio/shot_2.1.1.mp3（5.00 秒），與 script.json 的 shot_2.1.1.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -133,6 +138,11 @@
           "description": "SH06 Amy 中特寫（65mm），微側取景，咖啡機與木牆背景，George 只留左下角局部前景。 背景依本空景，人物位置比例依 metadata 同機位 blocks。",
           "source": "provided",
           "path": "references/scenes/coffee_shop/cameras/empty_banana_s06_amy_medium_close_up.png"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "預錄對白音檔 assets/audio/shot_2.1.2.mp3（7.34 秒），與 script.json 的 shot_2.1.2.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -204,6 +214,11 @@
           "description": "白色陶瓷咖啡杯",
           "source": "provided",
           "clp_id": "prop_coffee_cup"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "預錄對白音檔 assets/audio/shot_2.1.3.mp3（12.42 秒），與 script.json 的 shot_2.1.3.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -257,6 +272,11 @@
           "description": "SH08 Amy 臉部特寫（100mm），一人頭肩，咖啡機與木牆背景，手與桌面在畫外。 背景依本空景，人物位置比例依 metadata 同機位 blocks。",
           "source": "provided",
           "path": "references/scenes/coffee_shop/cameras/empty_banana_s08_amy_close_up.png"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "預錄對白音檔 assets/audio/shot_2.1.4.mp3（1.66 秒），與 script.json 的 shot_2.1.4.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -311,6 +331,11 @@
           "description": "SH07 George 臉部特寫（100mm），一人頭肩，局部窗、綠柱與植物畫背景，手與桌面在畫外。 背景依本空景，人物位置比例依 metadata 同機位 blocks。",
           "source": "provided",
           "path": "references/scenes/coffee_shop/cameras/empty_banana_s07_george_close_up.png"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "預錄對白音檔 assets/audio/shot_2.1.5.mp3（6.48 秒），與 script.json 的 shot_2.1.5.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -382,6 +407,11 @@
           "description": "SH09 桌面俯拍插鏡（50mm），兩杯碟與白色金色金屬蓋罐；blocks 中 George 手臂在左、Amy 手臂在右，無臉部。 背景依本空景，人物位置比例依 metadata 同機位 blocks。",
           "source": "provided",
           "path": "references/scenes/coffee_shop/cameras/empty_banana_s09_table_insert.png"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "預錄對白音檔 assets/audio/shot_2.1.6.mp3（15.19 秒），與 script.json 的 shot_2.1.6.text 對齊。",
+          "source": "provided"
         }
       ],
       "overlay_notes": "依原始劇本，George 說到 E、S、G 時在桌面中央依序出現三個大字，最後同時保留；使用清楚向量字卡，可加半透明底，避開兩側手部與杯碟。文字為後製圖層，不生成於桌面材質。"
@@ -445,8 +475,8 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "依 script.json 的 shot_4.5.1 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
-          "source": "generate"
+          "description": "預錄對白音檔 assets/audio/shot_4.5.1.mp3（9.90 秒），與 script.json 的 shot_4.5.1.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -523,8 +553,8 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "依 script.json 的 shot_4.5.2 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
-          "source": "generate"
+          "description": "預錄對白音檔 assets/audio/shot_4.5.2.mp3（4.00 秒），與 script.json 的 shot_4.5.2.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -593,8 +623,8 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "依 script.json 的 shot_4.5.3 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
-          "source": "generate"
+          "description": "預錄對白音檔 assets/audio/shot_4.5.3.mp3（12.38 秒），與 script.json 的 shot_4.5.3.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -658,8 +688,8 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "依 script.json 的 shot_4.5.4 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
-          "source": "generate"
+          "description": "預錄對白音檔 assets/audio/shot_4.5.4.mp3（8.57 秒），與 script.json 的 shot_4.5.4.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -723,8 +753,8 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "依 script.json 的 shot_4.5.5 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
-          "source": "generate"
+          "description": "預錄對白音檔 assets/audio/shot_4.5.5.mp3（12.38 秒），與 script.json 的 shot_4.5.5.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -788,8 +818,8 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "依 script.json 的 shot_4.5.6 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
-          "source": "generate"
+          "description": "預錄對白音檔 assets/audio/shot_4.5.6.mp3（6.80 秒），與 script.json 的 shot_4.5.6.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -867,8 +897,8 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "依 script.json 的 shot_4.5.7 原文與 delivery_cues 準備對白，沿用其起訖時間；本次未取得對應音檔核驗，實製時以同文錄音確認時長及口型，不刪句或強制加速。",
-          "source": "generate"
+          "description": "預錄對白音檔 assets/audio/shot_4.5.7.mp3（6.84 秒），與 script.json 的 shot_4.5.7.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -932,8 +962,8 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4.6.1.text 與 delivery_cues；沿用 3.74 秒時間槽，實製前以同文音訊核驗，不刪句、不改詞。",
-          "source": "generate"
+          "description": "預錄對白音檔 assets/audio/shot_4.6.1.mp3（3.74 秒），與 script.json 的 shot_4.6.1.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -1017,8 +1047,8 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4.6.2.text 與 delivery_cues；沿用 10.26 秒時間槽，保留全部標語及問句，實製前核驗同文音訊與口型。",
-          "source": "generate"
+          "description": "預錄對白音檔 assets/audio/shot_4.6.2.mp3（10.26 秒），與 script.json 的 shot_4.6.2.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -1089,8 +1119,8 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4.6.3.text 與 delivery_cues；沿用 5.98 秒時間槽，包含 Greenwashing 的原句須先核驗同文音訊時長，不刪字或強制加速以塞入。",
-          "source": "generate"
+          "description": "預錄對白音檔 assets/audio/shot_4.6.3.mp3（5.98 秒），與 script.json 的 shot_4.6.3.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -1155,8 +1185,8 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4.6.4.text 與 delivery_cues；沿用 2.27 秒時間槽，完整保留兩個疑問句。",
-          "source": "generate"
+          "description": "預錄對白音檔 assets/audio/shot_4.6.4.mp3（2.27 秒），與 script.json 的 shot_4.6.4.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -1208,8 +1238,8 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4.6.5.text 與 delivery_cues 作 Amy 畫外音；沿用 7.13 秒時間槽，以同文音訊決定動畫節點，不增加解說。",
-          "source": "generate"
+          "description": "預錄對白音檔 assets/audio/shot_4.6.5.mp3（7.13 秒），與 script.json 的 shot_4.6.5.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -1273,8 +1303,8 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4.6.6.text 與 delivery_cues；沿用 3.02 秒時間槽，先核驗小聲委屈表演的實際時長，不用加速抵銷情緒停頓。",
-          "source": "generate"
+          "description": "預錄對白音檔 assets/audio/shot_4.6.6.mp3（3.02 秒），與 script.json 的 shot_4.6.6.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -1346,8 +1376,8 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4.6.7.text 與 delivery_cues；保留原 14.00 秒時間槽與單一鏡號，不為生成時長限制拆句、刪詞或改寫。",
-          "source": "generate"
+          "description": "預錄對白音檔 assets/audio/shot_4.6.7.mp3（14.00 秒），與 script.json 的 shot_4.6.7.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -1424,8 +1454,8 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4.6.8.text 與 delivery_cues；沿用 9.90 秒時間槽，保留開頭遲疑、完整新標語及最後問句。",
-          "source": "generate"
+          "description": "預錄對白音檔 assets/audio/shot_4.6.8.mp3（9.90 秒），與 script.json 的 shot_4.6.8.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -1489,8 +1519,8 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4.6.9.text 與 delivery_cues；沿用 12.53 秒時間槽，完整保留數據佐證條件與最後提醒，不自行校字。",
-          "source": "generate"
+          "description": "預錄對白音檔 assets/audio/shot_4.6.9.mp3（12.53 秒），與 script.json 的 shot_4.6.9.text 對齊。",
+          "source": "provided"
         }
       ]
     },
@@ -1555,8 +1585,8 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "逐字使用 script.json 的 shot_4.6.10.text 與 delivery_cues；沿用 10.62 秒時間槽，完整保留 G (Governance) 與結語。",
-          "source": "generate"
+          "description": "預錄對白音檔 assets/audio/shot_4.6.10.mp3（10.62 秒），與 script.json 的 shot_4.6.10.text 對齊。",
+          "source": "provided"
         }
       ]
     }
@@ -1581,7 +1611,7 @@
       ],
       "timing_basis": "逐鏡採 script.json 的 start_seconds／end_seconds：3.74／10.26／5.98／2.27／7.13／3.02／14.00／9.90／12.53／10.62 秒，1475.46～1554.91 秒，共 79.45 秒。",
       "dialogue_basis": "十鏡 dialogue 逐字採 script.json.sections[].text；說話者與主要動作依 speaker_directions，語氣、重音、停頓依 delivery_cues。保留全部中英文、標點、空格與原稿用字，包括 4.6.9 的「禁得起」，不改寫或新增台詞。",
-      "audio_timing_note": "本次只沿用原稿時間槽，未取得同文音檔核驗；4.6.3／4.6.6 台詞相對密集，先核驗正常表演時長，不強制加速。4.6.2／4.6.7／4.6.9／4.6.10 超過風格建議 10 秒，優先保留使用者指定鏡號與原文；生成工具時長限制留待素材階段處理，不在此自行拆鏡。",
+      "audio_timing_note": "沿用預錄對白音檔 assets/audio/shot_4.6.1.mp3～shot_4.6.10.mp3 實測秒數與 script.json 時間槽；4.6.2／4.6.7／4.6.9／4.6.10 超過風格建議 10 秒，優先保留使用者指定鏡號與完整台詞，生成工具時長限制留待素材階段處理。",
       "aspect_ratio_rule": "沿用專案 1920×1080／16:9／30fps；現有 Blender 參考圖保持原人物比例、取景與景深，不拉伸。",
       "visual_style": "沿用 kj-esg-pixar-hybrid 的角色 CLP、3D 動畫材質與辦公室自然暖光；動畫比喻用乾淨藍綠圖形及警示紅。",
       "location_rule": "以已檢視的場景 CLP 與各機位實圖為準；不照抄 CLP 舊文字中的圓桌、吊燈與情緒板。會議桌未在現有圖中定位，4.6.1 保留原動作並在白模製作前確認行走路線。",
@@ -1614,7 +1644,7 @@
       ],
       "timing_basis": "逐鏡採 script.json 的 start_seconds／end_seconds：9.90／4.00／12.38／8.57／12.38／6.80／6.84 秒，1414.59～1475.46 秒，共 60.87 秒；其他分鏡不變。",
       "dialogue_basis": "七鏡對白逐字採 script.json.sections[].text；動作依 speaker_directions，語氣／重音／停頓依 delivery_cues。使用者本次修正 Amy 不穿反光背心，保留黃色工安帽，已同步 script.json 的 4.5.1。",
-      "audio_timing_note": "本次沿用 script.json 的時間槽；專案未找到本場對應音檔，尚未重新實測配音。實製時按相同台詞核驗時長與口型，不自行刪句或加速；4.5.3／4.5.5 各 12.38 秒超過風格建議 10 秒，優先保留指定鏡號與台詞。",
+      "audio_timing_note": "沿用預錄對白音檔 assets/audio/shot_4.5.1.mp3～shot_4.5.7.mp3 實測秒數與 script.json 時間槽；4.5.3／4.5.5 各 12.38 秒超過風格建議 10 秒，優先保留指定鏡號與完整台詞。",
       "aspect_ratio_rule": "沿用專案 1920×1080／16:9／30fps；本輪引用的 Blender 白模均 1920×1080，保持人物比例與取景，不拉伸參考圖。",
       "hero_frames": [
         "shot_4.5.1：Amy 戴黃色工安帽、不穿反光背心的廠務自拍開場",
