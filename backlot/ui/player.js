@@ -425,16 +425,16 @@ function renderInspector(sh) {
     : `${renderPromptBox("🖼️ 分鏡圖 Prompt", sh.imageTake, true)}${renderPromptBox("🎬 影片 Prompt", sh.videoTake, false)}`;
 
   const ESG_MD_LINKS = {
-    "shot_4.6.1": "/media/course-51-esg/artifacts/shot_4.6.1_gpt_template_v5.md",
-    "shot_4.6.2": "/media/course-51-esg/artifacts/shot_4.6.2_gpt_template_v3.md",
-    "shot_4.6.3": "/media/course-51-esg/artifacts/shot_4.6.3_gpt_template_v1.md",
+    "shot_4.6.1": "/media/course-51-esg/artifacts/image_generation_history.md#shot_4.6.1_gpt_template_v5",
+    "shot_4.6.2": "/media/course-51-esg/artifacts/image_generation_history.md#shot_4.6.2_gpt_template_v3",
+    "shot_4.6.3": "/media/course-51-esg/artifacts/image_generation_history.md#shot_4.6.3_gpt_template_v1",
   };
   let historyLink = "";
   if (projectId === "course-51-esg") {
     if (sh.groupKey === "2.1") {
       historyLink = `<span style="display:flex;gap:6px"><button type="button" class="btn-md-link" data-md-url="/media/course-51-esg/artifacts/image_generation_history.md" style="background:rgba(245,158,11,0.12);color:var(--amber);border:1px solid rgba(245,158,11,0.35);border-radius:4px;padding:1px 7px;font-size:11px;cursor:pointer">📄 生圖歷史索引</button><button type="button" class="btn-md-link" data-md-url="/media/course-51-esg/artifacts/shot_prompts_2_1_banana21.md" style="background:rgba(59,130,246,0.12);color:#93c5fd;border:1px solid rgba(59,130,246,0.35);border-radius:4px;padding:1px 7px;font-size:11px;cursor:pointer">📄 W2I 原紀錄</button></span>`;
     } else if (ESG_MD_LINKS[sh.id]) {
-      historyLink = `<button type="button" class="btn-md-link" data-md-url="${ESG_MD_LINKS[sh.id]}" style="background:rgba(245,158,11,0.12);color:var(--amber);border:1px solid rgba(245,158,11,0.35);border-radius:4px;padding:1px 7px;font-size:11px;cursor:pointer">📄 試生 Prompt 紀錄 (.md)</button>`;
+      historyLink = `<button type="button" class="btn-md-link" data-md-url="${ESG_MD_LINKS[sh.id]}" style="background:rgba(245,158,11,0.12);color:var(--amber);border:1px solid rgba(245,158,11,0.35);border-radius:4px;padding:1px 7px;font-size:11px;cursor:pointer">📄 試生 Prompt 紀錄</button>`;
     }
   }
 
@@ -482,7 +482,7 @@ function renderInspector(sh) {
         <span>5D. 圖像 / 影片生成 Prompt</span>
         ${historyLink}
       </h3>
-      ${promptBlocks || `<div style="color:var(--text-3);font-size:12px">尚未登記確認採用之圖像或影片素材${ESG_MD_LINKS[sh.id] ? `（已自動載入下方試生 Prompt 紀錄 .md）` : `（待依上方 5A 製作配方與 5C 畫面描述生成）`}</div>`}
+      ${promptBlocks || `<div style="color:var(--text-3);font-size:12px">尚未登記確認採用之圖像或影片素材${ESG_MD_LINKS[sh.id] ? `（已自動載入下方 image_generation_history.md 試生 Prompt 紀錄）` : `（待依上方 5A 製作配方與 5C 畫面描述生成）`}</div>`}
       <div id="mdDrawer" style="display:none;margin-top:8px;padding:8px 10px;background:#090b10;border:1px solid rgba(245,158,11,0.45);border-radius:5px;font-size:11.5px;line-height:1.5;color:var(--text);white-space:pre-wrap;max-height:280px;overflow-y:auto"></div>
     </div>
 
@@ -522,8 +522,23 @@ function renderInspector(sh) {
     mdDrawer.textContent = "載入中...";
     mdDrawer.dataset.url = url;
     mdDrawer.style.display = "block";
-    const r = await fetch(url);
-    mdDrawer.textContent = r.ok ? await r.text() : `無法讀取 ${url}`;
+    const [fetchUrl, hash] = url.split("#");
+    const r = await fetch(fetchUrl);
+    if (!r.ok) {
+      mdDrawer.textContent = `無法讀取 ${fetchUrl}`;
+      return;
+    }
+    let txt = await r.text();
+    if (hash) {
+      const marker = `### ${hash}`;
+      const idx = txt.indexOf(marker);
+      if (idx !== -1) {
+        const rest = txt.slice(idx);
+        const nextIdx = rest.indexOf("\n### ", marker.length);
+        txt = nextIdx !== -1 ? rest.slice(0, nextIdx).trim() : rest.trim();
+      }
+    }
+    mdDrawer.textContent = txt;
   };
   inspector.querySelectorAll(".btn-md-link").forEach((btn) => {
     btn.onclick = () => toggleMd(btn.dataset.mdUrl);

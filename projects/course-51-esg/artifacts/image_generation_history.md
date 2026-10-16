@@ -69,6 +69,15 @@
 | 2.1.6 | [shot_2.1.6_gpt_template_v2.png](../assets/images/shot_2.1.6_gpt_template_v2.png) | G | [補回原請求](#shot_2.1.6_gpt_template_v2) | 保留版本 |
 | 2.1.6 | [shot_2.1.6_gpt_template_v3.png](../assets/images/shot_2.1.6_gpt_template_v3.png) | G | [原紀錄第 476 行](shot_prompts_2_1_banana21.md#216) | 保留版本 |
 | 2.1.6 | [shot_2.1.6_short_v1.png](../assets/images/shot_2.1.6_short_v1.png) | G | [原紀錄第 98 行](shot_prompts_2_1.md#216esg-概念轉折s09_table_insert50mm) | manifest 現行 |
+| 4.6.1 | `shot_4.6.1_gpt_template_v1.png`（本機未留存） | G | [生成紀錄](#shot_4.6.1_gpt_template_v1) | 未留存副本（僅存紀錄） |
+| 4.6.1 | `shot_4.6.1_gpt_template_v2.png`（本機未留存） | G | [生成紀錄](#shot_4.6.1_gpt_template_v2) | 未留存副本（僅存紀錄） |
+| 4.6.1 | [shot_4.6.1_gpt_template_v3.png](../assets/images/shot_4.6.1_gpt_template_v3.png) | G | [生成紀錄](#shot_4.6.1_gpt_template_v3) | 保留版本（待確認） |
+| 4.6.1 | [shot_4.6.1_gpt_template_v4.png](../assets/images/shot_4.6.1_gpt_template_v4.png) | G | [生成紀錄](#shot_4.6.1_gpt_template_v4) | 保留版本（待確認） |
+| 4.6.1 | [shot_4.6.1_gpt_template_v5.png](../assets/images/shot_4.6.1_gpt_template_v5.png) | G | [生成紀錄](#shot_4.6.1_gpt_template_v5) | 保留版本（待確認） |
+| 4.6.2 | [shot_4.6.2_gpt_template_v1.png](../assets/images/shot_4.6.2_gpt_template_v1.png) | G | [生成紀錄](#shot_4.6.2_gpt_template_v1) | 保留版本（待確認） |
+| 4.6.2 | [shot_4.6.2_gpt_template_v2.png](../assets/images/shot_4.6.2_gpt_template_v2.png) | G | [生成紀錄](#shot_4.6.2_gpt_template_v2) | 保留版本（待確認） |
+| 4.6.2 | [shot_4.6.2_gpt_template_v3.png](../assets/images/shot_4.6.2_gpt_template_v3.png) | G | [生成紀錄](#shot_4.6.2_gpt_template_v3) | 保留版本（待確認） |
+| 4.6.3 | [shot_4.6.3_gpt_template_v1.png](../assets/images/shot_4.6.3_gpt_template_v1.png) | G | [生成紀錄](#shot_4.6.3_gpt_template_v1) | 保留版本（待確認） |
 
 ## 缺件與歷史例外
 
@@ -431,3 +440,458 @@ George 已將咖啡杯放回杯碟。兩人的手自然停在桌邊，兩只咖�
 | 2.1.6 | [shot_2.1.6_short_v1.png](../assets/images/shot_2.1.6_short_v1.png) |
 
 舊圖片與既有生成紀錄保留；專案沒有既有 checkpoint／partial_progress 可同步。本次只確認六張 shot image，不代表整個 assets 階段完成。
+
+## 2026-10-16 場景 4.6（行銷部）W2I 生成紀錄
+
+### shot_4.6.1_gpt_template_v1
+
+**原標題**：4.6.1 GPT 非自拍模板樣圖 v1
+
+- 日期：2026-10-16（Asia/Taipei）
+- Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成；以使用者最新「不要自拍」與確認的 prompt 為準。
+- 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法報價。
+- 呼叫：一次、生成一張；transparent_background=false；prompt 原文送出，未追加創意條件。
+- 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/cameras/empty_gpt_s06_amy_medium_close_up.png
+- 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/blocks_blender_s06_amy_medium_close_up.png
+- 圖 3：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg
+- 輸出：../assets/images/shot_4.6.1_gpt_template_v1.png
+- 原生來源：C:/Users/servi/.codex/generated_images/01a14365-4ddb-7872-9254-b032d636e172/exec-0b9d39b0-7077-4abf-b9fd-8054a2c6b2f2.png
+- 尺寸：1672×941 RGB PNG，接近但非精確 16:9；未放大或裁切。
+- 檢視：非自拍、無手機、無字幕、Amy 開朗說話表情與暖色場景成立；灰色白模軀幹、手臂及手部仍殘留，Amy 部分上身出現在白模軀幹後方，人物替換未完成，未通過驗收。
+- 驗證：已看圖、Pillow 完整解碼及來源／目的地 SHA256 核對；未驗證後續影片效果。
+- 狀態：保留本次未通過樣圖，未替換正式素材、未更新 asset_manifest 或推進整體 assets 核准；script.json／scene_plan 仍保留舊自拍規劃，後續以使用者最新指示為準。
+
+#### 實際送出 prompt
+
+```text
+參考圖說明：
+圖 1 empty_gpt_s06_amy_medium_close_up.png：行銷部場景外觀參考圖。
+圖 2 blocks_blender_s06_amy_medium_close_up.png：構圖底圖。
+圖 3 char_esg_amy.jpeg：Amy 人物參考圖，對應圖 2 的灰色衣服人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、顯示範圍與遮擋關係。
+將定位人物替換為 Amy，只呈現圖 2 中可見的部位，不補出畫外身體。人物外觀與服裝採用圖 3，不採用其展示姿態或構圖。
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。
+
+畫面描述：
+這是一張正面、接近平視的胸部以上中近景，由人物前方的攝影機拍攝。Amy 位於畫面中央，頭部、肩膀與胸部入鏡，手臂及畫面右下角露出的局部手部沿用圖 2 的可見範圍與裁切。
+定格在 Amy 來到行銷部、開口介紹最後一站的瞬間。她帶著開朗且期待的笑容，眼睛看向鏡頭，嘴巴微張，流露即將探索創意寶藏的興奮。身體朝向與手部位置沿用圖 2，呈現自然說話的姿態，不持手機、不做伸臂自拍動作。除上述指定調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕。
+```
+
+### shot_4.6.1_gpt_template_v2
+
+**原標題**：4.6.1 GPT 非自拍模板樣圖 v2
+
+- 日期：2026-10-16（Asia/Taipei）
+- Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成；以使用者最新「不要自拍」與確認的 prompt 為準。
+- 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法報價。
+- 呼叫：依使用者明確要求重新生成一次、一張；使用與 v1 完全相同的 prompt、三張參考圖及順序，transparent_background=false，未追加修正條件。
+- 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/cameras/empty_gpt_s06_amy_medium_close_up.png
+- 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/blocks_blender_s06_amy_medium_close_up.png
+- 圖 3：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg
+- 輸出：../assets/images/shot_4.6.1_gpt_template_v2.png
+- 原生來源：C:/Users/servi/.codex/generated_images/01a14365-4ddb-7872-9254-b032d636e172/exec-fdfe952c-94bd-483a-9142-91aac53ac034.png
+- 尺寸：1672×941 RGB PNG，接近但非精確 16:9；未放大或裁切。
+- 檢視：非自拍、無手機、無字幕、Amy 開朗說話表情與暖色場景成立；灰色白模軀幹、手臂及手部仍殘留，Amy 部分上身出現在白模軀幹後方，人物替換未完成，未通過驗收。
+- 驗證：已看圖、Pillow 完整解碼及來源／目的地 SHA256 核對；未驗證後續影片效果。
+- 狀態：保留 v1 與本次未通過的 v2 樣圖，未替換正式素材、未更新 asset_manifest 或推進整體 assets 核准；script.json／scene_plan 仍保留舊自拍規劃，後續以使用者最新指示為準。
+
+#### 實際送出 prompt
+
+```text
+參考圖說明：
+圖 1 empty_gpt_s06_amy_medium_close_up.png：行銷部場景外觀參考圖。
+圖 2 blocks_blender_s06_amy_medium_close_up.png：構圖底圖。
+圖 3 char_esg_amy.jpeg：Amy 人物參考圖，對應圖 2 的灰色衣服人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、顯示範圍與遮擋關係。
+將定位人物替換為 Amy，只呈現圖 2 中可見的部位，不補出畫外身體。人物外觀與服裝採用圖 3，不採用其展示姿態或構圖。
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。
+
+畫面描述：
+這是一張正面、接近平視的胸部以上中近景，由人物前方的攝影機拍攝。Amy 位於畫面中央，頭部、肩膀與胸部入鏡，手臂及畫面右下角露出的局部手部沿用圖 2 的可見範圍與裁切。
+定格在 Amy 來到行銷部、開口介紹最後一站的瞬間。她帶著開朗且期待的笑容，眼睛看向鏡頭，嘴巴微張，流露即將探索創意寶藏的興奮。身體朝向與手部位置沿用圖 2，呈現自然說話的姿態，不持手機、不做伸臂自拍動作。除上述指定調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕。
+```
+
+### shot_4.6.1_gpt_template_v3
+
+**原標題**：4.6.1 GPT 完整人物替換樣圖 v3
+
+- 日期：2026-10-16（Asia/Taipei）
+- Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成；以使用者最新「不要自拍」與核准的完整人物替換 prompt 為準。
+- 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法報價。
+- 呼叫：一次、一張；使用本輪核准 prompt 原文與原三張參考圖，transparent_background=false；未改用 v1／v2 成果作底圖。
+- 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/cameras/empty_gpt_s06_amy_medium_close_up.png
+- 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/blocks_blender_s06_amy_medium_close_up.png
+- 圖 3：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg
+- 輸出：../assets/images/shot_4.6.1_gpt_template_v3.png
+- 原生來源：C:/Users/servi/.codex/generated_images/01a14365-4ddb-7872-9254-b032d636e172/exec-21d907ac-f69b-4a48-804b-dbb1905977ce.png
+- 尺寸：1672×941 RGB PNG，接近但非精確 16:9；未放大或裁切。
+- 檢視：灰色人物白模軀幹、手臂及手部不再殘留；Amy 的自然上身、服裝、手臂與開朗說話表情成立，無自拍／手機／字幕。但 blocks 右下角原可見手部被裁掉，頭頂留白減少，背景白板左邊界向右偏移，仍未完全符合原構圖與可見範圍，未宣稱整鏡驗收通過。
+- 驗證：已看圖、Pillow 完整解碼及來源／目的地 SHA256 核對；未驗證後續影片效果。
+- 狀態：保留 v1／v2／v3，不追加生成、未替換正式素材、未更新 asset_manifest 或推進整體 assets 核准；script.json／scene_plan 仍保留舊自拍規劃，後續以使用者最新指示為準。
+
+#### 實際送出 prompt
+
+```text
+參考圖說明：
+圖 1 empty_gpt_s06_amy_medium_close_up.png：行銷部場景外觀參考圖。
+圖 2 blocks_blender_s06_amy_medium_close_up.png：構圖底圖，其中的積木狀人物是待完整替換的定位人物。
+圖 3 char_esg_amy.jpeg：Amy 人物參考圖，對應圖 2 的灰色衣服定位人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、場景物件配置、人物佔位、顯示範圍與遮擋關係。
+
+將圖 2 中整個定位人物在原位置完整替換為 Amy，包含頭部、頸部、肩膀、軀幹、雙臂及所有可見手部，不可只替換頭臉或部分上身。
+
+人物中央的大灰色長方體是軀幹，兩側灰色長條是手臂，畫面右下角的灰色手部也屬於同一個定位人物；這些都不是桌子、擋板或其他前景物件，必須一起替換。不可保留這些方塊，再把 Amy 放在它們後方。
+
+替換後，軀幹與手臂呈現 Amy 的西裝與衣袖，可見手部呈現 Amy 的自然手掌與手指；人物各部位自然連接，不保留任何白模、積木狀外殼或未替換的定位人物部件。
+
+保留定位人物的站位、朝向、姿勢、畫面尺度與裁切，只呈現圖 2 中可見的部位，不補出畫外身體。人物外觀與服裝採用圖 3，不採用其展示姿態或構圖。
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。
+
+畫面描述：
+這是一張正面、接近平視的胸部以上中近景，由人物前方的攝影機拍攝。Amy 位於畫面中央，頭部、肩膀與胸部入鏡，手臂及畫面右下角露出的局部手部沿用圖 2 的可見範圍與裁切。
+定格在 Amy 來到行銷部、開口介紹最後一站的瞬間。她帶著開朗且期待的笑容，眼睛看向鏡頭，嘴巴微張，流露即將探索創意寶藏的興奮。身體朝向與手部位置沿用圖 2，呈現自然說話的姿態，不持手機、不做伸臂自拍動作。除上述指定調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕。
+```
+
+### shot_4.6.1_gpt_template_v4
+
+**原標題**：4.6.1 GPT SH01 雙人全景與白板內容樣圖 v4
+
+- 日期：2026-10-16（Asia/Taipei）
+- Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成；以使用者最新 SH01 雙人全景、非自拍及白板圖文參考為準。
+- 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法報價。
+- 呼叫：一次、一張；使用本輪核准 prompt 原文與五張獨立參考圖，transparent_background=false；未以舊成果作底圖。
+- 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/cameras/empty_gpt_s01_wide_two_shot.png
+- 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/blocks_blender_s01_wide_two_shot.png
+- 圖 3：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg
+- 圖 4：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_li.jpeg
+- 圖 5：D:/kj-openMontage/projects/course-51-esg/clp/prop_whiteboard_incorrect.png
+- 輸出：../assets/images/shot_4.6.1_gpt_template_v4.png
+- 原生來源：C:/Users/servi/.codex/generated_images/01a14365-4ddb-7872-9254-b032d636e172/exec-1d31015b-a69f-423b-adc4-83b08b7d6256.png
+- 尺寸：1672×941 RGB PNG，接近但非精確 16:9；未放大或裁切。
+- 檢視：Amy 左／小李右且全身入鏡，定位人物完整替換、無白模，Amy 開口介紹與小李閉嘴看向 Amy、垂放雙手、非自拍／無手機／無字幕成立。既有白板已帶入十張彩色便條紙及圖文，未新增第二塊白板；但人物較 blocks 高、頭頂及腳下留白減少，小李偏右，部分便條紙位置／間距有調整，未完全保留構圖。白板文字已目視檢視，未宣稱逐字或逐像素一致。
+- 驗證：已看圖、Pillow 完整解碼及來源／目的地 SHA256 核對；未驗證後續影片效果。
+- 狀態：保留 v1～v4，不追加生成、未替換正式素材、未更新 asset_manifest 或推進整體 assets 核准；script.json／scene_plan 仍保留舊自拍規劃，後續以使用者最新指示為準，4.6.2 不變。
+
+#### 實際送出 prompt
+
+```text
+參考圖說明：
+圖 1 empty_gpt_s01_wide_two_shot.png：行銷部場景外觀參考圖。
+圖 2 blocks_blender_s01_wide_two_shot.png：構圖底圖，其中的兩個積木狀人物是待完整替換的定位人物。
+圖 3 char_esg_amy.jpeg：Amy 人物參考圖，對應圖 2 左側的灰色衣服人物。
+圖 4 char_esg_li.jpeg：小李人物參考圖，對應圖 2 右側的藍綠色衣服人物。
+圖 5 prop_whiteboard_incorrect.png：白板上的圖文內容參考圖。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、場景物件配置、人物佔位、顯示範圍與遮擋關係。
+
+將兩個定位人物在原位置完整替換為 Amy 與小李，包含頭部、頸部、肩膀、軀幹、雙臂、手部、雙腿與雙腳，不可只替換頭臉或部分身體。
+灰色與藍綠色的軀幹方塊、長條手臂、方塊手掌、腿部與腳部都屬於定位人物，必須一起替換。不可保留這些方塊，再把角色放在它們前方或後方。
+替換後，各部位呈現對應角色的自然身體、服裝、手掌、手指與鞋子，彼此自然連接，不保留任何白模、積木狀外殼或未替換的定位人物部件。
+
+保留人物的站位、朝向、姿勢、畫面尺度與裁切，只呈現圖 2 中可見的部位，不補出畫外身體。Amy 的外觀與服裝採用圖 3，小李的外觀與服裝採用圖 4，不採用人物參考圖的展示姿態或構圖。
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。
+
+將圖 5 中白板書寫面內的彩色便條紙、文字內容及版面排列，依圖 2 的白板透視貼合到既有白板上，保留各張便條紙的顏色、相對位置與比例，不自行改寫或修正文字。
+圖 5 只提供白板內的畫面內容，不採用其板框、拍攝角度或其他物件。白板的位置、大小、板框、筆槽、腳架及遮擋關係沿用圖 2，不新增另一塊白板，也不為了露出文字而移動人物。
+
+畫面描述：
+這是一張正面略俯視的雙人全景。Amy 位於畫面左側，小李位於右側，兩人從頭到腳完整入鏡，白板位於兩人後方中央。人物大小、間距、頭頂留白、腳下地面範圍與周圍空間沿用圖 2，不拉近鏡頭或將人物向中央靠攏。
+
+定格在 Amy 來到行銷部、開口介紹最後一站的瞬間。她帶著開朗且期待的笑容，眼睛看向鏡頭，嘴巴微張，流露即將探索創意寶藏的興奮；身體與手部姿勢沿用圖 2。小李自然站在右側，嘴巴閉合，視線看向 Amy，聆聽她介紹，雙臂與雙手沿用圖 2 的垂放姿勢。兩人不持手機、不做自拍動作。
+後方白板呈現圖 5 的彩色便條紙與圖文內容，人物自然遮住的部分維持遮擋。除上述指定調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕。
+```
+
+### shot_4.6.1_gpt_template_v5
+
+**原標題**：4.6.1 GPT SH01 雙人中景與白板內容樣圖 v5
+
+- 日期：2026-10-16（Asia/Taipei）
+- Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成；以使用者本輪貼上的雙人中景 prompt 為準。
+- 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法報價。
+- 呼叫：一次、一張；使用使用者 prompt 原文與五張獨立參考圖，transparent_background=false；未改用 SH01 wide、舊 SH02 或舊成果作底圖。
+- 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/cameras/empty_gpt_s01_medium_two_shot.png
+- 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/blocks_blender_s01_medium_two_shot.png
+- 圖 3：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg
+- 圖 4：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_li.jpeg
+- 圖 5：D:/kj-openMontage/projects/course-51-esg/clp/prop_whiteboard_incorrect.png
+- 輸出：../assets/images/shot_4.6.1_gpt_template_v5.png
+- 原生來源：C:/Users/servi/.codex/generated_images/01a14365-4ddb-7872-9254-b032d636e172/exec-ba4eb610-7f7b-46ec-8421-24339f8ef51d.png
+- 尺寸：1672×941 RGB PNG，接近但非精確 16:9；未放大或裁切。
+- 檢視：Amy 左／小李右的雙人中景、頭部至部分大腿入鏡、完整人物替換與無白模成立。Amy 開口看向鏡頭介紹、小李閉嘴看向 Amy 並垂放雙手，無手機／自拍／字幕。白板已呈現十張彩色便條紙及圖文，未新增白板。兩人頭頂較 blocks 上移、留白減少，Amy 抬手位置較高，構圖與姿勢未完全對齊；白板圖文已目視檢視，未宣稱逐字或逐像素一致。
+- 驗證：已看圖、Pillow 完整解碼及來源／目的地 SHA256 核對；未驗證後續影片效果。
+- 狀態：保留 v1～v5，不追加生成、未替換正式素材、未更新 asset_manifest 或推進整體 assets 核准；分鏡與角色設定未改，後續以使用者最新指示為準，4.6.2 不變。
+
+#### 實際送出 prompt
+
+```text
+參考圖說明：
+圖 1 empty_gpt_s01_medium_two_shot.png：行銷部場景外觀參考圖。
+圖 2 blocks_blender_s01_medium_two_shot.png：構圖底圖，其中的兩個積木狀人物是待完整替換的定位人物。
+圖 3 char_esg_amy.jpeg：Amy 人物參考圖，對應圖 2 左側的灰色衣服人物。
+圖 4 char_esg_li.jpeg：小李人物參考圖，對應圖 2 右側的藍綠色衣服人物。
+圖 5 prop_whiteboard_incorrect.png：白板上的圖文內容參考圖。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、場景物件配置、人物佔位、顯示範圍與遮擋關係。
+
+將兩個定位人物在原位置完整替換為 Amy 與小李，包含頭部、頸部、肩膀、軀幹、雙臂、手部、雙腿與雙腳，不可只替換頭臉或部分身體。
+灰色與藍綠色的軀幹方塊、長條手臂、方塊手掌、腿部與腳部都屬於定位人物，必須一起替換。不可保留這些方塊，再把角色放在它們前方或後方。
+替換後，各部位呈現對應角色的自然身體、服裝、手掌、手指與鞋子，彼此自然連接，不保留任何白模、積木狀外殼或未替換的定位人物部件。
+
+保留人物的站位、朝向、姿勢、畫面尺度與裁切，只呈現圖 2 中可見的部位，不補出畫外身體。Amy 的外觀與服裝採用圖 3，小李的外觀與服裝採用圖 4，不採用其展示姿態或構圖。
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。
+
+將圖 5 中白板書寫面內的彩色便條紙、文字內容及版面排列，依圖 2 的白板透視貼合到既有白板上，保留各張便條紙的顏色、相對位置與比例，不自行改寫或修正文字。
+圖 5 只提供白板內的畫面內容，不採用其板框、拍攝角度或其他物件。白板的位置、大小、板框、筆槽、腳架及遮擋關係沿用圖 2，不新增另一塊白板，也不為了露出文字而移動人物。
+
+畫面描述：
+這是一張正面雙人中景。Amy 位於畫面左側，小李位於右側，兩人從頭到大腿一半，完整入鏡，白板位於兩人後方中央。人物大小、間距、頭頂留白、腳下地面範圍與周圍空間沿用圖 2，不拉近鏡頭或將人物向中央靠攏。
+
+定格在 Amy 來到行銷部、開口介紹最後一站的瞬間。她帶著開朗且期待的笑容，眼睛看向鏡頭，嘴巴微張，流露即將探索創意寶藏的興奮；身體與手部姿勢沿用圖 2。小李自然站在右側，嘴巴閉合，視線看向 Amy，聆聽她介紹，雙臂與雙手沿用圖 2 的垂放姿勢。兩人不持手機、不做自拍動作。
+後方白板呈現圖 5 的彩色便條紙與圖文內容，人物自然遮住的部分維持遮擋。除上述指定調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕。
+```
+
+### shot_4.6.2_gpt_template_v1
+
+**原標題**：4.6.2 GPT 雙人海報模板樣圖 v1
+
+- 日期：2026-10-16（Asia/Taipei）
+- Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成。
+- 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法報價。
+- 呼叫：一次、一張；使用本輪核准的 4.6.2 prompt 原文與四張參考圖，transparent_background=false，未追加修正條件。
+- 圖 1：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/cameras/empty_gpt_s02_medium_two_shot.png
+- 圖 2：D:/kj-openMontage/projects/course-51-esg/references/scenes/marketing_department/renders/blocks_blender_s02_medium_two_shot.png
+- 圖 3：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg
+- 圖 4：D:/kj-openMontage/projects/course-51-esg/clp/char_esg_li.jpeg
+- 輸出：../assets/images/shot_4.6.2_gpt_template_v1.png
+- 原生來源：C:/Users/servi/.codex/generated_images/01a14365-4ddb-7872-9254-b032d636e172/exec-bd8816b5-1e7d-4e5f-9f5d-93011cc189dd.png
+- 尺寸：1672×941 RGB PNG，接近但非精確 16:9；未放大或裁切。
+- 檢視：兩個定位人物已完整替換，無殘留白模；Amy 灰西裝、小李花襯衫與無眼鏡符合實圖，小李雙手舉彩色海報、興奮說話與看向 Amy，Amy 看海報／閉嘴聆聽、海報空白標語區及無字幕成立。人物較 blocks 靠近中央，兩人間距縮小、頭頂留白減少；Amy 改成托下巴與橫臂，未沿用 blocks 手勢。構圖與姿勢未完全通過。
+- 驗證：已看圖、Pillow 完整解碼及來源／目的地 SHA256 核對；未製作海報文字後製或驗證後續影片效果。
+- 狀態：保留本次樣圖，不追加生成、未替換正式素材、未更新 asset_manifest 或推進整體 assets 核准。
+
+#### 實際送出 prompt
+
+```text
+參考圖說明：
+圖 1 empty_gpt_s02_medium_two_shot.png：行銷部場景外觀參考圖。
+圖 2 blocks_blender_s02_medium_two_shot.png：構圖底圖，其中的兩個積木狀人物是待完整替換的定位人物。
+圖 3 char_esg_amy.jpeg：Amy 人物參考圖，對應圖 2 左側的灰色衣服人物。
+圖 4 char_esg_li.jpeg：小李人物參考圖，對應圖 2 右側的藍綠色衣服人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、場景物件配置、人物佔位、顯示範圍與遮擋關係；小李舉海報及兩人的表情、視線依下方畫面描述調整。
+
+將兩個定位人物在原位置完整替換為 Amy 與小李，包含頭部、頸部、肩膀、軀幹、雙臂、所有可見手部及腿部，不可只替換頭臉或部分上身。
+灰色與藍綠色的長方體軀幹、長條手臂、方塊手掌與腿部都屬於定位人物，不是桌子、擋板或其他場景物件，必須一起替換。不可保留這些方塊，再把角色放在它們前方或後方。
+替換後，各部位呈現對應角色的自然身體、服裝、手掌與手指，彼此自然連接，不保留任何白模、積木狀外殼或未替換的定位人物部件。背景白板與場景家具仍須保留。
+
+只呈現圖 2 中可見的身體範圍，不補出畫外身體。Amy 的外觀與服裝採用圖 3，小李的外觀與服裝採用圖 4，不採用人物參考圖的展示姿態或構圖。
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。
+
+畫面描述：
+這是一張近眼高、固定鏡頭的雙人中景。Amy 位於畫面左側，小李位於右側，空白白板在兩人後方中央。兩人的頭部、軀幹、手臂及部分大腿入鏡，人物大小、間距、頭頂留白與下緣裁切沿用圖 2。
+
+定格在小李興奮展示剛印出的炫彩新海報、期待 Amy 回應的瞬間。小李將原本垂下的雙手改為舉起一張海報，手指自然握住紙張邊緣，海報位於兩人之間的胸腹高度，正面略斜向 Amy，同時讓觀眾看得到紙面，不遮擋兩人的臉。海報採鮮明彩色設計，保留空白標語區，不生成海報文字。
+小李帶著興奮、自信又期待認同的表情，嘴巴張開說話，視線看向 Amy。Amy 的視線落在海報上，神情專注，嘴巴自然閉合，安靜聆聽；手部姿勢沿用圖 2。除上述指定調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕。
+```
+
+### shot_4.6.2_gpt_template_v2
+
+**原標題**：shot_4.6.2 GPT 模板生成 v2
+
+- 日期：2026-10-16
+- 使用者指示：使用上一輪已展示的 prompt，在 GPT 生圖。
+- 工具／供應商：內建 image_gen／OpenAI；介面未提供確切模型及費用。
+- 本輪生成次數：1；未追加生成。
+- 輸出：`../assets/images/shot_4.6.2_gpt_template_v2.png`
+- 原始輸出：`C:/Users/servi/.codex/generated_images/01a14365-4ddb-7872-9254-b032d636e172/exec-e05dd814-6afe-4225-942d-0860d188ba8f.png`
+- 參考圖依下列 prompt 圖號順序傳入；prompt 原文未改寫。
+- 圖 1：`../references/scenes/marketing_department/cameras/empty_gpt_s02_li_medium_close_up.png`
+- 圖 2：`../references/scenes/marketing_department/renders/blocks_blender_s02_li_medium_close_up.png`
+- 圖 3：`../clp/char_esg_li.jpeg`
+- 圖 4：`../clp/prop_whiteboard_incorrect.png`
+
+#### Prompt 原文
+
+```text
+參考圖說明：
+圖 1 empty_gpt_s02_li_medium_close_up.png：行銷部場景外觀參考圖。
+圖 2 blocks_blender_s02_li_medium_close_up.png：構圖底圖，其中藍綠色衣服的積木狀人物是待完整替換的定位人物。
+圖 3 char_esg_li.jpeg：小李人物參考圖，對應圖 2 的藍綠色衣服人物。
+圖 4 prop_whiteboard_incorrect.png：白板上的圖文內容參考圖。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、場景物件配置、人物佔位、顯示範圍與遮擋關係。
+
+將定位人物在原位置完整替換為小李，包含畫面中可見的頭部、頸部、肩膀、軀幹與手臂，不可只替換頭臉或部分身體。
+藍綠色的軀幹方塊與長條手臂都屬於定位人物，必須一起替換。不可保留這些方塊，再把小李放在它們前方或後方。
+替換後，各部位呈現小李的自然身體與服裝，彼此自然連接，不保留任何白模、積木狀外殼或未替換的定位人物部件。
+
+保留人物的站位、身體朝向、姿勢、畫面尺度與裁切，只呈現圖 2 中可見的部位，不補出畫外身體、手掌或手指。
+小李的外觀與服裝採用圖 3，不採用人物參考圖的展示姿態或構圖。
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。
+
+將圖 4 中白板書寫面內的彩色便條紙、文字內容及版面排列，依圖 2 的白板透視貼合到既有白板上，保留各張便條紙的顏色、相對位置與比例，不自行改寫或修正文字。
+圖 4 只提供白板內的畫面內容，不採用其板框、拍攝角度或其他物件。白板的位置、大小、板框、筆槽、裁切及遮擋關係沿用圖 2，不新增另一塊白板，也不為了露出文字而移動人物。
+以整塊白板書寫面對應圖 4 的完整版面，再依圖 2 的取景自然裁切。位於畫外或被小李遮住的內容維持不可見，不將全部便條紙縮小或重新排列到可見區域。
+
+畫面描述：
+這是一張小李單人中近景。小李位於畫面中央偏右，呈現頭部、頸部、肩膀、胸口與部分上臂，下方軀幹及手臂依圖 2 的畫面邊界裁切，雙手不入鏡。白板佔據畫面左側及小李後方，右側保留圖 2 可見的窗戶與背景。人物大小、位置、頭頂留白、白板可見範圍與周圍空間沿用圖 2，不拉近或拉遠鏡頭，不將小李移到畫面正中央。
+
+定格在小李興奮介紹新產品標語、期待 Amy 反應的瞬間。他帶著自豪且熱切的笑容，眉毛微微揚起，嘴巴張開正在說話，視線看向畫面左側、位於畫外的 Amy；身體與可見手臂的姿勢沿用圖 2。
+Amy、雙手與原本展示的海報皆留在本鏡的畫外範圍，不為了呈現展示動作而新增入鏡的手部或海報。
+後方白板呈現圖 4 的彩色便條紙與圖文內容，人物自然遮住及畫面裁切掉的部分維持不可見。除上述指定調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕。
+```
+
+#### 結果檢視
+
+- 1672×941 RGB PNG，接近 16:9；完整解碼成功，專案副本與原始輸出 SHA256 相同。
+- 小李單人中近景、花襯衫、完整人物替換與興奮說話表情成立；視線朝左，Amy、手部及海報未入鏡，未見殘留白模或字幕。
+- 小李相對 blocks 略向右移；白板十張便條紙集中在可見區，未維持整塊白板版面映射後應有的裁切與遮擋，構圖要求尚未完全通過。
+- 白板內容外觀已套用，但未確認所有文字逐字一致；不將本版標示為已核准。
+- 保留舊版，未替換正式素材，未改分鏡／manifest，未推進 assets 核准。
+
+### shot_4.6.2_gpt_template_v3
+
+**原標題**：shot_4.6.2 GPT 模板生成 v3
+
+- 日期：2026-10-16
+- 使用者指示：使用本輪提供的完整 prompt 重新生成，新增只顯示白板可見區域之部分便條紙內容的括號說明。
+- 工具／供應商：內建 image_gen／OpenAI；介面未提供確切模型及費用。
+- 本輪生成次數：1；未追加生成。
+- 輸出：`../assets/images/shot_4.6.2_gpt_template_v3.png`
+- 原始輸出：`C:/Users/servi/.codex/generated_images/01a14365-4ddb-7872-9254-b032d636e172/exec-1f7e72ad-57ad-490f-846a-eaabcf856e75.png`
+- 參考圖依下列 prompt 圖號順序傳入；prompt 原文未改寫。
+- 圖 1：`../references/scenes/marketing_department/cameras/empty_gpt_s02_li_medium_close_up.png`
+- 圖 2：`../references/scenes/marketing_department/renders/blocks_blender_s02_li_medium_close_up.png`
+- 圖 3：`../clp/char_esg_li.jpeg`
+- 圖 4：`../clp/prop_whiteboard_incorrect.png`
+
+#### Prompt 原文
+
+```text
+參考圖說明：
+圖 1 empty_gpt_s02_li_medium_close_up.png：行銷部場景外觀參考圖。
+圖 2 blocks_blender_s02_li_medium_close_up.png：構圖底圖，其中藍綠色衣服的積木狀人物是待完整替換的定位人物。
+圖 3 char_esg_li.jpeg：小李人物參考圖，對應圖 2 的藍綠色衣服人物。
+圖 4 prop_whiteboard_incorrect.png：白板上的圖文內容參考圖。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、場景物件配置、人物佔位、顯示範圍與遮擋關係。
+
+將定位人物在原位置完整替換為小李，包含畫面中可見的頭部、頸部、肩膀、軀幹與手臂，不可只替換頭臉或部分身體。
+藍綠色的軀幹方塊與長條手臂都屬於定位人物，必須一起替換。不可保留這些方塊，再把小李放在它們前方或後方。
+替換後，各部位呈現小李的自然身體與服裝，彼此自然連接，不保留任何白模、積木狀外殼或未替換的定位人物部件。
+
+保留人物的站位、身體朝向、姿勢、畫面尺度與裁切，只呈現圖 2 中可見的部位，不補出畫外身體、手掌或手指。
+小李的外觀與服裝採用圖 3，不採用人物參考圖的展示姿態或構圖。
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。
+
+將圖 4 中白板書寫面內的彩色便條紙、文字內容及版面排列，依圖 2 的白板透視貼合到既有白板上，保留各張便條紙的顏色、相對位置與比例，不自行改寫或修正文字。(僅需針對所顯示的白板區域，來顯示部分的便條紙內容)
+圖 4 只提供白板內的畫面內容，不採用其板框、拍攝角度或其他物件。白板的位置、大小、板框、筆槽、裁切及遮擋關係沿用圖 2，不新增另一塊白板，也不為了露出文字而移動人物。
+以整塊白板書寫面對應圖 4 的完整版面，再依圖 2 的取景自然裁切。位於畫外或被小李遮住的內容維持不可見，不將全部便條紙縮小或重新排列到可見區域。
+
+畫面描述：
+這是一張小李單人中近景。小李位於畫面中央偏右，呈現頭部、頸部、肩膀、胸口與部分上臂，下方軀幹及手臂依圖 2 的畫面邊界裁切，雙手不入鏡。白板佔據畫面左側及小李後方，右側保留圖 2 可見的窗戶與背景。人物大小、位置、頭頂留白、白板可見範圍與周圍空間沿用圖 2，不拉近或拉遠鏡頭，不將小李移到畫面正中央。
+
+定格在小李興奮介紹新產品標語、期待 Amy 反應的瞬間。他帶著自豪且熱切的笑容，眉毛微微揚起，嘴巴張開正在說話，視線看向畫面左側、位於畫外的 Amy；身體與可見手臂的姿勢沿用圖 2。
+Amy、雙手與原本展示的海報皆留在本鏡的畫外範圍，不為了呈現展示動作而新增入鏡的手部或海報。
+後方白板呈現圖 4 的彩色便條紙與圖文內容，人物自然遮住及畫面裁切掉的部分維持不可見。除上述指定調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕。
+```
+
+#### 結果檢視
+
+- 1672×941 RGB PNG，接近 16:9；完整解碼成功，專案副本與原始輸出 SHA256 相同。
+- 小李單人中近景、花襯衫、完整人物替換與興奮說話表情成立；視線朝左，Amy、雙手及海報未入鏡，未見殘留白模或字幕。
+- 相較 v2，白板只露出部分便條紙，其餘被小李遮擋；不再將十張便條紙全部明顯呈現於可見區。
+- 小李頭頂留白與頭部位置較接近 blocks；肩線及軀幹輪廓仍有變動，便條紙位置及比例未確認精確對齊整板映射。
+- 未確認白板所有文字逐字一致；不將本版標示為已核准。
+- 保留舊版，未替換正式素材，未改分鏡／manifest，未推進 assets 核准。
+
+### shot_4.6.3_gpt_template_v1
+
+**原標題**：shot_4.6.3 GPT 模板生成 v1
+
+- 日期：2026-10-16
+- 使用者指示：使用上一輪完整 prompt，在 GPT 生圖。
+- 工具／供應商：內建 image_gen／OpenAI；介面未提供確切模型及費用。
+- 本輪生成次數：1；未追加生成。
+- 輸出：`../assets/images/shot_4.6.3_gpt_template_v1.png`
+- 原始輸出：`C:/Users/servi/.codex/generated_images/01a14365-4ddb-7872-9254-b032d636e172/exec-35cd7a18-4fc4-4f20-a925-82488d52dae9.png`
+- 參考圖依下列 prompt 圖號順序傳入；prompt 原文未改寫。
+- 圖 1：`../references/scenes/marketing_department/cameras/empty_gpt_s03_amy_medium_close_up.png`
+- 圖 2：`../references/scenes/marketing_department/renders/blocks_blender_s03_amy_medium_close_up.png`
+- 圖 3：`../clp/char_esg_amy.jpeg`
+- 圖 4：`../clp/prop_whiteboard_incorrect.png`
+- 圖 5：`../clp/prop_smartphone.png`
+
+#### Prompt 原文
+
+```text
+參考圖說明：
+圖 1 empty_gpt_s03_amy_medium_close_up.png：行銷部場景外觀參考圖。
+圖 2 blocks_blender_s03_amy_medium_close_up.png：構圖底圖，其中灰色衣服的積木狀人物是待完整替換的定位人物。
+圖 3 char_esg_amy.jpeg：Amy 人物參考圖，對應圖 2 的灰色衣服人物。
+圖 4 prop_whiteboard_incorrect.png：白板上的圖文內容參考圖。
+圖 5 prop_smartphone.png：Amy 手中手機的實體外觀參考圖。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、場景物件配置、人物佔位、顯示範圍與遮擋關係。
+
+將整個灰色定位人物在原位置完整替換為 Amy，包含畫面中可見的頭部、頸部、肩膀、軀幹、雙臂、手掌與手指，不可只替換頭臉或部分身體。
+灰色軀幹方塊、長條手臂、方塊手掌與手指都屬於定位人物，必須一起替換。不可保留這些方塊，再把 Amy 放在它們前方或後方。
+替換後，各部位呈現 Amy 的自然身體、服裝、手掌與手指，彼此自然連接，不保留任何白模、積木狀外殼或未替換的定位人物部件。
+
+保留人物的站位、身體朝向、畫面尺度與裁切，只呈現圖 2 中可見的部位，不補出畫外身體。雙臂與雙手的位置沿用圖 2，僅允許持手機的手掌與手指因握持需要而調整。
+Amy 的外觀與服裝採用圖 3，不採用人物參考圖的展示姿態或構圖。
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。
+
+將圖 4 中白板書寫面內的彩色便條紙、文字內容及版面排列，依圖 2 的白板透視貼合到既有白板上，保留各張便條紙的顏色、相對位置與比例，不自行改寫或修正文字。僅針對圖 2 所顯示的白板區域，呈現部分便條紙內容。
+圖 4 只提供白板內的畫面內容，不採用其板框、拍攝角度或其他物件。白板的位置、大小、板框、筆槽、裁切及遮擋關係沿用圖 2，不新增另一塊白板，也不為了露出文字而移動人物。
+以整塊白板書寫面對應圖 4 的完整版面，再依圖 2 的取景自然裁切。位於畫外或被 Amy、手臂及手機遮住的內容維持不可見，不將全部便條紙縮小或重新排列到可見區域。
+
+在 Amy 位於畫面右側、原本抬起的手中放入一支手機，手機的機身顏色、邊框、厚度、背蓋及鏡頭模組採用圖 5。
+手機直向握持，螢幕朝向 Amy，鏡頭主要看見手機背面與側邊；尺寸與她的手掌相稱，手指自然握住機身，不穿透手機，不遮住臉部。
+圖 5 只提供同一支手機的實體外觀，不採用其多視圖排列、展示角度、背景或「主管來電」介面，畫面中只出現一支手機。手機用於查證資訊，不呈現自拍、錄影或接聽電話的動作，也不新增面向觀眾的法規頁面或文字介面。
+
+畫面描述：
+這是一張 Amy 單人中近景。Amy 位於畫面中央偏左，呈現頭部、頸部、肩膀、上半身及圖 2 中可見的雙臂與手部。畫面右側的前臂彎曲抬起，手中握著手機；另一隻手位於畫面下緣，沿用圖 2 的部分裁切，不補出被裁掉的手部或下半身。
+白板位於畫面右側與 Amy 後方，左側保留圖 2 可見的辦公桌、隔板、螢幕、窗戶及其他既有物件。人物大小、位置、頭頂留白、白板可見範圍與周圍空間沿用圖 2，不拉近或拉遠鏡頭，不將 Amy 移到畫面正中央。
+
+定格在 Amy 剛用手機查證資訊、抬眼嚴肅提醒小李文案可能涉及漂綠的瞬間。她眉頭微皺，神情專注且帶著擔憂，嘴巴微張正在說話，視線看向畫面右側、位於畫外的小李；身體與手臂姿勢沿用圖 2，手機仍握在抬起的手中，螢幕朝向自己。
+小李與海報均在畫外，不新增入鏡人物或海報。後方白板呈現圖 4 的部分便條紙與圖文內容，人物、手臂與手機自然遮住及畫面裁切掉的部分維持不可見。除上述指定調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕。
+```
+
+#### 結果檢視
+
+- 1672×941 RGB PNG，接近 16:9；完整解碼成功，專案副本與原始輸出 SHA256 相同。
+- Amy 單人、灰色西裝、完整替換白模及皺眉嚴肅說話表情成立；視線朝右，一支黑色手機呈現背面與側邊，未出現來電介面、字幕、小李或海報。
+- 相較 blocks，Amy 頭頂留白減少；持手機手明顯抬高並向身體內收，前臂角度改變，另一手的可見部分減少，構圖／姿勢尚未完全符合。
+- 白板呈現部分便條紙及遮擋；版面位置、比例未確認精確符合整塊白板的映射，文字未確認逐字一致。
+- 不將本版標示為已核准；未替換正式素材，未改分鏡／manifest，未推進 assets 核准。
