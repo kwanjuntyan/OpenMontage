@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Scene Player — 毛片預覽與評鑑</title>
+<style>
+  :root {
+    --bg: #111214;
+    --panel: #181a1e;
+    --panel-2: #202329;
+    --border: #2c3038;
+    --text: #eceae4;
+    --text-2: #a9adb8;
+    --text-3: #6e7381;
+    --amber: #f5b942;
+    --green: #48b878;
+    --red: #e05d5d;
+    --blue: #58a6ff;
+    --mono: ui-monospace, "Cascadia Code", "SF Mono", Consolas, monospace;
+    --sans: system-ui, -apple-system, "Segoe UI", "Microsoft JhengHei", sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    font-size: 13.5px;
+    line-height: 1.45;
+  }
+  .top-bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 18px;
+    background: var(--panel);
+    border-bottom: 1px solid var(--border);
+  }
+  .brand {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--amber);
+    text-decoration: none;
+    margin-right: 4px;
+  }
+  .ctrl-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    padding: 4px 8px;
+    border-radius: 6px;
+  }
+  .ctrl-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-2);
+    white-space: nowrap;
+  }
+  select {
+    background: #121417;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 8px;
+    font-size: 12.5px;
+    font-family: var(--sans);
+  }
+  .seg-btn {
+    background: transparent;
+    color: var(--text-2);
+    border: 1px solid transparent;
+    border-radius: 4px;
+    padding: 4px 9px;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .seg-btn:hover { color: var(--text); }
+  .seg-btn.active {
+    background: var(--amber);
+    color: #141413;
+    font-weight: 700;
+  }
+  .main-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.65fr) minmax(340px, 1fr);
+    gap: 14px;
+    padding: 14px 18px;
+    max-width: 1760px;
+    margin: 0 auto;
+  }
+  @media (max-width: 1080px) {
+    .main-grid { grid-template-columns: 1fr; }
+  }
+  .stage-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+  .viewport {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #090a0c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .play-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.22);
+    pointer-events: none;
+    transition: opacity 0.15s ease;
+  }
+  .play-overlay span {
+    background: rgba(245, 185, 66, 0.94);
+    color: #141413;
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 14px;
+    padding: 10px 20px;
+    border-radius: 999px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.6);
+  }
+  body.is-playing .play-overlay {
+    opacity: 0;
+  }
+  .viewport img, .viewport video {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+  .viewport.split-view {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: var(--border);
+  }
+  .split-pane {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: #090a0c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+  }
+  .pane-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(15, 16, 19, 0.82);
+    border: 1px solid var(--border);
+    color: var(--amber);
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    pointer-events: none;
+  }
+  .status-pill {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(15, 16, 19, 0.85);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 11px;
+    padding: 4px 9px;
+    border-radius: 4px;
+    pointer-events: none;
+  }
+  .status-pill.warn { border-color: var(--amber); color: var(--amber); }
+  .sub-overlay {
+    position: absolute;
+    left: 4%;
+    right: 4%;
+    bottom: 14px;
+    background: rgba(12, 13, 16, 0.84);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 6px;
+    padding: 8px 14px;
+    text-align: center;
+    pointer-events: none;
+  }
+  .sub-speaker {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--amber);
+    margin-bottom: 2px;
+  }
+  .sub-text {
+    font-size: 15.5px;
+    font-weight: 600;
+    color: #fff;
+  }
+  .transport {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    background: var(--panel-2);
+    border-top: 1px solid var(--border);
+  }
+  .btn {
+    background: #282c34;
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 6px 12px;
+    font-size: 12.5px;
+    font-family: var(--mono);
+    cursor: pointer;
+  }
+  .btn:hover { border-color: var(--text-2); }
+  .btn.primary {
+    background: var(--amber);
+    color: #141413;
+    border-color: var(--amber);
+    font-weight: 700;
+  }
+  .progress-wrap {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .progress-bar {
+    width: 100%;
+    height: 6px;
+    background: #111317;
+    border-radius: 3px;
+    overflow: hidden;
+    cursor: pointer;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--amber);
+    width: 0%;
+    transition: width 0.1s linear;
+  }
+  .time-row {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--text-2);
+  }
+  .filmstrip {
+    display: flex;
+    gap: 8px;
+    padding: 10px 14px;
+    overflow-x: auto;
+    background: var(--panel);
+    border-top: 1px solid var(--border);
+  }
+  .shot-chip {
+    min-width: 128px;
+    max-width: 128px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .shot-chip.active {
+    border-color: var(--amber);
+    box-shadow: 0 0 0 1px var(--amber);
+  }
+  .shot-chip-thumb {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background: #0d0f12;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--text-3);
+  }
+  .shot-chip-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .shot-chip-head {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 700;
+  }
+  .shot-chip-badges {
+    display: flex;
+    gap: 4px;
+    margin-top: 3px;
+    font-family: var(--mono);
+    font-size: 9.5px;
+  }
+  .b-tag {
+    padding: 1px 4px;
+    border-radius: 3px;
+    background: #14161a;
+    color: var(--text-3);
+  }
+  .b-tag.ok { color: var(--green); border: 1px solid rgba(72, 184, 120, 0.35); }
+  .b-tag.warn { color: var(--amber); border: 1px solid rgba(245, 185, 66, 0.35); }
+  .inspector {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .info-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .info-card h3 {
+    margin: 0 0 8px 0;
+    font-family: var(--mono);
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--amber);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .kv-grid {
+    display: grid;
+    grid-template-columns: 92px 1fr;
+    gap: 5px 10px;
+    font-size: 12.5px;
+  }
+  .kv-k {
+    color: var(--text-3);
+    font-family: var(--mono);
+    font-size: 11.5px;
+  }
+  .kv-v {
+    color: var(--text);
+    word-break: break-word;
+  }
+  .mono-path {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--blue);
+  }
+  .clp-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+  }
+  .clp-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 3px 8px;
+    font-size: 11.5px;
+  }
+  .clp-pill img {
+    width: 24px;
+    height: 24px;
+    object-fit: cover;
+    border-radius: 3px;
+  }
+</style>
+</head>
+<body>
+
+<div class="top-bar">
+  <a class="brand" id="backToBoard" href="/">◀ Backlot</a>
+  <span style="font-weight:700;font-size:14px">🎬 Scene Player（毛片預覽器）</span>
+
+  <!-- 1. 課程 / Sequence / Scene 選擇 -->
+  <div class="ctrl-group">
+    <span class="ctrl-label">1. 專案/課程</span>
+    <select id="selProject"></select>
+    <span class="ctrl-label">幕(Seq)</span>
+    <select id="selSeq"></select>
+    <span class="ctrl-label">場(Scene)</span>
+    <select id="selSceneGroup"></select>
+  </div>
+
+  <!-- 2. 聲音切換 -->
+  <div class="ctrl-group">
+    <span class="ctrl-label">2. 聲音</span>
+    <button class="seg-btn active" data-audio-mode="dialogue">Audio（對白音檔）</button>
+    <button class="seg-btn" data-audio-mode="video">影片原音</button>
+  </div>
+
+  <!-- 3. 畫面切換 -->
+  <div class="ctrl-group">
+    <span class="ctrl-label">3. 畫面</span>
+    <button class="seg-btn active" data-visual-mode="image">圖像</button>
+    <button class="seg-btn" data-visual-mode="video">影片</button>
+  </div>
+
+  <!-- 4. 圖像來源切換 -->
+  <div class="ctrl-group" id="imgSourceGroup">
+    <span class="ctrl-label">4. 圖像選擇</span>
+    <button class="seg-btn active" data-img-mode="storyboard">分鏡圖</button>
+    <button class="seg-btn" data-img-mode="camera">Camera 視角圖</button>
+    <button class="seg-btn" data-img-mode="split">並排對照</button>
+  </div>
+</div>
+
+<div class="main-grid">
+  <div class="stage-card">
+    <div class="viewport" id="viewport"></div>
+
+    <div class="transport">
+      <button class="btn" id="btnPrev" title="上一鏡 (←)">⏮ 上一鏡</button>
+      <button class="btn primary" id="btnPlay" title="連續播放 / 暫停 (Space)">▶ 播放毛片</button>
+      <button class="btn" id="btnNext" title="下一鏡 (→)">⏭ 下一鏡</button>
+      <label style="display:flex;align-items:center;gap:4px;font-size:12px;color:var(--text-2);cursor:pointer">
+        <input type="checkbox" id="chkAutoAdvance" checked> 連續播完本場
+      </label>
+      <div class="progress-wrap">
+        <div class="progress-bar" id="progressBar"><div class="progress-fill" id="progressFill"></div></div>
+        <div class="time-row">
+          <span id="lblShotTime">0.00s / 0.00s</span>
+          <span id="lblShotCounter">0 / 0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="filmstrip" id="filmstrip"></div>
+  </div>
+
+  <!-- 5. 評鑑資訊面板 -->
+  <div class="inspector" id="inspector"></div>
+</div>
+
+<audio id="audioEl"></audio>
+<script type="module" src="/ui/player.js"></script>
+</body>
+</html>

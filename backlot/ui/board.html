@@ -10,6 +10,7 @@
 <div class="wrap" id="app"></div>
 <div class="modal-bg" id="modal"></div>
 <audio id="player"></audio>
+<a href="/ui/player.html" onclick="this.href='/ui/player.html?project='+encodeURIComponent(location.pathname.split('/').filter(Boolean).pop()||'course-51-esg')" style="position:fixed;bottom:18px;right:18px;z-index:900;background:#f5b942;color:#141413;font-family:var(--mono,monospace);font-weight:700;font-size:12px;padding:8px 14px;border-radius:6px;text-decoration:none;box-shadow:0 4px 14px rgba(0,0,0,.45)">🎬 Scene Player</a>
 <script type="module" src="/ui/board.js"></script>
 </body>
 </html>
