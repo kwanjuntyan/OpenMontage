@@ -24,3 +24,8 @@
 - 尚待製作的白模標明 `source: "generate"` 與需求，不虛填已存在路徑。W2V 需可用預演影片；必要素材未就緒時 Asset Director 回報缺件。
 - 鏡外對話者可出現在表演的視線目標，但不因此要求人物進入畫面或附其 CLP 圖。單人鏡頭需明寫可見人數。
 - scene_plan 只保留製作意圖與素材需求；不預填生成結果、核准紀錄或續作狀態。缺少／空的 `render_stages` 不使舊分鏡失效。
+
+## 對白與動作分離規則
+
+1. **台詞不可加油添醋。** `character_actions[].dialogue`（及上游 `script.json` 的台詞 `sections[].text`）必須逐字忠於核准劇本原詞，嚴禁自行改寫、擴寫或潤飾詞句。
+2. **括號動作歸入畫面描述，不放對白。** 劇本括號內的舞台指示、動作、表情或道具標記（如 `（放下手中的咖啡杯，溫和地微笑。）`、`（@Coffee_Cup）`）必須拆入 `description`（畫面提示詞）、`character_actions[].action_sequence` 或 `speaker_directions`，`dialogue` 與台詞 `text` 只保留角色實際開口說出的台詞。
