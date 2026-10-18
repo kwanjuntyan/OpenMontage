@@ -1,10 +1,10 @@
 # Scene Director - kj-cinematic Pipeline
 
-**先完整閱讀並遵循 `skills/pipelines/cinematic/scene-director.md`**，再套用以下 CLP 規則。
+本檔是 `kj-cinematic` 的分鏡規劃工序，**不繼承 `skills/pipelines/cinematic/scene-director.md`**。
+- **輸入**：讀取 `state.artifacts["script"]["script"]`、`state.artifacts["clp"]["clp_manifest"]`（及已有的 `proposal_packet`）。
+- **輸出**：產出符合 `schemas/artifacts/scene_plan.schema.json` 的 `artifacts/scene_plan.json`，完成後進入 `awaiting_human` 等候人工核准。
 
 ## CLP 規則
-
-輸入多了 `state.artifacts["clp"]["clp_manifest"]`。
 
 1. **每個鏡頭標註用到的 CLP。** 在 scene 的 `required_assets` 加入（scene_plan schema 允許這個欄位帶額外屬性）：
    ```json
@@ -18,11 +18,14 @@
 
 ## 視覺工序規劃
 
+- 填寫 `shot_intent` 時，說明本鏡要讓觀眾理解的資訊或感受到的情緒，並據此選擇主體、景別與表演重點；避免只重述台詞或畫面動作。
 - 需生成的鏡頭使用既有 `render_stages` 表達順序，如 `["R2I"]` 或 `["W2I", "W2V"]`；八類定義見 `skills/pipelines/kj-cinematic/prompt-recipes.md`。沿用現成素材時不必補生成階段。
 - `description` 補人物所在位置、拍攝朝向與可見背景，將場景 CLP 的佈景對應到白模取景；位置不明先釐清，不杜撰「窗邊」或新格局。
+- 動態鏡頭須交代動作起點、主要節點與終點，以及必要的構圖／運鏡變化。
+- 標題或疊圖的內容與位置記於 `overlay_notes`，不混入實景描述。
 - 白模圖沿用 `required_assets` 的 `type: "camera_ref"`、`role: "first_frame_ref"`，影片用 `type: "camera_video_ref"`、`role: "motion_ref"`；每項保留 `description`、`source` 與實際 `path`。
 - 尚待製作的白模標明 `source: "generate"` 與需求，不虛填已存在路徑。W2V 需可用預演影片；必要素材未就緒時 Asset Director 回報缺件。
-- 鏡外對話者可出現在表演的視線目標，但不因此要求人物進入畫面或附其 CLP 圖。單人鏡頭需明寫可見人數。
+- 鏡外對話者可作為表演的視線目標，但不列入本鏡 `required_assets` 的 CLP；單人鏡頭於 `description` 明寫可見人數。
 - scene_plan 只保留製作意圖與素材需求；不預填生成結果、核准紀錄或續作狀態。缺少／空的 `render_stages` 不使舊分鏡失效。
 
 ## 鏡頭命名與選用規則
@@ -38,7 +41,7 @@
 3. **角度圖 6 種型式末綴與存放位置**：
    - 各模型的所有角度圖統一存放於 `references/scenes/<location>/cameras/`，檔名為 **`cam_<主體>_<景別縮寫>_<角度或修飾>_<型式末綴>.png`**；`references/scenes/<location>/renders/` 僅留給場景全景測試、材質驗證或過程歸檔（`renders/archive/`），禁止放置分鏡機位圖。
    - 6 種型式末綴：`empty_blender`、`empty_gpt`、`empty_banana`（無人物空景圖）；`block_blender`、`block_gpt`、`block_banana`（附人物定位圖）。
-   - `scene_plan.json` 的 `camera_ref.path` 統一指向 `references/scenes/<location>/cameras/<鏡頭基底名稱>_block_blender.png`。
+   - `scene_plan.json` 的 `camera_ref.path`：有人物鏡頭指向 `references/scenes/<location>/cameras/<鏡頭基底名稱>_block_blender.png`；無人物特寫／環境鏡頭指向 `<鏡頭基底名稱>_empty_blender.png`。
 
 ## 對白與動作分離規則
 

@@ -1560,9 +1560,9 @@
         },
         {
           "type": "clp",
-          "description": "白色拿鐵杯碟；攪拌小匙依劇本動作加入",
+          "description": "桌面咖啡杯碟與木蓋糖罐套裝；攪拌小匙依劇本動作加入",
           "source": "provided",
-          "clp_id": "prop_coffee_cup"
+          "clp_id": "prop_coffee_set"
         },
         {
           "type": "camera_ref",
@@ -1627,6 +1627,12 @@
           "description": "風格咖啡館",
           "source": "provided",
           "clp_id": "loc_coffee_shop"
+        },
+        {
+          "type": "clp",
+          "description": "左下角桌面咖啡杯碟與木蓋糖罐套裝",
+          "source": "provided",
+          "clp_id": "prop_coffee_set"
         },
         {
           "type": "camera_ref",
@@ -1841,7 +1847,7 @@
       "start_seconds": 152.88,
       "end_seconds": 168.07,
       "narrative_role": "deliver_payload",
-      "description": "Subject: George 畫外音以只量體重比喻只看 EPS；畫面維持兩人對話桌的杯碟與手部。Scene: loc_coffee_shop，日間窗光照在原木桌面，兩杯咖啡與白色金色金屬蓋罐沿用空景。Framing: cam_table_insert_top（Blender: SH09）桌面俯拍插鏡，George 手臂在左、Amy 手臂在右，僅見局部手臂與身體邊緣、不見臉，位置比例依 blocks。Camera: 50mm，高位斜俯拍，正常速度、固定鏡頭，桌面清楚；E、S、G 為獨立後製疊字，見 overlay_notes。",
+      "description": "Subject: George 畫外音以只量體重比喻只看 EPS；畫面維持兩人對話桌的杯碟與手部。Scene: loc_coffee_shop，日間窗光照在原木桌面，兩杯咖啡與木蓋白瓷糖罐（prop_coffee_set）。Framing: cam_table_insert_top（Blender: SH09）桌面俯拍插鏡，George 手臂在左、Amy 手臂在右，僅見局部手臂與身體邊緣、不見臉，位置比例依 blocks。Camera: 50mm，高位斜俯拍，正常速度、固定鏡頭，桌面清楚；E、S、G 為獨立後製疊字，見 overlay_notes。",
       "shot_language": {
         "shot_size": "insert",
         "camera_movement": "static",
@@ -1892,14 +1898,14 @@
         },
         {
           "type": "clp",
-          "description": "杯碟外觀參考；罐體沿用 cameras 白色金色金屬蓋罐，不置換成 CLP 圖的木蓋罐",
+          "description": "桌面雙人咖啡杯碟與木蓋糖罐套裝",
           "source": "provided",
           "clp_id": "prop_coffee_set"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_table_insert_top（Blender: SH09／50mm）桌面俯拍插鏡，兩杯碟與白色金色金屬蓋罐；blocks 中 George 手臂在左、Amy 手臂在右，無臉部。 背景依本空景，人物位置比例依 metadata 同機位 blocks。",
+          "description": "cam_table_insert_top（Blender: SH09／50mm）桌面俯拍插鏡，兩杯碟與糖罐；blocks 中 George 手臂在左、Amy 手臂在右，無臉部。 背景依本空景，人物位置比例依 metadata 同機位 blocks。",
           "source": "provided",
           "path": "references/scenes/coffee_shop/cameras/cam_table_insert_top_block_blender.png"
         },
@@ -1955,6 +1961,12 @@
           "clp_id": "loc_coffee_shop"
         },
         {
+          "type": "clp",
+          "description": "桌面咖啡杯碟與木蓋糖罐套裝",
+          "source": "provided",
+          "clp_id": "prop_coffee_set"
+        },
+        {
           "type": "camera_ref",
           "role": "first_frame_ref",
           "description": "cam_amy_ots_george（60mm）George 過肩拍 Amy，George 頭肩左前景、Amy 右中景，木牆與咖啡機背景。桌椅與人物位置比例依同機位 blocks。",
@@ -1988,7 +2000,7 @@
       "start_seconds": 171.49,
       "end_seconds": 175.56,
       "narrative_role": "deliver_payload",
-      "description": "Subject: George（藍衣 blocks）神情輕鬆幽默，微笑著揮手安撫對面的 Amy（紅衣 blocks），自信地表示只要小學畢業就能猜出來。Scene: loc_coffee_shop，日間暖陽，George 身後為木框玻璃大窗、窗外綠意與墨綠色立柱。Framing: cam_george_mcu_45deg（65mm）George 中特寫，George 居左中景為主體，右下角保留 Amy 局部前景，桌椅與背景依同機位 blocks。Camera: 65mm，坐姿近眼高微側、固定鏡頭（static），淺景深聚焦 George 親和笑容；無額外疊字。",
+      "description": "Subject: George（藍衣 blocks）單人入鏡，神情輕鬆幽默，微笑著揮手安撫對面畫外的 Amy，自信地表示只要小學畢業就能猜出來。Scene: loc_coffee_shop，日間暖陽，George 身後為木框玻璃大窗、窗外綠意與墨綠色立柱。Framing: cam_george_mcu_45deg（65mm）George 中特寫，George 居左中景為主體，下緣露出咖啡杯與右下角木蓋糖罐（prop_coffee_set），僅 George 一人入鏡，桌椅與背景依同機位 blocks。Camera: 65mm，坐姿近眼高微側、固定鏡頭（static），淺景深聚焦 George 親和笑容；無額外疊字。",
       "shot_language": {
         "shot_size": "medium_close",
         "camera_movement": "static",
@@ -2014,20 +2026,20 @@
         },
         {
           "type": "clp",
-          "description": "右下角局部前景 Amy",
-          "source": "provided",
-          "clp_id": "char_amy"
-        },
-        {
-          "type": "clp",
           "description": "風格咖啡館",
           "source": "provided",
           "clp_id": "loc_coffee_shop"
         },
         {
+          "type": "clp",
+          "description": "桌面咖啡杯碟與右下角木蓋糖罐套裝",
+          "source": "provided",
+          "clp_id": "prop_coffee_set"
+        },
+        {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_george_mcu_45deg（65mm）George 中特寫，窗與綠柱背景，右下角保留 Amy 局部前景。桌椅與背景依同機位 blocks。",
+          "description": "cam_george_mcu_45deg（65mm）George 單人中特寫，窗與綠柱背景，下緣露出咖啡杯與右下角糖罐。桌椅與背景依同機位 blocks。",
           "source": "provided",
           "path": "references/scenes/coffee_shop/cameras/cam_george_mcu_45deg_block_blender.png"
         },
@@ -2319,6 +2331,12 @@
           "clp_id": "loc_coffee_shop"
         },
         {
+          "type": "clp",
+          "description": "左下角桌面咖啡杯與糖罐套裝",
+          "source": "provided",
+          "clp_id": "prop_coffee_set"
+        },
+        {
           "type": "camera_ref",
           "role": "first_frame_ref",
           "description": "cam_amy_mcu_45deg（65mm）Amy 中特寫，咖啡機與木牆背景，左下角留 George 局部前景。桌椅與背景依同機位 blocks。",
@@ -2387,6 +2405,12 @@
           "description": "風格咖啡館",
           "source": "provided",
           "clp_id": "loc_coffee_shop"
+        },
+        {
+          "type": "clp",
+          "description": "桌面咖啡杯碟與糖罐套裝",
+          "source": "provided",
+          "clp_id": "prop_coffee_set"
         },
         {
           "type": "camera_ref",
@@ -2486,7 +2510,7 @@
       "start_seconds": 200.1,
       "end_seconds": 206.9,
       "narrative_role": "deliver_payload",
-      "description": "Subject: George 畫外音清晰定義「E，Environment，環境保護，目的就是希望公司能對地球好一點」；畫面由「ESG 萬靈丹」中的綠色 E 膠囊（prop_capsules）展開為清新立體簡報圖卡，條列環境保護核心項目（溫室氣體減排、節能減碳、水資源與廢棄物管理、污染防治）。Scene: 溫暖明亮的皮克斯風格立體簡報空間，帶有咖啡館木質暖調底蘊與翠綠生態光暈。Framing: 居中對稱圖表構圖（無室內辦公室硬機位，採概念簡報動畫），左側為發光的綠色「E — Environment 環境保護」主標與地球綠葉圖示，右側展開條文清單。Camera: 50mm，平視緩慢推進（dolly_in），深景深字卡清晰；畫面疊字「E — Environment 環境保護：對地球好一點」。",
+      "description": "Subject: George 畫外音清晰定義「E，Environment，環境保護，目的就是希望公司能對地球好一點」；畫面由「ESG 萬靈丹」藥罐與綠葉標章（prop_capsules）展開為清新立體簡報圖卡，條列環境保護核心項目（溫室氣體減排、節能減碳、水資源與廢棄物管理、污染防治）。Scene: 溫暖明亮的皮克斯風格立體簡報空間，帶有咖啡館木質暖調底蘊與翠綠生態光暈。Framing: 居中對稱圖表構圖（無室內辦公室硬機位，採概念簡報動畫），左側為發光的綠色「E — Environment 環境保護」主標與綠葉標章，右側展開條文清單。Camera: 50mm，平視緩慢推進（dolly_in），深景深字卡清晰；畫面疊字「E — Environment 環境保護：對地球好一點」。",
       "shot_language": {
         "shot_size": "medium",
         "camera_movement": "dolly_in",
@@ -2498,7 +2522,7 @@
       "transition_in": "cut",
       "transition_out": "cut",
       "hero_moment": true,
-      "shot_intent": "以視覺化簡報與綠色 E 膠囊拆解動畫，正式定義 ESG 的第一個字母 E（Environment 環境保護）",
+      "shot_intent": "以視覺化簡報與綠色 E 標章拆解動畫，正式定義 ESG 的第一個字母 E（Environment 環境保護）",
       "information_role": "明確傳授 E（Environment）代表環境保護及其核心條文內涵",
       "render_stages": [
         "R2I",
@@ -2514,7 +2538,7 @@
         },
         {
           "type": "clp",
-          "description": "綠色 E 膠囊視覺拆解元素",
+          "description": "ESG 保健罐與綠色 E 標章視覺拆解元素",
           "source": "provided",
           "clp_id": "prop_capsules"
         },
@@ -2581,6 +2605,12 @@
           "description": "風格咖啡館",
           "source": "provided",
           "clp_id": "loc_coffee_shop"
+        },
+        {
+          "type": "clp",
+          "description": "左下角桌面咖啡杯與糖罐套裝",
+          "source": "provided",
+          "clp_id": "prop_coffee_set"
         },
         {
           "type": "camera_ref",
@@ -2728,6 +2758,12 @@
           "clp_id": "loc_coffee_shop"
         },
         {
+          "type": "clp",
+          "description": "左下角桌面咖啡杯與糖罐套裝",
+          "source": "provided",
+          "clp_id": "prop_coffee_set"
+        },
+        {
           "type": "camera_ref",
           "role": "first_frame_ref",
           "description": "cam_amy_mcu_45deg（65mm）Amy 中特寫，咖啡機與木牆背景。桌椅與背景依同機位 blocks。",
@@ -2796,6 +2832,12 @@
           "description": "風格咖啡館",
           "source": "provided",
           "clp_id": "loc_coffee_shop"
+        },
+        {
+          "type": "clp",
+          "description": "桌面咖啡杯碟與糖罐套裝",
+          "source": "provided",
+          "clp_id": "prop_coffee_set"
         },
         {
           "type": "camera_ref",
@@ -2969,7 +3011,7 @@
       "start_seconds": 250.36,
       "end_seconds": 258.96,
       "narrative_role": "deliver_payload",
-      "description": "Subject: George 畫外音溫和肯定「完全正確。妳講的這幾點，也就是 S，Social，社會責任。目的就是希望公司能對社會好一點。」；畫面中「ESG 萬靈丹」的暖橘色 S 膠囊（prop_capsules）展開為「S — Social 社會責任」條文總結卡，四大圖標同步亮起。Scene: 延續咖啡館暖陽色調的皮克斯風立體簡報空間。Framing: 居中簡報圖卡構圖（概念簡報動畫），中央大字顯示「S — Social 社會責任」，周圍環繞勞工權益、顧客安全、供應商共好與社區參與條文。Camera: 50mm，平視固定鏡頭（static），深景深；畫面疊字「S — Social 社會責任：對社會好一點」。",
+      "description": "Subject: George 畫外音溫和肯定「完全正確。妳講的這幾點，也就是 S，Social，社會責任。目的就是希望公司能對社會好一點。」；畫面中「ESG 萬靈丹」保健罐與藍綠雙色 S 圓章（prop_capsules）展開為「S — Social 社會責任」條文總結卡，四大圖標同步亮起。Scene: 延續咖啡館暖陽色調的皮克斯風立體簡報空間。Framing: 居中簡報圖卡構圖（概念簡報動畫），中央大字顯示「S — Social 社會責任」，周圍環繞勞工權益、顧客安全、供應商共好與社區參與條文。Camera: 50mm，平視固定鏡頭（static），深景深；畫面疊字「S — Social 社會責任：對社會好一點」。",
       "shot_language": {
         "shot_size": "medium",
         "camera_movement": "static",
@@ -2997,7 +3039,7 @@
         },
         {
           "type": "clp",
-          "description": "暖色 S 膠囊視覺拆解元素",
+          "description": "ESG 保健罐與 S 圓章視覺拆解元素",
           "source": "provided",
           "clp_id": "prop_capsules"
         },
@@ -3066,6 +3108,12 @@
           "clp_id": "loc_coffee_shop"
         },
         {
+          "type": "clp",
+          "description": "左下角桌面咖啡杯與糖罐套裝",
+          "source": "provided",
+          "clp_id": "prop_coffee_set"
+        },
+        {
           "type": "camera_ref",
           "role": "first_frame_ref",
           "description": "cam_amy_mcu_45deg（65mm）Amy 中特寫，看著筆記點頭同意。桌椅與背景依同機位 blocks。",
@@ -3098,7 +3146,7 @@
       "start_seconds": 261.0,
       "end_seconds": 266.98,
       "narrative_role": "introduce_subject",
-      "description": "Subject: George（藍衣 blocks）豎起一根食指，神情沉穩地向對面 Amy（紅衣 blocks）提出最後一個問題：「最後一個問題，妳會希望這間公司的『管理方式』是什麼樣子？」。Scene: loc_coffee_shop，日間暖陽，George 背靠木框大窗與墨綠立柱。Framing: cam_george_mcu_45deg（65mm）George 中特寫，George 居左中景，右下角留 Amy 局部前景，桌椅與背景依同機位 blocks。Camera: 65mm，坐姿近眼高微側、固定鏡頭（static），淺景深聚焦 George；無額外疊字。",
+      "description": "Subject: George（藍衣 blocks）豎起一根食指，神情沉穩地向畫面右側提出最後一個問題：「最後一個問題，妳會希望這間公司的『管理方式』是什麼樣子？」。Scene: loc_coffee_shop，日間暖陽，George 背靠木框大窗與墨綠立柱，畫面下緣與右下角桌面可見咖啡杯口與木蓋糖罐（prop_coffee_set）。Framing: cam_george_mcu_45deg（65mm）George 單人中特寫，George 居左中景，桌椅與背景依同機位 blocks。Camera: 65mm，坐姿近眼高微側、固定鏡頭（static），淺景深聚焦 George；無額外疊字。",
       "shot_language": {
         "shot_size": "medium_close",
         "camera_movement": "static",
@@ -3124,20 +3172,20 @@
         },
         {
           "type": "clp",
-          "description": "右下角局部前景 Amy",
-          "source": "provided",
-          "clp_id": "char_amy"
-        },
-        {
-          "type": "clp",
           "description": "風格咖啡館",
           "source": "provided",
           "clp_id": "loc_coffee_shop"
         },
         {
+          "type": "clp",
+          "description": "下緣桌面咖啡杯與右下角木蓋糖罐套裝",
+          "source": "provided",
+          "clp_id": "prop_coffee_set"
+        },
+        {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_george_mcu_45deg（65mm）George 中特寫，窗與綠柱背景。桌椅與背景依同機位 blocks。",
+          "description": "cam_george_mcu_45deg（65mm）George 單人中特寫，窗與綠柱背景，下緣與右下角見咖啡杯與糖罐。桌椅與背景依同機位 blocks。",
           "source": "provided",
           "path": "references/scenes/coffee_shop/cameras/cam_george_mcu_45deg_block_blender.png"
         },
@@ -3280,6 +3328,12 @@
           "clp_id": "loc_coffee_shop"
         },
         {
+          "type": "clp",
+          "description": "桌面咖啡杯碟與糖罐套裝",
+          "source": "provided",
+          "clp_id": "prop_coffee_set"
+        },
+        {
           "type": "camera_ref",
           "role": "first_frame_ref",
           "description": "cam_amy_ots_george（60mm）George 過肩拍 Amy，George 左前景、Amy 右中景。桌椅與背景依同機位 blocks。",
@@ -3377,7 +3431,7 @@
       "start_seconds": 284.66,
       "end_seconds": 293.26,
       "narrative_role": "deliver_payload",
-      "description": "Subject: George 講述「沒錯，而你所說的，也正就是 G，Governance，公司治理。目的就是希望公司能遵守誠信原則。」；畫面中「ESG 萬靈丹」的寶藍色 G 膠囊（prop_capsules）展開為「G — Governance 公司治理」簡報條文圖卡（董事會監督、資訊透明度、商業道德合規、股東權益保護）。Scene: 溫暖明亮的皮克斯風立體簡報空間，帶有咖啡館木質色調與沉穩藍金光芒。Framing: 居中圖卡構圖（概念簡報動畫），左側為發光的藍金「G — Governance 公司治理」徽章與天秤圖示，右側條列四大治理條文。Camera: 50mm，平視緩慢推進（dolly_in），深景深字卡清晰；畫面疊字「G — Governance 公司治理：遵守誠信原則」。",
+      "description": "Subject: George 講述「沒錯，而你所說的，也正就是 G，Governance，公司治理。目的就是希望公司能遵守誠信原則。」；畫面中「ESG 萬靈丹」保健罐與藍綠雙色 G 圓章（prop_capsules）展開為「G — Governance 公司治理」簡報條文圖卡（董事會監督、資訊透明度、商業道德合規、股東權益保護）。Scene: 溫暖明亮的皮克斯風立體簡報空間，帶有咖啡館木質色調與沉穩藍綠光芒。Framing: 居中圖卡構圖（概念簡報動畫），左側為發光的藍綠「G — Governance 公司治理」圓章與天秤圖示，右側條列四大治理條文。Camera: 50mm，平視緩慢推進（dolly_in），深景深字卡清晰；畫面疊字「G — Governance 公司治理：遵守誠信原則」。",
       "shot_language": {
         "shot_size": "medium",
         "camera_movement": "dolly_in",
@@ -3389,7 +3443,7 @@
       "transition_in": "cut",
       "transition_out": "cut",
       "hero_moment": true,
-      "shot_intent": "結合藍色 G 膠囊拆解與簡報字卡，正式揭示第三個字母 G（Governance 公司治理）與誠信原則",
+      "shot_intent": "結合藍綠 G 圓章拆解與簡報字卡，正式揭示第三個字母 G（Governance 公司治理）與誠信原則",
       "information_role": "明確定義 G（Governance）代表公司治理：確保決策透明、防範舞弊、遵守誠信原則",
       "render_stages": [
         "R2I",
@@ -3405,7 +3459,7 @@
         },
         {
           "type": "clp",
-          "description": "藍金 G 膠囊視覺拆解元素",
+          "description": "ESG 保健罐與 G 圓章視覺拆解元素",
           "source": "provided",
           "clp_id": "prop_capsules"
         },
@@ -3521,7 +3575,7 @@
       "start_seconds": 298.55,
       "end_seconds": 303.27,
       "narrative_role": "resolution",
-      "description": "Subject: George 畫外音總結「ESG 的三大指標就是這麼簡單，一點都不難，對吧？」；畫面中 E（綠）、S（暖橘）、G（藍金）三顆發光膠囊（prop_capsules）在橫式平板（prop_ipad_landscape）上方並列展開為完整的「ESG 三大企業健康指標」總覽圖卡。Scene: 溫暖明亮的咖啡館木質桌面與立體資訊圖表空間。Framing: 三欄式對稱總覽構圖（概念簡報動畫），左欄 E 環境保護（對地球好一點）、中欄 S 社會責任（對社會好一點）、右欄 G 公司治理（遵守誠信原則）並列清晰呈現。Camera: 50mm，平視緩慢拉遠定格（dolly_out），深景深；畫面疊字「E 環境保護｜S 社會責任｜G 公司治理」。",
+      "description": "Subject: George 畫外音總結「ESG 的三大指標就是這麼簡單，一點都不難，對吧？」；畫面中「ESG 萬靈丹」保健罐與 E、S、G 三個圓章（prop_capsules）在橫式平板（prop_ipad_landscape）上方並列展開為完整的「ESG 三大企業健康指標」總覽圖卡。Scene: 溫暖明亮的咖啡館木質桌面與立體資訊圖表空間。Framing: 三欄式對稱總覽構圖（概念簡報動畫），左欄 E 環境保護（對地球好一點）、中欄 S 社會責任（對社會好一點）、右欄 G 公司治理（遵守誠信原則）並列清晰呈現。Camera: 50mm，平視緩慢拉遠定格（dolly_out），深景深；畫面疊字「E 環境保護｜S 社會責任｜G 公司治理」。",
       "shot_language": {
         "shot_size": "wide",
         "camera_movement": "dolly_out",
@@ -3549,7 +3603,7 @@
         },
         {
           "type": "clp",
-          "description": "E/S/G 三顆膠囊分解為三大指標專欄",
+          "description": "ESG 保健罐與 E/S/G 三圓章分解為三大指標專欄",
           "source": "provided",
           "clp_id": "prop_capsules"
         },
@@ -6492,7 +6546,7 @@
       "start_seconds": 729.23,
       "end_seconds": 738.43,
       "narrative_role": "establish_context",
-      "description": "Subject: 主管（char_supervisor）站在 Amy 工位旁手拿書面報告，滿意地邊看邊點頭稱讚報告把 ESG 對公司的影響分析得非常到位、推動 ESG 勢在必行；Amy（紅衣 blocks）坐在右側工位椅上微笑聆聽。Scene: loc_staff_office，日間明亮開放式行政辦公區，薄荷綠屏風工位、後方整排書櫃、木門與百葉窗透入日光。Framing: cam_office_reverse_wide（28mm）行政辦公室反向全景，Amy（紅衣 blocks）坐於右側工位，主管站立於工位旁對談，桌椅與背景依同機位 blocks。Camera: 28mm，平視固定鏡頭（static），深景深完整呈現辦公區環境與兩人互動；無額外疊字。",
+      "description": "Subject: 主管（藍衣 blocks）坐在胡桃木主管桌後的高背椅上，看著桌面展開的 ESG 報告滿意點頭，稱讚報告把 ESG 對公司的影響分析得非常到位、推動 ESG 勢在必行；Amy（紅衣 blocks）坐在對面右側訪客扶手椅上微笑聆聽。Scene: loc_supervisor_office，日間明亮主管獨立辦公室，左側牆面為釘滿便條的軟木塞公佈欄，中央桌角立著白色彎臂檯燈與文件堆，後方大窗可見晴朗藍天與城市摩天大樓群，右側角落有綠植盆栽。Framing: cam_twoshot_wide_level（35mm）側面雙人廣角全景，主管在左、Amy 在右隔桌對坐，左下前景帶出植物葉片，桌椅與背景依同機位 blocks。Camera: 35mm，眼高平視、固定鏡頭（static），深景深完整呈現主管辦公室空間與兩人互動；無額外疊字。",
       "shot_language": {
         "shot_size": "wide",
         "camera_movement": "static",
@@ -6524,16 +6578,16 @@
         },
         {
           "type": "clp",
-          "description": "Amy 與主管辦公室（行政辦公區）",
+          "description": "主管（協理）獨立辦公室",
           "source": "provided",
-          "clp_id": "loc_staff_office"
+          "clp_id": "loc_supervisor_office"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_office_reverse_wide（28mm）行政辦公區反向全景，Amy 坐於右側紅衣 blocks 工位，桌椅與背景依同機位 blocks。",
+          "description": "cam_twoshot_wide_level（35mm）主管辦公室側面雙人廣角全景，主管坐於左側高背椅、Amy 坐於右側訪客椅隔桌對談，桌椅與背景依同機位 blocks。",
           "source": "provided",
-          "path": "references/scenes/staff_office/cameras/cam_office_reverse_wide_block_blender.png"
+          "path": "references/scenes/supervisor_office/cameras/cam_twoshot_wide_level_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -6570,7 +6624,7 @@
       "start_seconds": 738.43,
       "end_seconds": 740.31,
       "narrative_role": "emotional_beat",
-      "description": "Subject: Amy（紅衣 blocks）坐在工位上，如釋重負地露出禮貌燦爛的笑容，微微欠身向主管致謝「謝謝協理的肯定」。Scene: loc_staff_office，身後為薄荷綠屏風、黑色網布椅背與百葉窗書櫃。Framing: cam_amy_mcu_15deg（65mm）Amy 單人中特寫，肩胸以上入鏡，僅 Amy 一人可見，桌椅與背景依同機位 blocks。Camera: 65mm，眼高平視、固定鏡頭（static），淺景深聚焦 Amy 以為任務圓滿結束的欣喜表情；無額外疊字。",
+      "description": "Subject: Amy（紅衣 blocks）坐在主管桌對面的訪客扶手椅上，如釋重負地露出禮貌燦爛的笑容，微微欠身向主管致謝「謝謝協理的肯定」。Scene: loc_supervisor_office，左前景為主管肩頸背影與桌面白色檯燈、高樓窗景，中央為角落綠植盆栽，Amy 身後為水平百葉隔間窗與擺有紫色檔案盒、公文架的矮櫃。Framing: cam_amy_ots_supervisor（50mm）主管過肩拍 Amy 中景，主管在左前景、Amy 在右中景，桌椅與背景依同機位 blocks。Camera: 50mm，眼高平視、固定鏡頭（static），中景深聚焦 Amy 以為任務圓滿結束的欣喜神情；無額外疊字。",
       "shot_language": {
         "shot_size": "medium_close",
         "camera_movement": "static",
@@ -6596,16 +6650,16 @@
         },
         {
           "type": "clp",
-          "description": "Amy 辦公區工位",
+          "description": "主管（協理）獨立辦公室",
           "source": "provided",
-          "clp_id": "loc_staff_office"
+          "clp_id": "loc_supervisor_office"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_mcu_15deg（65mm）Amy 單人中特寫，桌椅與背景依同機位 blocks。",
+          "description": "cam_amy_ots_supervisor（50mm）越過主管左肩拍對面訪客椅上的 Amy，桌椅與背景依同機位 blocks。",
           "source": "provided",
-          "path": "references/scenes/staff_office/cameras/cam_amy_mcu_15deg_block_blender.png"
+          "path": "references/scenes/supervisor_office/cameras/cam_amy_ots_supervisor_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -6633,7 +6687,7 @@
       "start_seconds": 740.31,
       "end_seconds": 745.54,
       "narrative_role": "build_tension",
-      "description": "Subject: 主管（char_supervisor）在工位旁話鋒一轉，身體微傾追問「不過老闆接下來一定會問，那具體該怎麼推動呢？你想好了沒有？」；Amy（紅衣 blocks）坐在電腦桌前，臉上笑容瞬間凝固。Scene: loc_staff_office，日間明亮辦公室，前景左為電腦螢幕、右為桌面書籍，後方為薄荷綠隔板與整排書櫃。Framing: cam_amy_ms_45deg（32mm）工位 45 度中景，呈現工位前對談互動，桌椅與背景依同機位 blocks。Camera: 32mm，微俯視中景、固定鏡頭（static），中景深；無額外疊字。",
+      "description": "Subject: 主管（藍衣 blocks）坐在胡桃木主管桌後話鋒一轉，身體微向前傾、雙手扶在桌面展開的報告兩側追問「不過老闆接下來一定會問，那具體該怎麼推動呢？你想好了沒有？」；右前景 Amy（紅衣 blocks）背影微微一僵。Scene: loc_supervisor_office，主管身後為大型木框軟木塞公佈欄與轉角牆面便條，桌面右側有厚疊文件與白色彎臂檯燈及窗景。Framing: cam_supervisor_ots_amy（50mm）Amy 過肩拍主管中景，主管居左中景、Amy 頭肩居右前景，桌椅與背景依同機位 blocks。Camera: 50mm，眼高平視、固定鏡頭（static），中景深；無額外疊字。",
       "shot_language": {
         "shot_size": "medium",
         "camera_movement": "static",
@@ -6665,16 +6719,16 @@
         },
         {
           "type": "clp",
-          "description": "Amy 與主管辦公室",
+          "description": "主管（協理）獨立辦公室",
           "source": "provided",
-          "clp_id": "loc_staff_office"
+          "clp_id": "loc_supervisor_office"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_ms_45deg（32mm）Amy 工位 45 度中景，桌椅與背景依同機位 blocks。",
+          "description": "cam_supervisor_ots_amy（50mm）越過 Amy 右肩拍主管桌後的協理，桌椅與背景依同機位 blocks。",
           "source": "provided",
-          "path": "references/scenes/staff_office/cameras/cam_amy_ms_45deg_block_blender.png"
+          "path": "references/scenes/supervisor_office/cameras/cam_supervisor_ots_amy_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -6710,7 +6764,7 @@
       "start_seconds": 745.54,
       "end_seconds": 748.0,
       "narrative_role": "emotional_beat",
-      "description": "Subject: Amy（紅衣 blocks）臉部特寫，雙眼瞬間瞪大、下巴微掉，滿臉不可置信地驚呼「蝦？推動策略也要我規劃嗎？」。Scene: loc_staff_office，後方百葉窗與薄荷綠屏風柔焦背景。Framing: cam_amy_cu_emotion（85mm）Amy 單人臉部特寫，頭肩居中，僅 Amy 一人入鏡，桌椅與背景依同機位 blocks。Camera: 85mm，眼高平視、固定鏡頭（static），淺景深放大 Amy 傻眼驚呼的喜劇表情；無額外疊字。",
+      "description": "Subject: Amy（紅衣 blocks）坐在訪客椅上臉部特寫，雙眼瞬間瞪大、下巴微掉，滿臉不可置信地驚呼「蝦？推動策略也要我規劃嗎？」。Scene: loc_supervisor_office，後方綠植葉片與水平百葉隔間窗呈柔和淺景深背景。Framing: cam_amy_cu_emotion（85mm）Amy 單人臉部特寫，頭肩居中，僅 Amy 一人入鏡，桌椅與背景依同機位 blocks。Camera: 85mm，眼高平視、固定鏡頭（static），淺景深放大 Amy 傻眼驚呼的喜劇表情；無額外疊字。",
       "shot_language": {
         "shot_size": "close_up",
         "camera_movement": "static",
@@ -6736,16 +6790,16 @@
         },
         {
           "type": "clp",
-          "description": "Amy 辦公區工位",
+          "description": "主管（協理）獨立辦公室",
           "source": "provided",
-          "clp_id": "loc_staff_office"
+          "clp_id": "loc_supervisor_office"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_cu_emotion（85mm）Amy 臉部特寫，桌椅與背景依同機位 blocks。",
+          "description": "cam_amy_cu_emotion（85mm）Amy 單人臉部特寫，頭肩居中，僅 Amy 一人入鏡，桌椅與背景依同機位 blocks。",
           "source": "provided",
-          "path": "references/scenes/staff_office/cameras/cam_amy_cu_emotion_block_blender.png"
+          "path": "references/scenes/supervisor_office/cameras/cam_amy_cu_emotion_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -6774,7 +6828,7 @@
       "start_seconds": 748.0,
       "end_seconds": 757.78,
       "narrative_role": "deliver_payload",
-      "description": "Subject: 主管（char_supervisor）站在 Amy 工位旁笑容滿面地拍拍胸脯與 Amy 肩膀方向，大方把她捧為「公司的 ESG 專家」，鼓勵她把握在老闆面前展現能力的大好機會；Amy（紅衣 blocks）坐在中央工位苦笑聆聽。Scene: loc_staff_office，日間明亮開放式辦公區，多排薄荷綠隔板工位與百葉窗日光。Framing: cam_office_wide_level（22mm）開放辦公區廣角全景，Amy 工位居畫面中景中央，桌椅與背景依同機位 blocks。Camera: 22mm，高視角平視、固定鏡頭（static），深景深全場清晰；無額外疊字。",
+      "description": "Subject: 主管（藍衣 blocks）坐在高背主管椅上笑容滿面地攤手比劃，大方把 Amy 捧為「公司的 ESG 專家」，熱情鼓勵她把握在老闆面前展現能力的大好機會。Scene: loc_supervisor_office，主管身後為釘滿便條的軟木塞公佈欄，右側為桌面文件堆、白色彎臂檯燈與明亮窗光。Framing: cam_supervisor_mcu_15deg（65mm）主管 15 度單人中特寫，頭肩與桌面雙手入鏡，桌椅與背景依同機位 blocks。Camera: 65mm，眼高平視、固定鏡頭（static），中淺景深聚焦主管畫大餅的熱情神態；無額外疊字。",
       "shot_language": {
         "shot_size": "wide",
         "camera_movement": "static",
@@ -6806,16 +6860,16 @@
         },
         {
           "type": "clp",
-          "description": "Amy 與主管辦公室",
+          "description": "主管（協理）獨立辦公室",
           "source": "provided",
-          "clp_id": "loc_staff_office"
+          "clp_id": "loc_supervisor_office"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_office_wide_level（22mm）行政辦公區全景，Amy 坐於中景中央工位，桌椅與背景依同機位 blocks。",
+          "description": "cam_supervisor_mcu_15deg（65mm）主管單人中特寫，肩胸與桌面手部入鏡，桌椅與背景依同機位 blocks。",
           "source": "provided",
-          "path": "references/scenes/staff_office/cameras/cam_office_wide_level_block_blender.png"
+          "path": "references/scenes/supervisor_office/cameras/cam_supervisor_mcu_15deg_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -6852,7 +6906,7 @@
       "start_seconds": 757.78,
       "end_seconds": 759.87,
       "narrative_role": "resolution",
-      "description": "Subject: Amy（紅衣 blocks）坐在工位椅上，聽完協理的吹捧後先眨眨眼「喔？」，隨即露出既無奈又被激起鬥志的表情點頭應下「好吧！」。Scene: loc_staff_office，身後為薄荷綠屏風、盆栽與百葉窗書櫃，左前景為螢幕側邊。Framing: cam_amy_ms_15deg（50mm）Amy 單人中景 15 度微側，胸部與桌面手勢空間完整入鏡，僅 Amy 一人可見，桌椅與背景依同機位 blocks。Camera: 50mm，眼高平視、固定鏡頭（static），中景深；無額外疊字。",
+      "description": "Subject: Amy（紅衣 blocks）坐在訪客扶手椅上，聽完協理的吹捧後先眨眨眼「喔？」，隨即露出既無奈又被激起鬥志的表情點頭應下「好吧！」。Scene: loc_supervisor_office，左側為角落綠植盆栽，身後為開放式矮櫃（紫色檔案盒、雙層公文架）與水平百葉隔間窗。Framing: cam_amy_ms_15deg（50mm）Amy 單人中景 15 度微側，上半身與扶手椅完整入鏡，僅 Amy 一人可見，桌椅與背景依同機位 blocks。Camera: 50mm，眼高平視、固定鏡頭（static），中景深；無額外疊字。",
       "shot_language": {
         "shot_size": "medium",
         "camera_movement": "static",
@@ -6878,16 +6932,16 @@
         },
         {
           "type": "clp",
-          "description": "Amy 辦公區工位",
+          "description": "主管（協理）獨立辦公室",
           "source": "provided",
-          "clp_id": "loc_staff_office"
+          "clp_id": "loc_supervisor_office"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_ms_15deg（50mm）Amy 單人中景 15 度微側，桌椅與背景依同機位 blocks。",
+          "description": "cam_amy_ms_15deg（50mm）Amy 單人中景 15 度微側，坐於訪客扶手椅，桌椅與背景依同機位 blocks。",
           "source": "provided",
-          "path": "references/scenes/staff_office/cameras/cam_amy_ms_15deg_block_blender.png"
+          "path": "references/scenes/supervisor_office/cameras/cam_amy_ms_15deg_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -8913,7 +8967,7 @@
       "start_seconds": 1047.01,
       "end_seconds": 1051.19,
       "narrative_role": "establish_context",
-      "description": "Subject: 主管（char_supervisor）站在 Amy 工位旁，手裡拿著 Amy 整理好的 ESG 五步驟推動計畫書（prop_proposal_document），滿面春風、讚不絕口地誇獎計畫寫得很具體非常好；Amy（紅衣 blocks）坐在中央薄荷綠隔板工位前微笑聆聽。Scene: loc_staff_office 日間明亮開放式行政辦公區，多排薄荷綠屏風工位、後方書櫃與百葉窗透入自然日光。Framing: cam_office_wide_level（22mm）行政辦公區廣角全景，Amy 坐於畫面中央工位（依同機位紅衣 blocks 定位），主管站立於工位側邊手拿報告與她對談，桌椅與背景依同機位 blocks。Camera: 22mm，高視角平視、固定鏡頭，正常速度，深景深全場清晰；無額外疊字。",
+      "description": "Subject: 主管（藍衣 blocks）坐在胡桃木主管桌後，低頭檢視桌面攤開的 ESG 五步驟推動計畫書（prop_proposal_document），滿面春風、讚不絕口地誇獎計畫寫得很具體非常好；Amy（紅衣 blocks）坐在右側訪客椅上微笑聆聽。Scene: loc_supervisor_office，日間明亮主管獨立辦公室，左為軟木塞公佈欄，中央桌面有白色彎臂檯燈與文件堆，後方落地窗可見藍天與城市高樓群，右為角落綠植。Framing: cam_twoshot_ms_level（45mm）雙人對坐中景，主管居左、Amy 居右隔桌相對，桌面報告與雙方上半身清晰入鏡，桌椅與背景依同機位 blocks。Camera: 45mm，眼高平視、固定鏡頭，正常速度，中深景深；無額外疊字。",
       "shot_language": {
         "shot_size": "wide",
         "camera_movement": "static",
@@ -8971,16 +9025,16 @@
         },
         {
           "type": "clp",
-          "description": "大成科技行政辦公區",
+          "description": "主管（協理）獨立辦公室",
           "source": "provided",
-          "clp_id": "loc_staff_office"
+          "clp_id": "loc_supervisor_office"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_office_wide_level（22mm）行政辦公區廣角全景，Amy 坐於中央工位。桌椅與背景依同機位 blocks。",
+          "description": "cam_twoshot_ms_level（45mm）主管辦公室雙人對坐中景，主管在左、Amy 在右隔桌對談，桌椅與背景依同機位 blocks。",
           "source": "provided",
-          "path": "references/scenes/staff_office/cameras/cam_office_wide_level_block_blender.png"
+          "path": "references/scenes/supervisor_office/cameras/cam_twoshot_ms_level_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -8997,7 +9051,7 @@
       "start_seconds": 1051.19,
       "end_seconds": 1054.75,
       "narrative_role": "emotional_beat",
-      "description": "Subject: Amy（紅衣 blocks）坐在辦公桌前，謙虛地微微欠身微笑，誠懇感謝協理的肯定並表示是顧問 George 幫了很大的忙。Scene: loc_staff_office，日間明亮辦公室，Amy 身後為薄荷綠隔板與整排書櫃、百葉窗，左前景為電腦螢幕背面、右前景為桌面並列書籍。Framing: cam_amy_ms_45deg（32mm）Amy 工位 45 度中景，Amy 居中坐於辦公椅上，桌椅與背景依同機位 blocks。Camera: 32mm，微俯視中景、固定鏡頭，中等景深；無額外疊字。",
+      "description": "Subject: Amy（紅衣 blocks）坐在主管桌對面的訪客扶手椅上，謙虛地微微欠身微笑，誠懇感謝協理的肯定並表示是顧問 George 幫了很大的忙。Scene: loc_supervisor_office，左側為角落綠植盆栽，身後為矮櫃檔案夾、雙層公文架與水平百葉隔間窗。Framing: cam_amy_ms_15deg（50mm）Amy 單人 15 度中景，居中坐於訪客椅上，桌椅與背景依同機位 blocks。Camera: 50mm，眼高平視、固定鏡頭，中等景深；無額外疊字。",
       "shot_language": {
         "shot_size": "medium",
         "camera_movement": "static",
@@ -9035,16 +9089,16 @@
         },
         {
           "type": "clp",
-          "description": "大成科技行政辦公區",
+          "description": "主管（協理）獨立辦公室",
           "source": "provided",
-          "clp_id": "loc_staff_office"
+          "clp_id": "loc_supervisor_office"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_ms_45deg（32mm）Amy 工位 45 度中景，前景左為螢幕、後為隔板與書櫃。桌椅與背景依同機位 blocks。",
+          "description": "cam_amy_ms_15deg（50mm）Amy 單人中景 15 度微側，坐於訪客椅上，桌椅與背景依同機位 blocks。",
           "source": "provided",
-          "path": "references/scenes/staff_office/cameras/cam_amy_ms_45deg_block_blender.png"
+          "path": "references/scenes/supervisor_office/cameras/cam_amy_ms_15deg_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -9061,7 +9115,7 @@
       "start_seconds": 1054.75,
       "end_seconds": 1058.14,
       "narrative_role": "introduce_subject",
-      "description": "Subject: 主管（char_supervisor）站在 Amy（紅衣 blocks）工位旁收起笑容，一手拿著計畫書（prop_proposal_document）、一手摸著下巴正色提出「接下來可能得組成工作小組來負責推動」；Amy 在右側工位專注抬頭聆聽。Scene: loc_staff_office 反向視角，後方可見辦公室木門入口、整排書櫃、百葉窗與左側植栽。Framing: cam_office_reverse_wide（28mm）辦公室反向中全景，Amy（紅衣 blocks）坐於畫面右側工位，主管站立於工位旁面向 Amy 討論，桌椅與背景依同機位 blocks。Camera: 28mm，眼高平視、固定鏡頭，深景深；無額外疊字。",
+      "description": "Subject: 主管（藍衣 blocks）坐在主管桌後收起笑容，一手按著桌面上的計畫書（prop_proposal_document）、一手摸著下巴正色提出「接下來可能得組成工作小組來負責推動」。Scene: loc_supervisor_office，主管身後為大型木框軟木塞公佈欄，右側桌面有厚疊文件、白色彎臂檯燈與落地窗高樓背景。Framing: cam_supervisor_ms_15deg（50mm）主管單人 15 度中景，上半身與桌面報告入鏡，桌椅與背景依同機位 blocks。Camera: 50mm，眼高平視、固定鏡頭，中等景深；無額外疊字。",
       "shot_language": {
         "shot_size": "medium_wide",
         "camera_movement": "static",
@@ -9119,16 +9173,16 @@
         },
         {
           "type": "clp",
-          "description": "大成科技行政辦公區",
+          "description": "主管（協理）獨立辦公室",
           "source": "provided",
-          "clp_id": "loc_staff_office"
+          "clp_id": "loc_supervisor_office"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_office_reverse_wide（28mm）行政辦公區反向全景，右側為 Amy 工位、後方為木門與書櫃。桌椅與背景依同機位 blocks。",
+          "description": "cam_supervisor_ms_15deg（50mm）主管單人 15 度中景，坐於胡桃木主管桌後，桌椅與背景依同機位 blocks。",
           "source": "provided",
-          "path": "references/scenes/staff_office/cameras/cam_office_reverse_wide_block_blender.png"
+          "path": "references/scenes/supervisor_office/cameras/cam_supervisor_ms_15deg_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -9145,7 +9199,7 @@
       "start_seconds": 1058.14,
       "end_seconds": 1059.14,
       "narrative_role": "emotional_beat",
-      "description": "Subject: Amy（紅衣 blocks）端坐在工位椅上，毫無戒心地微笑用力點頭應答「是的！」。Scene: loc_staff_office，身後為薄荷綠隔板、綠色盆栽與百葉窗書櫃，左前景為電腦螢幕側邊。Framing: cam_amy_ms_15deg（50mm）Amy 單人中景 15 度微側，胸部與桌面以上入鏡，桌椅與背景依同機位 blocks。Camera: 50mm，眼高微俯平視、固定鏡頭，中等景深；無額外疊字。",
+      "description": "Subject: Amy（紅衣 blocks）端坐在訪客扶手椅上，毫無戒心地微笑用力點頭應答「是的！」。Scene: loc_supervisor_office，左前景為主管肩頭背影與桌面白色檯燈，中景為角落綠植盆栽，後方為水平百葉隔間窗與矮櫃。Framing: cam_amy_ots_supervisor（50mm）主管過肩拍 Amy 中景，桌椅與背景依同機位 blocks。Camera: 50mm，眼高平視、固定鏡頭，中等景深；無額外疊字。",
       "shot_language": {
         "shot_size": "medium",
         "camera_movement": "static",
@@ -9183,16 +9237,16 @@
         },
         {
           "type": "clp",
-          "description": "大成科技行政辦公區",
+          "description": "主管（協理）獨立辦公室",
           "source": "provided",
-          "clp_id": "loc_staff_office"
+          "clp_id": "loc_supervisor_office"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_ms_15deg（50mm）Amy 單人中景 15 度微側。桌椅與背景依同機位 blocks。",
+          "description": "cam_amy_ots_supervisor（50mm）越過主管左肩拍訪客椅上的 Amy，桌椅與背景依同機位 blocks。",
           "source": "provided",
-          "path": "references/scenes/staff_office/cameras/cam_amy_ms_15deg_block_blender.png"
+          "path": "references/scenes/supervisor_office/cameras/cam_amy_ots_supervisor_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -9209,7 +9263,7 @@
       "start_seconds": 1059.14,
       "end_seconds": 1067.9,
       "narrative_role": "build_tension",
-      "description": "Subject: 主管（char_supervisor）站在工位旁身體前傾，眼神熱切地盯著 Amy（紅衣 blocks），伸手指向她語帶重託地宣布：工作小組裡負責宣導、鼓勵同仁動起來的人選「我看...就由你擔任吧！」。Scene: loc_staff_office，薄荷綠隔板工位與後方書櫃百葉窗。Framing: cam_amy_ms_45deg（32mm）工位 45 度中景，主管於畫面左側俯身指向工位上的 Amy，桌椅與背景依同機位 blocks。Camera: 32mm，微俯視中景、固定鏡頭，中等景深；無額外疊字。",
+      "description": "Subject: 主管（藍衣 blocks）坐在主管桌後身體前傾，眼神熱切地盯著對面的 Amy（紅衣 blocks），伸手指向她語帶重託地宣布：工作小組裡負責宣導、鼓勵同仁動起來的人選「我看...就由你擔任吧！」。Scene: loc_supervisor_office，主管身後為軟木塞公佈欄，桌面展開計畫書與文件堆，右側為白色彎臂檯燈與落地窗。Framing: cam_supervisor_ots_amy（50mm）Amy 過肩拍主管中景，主管於左中景指向右前景的 Amy，桌椅與背景依同機位 blocks。Camera: 50mm，眼高平視、固定鏡頭，中等景深；無額外疊字。",
       "shot_language": {
         "shot_size": "medium",
         "camera_movement": "static",
@@ -9261,16 +9315,16 @@
         },
         {
           "type": "clp",
-          "description": "大成科技行政辦公區",
+          "description": "主管（協理）獨立辦公室",
           "source": "provided",
-          "clp_id": "loc_staff_office"
+          "clp_id": "loc_supervisor_office"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_ms_45deg（32mm）工位 45 度中景。桌椅與背景依同機位 blocks。",
+          "description": "cam_supervisor_ots_amy（50mm）越過 Amy 右肩拍主管桌後的協理，桌椅與背景依同機位 blocks。",
           "source": "provided",
-          "path": "references/scenes/staff_office/cameras/cam_amy_ms_45deg_block_blender.png"
+          "path": "references/scenes/supervisor_office/cameras/cam_supervisor_ots_amy_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -9287,7 +9341,7 @@
       "start_seconds": 1067.9,
       "end_seconds": 1071.0,
       "narrative_role": "emotional_beat",
-      "description": "Subject: Amy（紅衣 blocks）瞬間愣住，雙眼瞪得老大、下巴微掉，指著自己聲音差點破音地驚呼「蝦？怎麼又是我？不能找別人嗎？」。Scene: loc_staff_office，後方薄荷綠隔板與百葉窗柔和虛化。Framing: cam_amy_cu_emotion（85mm）Amy 臉部特寫，頭肩居中，僅 Amy 一人入鏡，桌椅與背景依同機位 blocks。Camera: 85mm，眼高平視、固定鏡頭，淺景深放大 Amy 震驚抗拒的喜劇表情；無額外疊字。",
+      "description": "Subject: Amy（紅衣 blocks）坐在訪客椅上瞬間愣住，雙眼瞪得老大、下巴微掉，指著自己聲音差點破音地驚呼「蝦？怎麼又是我？不能找別人嗎？」。Scene: loc_supervisor_office，後方綠植與水平百葉隔間窗柔和虛化。Framing: cam_amy_cu_emotion（85mm）Amy 臉部特寫，頭肩居中，僅 Amy 一人入鏡，桌椅與背景依同機位 blocks。Camera: 85mm，眼高平視、固定鏡頭，淺景深放大 Amy 震驚抗拒的喜劇表情；無額外疊字。",
       "shot_language": {
         "shot_size": "close_up",
         "camera_movement": "static",
@@ -9326,16 +9380,16 @@
         },
         {
           "type": "clp",
-          "description": "大成科技行政辦公區",
+          "description": "主管（協理）獨立辦公室",
           "source": "provided",
-          "clp_id": "loc_staff_office"
+          "clp_id": "loc_supervisor_office"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_cu_emotion（85mm）Amy 臉部特寫。桌椅與背景依同機位 blocks。",
+          "description": "cam_amy_cu_emotion（85mm）Amy 臉部特寫，頭肩居中，僅 Amy 一人入鏡，桌椅與背景依同機位 blocks。",
           "source": "provided",
-          "path": "references/scenes/staff_office/cameras/cam_amy_cu_emotion_block_blender.png"
+          "path": "references/scenes/supervisor_office/cameras/cam_amy_cu_emotion_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -9352,7 +9406,7 @@
       "start_seconds": 1071.0,
       "end_seconds": 1081.63,
       "narrative_role": "deliver_payload",
-      "description": "Subject: 主管（char_supervisor）在 Amy 辦公桌旁一手按著桌面上的 ESG 推動計畫書（prop_proposal_document）、一手拍拍桌面畫大餅，語氣誠懇而堅定地說 Amy 已經搞懂 ESG、設計出步驟又有 George 幫忙，找她剛剛好，並承諾成功後一定好好獎勵；Amy（紅衣 blocks）雙手放在鍵盤區。Scene: loc_staff_office Amy 淺木紋辦公桌面，黑色鍵盤、螢幕側邊與計畫書文件。Framing: cam_desk_insert_iso（55mm）桌面等角特寫插鏡，桌面計畫書與手部互動清晰可見，桌椅與背景依同機位 blocks。Camera: 55mm，微俯視桌面特寫、固定鏡頭，淺景深聚焦桌面計畫書與拍桌手勢；無額外疊字。",
+      "description": "Subject: 主管（藍衣 blocks）在主管桌後語氣誠懇而堅定地看著 Amy，細數她已經搞懂 ESG、設計出推動步驟又有 George 幫忙，找她剛剛好，並拍胸脯承諾成功後一定好好獎勵她。Scene: loc_supervisor_office，身後為釘滿便條的軟木塞公佈欄與溫暖室內燈光。Framing: cam_supervisor_cu_emotion（85mm）主管單人特寫，頭肩居中入鏡，桌椅與背景依同機位 blocks。Camera: 85mm，眼高平視、固定鏡頭，淺景深聚焦主管誠懇重託與畫大餅的表情；無額外疊字。",
       "shot_language": {
         "shot_size": "insert",
         "camera_movement": "static",
@@ -9410,16 +9464,16 @@
         },
         {
           "type": "clp",
-          "description": "Amy 辦公桌面",
+          "description": "主管（協理）獨立辦公室",
           "source": "provided",
-          "clp_id": "loc_staff_office"
+          "clp_id": "loc_supervisor_office"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_desk_insert_iso（55mm）Amy 辦公桌鍵盤、雙手與文件等角特寫插鏡。桌椅與背景依同機位 blocks。",
+          "description": "cam_supervisor_cu_emotion（85mm）主管單人特寫，頭肩居中，背景為軟木塞公佈欄，桌椅與背景依同機位 blocks。",
           "source": "provided",
-          "path": "references/scenes/staff_office/cameras/cam_desk_insert_iso_block_blender.png"
+          "path": "references/scenes/supervisor_office/cameras/cam_supervisor_cu_emotion_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -9436,7 +9490,7 @@
       "start_seconds": 1081.63,
       "end_seconds": 1086.03,
       "narrative_role": "resolution",
-      "description": "Subject: Amy（紅衣 blocks）坐在工位椅上，擠出一張苦瓜臉、眉頭八字下垂面有難色，無可奈何地嘆氣苦笑屈服說「這...這，好吧」。Scene: loc_staff_office，身後為薄荷綠隔板、深色辦公椅背與後方百葉窗書櫃。Framing: cam_amy_mcu_15deg（65mm）Amy 單人中特寫，肩胸以上居中入鏡，桌椅與背景依同機位 blocks。Camera: 65mm，眼高平視、固定鏡頭，淺景深凸顯 Amy 勉為其難接下宣導任務的苦笑表情；無額外疊字。",
+      "description": "Subject: Amy（紅衣 blocks）坐在訪客扶手椅上，擠出一張苦瓜臉、眉頭八字下垂面有難色，無可奈何地嘆氣苦笑屈服說「這...這，好吧」。Scene: loc_supervisor_office，身後為角落綠植、灰藍椅背與後方水平百葉隔間窗、矮櫃。Framing: cam_amy_mcu_15deg（65mm）Amy 單人中特寫，肩胸以上居中入鏡，桌椅與背景依同機位 blocks。Camera: 65mm，眼高平視、固定鏡頭，淺景深凸顯 Amy 勉為其難接下宣導任務的苦笑表情；無額外疊字。",
       "shot_language": {
         "shot_size": "medium_close",
         "camera_movement": "static",
@@ -9474,16 +9528,16 @@
         },
         {
           "type": "clp",
-          "description": "大成科技行政辦公區",
+          "description": "主管（協理）獨立辦公室",
           "source": "provided",
-          "clp_id": "loc_staff_office"
+          "clp_id": "loc_supervisor_office"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_mcu_15deg（65mm）Amy 單人中特寫，身後隔板與百葉窗。桌椅與背景依同機位 blocks。",
+          "description": "cam_amy_mcu_15deg（65mm）Amy 單人中特寫，肩胸以上居中入鏡，桌椅與背景依同機位 blocks。",
           "source": "provided",
-          "path": "references/scenes/staff_office/cameras/cam_amy_mcu_15deg_block_blender.png"
+          "path": "references/scenes/supervisor_office/cameras/cam_amy_mcu_15deg_block_blender.png"
         },
         {
           "type": "dialogue_audio",

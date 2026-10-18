@@ -41,7 +41,6 @@ required_skills:
   - pipelines/cinematic/proposal-director
   - pipelines/cinematic/script-director
   - pipelines/kj-cinematic/clp-director
-  - pipelines/cinematic/scene-director
   - pipelines/kj-cinematic/scene-director
   - pipelines/kj-cinematic/asset-director
   - pipelines/kj-cinematic/prompt-recipes

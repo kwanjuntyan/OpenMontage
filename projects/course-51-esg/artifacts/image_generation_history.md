@@ -895,3 +895,288 @@ Amy 的外觀與服裝採用圖 3，不採用人物參考圖的展示姿態或�
 - 相較 blocks，Amy 頭頂留白減少；持手機手明顯抬高並向身體內收，前臂角度改變，另一手的可見部分減少，構圖／姿勢尚未完全符合。
 - 白板呈現部分便條紙及遮擋；版面位置、比例未確認精確符合整塊白板的映射，文字未確認逐字一致。
 - 不將本版標示為已核准；未替換正式素材，未改分鏡／manifest，未推進 assets 核准。
+
+## 2026-10-18 shot_2.1.1 GPT 生圖
+
+### shot_2.1.1_gpt_template_v4
+
+- Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成。
+- 使用者要求：使用本輪已提供的 Prompt 在 GPT 生圖；Prompt 原文與五張獨立參考圖依序送出，僅生成一張。
+- 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法可靠報價。
+- 輸出：[shot_2.1.1_gpt_template_v4.png](../assets/images/shot_2.1.1_gpt_template_v4.png)
+- 原生來源：C:/Users/user/.codex/generated_images/01a14f82-04fd-7e80-9bb9-de04e4c7cd62/exec-797d942b-6469-4cf2-a379-f23f2e1ed60c.png
+- transparent_background=false；工具耗時 91.1 秒。
+
+有序參考圖：
+
+1. [references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_empty_banana.png](../references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_empty_banana.png)
+2. [references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_block_blender.png](../references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_block_blender.png)
+3. [clp/char_george.png](../clp/char_george.png)
+4. [clp/char_amy.jpeg](../clp/char_amy.jpeg)
+5. [clp/prop_coffee_cup.png](../clp/prop_coffee_cup.png)
+
+完整 Prompt：
+
+```text
+參考圖說明：
+圖 1 cam_twoshot_ms_level_empty_banana.png：場景外觀參考圖。
+圖 2 cam_twoshot_ms_level_block_blender.png：構圖底圖。
+圖 3 char_george.png：George 人物參考圖，對應圖 2 的藍色人物。
+圖 4 char_amy.jpeg：Amy 人物參考圖，對應圖 2 的紅色人物。
+圖 5 prop_coffee_cup.png：咖啡杯碟外觀參考圖。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、顯示範圍與遮擋關係。
+
+將定位人物替換為對應角色，只呈現圖 2 中可見的部位，不補出畫外身體。George 的外觀與服裝採用圖 3，Amy 的外觀與服裝採用圖 4，不採用其展示姿態或構圖。兩人直接坐入圖 2 的既有木椅，不額外增加椅子。
+
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。咖啡杯碟的外觀採用圖 5；該圖的其他物件不參與生成。
+
+畫面描述：
+這是一張以 40mm 鏡頭、接近坐姿眼高並略微俯拍的雙人中景。George 位於畫面左側，Amy 位於右側，兩人隔著木桌相向而坐。畫面呈現兩人的完整頭部、上半身、伸向桌面的前臂與手部；腿部只呈現圖 2 中露出的範圍，沿用桌面的遮擋與畫面下緣的裁切。Amy 愁眉微皺，一手握著小匙，匙端仍在面前杯中的拿鐵裡，呈現攪拌時抬眼望向 George 求助的瞬間；George 神情沉著，注視 Amy 聆聽。依上述表演調整 Amy 的握匙手勢與兩人的表情、視線，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不呈現定位方塊或參考圖展示排版，不加入字幕。
+```
+
+結果檢視：
+
+- 1672×941 RGB PNG，接近但非精確 16:9；Pillow 完整解碼成功，專案副本與原始輸出 SHA256 相同。
+- George 左、Amy 右，兩人坐入木椅隔桌相向；角色外觀、Amy 皺眉抬眼求助與握匙入杯、George 聆聽成立，未見定位方塊或新增字幕。
+- 相較 blocks，人物頭頂上移、留白減少，身體佔比與姿勢有變動；George 的手改成扶杯，未完全沿用 blocks。
+- 本版為待確認候選；未替換 asset_manifest.json 中已採用的 shot_2.1.1_gpt_template_v2.png，未修改分鏡、未追加生成或推進整體 assets 核准。
+
+
+## 2026-10-18 shot_2.1.2 GPT 生圖
+
+### shot_2.1.2_gpt_template_v2
+
+- Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成。
+- 使用者要求：使用本輪兩份 Prompt 在 GPT 各生成一張；本鏡 Prompt 原文與五張獨立參考圖依序送出，僅生成一張。
+- 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法可靠估算。
+- 輸出：[shot_2.1.2_gpt_template_v2.png](../assets/images/shot_2.1.2_gpt_template_v2.png)
+- 原生來源：C:/Users/user/.codex/generated_images/01a14f82-04fd-7e80-9bb9-de04e4c7cd62/exec-f255bde0-4a3f-4d14-b5a4-62d2c1a4bc87.png
+- transparent_background=false。
+
+有序參考圖：
+
+1. [references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_empty_banana.png](../references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_empty_banana.png)
+2. [references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_block_blender.png](../references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_block_blender.png)
+3. [clp/char_george.png](../clp/char_george.png)
+4. [clp/char_amy.jpeg](../clp/char_amy.jpeg)
+5. [clp/prop_coffee_cup.png](../clp/prop_coffee_cup.png)
+
+完整 Prompt：
+
+```text
+參考圖說明：
+圖 1 cam_amy_mcu_45deg_empty_banana.png：場景外觀參考圖。
+圖 2 cam_amy_mcu_45deg_block_blender.png：構圖底圖。
+圖 3 char_george.png：George 人物參考圖，對應圖 2 左下角的藍色人物局部。
+圖 4 char_amy.jpeg：Amy 人物參考圖，對應圖 2 的紅色人物。
+圖 5 prop_coffee_cup.png：咖啡杯碟外觀參考圖。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、顯示範圍與遮擋關係。
+
+將定位人物替換為對應角色，只呈現圖 2 中可見的部位，不補出畫外身體。George 的外觀與服裝採用圖 3，Amy 的外觀與服裝採用圖 4，不採用其展示姿態或構圖。Amy 直接坐入既有木椅，不額外增加椅子。
+
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。咖啡杯碟的外觀採用圖 5；該圖的其他物件不參與生成。左下方糖罐的白色罐身與金色金屬蓋沿用圖 1。
+
+畫面描述：
+這是一張以 65mm 鏡頭、接近坐姿眼高微側拍攝的 Amy 中特寫。Amy 位於畫面中右側，完整頭部、頸部、肩膀與胸部可見；手臂及手部只呈現圖 2 下緣可見的部分，下半身在畫外。George 只保留左下角極少量局部前景，頭部與臉部不入鏡，Amy 是畫面中唯一可辨識的面孔。前景杯碟與糖罐沿用圖 2 的位置、遮擋及下緣裁切。Amy 已停止攪拌，眉心皺起、嘴角下垂，嘴唇微張、頭部微偏，望向畫面左側的 George，呈現為工作績效焦慮、無奈訴苦的瞬間；小幅攤手只在原取景容納的範圍內呈現，不為展示手勢擴大取景。依上述表演調整表情、視線、頭部輕微姿態與可見手勢，肩膀及軀幹維持圖 2 的朝向，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不呈現定位方塊或參考圖展示排版，不加入字幕。
+```
+
+結果檢視：
+
+- 1672×941 RGB PNG，接近但非精確 16:9；Pillow 完整解碼成功，專案副本與原始輸出 SHA256 相同。
+- Amy 是唯一可辨識面孔，皺眉微張嘴、向左看與下方攤手成立；白色杯碟、白色金蓋糖罐及咖啡機背景保留，未見定位方塊或新增字幕。
+- 相較 blocks，Amy 頭頂留白減少、主體向右且比例偏大；George 左下角局部前景明顯擴大，杯碟與糖罐位置亦有偏移，未完全遵守原取景與配置。
+- 本版為待確認候選；未替換 asset_manifest.json 中已採用的 shot_2.1.2_gpt_template_v1.png，未修改分鏡、未追加生成或推進整體 assets 核准。
+
+
+## 2026-10-18 shot_2.1.3 GPT 生圖
+
+### shot_2.1.3_gpt_template_v2
+
+- Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成。
+- 使用者要求：使用本輪兩份 Prompt 在 GPT 各生成一張；本鏡 Prompt 原文與五張獨立參考圖依序送出，僅生成一張。
+- 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法可靠估算。
+- 輸出：[shot_2.1.3_gpt_template_v2.png](../assets/images/shot_2.1.3_gpt_template_v2.png)
+- 原生來源：C:/Users/user/.codex/generated_images/01a14f82-04fd-7e80-9bb9-de04e4c7cd62/exec-a34faa16-d4ad-45ba-afe6-367d1fc66878.png
+- transparent_background=false。
+
+有序參考圖：
+
+1. [references/scenes/coffee_shop/cameras/cam_george_ots_amy_empty_banana.png](../references/scenes/coffee_shop/cameras/cam_george_ots_amy_empty_banana.png)
+2. [references/scenes/coffee_shop/cameras/cam_george_ots_amy_block_blender.png](../references/scenes/coffee_shop/cameras/cam_george_ots_amy_block_blender.png)
+3. [clp/char_george.png](../clp/char_george.png)
+4. [clp/char_amy.jpeg](../clp/char_amy.jpeg)
+5. [clp/prop_coffee_cup.png](../clp/prop_coffee_cup.png)
+
+完整 Prompt：
+
+```text
+參考圖說明：
+圖 1 cam_george_ots_amy_empty_banana.png：場景外觀參考圖。
+圖 2 cam_george_ots_amy_block_blender.png：構圖底圖。
+圖 3 char_george.png：George 人物參考圖，對應圖 2 的藍色人物。
+圖 4 char_amy.jpeg：Amy 人物參考圖，對應圖 2 的紅色人物。
+圖 5 prop_coffee_cup.png：咖啡杯碟外觀參考圖。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、顯示範圍與遮擋關係。
+
+將定位人物替換為對應角色，只呈現圖 2 中可見的部位，不補出畫外身體。George 的外觀與服裝採用圖 3，Amy 的外觀與服裝採用圖 4，不採用其展示姿態或構圖。兩人直接坐入既有木椅，不額外增加椅子。
+
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。咖啡杯碟的外觀採用圖 5；該圖的其他物件不參與生成。
+
+畫面描述：
+這是一張以 60mm 鏡頭、接近坐姿眼高並略微俯拍，從 Amy 肩後看向 George 的過肩中景。George 位於畫面左側中景，完整頭部、上半身與圖 2 中可見的前臂、手部入鏡；Amy 的後腦、頸部與肩背位於右側近景，沿用圖 2 的大小、裁切及遮擋關係，不轉頭露出正臉。George 面前的杯碟完整入鏡，焦點落在 George 與持杯的手。George 帶著溫和安撫的微笑，注視 Amy，嘴唇自然微張，一手握著原有咖啡杯的杯柄，準備將杯子放回面前的原杯碟；杯底尚未接觸碟面，保留清楚空隙，杯碟上不留第二只重複的杯子。Amy 以頭肩背影安靜聆聽。依上述表演調整 George 的持杯手勢、原杯子的位置及表情、視線，肩膀與軀幹維持圖 2 的朝向，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不呈現定位方塊或參考圖展示排版，不加入字幕。
+```
+
+結果檢視：
+
+- 1672×941 RGB PNG，接近但非精確 16:9；Pillow 完整解碼成功，專案副本與原始輸出 SHA256 相同。
+- George 左中景、Amy 右前景背影的過肩關係成立，George 溫和微笑、握杯柄且杯底與空杯碟保留清楚空隙，未重複新增杯子；未見定位方塊或新增字幕。
+- 相較 blocks，George 頭部與上身變大、略偏左，頭頂留白減少；Amy 頭肩的佔位與裁切亦有差異，未完全對齊原構圖。
+- 本版為待確認候選；未替換 asset_manifest.json 中已採用的 shot_2.1.3_short_v1.png，未修改分鏡、未追加生成或推進整體 assets 核准。
+
+
+## 2026-10-18 shot_2.1.2 GPT 圖 5 咖啡組參考 v3
+
+### shot_2.1.2_gpt_template_v3
+
+- Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成。
+- 補記上一輪已生成並保存的 v3；該輪在寫入歷史前中斷，本次未重生此圖。圖 5 改為 prop_coffee_set.png，說明仍為「咖啡杯碟外觀參考圖」。
+- 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法可靠估算。每次一張，transparent_background=false。
+- 輸出：[shot_2.1.2_gpt_template_v3.png](../assets/images/shot_2.1.2_gpt_template_v3.png)
+- 原生來源：C:/Users/user/.codex/generated_images/01a14f82-04fd-7e80-9bb9-de04e4c7cd62/exec-ba40fdb4-cad9-4d93-99ef-8a70d433781b.png
+
+有序參考圖：
+
+1. [references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_empty_banana.png](../references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_empty_banana.png)
+2. [references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_block_blender.png](../references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_block_blender.png)
+3. [clp/char_george.png](../clp/char_george.png)
+4. [clp/char_amy.jpeg](../clp/char_amy.jpeg)
+5. [clp/prop_coffee_set.png](../clp/prop_coffee_set.png)
+
+完整 Prompt：
+
+```text
+參考圖說明：
+圖 1 cam_amy_mcu_45deg_empty_banana.png：場景外觀參考圖。
+圖 2 cam_amy_mcu_45deg_block_blender.png：構圖底圖。
+圖 3 char_george.png：George 人物參考圖，對應圖 2 左下角的藍色人物局部。
+圖 4 char_amy.jpeg：Amy 人物參考圖，對應圖 2 的紅色人物。
+圖 5 prop_coffee_set.png：咖啡杯碟外觀參考圖。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、顯示範圍與遮擋關係。
+
+將定位人物替換為對應角色，只呈現圖 2 中可見的部位，不補出畫外身體。George 的外觀與服裝採用圖 3，Amy 的外觀與服裝採用圖 4，不採用其展示姿態或構圖。Amy 直接坐入既有木椅，不額外增加椅子。
+
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。咖啡杯碟的外觀採用圖 5；該圖的其他物件不參與生成。左下方糖罐的白色罐身與金色金屬蓋沿用圖 1。
+
+畫面描述：
+這是一張以 65mm 鏡頭、接近坐姿眼高微側拍攝的 Amy 中特寫。Amy 位於畫面中右側，完整頭部、頸部、肩膀與胸部可見；手臂及手部只呈現圖 2 下緣可見的部分，下半身在畫外。George 只保留左下角極少量局部前景，頭部與臉部不入鏡，Amy 是畫面中唯一可辨識的面孔。前景杯碟與糖罐沿用圖 2 的位置、遮擋及下緣裁切。Amy 已停止攪拌，眉心皺起、嘴角下垂，嘴唇微張、頭部微偏，望向畫面左側的 George，呈現為工作績效焦慮、無奈訴苦的瞬間；小幅攤手只在原取景容納的範圍內呈現，不為展示手勢擴大取景。依上述表演調整表情、視線、頭部輕微姿態與可見手勢，肩膀及軀幹維持圖 2 的朝向，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不呈現定位方塊或參考圖展示排版，不加入字幕。
+```
+
+結果檢視：
+
+- 1672×941 RGB PNG，接近但非精確 16:9；Pillow 完整解碼成功，專案副本與原始輸出 SHA256 相同。
+- Amy 的焦慮訴苦與單手攤開成立，白色糖罐仍為金色金屬蓋；George 左側局部前景明顯擴大，Amy 頭頂留白減少，人物比例、手勢與杯罐配置未完全沿用 blocks。
+- 未見新增字幕或參考圖展示排版；本版為待確認候選，未替換 asset_manifest.json 中已採用的 shot_2.1.2_gpt_template_v1.png，未修改分鏡、未追加生成或推進整體 assets 核准。
+
+
+## 2026-10-18 shot_2.1.2 GPT 圖 5 咖啡組參考 v4
+
+### shot_2.1.2_gpt_template_v4
+
+- Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成。
+- 使用本次使用者貼上的 Prompt 原文；圖 5 說明改為「咖啡杯碟和糖罐的外觀參考圖」，正文仍保留糖罐白色罐身與金色金屬蓋沿用圖 1 的指令，未自行改寫。
+- 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法可靠估算。每次一張，transparent_background=false。
+- 輸出：[shot_2.1.2_gpt_template_v4.png](../assets/images/shot_2.1.2_gpt_template_v4.png)
+- 原生來源：C:/Users/user/.codex/generated_images/01a14f82-04fd-7e80-9bb9-de04e4c7cd62/exec-ac14d281-87eb-4262-8090-234f0a1cd38c.png
+
+有序參考圖：
+
+1. [references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_empty_banana.png](../references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_empty_banana.png)
+2. [references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_block_blender.png](../references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_block_blender.png)
+3. [clp/char_george.png](../clp/char_george.png)
+4. [clp/char_amy.jpeg](../clp/char_amy.jpeg)
+5. [clp/prop_coffee_set.png](../clp/prop_coffee_set.png)
+
+完整 Prompt：
+
+```text
+參考圖說明：
+圖 1 cam_amy_mcu_45deg_empty_banana.png：場景外觀參考圖。
+圖 2 cam_amy_mcu_45deg_block_blender.png：構圖底圖。
+圖 3 char_george.png：George 人物參考圖，對應圖 2 左下角的藍色人物局部。
+圖 4 char_amy.jpeg：Amy 人物參考圖，對應圖 2 的紅色人物。
+圖 5 prop_coffee_set.png：咖啡杯碟和糖罐的外觀參考圖。
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、顯示範圍與遮擋關係。
+將定位人物替換為對應角色，只呈現圖 2 中可見的部位，不補出畫外身體。George 的外觀與服裝採用圖 3，Amy 的外觀與服裝採用圖 4，不採用其展示姿態或構圖。Amy 直接坐入既有木椅，不額外增加椅子。
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。咖啡杯碟的外觀採用圖 5；該圖的其他物件不參與生成。左下方糖罐的白色罐身與金色金屬蓋沿用圖 1。
+畫面描述：
+這是一張以 65mm 鏡頭、接近坐姿眼高微側拍攝的 Amy 中特寫。Amy 位於畫面中右側，完整頭部、頸部、肩膀與胸部可見；手臂及手部只呈現圖 2 下緣可見的部分，下半身在畫外。George 只保留左下角極少量局部前景，頭部與臉部不入鏡，Amy 是畫面中唯一可辨識的面孔。前景杯碟與糖罐沿用圖 2 的位置、遮擋及下緣裁切。Amy 已停止攪拌，眉心皺起、嘴角下垂，嘴唇微張、頭部微偏，望向畫面左側的 George，呈現為工作績效焦慮、無奈訴苦的瞬間；小幅攤手只在原取景容納的範圍內呈現，不為展示手勢擴大取景。依上述表演調整表情、視線、頭部輕微姿態與可見手勢，肩膀及軀幹維持圖 2 的朝向，其餘沿用圖 2。
+輸出一張 16:9 彩色分鏡圖，不呈現定位方塊或參考圖展示排版，不加入字幕。
+```
+
+結果檢視：
+
+- 1672×941 RGB PNG，接近但非精確 16:9；Pillow 完整解碼成功，專案副本與原始輸出 SHA256 相同。
+- Amy 是唯一可辨識面孔，皺眉微張嘴、向左看及下方攤手成立；糖罐仍為白色罐身與金色金屬蓋，未帶入圖 5 的木蓋。相較 blocks，George 左側前景擴大、Amy 頭頂留白減少，人物比例與雙手可見範圍、杯罐位置仍有偏移，未完全遵守原構圖。
+- 未見新增字幕或參考圖展示排版；本版為待確認候選，未替換 asset_manifest.json 中已採用的 shot_2.1.2_gpt_template_v1.png，未修改分鏡、未追加生成或推進整體 assets 核准。
+
+
+## 2026-10-18 shot_2.1.2 GPT 木頭蓋糖罐 v5
+
+### shot_2.1.2_gpt_template_v5
+
+- Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成。
+- 使用者要求：本次 Prompt 原文與五張獨立參考圖依序送出；糖罐改為「白色罐身與木頭蓋沿用圖5」，未自行改寫其餘文字，僅生成一張。
+- 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法可靠估算。transparent_background=false。
+- 輸出：[shot_2.1.2_gpt_template_v5.png](../assets/images/shot_2.1.2_gpt_template_v5.png)
+- 原生來源：C:/Users/user/.codex/generated_images/01a14f82-04fd-7e80-9bb9-de04e4c7cd62/exec-195916c3-bda7-4525-96e0-b3e976f743ca.png
+
+有序參考圖：
+
+1. [references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_empty_banana.png](../references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_empty_banana.png)
+2. [references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_block_blender.png](../references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_block_blender.png)
+3. [clp/char_george.png](../clp/char_george.png)
+4. [clp/char_amy.jpeg](../clp/char_amy.jpeg)
+5. [clp/prop_coffee_set.png](../clp/prop_coffee_set.png)
+
+完整 Prompt：
+
+```text
+參考圖說明：
+圖 1 cam_amy_mcu_45deg_empty_banana.png：場景外觀參考圖。
+圖 2 cam_amy_mcu_45deg_block_blender.png：構圖底圖。
+圖 3 char_george.png：George 人物參考圖，對應圖 2 左下角的藍色人物局部。
+圖 4 char_amy.jpeg：Amy 人物參考圖，對應圖 2 的紅色人物。
+圖 5 prop_coffee_set.png：咖啡杯碟和糖罐的外觀參考圖。
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、顯示範圍與遮擋關係。
+將定位人物替換為對應角色，只呈現圖 2 中可見的部位，不補出畫外身體。George 的外觀與服裝採用圖 3，Amy 的外觀與服裝採用圖 4，不採用其展示姿態或構圖。Amy 直接坐入既有木椅，不額外增加椅子。
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。咖啡杯碟的外觀採用圖 5；該圖的其他物件不參與生成。左下方糖罐的白色罐身與木頭蓋沿用圖5。
+畫面描述：
+這是一張以 65mm 鏡頭、接近坐姿眼高微側拍攝的 Amy 中特寫。Amy 位於畫面中右側，完整頭部、頸部、肩膀與胸部可見；手臂及手部只呈現圖 2 下緣可見的部分，下半身在畫外。George 只保留左下角極少量局部前景，頭部與臉部不入鏡，Amy 是畫面中唯一可辨識的面孔。前景杯碟與糖罐沿用圖 2 的位置、遮擋及下緣裁切。Amy 已停止攪拌，眉心皺起、嘴角下垂，嘴唇微張、頭部微偏，望向畫面左側的 George，呈現為工作績效焦慮、無奈訴苦的瞬間；小幅攤手只在原取景容納的範圍內呈現，不為展示手勢擴大取景。依上述表演調整表情、視線、頭部輕微姿態與可見手勢，肩膀及軀幹維持圖 2 的朝向，其餘沿用圖 2。
+輸出一張 16:9 彩色分鏡圖，不呈現定位方塊或參考圖展示排版，不加入字幕。
+```
+
+結果檢視：
+
+- 1672×941 RGB PNG，接近但非精確 16:9；Pillow 完整解碼成功，專案副本與原始輸出 SHA256 相同。
+- 糖罐已呈現白色罐身與帶圓鈕的木頭蓋，符合本次指定變更；Amy 的焦慮表情、微張嘴、向左看與攤手成立。
+- 相較 blocks，George 左側前景明顯擴大，左上邊緣露出少量白髮；Amy 頭頂留白減少，人物比例、手勢及杯罐位置／裁切仍有差異，未完全遵守原構圖。
+- 未見新增字幕或參考圖展示排版；本版為待確認候選，未替換 asset_manifest.json 中已採用的 shot_2.1.2_gpt_template_v1.png，未修改分鏡、未追加生成或推進整體 assets 核准。
+

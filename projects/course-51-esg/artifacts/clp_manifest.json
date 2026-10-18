@@ -449,7 +449,7 @@
     {
       "id": "loc_staff_office",
       "type": "location",
-      "name": "Amy 與主管辦公室（行政辦公區）",
+      "name": "Amy 開放式行政辦公區",
       "description": "Contemporary Taipei corporate office; open-plan layout with light birchwood workstations, sage-green acoustic dividers, dual monitors, potted snake plants and succulents, warm overhead linear LED architectural lighting, glass-partitioned private managerial office in the background with city view.",
       "reference_images": [
         "clp/loc_staff_office.jpg"
@@ -466,14 +466,6 @@
         "shot_1.2.8",
         "shot_1.2.9",
         "shot_1.3.1",
-        "shot_3.7.1",
-        "shot_3.7.2",
-        "shot_3.7.3",
-        "shot_3.7.4",
-        "shot_3.7.5",
-        "shot_3.7.6",
-        "shot_3.7.7",
-        "shot_3.7.8",
         "shot_3.9.1",
         "shot_3.9.2",
         "shot_3.9.3",
@@ -492,7 +484,37 @@
         "shot_5.1.2b",
         "shot_5.1.3"
       ],
-      "notes": "第一幕主管咆哮、第三幕Amy深夜加班頓悟，以及第五幕文化落地的核心辦公室場景。"
+      "notes": "第一幕主管電話咆哮、第三幕 Amy 深夜加班頓悟，以及第四、五幕 Vlog 與文化落地的開放式辦公區。"
+    },
+    {
+      "id": "loc_supervisor_office",
+      "type": "location",
+      "name": "主管（協理）獨立辦公室",
+      "description": "Private managerial office with a warm walnut executive desk, dark slate blue-grey high-back leather supervisor chair, matching visitor armchair with chrome armrests, large wood-framed corkboard covered in pinned memos and sticky notes on the west wall behind the supervisor, wide north window with rolled venetian blinds overlooking a sunny modern city skyscraper skyline, white articulated architect desk lamp, stacked report folders, tall potted green foliage plant in the northeast corner, and an east interior partition window with horizontal aluminum blinds above a low storage credenza with purple/blue file binders and letter trays.",
+      "reference_images": [
+        "clp/loc_supervisor_office_1.jpg",
+        "clp/loc_supervisor_office_2.jpg",
+        "clp/loc_supervisor_office_3.jpg",
+        "clp/loc_supervisor_office_4.jpg"
+      ],
+      "source": "imported",
+      "appears_in": [
+        "shot_2.8.1",
+        "shot_2.8.2",
+        "shot_2.8.3",
+        "shot_2.8.4",
+        "shot_2.8.5",
+        "shot_2.8.6",
+        "shot_3.7.1",
+        "shot_3.7.2",
+        "shot_3.7.3",
+        "shot_3.7.4",
+        "shot_3.7.5",
+        "shot_3.7.6",
+        "shot_3.7.7",
+        "shot_3.7.8"
+      ],
+      "notes": "第二幕結尾（場景 2.8）與第三幕中段（場景 3.7）Amy 向協理報告並被指派任務的主管獨立辦公室（對應 Blender 場景 supervisor_office）。"
     },
     {
       "id": "loc_coffee_shop",
@@ -871,7 +893,6 @@
       ],
       "source": "imported",
       "appears_in": [
-        "shot_2.1.1",
         "shot_2.1.3",
         "shot_2.1.11",
         "shot_2.1.17",
@@ -880,7 +901,7 @@
         "shot_3.3.2",
         "shot_3.4.2"
       ],
-      "notes": "單人過肩鏡／中特寫專用：畫面僅拍到角色手中或面前單一咖啡杯碟（糖罐被遮擋或在畫外）時使用，避免 AI 誤將糖罐塞入特寫畫面。"
+      "notes": "單人過肩鏡專用：畫面僅拍到角色手中或面前單一咖啡杯碟（糖罐被遮擋或在畫外）時使用，避免 AI 誤將糖罐塞入畫面。"
     },
     {
       "id": "prop_menu",
@@ -987,32 +1008,48 @@
     {
       "id": "prop_capsules",
       "type": "prop",
-      "name": "ESG 萬靈丹金色膠囊與藥罐",
-      "description": "Playful, stylized glowing golden pill bottle with cream label reading 'ESG 萬靈丹' adorned with twin green leaf icons; several translucent golden capsules glowing with sparkling green particles spilled beside it; stylized comedic visual metaphor.",
+      "name": "ESG 濃縮膠囊與藥罐",
+      "description": "White plastic supplement bottle with ribbed green screw cap; front label reading 'ESG 濃縮膠囊' in bold 3D green lettering with gold trim, accompanied by three circular pillar badges: green leaf 'E' badge, blue three-person 'S' badge, and gold shield 'G' badge; back label showing the E/S/G badges above nature, city people, and classical pillar illustrations; two green-and-white two-tone capsules resting beside the bottle.",
       "reference_images": [
         "clp/prop_capsules.png"
       ],
       "source": "imported",
       "appears_in": [
         "shot_1.2.8",
-        "shot_1.3.1"
+        "shot_1.3.1",
+        "shot_2.1.15",
+        "shot_2.1.22",
+        "shot_2.1.28",
+        "shot_2.1.30"
       ],
-      "notes": "第二幕 Amy 誤以為 ESG 是特效藥時的趣味幻想道具。"
+      "notes": "第一幕 Amy 誤以為 ESG 是特效藥時的趣味幻想道具，以及第二幕拆解 E/S/G 三大指標簡報圖卡的視覺母體。"
     },
     {
       "id": "prop_coffee_set",
       "type": "prop",
-      "name": "咖啡廳桌面雙人咖啡與糖罐套裝",
-      "description": "Unified tabletop coffee set on warm natural wood table: two minimalist modern porcelain coffee cups and matching saucers in pure glossy white with latte art, together with a fluted glass sugar jar with polished stainless steel lid, perfectly matched lighting and reflections.",
+      "name": "咖啡廳桌面咖啡杯碟與木蓋糖罐套裝",
+      "description": "Two-part tabletop coffee set reference sheet on warm cream background: left side shows minimalist modern porcelain coffee cup and matching saucer in pure glossy white filled with hot latte art foam; right side shows cylindrical pure glossy white ceramic sugar jar with a light-brown natural wood lid and round wooden top knob.",
       "reference_images": [
         "clp/prop_coffee_set.png"
       ],
       "source": "imported",
       "appears_in": [
+        "shot_2.1.1",
+        "shot_2.1.2",
         "shot_2.1.6",
+        "shot_2.1.7",
+        "shot_2.1.8",
         "shot_2.1.10",
+        "shot_2.1.12",
+        "shot_2.1.13",
+        "shot_2.1.16",
+        "shot_2.1.18",
+        "shot_2.1.19",
         "shot_2.1.20",
         "shot_2.1.21",
+        "shot_2.1.23",
+        "shot_2.1.24",
+        "shot_2.1.26",
         "shot_2.1.29",
         "shot_2.2.4",
         "shot_2.3.8",
@@ -1022,13 +1059,13 @@
         "shot_3.1.3",
         "shot_3.6.2"
       ],
-      "notes": "完整桌面布景專用（雙人中景／廣角／桌面俯拍）：畫面同時包含咖啡杯碟與桌面糖罐時使用，一張圖整合桌面道具，避免多圖稀釋生圖注意力。"
+      "notes": "同時包含「白瓷拿鐵咖啡杯碟（左）」與「白瓷木蓋糖罐（右）」兩個道具：凡是畫面同時拍到咖啡杯碟與桌面糖罐的鏡頭（雙人中景、桌面俯拍、露出桌面角落的中特寫／過肩鏡）一律選用本項，以單張參考圖同時鎖定杯碟與木蓋糖罐外觀；僅拍到單一咖啡杯碟且無糖罐入鏡時才選用 prop_coffee_cup。"
     }
   ],
   "metadata": {
-    "total_entities": 34,
+    "total_entities": 35,
     "characters_count": 11,
-    "locations_count": 9,
+    "locations_count": 10,
     "props_count": 14,
     "reference_dir": "clp/"
   }
