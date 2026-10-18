@@ -317,6 +317,24 @@
       "notes": "倫敦會議室負責向哈里森先生報告大成科技案件的專業審查員。"
     },
     {
+      "id": "char_analyst2",
+      "type": "character",
+      "name": "Analyst 2（海外投資機構年輕男審查員）",
+      "description": "Pixar-style 3D young male investment analyst; wavy medium-brown hair, thick expressive eyebrows, warm brown eyes, clean-shaven; wearing a crisp white button-down dress shirt with sleeves rolled to the elbows, tailored dark navy trousers, dark-brown leather dress shoes; attentive institutional posture.",
+      "reference_images": [
+        "clp/char_esg_analyst2.jpg"
+      ],
+      "source": "imported",
+      "appears_in": [
+        "shot_1.1.2",
+        "shot_1.1.4",
+        "shot_5.2.1",
+        "shot_5.2.3",
+        "shot_5.2.6"
+      ],
+      "notes": "倫敦會議室哈里森左側的年輕男審查員，負責操作簡報與旁聽審查（見 cam_harrison_ots_analyst2）。"
+    },
+    {
       "id": "char_chen",
       "type": "character",
       "name": "小陳（研發部研發工程師）",
@@ -1194,8 +1212,8 @@
     }
   ],
   "metadata": {
-    "total_entities": 33,
-    "characters_count": 10,
+    "total_entities": 34,
+    "characters_count": 11,
     "locations_count": 8,
     "props_count": 15,
     "reference_dir": "clp/"
