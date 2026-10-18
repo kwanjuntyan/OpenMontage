@@ -8,7 +8,7 @@
       "name": "Amy（ESG 推廣專員）",
       "description": "Pixar-style 3D young Taiwanese office woman; wavy chin-length brown bob with side-swept bangs, large expressive green eyes, light freckles; wearing a heather-grey fitted blazer with rolled/cuffed sleeves, slim tailored trousers, cream open-collar silk blouse, dark-brown low pumps; highly animated expressions ranging from anxious overload to radiant epiphany, energetic Vlogger persona.",
       "reference_images": [
-        "clp/char_esg_amy.jpeg"
+        "clp/char_amy.jpeg"
       ],
       "source": "imported",
       "appears_in": [
@@ -134,7 +134,7 @@
       "name": "George（資深企業永續顧問）",
       "description": "Pixar-style 3D older male character; swept-back silver-grey hair; thick grey eyebrows; hazel eyes; a prominent nose; visible facial lines; short white moustache and beard stubble; dark brown square-framed glasses; textured brown buttoned waistcoat; cream collared shirt with rolled sleeves; dark brown tie; dark brown trousers; brown lace-up shoes; wristwatch on his left wrist.",
       "reference_images": [
-        "clp/char_esg_george.png"
+        "clp/char_george.png"
       ],
       "source": "imported",
       "appears_in": [
@@ -242,7 +242,7 @@
       "name": "主管（大成科技行政協理）",
       "description": "Pixar-style 3D middle-aged East-Asian corporate manager; disheveled short black thinning hair, worried furrowed brows, prominent round nose, faint stubble; wearing a pale-blue dress shirt with rolled-up sleeves, loosened diagonal-striped brown silk tie, dark brown trousers, polished belt; hyper-expressive, comedic stress posture, easily excitable.",
       "reference_images": [
-        "clp/char_esg_supervisor.jpeg"
+        "clp/char_supervisor.jpeg"
       ],
       "source": "imported",
       "appears_in": [
@@ -277,7 +277,7 @@
       "name": "Mr. Harrison（倫敦跨國基金資深合夥人）",
       "description": "Pixar-style 3D older British senior executive; impeccably slicked-back platinum-silver hair, sharp bushy dark grey brows, aristocratic hawkish nose, piercing steel-blue eyes with disciplined stern gaze; wearing an immaculate bespoke navy pinstripe three-piece suit, crisp white stiff-collar shirt, silk regimental tie; commanding aristocratic presence.",
       "reference_images": [
-        "clp/char_esg_harison.jpeg"
+        "clp/char_harrison.jpeg"
       ],
       "source": "imported",
       "appears_in": [
@@ -302,7 +302,7 @@
       "name": "Sandy（海外投資機構審查分析師）",
       "description": "Pixar-style 3D young professional woman analyst; brunette hair neatly gathered into a professional low chignon with side-parted fringe, smart black modern rectangular glasses, keen blue-grey eyes; fitted black sharp pantsuit, silk off-white blouse, blue institutional lanyard with magnetic security badge, modest silver stud earrings; crisp and articulate.",
       "reference_images": [
-        "clp/char_esg_sandy.jpeg"
+        "clp/char_sandy.jpeg"
       ],
       "source": "imported",
       "appears_in": [
@@ -322,7 +322,7 @@
       "name": "Analyst 2（海外投資機構年輕男審查員）",
       "description": "Pixar-style 3D young male investment analyst; wavy medium-brown hair, thick expressive eyebrows, warm brown eyes, clean-shaven; wearing a crisp white button-down dress shirt with sleeves rolled to the elbows, tailored dark navy trousers, dark-brown leather dress shoes; attentive institutional posture.",
       "reference_images": [
-        "clp/char_esg_analyst2.jpg"
+        "clp/char_analyst2.jpg"
       ],
       "source": "imported",
       "appears_in": [
@@ -340,7 +340,7 @@
       "name": "小陳（研發部研發工程師）",
       "description": "Pixar-style 3D young male material engineer; tousled black hair with slightly messy bangs, black wire-rimmed glasses, timid earnest smile; wearing a graphite work vest with multiple pen pockets over a moss-green long-sleeve casual shirt, khaki cargo pants, durable work sneakers; passionate about sustainable polymers but previously overlooked.",
       "reference_images": [
-        "clp/char_esg_chen.jpeg"
+        "clp/char_chen.jpeg"
       ],
       "source": "imported",
       "appears_in": [
@@ -362,7 +362,7 @@
       "name": "王大哥（採購部資深主管 / 算盤俠）",
       "description": "Pixar-style 3D seasoned male procurement officer in his late 40s; receding hairline with combed-back black hair, round wire-rim reading glasses perched low on his nose, calculating furrowed brow that relaxes into a broad grin; wearing an off-white button-down shirt with buttoned chest pocket full of receipts and pens, dark-brown knit sweater vest, beige slacks; meticulous and cost-conscious.",
       "reference_images": [
-        "clp/char_esg_wang.jpeg"
+        "clp/char_wang.jpeg"
       ],
       "source": "imported",
       "appears_in": [
@@ -384,7 +384,7 @@
       "name": "Linda（IT 部資深軟體工程師）",
       "description": "Pixar-style 3D young woman developer; straight jet-black hair tied in a practical ponytail, purple-tinted stylish acetate glasses, pale complexion from monitor glow, cool confident smirk; wearing an oversized dark-violet hoodie with stylized digital icons, slim dark jeans, bright canvas sneakers, lanyard with multiple USB sticks; pragmatic and highly efficient.",
       "reference_images": [
-        "clp/char_esg_linda.jpeg"
+        "clp/char_linda.jpeg"
       ],
       "source": "imported",
       "appears_in": [
@@ -407,7 +407,7 @@
       "name": "標哥（廠務部資深領班 / 黃金獵人）",
       "description": "Pixar-style 3D burly veteran plant foreman; weathered tanned skin, friendly crinkly eyes, thick bristly mustache, warm gap-toothed chuckle; wearing a high-visibility neon yellow-orange safety vest over heavy-duty navy twill work overalls, yellow protective hardhat with company logo, heavy steel-toed work boots; hearty, dependable, proud of factory safety.",
       "reference_images": [
-        "clp/char_esg_biaoge.jpeg"
+        "clp/char_biaoge.jpeg"
       ],
       "source": "imported",
       "appears_in": [
@@ -428,7 +428,7 @@
       "name": "小李（行銷部創意文案企劃）",
       "description": "Pixar-style 3D energetic young male creative marketer; trendy wavy undercut hairstyle, stylish round tortoiseshell frames, expressive theatrical facial gestures; wearing a mustard-yellow oversized corduroy overshirt over a graphic white tee, rolled cuff chinos, fashion sneakers; full of wild promotional slogans, eager to learn corporate governance ethics.",
       "reference_images": [
-        "clp/char_esg_li.jpeg"
+        "clp/char_li.jpeg"
       ],
       "source": "imported",
       "appears_in": [
@@ -447,12 +447,12 @@
       "notes": "行銷部點子王，曾差點寫出『漂綠』誇大標語，經 Amy 導正領會 Governance 誠信真諦。"
     },
     {
-      "id": "loc_admin_office",
+      "id": "loc_staff_office",
       "type": "location",
       "name": "Amy 與主管辦公室（行政辦公區）",
       "description": "Contemporary Taipei corporate office; open-plan layout with light birchwood workstations, sage-green acoustic dividers, dual monitors, potted snake plants and succulents, warm overhead linear LED architectural lighting, glass-partitioned private managerial office in the background with city view.",
       "reference_images": [
-        "clp/loc_esg_admin_office.jpg"
+        "clp/loc_staff_office.jpg"
       ],
       "source": "imported",
       "appears_in": [
@@ -500,12 +500,12 @@
       "name": "新潮風格咖啡館（George 與 Amy 請益地）",
       "description": "Warm wood-toned cafe; tall wood-framed glass windows with outdoor greenery visible; dark green wall sections between windows; wooden counter seating along the windows; vertical wood wall paneling with framed botanical prints and trailing greenery; wooden tables and spindle-back chairs in the seating area between the windows and service counter; wood-paneled service counter with a pale countertop and glass pastry case; espresso machine in the service area; natural daylight through the windows.",
       "reference_images": [
-        "clp/loc_esg_coffee_shop_front.jpg",
-        "clp/loc_esg_coffee_shop_front_far.jpg",
-        "clp/loc_esg_coffee_shop_left.jpg",
-        "clp/loc_esg_coffee_shop_left_far.jpg",
-        "clp/loc_esg_coffee_shop_right.jpg",
-        "clp/loc_esg_coffee_shop_right_far.jpg"
+        "clp/loc_coffee_shop_front.jpg",
+        "clp/loc_coffee_shop_front_far.jpg",
+        "clp/loc_coffee_shop_left.jpg",
+        "clp/loc_coffee_shop_left_far.jpg",
+        "clp/loc_coffee_shop_right.jpg",
+        "clp/loc_coffee_shop_right_far.jpg"
       ],
       "source": "imported",
       "appears_in": [
@@ -614,12 +614,12 @@
       "notes": "第二幕解密ESG、第三幕推演行動地圖五步驟的思維殿堂。"
     },
     {
-      "id": "loc_rd_department",
+      "id": "loc_rd_office",
       "type": "location",
       "name": "研發部樣品開發室",
       "description": "High-tech fabric R&D workshop and sample lab; large central cutting table piled with textile swatches, spools of recycled polymer thread, magnifying test lamps, pegboards holding drafting tools, shelves lined with raw plastic pellets and prototype blankets, blueprint posters on concrete walls.",
       "reference_images": [
-        "clp/loc_esg_rd_department.jpg"
+        "clp/loc_rd_office.jpg"
       ],
       "source": "imported",
       "appears_in": [
@@ -633,12 +633,12 @@
       "notes": "第四幕尋寶第一站，小陳存放兩年前環保毛毯的研發基地。"
     },
     {
-      "id": "loc_procurement_department",
+      "id": "loc_procurement_office",
       "type": "location",
       "name": "採購部辦公室（帳房）",
       "description": "Busy corporate procurement office; sturdy dark wood desks stacked with supplier binders, ledger folders, dual calculation screens, filing cabinets, green banker lamps alongside fluorescent tubes, financial charts pinned to acoustic corkboards, organized paperwork atmosphere.",
       "reference_images": [
-        "clp/loc_esg_procurement_department.jpeg"
+        "clp/loc_procurement_office.jpeg"
       ],
       "source": "imported",
       "appears_in": [
@@ -653,12 +653,12 @@
       "notes": "第四幕尋寶第二站，王大哥按計算機核算綠色採購成本的場所。"
     },
     {
-      "id": "loc_it_department",
+      "id": "loc_it_office",
       "type": "location",
       "name": "IT 資訊技術研發中心",
       "description": "Modern software engineering bay; subdued ambient blue lighting with backlit LED server racks behind soundproof glass, multi-monitor curved displays glowing with automated code streams and data visualization dashboards, cable organizers, ergonomic mesh chairs, tech gadgets and sticky notes.",
       "reference_images": [
-        "clp/loc_esg_it_department.jpg"
+        "clp/loc_it_office.jpg"
       ],
       "source": "imported",
       "appears_in": [
@@ -675,12 +675,12 @@
       "notes": "第四幕尋寶第三站，Linda 撰寫爬蟲系統實現雙軸轉型的科技工坊。"
     },
     {
-      "id": "loc_factory_affairs",
+      "id": "loc_factory",
       "type": "location",
       "name": "廠務車間與資源回收暫存區",
       "description": "Immaculately clean and organized factory staging facility; wide concrete thoroughfare with bright yellow safety line markings, clear overhead signage for sorted scrap metals and plastics, high industrial ceiling with ventilation ducts, parked orange forklift with clear line of sight, zero clutter, model industrial safety environment.",
       "reference_images": [
-        "clp/loc_esg_fac.png"
+        "clp/loc_factory.png"
       ],
       "source": "imported",
       "appears_in": [
@@ -695,12 +695,12 @@
       "notes": "第四幕尋寶第四站，標哥將邊角料分類變黃金、工安意外歸零的硬核現場。"
     },
     {
-      "id": "loc_marketing_department",
+      "id": "loc_marketing_office",
       "type": "location",
       "name": "行銷企劃部創意會議室",
       "description": "Vibrant design brainstorming lounge; colorful magnetic moodboards covered in poster mockups, Pantone color chips, circular collaboration table with marker pens and sketches, warm spherical pendant lights, large presentation monitor, dynamic creative agency aesthetic.",
       "reference_images": [
-        "clp/loc_esg_marketing_department.png"
+        "clp/loc_marketing_office.png"
       ],
       "source": "imported",
       "appears_in": [
@@ -718,12 +718,12 @@
       "notes": "第四幕尋寶第五站，小李與 Amy 探討防漂綠海報宣傳的創意空間。"
     },
     {
-      "id": "loc_tv_studio_and_boardroom",
+      "id": "loc_investment_office",
       "type": "location",
-      "name": "倫敦投資審查會議室與幻想電視棚",
-      "description": "Dual visual space: Ultra-luxurious glass boardroom overlooking foggy London skyline with walnut conference table and executive leather seating; seamlessly transitioning in fantasy cuts into glossy vibrant studio lighting with presentation screens.",
+      "name": "倫敦海外投資機構審查會議室",
+      "description": "Executive glass boardroom on the top floor of a London financial skyscraper; dark walnut wooden slatted ceiling with recessed warm LED spotlights and a central ceiling-mounted white projector; large front projection screen displaying Capital Investment Portfolio bar and line charts; long dark-walnut conference table surrounded by cognac-brown high-back leather executive swivel chairs with chrome armrests; floor-to-ceiling glass curtain wall on the right overlooking the London high-rise skyline.",
       "reference_images": [
-        "clp/loc_esg_tvshow.png"
+        "clp/loc_investment_office.png"
       ],
       "source": "imported",
       "appears_in": [
@@ -747,7 +747,21 @@
         "shot_5.2.6",
         "shot_5.2.7"
       ],
-      "notes": "第一幕投資審查被拒與第五幕大逆轉核准的重要殿堂。"
+      "notes": "第一幕投資審查被拒（ON HOLD）與第五幕大逆轉核准（APPROVED）的倫敦跨國投資機構會議室（對應 Blender 場景 investment_office）。"
+    },
+    {
+      "id": "loc_tvshow",
+      "type": "location",
+      "name": "幻想電視購物攝影棚（ESG 舞台）",
+      "description": "Vibrant glossy TV shopping and variety show studio stage; large central curved teal backdrop featuring a glowing 3D globe, giant white-and-gold 'ESG' lettering with an upward golden arrow and green leaves; flanked by magenta and cyan side panels with golden rising bar-chart graphics; white-and-gold curved presenter podium in the center with a smaller round display pedestal on the left; warm golden studio stage floor with circular LED light rings, overhead studio truss lighting rigs, and a broadcast camera on a tripod in the left foreground.",
+      "reference_images": [
+        "clp/loc_tvshow.png"
+      ],
+      "source": "imported",
+      "appears_in": [
+        "shot_1.3.1"
+      ],
+      "notes": "場景 1.3 Amy 幻想主管化身購物台主持人推銷 ESG 濃縮膠囊的綜藝電視棚（無 Blender 3D 場景，走 R2I）。"
     },
     {
       "id": "prop_eco_blanket",
@@ -755,7 +769,7 @@
       "name": "回收寶特瓶環保毛毯",
       "description": "Plush, high-density fleece blanket woven from recycled PET yarns; subtle textured weave in muted sage-grey and eco-green, elegant hemmed border, featuring a small woven minimalist leaf logo patch; soft, premium textile tactile feel.",
       "reference_images": [
-        "clp/prop_eco_bath_towel.png"
+        "clp/prop_eco_blanket.png"
       ],
       "source": "imported",
       "appears_in": [
@@ -858,125 +872,15 @@
       "source": "imported",
       "appears_in": [
         "shot_2.1.1",
-        "shot_2.1.2",
         "shot_2.1.3",
-        "shot_2.1.4",
-        "shot_2.1.5",
-        "shot_2.1.6",
-        "shot_2.1.7",
-        "shot_2.1.8",
-        "shot_2.1.9",
-        "shot_2.1.10",
         "shot_2.1.11",
-        "shot_2.1.12",
-        "shot_2.1.13",
-        "shot_2.1.14",
-        "shot_2.1.15",
-        "shot_2.1.16",
         "shot_2.1.17",
-        "shot_2.1.18",
-        "shot_2.1.19",
-        "shot_2.1.20",
-        "shot_2.1.21",
-        "shot_2.1.22",
-        "shot_2.1.23",
-        "shot_2.1.24",
         "shot_2.1.25",
-        "shot_2.1.26",
-        "shot_2.1.27",
-        "shot_2.1.28",
-        "shot_2.1.29",
-        "shot_2.1.30",
-        "shot_2.2.1",
-        "shot_2.2.2",
-        "shot_2.2.3",
-        "shot_2.2.4",
         "shot_2.2.5",
-        "shot_2.2.6",
-        "shot_2.2.7",
-        "shot_2.3.1",
-        "shot_2.3.2",
-        "shot_2.3.3",
-        "shot_2.3.4",
-        "shot_2.3.5",
-        "shot_2.3.6",
-        "shot_2.3.7",
-        "shot_2.3.8",
-        "shot_2.4.1",
-        "shot_2.4.2",
-        "shot_2.4.3",
-        "shot_2.4.4",
-        "shot_2.4.5",
-        "shot_2.4.6",
-        "shot_2.4.7",
-        "shot_2.5.1",
-        "shot_2.5.2",
-        "shot_2.5.3",
-        "shot_2.5.4",
-        "shot_2.5.7",
-        "shot_2.5.8",
-        "shot_2.7.1",
-        "shot_2.7.2",
-        "shot_2.7.3",
-        "shot_2.7.4",
-        "shot_2.7.5",
-        "shot_2.7.6",
-        "shot_2.7.7",
-        "shot_2.7.8",
-        "shot_2.7.9",
-        "shot_2.7.10",
-        "shot_2.7.11",
-        "shot_2.7.12",
-        "shot_3.1.1",
-        "shot_3.1.2",
-        "shot_3.1.3",
-        "shot_3.1.4",
-        "shot_3.1.5",
-        "shot_3.2.1",
-        "shot_3.2.2",
-        "shot_3.2.3",
-        "shot_3.2.4",
-        "shot_3.2.5",
-        "shot_3.2.6",
-        "shot_3.3.1",
         "shot_3.3.2",
-        "shot_3.3.3",
-        "shot_3.3.4",
-        "shot_3.3.5",
-        "shot_3.3.6",
-        "shot_3.3.7",
-        "shot_3.3.8",
-        "shot_3.3.9",
-        "shot_3.3.10",
-        "shot_3.4.1",
-        "shot_3.4.2",
-        "shot_3.4.3",
-        "shot_3.4.4",
-        "shot_3.4.5",
-        "shot_3.5.1",
-        "shot_3.5.2",
-        "shot_3.5.3",
-        "shot_3.6.1",
-        "shot_3.6.2",
-        "shot_5.1.2a"
+        "shot_3.4.2"
       ],
-      "notes": "Amy 在第二幕與第三幕向 George 請益時端上的象徵性咖啡。"
-    },
-    {
-      "id": "prop_sugar_jar",
-      "type": "prop",
-      "name": "咖啡桌玻璃糖罐",
-      "description": "Clear fluted glass sugar jar with polished stainless steel dispenser lid, sparkling granulated white cane sugar visible inside, casting warm refracted highlights on wood tabletop.",
-      "reference_images": [
-        "clp/prop_sugar_jar.png"
-      ],
-      "source": "imported",
-      "appears_in": [
-        "shot_1.1.7",
-        "shot_1.2.1",
-        "shot_3.3.5"
-      ],
-      "notes": "咖啡館桌面的環境細節道具。"
+      "notes": "單人過肩鏡／中特寫專用：畫面僅拍到角色手中或面前單一咖啡杯碟（糖罐被遮擋或在畫外）時使用，避免 AI 誤將糖罐塞入特寫畫面。"
     },
     {
       "id": "prop_menu",
@@ -1081,12 +985,12 @@
       "notes": "用於展示檢核清單與直式圖表的數位設備。"
     },
     {
-      "id": "prop_esg_capsules",
+      "id": "prop_capsules",
       "type": "prop",
       "name": "ESG 萬靈丹金色膠囊與藥罐",
       "description": "Playful, stylized glowing golden pill bottle with cream label reading 'ESG 萬靈丹' adorned with twin green leaf icons; several translucent golden capsules glowing with sparkling green particles spilled beside it; stylized comedic visual metaphor.",
       "reference_images": [
-        "clp/ESG_Capsules.png"
+        "clp/prop_capsules.png"
       ],
       "source": "imported",
       "appears_in": [
@@ -1105,117 +1009,27 @@
       ],
       "source": "imported",
       "appears_in": [
-        "shot_2.1.1",
-        "shot_2.1.2",
-        "shot_2.1.3",
-        "shot_2.1.4",
-        "shot_2.1.5",
         "shot_2.1.6",
-        "shot_2.1.7",
-        "shot_2.1.8",
-        "shot_2.1.9",
         "shot_2.1.10",
-        "shot_2.1.11",
-        "shot_2.1.12",
-        "shot_2.1.13",
-        "shot_2.1.14",
-        "shot_2.1.15",
-        "shot_2.1.16",
-        "shot_2.1.17",
-        "shot_2.1.18",
-        "shot_2.1.19",
         "shot_2.1.20",
         "shot_2.1.21",
-        "shot_2.1.22",
-        "shot_2.1.23",
-        "shot_2.1.24",
-        "shot_2.1.25",
-        "shot_2.1.26",
-        "shot_2.1.27",
-        "shot_2.1.28",
         "shot_2.1.29",
-        "shot_2.1.30",
-        "shot_2.2.1",
-        "shot_2.2.2",
-        "shot_2.2.3",
         "shot_2.2.4",
-        "shot_2.2.5",
-        "shot_2.2.6",
-        "shot_2.2.7",
-        "shot_2.3.1",
-        "shot_2.3.2",
-        "shot_2.3.3",
-        "shot_2.3.4",
-        "shot_2.3.5",
-        "shot_2.3.6",
-        "shot_2.3.7",
         "shot_2.3.8",
-        "shot_2.4.1",
-        "shot_2.4.2",
-        "shot_2.4.3",
-        "shot_2.4.4",
-        "shot_2.4.5",
-        "shot_2.4.6",
-        "shot_2.4.7",
         "shot_2.5.1",
-        "shot_2.5.2",
-        "shot_2.5.3",
-        "shot_2.5.4",
-        "shot_2.5.7",
-        "shot_2.5.8",
-        "shot_2.7.1",
-        "shot_2.7.2",
-        "shot_2.7.3",
-        "shot_2.7.4",
         "shot_2.7.5",
-        "shot_2.7.6",
-        "shot_2.7.7",
-        "shot_2.7.8",
-        "shot_2.7.9",
-        "shot_2.7.10",
-        "shot_2.7.11",
-        "shot_2.7.12",
         "shot_3.1.1",
-        "shot_3.1.2",
         "shot_3.1.3",
-        "shot_3.1.4",
-        "shot_3.1.5",
-        "shot_3.2.1",
-        "shot_3.2.2",
-        "shot_3.2.3",
-        "shot_3.2.4",
-        "shot_3.2.5",
-        "shot_3.2.6",
-        "shot_3.3.1",
-        "shot_3.3.2",
-        "shot_3.3.3",
-        "shot_3.3.4",
-        "shot_3.3.5",
-        "shot_3.3.6",
-        "shot_3.3.7",
-        "shot_3.3.8",
-        "shot_3.3.9",
-        "shot_3.3.10",
-        "shot_3.4.1",
-        "shot_3.4.2",
-        "shot_3.4.3",
-        "shot_3.4.4",
-        "shot_3.4.5",
-        "shot_3.5.1",
-        "shot_3.5.2",
-        "shot_3.5.3",
-        "shot_3.6.1",
-        "shot_3.6.2",
-        "shot_5.1.2a"
+        "shot_3.6.2"
       ],
-      "notes": "咖啡廳對話桌面標準整合道具圖，整合咖啡杯碟與糖罐，避免生圖注意力稀釋。"
+      "notes": "完整桌面布景專用（雙人中景／廣角／桌面俯拍）：畫面同時包含咖啡杯碟與桌面糖罐時使用，一張圖整合桌面道具，避免多圖稀釋生圖注意力。"
     }
   ],
   "metadata": {
     "total_entities": 34,
     "characters_count": 11,
-    "locations_count": 8,
-    "props_count": 15,
+    "locations_count": 9,
+    "props_count": 14,
     "reference_dir": "clp/"
   }
 }

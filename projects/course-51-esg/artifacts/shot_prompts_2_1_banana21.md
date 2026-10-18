@@ -9,8 +9,8 @@
 
 - 圖 1 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_empty_banana.png)
 - 圖 2 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_block_blender.png)
-- 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
-- 圖 4 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
+- 圖 3 [char_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_george.png)
+- 圖 4 [char_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg)
 - 圖 5 [prop_coffee_cup.png](D:/kj-openMontage/projects/course-51-esg/clp/prop_coffee_cup.png)
 
 ```text
@@ -35,8 +35,8 @@ GPT 新模板 v1：[成品](../assets/images/shot_2.1.1_gpt_template_v1.png)。�
 參考圖說明：
 圖 1 [empty_banana_s02_medium_two_shot.png]：場景外觀參考圖。
 圖 2 [blocks_blender_s02_medium_two_shot.png]：構圖底圖。
-圖 3 [char_esg_george.png]：George 人物參考圖，對應藍色人物。
-圖 4 [char_esg_amy.jpeg]：Amy 人物參考圖，對應紅色人物。
+圖 3 [char_george.png]：George 人物參考圖，對應藍色人物。
+圖 4 [char_amy.jpeg]：Amy 人物參考圖，對應紅色人物。
 圖 5 [prop_coffee_cup.png]：咖啡杯碟外觀參考圖。
 
 生圖指引：
@@ -63,8 +63,8 @@ GPT 本對話模板 v2（2026-10-13）：[成品](../assets/images/shot_2.1.1_gp
 參考圖說明：
 圖 1 [empty_banana_s02_medium_two_shot.png]：場景外觀參考圖。
 圖 2 [blocks_blender_s02_medium_two_shot.png]：構圖底圖。
-圖 3 [char_esg_george.png]：George 人物參考圖，對應圖 2 的藍色人物。
-圖 4 [char_esg_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。
+圖 3 [char_george.png]：George 人物參考圖，對應圖 2 的藍色人物。
+圖 4 [char_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。
 圖 5 [prop_coffee_cup.png]：咖啡杯碟外觀參考圖。
 
 生圖指引：
@@ -90,8 +90,8 @@ Banana 2.1 v5（2026-10-13，六圖含糖罐）：[成品](../assets/images/shot
 參考圖說明：
 圖 1 [empty_banana_s02_medium_two_shot.png]：場景外觀參考圖。
 圖 2 [blocks_blender_s02_medium_two_shot.png]：構圖底圖。
-圖 3 [char_esg_george.png]：George 人物參考圖，對應圖 2 的藍色人物。
-圖 4 [char_esg_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。
+圖 3 [char_george.png]：George 人物參考圖，對應圖 2 的藍色人物。
+圖 4 [char_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。
 圖 5 [prop_coffee_cup.png]：咖啡杯碟外觀參考圖。
 圖 6 [prop_sugar_jar.png]：糖罐外觀參考圖
 
@@ -117,8 +117,8 @@ GPT 新流程 v3：[成品](../assets/images/shot_2.1.1_gpt_template_v3.png)。�
 參考圖說明：
 圖 1 [empty_banana_s02_medium_two_shot.png]：場景外觀參考圖。
 圖 2 [blocks_blender_s02_medium_two_shot.png]：構圖底圖。
-圖 3 [char_esg_george.png]：George 人物參考圖，對應圖 2 的藍色人物。
-圖 4 [char_esg_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。
+圖 3 [char_george.png]：George 人物參考圖，對應圖 2 的藍色人物。
+圖 4 [char_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。
 圖 5 [prop_coffee_cup.png]：咖啡杯碟外觀參考圖。
 
 生圖指引：
@@ -140,8 +140,8 @@ Banana 2.1 v6（新流程）：[成品](../assets/images/shot_2.1.1_banana21_v6.
 
 - 圖 1 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_empty_banana.png)
 - 圖 2 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_block_blender.png)
-- 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
-- 圖 4 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
+- 圖 3 [char_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_george.png)
+- 圖 4 [char_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg)
 
 ```text
 圖 1 是場景，物件與光影的絕對參考來源；圖 2 僅提供人物位置、比例、朝向與遮擋；圖 3、圖 4 分別提供 George、Amy 的外觀與服裝。
@@ -163,8 +163,8 @@ GPT 模板 v1（2026-10-13，使用者同意拼接道具）：[成品](../assets
 參考圖說明：
 圖 1 [empty_banana_s06_amy_medium_close_up.png]：場景外觀參考圖。
 圖 2 [blocks_blender_s06_amy_medium_close_up.png]：構圖底圖。
-圖 3 [char_esg_george.png]：George 人物參考圖，對應圖 2 的藍色人物。
-圖 4 [char_esg_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。
+圖 3 [char_george.png]：George 人物參考圖，對應圖 2 的藍色人物。
+圖 4 [char_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。
 圖 5 [prop_coffee_cup.png]：咖啡杯碟外觀參考圖。
 圖 6 [prop_sugar_jar.png]：糖罐外觀參考圖。
 
@@ -191,8 +191,8 @@ Banana 2.1 v3（2026-10-13，六張獨立參考圖）：[成品](../assets/image
 參考圖說明：
 圖 1 [empty_banana_s06_amy_medium_close_up.png]：場景外觀參考圖。
 圖 2 [blocks_blender_s06_amy_medium_close_up.png]：構圖底圖。
-圖 3 [char_esg_george.png]：George 人物參考圖，對應圖 2 的藍色人物。
-圖 4 [char_esg_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。
+圖 3 [char_george.png]：George 人物參考圖，對應圖 2 的藍色人物。
+圖 4 [char_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。
 圖 5 [prop_coffee_cup.png]：咖啡杯碟外觀參考圖。
 圖 6 [prop_sugar_jar.png]：糖罐外觀參考圖。
 
@@ -217,8 +217,8 @@ Banana 2.1 v4（2026-10-13，依使用者要求重新生成）：[成品](../ass
 
 - 圖 1 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_george_ots_amy_empty_banana.png)
 - 圖 2 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_george_ots_amy_block_blender.png)
-- 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
-- 圖 4 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
+- 圖 3 [char_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_george.png)
+- 圖 4 [char_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg)
 - 圖 5 [prop_coffee_cup.png](D:/kj-openMontage/projects/course-51-esg/clp/prop_coffee_cup.png)
 
 ```text
@@ -243,8 +243,8 @@ v4：[成品](../assets/images/shot_2.1.3_banana21_v4.png)；使用者新版原�
 參考圖說明：
 圖 1 [empty_banana_s03_ots_to_george.png]：場景外觀參考圖。
 圖 2 [blocks_blender_s03_ots_to_george.png]：構圖底圖。
-圖 3 [char_esg_george.png]：George 人物參考圖，對應圖 2 的藍色人物。
-圖 4 [char_esg_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。
+圖 3 [char_george.png]：George 人物參考圖，對應圖 2 的藍色人物。
+圖 4 [char_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。
 圖 5 [prop_coffee_cup.png]：咖啡杯碟外觀參考圖。
 
 生圖指引：
@@ -274,7 +274,7 @@ v4：[成品](../assets/images/shot_2.1.3_banana21_v4.png)；使用者新版原�
 
 - 圖 1 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_amy_cu_emotion_empty_banana.png)
 - 圖 2 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_amy_cu_emotion_block_blender.png)
-- 圖 3 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
+- 圖 3 [char_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg)
 
 ```text
 圖 1 是場景，物件，風格，與光影的絕對參考來源；圖 2 是取景範圍、人物位置、人物朝向、人物顯示範圍與比例，遮擋的絕對參考來源；圖 3 僅提供 Amy 的外觀與服裝，不採用其展示姿態與取景。
@@ -300,7 +300,7 @@ v3 第二次嘗試：使用者要求重生後，相同 prompt／三圖／模型�
 參考圖說明：
 圖 1 [empty_banana_s08_amy_close_up.png]：場景外觀參考圖。
 圖 2 [blocks_blender_s08_amy_close_up.png]：構圖底圖。
-圖 3 [char_esg_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。
+圖 3 [char_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。
 
 生圖指引：
 以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、顯示範圍與遮擋關係。
@@ -325,7 +325,7 @@ v3 第二次嘗試：使用者要求重生後，相同 prompt／三圖／模型�
 參考圖說明：
 圖 1 [empty_banana_s08_amy_close_up.png]：場景外觀參考圖。
 圖 2 [blocks_blender_s08_amy_close_up.png]：構圖底圖。
-圖 3 [char_esg_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。
+圖 3 [char_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。
 
 生圖指引：
 以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、顯示範圍與遮擋關係。
@@ -387,13 +387,13 @@ Amy 保持坐姿，整個上半身轉向畫面左前方的畫外 George，呈三
 
 - 圖 1 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_george_cu_emotion_empty_banana.png)
 - 圖 2 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_george_cu_emotion_block_blender.png)
-- 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
+- 圖 3 [char_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_george.png)
 
 ```text
 參考圖說明：
 圖 1 [empty_banana_s07_george_close_up.png]：場景參考圖。
 圖 2 [blocks_blender_s07_george_close_up.png]：人物定位圖。
-圖 3 [char_esg_george.png]：George 人物參考圖，對應圖 2 的藍色人物。
+圖 3 [char_george.png]：George 人物參考圖，對應圖 2 的藍色人物。
 
 生圖指引：
 場景、物件、材質、風格與光影以圖 1 為準。
@@ -422,7 +422,7 @@ GPT 同指令比較：[成品](../assets/images/shot_2.1.5_gpt_compare_v1.png)�
 參考圖說明：
 圖 1 [empty_banana_s07_george_close_up.png]：場景外觀參考圖。
 圖 2 [blocks_blender_s07_george_close_up.png]：構圖底圖。
-圖 3 [char_esg_george.png]：George 人物參考圖，對應圖 2 的藍色人物。
+圖 3 [char_george.png]：George 人物參考圖，對應圖 2 的藍色人物。
 
 生圖指引：
 以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、顯示範圍與遮擋關係。
@@ -444,16 +444,16 @@ GPT 同指令比較：[成品](../assets/images/shot_2.1.5_gpt_compare_v1.png)�
 
 - 圖 1 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_table_insert_top_empty_banana.png)
 - 圖 2 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_table_insert_top_block_blender.png)
-- 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
-- 圖 4 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
+- 圖 3 [char_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_george.png)
+- 圖 4 [char_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg)
 - 圖 5 [prop_coffee_set.png](D:/kj-openMontage/projects/course-51-esg/clp/prop_coffee_set.png)
 
 ```text
 參考圖說明：
 圖 1 [empty_banana_s09_table_insert.png]：場景外觀參考圖。
 圖 2 [blocks_blender_s09_table_insert.png]：構圖底圖。
-圖 3 [char_esg_george.png]：George 人物參考圖，對應藍色人物。
-圖 4 [char_esg_amy.jpeg]：Amy 人物參考圖，對應紅色人物。
+圖 3 [char_george.png]：George 人物參考圖，對應藍色人物。
+圖 4 [char_amy.jpeg]：Amy 人物參考圖，對應紅色人物。
 圖 5 [prop_coffee_set.png]：杯碟外觀參考圖。
 
 生圖指引：
@@ -483,8 +483,8 @@ Banana 2.1 v1：[成品](../assets/images/shot_2.1.6_banana21_v1.png)。與 GPT 
 參考圖說明：
 圖 1 [empty_banana_s09_table_insert.png]：場景外觀參考圖。
 圖 2 [blocks_blender_s09_table_insert.png]：構圖底圖。
-圖 3 [char_esg_george.png]：George 人物參考圖，對應圖 2 的藍色人物。
-圖 4 [char_esg_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。
+圖 3 [char_george.png]：George 人物參考圖，對應圖 2 的藍色人物。
+圖 4 [char_amy.jpeg]：Amy 人物參考圖，對應圖 2 的紅色人物。
 圖 5 [prop_coffee_set.png]：咖啡杯碟外觀參考圖。
 
 生圖指引：

@@ -15,8 +15,8 @@
 
 - 圖 1 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_block_blender.png)
 - 圖 2 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_empty_banana.png)
-- 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
-- 圖 4 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
+- 圖 3 [char_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_george.png)
+- 圖 4 [char_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg)
 - 圖 5 [prop_coffee_cup.png](D:/kj-openMontage/projects/course-51-esg/clp/prop_coffee_cup.png)
 
 短指令：Amy 愁眉微皺，一手握小匙、匙端仍在拿鐵中，抬眼望向 George 求助；George 沉著聆聽。保留雙人中景與桌面互動。
@@ -29,8 +29,8 @@
 
 - 圖 1 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_block_blender.png)
 - 圖 2 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_empty_banana.png)
-- 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
-- 圖 4 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
+- 圖 3 [char_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_george.png)
+- 圖 4 [char_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg)
 
 短指令：Amy 已停止攪拌，眉心皺起、嘴角下垂、頭微偏，望向 George 訴說 KPI 要 GG 的無奈；小幅攤手僅在原取景容納處呈現。George 只保留 blocks 所示局部前景，不補出臉。
 
@@ -42,8 +42,8 @@
 
 - 圖 1 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_george_ots_amy_block_blender.png)
 - 圖 2 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_george_ots_amy_empty_banana.png)
-- 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
-- 圖 4 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
+- 圖 3 [char_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_george.png)
+- 圖 4 [char_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg)
 - 圖 5 [prop_coffee_cup.png](D:/kj-openMontage/projects/course-51-esg/clp/prop_coffee_cup.png)
 
 短指令：George 溫和微笑看向 Amy，一手握咖啡杯柄，準備放回原杯碟；杯底尚未接觸碟面，保留清楚空隙。Amy 以頭肩背影聆聽。握起原有杯子，碟上不留重複杯。
@@ -56,7 +56,7 @@
 
 - 圖 1 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_amy_cu_emotion_block_blender.png)
 - 圖 2 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_amy_cu_emotion_empty_banana.png)
-- 圖 3 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
+- 圖 3 [char_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg)
 
 短指令：Amy 聽見「企業健康指標」而睜大眼睛、微抬眉、輕輕歪頭，嘴唇微張，望向畫外 George 驚奇反問。維持單人頭肩特寫。身體維持 blocks 中朝向對坐的 George，肩膀與軀幹不轉動，只輕輕歪頭；頭與胸口朝向同一位對坐者，不做側身回頭姿勢。
 
@@ -73,7 +73,7 @@
 
 - 圖 1 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_george_cu_emotion_block_blender.png)
 - 圖 2 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_george_cu_emotion_empty_banana.png)
-- 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
+- 圖 3 [char_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_george.png)
 
 短指令：George 下巴略收，帶著剛點頭後的肯定神情與溫和微笑，嘴唇自然微張，望向畫外 Amy 解釋 EPS。維持單人頭肩特寫，手部與杯子留在畫外。身體維持 blocks 中朝向對坐的 Amy，肩膀與軀幹不額外轉動，頭與胸口朝向同一位對坐者，不做側身回頭姿勢。
 
@@ -89,8 +89,8 @@
 
 - 圖 1 [blocks](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_table_insert_top_block_blender.png)
 - 圖 2 [背景](D:/kj-openMontage/projects/course-51-esg/references/scenes/coffee_shop/cameras/cam_table_insert_top_empty_banana.png)
-- 圖 3 [char_esg_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_george.png)
-- 圖 4 [char_esg_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_esg_amy.jpeg)
+- 圖 3 [char_george.png](D:/kj-openMontage/projects/course-51-esg/clp/char_george.png)
+- 圖 4 [char_amy.jpeg](D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg)
 - 圖 5 [prop_coffee_set.png](D:/kj-openMontage/projects/course-51-esg/clp/prop_coffee_set.png)
 
 短指令：維持桌面斜俯拍：兩人的局部前臂與手自然停在桌邊，兩只咖啡杯均在各自杯碟上，保留背景的白色金色金屬蓋罐。只見 blocks 所示局部身體，不出現臉；George 為畫外音。E／S／G 留待後製，這張不生成字卡。咖啡組 CLP 僅取杯碟，不採用木蓋罐。
