@@ -1180,3 +1180,50 @@ Amy 的外觀與服裝採用圖 3，不採用人物參考圖的展示姿態或�
 - 相較 blocks，George 左側前景明顯擴大，左上邊緣露出少量白髮；Amy 頭頂留白減少，人物比例、手勢及杯罐位置／裁切仍有差異，未完全遵守原構圖。
 - 未見新增字幕或參考圖展示排版；本版為待確認候選，未替換 asset_manifest.json 中已採用的 shot_2.1.2_gpt_template_v1.png，未修改分鏡、未追加生成或推進整體 assets 核准。
 
+
+
+## 2026-10-19 shot_2.1.7 GPT v1
+
+- Pipeline／階段：course-51-esg／kj-cinematic／assets 的 W2I 局部生成，預備後續 I2V 首幀。
+- 使用者確認前一則回覆的完整 prompt，原文與下列五張參考圖依序送出，僅生成一張。
+- 工具／供應商：內建 image_gen／OpenAI；確切模型、用量與實際費用未提供，事前已告知無法取得報價；transparent_background=false。
+- 輸出：[shot_2.1.7_gpt_v1.png](../assets/images/shot_2.1.7_gpt_v1.png)
+- 原生來源：C:/Users/servi/.codex/generated_images/01a151db-f372-7411-9451-41b4a31ab9a3/exec-dbee10e3-6008-4385-bce8-07769a635b47.png
+
+有序參考圖：
+
+1. [references/scenes/coffee_shop/cameras/cam_amy_ots_george_empty_banana.png](../references/scenes/coffee_shop/cameras/cam_amy_ots_george_empty_banana.png)
+2. [references/scenes/coffee_shop/cameras/cam_amy_ots_george_block_blender.png](../references/scenes/coffee_shop/cameras/cam_amy_ots_george_block_blender.png)
+3. [clp/char_amy.jpeg](../clp/char_amy.jpeg)
+4. [clp/char_george.png](../clp/char_george.png)
+5. [clp/prop_coffee_set.png](../clp/prop_coffee_set.png)
+
+完整 Prompt：
+
+```text
+參考圖說明：
+圖 1 cam_amy_ots_george_empty_banana.png：場景外觀參考圖。
+圖 2 cam_amy_ots_george_block_blender.png：構圖底圖。
+圖 3 char_amy.jpeg：Amy 人物參考圖，對應圖 2 的紅色人物。
+圖 4 char_george.png：George 人物參考圖，對應圖 2 的藍色人物。
+圖 5 prop_coffee_set.png：白瓷咖啡杯碟與木蓋糖罐的外觀參考圖。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、顯示範圍與遮擋關係。
+
+將定位人物替換為對應角色，只呈現圖 2 中可見的部位，不補出畫外身體。人物外觀與服裝採用圖 3、圖 4，不採用其展示姿態或構圖。兩人直接坐入既有木椅，不額外增加椅子。
+
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。桌面咖啡杯碟與木蓋糖罐的外觀採用圖 5，數量、位置與遮擋沿用圖 2，不為展示道具而移動人物或補出被遮住的物件。
+
+畫面描述：
+這是一張坐姿近眼高、60mm 視角的過肩中景，從 George 身後越過他的肩膀看向 Amy。畫面中有兩人：George 的後腦、肩背與局部手臂佔據左前景，呈柔焦；Amy 位於右中景，完整頭部、上半身及桌邊可見手部依圖 2 呈現，下半身維持原有遮擋與裁切。Amy 保持圖 2 的坐姿，上半身尚未前傾，眉心微蹙，眼神帶著畏難與遲疑，望向對坐的 George，嘴唇輕合，呈現準備開口探問的瞬間。George 維持面向 Amy 的坐姿與原有遮擋。雙方手臂及手部姿態沿用圖 2。背景維持原木服務牆與義式咖啡機，保留日間溫暖光線，淺景深聚焦 Amy 的眼睛與擔憂神情。除上述表情、視線與景深調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕。
+```
+
+結果檢視：
+
+- 1672×940 RGB PNG，接近但非精確 16:9；Pillow 完整解碼成功，專案副本與原始輸出 SHA256 相同。
+- George 左前景過肩、Amy 右中景成立；Amy 閉嘴、皺眉、望向 George 的遲疑擔憂神情成立，角色外觀與暖色咖啡館延續參考圖，未見字幕或參考圖展示排版。
+- 相較 blocks，Amy 頭部放大、頭頂留白減少且位置右移；George 頭頂被上緣裁切；Amy 可見手部姿態改變，原本被 George 遮住的糖罐與前景杯子露出，構圖與遮擋未完全符合指令。
+- 保留為待確認候選；未更新 asset_manifest.json，未追加生成、未製作 I2V，也未推進整體 assets 核准。
