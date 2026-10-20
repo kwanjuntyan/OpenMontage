@@ -3660,34 +3660,18 @@
       }
     },
     {
-      "id": "shot_5.1.2a",
-      "label": "第5幕 · 場景5.1．Amy公司辦公室．三個月後 · shot_5.1.2a",
-      "text": "聽說我們下一季的減碳目標是5%耶，有點挑戰喔！",
+      "id": "shot_5.1.2",
+      "label": "第5幕 · 場景5.1．Amy公司辦公室．三個月後 · shot_5.1.2",
+      "text": "聽說我們下一季的減碳目標是5%耶，有點挑戰喔！ 怕什麼！我想到一個點子，可以優化我們部門的用電，絕對能達標！",
       "start_seconds": 1581.26,
-      "end_seconds": 1587.16,
-      "speaker_directions": "員工A（畫外音，端著咖啡經過，語氣帶著興奮躍躍欲試）",
+      "end_seconds": 1593.66,
+      "speaker_directions": "員工A（畫外音，端著咖啡經過，語氣帶著興奮躍躍欲試）／員工B（畫外音，滿懷自信笑著回應）",
       "delivery_cues": {
         "pace": "conversational",
-        "energy": "excited, challenged peer",
+        "energy": "excited, confident and motivated peers",
         "emphasis_words": [
           "減碳目標5%",
-          "有點挑戰"
-        ],
-        "pause_before_seconds": 0.1,
-        "pause_after_seconds": 0.3
-      }
-    },
-    {
-      "id": "shot_5.1.2b",
-      "label": "第5幕 · 場景5.1．Amy公司辦公室．三個月後 · shot_5.1.2b",
-      "text": "怕什麼！我想到一個點子，可以優化我們部門的用電，絕對能達標！",
-      "start_seconds": 1587.16,
-      "end_seconds": 1593.66,
-      "speaker_directions": "員工B（畫外音，滿懷自信笑著回應）",
-      "delivery_cues": {
-        "pace": "conversational",
-        "energy": "confident, motivated peer",
-        "emphasis_words": [
+          "有點挑戰",
           "怕什麼",
           "優化用電",
           "絕對能達標"

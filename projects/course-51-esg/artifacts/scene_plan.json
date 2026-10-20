@@ -2505,7 +2505,7 @@
     },
     {
       "id": "shot_2.1.15",
-      "type": "animation",
+      "type": "diagram",
       "script_section_id": "shot_2.1.15",
       "start_seconds": 200.1,
       "end_seconds": 206.9,
@@ -2524,10 +2524,7 @@
       "hero_moment": true,
       "shot_intent": "以視覺化簡報與綠色 E 標章拆解動畫，正式定義 ESG 的第一個字母 E（Environment 環境保護）",
       "information_role": "明確傳授 E（Environment）代表環境保護及其核心條文內涵",
-      "render_stages": [
-        "R2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -2561,7 +2558,7 @@
           "notes": "George 為畫外音，畫面呈現 E（Environment 環境保護）簡報條文與視覺圖卡。"
         }
       ],
-      "overlay_notes": "展現 E（Environment 環境保護）條文內容：溫室氣體排放、能源使用、水資源管理、廢棄物與污染防治。"
+      "overlay_notes": "[HyperFrames] 展現 E（Environment 環境保護）條文內容：溫室氣體減排、節能減碳、水資源與廢棄物管理、污染防治。"
     },
     {
       "id": "shot_2.1.16",
@@ -3006,7 +3003,7 @@
     },
     {
       "id": "shot_2.1.22",
-      "type": "animation",
+      "type": "diagram",
       "script_section_id": "shot_2.1.22",
       "start_seconds": 250.36,
       "end_seconds": 258.96,
@@ -3025,10 +3022,7 @@
       "hero_moment": false,
       "shot_intent": "配合 George 畫外音正式為 S（Social 社會責任）定名並總結條文內容",
       "information_role": "明確定義 S（Social）代表社會責任：希望公司對社會與利害關係人好一點",
-      "render_stages": [
-        "R2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -3062,7 +3056,7 @@
           "notes": "George 為畫外音，畫面展現 S（Social 社會責任）的條文內容。"
         }
       ],
-      "overlay_notes": "展現 S（Social 社會責任）條文內容：勞工標準與薪酬福利、客戶產品安全、供應鏈公平合作、社區回饋。"
+      "overlay_notes": "[HyperFrames] 展現 S（Social 社會責任）條文內容：勞工標準與薪酬福利、客戶產品安全、供應鏈公平合作、社區回饋。"
     },
     {
       "id": "shot_2.1.23",
@@ -3426,7 +3420,7 @@
     },
     {
       "id": "shot_2.1.28",
-      "type": "animation",
+      "type": "diagram",
       "script_section_id": "shot_2.1.28",
       "start_seconds": 284.66,
       "end_seconds": 293.26,
@@ -3445,10 +3439,7 @@
       "hero_moment": true,
       "shot_intent": "結合藍綠 G 圓章拆解與簡報字卡，正式揭示第三個字母 G（Governance 公司治理）與誠信原則",
       "information_role": "明確定義 G（Governance）代表公司治理：確保決策透明、防範舞弊、遵守誠信原則",
-      "render_stages": [
-        "R2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -3482,7 +3473,7 @@
           "notes": "依原作指示畫面簡報展現 G 的條文內容。"
         }
       ],
-      "overlay_notes": "展現 G（Governance 公司治理）條文內容：董事會結構與獨立性、資訊透明度、商業道德合規、股東權益與風險管理。"
+      "overlay_notes": "[HyperFrames] 展現 G（Governance 公司治理）條文內容：董事會結構與獨立性、資訊透明度、商業道德合規、股東權益與風險管理。"
     },
     {
       "id": "shot_2.1.29",
@@ -3570,7 +3561,7 @@
     },
     {
       "id": "shot_2.1.30",
-      "type": "animation",
+      "type": "diagram",
       "script_section_id": "shot_2.1.30",
       "start_seconds": 298.55,
       "end_seconds": 303.27,
@@ -3589,10 +3580,7 @@
       "hero_moment": true,
       "shot_intent": "以三欄並列的 ESG 總覽簡報畫面收束場景 2.1，鞏固觀眾對 E、S、G 三大定義的整體記憶",
       "information_role": "總結複習 ESG 三大指標：E 環境保護、S 社會責任、G 公司治理",
-      "render_stages": [
-        "R2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -3632,7 +3620,7 @@
           "notes": "George 為畫外音，畫面展現 ESG 三大指標完整簡報畫面。"
         }
       ],
-      "overlay_notes": "畫面簡報並排展示 ESG 三大指標：E（Environment 環境保護）、S（Social 社會責任）、G（Governance 公司治理）。"
+      "overlay_notes": "[HyperFrames] 畫面簡報並排展示 ESG 三大指標：E（Environment 環境保護）、S（Social 社會責任）、G（Governance 公司治理）。"
     },
     {
       "id": "shot_2.2.1",
@@ -4205,7 +4193,7 @@
     },
     {
       "id": "shot_2.3.2",
-      "type": "animation",
+      "type": "diagram",
       "script_section_id": "shot_2.3.2",
       "start_seconds": 362.67,
       "end_seconds": 368.11,
@@ -4224,10 +4212,7 @@
       "hero_moment": false,
       "shot_intent": "以階段一簡報字卡與投資門檻視覺比喻，清楚建立第一階段「資金門檻」的核心概念",
       "information_role": "傳授演化階段一：將 ESG 設為企業取得國際投資資金的准入門檻",
-      "render_stages": [
-        "R2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -4267,11 +4252,11 @@
           "notes": "George 為畫外音；畫面簡報呈現『階段一：企業做好事 ＝ 爭取投資的門檻』。"
         }
       ],
-      "overlay_notes": "階段一：企業做好事 ＝ 爭取投資的門檻"
+      "overlay_notes": "[HyperFrames] 階段一：企業做好事 ＝ 爭取投資的門檻"
     },
     {
       "id": "shot_2.3.3",
-      "type": "animation",
+      "type": "diagram",
       "script_section_id": "shot_2.3.3",
       "start_seconds": 368.11,
       "end_seconds": 390.25,
@@ -4290,10 +4275,7 @@
       "hero_moment": true,
       "shot_intent": "以 2004 年聯合國《Who Cares Wins》報告為歷史實證，解釋 ESG 如何率先具備「資本價值」（直接呼應第一幕倫敦增資案）",
       "information_role": "建立第一階段里程碑記憶點：2004 聯合國《Who Cares Wins》賦予 ESG「資本價值」",
-      "render_stages": [
-        "R2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -4327,11 +4309,11 @@
           "notes": "George 為畫外音；畫面動畫快速閃現 2004《Who Cares Wins》並呈現『資本價值』。"
         }
       ],
-      "overlay_notes": "2004《Who Cares Wins》｜企業做好事 → 資本價值"
+      "overlay_notes": "[HyperFrames] 2004《Who Cares Wins》｜企業做好事 → 資本價值"
     },
     {
       "id": "shot_2.3.4",
-      "type": "animation",
+      "type": "diagram",
       "script_section_id": "shot_2.3.4",
       "start_seconds": 390.25,
       "end_seconds": 396.15,
@@ -4350,10 +4332,7 @@
       "hero_moment": false,
       "shot_intent": "以階段二簡報字卡清楚切換至第二階段「各國政府法規政策」",
       "information_role": "傳授演化階段二：將企業做好事從自願轉化為各國政府的強制法規政策",
-      "render_stages": [
-        "R2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -4393,11 +4372,11 @@
           "notes": "George 為畫外音；畫面簡報呈現『階段二：企業做好事 ＝ 政府的法規政策』。"
         }
       ],
-      "overlay_notes": "階段二：企業做好事 ＝ 政府的法規政策"
+      "overlay_notes": "[HyperFrames] 階段二：企業做好事 ＝ 政府的法規政策"
     },
     {
       "id": "shot_2.3.5",
-      "type": "animation",
+      "type": "diagram",
       "script_section_id": "shot_2.3.5",
       "start_seconds": 396.15,
       "end_seconds": 412.64,
@@ -4416,10 +4395,7 @@
       "hero_moment": true,
       "shot_intent": "以 2015 年《巴黎協定》說明全球減碳共識如何轉化為各國強制法規，賦予 ESG「政策價值」",
       "information_role": "建立第二階段里程碑記憶點：2015《巴黎協定》與各國減碳立法賦予 ESG「政策價值」",
-      "render_stages": [
-        "R2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -4453,11 +4429,11 @@
           "notes": "George 為畫外音；畫面動畫快速閃現 2015《巴黎協定》並呈現『政策價值』。"
         }
       ],
-      "overlay_notes": "2015《巴黎協定》｜全球減碳立法 → 政策價值"
+      "overlay_notes": "[HyperFrames] 2015《巴黎協定》｜全球減碳立法 → 政策價值"
     },
     {
       "id": "shot_2.3.6",
-      "type": "animation",
+      "type": "diagram",
       "script_section_id": "shot_2.3.6",
       "start_seconds": 412.64,
       "end_seconds": 418.33,
@@ -4476,10 +4452,7 @@
       "hero_moment": false,
       "shot_intent": "以「全球通用量尺」的視覺比喻與階段三字卡，點出 ESG 從定性走向精準定量的關鍵一躍",
       "information_role": "傳授演化階段三：打造全球通用衡量標準，將做好事轉化為可具體量化的經營成果",
-      "render_stages": [
-        "R2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -4519,11 +4492,11 @@
           "notes": "George 為畫外音；畫面簡報呈現『階段三：企業做好事 = 可具體量化的經營成果』。"
         }
       ],
-      "overlay_notes": "階段三：企業做好事 = 可具體量化的經營成果"
+      "overlay_notes": "[HyperFrames] 階段三：企業做好事 = 可具體量化的經營成果"
     },
     {
       "id": "shot_2.3.7",
-      "type": "animation",
+      "type": "diagram",
       "script_section_id": "shot_2.3.7",
       "start_seconds": 418.33,
       "end_seconds": 439.82,
@@ -4542,10 +4515,7 @@
       "hero_moment": true,
       "shot_intent": "以 2023 年 IFRS 永續揭露準則收尾三部曲，說明為何減碳與 ESG 成果如今能直接定價、交易並產生「市場價值」",
       "information_role": "建立第三階段里程碑記憶點：2023 IFRS《永續揭露準則》讓 ESG 具備可衡量定價的「市場價值」",
-      "render_stages": [
-        "R2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -4585,7 +4555,7 @@
           "notes": "George 為畫外音；畫面動畫呈現 2023 IFRS 正式發佈《永續揭露準則》、建立衡量標準與『市場價值』。"
         }
       ],
-      "overlay_notes": "2023 IFRS《永續揭露準則》｜公平衡量・定價・交易・課稅 → 市場價值"
+      "overlay_notes": "[HyperFrames] 2023 IFRS《永續揭露準則》｜公平衡量・定價・交易・課稅 → 市場價值"
     },
     {
       "id": "shot_2.3.8",
@@ -4833,10 +4803,7 @@
       "hero_moment": true,
       "shot_intent": "以三格並列的視覺簡報總覽三股真金白銀的外部衝擊，建立後續三支分鏡的結構框架",
       "information_role": "預告迫使企業落實 ESG 的三股力量：地球反撲、公民覺醒、法遵天價罰金",
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -4844,11 +4811,6 @@
           "source": "provided",
           "clp_id": "char_george",
           "role": "voice_identity_only"
-        },
-        {
-          "type": "image",
-          "description": "三股力量首幀組合簡報圖：左為冰川崩塌與森林大火、中為街頭 Climate Action 舉牌、右為法庭天價罰金報導",
-          "source": "generate"
         },
         {
           "type": "dialogue_audio",
@@ -4869,7 +4831,7 @@
           "notes": "George 全程畫外音，畫面為三股力量首幀組合簡報。"
         }
       ],
-      "overlay_notes": "畫面頂部標示「驅動 ESG 的三股直接力量」，三格分別標註「1. 地球的反撲」、「2. 公民意識覺醒」、「3. 法遵天價罰金」。"
+      "overlay_notes": "[HyperFrames] 畫面頂部標示「驅動 ESG 的三股直接力量」，三格分別標註「1. 地球的反撲」、「2. 公民意識覺醒」、「3. 法遵天價罰金」。"
     },
     {
       "id": "shot_2.4.4",
@@ -5407,7 +5369,7 @@
     },
     {
       "id": "shot_2.5.7",
-      "type": "animation",
+      "type": "diagram",
       "script_section_id": "shot_2.5.7",
       "start_seconds": 555.83,
       "end_seconds": 575.05,
@@ -5425,10 +5387,7 @@
       "hero_moment": false,
       "shot_intent": "以直觀的上下游電話連線動畫，視覺化呈現 ESG 要求如何從國際品牌一路向下傳導至二、三線供應商",
       "information_role": "具體解釋供應鏈連鎖效應：品牌要求一線大廠，一線大廠必然往下要求二、三線供應商提供合規材料",
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -5436,11 +5395,6 @@
           "source": "provided",
           "clp_id": "char_george",
           "role": "voice_identity_only"
-        },
-        {
-          "type": "image",
-          "description": "供應鏈階層傳導動畫首幀：上游品牌企業致電第一線供應商，再向下分叉致電第二、三線供應商的發光節點圖",
-          "source": "generate"
         },
         {
           "type": "dialogue_audio",
@@ -5461,11 +5415,11 @@
           "notes": "George 全程畫外音，畫面依原作指示呈現上游品牌打電話給一線供應商、一線再打給二三線企業的動畫。"
         }
       ],
-      "overlay_notes": "節點標示：「上游國際品牌」→「第一線供應商 (Tier 1)」→「第二、三線供應商 (Tier 2 & 3) — 符合 ESG 標準」。"
+      "overlay_notes": "[HyperFrames] 節點標示：「上游國際品牌」→「第一線供應商 (Tier 1)」→「第二、三線供應商 (Tier 2 & 3) — 符合 ESG 標準」。"
     },
     {
       "id": "shot_2.5.8",
-      "type": "animation",
+      "type": "diagram",
       "script_section_id": "shot_2.5.8",
       "start_seconds": 575.05,
       "end_seconds": 585.81,
@@ -5483,10 +5437,7 @@
       "hero_moment": true,
       "shot_intent": "以原作指定的「巨型骨牌推倒中型與無數微小骨牌」波浪動畫，震撼呈現無人能置身事外的 ESG 稽核網路",
       "information_role": "讓觀眾秒懂：整個供應鏈已形成巨大的 ESG 稽核網路，所有鏈上企業都必須符合標準",
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -5494,11 +5445,6 @@
           "source": "provided",
           "clp_id": "char_george",
           "role": "voice_identity_only"
-        },
-        {
-          "type": "image",
-          "description": "3D 骨牌連鎖動畫首幀：印有國際品牌標誌的巨型骨牌倒下，推動中型骨牌與無數台灣工廠微小骨牌形成波浪與稽核網",
-          "source": "generate"
         },
         {
           "type": "dialogue_audio",
@@ -5519,7 +5465,7 @@
           "notes": "George 全程畫外音，畫面依原作指示呈現巨型骨牌推動中型與無數微小骨牌的波浪衝擊。"
         }
       ],
-      "overlay_notes": "畫面浮現發光網格字卡：「巨大的 ESG 稽核網路 — 供應鏈全員合規」。"
+      "overlay_notes": "[HyperFrames] 畫面浮現發光網格字卡：「巨大的 ESG 稽核網路 — 供應鏈全員合規」。"
     },
     {
       "id": "shot_2.5.9",
@@ -6011,10 +5957,7 @@
       "hero_moment": true,
       "shot_intent": "以清晰的跨部會政策簡報畫面，將國發會 2050 淨零、環境部 2026 碳費、金管會揭露規範等硬核法規知識結構化呈現",
       "information_role": "傳授核心法規知識：國發會訂定 2050 淨零目標、環境部 2026 開徵碳費、金管會強化上市櫃永續揭露",
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -6022,11 +5965,6 @@
           "source": "provided",
           "clp_id": "char_george",
           "role": "voice_identity_only"
-        },
-        {
-          "type": "image",
-          "description": "台灣政府跨部會 ESG 政策簡報圖：列出國發會（2050淨零排放）、環境部（2026開徵碳費）、金管會（上市櫃揭露規範）及數發部、農業部、勞動部標誌與作為",
-          "source": "generate"
         },
         {
           "type": "dialogue_audio",
@@ -6047,7 +5985,7 @@
           "notes": "George 全程畫外音，畫面依原作指示列出國發會、環境部、金管會、數發部、農業部、勞動部之作為。"
         }
       ],
-      "overlay_notes": "卡片清楚標示：「國發會：2050 淨零排放」、「環境部：2026 開徵碳費」、「金管會：上市櫃揭露規範」及「數發部／農業部／勞動部 跨部會輔導」。"
+      "overlay_notes": "[HyperFrames] 卡片清楚標示：「國發會：2050 淨零排放」、「環境部：2026 開徵碳費」、「金管會：上市櫃揭露規範」及「數發部／農業部／勞動部 跨部會輔導」。"
     },
     {
       "id": "shot_2.7.7",
@@ -6197,10 +6135,7 @@
       "hero_moment": true,
       "shot_intent": "以階梯式時間軸完整呈現 2023、2025、2027、2029 四階段金管會法規要求，突顯 ESG 數據比照財報查核的終極趨勢",
       "information_role": "詳列台灣上市櫃公司 2023–2029 永續報告書、溫室氣體盤查與第三方驗證法定時程",
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -6208,11 +6143,6 @@
           "source": "provided",
           "clp_id": "char_george",
           "role": "voice_identity_only"
-        },
-        {
-          "type": "image",
-          "description": "金管會 ESG 法規遵循時程表簡報圖：2023（20億以上永續報告書）、2025（所有上市櫃）、2027（溫室氣體盤查）、2029（全數第三方驗證）與台灣企業ESG法規遵循時程總覽按鈕",
-          "source": "generate"
         },
         {
           "type": "dialogue_audio",
@@ -6233,7 +6163,7 @@
           "notes": "George 全程畫外音，畫面依原作指示列出金管會 2023–2029 時間表與時程總覽按鈕。"
         }
       ],
-      "overlay_notes": "時間軸標示：「2023 資本額20億以上永續報告書」、「2025 所有上市櫃公司」、「2027 完成溫室氣體盤查」、「2029 全數通過第三方驗證」及「台灣企業ESG法規遵循時程總覽」按鈕。"
+      "overlay_notes": "[HyperFrames] 時間軸標示：「2023 資本額20億以上永續報告書」、「2025 所有上市櫃公司」、「2027 完成溫室氣體盤查」、「2029 全數通過第三方驗證」及「台灣企業ESG法規遵循時程總覽」按鈕。"
     },
     {
       "id": "shot_2.7.10",
@@ -7315,10 +7245,7 @@
           "notes": "本鏡為簡報圖解視覺呈現，保留 script.json 原文以供驗證對齊。"
         }
       ],
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -7334,7 +7261,7 @@
           "path": "assets/audio/shot_3.1.5.mp3"
         }
       ],
-      "overlay_notes": "顯示行動地圖五步驟：〔1. 健康盤點〕、〔2. 設定目標〕、〔3. 制定對策〕、〔4. 貫徹執行〕、〔5. 稽核改善〕。"
+      "overlay_notes": "[HyperFrames] 顯示行動地圖五步驟：〔1. 健康盤點〕、〔2. 設定目標〕、〔3. 制定對策〕、〔4. 貫徹執行〕、〔5. 稽核改善〕。"
     },
     {
       "id": "shot_3.2.1",
@@ -7369,10 +7296,7 @@
           "notes": "George 全程畫外音，畫面呈現〔1. 健康盤點〕放大展開為 ESG 健康檢查清單。"
         }
       ],
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -7388,7 +7312,7 @@
           "path": "assets/audio/shot_3.2.1.mp3"
         }
       ],
-      "overlay_notes": "行動地圖五步驟的〔1. 健康盤點〕移到中間放大後，展開標題「ESG健康檢查清單」與 E、S、G 三大區塊。"
+      "overlay_notes": "[HyperFrames] 行動地圖五步驟的〔1. 健康盤點〕移到中間放大後，展開標題「ESG健康檢查清單」與 E、S、G 三大區塊。"
     },
     {
       "id": "shot_3.2.2",
@@ -7422,10 +7346,7 @@
           "target": "audience"
         }
       ],
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -7441,7 +7362,7 @@
           "path": "assets/audio/shot_3.2.2.mp3"
         }
       ],
-      "overlay_notes": "「E」區塊發光，彈出：溫室氣體排放、能源使用、水資源管理、廢棄物管理、污染控制、生物多樣性。"
+      "overlay_notes": "[HyperFrames] 「E」區塊發光，彈出：溫室氣體排放、能源使用、水資源管理、廢棄物管理、污染控制、生物多樣性。"
     },
     {
       "id": "shot_3.2.3",
@@ -7475,10 +7396,7 @@
           "target": "audience"
         }
       ],
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -7494,7 +7412,7 @@
           "path": "assets/audio/shot_3.2.3.mp3"
         }
       ],
-      "overlay_notes": "「S」區塊發光，彈出：勞動權益、員工福利、多樣性與包容性、社會參與、顧客權益、供應鏈管理。"
+      "overlay_notes": "[HyperFrames] 「S」區塊發光，彈出：勞動權益、員工福利、多樣性與包容性、社會參與、顧客權益、供應鏈管理。"
     },
     {
       "id": "shot_3.2.4",
@@ -7528,10 +7446,7 @@
           "target": "audience"
         }
       ],
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -7547,7 +7462,7 @@
           "path": "assets/audio/shot_3.2.4.mp3"
         }
       ],
-      "overlay_notes": "「G」區塊發光，彈出：董事會結構、管理層薪酬、資訊透明度、道德合規、股東權益保護、風險管理。"
+      "overlay_notes": "[HyperFrames] 「G」區塊發光，彈出：董事會結構、管理層薪酬、資訊透明度、道德合規、股東權益保護、風險管理。"
     },
     {
       "id": "shot_3.2.5",
@@ -7715,10 +7630,7 @@
           "target": "audience"
         }
       ],
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -7734,7 +7646,7 @@
           "path": "assets/audio/shot_3.3.1.mp3"
         }
       ],
-      "overlay_notes": "行動地圖五步驟的〔2. 設定目標〕移到中間放大。"
+      "overlay_notes": "[HyperFrames] 行動地圖五步驟的〔2. 設定目標〕移到中間放大。"
     },
     {
       "id": "shot_3.3.2",
@@ -7986,10 +7898,7 @@
           "target": "audience"
         }
       ],
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -8005,7 +7914,7 @@
           "path": "assets/audio/shot_3.3.5.mp3"
         }
       ],
-      "overlay_notes": "標題：「重大性分析矩陣 (Materiality Matrix)」，X軸：「對公司的衝擊程度」，Y軸：「利害關係人的在乎程度」。"
+      "overlay_notes": "[HyperFrames] 標題：「重大性分析矩陣 (Materiality Matrix)」，X軸：「對公司的衝擊程度」，Y軸：「利害關係人的在乎程度」。"
     },
     {
       "id": "shot_3.3.6",
@@ -8039,10 +7948,7 @@
           "target": "audience"
         }
       ],
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -8058,7 +7964,7 @@
           "path": "assets/audio/shot_3.3.6.mp3"
         }
       ],
-      "overlay_notes": "相關議題圖標落點後，右上角「碳排放」、「供應鏈勞工人權」、「能源使用」被紅色虛線框起並標註 Material Topics。"
+      "overlay_notes": "[HyperFrames] 相關議題圖標落點後，右上角「碳排放」、「供應鏈勞工人權」、「能源使用」被紅色虛線框起並標註 Material Topics。"
     },
     {
       "id": "shot_3.3.7",
@@ -8092,10 +7998,7 @@
           "target": "audience"
         }
       ],
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -8111,7 +8014,7 @@
           "path": "assets/audio/shot_3.3.7.mp3"
         }
       ],
-      "overlay_notes": "矩陣圖右上角的「碳排放」圖標發光放大。"
+      "overlay_notes": "[HyperFrames] 矩陣圖右上角的「碳排放」圖標發光放大。"
     },
     {
       "id": "shot_3.3.8",
@@ -8145,10 +8048,7 @@
           "target": "audience"
         }
       ],
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -8164,7 +8064,7 @@
           "path": "assets/audio/shot_3.3.8.mp3"
         }
       ],
-      "overlay_notes": "矩陣圖右上角的「供應鏈管理」圖標發光放大。"
+      "overlay_notes": "[HyperFrames] 矩陣圖右上角的「供應鏈管理」圖標發光放大。"
     },
     {
       "id": "shot_3.3.9",
@@ -8198,10 +8098,7 @@
           "target": "audience"
         }
       ],
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -8217,7 +8114,7 @@
           "path": "assets/audio/shot_3.3.9.mp3"
         }
       ],
-      "overlay_notes": "顯示「重大性議題 → 改善期限 ＋ 改善幅度 ＝ 理想目標」。"
+      "overlay_notes": "[HyperFrames] 顯示「重大性議題 → 改善期限 ＋ 改善幅度 ＝ 理想目標」。"
     },
     {
       "id": "shot_3.3.10",
@@ -8330,10 +8227,7 @@
           "target": "audience"
         }
       ],
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -8349,7 +8243,7 @@
           "path": "assets/audio/shot_3.4.1.mp3"
         }
       ],
-      "overlay_notes": "行動地圖五步驟的〔3. 制定對策〕移到中間放大。"
+      "overlay_notes": "[HyperFrames] 行動地圖五步驟的〔3. 制定對策〕移到中間放大。"
     },
     {
       "id": "shot_3.4.2",
@@ -8536,10 +8430,7 @@
           "target": "audience"
         }
       ],
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -8555,7 +8446,7 @@
           "path": "assets/audio/shot_3.4.4.mp3"
         }
       ],
-      "overlay_notes": "白板矩陣圖顯示：第一年〔太陽能板〕導入綠電、第二年〔燈泡〕更換節能設備、第三年〔卡車〕優化物流路線、第四年〔綠葉〕採用綠色原料，以及完成時間、負責部門、所需資源、稽核方式。"
+      "overlay_notes": "[HyperFrames] 白板矩陣圖顯示：第一年〔太陽能板〕導入綠電、第二年〔燈泡〕更換節能設備、第三年〔卡車〕優化物流路線、第四年〔綠葉〕採用綠色原料，以及完成時間、負責部門、所需資源、稽核方式。"
     },
     {
       "id": "shot_3.4.5",
@@ -8801,10 +8692,7 @@
           "target": "audience"
         }
       ],
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -8820,7 +8708,7 @@
           "path": "assets/audio/shot_3.5.3.mp3"
         }
       ],
-      "overlay_notes": "原〔4. 貫徹執行〕移到中間放大，並顯示採購部、廠務部、人資部跨部門合作將藍圖變成大樓。"
+      "overlay_notes": "[HyperFrames] 原〔4. 貫徹執行〕移到中間放大，並顯示採購部、廠務部、人資部跨部門合作將藍圖變成大樓。"
     },
     {
       "id": "shot_3.6.1",
@@ -8854,10 +8742,7 @@
           "target": "audience"
         }
       ],
-      "render_stages": [
-        "T2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -8873,7 +8758,7 @@
           "path": "assets/audio/shot_3.6.1.mp3"
         }
       ],
-      "overlay_notes": "顯示〔5. 稽核改善〕與減碳 20% 檢討改善循環圖解。"
+      "overlay_notes": "[HyperFrames] 顯示〔5. 稽核改善〕與減碳 20% 檢討改善循環圖解。"
     },
     {
       "id": "shot_3.6.2",
@@ -10339,7 +10224,7 @@
     },
     {
       "id": "shot_3.8.15",
-      "type": "animation",
+      "type": "diagram",
       "script_section_id": "shot_3.8.15",
       "start_seconds": 1160.77,
       "end_seconds": 1178.16,
@@ -10358,7 +10243,7 @@
       "hero_moment": true,
       "shot_intent": "以具體的採購人員升級案例，將抽象的「工作價值提升」轉化為一秒看懂的視覺比喻",
       "information_role": "具體舉例：採購透過打造綠色供應鏈，能從成本中心轉型為創造利潤的英雄",
-      "overlay_notes": "配合 George 畫外音，畫面浮現對比圖標與字卡：「綠色供應鏈：從『花成本單位』升級為『創造利潤英雄』」。",
+      "overlay_notes": "[HyperFrames] 配合 George 畫外音，畫面浮現對比圖標與字卡：「綠色供應鏈：從『花成本單位』升級為『創造利潤英雄』」。",
       "character_actions": [
         {
           "character_id": "char_george",
@@ -10379,10 +10264,7 @@
           "target": "camera"
         }
       ],
-      "render_stages": [
-        "R2I",
-        "I2V"
-      ],
+      "render_stages": [],
       "required_assets": [
         {
           "type": "clp",
@@ -11961,9 +11843,9 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "預錄對白音檔 assets/audio/shot_4.3.4.mp3 前段（0.00–5.00 秒，計 5.00 秒），對應拆鏡 (1) 台詞。",
+          "description": "預錄對白音檔 assets/audio/shot_4.3.4a.mp3（5.04 秒），對應拆鏡 (1) 台詞。",
           "source": "provided",
-          "path": "assets/audio/shot_4.3.4.mp3"
+          "path": "assets/audio/shot_4.3.4a.mp3"
         }
       ]
     },
@@ -12046,9 +11928,9 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "預錄對白音檔 assets/audio/shot_4.3.4.mp3 中段（5.00–10.77 秒，計 5.77 秒），對應拆鏡 (2) 台詞。",
+          "description": "預錄對白音檔 assets/audio/shot_4.3.4b.mp3（5.90 秒），對應拆鏡 (2) 台詞。",
           "source": "provided",
-          "path": "assets/audio/shot_4.3.4.mp3"
+          "path": "assets/audio/shot_4.3.4b.mp3"
         }
       ]
     },
@@ -12138,9 +12020,9 @@
         },
         {
           "type": "dialogue_audio",
-          "description": "預錄對白音檔 assets/audio/shot_4.3.4.mp3 後段（10.77–16.52 秒，計 5.75 秒），對應拆鏡 (3) 台詞。",
+          "description": "預錄對白音檔 assets/audio/shot_4.3.4c.mp3（5.80 秒），對應拆鏡 (3) 台詞。",
           "source": "provided",
-          "path": "assets/audio/shot_4.3.4.mp3"
+          "path": "assets/audio/shot_4.3.4c.mp3"
         }
       ]
     },
@@ -13884,9 +13766,9 @@
       "start_seconds": 1504.84,
       "end_seconds": 1507.86,
       "narrative_role": "emotional_beat",
-      "description": "Subject: 小李收起先前的興奮，肩膀略收，短暫低垂視線後看向 Amy，以委屈的小聲語氣辯解。Scene: 從動畫切回 loc_marketing_office 同一對談位置，日間；保留 cam_li_mcu_15deg（Blender: SH10）左側便條白板與右側黑窗格、樹景。Framing: 只見小李一人，胸部以上中近景，視線朝畫左；雙手與原海報在畫外下方，表情為焦點。Camera: 正常速度、cam_li_mcu_15deg（Blender: SH10／70mm），近眼高、深景深、固定鏡頭；不另外加入毛毯、寶特瓶或數據插圖，無疊字。",
+      "description": "Subject: 小李收起先前的興奮，肩膀略收，短暫低垂視線後看向 Amy，以委屈的小聲語氣辯解。Scene: 從動畫切回 loc_marketing_office 同一對談位置，日間；沿用使用者指定 cam_li_cu_emotion（Blender: SH12）左側便條白板局部與右側窗格、樹景。Framing: 只見小李一人，頭部與頸部為主的情緒特寫，下緣僅少量肩線，視線朝畫左；胸口、手臂、雙手與原海報在畫外，表情為焦點，不為肩膀微收而擴大取景。Camera: 正常速度、cam_li_cu_emotion（Blender: SH12／75mm），沿用參考圖拍攝角度、頭部尺度、頭頂留白及裁切，深景深、固定鏡頭；不另外加入毛毯、寶特瓶或數據插圖，無疊字。",
       "shot_language": {
-        "shot_size": "medium_close",
+        "shot_size": "close_up",
         "camera_movement": "static",
         "lighting_key": "natural",
         "depth_of_field": "deep",
@@ -13931,9 +13813,9 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_li_mcu_15deg（Blender: SH10_li_medium_close_up／70mm，標記影格 110）；保留原人物尺度、佔位、可見部位與背景。blocks 的垂手僅為構圖佔位，表情、視線與手部依本鏡 description 表演。",
+          "description": "cam_li_cu_emotion（Blender: SH12_li_close_up／75mm，標記影格 112）；依使用者指定改用情緒特寫，頭部與頸部為主，下緣僅少量肩線；保留原人物尺度、佔位、可見部位與背景，表情、視線及可見肩線微收依本鏡 description 表演。",
           "source": "provided",
-          "path": "references/scenes/marketing_office/cameras/cam_li_mcu_15deg_block_blender.png"
+          "path": "references/scenes/marketing_office/cameras/cam_li_cu_emotion_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -14031,7 +13913,7 @@
       "start_seconds": 1521.86,
       "end_seconds": 1531.76,
       "narrative_role": "resolution",
-      "description": "Subject: 小李若有所悟點頭，拿起筆，一手托住原海報、一手快速塗改文案，說出新版本後抬眼向 Amy 確認；Amy 安靜注視紙面，不先給肯定回覆。Scene: loc_marketing_office，日間；cam_twoshot_ms_45deg（Blender: SH05）的彩色便條白板在後方，左側 OA 桌面、右側窗格與盆栽沿用原圖。Framing: 兩人可見的三分之四雙人中景，Amy 在左側較近、小李在右側較遠；紙面抬至小李胸前，雙手可見且不擋臉，不將海報靠上白板或搬動人物站位。Camera: 正常速度、cam_twoshot_ms_45deg（Blender: SH05／48mm），近眼高、深景深、固定鏡頭；字樣以後製追蹤筆尖與紙面呈現，保留提案語氣，不加認證符號。",
+      "description": "Subject: 小李若有所悟點頭，胸前拿著一張粉紅色便條紙，說出新標語並將便條貼到白板，最後抬眼向 Amy 確認；Amy 安靜注視便條，不先給肯定回覆。起點為小李雙手持便條、尚未貼上；中段伸手將新便條覆貼在白板右側中排既有粉紅便條的位置；終點為便條貼妥、小李看向 Amy。Scene: loc_marketing_office，日間；cam_twoshot_ms_45deg（Blender: SH05）的彩色便條白板在後方，左側 OA 桌面、右側窗格與盆栽沿用原圖。Framing: 兩人可見的三分之四雙人中景，Amy 在左側較近、小李在右側較遠；便條持於小李胸前稍偏下，雙手可見且不擋臉，不搬動人物站位。Camera: 正常速度、cam_twoshot_ms_45deg（Blender: SH05／48mm），近眼高、深景深、固定鏡頭；保留提案語氣，不加認證符號。",
       "shot_language": {
         "shot_size": "medium",
         "camera_movement": "static",
@@ -14044,26 +13926,26 @@
       "hero_moment": true,
       "shot_intent": "把理解轉化為實際改稿，提出仍待 Amy 確認的新文案。",
       "information_role": "小李提出每件毛毯由 8 個回收寶特瓶製成的文案；數字尚待下一鏡要求的佐證，不視為已驗證成果。",
-      "overlay_notes": "文案僅貼合實體海報紙面；不加合格勾號、認證章或獨立數據圖卡。",
+      "overlay_notes": "新標語逐字為「每件毛毯，都是由8個回收寶特瓶製成，溫暖你，也溫暖地球！」，由後製貼合小李手中的粉紅便條紙並追蹤至白板右側中排，替換該位置原有的「絕對循環」便條；不加合格勾號、認證章或獨立數據圖卡。",
       "character_actions": [
         {
           "character_id": "char_li",
           "emotion": "realizing_proactive",
           "action_sequence": [
             "nod_with_realization",
-            "take_pen_and_hold_original_poster_at_chest",
-            "cross_out_and_rewrite_copy_quickly",
+            "hold_pink_sticky_note_at_chest",
+            "place_new_slogan_note_over_middle_right_pink_note",
             "look_to_amy_for_confirmation"
           ],
           "dialogue": "這樣啊...那如果改成「每件毛毯，都是由8個回收寶特瓶製成，溫暖你，也溫暖地球！」這樣可以了吧？",
           "target": "char_amy",
-          "notes": "原海報沿用 4.6.2 的紙張與版型；新文案是提案，結尾保持詢問，不自行新增肯定回覆。"
+          "notes": "依使用者 2026-10-19 指示改用粉紅便條紙貼上新標語，不持海報或筆。首幀便條尚未貼上，文字留後製；新文案仍是提案，結尾保持詢問，不自行新增肯定回覆。"
         },
         {
           "character_id": "char_amy",
           "emotion": "attentive",
           "action_sequence": [
-            "look_at_poster_without_speaking"
+            "watch_pink_note_without_speaking"
           ],
           "target": "char_li"
         }
@@ -14099,14 +13981,9 @@
           "path": "references/scenes/marketing_office/cameras/cam_twoshot_ms_45deg_block_blender.png"
         },
         {
-          "type": "poster_artwork",
-          "role": "prop_texture",
-          "description": "沿用原紙張與版型，保留刪改痕跡；新版海報文字逐字取自本鏡 script.json：每件毛毯，都是由8個回收寶特瓶製成，溫暖你，也溫暖地球！ 後製文字貼合紙面並追蹤移動，不讓生圖自行拼寫；不新增其他宣傳句。",
-          "source": "generate"
-        },
-        {
           "type": "prop",
-          "description": "塗改海報用筆；沿用既有白板筆槽中的筆，不增添品牌或文字。",
+          "role": "prop_texture",
+          "description": "一張粉紅色便條紙，材質、顏色與大小沿用本鏡白板右側中排粉紅便條；首幀由小李持於胸前、紙面留作後製底，後續覆貼至該位置。新標語逐字取自 script.json：每件毛毯，都是由8個回收寶特瓶製成，溫暖你，也溫暖地球！ 後製文字追蹤便條，不讓生圖自行拼寫；不新增其他宣傳句。",
           "source": "generate"
         },
         {
@@ -14124,9 +14001,9 @@
       "start_seconds": 1531.76,
       "end_seconds": 1544.29,
       "narrative_role": "evidence",
-      "description": "Subject: Amy 笑著點頭肯定方向，提到數字時神情轉為專注，再以平穩目光提醒需要研發部數據佐證。Scene: loc_marketing_office，日間；cam_amy_mcu_15deg（Blender: SH11）左後方為窗格與 OA 隔板，右後方為彩色便條白板，保持本場光線與佈景。Framing: 只見 Amy 一人，胸部以上中近景，朝畫右的小李說話；雙手在畫外下方，不展示尚不存在的報告。Camera: 正常速度、cam_amy_mcu_15deg（Blender: SH11／70mm），近眼高、深景深、固定機位，完整保留 12.53 秒原台詞，不插入暗示 8 個數字已確認的圖表。",
+      "description": "Subject: Amy 笑著點頭肯定方向，提到數字時神情轉為專注，再以平穩目光提醒需要研發部數據佐證。Scene: loc_marketing_office，日間；cam_amy_cu_emotion（Blender: SH13）左後方保留窗格、OA 隔板與螢幕局部，右後方為彩色便條白板局部，保持本場光線與佈景。Framing: 只見 Amy 一人，頭頸為主的情緒特寫，下緣僅少量肩線與衣領，保留完整髮頂、原頭部尺度與裁切，朝畫右的小李說話；胸口、手臂、雙手及手機在畫外，不展示尚不存在的報告。Camera: 正常速度、cam_amy_cu_emotion（Blender: SH13／85mm，標記影格 113），近眼高、深景深、固定機位，完整保留 12.53 秒原台詞，不插入暗示 8 個數字已確認的圖表。",
       "shot_language": {
-        "shot_size": "medium_close",
+        "shot_size": "close_up",
         "camera_movement": "static",
         "lighting_key": "natural",
         "depth_of_field": "deep",
@@ -14171,9 +14048,9 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_mcu_15deg（Blender: SH11_amy_medium_close_up／70mm，標記影格 111）；保留原人物尺度、佔位、可見部位與背景。blocks 的垂手僅為構圖佔位，表情、視線與手部依本鏡 description 表演。",
+          "description": "cam_amy_cu_emotion（Blender: SH13_amy_close_up／85mm，標記影格 113）；保留原頭部尺度、頭頂留白、頸部長度、下緣少量肩線及背景裁切。臉與視線朝畫右的小李，表情依本鏡 description；不補出畫外胸口、手臂或雙手。",
           "source": "provided",
-          "path": "references/scenes/marketing_office/cameras/cam_amy_mcu_15deg_block_blender.png"
+          "path": "references/scenes/marketing_office/cameras/cam_amy_cu_emotion_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -14190,14 +14067,14 @@
       "start_seconds": 1544.29,
       "end_seconds": 1554.91,
       "narrative_role": "resolution",
-      "description": "Subject: Amy 從對話視線轉向拍攝鏡頭，以誠懇堅定的表情向觀眾總結；在做多少、說多少處輕點頭，結尾穩定直視鏡頭。Scene: loc_marketing_office，日間；沿用 cam_amy_cu_emotion（Blender: SH13）右側便條白板與左緣窗格、OA 隔板局部，不改變背景。Framing: 只見 Amy 一人，頭肩特寫，保留完整髮頂、原頭部尺度與邊緣裁切，雙手與手機不入鏡。Camera: 正常速度、cam_amy_cu_emotion（Blender: SH13／85mm），近眼高、深景深、固定鏡頭；依本次使用者選擇改為現有機位對鏡收尾，不要求伸臂自拍，也不加新的結語字卡。",
+      "description": "Subject: Amy 從看右側小李的對話視線轉向拍攝鏡頭，以誠懇堅定的表情向觀眾總結；在做多少、說多少處輕點頭，結尾穩定直視鏡頭。小李站在右側安靜看著 Amy，雙手自然垂放，不新增台詞或手勢。Scene: loc_marketing_office，日間；沿用 cam_twoshot_ms_level（Blender: SH03）的後方便條白板、左右窗格、左側 OA 桌面與螢幕，以及白板下方辦公椅局部。shot_4.6.8 的新粉紅便條已覆貼在白板右側中排原「絕對循環」位置，其餘便條不變。Framing: Amy 左、小李右的雙人中景，兩人完整頭部、軀幹、手臂及部分手掌可見，下半身與手掌邊緣依 blocks 裁切；保留人物尺度、頭身比例、頭頂留白與兩人距離。雙手自然垂放，Amy 手機已收妥。Camera: 正常速度、cam_twoshot_ms_level（Blender: SH03／50mm），近眼高略俯視、深景深、固定鏡頭；延續 Amy 對鏡收尾，不伸臂自拍，不加新的結語字卡。",
       "shot_language": {
-        "shot_size": "close_up",
+        "shot_size": "medium",
         "camera_movement": "static",
         "lighting_key": "natural",
         "depth_of_field": "deep",
         "color_temperature": "warm",
-        "lens_mm": 85
+        "lens_mm": 50
       },
       "transition_in": "cut",
       "transition_out": "cut",
@@ -14217,6 +14094,15 @@
           "dialogue": "各位觀眾，這就是G (Governance) 裡最重要的誠信原則！做多少，說多少。誠實，不僅是最好的策略，更是最強大的行銷！",
           "target": "camera",
           "notes": "使用者本次選擇現有機位對鏡收尾，取消自拍調度；完整照錄 script.json，不增加新結語。"
+        },
+        {
+          "character_id": "char_li",
+          "emotion": "attentive",
+          "action_sequence": [
+            "listen_to_amy_with_hands_lowered"
+          ],
+          "target": "char_amy",
+          "notes": "雙人機位中安靜聆聽，視線朝左側 Amy；新便條已貼妥，手中不再持紙。"
         }
       ],
       "render_stages": [
@@ -14232,6 +14118,12 @@
         },
         {
           "type": "clp",
+          "description": "小李；右側入鏡，安靜看著 Amy，雙手自然垂放。",
+          "source": "provided",
+          "clp_id": "char_li"
+        },
+        {
+          "type": "clp",
           "description": "行銷部；材質沿用場景 CLP，可見格局、白板便條及遮擋以本鏡最新 blocks 為準。",
           "source": "provided",
           "clp_id": "loc_marketing_office"
@@ -14239,9 +14131,15 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_cu_emotion（Blender: SH13_amy_close_up／85mm，標記影格 113）；保留原人物尺度、佔位、可見部位與背景。blocks 的垂手僅為構圖佔位，表情、視線與手部依本鏡 description 表演。",
+          "description": "cam_twoshot_ms_level（Blender: SH03_medium_two_shot／50mm，標記影格 103）；Amy 左、小李右，保留原人物尺度、頭身比例、頭頂留白、可見部位與背景。兩人雙手自然垂放，Amy 頭部與視線依本鏡對鏡收尾表演調整。",
           "source": "provided",
-          "path": "references/scenes/marketing_office/cameras/cam_amy_cu_emotion_block_blender.png"
+          "path": "references/scenes/marketing_office/cameras/cam_twoshot_ms_level_block_blender.png"
+        },
+        {
+          "type": "prop",
+          "role": "prop_texture",
+          "description": "延續 shot_4.6.8 的新粉紅便條，已覆貼在白板右側中排原「絕對循環」位置；大小、透視與人物遮擋依本鏡 blocks，紙面留白供既定新標語後製，不持在手中。",
+          "source": "generate"
         },
         {
           "type": "dialogue_audio",
@@ -14249,7 +14147,8 @@
           "source": "provided",
           "path": "assets/audio/shot_4.6.10.mp3"
         }
-      ]
+      ],
+      "overlay_notes": "延續 shot_4.6.8 已貼妥的新粉紅便條，後製將「每件毛毯，都是由8個回收寶特瓶製成，溫暖你，也溫暖地球！」貼合白板右側中排原「絕對循環」位置，依小李與紙張的遮擋呈現；生圖紙面留白供後製，不恢復舊文案，不另外增加結語字卡或認證符號。"
     },
     {
       "id": "shot_4.7.1",
@@ -14554,13 +14453,13 @@
       ]
     },
     {
-      "id": "shot_5.1.2a",
+      "id": "shot_5.1.2",
       "type": "character_scene",
-      "script_section_id": "shot_5.1.2a",
+      "script_section_id": "shot_5.1.2",
       "start_seconds": 1581.26,
-      "end_seconds": 1587.16,
+      "end_seconds": 1593.66,
       "narrative_role": "evidence",
-      "description": "Subject: 開放式辦公室充滿活力與熱烈討論聲，同仁端著環保隨行咖啡杯經過工位區，畫外音傳來員工 A（以研發部小陳 char_chen 代表同仁聲音與身影）帶著躍躍欲試的興奮語氣討論：「聽說我們下一季的減碳目標是 5% 耶，有點挑戰喔！」；Amy（紅衣 blocks）在工位區微笑看著大家主動投入。Scene: loc_staff_office 日間陽光明亮的開放辦公區，綠植生機盎然。Framing: cam_office_wide_level（22mm）開放辦公區廣角全景，完整呈現朝氣蓬勃的辦公室文化，桌椅與背景依同機位 blocks。Camera: 22mm，高視角緩慢拉遠（dolly_out），深景深全場清晰；無額外疊字。",
+      "description": "Subject: 鏡頭緩緩拉遠帶出整個開放式辦公室，充滿活力與熱烈討論聲；走道上兩位同仁邊走邊熱絡交談，畫外音傳來員工 A（以小陳 char_chen 代表發聲）興奮討論：「聽說我們下一季的減碳目標是 5% 耶，有點挑戰喔！」，員工 B（以王大哥 char_wang 代表發聲）自信笑著回應：「怕什麼！我想到一個點子，可以優化我們部門的用電，絕對能達標！」，周圍同事與 Amy 在工位區微笑投入。Scene: loc_staff_office 日間陽光明亮的開放辦公區，綠植生機盎然。Framing: cam_office_wide_level（22mm）開放辦公區廣角全景，完整呈現朝氣蓬勃的辦公室文化，桌椅與背景依同機位 blocks。Camera: 22mm，高視角緩慢拉遠（dolly_out），深景深全場清晰；無額外疊字。",
       "shot_language": {
         "shot_size": "wide",
         "camera_movement": "dolly_out",
@@ -14571,8 +14470,8 @@
       "transition_in": "cut",
       "transition_out": "cut",
       "hero_moment": false,
-      "shot_intent": "透過同仁日常茶水間與走道的主動交談，證明 ESG 已從「被動交差」內化為員工主動關心的日常話題",
-      "information_role": "呈現企業文化轉變：員工面對下一季 5% 減碳目標不再抱怨，而是視為值得挑戰的目標",
+      "shot_intent": "透過同仁走道間的主動交談與提出部門用電優化點子，完成「從行動到文化（From Action to Culture）」的主題驗證",
+      "information_role": "呈現企業文化轉變：員工面對下一季 5% 減碳目標不再抱怨，而是自發動腦優化部門能源效率以達成目標",
       "character_actions": [
         {
           "character_id": "char_chen",
@@ -14584,68 +14483,7 @@
           "dialogue": "聽說我們下一季的減碳目標是5%耶，有點挑戰喔！",
           "target": "char_wang",
           "notes": "劇本為員工A畫外音，由同仁代表發聲並維持對白逐字一致。"
-        }
-      ],
-      "render_stages": [
-        "W2I",
-        "I2V"
-      ],
-      "required_assets": [
-        {
-          "type": "clp",
-          "description": "Amy；於辦公區欣慰看著同仁熱烈討論",
-          "source": "provided",
-          "clp_id": "char_amy"
         },
-        {
-          "type": "clp",
-          "description": "員工A代表；端著環保杯興奮討論下一季 5% 減碳目標",
-          "source": "provided",
-          "clp_id": "char_chen"
-        },
-        {
-          "type": "clp",
-          "description": "三個月後充滿活力的開放式行政辦公室",
-          "source": "provided",
-          "clp_id": "loc_staff_office"
-        },
-        {
-          "type": "camera_ref",
-          "role": "first_frame_ref",
-          "description": "cam_office_wide_level（22mm）行政辦公區廣角全景。位置比例依同機位 blocks。",
-          "source": "provided",
-          "path": "references/scenes/staff_office/cameras/cam_office_wide_level_block_blender.png"
-        },
-        {
-          "type": "dialogue_audio",
-          "description": "預錄對白音檔 assets/audio/shot_5.1.2a.mp3（5.90 秒），與 script.json 的 shot_5.1.2a.text 對齊。",
-          "source": "provided",
-          "path": "assets/audio/shot_5.1.2a.mp3"
-        }
-      ]
-    },
-    {
-      "id": "shot_5.1.2b",
-      "type": "character_scene",
-      "script_section_id": "shot_5.1.2b",
-      "start_seconds": 1587.16,
-      "end_seconds": 1593.66,
-      "narrative_role": "evidence",
-      "description": "Subject: 辦公室另一側同仁自信滿滿地笑著回應（畫外音由員工 B／王大哥 char_wang 代表發聲）：「怕什麼！我想到一個點子，可以優化我們部門的用電，絕對能達標！」，周圍同事與 Amy（紅衣 blocks）紛紛點頭讚許。Scene: loc_staff_office 明亮通透的開放式辦公空間，百葉窗透入溫暖陽光。Framing: cam_office_reverse_wide（24mm）辦公室反向廣角全景，展現跨部門同仁積極交流的熱絡氛圍，桌椅與背景依同機位 blocks。Camera: 24mm，眼高平視、固定鏡頭，深景深；無額外疊字。",
-      "shot_language": {
-        "shot_size": "wide",
-        "camera_movement": "static",
-        "lighting_key": "high_key",
-        "depth_of_field": "deep",
-        "color_temperature": "warm",
-        "lens_mm": 24
-      },
-      "transition_in": "cut",
-      "transition_out": "cut",
-      "hero_moment": false,
-      "shot_intent": "以員工主動提出部門用電優化點子的自信對話，完成「從行動到文化（From Action to Culture）」的主題驗證",
-      "information_role": "展示全員覺醒成果：員工開始自發性動腦優化部門能源效率以達成減碳目標",
-      "character_actions": [
         {
           "character_id": "char_wang",
           "emotion": "confident_motivated",
@@ -14664,34 +14502,40 @@
       "required_assets": [
         {
           "type": "clp",
+          "description": "Amy；於辦公區欣慰看著同仁熱烈討論",
+          "source": "provided",
+          "clp_id": "char_amy"
+        },
+        {
+          "type": "clp",
+          "description": "員工A代表；興奮討論下一季 5% 減碳目標",
+          "source": "provided",
+          "clp_id": "char_chen"
+        },
+        {
+          "type": "clp",
           "description": "員工B代表；自信回應已想到優化部門用電的達標點子",
           "source": "provided",
           "clp_id": "char_wang"
         },
         {
           "type": "clp",
-          "description": "Amy；於辦公室內微笑見證文化落地",
-          "source": "provided",
-          "clp_id": "char_amy"
-        },
-        {
-          "type": "clp",
-          "description": "行政辦公室反向廣角空間",
+          "description": "三個月後充滿活力的開放式行政辦公室",
           "source": "provided",
           "clp_id": "loc_staff_office"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_office_reverse_wide（24mm）行政辦公室反向廣角全景。位置比例依同機位 blocks。",
+          "description": "cam_office_wide_level（22mm）行政辦公區廣角全景。位置比例依同機位 blocks。",
           "source": "provided",
-          "path": "references/scenes/staff_office/cameras/cam_office_reverse_wide_block_blender.png"
+          "path": "references/scenes/staff_office/cameras/cam_office_wide_level_block_blender.png"
         },
         {
           "type": "dialogue_audio",
-          "description": "預錄對白音檔 assets/audio/shot_5.1.2b.mp3（6.50 秒），與 script.json 的 shot_5.1.2b.text 對齊。",
+          "description": "預錄對白音檔 assets/audio/shot_5.1.2.mp3（12.41 秒），與 script.json 的 shot_5.1.2.text 對齊。",
           "source": "provided",
-          "path": "assets/audio/shot_5.1.2b.mp3"
+          "path": "assets/audio/shot_5.1.2.mp3"
         }
       ]
     },
