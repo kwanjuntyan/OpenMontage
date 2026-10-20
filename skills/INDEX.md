@@ -80,6 +80,11 @@ Key capability families to look for in the output:
 5. The registry discovers tools automatically — no manual registration needed
 6. **No other files need updating** — selectors, manifests, and instructions all derive from the registry
 
+## KJ Workflows
+
+- [Blender 場景精修](kj/blender-scene-refine.md)：對照機位與參考圖改善模型細節、材質和光影，保留分鏡安排；以代表機位比較後輸出指定 empty_blender，銜接風格重繪。
+- [Blender 視角圖風格重繪](kj/blender-view-restyle.md)：以首張定稿作共用美術參考，將其他 empty_blender 機位逐張轉成風格一致的空景；包含兩種提示詞模板與逐鏡檢查。
+
 ## Core Skills
 
 | Skill | File | Trigger | Agent Skills (Layer 3) |
