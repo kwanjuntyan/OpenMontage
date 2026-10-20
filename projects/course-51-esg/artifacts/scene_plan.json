@@ -9491,6 +9491,13 @@
           "clp_id": "char_george"
         },
         {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "cam_twoshot_wide_low_angle：01 雙人低角度全景（35mm），對位 street 場景同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/street/cameras/cam_twoshot_wide_low_angle_block_blender.png"
+        },
+        {
           "type": "dialogue_audio",
           "description": "預錄對白音檔 assets/audio/shot_3.8.1.mp3（2.57 秒），與 script.json 的 shot_3.8.1.text 對齊。",
           "source": "provided",
@@ -9541,6 +9548,13 @@
           "description": "George；放下手中書本幽默打趣",
           "source": "provided",
           "clp_id": "char_george"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "cam_george_mcu_45deg：06 George 45 度中特寫（75mm），對位 street 場景同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/street/cameras/cam_george_mcu_45deg_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -9609,6 +9623,13 @@
           "clp_id": "char_george"
         },
         {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "cam_twoshot_ms_level：02 雙人平視中景（50mm），對位 street 場景同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/street/cameras/cam_twoshot_ms_level_block_blender.png"
+        },
+        {
           "type": "dialogue_audio",
           "description": "預錄對白音檔 assets/audio/shot_3.8.3.mp3（5.03 秒），與 script.json 的 shot_3.8.3.text 對齊。",
           "source": "provided",
@@ -9659,6 +9680,13 @@
           "description": "George；闔上書本溫和傾聽",
           "source": "provided",
           "clp_id": "char_george"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "cam_george_mcu_45deg：06 George 45 度中特寫（75mm），對位 street 場景同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/street/cameras/cam_george_mcu_45deg_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -9713,6 +9741,13 @@
           "clp_id": "char_amy"
         },
         {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "cam_amy_mcu_45deg：07 Amy 45 度中特寫（75mm），對位 street 場景同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/street/cameras/cam_amy_mcu_45deg_block_blender.png"
+        },
+        {
           "type": "dialogue_audio",
           "description": "預錄對白音檔 assets/audio/shot_3.8.5.mp3（5.92 秒），與 script.json 的 shot_3.8.5.text 對齊。",
           "source": "provided",
@@ -9763,6 +9798,13 @@
           "description": "George；笑著拍手恭喜 Amy",
           "source": "provided",
           "clp_id": "char_george"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "cam_george_mcu_45deg：06 George 45 度中特寫（75mm），對位 street 場景同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/street/cameras/cam_george_mcu_45deg_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -9831,6 +9873,13 @@
           "clp_id": "char_george"
         },
         {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "cam_amy_ots_george：05 越過 George 肩拍 Amy 過肩鏡（65mm），對位 street 場景同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/street/cameras/cam_amy_ots_george_block_blender.png"
+        },
+        {
           "type": "dialogue_audio",
           "description": "預錄對白音檔 assets/audio/shot_3.8.7.mp3（11.21 秒），與 script.json 的 shot_3.8.7.text 對齊。",
           "source": "provided",
@@ -9889,6 +9938,13 @@
           "clp_id": "char_amy"
         },
         {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "cam_george_ots_amy：04 越過 Amy 肩拍 George 過肩鏡（65mm），對位 street 場景同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/street/cameras/cam_george_ots_amy_block_blender.png"
+        },
+        {
           "type": "dialogue_audio",
           "description": "預錄對白音檔 assets/audio/shot_3.8.8.mp3（6.77 秒），與 script.json 的 shot_3.8.8.text 對齊。",
           "source": "provided",
@@ -9939,6 +9995,13 @@
           "description": "Amy；雙手合十期待請益",
           "source": "provided",
           "clp_id": "char_amy"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "cam_amy_mcu_45deg：07 Amy 45 度中特寫（75mm），對位 street 場景同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/street/cameras/cam_amy_mcu_45deg_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -9994,6 +10057,13 @@
           "clp_id": "char_george"
         },
         {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "cam_george_cu_emotion：08 George 情緒特寫（85mm），對位 street 場景同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/street/cameras/cam_george_cu_emotion_block_blender.png"
+        },
+        {
           "type": "dialogue_audio",
           "description": "預錄對白音檔 assets/audio/shot_3.8.10.mp3（7.13 秒），與 script.json 的 shot_3.8.10.text 對齊。",
           "source": "provided",
@@ -10043,6 +10113,13 @@
           "description": "Amy；抬頭疑惑歪頭",
           "source": "provided",
           "clp_id": "char_amy"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "cam_amy_cu_emotion：09 Amy 情緒特寫（85mm），對位 street 場景同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/street/cameras/cam_amy_cu_emotion_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -10111,6 +10188,13 @@
           "clp_id": "char_amy"
         },
         {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "cam_twoshot_ms_level：02 雙人平視中景（50mm），對位 street 場景同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/street/cameras/cam_twoshot_ms_level_block_blender.png"
+        },
+        {
           "type": "dialogue_audio",
           "description": "預錄對白音檔 assets/audio/shot_3.8.12.mp3（8.42 秒），與 script.json 的 shot_3.8.12.text 對齊。",
           "source": "provided",
@@ -10163,6 +10247,13 @@
           "clp_id": "char_george"
         },
         {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "cam_george_mcu_45deg：06 George 45 度中特寫（75mm），對位 street 場景同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/street/cameras/cam_george_mcu_45deg_block_blender.png"
+        },
+        {
           "type": "dialogue_audio",
           "description": "預錄對白音檔 assets/audio/shot_3.8.13.mp3（7.70 秒），與 script.json 的 shot_3.8.13.text 對齊。",
           "source": "provided",
@@ -10213,6 +10304,13 @@
           "description": "Amy；睜大眼睛若有所思",
           "source": "provided",
           "clp_id": "char_amy"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "cam_amy_mcu_45deg：07 Amy 45 度中特寫（75mm），對位 street 場景同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/street/cameras/cam_amy_mcu_45deg_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -10338,6 +10436,13 @@
           "clp_id": "char_amy"
         },
         {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "cam_amy_mcu_45deg：07 Amy 45 度中特寫（75mm），對位 street 場景同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/street/cameras/cam_amy_mcu_45deg_block_blender.png"
+        },
+        {
           "type": "dialogue_audio",
           "description": "預錄對白音檔 assets/audio/shot_3.8.16.mp3（3.78 秒），與 script.json 的 shot_3.8.16.text 對齊。",
           "source": "provided",
@@ -10402,6 +10507,13 @@
           "description": "Amy；坐於長椅抬頭接受鼓勵、眼神發亮",
           "source": "provided",
           "clp_id": "char_amy"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "cam_twoshot_mws_profile：03 雙人側面中廣景（40mm），對位 street 場景同機位 blocks。",
+          "source": "provided",
+          "path": "references/scenes/street/cameras/cam_twoshot_mws_profile_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -12906,10 +13018,10 @@
       "start_seconds": 1414.59,
       "end_seconds": 1424.49,
       "narrative_role": "establish_context",
-      "description": "Subject: Amy 戴黃色工安帽、沿用角色 CLP 原有服裝且不穿反光背心，以 Vlog 自拍對鏡介紹廠務部；說到「錯！」時俐落搖頭，再強調「硬核戰場」。Scene: loc_factory，日間整齊乾淨的暫存區，沿用既有紙板堆、貨架與工具板；無額外人物或車輛動作。Framing: 只見 Amy 一人，上半身近景交代工安帽與原有服裝，站在既有訪談位置，背景朝紙板堆與後牆。Camera: 正常速度、約 24mm 自拍廣角且不誇張變形，略高於眼睛向下拍，人物與背景可辨，手持輕微晃動；自拍白模仍須製作，無疊字。",
+      "description": "Subject: Amy 戴黃色工安帽、沿用角色 CLP 原有服裝且不穿反光背心，站在左側，頭部與上身轉向鏡頭介紹廠務部；說到「錯！」時俐落搖頭，再強調「真正的戰場」。標哥站在右側，微笑看向 Amy、自然聆聽。Scene: loc_factory，日間整齊乾淨的暫存區，沿用既有紙板堆、貨架與工具板；無額外人物或車輛動作。Framing: cam_twoshot_wide_level（Blender: CAM_22）雙人全景，Amy 左、標哥右，人物站位、比例、可見範圍與背景配置依既有白模。Camera: 正常速度、40mm、近站姿眼高、固定鏡頭，中等景深，兩人與背景可辨；無疊字。",
       "shot_language": {
-        "shot_size": "medium",
-        "camera_movement": "handheld",
+        "shot_size": "wide",
+        "camera_movement": "static",
         "lighting_key": "natural",
         "depth_of_field": "medium",
         "color_temperature": "warm"
@@ -12917,20 +13029,29 @@
       "transition_in": "cut",
       "transition_out": "cut",
       "hero_moment": true,
-      "shot_intent": "以廠務現場的自拍開場打破「ESG 只屬於辦公室」的印象。",
+      "shot_intent": "以 Amy 與第一線領班同框的廠務現場開場，打破「ESG 只屬於辦公室」的印象。",
       "information_role": "尋寶第四站聚焦第一線人員的 ESG 貢獻。",
       "character_actions": [
         {
           "character_id": "char_amy",
           "emotion": "energetic_confident",
           "action_sequence": [
-            "face_selfie_camera",
+            "turn_upper_body_to_camera",
             "introduce_factory",
             "shake_head_then_emphasize_frontline"
           ],
           "dialogue": "尋寶第四站，來到公司的幕後英雄基地------廠務部！大家以為 ESG 只是辦公室的事嗎？錯！這裡才是真正的戰場！",
           "target": "camera",
           "notes": "依使用者本次修正：Amy 不穿反光背心，保留黃色工安帽與角色 CLP 原有服裝；全場連戲。"
+        },
+        {
+          "character_id": "char_biaoge",
+          "emotion": "friendly_attentive",
+          "action_sequence": [
+            "look_at_amy",
+            "smile_and_listen"
+          ],
+          "target": "char_amy"
         }
       ],
       "render_stages": [
@@ -12946,6 +13067,12 @@
         },
         {
           "type": "clp",
+          "description": "標哥（資深廠務領班）；外觀與服裝以 char_biaoge.jpeg 實圖為準。",
+          "source": "provided",
+          "clp_id": "char_biaoge"
+        },
+        {
+          "type": "clp",
           "description": "廠務廢棄物暫存區；沿用已檢視的場景 CLP 與精修 Blender 佈景。",
           "source": "provided",
           "clp_id": "loc_factory"
@@ -12953,8 +13080,9 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "依既有廠務模型與 cam_twoshot_wide_level（Blender: CAM_22）訪談位置製作 Amy 單人自拍白模；鏡頭略高於眼睛，朝紙板堆與後牆，維持原佈景。cameras/cam_twoshot_wide_level_block_blender.png 僅供站位與背景參考，不是自拍首幀。",
-          "source": "generate"
+          "description": "cam_twoshot_wide_level（Blender: CAM_22／40mm）雙人全景構圖底圖，左側紅色定位人物為 Amy，右側藍色定位人物為標哥；保留站位、比例、裁切與背景配置，Amy 頭部與上身轉向鏡頭，標哥看向 Amy。",
+          "source": "provided",
+          "path": "references/scenes/factory/cameras/cam_twoshot_wide_level_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -12970,7 +13098,7 @@
       "start_seconds": 1424.49,
       "end_seconds": 1428.49,
       "narrative_role": "introduce_subject",
-      "description": "Subject: Amy 帶笑轉向神采奕奕的標哥，詢問他成為全公司傳說中的「黃金獵人」；標哥看向 Amy，笑著準備回答。Scene: loc_factory，同一日間訪談位置，後方紙板堆、貨架與工具板沿用既有佈景。Framing: 兩人可見，cam_twoshot_wide_level（Blender: CAM_22）雙人全景起始，Amy 左、標哥右，沿用人物比例及對話軸線。Camera: 正常速度、40mm、近站姿眼高，兩人清晰；從自拍切入後輕微向右轉向標哥，將注意力帶到受訪者，保留說話中的 Amy，不跨軸、不快速甩鏡；無疊字。",
+      "description": "Subject: Amy 帶笑轉向神采奕奕的標哥，詢問他成為全公司傳說中的「黃金獵人」；標哥看向 Amy，笑著準備回答。Scene: loc_factory，同一日間訪談位置，後方紙板堆、貨架與工具板沿用既有佈景。Framing: 兩人可見，cam_twoshot_wide_level（Blender: CAM_22）雙人全景起始，Amy 左、標哥右，沿用人物比例及對話軸線。Camera: 正常速度、40mm、近站姿眼高，兩人清晰；承接前鏡雙人全景後輕微向右轉向標哥，將注意力帶到受訪者，保留說話中的 Amy，不跨軸、不快速甩鏡；無疊字。",
       "shot_language": {
         "shot_size": "wide",
         "camera_movement": "pan_right",

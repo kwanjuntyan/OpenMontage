@@ -3649,3 +3649,820 @@ Edit IMAGE 1 in place. Preserve IMAGE 1's exact camera, framing, perspective, si
 
 
 最終存檔檢查：九張當前交付圖全為原生1672×941 RGB PNG（近16:9），Pillow完整解碼成功，九組原生輸出／專案副本SHA256一致；v8兩張Blender底圖1920×1080，已逐張目視。v7模型SHA256仍為7676551c6643dbfd564f9e60c77406244be0d7e60f001d44cf6ba8ffaceb1e63；v8為f8ff9aa784640a7f696c91c864aa4efcbc9fa7ed9ab84ff67b11319e2bb66c48。圖片未裁切或拉伸。
+
+
+## 2026-10-20 shot_4.2.2 — GPT v2（待評鑑）
+
+- 使用者授權：逐字使用最新五圖 prompt，在 GPT 生成一張並存入 assets/images。
+- 圖片：assets/images/shot_4.2.2_gpt_v2.png；原生 1672×941 RGB PNG，未裁切拉伸，v1 保留。
+- 工具：內建 image_gen；供應商 OpenAI；確切模型／費用未提供，未知；本次 1 次成功生成，無追加生成。
+- 原圖：C:/Users/user/.codex/generated_images/01a157ec-764d-7b12-8d88-60c90bdd42f8/exec-aa00f589-0cab-4731-ac6f-9c4ba49ce0e7.png。
+- 檢查：目視輸入與輸出、PNG 完整解碼通過，來源與副本 SHA256 同為 b0aa198ffb53612b355f1415afe71832edc31952eced55949d71333fb40109cb。
+- 觀察：左緣 Amy 已成灰色西裝袖與手，無紅色 blocks／頭部。小陳白袍、眼鏡、短鬍鬚及低頭握毯呈現；頭髮貼近上緣，頭頂留白與人物比例偏離 blocks。毛毯一角在白布下，但主要姿態較像掀起展示，未明確為從樣品堆底層抽出起始狀態；布樣與桌面局部配置有重繪。瓶子為藍蓋透明肋紋瓶，與前鏡 CLP 外形不同（本次未附瓶子參考）。待評鑑，未改 manifest／scene_plan／採用設定。
+- 有序參考圖：
+  1. D:/kj-openMontage/projects/course-51-esg/references/scenes/rd_office/cameras/cam_chen_ms_15deg_empty_gpt.png
+  2. D:/kj-openMontage/projects/course-51-esg/references/scenes/rd_office/cameras/cam_chen_ms_15deg_block_blender.png
+  3. D:/kj-openMontage/projects/course-51-esg/clp/char_chen.jpeg
+  4. D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg
+  5. D:/kj-openMontage/projects/course-51-esg/clp/prop_eco_blanket.png
+- 完整實際 prompt（使用者原文）：
+```text
+參考圖說明：
+圖 1 cam_chen_ms_15deg_empty_gpt.png：研發部樣品實驗室的場景外觀參考圖。
+圖 2 cam_chen_ms_15deg_block_blender.png：小陳中景的構圖底圖。
+圖 3 char_chen.jpeg：小陳人物參考圖，對應圖 2 的藍色定位人物。
+圖 4 char_amy.jpeg：Amy 人物參考圖，對應圖 2 畫面左緣被裁切的紅色定位人物。
+圖 5 prop_eco_blanket.png：環保毛毯的外觀與材質參考，多個視角展示的是同一款毛毯。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其拍攝方向、取景、透視、人物佔位、大小比例、頭頂留白、背景配置與邊界裁切。不得拉遠鏡頭、擴展畫面或補出畫外身體。
+
+將藍色定位人物替換為圖 3 的小陳，保留棕色蓬鬆捲髮、黑框眼鏡、短鬍鬚、白色實驗袍與深色襯衫。將左緣紅色定位人物的可見部分替換為圖 4 的 Amy，採用灰色西裝袖與相應膚色，只呈現底圖已有的局部軀幹、手臂與手，不補出頭部。人物參考圖只提供外觀與服裝，不採用其展示姿態或拼貼構圖。
+
+場景材質、物件外觀、風格與光影採用圖 1，空間配置仍依圖 2。保留本鏡可見的木層架、玻璃材料罐、紗線筒、布樣、色卡板與電腦，不加入畫外的拉力測試機。人物接受與場景一致的右側窗光及環境光。
+
+環保毛毯採用圖 5 的鼠尾草灰綠色、厚實柔軟絨面、包邊與米色布標；布標位於自然可見處時保留，不為展示標籤而扭轉毛毯。每種道具各一件，不複製參考圖的多視角排列。
+
+畫面描述：
+這是一張 50mm、眼高平視、15 度微側的小陳中景，中等景深，小陳的臉、雙手與毛毯前緣清楚可辨。小陳位於畫面中央偏右，腰部以下依圖 2 裁切；Amy 只在畫面最左緣露出原有局部身體與手臂。小陳微微側身朝向身旁實驗桌的布樣堆，調整肩臂與雙手，使兩手自然握住樣品堆底層露出的灰綠色毛毯前緣；毛毯仍有一部分壓在其他布樣下，呈現剛找到、準備抽出的起始瞬間，尚未整條展開或高舉。小陳略低頭看著手中的毛毯，嘴角帶著靦腆而無奈的淡淡苦笑，情緒克制。回收寶特瓶直立放在同一桌面、布樣堆旁的可見空位，瓶底確實接觸桌面。除上述取毯所需的上身、雙手、視線與表情調整，以及指定道具置入外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖。畫面只呈現小陳與左緣局部 Amy，不加入其他人物、字幕、標題、對話框或浮水印。
+```
+
+
+
+## 2026-10-20 shot_4.2.3 — GPT v1（待評鑑）
+
+- 使用者授權：逐字使用本輪五圖 prompt，生成小陳雙手捧毯、Amy 觸摸絨面的版本，存入 assets/images。
+- 圖片：assets/images/shot_4.2.3_gpt_v1.png；原生 1672×941 RGB PNG，未裁切拉伸。
+- 工具：內建 image_gen；供應商 OpenAI；確切模型／費用未提供，未知；本次 1 次成功生成，無追加生成。
+- 原圖：C:/Users/user/.codex/generated_images/01a157ec-764d-7b12-8d88-60c90bdd42f8/exec-bf3f731f-3138-44f9-8fc2-ec9fa16ee6c3.png。
+- 檢查：目視輸入與輸出、PNG 完整解碼通過，來源與副本 SHA256 同為 a1a8015c944e2e5f38793c3103bd4d2ba236cdc3fa6de03edf9d7ea0f6b24fa3。
+- 觀察：Amy 灰袖手掌與指腹接觸灰綠毛毯、小陳白袍雙手承托（後側手大部分被毛毯遮擋）、Eco-Friendly 布標與兩人頭部畫外均呈現，無紅藍blocks。毛毯佔畫面較大；Amy 左側軀幹可見範圍增加，小陳軀幹佔位縮至右緣，未嚴格維持底圖人物比例與遮擋，桌緣及背景裁切有偏移。未見額外人物或手臂；待評鑑，未改 manifest／scene_plan／採用設定。
+- 有序參考圖：
+  1. D:/kj-openMontage/projects/course-51-esg/references/scenes/rd_office/cameras/cam_blanket_insert_iso_empty_gpt.png
+  2. D:/kj-openMontage/projects/course-51-esg/references/scenes/rd_office/cameras/cam_blanket_insert_iso_block_blender.png
+  3. D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg
+  4. D:/kj-openMontage/projects/course-51-esg/clp/char_chen.jpeg
+  5. D:/kj-openMontage/projects/course-51-esg/clp/prop_eco_blanket.png
+- 完整實際 prompt（使用者原文）：
+```text
+參考圖說明：
+圖 1 cam_blanket_insert_iso_empty_gpt.png：研發部實驗桌的場景外觀參考圖。
+圖 2 cam_blanket_insert_iso_block_blender.png：本鏡桌面、人物局部與遮擋關係的構圖底圖。
+圖 3 char_amy.jpeg：Amy 人物參考圖，對應圖 2 左側紅色定位人物。
+圖 4 char_chen.jpeg：小陳人物參考圖，對應圖 2 右側藍色定位人物。
+圖 5 prop_eco_blanket.png：環保毛毯的外觀與材質參考，多個視角展示的是同一款毛毯。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其拍攝方向、取景、透視、桌緣高度、人物佔位、身體比例、背景配置與邊界裁切。不得拉遠鏡頭、擴展畫面或補出畫外身體。
+
+將左側紅色定位人物的可見部分替換為圖 3 的 Amy，採用灰色西裝袖、捲起的袖口與相應膚色。將右側藍色定位人物的可見部分替換為圖 4 的小陳，採用白色實驗袍、深色襯衫與相應膚色。只呈現圖 2 已有的局部軀幹、手臂與手，兩人的頭部均保持在畫外。人物參考圖只提供外觀與服裝，不採用其展示姿態或拼貼構圖，不保留紅藍方塊外觀。
+
+場景材質、物件外觀、風格與光影採用圖 1，空間配置仍依圖 2。保留可見的白色與深藍布卷、平鋪布樣、桌緣垂布及其他實驗用品，不補出被人物遮住的儀器。人物與道具接受一致的右側柔暖窗光、環境光與接觸陰影。
+
+在兩人之間、小陳雙手捧著一條摺疊的環保毛毯。毛毯採用圖 5 的鼠尾草灰綠色、厚實柔軟絨面、同色包邊及米色「Eco-Friendly」布標。布標位於自然可見的一角，不為展示標籤而扭轉毛毯，不複製參考圖的多視角排列。
+
+畫面描述：
+這是一張 55mm、微俯視的毛毯觸感特寫插鏡，取景沿用圖 2。Amy 的局部手臂從畫面左側伸入，小陳的局部軀幹與手臂位於右側，兩人的臉都不入鏡。小陳雙手捧著摺疊的灰綠色毛毯。調整 Amy 可見的前臂、手腕與手指，使她掌心朝下、手指自然微張，以指腹輕輕貼住毛毯上表面，定格在剛接觸、感受柔軟質地的瞬間；接觸處的絨毛輕微壓伏，手指與布面之間有細緻接觸陰影，不懸空、不穿入布料，也不抓起毛毯。小陳靠近桌面的那隻手輕扶毛毯右側邊緣，另一隻手維持圖 2 的位置與裁切。毛毯由小陳雙手捧著，保留大片可見絨面與自然摺層。焦點落在 Amy 的指腹、接觸處絨毛與毛毯包邊，後方布卷輕柔失焦，仍可辨識實驗室環境。除指定觸摸與扶毯所需的手臂、手腕及手指調整、道具置入與景深調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖。人物只呈現 Amy 與小陳在底圖中的局部身體，不出現兩人的頭部，不增加其他人物或多餘手臂。不加入字幕、ESG 疊字、標題、對話框或浮水印；僅保留道具本身的布標與回收圖案。
+```
+
+
+## 2026-10-20 shot_4.5.1 — GPT v1（雙人全景，待評鑑）
+
+- 使用者授權：逐字使用聊天最後確認的四圖 prompt，在 GPT 生成一次並存入指定 assets/images。
+- 工具：內建 image_gen；供應商 OpenAI；確切模型版本與費用未提供、未知。本次 1 次成功生成，未追加生成。
+- 圖片：assets/images/shot_4.5.1_gpt_v1.png；原生 1672×941 RGB PNG，未裁切或拉伸。
+- 原生輸出：C:/Users/user/.codex/generated_images/01a157fd-63b8-7a01-a27f-957ae00f24d5/exec-af29d651-4e3f-4c75-a66e-1704ea0be9df.png
+- 指定儲存路徑：D:/Dropbox/kj-om-projects/course-51-esg/assets/images/shot_4.5.1_gpt_v1.png
+- 檢查：輸入與輸出目視、PNG 完整解碼通過；來源／副本 SHA256 一致：98d0da298471046afc83508a300d08fd414d1efc430bff325361a046790c00f4。
+- 觀察：Amy 左、標哥右；兩人黃帽、Amy 灰西裝且無反光背心、標哥眼鏡／灰鬍鬚／灰工作服均呈現，無額外人物或字幕。模型額外加入 Amy 抬手攤掌手勢；人物比例、頭頂留白與下緣裁切未完全依 blocks，兩人鞋子完整入鏡；背景工具及紙板細節有重繪。待使用者評鑑，未標為構圖完全通過。
+- 狀態：未更新 asset_manifest／scene_plan 或採用版本，保留既有 shot_4.5.1.png；未製作影片或推進整個 assets 階段核准。
+- 有序參考圖：
+  1. D:/Dropbox/kj-om-projects/course-51-esg/references/scenes/factory/cameras/cam_twoshot_wide_level_empty_gpt_v2.png
+  2. D:/Dropbox/kj-om-projects/course-51-esg/references/scenes/factory/cameras/cam_twoshot_wide_level_block_blender.png
+  3. D:/Dropbox/kj-om-projects/course-51-esg/clp/char_amy.jpeg
+  4. D:/Dropbox/kj-om-projects/course-51-esg/clp/char_biaoge.jpeg
+- 完整實際 prompt（逐字沿用）：
+```text
+參考圖說明：
+圖 1 cam_twoshot_wide_level_empty_gpt_v2.png：廠務暫存區的場景外觀參考圖。
+圖 2 cam_twoshot_wide_level_block_blender.png：雙人全景構圖底圖。
+圖 3 char_amy.jpeg：Amy 人物參考圖，對應圖 2 左側紅色定位人物。
+圖 4 char_biaoge.jpeg：標哥人物參考圖，對應圖 2 右側藍色定位人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其機位、透視、人物站位、大小比例、頭頂留白、可見範圍、邊界裁切與背景配置。
+
+將左側紅色定位人物替換為圖 3 的 Amy，保留棕色微捲短髮、綠色眼睛、灰色西裝外套與米白色開領襯衫，加戴黃色工安帽，不穿反光背心。
+
+將右側藍色定位人物替換為圖 4 的標哥，保留黃色工安帽、眼鏡、灰白短鬍鬚與灰色工作服。人物參考圖只提供外觀與服裝，不採用其展示姿態或多視角拼貼構圖。
+
+場景材質、風格與光影採用圖 1，空間配置仍依圖 2。保留既有紙板堆、束帶、貨架、物料與工具板，人物接受與場景一致的柔暖日光及環境光。
+
+畫面描述：
+這是一張 40mm、近站姿眼高的雙人全景，中等景深，兩人與廠務背景均清楚可辨。Amy 位於左側，標哥位於右側，可見身體部位與畫面下緣裁切依圖 2。Amy 保持原站位，將頭部與上身自然轉向鏡頭，精神飽滿、自信親切地微笑，嘴唇微啟，呈現準備向觀眾介紹廠務部的開場瞬間。標哥保持原站位與自然站姿，帶著親切微笑看向 Amy，安靜聆聽。除上述頭部、上身朝向及表情調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，只呈現 Amy 與標哥兩人，不加入字幕、標題、對話框或浮水印。
+```
+
+
+## 2026-10-20 shot_4.2.4 — GPT v1（待評鑑）
+
+- 使用者授權：使用前輪完整四圖 W2I prompt，在 GPT 生成一張並存入 assets/images。
+- 圖片：assets/images/shot_4.2.4_gpt_v1.png；原生 1672×941 RGB PNG，未裁切拉伸。
+- 工具：內建 image_gen；供應商 OpenAI；確切模型／費用未提供，未知；本次 1 次成功生成，無追加生成。
+- 原圖：C:/Users/user/.codex/generated_images/01a157ec-764d-7b12-8d88-60c90bdd42f8/exec-8c93a784-1062-4887-a504-4aaac34b66b9.png。
+- 檢查：目視輸入與輸出、PNG 完整解碼通過，來源與副本 SHA256 同為 a445515d2f242cd5ed8f8c06fc7c419cc0e88629b2eab8d415042c3210d75df7。
+- 觀察：Amy 左側中景、綠眼灰套裝、興奮鼓勵神情與小陳右前景白袍過肩呈現，無紅藍blocks或額外視覺符號。Amy 改用畫面左側手比劃，原靠畫面中央的手改垂下；頭部較大、頭頂留白減少，人物佔位及背景遮擋較底圖有偏移。待評鑑，未改 manifest／scene_plan／採用設定。
+- 有序參考圖：
+  1. D:/kj-openMontage/projects/course-51-esg/references/scenes/rd_office/cameras/cam_amy_ots_chen_empty_gpt.png
+  2. D:/kj-openMontage/projects/course-51-esg/references/scenes/rd_office/cameras/cam_amy_ots_chen_block_blender.png
+  3. D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg
+  4. D:/kj-openMontage/projects/course-51-esg/clp/char_chen.jpeg
+- 完整實際 prompt（沿用前次回覆原文）：
+```text
+參考圖說明：
+圖 1 cam_amy_ots_chen_empty_gpt.png：研發部實驗室的場景外觀參考圖。
+圖 2 cam_amy_ots_chen_block_blender.png：過小陳肩拍 Amy 的構圖底圖。
+圖 3 char_amy.jpeg：Amy 人物參考圖，對應圖 2 左側紅色定位人物。
+圖 4 char_chen.jpeg：小陳人物參考圖，對應圖 2 右前景藍色定位人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其拍攝方向、取景、透視、人物佔位、前後距離、大小比例、可見部位與遮擋關係。保留 Amy 的頭頂留白，以及小陳頭部、肩背和手臂在畫面邊界的原有裁切。不得拉遠鏡頭、擴展畫面、交換左右位置或補出畫外身體。
+
+將左側紅色定位人物替換為圖 3 的 Amy，保留棕色及下巴的波浪短髮、綠色眼睛、灰色西裝外套與淺色襯衫。將右前景藍色定位人物替換為圖 4 的小陳，保留棕色蓬鬆捲髮、白色實驗袍與深色襯衫；黑框眼鏡只呈現此角度自然可見的部分，不為展示五官而轉成正面。人物參考圖只提供外觀與服裝，不採用其展示姿態或拼貼構圖，不保留紅藍方塊外觀。
+
+場景的材質、物件外觀、風格與光影採用圖 1，空間配置仍依圖 2。保留 Amy 身後白色看板上的布料色卡與測試曲線圖，以及右後方木層架、玻璃材料罐、文件夾、紗線筒與實驗桌設備。只呈現圖 2 中原本可見的區域，不補出被人物遮擋的背景。人物接受與場景一致的柔暖窗光、環境光與自然陰影。
+
+畫面描述：
+這是一張 50mm、眼高平視、過小陳肩拍 Amy 的過肩中景。Amy 位於畫面左側中景，上半身與雙手的可見範圍依圖 2；小陳位於右前景，以後側頭部、耳朵、肩背及局部手臂形成前景遮擋，朝向 Amy 聆聽。Amy 看著小陳，眼睛明亮、眉毛微微揚起，帶著發現產品潛力的興奮與真誠鼓勵，嘴角上揚、雙唇微張，呈現剛開口分享好消息的瞬間。將 Amy 原本靠畫面中央抬起的手調整為手掌自然張開、手指放鬆，在胸前朝小陳做出鼓勵性的說明手勢；另一隻手保留圖 2 的位置與裁切。小陳保持朝向 Amy 的聆聽姿態，不回頭看鏡頭。淺景深聚焦 Amy 的眼睛與臉部，右前景小陳的肩背及後方材料層架輕柔失焦，仍能辨識人物與研發環境。除上述 Amy 的表情、視線與手勢調整，以及景深調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，畫面只有 Amy 與小陳兩人。不加入字幕、對話框、標題、浮水印、歐盟旗幟、金幣、搖錢樹或市場圖表等額外視覺符號。
+```
+
+
+
+## 2026-10-20 shot_4.2.5 — GPT v1（待評鑑）
+
+- 使用者授權：使用前輪完整三圖 W2I prompt，在 GPT 生成一張並存入 assets/images。
+- 圖片：assets/images/shot_4.2.5_gpt_v1.png；原生 1672×941 RGB PNG，未裁切拉伸。
+- 工具：內建 image_gen；供應商 OpenAI；確切模型／費用未提供，未知；本次 1 次成功生成，無追加生成。
+- 原圖：C:/Users/user/.codex/generated_images/01a157ec-764d-7b12-8d88-60c90bdd42f8/exec-41a199bd-af0e-49c8-847f-bcef55c4251c.png。
+- 檢查：目視輸入與輸出、PNG 完整解碼通過，來源與副本 SHA256 同為 c104945d4763e9f117a410d3484c8b53a58218af385e1d5e0d269cad8cf46cf1。
+- 觀察：小陳單人、白袍／黑框眼鏡／短鬍鬚及驚喜微笑呈現，無Amy／手／毛毯／象徵特效。明顯未符：頭部與視線朝畫面右側，與prompt指定左側相反；髮頂貼上緣，未保留頭頂留白。人物肩寬／比例及背景遮擋亦偏離blocks，不能宣告符合構圖與視線要求。待評鑑，未改 manifest／scene_plan／採用設定。
+- 有序參考圖：
+  1. D:/kj-openMontage/projects/course-51-esg/references/scenes/rd_office/cameras/cam_chen_mcu_15deg_empty_gpt.png
+  2. D:/kj-openMontage/projects/course-51-esg/references/scenes/rd_office/cameras/cam_chen_mcu_15deg_block_blender.png
+  3. D:/kj-openMontage/projects/course-51-esg/clp/char_chen.jpeg
+- 完整實際 prompt（沿用前次回覆原文）：
+```text
+參考圖說明：
+圖 1 cam_chen_mcu_15deg_empty_gpt.png：研發部實驗室的場景外觀參考圖。
+圖 2 cam_chen_mcu_15deg_block_blender.png：小陳單人中近景的構圖底圖。
+圖 3 char_chen.jpeg：小陳人物參考圖，對應圖 2 的藍色定位人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其拍攝方向、取景、透視、人物佔位、頭部與肩膀大小比例、頭頂留白、背景配置與邊界裁切。完整保留頭頂輪廓，不放大頭部或讓蓬鬆髮型碰到畫面上緣。不得拉遠或拉近鏡頭、擴展畫面、補出畫外身體。
+
+將藍色定位人物替換為圖 3 的小陳，保留棕色蓬鬆捲髮、黑框眼鏡、棕色眼睛、短鬍鬚、白色實驗袍與深色襯衫。人物參考圖只提供五官、髮型與服裝，不採用其展示姿態或拼貼構圖，不保留藍色方塊外觀。
+
+場景的材質、物件外觀、風格與光影採用圖 1，空間配置仍依圖 2。保留本鏡可見的木層架、深藍與淺色紗線筒、玻璃材料罐、文件夾、疊放樣品冊、布料色卡板，以及右下方局部電腦螢幕。只呈現底圖可見區域，不補出被小陳遮擋的背景。人物接受與場景一致的柔暖窗光及自然環境光，眼鏡反光保持克制，讓雙眼清楚可見。
+
+畫面描述：
+這是一張 70mm、眼高平視、15 度微側的小陳單人中近景，胸部以上入鏡，人物位置、肩線與裁切沿用圖 2。小陳的頭部微朝畫面左側，視線落在畫外 Amy 的眼睛方向，不看鏡頭。定格在他剛聽懂這條毛毯可能獲得市場肯定的瞬間：鏡片後的雙眼自然睜亮，眉毛微微上揚，嘴角開始揚起，雙唇稍微張開，帶著「真的假的？」的驚喜與重新燃起的期待。保留他原有靦腆、真誠的氣質，不做誇張瞪眼、張大嘴或狂喜表情。肩膀與軀幹保持圖 2 的姿態，雙手與毛毯留在畫面之外。淺景深聚焦雙眼、眼鏡邊框與臉部表情，後方材料層架及色卡板輕柔失焦，仍可辨識研發實驗室環境。除上述表情、視線與景深調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，畫面只有小陳一人。不加入 Amy、畫外伸入的手、毛毯、字幕、對話框、標題或浮水印；不加入發光眼睛、星星、燈泡或其他象徵特效。
+```
+
+
+
+## 2026-10-20 shot_4.2.5 — GPT v2（視線修正，待評鑑）
+
+- 使用者授權：將頭部與視線改朝畫面左側；以 v1 為唯一編輯底圖，另存 v2。
+- 圖片：assets/images/shot_4.2.5_gpt_v2.png；原生 1672×941 RGB PNG，未裁切拉伸，保留 v1。
+- 工具：內建 image_gen；供應商 OpenAI；確切模型／費用未提供，未知；修正生成 1 次。
+- 原圖：C:/Users/user/.codex/generated_images/01a157ec-764d-7b12-8d88-60c90bdd42f8/exec-8257445f-bf73-4d1e-96dd-09fcef7b8fbd.png。
+- 檢查：目視確認鼻尖與瞳孔朝圖片左側，保持驚喜神情；背景左側深藍線筒、右側色卡板與螢幕未左右翻轉。PNG 完整解碼通過，來源與副本 SHA256 同為 e542718105bc5e5fb490e015202ca247561457de8abab45da3aefc4120f097ef。
+- 觀察：本次指定頭部／視線修正已呈現，視線略朝左上；頭髮依新角度重繪，仍接近上緣。背景主要配置與身體位置保留，未做像素級一致保證。待評鑑，未改 manifest／scene_plan／採用設定。
+- 有序參考圖：
+  1. D:/kj-openMontage/projects/course-51-esg/assets/images/shot_4.2.5_gpt_v1.png
+- 完整實際 prompt：
+```text
+請局部編輯這張 shot_4.2.5 圖片，只修正小陳的頭部朝向與視線。
+
+把小陳的頭部轉向畫面左側，也就是觀眾看到的圖片左邊；鼻尖朝向圖片左邊，雙眼的瞳孔與目光自然朝向畫外左側的 Amy。必須讓人清楚看出他在與畫面左側的人對話，不看鏡頭，也不看畫面右側。保持原本約15度微側的自然頭部角度，不轉成完全側面。
+
+保留小陳棕色蓬鬆捲髮、黑框眼鏡、棕色眼睛、短鬍鬚、白色實驗袍與深色襯衫，保留雙眼明亮、眉毛微揚、雙唇微張的驚喜期待笑容。頭部在原位置自然轉向，頸部與眼鏡配合轉向調整，肩膀與軀幹保持原姿態。
+
+除此之外，保持原圖的取景、人物位置與尺度、裁切、景深、色彩、光影及背景所有物件的位置。不可水平鏡像或左右翻轉整張圖片。背景左側的深藍紗線筒、右側的布料色卡板與電腦螢幕保持原側，不交換位置、不重排背景。不要加入人物、手、毛毯、字幕或特效。
+
+輸出一張16:9彩色圖片。
+```
+
+
+## 2026-10-20 shot_4.5.2 — GPT v2（腰部以上雙人中景，待評鑑）
+
+- 使用者授權：將 v1 再切近一些，改為腰部以上。
+- 工具／配方：內建 image_gen／OpenAI／I2I；確切模型版本與費用未提供、未知。本次 1 次成功生成，未追加生成。
+- 圖片：assets/images/shot_4.5.2_gpt_v2.png；原生 1672×941 RGB PNG，未另行裁切或拉伸。
+- 原生輸出：C:/Users/user/.codex/generated_images/01a157fd-63b8-7a01-a27f-957ae00f24d5/exec-1266f009-d35a-4c7e-bf03-cff76cdac362.png
+- 指定儲存路徑：D:/Dropbox/kj-om-projects/course-51-esg/assets/images/shot_4.5.2_gpt_v2.png
+- 檢查：目視已收近為腰線附近雙人中景，兩人安全帽完整、互看微笑及原服裝保留，雙手隨取景落在畫外；背景與衣物局部有 AI 重繪。PNG 完整解碼通過，來源／副本 SHA256 一致：c6addb399f14aea02ba607c9d13160f3f0eec07587a0bd8494dfbca956d1a395。
+- 狀態：待評鑑，保留 v1 與既有無版本號圖；未改 asset_manifest／scene_plan 或採用版本。
+- 有序參考圖：
+  1. D:/Dropbox/kj-om-projects/course-51-esg/assets/images/shot_4.5.2_gpt_v1.png
+- 完整實際 prompt：
+```text
+以圖 1 shot_4.5.2_gpt_v1.png 為基礎，只將鏡頭取景收近為「兩人腰部以上的雙人中景」。
+
+保持橫向 16:9、原本眼高拍攝方向與自然透視。Amy 在左、標哥在右，兩人都要留在畫內，頭部、安全帽與肩膀完整入鏡，帽頂僅留少量自然空間；畫面下緣切在兩人的腰線附近，腰部以下、髖部、大腿、腿與鞋都在畫外。兩人的臉與上半身明顯放大成為主體，保留兩人相望的對話空間；雙臂仍自然垂放，手掌若因此在畫外就保持畫外，不為了展示雙手而拉遠取景或抬高手臂。
+
+保留原圖兩人的身分、五官、髮型、黃色工安帽、Amy 灰色西裝與米白襯衫、標哥眼鏡與灰白鬍鬚及灰色工作服；保留 Amy 帶好奇笑意看向標哥、嘴唇微啟，以及標哥親切微笑回望 Amy 的同一瞬間，不改表情、視線與人物關係。
+
+背景仍是同一廠務暫存區，紙板堆、貨架與工具板維持原有相對配置，只隨收近取景自然裁切；保持原圖暖日光、材質、色調與 3D 電影動畫風格。不新增物件、不鏡像、不換角度、不增加人物。
+
+輸出一張 16:9 彩色分鏡圖，不加字幕、文字、標題、對話框、外框或浮水印。
+```
+
+
+## 2026-10-20 shot_4.2.6 — GPT v1（待評鑑）
+
+- 使用者授權：使用前輪完整五圖 W2I prompt，在 GPT 生成一張並存入 assets/images。
+- 圖片：assets/images/shot_4.2.6_gpt_v1.png；原生 1672×941 RGB PNG，未裁切拉伸。
+- 工具：內建 image_gen；供應商 OpenAI；確切模型／費用未提供，未知；本次 1 次成功生成，無追加生成。
+- 原圖：C:/Users/user/.codex/generated_images/01a157ec-764d-7b12-8d88-60c90bdd42f8/exec-2e3b17c8-c953-4927-9327-25f4f5a076ca.png。
+- 檢查：目視輸入與輸出、PNG 完整解碼通過，來源與副本 SHA256 同為 f932442bae86e634af0222d6a2f2d2730d25fd6cc1b5d4a2661107b6071a297f。
+- 觀察：Amy左／小陳右、對鏡微笑、比讚與雙手捧灰綠毛毯呈現，毛毯有Eco-Friendly布標，無紅藍blocks／額外人物／字幕／特效。Amy改用畫面左側手比讚、靠中央手垂下，與指定手別不同；兩人站位向中央靠攏、間距縮短，頭頂留白減少，身體比例與背景遮擋偏離blocks。待評鑑，未改 manifest／scene_plan／採用設定。
+- 有序參考圖：
+  1. D:/kj-openMontage/projects/course-51-esg/references/scenes/rd_office/cameras/cam_twoshot_ms_level_empty_gpt.png
+  2. D:/kj-openMontage/projects/course-51-esg/references/scenes/rd_office/cameras/cam_twoshot_ms_level_block_blender.png
+  3. D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg
+  4. D:/kj-openMontage/projects/course-51-esg/clp/char_chen.jpeg
+  5. D:/kj-openMontage/projects/course-51-esg/clp/prop_eco_blanket.png
+- 完整實際 prompt（沿用前次回覆原文）：
+```text
+參考圖說明：
+圖 1 cam_twoshot_ms_level_empty_gpt.png：研發部樣品實驗室的場景外觀參考圖。
+圖 2 cam_twoshot_ms_level_block_blender.png：Amy 與小陳雙人平視中景的構圖底圖。
+圖 3 char_amy.jpeg：Amy 人物參考圖，對應圖 2 左側紅色定位人物。
+圖 4 char_chen.jpeg：小陳人物參考圖，對應圖 2 右側藍色定位人物。
+圖 5 prop_eco_blanket.png：環保毛毯的外觀與材質參考，多個視角展示的是同一款毛毯。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其拍攝方向、取景、透視、人物佔位、兩人間距、身高差、大小比例、頭頂留白、背景配置與邊界裁切。兩人的頭部輪廓完整入鏡，不放大頭部，不讓髮型碰到畫面上緣。不得拉遠或拉近鏡頭、擴展畫面、交換左右位置或補出畫外身體。
+
+將左側紅色定位人物替換為圖 3 的 Amy，保留棕色及下巴的波浪短髮、綠色眼睛、灰色西裝外套、捲起的袖口與淺色襯衫。將右側藍色定位人物替換為圖 4 的小陳，保留棕色蓬鬆捲髮、黑框眼鏡、棕色眼睛、短鬍鬚、白色實驗袍與深色襯衫。人物參考圖只提供外觀與服裝，不採用其展示姿態或拼貼構圖，不保留紅藍方塊外觀。
+
+場景的材質、物件外觀、風格與光影採用圖 1，空間配置仍依圖 2。保留本鏡可見的雙層木架、玻璃材料罐、文件夾、紗線筒、布料色卡板、實驗桌設備、布卷與桌緣垂布。只呈現底圖可見區域，不補出被人物遮擋的物件。人物與毛毯接受一致的柔暖窗光、環境光與自然接觸陰影。
+
+小陳懷中的環保毛毯採用圖 5 的鼠尾草灰綠色、厚實柔軟絨面、同色包邊與米色「Eco-Friendly」布標。毛毯只有一條，摺疊成方便雙手捧持的尺寸；布標位於自然可見的一角，不為展示標籤而扭轉毛毯，不複製參考圖的多視角排列。
+
+畫面描述：
+這是一張 48mm、眼高平視的雙人中景，Amy 在左、小陳在右，兩人站在研發實驗桌前，上半身及手部可見範圍沿用圖 2。Amy 的頭部與目光朝向正前方鏡頭，帶著自信、開朗的笑容，嘴唇微張，呈現準備向觀眾總結研發成果的瞬間。將 Amy 在圖 2 中靠畫面中央、原本抬起的那隻手調整為胸前比讚：拇指自然朝上，其餘四指收攏，手腕放鬆，手不要伸近鏡頭或遮住臉；另一隻手保持底圖的位置與裁切，不交換兩手動作。小陳同樣看向正前方鏡頭，露出靦腆而自豪的微笑，眼鏡後的雙眼清楚可見；調整雙臂與手掌，將摺疊的灰綠色毛毯穩穩捧在胸腹前，一手托住底部、另一手扶住側邊，使毛毯自然貼近身體，呈現柔軟摺層與受力形狀，不懸空、不遮住臉。中等景深讓兩人的眼睛、表情、比讚手勢與毛毯清楚可辨，背景稍柔化但仍保留研發實驗室的辨識度。除上述頭部、視線、表情、比讚及捧毯所需的手臂與手指調整，以及毛毯置入外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，畫面只有 Amy 與小陳兩人。不加入其他人物、手機、自拍棒、字幕、標題、對話框、浮水印或超能力特效；僅保留毛毯本身的布標。
+```
+
+
+## 2026-10-20 shot_4.5.3 — GPT v1（待評鑑）
+
+- 使用者授權：使用上一版 prompt 在 GPT 生圖，存入指定 assets/images；生成前已重申現有白模仍為近景，本次沿用現有三圖，未改 prompt 或白模。
+- 工具／配方：內建 image_gen／OpenAI／W2I；確切模型版本與費用未提供、未知。本次 1 次成功生成，未追加生成。
+- 圖片：assets/images/shot_4.5.3_gpt_v1.png；原生 1672×941 RGB PNG，未另行裁切或拉伸。
+- 原生輸出：C:/Users/user/.codex/generated_images/01a157fd-63b8-7a01-a27f-957ae00f24d5/exec-66f30d73-aba0-4fb0-9c1f-4700a98ba5f2.png
+- 指定儲存路徑：D:/Dropbox/kj-om-projects/course-51-esg/assets/images/shot_4.5.3_gpt_v1.png
+- 檢查：輸出目視與 PNG 完整解碼通過；來源／副本 SHA256 一致：1a6cb8fc9519bb988ce584ea9416c824350b0b9c7f9ea6b7ba9d94f754aa8c0b。
+- 觀察：僅標哥一人，黃帽／眼鏡／灰鬍鬚／灰工作服與米色內搭呈現，朝畫左張嘴爽朗笑；白色與綠色料件箱的「金屬」「塑料」標籤清楚可辨。模型較原白模拉遠並重排人物在畫面中的位置，取景接近腰上，雙手仍在畫外；料件箱可見範圍增大，背景及人物比例未精確沿用白模。待使用者評鑑，未標為完整符合白模或後續手勢需求。
+- 狀態：待評鑑，保留既有 shot_4.5.3.png；未改 asset_manifest／scene_plan 或採用版本，未生成影片。
+- 有序參考圖：
+  1. D:/Dropbox/kj-om-projects/course-51-esg/references/scenes/factory/cameras/cam_biao_ms_15deg_empty_gpt_v3.png
+  2. D:/Dropbox/kj-om-projects/course-51-esg/references/scenes/factory/cameras/cam_biao_ms_15deg_block_blender.png
+  3. D:/Dropbox/kj-om-projects/course-51-esg/clp/char_biaoge.jpeg
+- 完整實際 prompt（逐字沿用）：
+```text
+參考圖說明：
+圖 1 cam_biao_ms_15deg_empty_gpt_v3.png：廠務暫存區的場景外觀參考圖。
+圖 2 cam_biao_ms_15deg_block_blender.png：本鏡構圖底圖。
+圖 3 char_biaoge.jpeg：標哥人物參考圖，對應圖 2 的藍色定位人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其拍攝方向、透視、人物站位、大小比例、頭頂留白、邊界裁切與背景配置。
+
+將藍色定位人物替換為圖 3 的標哥，保留黃色工安帽、眼鏡、灰白短鬍鬚、灰色工作服與米色內搭。人物參考圖只提供外觀與服裝，不採用其展示姿態或多視角拼貼構圖。
+
+場景材質、風格與光影採用圖 1，空間配置仍依圖 2。保留紙板堆、束帶、工具板、貨架及既有物料，人物接受與場景一致的柔暖日光及環境光。
+
+在畫面右側既有料件箱的可見正面補上分類標籤：白色箱標示「金屬」，綠色箱標示「塑料」。標籤貼合箱體表面與透視，保留箱體原有造型、位置及遮擋，不新增箱子，不將分類標籤貼在紙板堆上。
+
+畫面描述：
+這是一張 60mm、近站姿眼高、15 度微側拍的標哥單人腰上中景，中等景深，標哥的臉部清晰，身旁料件箱與分類標籤仍可辨識。標哥站在既有訪談位置，頭部自然朝向畫面左側、鏡外的 Amy，眼角帶笑、臉頰微微抬起，嘴巴自然張開，定格在開始爽朗笑出「哈哈」的瞬間，神情親切、豪爽而帶些自豪。肩膀放鬆，手臂保持自然起始姿態，尚未伸手指向料件箱，保留後續抬臂指箱的畫內空間。Amy 完全位於鏡外。除上述表情、視線與分類標籤外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，只呈現標哥一人。僅保留箱體上的「金屬」「塑料」分類標籤，不加入字幕、標題、對話框、金額圖卡或浮水印。
+```
+
+
+## 2026-10-20 shot_4.2.2 — GPT v3（過 Amy 肩新機位，待評鑑）
+
+- 使用者授權：逐字使用最新五圖 prompt，以 GPT 生成一張並存至 assets/images。
+- 工具／供應商：內建 image_gen／OpenAI；具體模型與費用未回傳，未知。生成一次。
+- 輸出：assets/images/shot_4.2.2_gpt_v3.png；原生 1672×941 RGB PNG。
+- 來源：C:/Users/user/.codex/generated_images/01a157ec-764d-7b12-8d88-60c90bdd42f8/exec-002d7465-d60f-47cb-8c28-a48dced1f25e.png
+- 驗證：完整解碼成功；來源與副本 SHA256 一致：38208462b3fcea1569c2666648eca96d0328ac5eaf6606fd6564725d171e82f2。
+- 目視觀察：Amy 後側頭部及灰色肩背在左前景，小陳在右側低頭取毯，一手拉毛毯包邊、另一手扶白色布卷；取毯動作清楚。毛毯露出面積仍比指定大，布卷排列有重繪，人物／構圖仍有些微偏移。未追加生成，未更改正式採用設定。
+- 有序參考圖：
+  1. D:/kj-openMontage/projects/course-51-esg/references/scenes/rd_office/cameras/cam_chen_ots_amy_empty_gpt.png
+  2. D:/kj-openMontage/projects/course-51-esg/references/scenes/rd_office/cameras/cam_chen_ots_amy_block_blender.png
+  3. D:/kj-openMontage/projects/course-51-esg/clp/char_chen.jpeg
+  4. D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg
+  5. D:/kj-openMontage/projects/course-51-esg/clp/prop_eco_blanket.png
+- 完整實際 prompt（使用者原文）：
+```text
+參考圖說明：
+圖 1 cam_chen_ots_amy_empty_gpt.png：研發部實驗室的場景外觀參考圖。
+圖 2 cam_chen_ots_amy_block_blender.png：過 Amy 肩拍小陳的構圖底圖。
+圖 3 char_chen.jpeg：小陳人物參考圖，對應圖 2 右側藍色定位人物。
+圖 4 char_amy.jpeg：Amy 人物參考圖，對應圖 2 左前景紅色定位人物。
+圖 5 prop_eco_blanket.png：環保毛毯的外觀與材質參考，多個視角展示的是同一款毛毯。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其拍攝方向、取景、透視、兩人前後距離、人物佔位、大小比例、頭頂留白與邊界裁切。維持 Amy 左前景、小陳右側中景的過肩關係，不交換左右、不鏡像背景，不拉遠鏡頭或補出畫外身體。
+
+將右側藍色定位人物替換為圖 3 的小陳，保留棕色蓬鬆捲髮、黑框眼鏡、短鬍鬚、白色實驗袍與深色襯衫。頭部尺度依底圖，髮頂與畫面上緣之間保留原有空間。
+
+將左前景紅色定位人物替換為圖 4 的 Amy，保留本角度可見的棕色短髮、後側頭部、灰色西裝肩背與局部手臂，沿用底圖裁切，不轉向鏡頭展示正臉。人物參考圖只提供外觀與服裝，不採用其展示姿態或拼貼構圖，不保留紅藍方塊外觀。
+
+場景材質、物件外觀、風格與光影採用圖 1，空間配置仍依圖 2。保留本鏡可見的木層架、紗線筒、玻璃材料罐、文件夾、布卷、實驗設備與窗簾，不搬移桌面或重新排列背景。人物與道具接受一致的柔暖窗光及自然接觸陰影。
+
+環保毛毯採用圖 5 的鼠尾草灰綠色、厚實絨面、同色包邊與米色布標。毛毯只有一條，藏在小陳身旁、兩人之間可見桌面上的既有布樣底層。大部分毯身仍被上層布樣壓住，只露出可抓取的前緣與一角；布標若被遮住就維持遮擋，不為展示標籤而翻轉毛毯。
+
+
+畫面描述：
+這是一張眼高平視、過 Amy 肩拍小陳的中景，取景沿用圖 2。Amy 的後側頭部與肩膀位於左前景，微微失焦；小陳在畫面右側，是清晰的主要人物。小陳站位不變，上身微微側向身旁實驗桌，將靠近布樣堆的手伸向底層毛毯，指尖夾住露出的灰綠色包邊，剛向自己拉出一小段；另一隻手扶穩上層布樣。只調整取毯所需的肩臂、手腕與手指，手部依原畫框自然裁切，不擴大取景。毛毯仍主要平放在桌上並被其他布樣壓住，露出的邊角受拉形成少量自然皺褶，沒有被雙手托到胸前，也沒有展開朝鏡頭展示。小陳略低頭看向毛毯，眉眼帶著些許無奈，嘴角浮現靦腆而自嘲的苦笑，呈現剛找回兩年前試作品的瞬間。Amy 保持面向小陳聆聽，不伸手搶拿毛毯。焦點以小陳臉部與取毯位置為主，前景 Amy 與遠處背景適度柔化。除上述取毯姿態、表情、視線與指定道具置入外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，畫面只有小陳與左前景局部 Amy。不加入字幕、標題、對話框或浮水印，不加入額外人物或多餘手臂。
+```
+
+
+
+## 2026-10-20 shot_4.5.4 — GPT v1（待評鑑）
+
+- 使用者授權：使用上一輪提供的完整三圖 prompt，以 GPT 生成一張並存至指定 assets/images。
+- 工具／供應商：內建 image_gen／OpenAI；具體模型與費用未回傳，未知。生成一次。
+- 輸出：assets/images/shot_4.5.4_gpt_v1.png；原生 1672×941 RGB PNG。
+- 來源：C:/Users/user/.codex/generated_images/01a157ec-764d-7b12-8d88-60c90bdd42f8/exec-3a1d4233-5ada-47e1-898a-e394bb8577d1.png
+- 驗證：完整解碼成功；來源與副本 SHA256 一致：b1648b08f2830787330add09ec0bc5dc13057dda159f3da552f71dca9c3825ee。
+- 目視觀察：單人標哥、黃色工安帽、灰色工作服、眼鏡與灰白鬍鬚呈現；頭部及視線朝畫左（略左上），開心微笑；左側手低掌心向下、右側手高掌心向上，雙手完整且未遮臉。頭部較blocks縮小，軀幹及手臂露出較多，人物佔位與背景遮擋有變動，取景未完全保留。未追加生成，未更改正式採用設定。
+- 有序參考圖：
+  1. D:/kj-openMontage/projects/course-51-esg/references/scenes/factory/cameras/cam_biao_mcu_15deg_empty_gpt_v3.png
+  2. D:/kj-openMontage/projects/course-51-esg/references/scenes/factory/cameras/cam_biao_mcu_15deg_block_blender.png
+  3. D:/kj-openMontage/projects/course-51-esg/clp/char_biaoge.jpeg
+- 完整實際 prompt：
+```text
+參考圖說明：
+圖 1 cam_biao_mcu_15deg_empty_gpt_v3.png：廠務現場的場景外觀參考圖。
+圖 2 cam_biao_mcu_15deg_block_blender.png：標哥中近景的構圖底圖。
+圖 3 char_biaoge.jpeg：標哥人物參考圖，對應圖 2 戴黃色工安帽的藍色定位人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其拍攝方向、取景、透視、人物佔位、頭部尺度、肩膀位置、背景配置與邊界裁切。不得拉遠鏡頭、擴展畫面或縮小人物來容納手勢。工安帽與畫面上緣的裁切關係沿用底圖，不為露出整頂帽子而重新構圖。
+
+將藍色定位人物替換為圖 3 的標哥，保留黃色工安帽、灰黑短髮、濃眉、細金屬框眼鏡、灰白短鬍鬚、灰色工作服、淺灰肩部條帶與米色內搭。人物參考圖只提供外觀與服裝，不採用其展示姿態或拼貼構圖，不保留方塊外觀。
+
+場景材質、物件外觀、風格與光影採用圖 1，空間配置仍依圖 2。保留本鏡可見的左側工具掛板、前景瓦楞紙板堆，以及右側貨架、收納盒與材料罐；背景依人物自然遮擋，不補出被身體擋住的物件。人物接受與場景一致的暖色自然光及環境光，保留工安帽簷下、眼鏡與衣領的自然陰影。
+
+畫面描述：
+這是一張 75mm、近站姿眼高、15 度微側的標哥中近景，取景沿用圖 2。標哥位於畫面中央偏右，胸部以下依原畫框裁切。頭部微微轉向畫面左側，鼻尖朝左，雙眼看向畫左鏡外的 Amy，不看鏡頭或畫面右側。標哥帶著爽朗而自豪的笑容，嘴巴微張、兩頰上提，呈現正要說明「這一來一回」的瞬間。調整雙肩、手臂與手腕，讓原本位於畫外的雙手抬至胸前、進入畫面下半部：畫面左側的手略低，掌心斜向下；畫面右側的手略高，掌心斜向上，兩手自然分開，形成準備比劃支出與收入的起始姿勢。手指放鬆微彎，雙手與手指完整留在既有畫框內，手肘可在畫外，不遮住下巴或臉部，不做數鈔票、握拳或比讚動作。雙手空手，沒有帳本、鈔票或其他新增道具。焦點落在標哥的臉部與胸前雙手，背景適度柔化，仍可辨識工具板、紙板堆與貨架。除上述表情、視線與抬手比劃所需的局部調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，畫面只有標哥一人，Amy 保持在畫外。不加入額外人物、多餘手臂、字幕、金額、收支圖表、E 字樣、標題、對話框或浮水印。
+```
+
+
+
+## 2026-10-20 shot_4.5.4 — GPT v2（視線修正，待評鑑）
+
+- 使用者授權：眼神看向畫面左側，修正 v1 看似左後方的視線。
+- 工具／供應商：內建 image_gen／OpenAI；具體模型與費用未知；本次局部編輯1次。
+- 輸出：assets/images/shot_4.5.4_gpt_v2.png；1672×941 RGB PNG。
+- 來源：C:/Users/user/.codex/generated_images/01a157ec-764d-7b12-8d88-60c90bdd42f8/exec-44f2f231-0c86-4f50-a4da-73b197f6944b.png
+- 驗證：完整解碼成功，來源與副本SHA256一致：0e798305647c208e637ef3ba5ee9edda7e6c26600715ae925261c3ed7c3d7d47。
+- 目視：瞳孔與眼瞼略向下調整，較v1水平朝畫左；改動幅度小，左後方觀感是否消除仍待使用者評鑑。頭部、雙手姿勢及背景構圖大致保留，未鏡像。保留v1，未改manifest。
+- 唯一編輯底圖：D:/kj-openMontage/projects/course-51-esg/assets/images/shot_4.5.4_gpt_v1.png
+- 完整實際 prompt：
+```text
+請局部編輯這張標哥分鏡圖，只修正雙眼的注視方向。
+標哥應看向畫面的正左側、與自己雙眼同高的鏡外對話者 Amy。對話者在他的左前方，而不是他的左後方。將兩眼虹膜與瞳孔從現在偏左上、回望後方的方向，調整為自然一致的水平向畫左注視；眼神放平，不仰望、不往左後方回瞥，也不看鏡頭。雙眼聚焦同一位近距離對話者，不鬥雞眼，不把瞳孔擠到極端眼角。必要時僅微調眼瞼，使眼神自然放鬆，保留開心說話的笑容。
+其餘沿用原圖：頭部角度、工安帽、眼鏡框、眉毛、鼻子、嘴巴、鬍鬚、人物大小與位置、身體、左右手的高度及掌心方向、服裝、背景、光影、景深、相機取景與所有邊界裁切均保持。不要轉動整個頭部或身體，不鏡像，不拉遠或重新構圖，不新增人物或物件。
+輸出一張相同16:9比例的彩色分鏡圖，不加入任何文字或浮水印。
+```
+
+
+
+## 2026-10-20 shot_4.5.4 — GPT v3（朝向 Amy，待評鑑）
+
+- 使用者指出v2仍不對，要求注視Amy。檢視雙人及過肩blocks，確認Amy在畫左且較矮；改為連同頭部轉向、略低頭，不能只平移瞳孔。
+- 工具／供應商：內建image_gen／OpenAI；模型及費用未知；本次生成1次。
+- 唯一編輯底圖：assets/images/shot_4.5.4_gpt_v1.png；未將其他機位輸入生成。
+- 輸出：assets/images/shot_4.5.4_gpt_v3.png；1672×941 RGB PNG。
+- 來源：C:/Users/user/.codex/generated_images/01a157ec-764d-7b12-8d88-60c90bdd42f8/exec-c835746f-7856-4763-b524-dc466c8dec23.png
+- 完整解碼與來源副本SHA256通過：a6ea78fe716f337eb1aa59b89e2c64dc0a0286e343ecc52caea7dbd49c7f0a9e。
+- 目視：頭部比v1更朝畫左且下巴放低，手勢與主要背景保留；眼球仍略偏上，尚不能判定完全達成看向較矮Amy的要求，待使用者評鑑。保留v1/v2，未改正式採用設定。
+- 完整實際prompt：
+```text
+編輯這張既有分鏡圖，修正標哥「與鏡外 Amy 對視」的頭部姿態與眼神。原圖仍像抬頭向左後方側瞥，這正是必須修正的問題，不要只把瞳孔移動一點點。
+
+場面關係：Amy 站在畫面左側鏡外，與標哥面對面交談，Amy 較矮，眼睛低於標哥。標哥應將注意力直接放在面前這位 Amy 的眼睛上。
+請將標哥整個頭部連同安全帽與眼鏡，比原圖再明顯向畫面左側轉約20度，呈現朝左的四分之三偏側臉；下巴稍微放低，消除抬頭仰望。鼻尖與臉部朝向左側鏡外的 Amy。雙眼自然沿鼻尖所朝的方向，略向下看著 Amy 的眼睛；瞳孔在眼眶內保持自然，不要眼球向側邊極端轉動，不回望後方，不看左上方、不看背景工具架、不看鏡頭。表情仍是開心向她解釋成果的爽朗笑容，保留原本張嘴說話的感覺。讓觀者清楚看出他正在專注與左側較矮的對話者對話，而非眼睛側瞟、頭部朝另一個方向。
+
+只重繪完成上述轉頭、略低頭及自然對視所需的頭部、帽子、眼鏡、眼睛與頸部銜接。保留標哥相貌、灰白鬍鬚、人物尺度和身體站位、灰色工作服、兩手比劃姿勢、手指、背景物件及其佈局、光影、相機方向和原畫框。不要移動相機、拉遠鏡頭、鏡像或重新構圖。Amy 全程在畫外，不加入任何人物或道具。
+輸出一張與原圖相同比例的16:9彩色分鏡圖，無字幕、標題、標記或浮水印。
+```
+
+
+## 2026-10-20 shot_4.5.3 — GPT v2（綠籃比例與標籤朝向修正，待評鑑）
+
+- 使用者授權：綠色籃子比例不對，塑料標籤須與金屬標籤平行。
+- 工具／供應商：內建 image_gen／OpenAI；具體模型版本及費用未知；本輪共 3 次局部編輯，前兩次未修到位，第三次另存 v2。
+- 專案輸出：assets/images/shot_4.5.3_gpt_v2.png；1672×941 RGB PNG。
+- 驗證：目視修正結果、完整解碼成功、來源與副本 SHA256 一致：6e99185e63c22939eb5126578af6c209403b9066cfc8b714249a62699cb4d0bb。
+- 保留 v1；未改白模、scene_plan、asset_manifest 或正式採用。
+
+### 本輪第 1 次編輯
+- 原始輸出：C:/Users/user/.codex/generated_images/01a157fd-63b8-7a01-a27f-957ae00f24d5/exec-d3db4223-5366-4c83-9f19-4d5d82af0601.png
+- 目視結果：未通過：綠籃格柵略有改變，但塑料標籤仍左高右低，與金屬標籤方向相反；僅保留工具原始輸出，未作為專案 v2。
+- 實際參考圖（有序）：
+  1. D:/Dropbox/kj-om-projects/course-51-esg/assets/images/shot_4.5.3_gpt_v1.png
+- 完整實際 prompt：
+```text
+以圖 1 shot_4.5.3_gpt_v1.png 為編輯底圖，只修正畫面最右下方的綠色塑膠料件籃及其「塑料」標籤。這是局部幾何與透視修正。
+
+以旁邊白色「金屬」料件籃為比例和方向基準：將綠色籃修正為同類型、合理長寬高比例的硬質矩形周轉籃，保留綠色、鏤空格柵、厚實上框與角柱。綠籃位於白籃右後方，尺度符合這個深度，不能呈現被拉高、壓窄、扭曲或張開的箱體。維持其原有右後方位置，以及畫面右邊和下邊的自然裁切，不為了展示完整籃子而改構圖。
+
+關鍵修正：綠籃的正面必須與白色「金屬」籃的正面平行、朝向一致，不可一個往左斜、一個往右斜。綠籃上口前緣、正面橫框、格柵的橫向邊線要與白籃相應邊線呈現一致的透視方向，箱體開口、深度與厚度合理連續。
+
+保留白籃與「金屬」標籤原樣。將綠籃「塑料」標籤平整貼在修正後的正面，標籤的上邊、下邊及中文字基線在畫面中都要與「金屬」標籤的相應邊線平行，傾斜方向及角度一致；不可維持原圖兩標籤向相反方向傾斜的狀態。兩張標籤使用相近的矩形長寬比例與字級，仍清楚寫著「金屬」與「塑料」，不新增任何字。標籤必須隨籃子表面貼合，不懸浮、不只旋轉一張平面紙來掩蓋錯誤箱體透視。
+
+完整保留標哥的臉、表情、眼鏡、鬍鬚、黃色工安帽、服裝、姿勢、人物比例與所在位置；保留白籃、紙板堆、束帶、貨架、工具板、紙箱、燈光、色調、景深和原來取景。除了綠籃及其標籤這個局部外，其餘畫面不重設、不移動、不拉近或拉遠。
+
+輸出一張與原圖相同的 16:9 彩色分鏡圖，不新增字幕、浮水印、外框或其他人物。
+```
+
+### 本輪第 2 次編輯
+- 原始輸出：C:/Users/user/.codex/generated_images/01a157fd-63b8-7a01-a27f-957ae00f24d5/exec-8aef4cc8-ba40-4fbe-873b-058cd047a6f0.png
+- 目視結果：未通過：即使指定兩標籤左低右高，模型仍保留相反朝向；僅保留工具原始輸出，未作為專案 v2。
+- 實際參考圖（有序）：
+  1. C:/Users/user/.codex/generated_images/01a157fd-63b8-7a01-a27f-957ae00f24d5/exec-d3db4223-5366-4c83-9f19-4d5d82af0601.png
+- 完整實際 prompt：
+```text
+請局部修改圖 1 右下角的綠色籃子，修正仍然錯誤的正面朝向。不要改任何人物、白籃或背景。
+
+目前白籃「金屬」標籤的右上角高於左上角，上下邊線都是「左下往右上」斜升；但綠籃「塑料」標籤卻向相反方向斜降，這就是必須修掉的錯誤。
+
+請重新構造綠籃的朝向，使它貼有標籤的正面與白籃貼有標籤的正面朝向完全相同，兩者是平行擺放的一對長方形籃子，而不是互相垂直或向兩側張開。綠籃仍位於白籃右後方、部分在畫面右邊外，大小比例以白籃同型籃為準，深度合理，不拉高壓窄。
+
+請特別落實下面的可見幾何結果：
+綠色籃子貼標籤的整個正面，其上橫框、下橫框以及「塑料」標籤的上邊與下邊，都必須像白色「金屬」標籤一樣，從畫面左側較低的位置延伸到右側較高的位置。塑料標籤右上角必須比左上角高，右下角必須比左下角高，四角及文字基線的傾斜角度與金屬標籤一致。不要再畫成左高右低。依這個正面重建綠籃的側面、箱口和格柵，使標籤真正貼在平整正面上，不只是把紙牌單獨旋轉。
+
+「金屬」白籃是完全固定的方向基準，不要為了遷就綠籃而改白籃或金屬標籤。只保留兩個文字「金屬」「塑料」，字級和標籤比例相近。
+
+人物、表情、五官、衣服、紙堆、貨架、工具、白籃、鏡位、取景、光影及色調全部沿用圖 1。只改綠籃與塑料標籤。輸出單張16:9圖片，不加其他文字或浮水印。
+```
+
+### 本輪第 3 次編輯
+- 原始輸出：C:/Users/user/.codex/generated_images/01a157fd-63b8-7a01-a27f-957ae00f24d5/exec-8f186853-58f6-4039-b269-23473d35bec5.png
+- 目視結果：本次修正版：綠籃依白籃形狀與朝向重建，兩籃正面同向，塑料／金屬標籤上下邊與文字基線均朝右上方延伸，目視近似平行；綠籃長寬高觀感更接近白籃，右緣自然出框。人物表情、取景及其餘場景大致保留；屬 AI 重繪，未作像素級不變或精確幾何量測宣稱。
+- 實際參考圖（有序）：
+  1. D:/Dropbox/kj-om-projects/course-51-esg/assets/images/shot_4.5.3_gpt_v1.png
+- 完整實際 prompt：
+```text
+Reference image: shot_4.5.3_gpt_v1.png.
+
+Edit this image. Completely REPLACE the green crate at the lower right. Make the new green crate an identical duplicate of the ivory crate beside it: identical rectangular shape, width-to-height ratio, lattice, and most importantly IDENTICAL ROTATION. Translate that duplicate to the right, without rotating it, and color it green. Keep it on the same row as the ivory crate with their front faces coplanar. Much of the green duplicate may extend outside the right edge of the picture. This is correct; do not rotate or compress it just to fit.
+
+The two front top rails must form one straight rising diagonal across the image, rising from lower left to upper right. The two front label panels must be parallel parallelograms with identical slopes. The existing ivory crate's label 金屬 slopes upward to the right. The new green crate's label 塑料 must ALSO slope upward to the right, with its right corners visibly HIGHER than its left corners. Use the white crate front as a literal geometric template for the green front. On the 1672x941 canvas, the new green label can have corners approximately top-left (1545,815), top-right (1655,791), bottom-right (1655,876), bottom-left (1545,900). Its text baseline also rises toward the right, matching 金屬. It is attached flat to the crate. Keep the Chinese text exactly 金屬 and 塑料.
+
+Preserve the man, face, expression, hardhat, clothing, crop, ivory crate, cardboard, shelves, tools and lighting. Only reconstruct the green crate and its label. Produce one finished 16:9 image without annotations.
+```
+
+
+## 2026-10-20 shot_4.5.4 — GPT v4（依使用者附圖修正視線，待評鑑）
+
+- 使用者授權：眼神依新附圖方向重新修正；附圖方向優先於先前文字推定。
+- 工具／供應商：內建image_gen／OpenAI；模型及費用未知；生成1次。
+- 輸出：assets/images/shot_4.5.4_gpt_v4.png；1672×941 RGB PNG。
+- 來源：C:/Users/user/.codex/generated_images/01a157ec-764d-7b12-8d88-60c90bdd42f8/exec-6d2623ec-760b-4c4b-9a83-347bf1f2a411.png
+- 完整解碼與來源副本SHA256通過：febef6bd188648a7c861db5b568e618186c4dde5d917c8b50c955f4dcec5e2d1。
+- 目視：面部朝向與瞳孔相對位置更接近附圖，消除前版極左側瞥；雙手姿勢與主要背景保留，笑容開口較參考大，衣領／扣子有局部重繪。待使用者確認，未改正式採用版本。
+- 有序參考圖：
+  1. D:/kj-openMontage/projects/course-51-esg/assets/images/shot_4.5.4_gpt_v3.png
+  2. C:/Users/user/AppData/Local/Temp/codex-clipboard-5476b473-8ab5-457a-8541-7b0d70b43974.png
+- 完整實際prompt：
+```text
+請對圖1進行局部編輯，使用圖2精確指定標哥的眼神與頭部方向。
+圖1：待修正的16:9分鏡，提供唯一的構圖、人物身體、雙手、場景與光影。
+圖2：使用者指定的正確頭眼方向近照，只作頭部姿態、眼球方向和注視感的參考，不能採用圖2的取景、背景或裁切。
+
+將圖1標哥的頭眼朝向調整成圖2的樣子：請直接觀察並匹配圖2兩顆虹膜、瞳孔在眼白中的相對位置、眼瞼開合、雙眼共同注視方向，以及臉部朝向、鼻尖方向與頭部微傾的關係。圖2是方向的最高依據，不要再沿用圖1向極左邊側瞥的眼睛。圖2中眼球較居中、面部較朝向觀者，眼神自然落向畫面左前方的對話者；請把這種自然對視感轉移到圖1。需要時一起調整臉部旋轉角度、帽子、眼鏡與頸部銜接，使頭眼一致，而不是只平移瞳孔。保留標哥的相貌與開心說話的笑容，不誇大眼睛。
+
+圖1中的人物頭部大小、人物站位、身體、衣服、左右手及全部手指姿勢、紙板堆、左側工具板、右側貨架、材質、光線、景深及16:9邊界裁切均保留。只修改達成圖2頭眼方向所需的局部。不要把圖2的背景搬入，不貼入方形照片，不產生拼貼，不添加Amy或任何其他人物，不改相機、不縮放、不鏡像。
+輸出單張16:9彩色分鏡圖，不加文字或浮水印。
+```
+
+
+
+## 2026-10-20 shot_4.5.5 — GPT v1（待評鑑）
+
+- 使用者授權：使用上一輪三圖prompt，以GPT生圖並存入assets/images。
+- 工具／供應商：內建image_gen／OpenAI；模型及費用未知；生成1次。
+- 輸出：assets/images/shot_4.5.5_gpt_v1.png；1672×941 RGB PNG。
+- 來源：C:/Users/user/.codex/generated_images/01a157ec-764d-7b12-8d88-60c90bdd42f8/exec-abb73211-7d81-4f41-bfb5-dae21250f4b6.png
+- 完整解碼與來源副本SHA256通過：6f1e0233b8c22fc739eb528d53ccc3623d81d0e875457c070c13ef498669a216。
+- 目視：Amy戴黃色工安帽、灰色西裝且無反光背心，朝畫右微笑說話，雙手在畫外；紙板堆與貨架及回收桶保留。眼神略向右上，下巴下收不明顯；人物軀幹較窄且頭部尺度／肩膀位置偏離blocks，帽頂完整入鏡。待評鑑，未追加生成或改採用設定。
+- 有序參考圖：
+  1. D:/kj-openMontage/projects/course-51-esg/references/scenes/factory/cameras/cam_amy_ms_15deg_empty_gpt_v3.png
+  2. D:/kj-openMontage/projects/course-51-esg/references/scenes/factory/cameras/cam_amy_ms_15deg_block_blender.png
+  3. D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg
+- 完整實際prompt：
+```text
+參考圖說明：
+圖 1 cam_amy_ms_15deg_empty_gpt_v3.png：廠務現場的場景外觀參考圖。
+圖 2 cam_amy_ms_15deg_block_blender.png：Amy 單人中景的構圖底圖。
+圖 3 char_amy.jpeg：Amy 人物參考圖，對應圖 2 的紅色定位人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其拍攝方向、取景、透視、人物佔位、頭部尺度、肩膀位置、背景配置與邊界裁切。不得拉遠鏡頭、擴展畫面、放大頭部或補出畫外身體。底圖已有的身體裁切優先，不為呈現完整腰部或雙手而重新構圖。
+
+將紅色定位人物替換為圖 3 的 Amy，保留棕色微捲短髮、綠色眼睛、灰色西裝外套、捲起的袖口與白色襯衫。本場 Amy 戴黃色工安帽，不穿反光背心；工安帽自然戴在頭上，短髮從帽緣兩側與後方露出。帽頂若超出原畫框，依原取景自然裁切，不縮小人物來容納帽子。人物參考圖只提供外觀與服裝，不採用其展示姿態或拼貼構圖，不保留紅色方塊外觀。
+
+場景材質、物件外觀、風格與光影採用圖 1，空間配置仍依圖 2。保留 Amy 身後綁束的瓦楞紙板堆、金屬貨架、材料收納盒、管材與盤繞線材，以及畫面左緣可見的回收桶與雙色牆面。背景依人物自然遮擋，不搬移紙板堆或重新排列貨架物品。人物接受與場景一致的暖色自然光及環境光，工安帽簷下、髮際與衣領保留自然陰影。
+
+畫面描述：
+這是一張 60mm、近站姿眼高、15 度微側的 Amy 單人中景，取景沿用圖 2。Amy 位於畫面中央偏左，身體保持原有站位，朝向畫面右側鏡外的標哥。她的臉部與雙眼共同朝向標哥，注視右前方對話者的眼睛；視線自然集中，不看鏡頭、不向右後方貨架側瞥，也不誇張仰望。Amy 眉毛略提，眼神明亮而肯定，嘴角上揚、嘴巴微張，呈現正要說「沒錯！」的瞬間。下巴開始輕輕下收，定格在肯定點頭的起始姿態，不低頭看地面。雙肩放鬆，上臂靠近身側，雙手尚未抬起指向走道，沿用底圖下緣的自然裁切，不刻意補出畫外手部。她的神情帶著對標哥成果的認同與讚許。焦點落在 Amy 的臉部，背景適度柔化，仍能辨識紙板堆、貨架與回收桶。除上述工安帽置入、頭部微調、視線與表情調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，畫面只有 Amy 一人，標哥保持在畫外。走道位於本鏡前側畫外，不為展示走道而改變取景。不加入堆高機、其他人物、多餘手臂、統計牌、字幕、E 或 S 字樣、數字圖卡、標題、對話框或浮水印。
+```
+
+
+
+## 2026-10-20 shot_4.5.5 — GPT v2（胸部以上近景，待評鑑）
+
+- 使用者授權：再切近景一些，胸部以上。
+- 工具／供應商：內建image_gen／OpenAI；模型及費用未知；生成1次。
+- 唯一編輯底圖：assets/images/shot_4.5.5_gpt_v1.png。
+- 輸出：assets/images/shot_4.5.5_gpt_v2.png；1672×941 RGB PNG。
+- 來源：C:/Users/user/.codex/generated_images/01a157ec-764d-7b12-8d88-60c90bdd42f8/exec-019908f5-4a5f-4445-854e-a4c4e3a607d8.png
+- 完整解碼與來源副本SHA256通過：b3a5f013e888c552489e28dea4c5aeff7253177f008e178a34b8d85a0a4c7d57。
+- 目視：已收緊為胸部以上，腰部／袖口／手肘未入鏡，朝右視線與微笑大致保留；帽頂被上緣略裁切，背景有局部重繪，非像素級裁切。保留v1，未改採用設定。
+- 完整實際prompt：
+```text
+編輯這張Amy分鏡圖，只將取景收緊為「胸部以上近景」。
+在同一拍攝方向與透視下向Amy推近取景，畫面下緣切在胸口中段，僅呈現胸部以上、雙肩、頸部、頭部與黃色工安帽；不再看到腰部、西裝下襬、手肘、袖口或雙手。頭部與肩膀在畫面中明顯放大，保持自然比例。工安帽完整保留，帽頂上方留少量呼吸空間。Amy位於畫面中央偏左，右側保留看向鏡外標哥的視線空間，整體仍為16:9橫幅。
+保留原圖Amy的相貌、棕色短髮、綠色眼睛、黃色工安帽、灰色西裝與白色襯衫、開心說話的表情、嘴巴開合、頭部角度及原有朝畫右的視線。不得改變臉部朝向或動作，不新增手勢。保留原圖的暖光、色調、動畫風格與景深。
+背景應隨同取景等比例收緊，只保留新畫框內可見的原有紙板堆、貨架與牆面；不為保留所有背景物件而移動它們，不新增物件，不鏡像或改變拍攝方向。只有Amy一人，不加文字、字幕、圖卡或浮水印。輸出一張16:9彩色分鏡圖。
+```
+
+
+## 2026-10-20 shot_1.3.1 — GPT v1（幻想購物台，待評鑑）
+
+- 使用者授權：使用前一則三圖 R2I prompt 生成圖片，存入專案 images 資料夾。
+- 工具／供應商：內建 image_gen／OpenAI；具體模型版本及費用未知；本輪生成 1 張。
+- 輸出：assets/images/shot_1.3.1_gpt_v1.png；1672×941 RGB PNG。
+- 原始輸出：C:/Users/user/.codex/generated_images/01a157fd-63b8-7a01-a27f-957ae00f24d5/exec-d57b100f-7dd4-4406-a453-fe739f716ff0.png
+- 驗證：完整解碼成功、來源與副本 SHA256 一致：d27c4882f8728c44809a46dacba0f52e65d944912d74c7f31056e0b4f1afc01c。
+- 目視：主管單人站在展示台後、正面腰上構圖、直視鏡頭誇張露齒笑；雙手托扶一個白罐綠蓋膠囊罐，標籤朝鏡頭、金色光暈與閃光呈現；ESG／濃縮膠囊及三個圖徽可辨，舞台主要配置保留。嘴巴張開程度較 prompt 的微張更大、雙手向前展示；無額外人物或疊字。不是像素級構圖或相機焦距驗證。
+- 未修改 scene_plan、CLP 或 asset_manifest；未正式採用。
+- 有序參考圖：
+  1. D:/Dropbox/kj-om-projects/course-51-esg/clp/loc_tvshow.png
+  2. D:/Dropbox/kj-om-projects/course-51-esg/clp/char_supervisor.jpeg
+  3. D:/Dropbox/kj-om-projects/course-51-esg/clp/prop_capsules.png
+- 完整實際 prompt（逐字沿用前一則交付）：
+```text
+3D Pixar animation style, stylized character design, warm studio rim lighting, 8k render.
+
+參考圖：
+圖 1：D:\Dropbox\kj-om-projects\course-51-esg\clp\loc_tvshow.png
+幻想電視購物攝影棚（loc_tvshow），提供舞台配置、展示台、背景裝飾、材質與燈光。
+
+圖 2：D:\Dropbox\kj-om-projects\course-51-esg\clp\char_supervisor.jpeg
+主管（char_supervisor）人物設定圖，提供五官、髮型、身形與服裝；不沿用參考圖的憂愁表情或多視角拼貼。
+
+圖 3：D:\Dropbox\kj-om-projects\course-51-esg\clp\prop_capsules.png
+ESG 濃縮膠囊（prop_capsules）道具設定圖，提供同一藥罐的不同視角；本鏡只出現一罐，採用圖中左側的正面包裝。
+
+畫面：
+幻想中的電視購物節目現場，只有主管一人入鏡。他居中站在圖 1 的白金色弧形展示台後，面向鏡頭，雙眼直視觀眾，眉毛上揚、雙頰抬起，露出燦爛誇張的露齒笑容，嘴巴微張，呈現購物台王牌主持人正要熱情開講的瞬間。表演帶有綜藝節目的荒誕喜感與過度自信。
+
+主管外觀嚴格沿用圖 2：蓬鬆略凌亂的黑色短髮、濃眉、明顯鼻形與淡淡鬍渣，穿捲起袖口的淺藍色襯衫、鬆開的棕色領帶。保留角色辨識特徵，將原本焦慮的神情改為興奮推銷的笑容。
+
+主管雙手將單一藥罐舉至胸前，一手托住罐底，另一手扶住側面，罐身直立、正面標籤朝向鏡頭。雙手、手指與完整藥罐清楚入鏡，手指不遮住產品名稱，藥罐不遮住臉部。保留圖 3 的白色塑膠罐身、綠色直紋旋蓋、綠色金邊「ESG」字樣、繁體中文「濃縮膠囊」，以及綠葉、藍色人物、金色盾牌三個圓形徽章。罐身周圍帶柔和金色光暈與少量閃光，仍能清楚辨識包裝；不把罐身改成金屬金色，不複製成三罐。
+
+背景沿用圖 1 的青綠色中央背板、地球、白金色 ESG 立體字、金色上升箭頭，以及洋紅與青藍側板。保留展示台與背板的前後關係，依中景自然裁切舞台，背景文字允許被人物遮擋。場景是絢麗的購物攝影棚，呈現把 ESG 誤當速效萬靈丹的幻想氣氛。
+
+攝影：
+35mm，正面微仰角中景，主管居中，取景約腰部以上，下緣帶入展示台桌面，頭頂保留適量空間。臉部、雙手與藥罐構成主要視覺焦點，中等景深，背景稍柔化但仍可辨識購物台佈景。高調飽和舞台光搭配暖金色輪廓光，臉部與產品標籤明亮清晰，光暈不過曝。
+
+輸出：
+一張 16:9 彩色分鏡圖。保留場景與包裝原有文字，不新增字幕、促銷標語、價格、電話、對話框或浮水印。不要加入 Amy、觀眾、其他主持人、多餘手臂或人物設定圖拼貼。
+```
+
+
+## 2026-10-20 shot_4.5.6 — GPT v1（指定MCU機位，待評鑑）
+
+- 使用者授權：逐字使用最新四圖prompt，改用cam_biao_mcu_15deg構圖，以GPT生成一張並保存。
+- 工具／供應商：內建image_gen／OpenAI；模型及費用未知；生成1次。
+- 輸出：assets/images/shot_4.5.6_gpt_v1.png；1672×941 RGB PNG。
+- 來源：C:/Users/user/.codex/generated_images/01a157ec-764d-7b12-8d88-60c90bdd42f8/exec-87e4dfaf-dee6-4f5b-a53b-e89108f6d3cf.png
+- 完整解碼與來源副本SHA256通過：e44eac536dd7795d3b791b193661a9f8665a3a9645eb6d376ba872fea594c7c8。
+- 目視：標哥胸部以上、黃色工安帽、灰色工作服、微笑與左前方對視呈現，雙手畫外；頭眼方向接近指定近照。人物頭肩輪廓、肩膀位置及背景遮擋未精確沿用blocks，帽頂被上緣裁切；背景工具與紙板細節重繪。待使用者評鑑，未追加生成或改正式採用設定。
+- 有序參考圖：
+  1. D:/kj-openMontage/projects/course-51-esg/references/scenes/factory/cameras/cam_biao_mcu_15deg_empty_gpt_v3.png
+  2. D:/kj-openMontage/projects/course-51-esg/references/scenes/factory/cameras/cam_biao_mcu_15deg_block_blender.png
+  3. D:/kj-openMontage/projects/course-51-esg/clp/char_biaoge.jpeg
+  4. C:/Users/user/AppData/Local/Temp/codex-clipboard-5476b473-8ab5-457a-8541-7b0d70b43974.png
+- 完整實際prompt：
+```text
+參考圖說明：
+圖 1 cam_biao_mcu_15deg_empty_gpt_v3.png：廠務現場的場景外觀參考圖。
+圖 2 cam_biao_mcu_15deg_block_blender.png：標哥胸部以上中近景的構圖底圖。
+圖 3 char_biaoge.jpeg：標哥人物參考圖，對應圖 2 戴黃色工安帽的藍色定位人物。
+圖 4 codex-clipboard-5476b473-8ab5-457a-8541-7b0d70b43974.png：使用者指定的標哥頭部與眼神方向參考，只提供自然對視的方向，不採用其背景或取景。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其拍攝方向、取景、透視、人物佔位、頭部尺度、肩膀位置、背景配置與邊界裁切。維持胸部以上中近景，不拉遠鏡頭、不擴展畫面、不縮小人物，也不補出腰部或雙手。工安帽與畫面上緣的裁切關係沿用底圖，不為露出整頂帽子而重新構圖。
+
+將藍色定位人物替換為圖 3 的標哥，保留黃色工安帽、灰黑短髮、濃眉、細金屬框眼鏡、灰白短鬍鬚、灰色工作服、淺灰肩部條帶與米色內搭。人物參考圖只提供外觀與服裝，不採用其展示姿態或拼貼構圖，不保留方塊外觀。
+
+頭部與雙眼的對視方向參考圖 4，保留其臉部朝向、頭部微傾與瞳孔在眼白中相對位置所形成的自然注視感。標哥正在看畫面左前方鏡外的 Amy，不是向左後方回望。不要只把瞳孔推到左側眼角，也不要將圖 4 的頭部大小或取景套入本鏡。頭部轉向與眼球方向應協調，保持自然對話的感覺。
+
+場景材質、物件外觀、風格與光影採用圖 1，空間配置仍依圖 2。保留本鏡可見的左側工具掛板、下方瓦楞紙板堆，以及右側貨架、收納盒與材料罐。背景依人物自然遮擋，不補出被身體擋住的物件，不重新排列貨架或搬移紙板堆。人物接受與場景一致的暖色自然光及環境光，保留帽簷下、眼鏡、鬍鬚與衣領的自然陰影。
+
+畫面描述：
+這是一張 75mm、近站姿眼高、15 度微側的標哥單人中近景，取景沿用圖 2。標哥位於畫面中央偏右，只呈現胸部以上，身體下緣依底圖裁切。頭部與雙眼朝向左前方鏡外的 Amy，對視方向依圖 4。他帶著溫暖、坦率而樸實的笑容，眉眼放鬆，嘴巴微張，呈現正要回答「是啊，維護安全，人人有責嘛！」的瞬間。表情傳達這是自己理所當然會做的事，尚未進入後段疑惑或意外領悟的反問。雙肩自然放鬆，雙手保持在畫外，尚未抬手抓安全帽，不比劃收支，也不比讚。工安帽正常戴在頭上，沒有被抬起或移位。焦點落在標哥的眼睛與臉部，背景柔化，仍可辨識工具板、紙板堆與貨架。除上述頭眼方向與表情調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，畫面只有標哥一人，Amy 保持在畫外。不加入其他人物、多餘手臂、字幕、ESG 字樣、標語、統計牌、圖表、對話框或浮水印。
+```
+
+
+## 2026-10-20 shot_1.3.1 — GPT v2（原始三圖重作，待評鑑）
+
+- 使用者授權：「這張圖不對，重作」。v1 被否決，未指定具體不符部位；已提出可選澄清並等待，生成前尚未收到補充。
+- 本輪假設：依既有分鏡與三張原始 CLP 重新生成，著重原主管臉型／年齡感、正面站姿、胸前持罐；這是暫定重作方向，非使用者已確認的問題診斷。
+- 工具／供應商：內建 image_gen／OpenAI；具體模型版本及費用未知；本輪生成 1 張。
+- 輸出：assets/images/shot_1.3.1_gpt_v2.png；1672×941 RGB PNG。
+- 原始輸出：C:/Users/user/.codex/generated_images/01a157fd-63b8-7a01-a27f-957ae00f24d5/exec-9008d098-a1fc-4d97-82d2-6ea48a003b0c.png
+- 驗證：完整解碼成功、來源與副本 SHA256 一致：ac2729790f5609951e1800601b87a70f12cf8a6b7fe8ec511b370cd3cac9f310。
+- 目視：主管頭部與軀幹較 v1 正面端正，笑嘴張開幅度縮小、長臉與皺紋年齡感較明顯；雙手胸前托扶單一白罐綠蓋藥罐，標籤與金色光暈可見，展示台與青綠／洋紅舞台保留。是否符合使用者所指問題仍待評鑑，不宣稱已解決未知不符原因。
+- 保留 v1；未改 scene_plan、CLP、asset_manifest 或正式採用。
+- 有序參考圖：
+  1. D:/Dropbox/kj-om-projects/course-51-esg/clp/loc_tvshow.png
+  2. D:/Dropbox/kj-om-projects/course-51-esg/clp/char_supervisor.jpeg
+  3. D:/Dropbox/kj-om-projects/course-51-esg/clp/prop_capsules.png
+- 完整實際 prompt：
+```text
+3D Pixar animation style, stylized character design, warm studio rim lighting, 8k render.
+
+重新製作 shot_1.3.1 的單張彩色電影分鏡，使用以下三張原始參考重新構圖。
+
+圖 1：D:\Dropbox\kj-om-projects\course-51-esg\clp\loc_tvshow.png
+loc_tvshow，幻想電視購物攝影棚。提供既有白金色弧形展示台、青綠背板、地球與 ESG 立體字、上升箭頭、洋紅與青藍側板的位置關係、材質及舞台光。
+
+圖 2：D:\Dropbox\kj-om-projects\course-51-esg\clp\char_supervisor.jpeg
+char_supervisor，唯一人物的身份與服裝參考。嚴格保留這位中年東亞主管的偏長臉型、下顎與下巴形狀、濃黑眉毛、鼻形、眼睛比例、耳形、黑色短髮、淡鬍渣和年齡感。沿用淺藍色捲袖襯衫、鬆開的棕色領帶。圖中的悲傷表情只改成熱情笑容，不因此變成另一張更年輕、圓臉、過度美化的臉。不採用設定圖的拼貼、多視角、背景或展示姿勢。
+
+圖 3：D:\Dropbox\kj-om-projects\course-51-esg\clp\prop_capsules.png
+prop_capsules，同一個藥罐的多角度設定，不是三個不同產品。本鏡只出現一個藥罐，白色塑膠罐身、綠色直紋旋蓋，採圖中左側正面標籤，綠色金邊 ESG、繁體中文「濃縮膠囊」、綠葉／藍色人物／金色盾牌三個圓形徽章。保持參考的瓶身高寬比例，不額外加入散落膠囊。
+
+單一瞬間的畫面：
+主管正面居中站在圖 1 既有弧形展示台後，肩膀朝正前方，頭部保持端正，雙眼直接看向拍攝鏡頭。他化身綜藝感十足的電視購物主持人，雙頰抬起、眼神興奮、露齒燦笑，嘴唇略分開，正要充滿自信地介紹商品。表情誇張而有喜感，仍保持圖 2 的五官結構，不張成大喊的圓形嘴、不歪頭。
+
+主管雙手在自己胸前托舉一個藥罐，一手托住底部，另一手扶住側面，手肘自然彎曲靠近身體。藥罐位在胸部前方、下巴以下，正面朝鏡頭，手指避開標籤。不要把手臂向鏡頭伸直、不要利用近大遠小放大藥罐。臉部、兩隻手與整個藥罐同時清楚可見，比例自然。罐子周圍有柔和金色光暈與少量星芒，標籤和輪廓清晰，白罐綠蓋不變成金屬金罐。
+
+構圖與場景：
+35mm，正面微仰角中景，約腰部以上，頭頂留適量空間，主管位於畫面中央，展示台桌面與少量白金色前緣出現在畫面下方。保留圖 1 中央背板和展示台的原有空間關係；攝影機只是向中央主持位置收近取景，不重新設計一個舞台。人物可自然遮住背景部分 ESG 字樣，舞台左右裝飾依中景裁切，不為塞進所有物件而拉成全景。僅主管一人入鏡，沒有 Amy、觀眾或其他主持人。
+
+高調絢麗、暖金色與青綠／洋紅舞台燈光，臉部、手部與產品受光一致；中等景深，臉與包裝清晰，背景稍柔化。畫面呈現主管把 ESG 當速效萬靈丹的荒誕購物台幻想。
+
+輸出一張 16:9 彩色分鏡圖。只保留參考場景與包裝本來的文字，不增加字幕、促銷字卡、價格、電話、對話框或浮水印。不出現多餘手臂、重複人物、重複藥罐或設定圖拼貼。
+```
+
+
+## 2026-10-20 shot_4.5.7 — GPT v1（待評鑑）
+
+- 使用者授權：使用上一輪完整四圖prompt，以GPT生圖並存入assets/images。
+- 工具／供應商：內建image_gen／OpenAI；模型及費用未知；生成1次。
+- 輸出：assets/images/shot_4.5.7_gpt_v1.png；1672×941 RGB PNG。
+- 來源：C:/Users/user/.codex/generated_images/01a157ec-764d-7b12-8d88-60c90bdd42f8/exec-27b899ac-9db7-411a-94d7-3b17825df0f1.png
+- 完整解碼與來源副本SHA256通過：f1761015442f7ff938e846c909197ed49837558e01576bc3285c3d0ad4ac2f25。
+- 目視：Amy左側面向鏡頭雙手比讚，標哥右側微笑，兩頂工安帽完整入鏡，Amy無反光背心。兩人較底圖靠近中央、間距縮短及身高差縮小，標哥眼神偏左上而非明確注視Amy臉部；背景細節有重繪。待評鑑，未追加生成或改正式採用設定。
+- 有序參考圖：
+  1. D:/kj-openMontage/projects/course-51-esg/references/scenes/factory/cameras/cam_twoshot_ms_level_empty_gpt_v3.png
+  2. D:/kj-openMontage/projects/course-51-esg/references/scenes/factory/cameras/cam_twoshot_ms_level_block_blender.png
+  3. D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg
+  4. D:/kj-openMontage/projects/course-51-esg/clp/char_biaoge.jpeg
+- 完整實際prompt：
+```text
+參考圖說明：
+圖 1 cam_twoshot_ms_level_empty_gpt_v3.png：廠務現場的場景外觀參考圖。
+圖 2 cam_twoshot_ms_level_block_blender.png：Amy 與標哥雙人中景的構圖底圖。
+圖 3 char_amy.jpeg：Amy 人物參考圖，對應圖 2 左側紅色定位人物。
+圖 4 char_biaoge.jpeg：標哥人物參考圖，對應圖 2 右側藍色定位人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其拍攝方向、取景、透視、兩人站位、彼此距離、大小比例、背景配置與邊界裁切。維持 Amy 在左、標哥在右，不交換左右、不將兩人移向畫面中央，不拉遠鏡頭或補出畫外身體。人物下緣沿用底圖裁切，不為露出完整腰部而重新構圖。
+
+將左側紅色定位人物替換為圖 3 的 Amy，保留棕色微捲短髮、綠色眼睛、灰色西裝外套、捲起的袖口與白色襯衫。Amy 戴黃色工安帽，不穿反光背心；短髮自然從帽緣兩側及後方露出。
+
+將右側藍色定位人物替換為圖 4 的標哥，保留黃色工安帽、灰黑短髮、濃眉、細金屬框眼鏡、灰白短鬍鬚、灰色工作服、淺灰肩部條帶與米色內搭。兩人的工安帽自然貼合頭部，不放大帽子；保留底圖頭部尺度與站位，兩頂帽子完整位於畫框內。
+
+人物參考圖只提供外觀與服裝，不採用其展示姿態或拼貼構圖，不保留紅藍方塊外觀。
+
+場景材質、物件外觀、風格與光影採用圖 1，空間配置仍依圖 2。保留兩人身後的兩堆綁束瓦楞紙板、中央間隙、金屬貨架、管材、綁束布料、盤繞線材、材料容器與工具掛板。背景依兩人自然遮擋，不補出被人物擋住的物件，不搬移紙板堆或重新排列貨架。人物接受與場景一致的暖色自然光及環境光，保留帽簷下、衣領與手指間的自然陰影。
+
+畫面描述：
+這是一張 45mm、近站姿眼高平視的雙人中景，取景沿用圖 2。Amy 位於畫面左側，標哥位於右側，保留兩人原有間距與身高差。Amy 的站位不變，上身與頭部轉向鏡頭，雙眼自然看向鏡頭中的觀眾，帶著熱情、真誠的笑容，嘴巴微張，呈現感謝標哥與第一線同仁的瞬間。調整 Amy 的肩臂、手腕與手指，讓雙手抬至胸前，兩個大拇指明確向上，其餘四指自然彎曲握攏；兩手適度分開，完整留在畫框內，不遮住臉部，不伸向鏡頭造成誇張放大，也不與標哥身體重疊。標哥雙肩放鬆，頭部與雙眼自然朝向畫左 Amy 的臉，嘴角上揚，露出受到肯定時開心而略帶靦腆的憨厚微笑；下巴輕收，呈現微微頷首致意的姿態。他的雙臂自然垂放，手部沿用原畫框的可見範圍，不跟著比讚、不抓安全帽。兩人的臉與 Amy 的雙手都清楚可辨，背景適度柔化，仍能辨識整齊的廠務暫存區。除 Amy 面向鏡頭、雙手比讚，以及標哥的視線、表情與輕微頷首調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，畫面只有 Amy 與標哥兩人。不加入其他人物、多餘手臂、堆高機、字幕、S 或 ESG 字樣、標語、統計牌、圖卡、對話框或浮水印。
+```
+
+
+## 2026-10-20 shot_1.3.1 — GPT v3（完整雙腿與鞋子，待評鑑）
+
+- 使用者更正：「腳都不見」。本輪改為全身構圖，並將主管置於展示台前方，使下半身不受桌台遮擋。
+- 工具／供應商：內建 image_gen／OpenAI；具體模型版本及費用未知；本輪 I2I 1 次。
+- 輸出：assets/images/shot_1.3.1_gpt_v3.png；1672×941 RGB PNG。
+- 原始輸出：C:/Users/user/.codex/generated_images/01a157fd-63b8-7a01-a27f-957ae00f24d5/exec-938f634f-2713-4ed8-adfb-4f98f93e9af4.png
+- 驗證：完整解碼成功、來源與副本 SHA256 一致：06dfc01476c72a900a2c0120dfd6dd19b03d327aa81a3430a27b28f2a5033822。
+- 目視：頭頂、腰部、完整雙腿與兩隻棕色皮鞋全部入鏡；雙腳落地、有接觸陰影，鞋下仍有地板留白；展示台位於身後，沒有遮住腿部。主管笑容、藍襯衫棕領帶、胸前單罐白綠包裝及暖色舞台保留；取景拉遠後標籤細字較小。人物上下留白未精確依 prompt 百分比，但本次完整腳部需求已呈現。
+- 原 scene_plan 仍記中景／展示台後；本版依最新要求作全身／展示台前候選，採用後再同步後續製作。未改 manifest，保留 v1／v2。
+- 有序參考圖：
+  1. D:/Dropbox/kj-om-projects/course-51-esg/assets/images/shot_1.3.1_gpt_v2.png
+  2. D:/Dropbox/kj-om-projects/course-51-esg/clp/char_supervisor.jpeg
+  3. D:/Dropbox/kj-om-projects/course-51-esg/clp/loc_tvshow.png
+- 完整實際 prompt：
+```text
+修改圖 1，將原本腰部以上的取景改成完整全身鏡頭，明確呈現主管的雙腿與兩隻鞋。
+
+參考圖：
+圖 1：D:\Dropbox\kj-om-projects\course-51-esg\assets\images\shot_1.3.1_gpt_v2.png
+編輯底圖。保留主管身份、笑容、上半身服裝、雙手胸前托扶單一膠囊罐的動作、藥罐包裝與金色光暈、舞台風格與燈光。
+圖 2：D:\Dropbox\kj-om-projects\course-51-esg\clp\char_supervisor.jpeg
+只補充主管完整身形、棕色長褲、棕色皮帶與棕色皮鞋的外觀及自然上下身比例；不採用其憂愁表情或拼貼構圖。
+圖 3：D:\Dropbox\kj-om-projects\course-51-esg\clp\loc_tvshow.png
+提供拉遠後可見的同一舞台、地板與弧形展示台外觀。
+
+必要修改：
+把鏡頭明顯拉遠，主管從頭髮頂端到左右鞋尖、鞋底全部入鏡。主管正面居中站在展示台前方的舞台地板上，展示台留在他的身後，讓雙腿沒有任何桌台或其他物件遮擋。畫面最前方不要再有橫跨下半身的櫃台。不要把桌台變透明，也不要讓腿穿過桌子。
+
+主管頭頂約在畫面高度的 10%，鞋底約在 87%，下方留出約 13% 可見地板。必須看見腰部、臀部、兩條完整褲管、膝部、腳踝，以及兩隻完整棕色皮鞋。雙腳自然分開、穩穩接觸地面，有接觸陰影，身體四肢比例沿用圖 2。不能只延長上半身或把腰部以下藏在台後，不能截斷膝蓋、腳踝或鞋尖。
+
+主管繼續看鏡頭、興奮微張嘴露齒笑，雙手在胸前展示同一白罐綠蓋 ESG 濃縮膠囊；罐子大小相對人體合理，不能為保持字體尺寸而放大產品。其餘沿用圖 1，只為全身取景調整相機距離與人物相對展示台的站位。背景中央 ESG 舞台與原有裝飾保留。
+
+輸出一張 16:9 橫幅彩色全身分鏡圖。只有主管一人，不增加字幕、價格、電話、浮水印或其他人物。
+```
+
+
+## 2026-10-20 supervisor_office — cam_supervisor_ots_amy 空景 GPT（待評鑑）
+
+- 流程：kj-cinematic 場景機位外觀素材局部續作；依 skills/kj/blender-view-restyle.md。使用者指定單張底圖與原始美術參考，沒有既有本機位 GPT 成果；專案未找到 checkpoint／partial_progress 檔，不補造過往核准狀態。
+- 工具／供應商：內建 image_gen／OpenAI；具體模型版本及費用未知；本輪 1 次 I2I。
+- 輸出：references/scenes/supervisor_office/cameras/cam_supervisor_ots_amy_empty_gpt.png；1672×941 RGB PNG。
+- 原始輸出：C:/Users/user/.codex/generated_images/01a1586a-2ba2-7d70-8f63-dbf5215624c3/exec-0ca02108-bc26-4825-9101-22d96f9af007.png
+- 驗證：來源與副本均完整解碼；SHA256 相同：53e396e379714162b42ec278676bb6b339d77d3821aef05bf3f1e2177292bbe9。
+- 目視：已逐張對照底圖、參考圖與成品：公告板、藍灰高背椅、牆角、窗台、桌面、兩份報告、文件堆及檯燈的主要位置與裁切大致保留；木紋、軟木、皮革、紙邊、暖日光及金屬反射提升，空景無人物。偏差：窗外新增遠方樓群，既有樓房外觀亦被細化；部分紙張色彩、圖釘及文件邊緣有 AI 變動，日光陰影比底圖強。未宣稱像素級幾何一致，未追加生成。
+- 保留底圖、參考圖與工具原圖；未修改 Blender、其他機位、scene_plan 或 manifest，尚未確認採用。
+- 有序輸入：
+  1. D:/Dropbox/kj-om-projects/course-51-esg/references/scenes/supervisor_office/cameras/cam_supervisor_ots_amy_empty_blender.png
+  2. D:/Dropbox/kj-om-projects/course-51-esg/clp/loc_supervisor_office_5.png
+- 完整實際 prompt：
+
+```text
+請編輯圖 1，將這張 Blender 空景提升為圖 2 那樣的高質感動畫電影 3D 場景，參考圖 2 的材質、色彩、光影與氣氛。
+圖 1 cam_supervisor_ots_amy_empty_blender.png 是唯一的取景、透視、物件配置與遮擋依據。
+圖 2 loc_supervisor_office_5.png 僅供美術表現參考，不移植其構圖、家具排列、植物配置或可見範圍。
+色彩與光影採用圖 2 的溫暖蜂蜜色至胡桃木棕、深藍灰皮革、米白牆面與紙張、暖橘棕軟木公告板、白色烤漆檯燈及金屬關節，窗外清爽的藍天與日間城市；右側窗戶自然日光帶暖色高光，搭配較冷的天空環境補光，柔和但具方向性的陰影。保留細膩而可信的材質與溫暖明亮的動畫電影質感，不過度泛光。
+
+【保留本機位】
+維持圖 1 的 16:9 橫幅、觀看方向、消失點、主要結構、遮擋及緊裁切。這是從訪客側向主管座椅看的桌面近距離視角，不是圖 2 的整間辦公室全景。
+保留圖 1 左側大型木框公告板、其上每張紙張與便條的數量、位置、大小與圖釘；公告板頂部與左側被畫框裁切的方式不能改變。中左深藍灰高背椅仍保持既有位置、尺度、背靠主要輪廓與桌面遮擋，不能重新設計為圖 2 的遠景椅子。
+中央偏右牆角柱與牆上紙張、右側窗框與窗台、窗外右緣被裁切的一座樓房，各自保持圖 1 的位置、比例與遮擋。窗外只細化既有可見建築的玻璃、窗格與天空，不新增整排城市天際線，不搬入圖 2 的中央高樓。
+保留前景桌面邊界、灰色桌墊、下方兩份報告、右側文件堆、藍筆、小型灰藍矩形文具與右側白色檯燈，數量、相互位置及重疊關係沿用圖 1。
+不旋轉相機、不鏡像、不拉遠或拉近，不為展示完整物件而補出被裁切部分；沒有地板、天花板、訪客椅、盆栽、矮櫃或完整百葉窗的區域，不自行新增這些內容。
+
+【材質與細節提升】
+沿用圖 1 的構造與物件種類，改善微紋理、粗糙度、接縫、細微倒角高光、接觸陰影與反射。
+木質桌面和公告板木框呈現圖 2 的自然木紋與柔潤清漆高光；公告板呈現細密真實軟木顆粒；高背椅為圖 2 同色系深藍灰皮革，細緻皮紋與既有分片邊緣柔軟接縫，但不增加新分片、鈕扣或配件。
+既有紙張保持各自外框、釘點、排列及主色，將白模的粗灰條細化為低對比報告線條、表格與輕微手寫筆跡，僅作自然辦公文件細節，不添加大標題或可辨識的品牌文字。紙堆保留原有體積、層數觀感、頂面方向及錯落邊界，用細薄紙邊、紙纖維和輕微頁角起伏改善質感，不能增加第二堆或改變其位置。
+檯燈沿用圖 1 的燈罩外形、支臂關節、直立燈桿、底座形狀與位置，呈現霧面米白烤漆、適量金屬反射；降低白模燈罩內側死白過曝，使內緣層次清晰，同時維持亮燈觀感。
+牆面微細霧面塗料、窗框細緻金屬烤漆、玻璃透光與自然反射，紋理尺度合理。所有表面保持乾燥與整潔，不加入髒污、鏽蝕或過強鏡面反光。
+依圖 1 的窗口位置與物體方向重建自然日光，陰影應服從本鏡透視，不把圖 2 的光斑直接貼到本鏡。
+作為後續加入人物的背景母圖，保留清楚可用的近中景材質與公告板資訊，不額外強化散景。
+
+【空景與輸出】
+零人物：不得出現主角、路人、人體、肩膀、手臂、人物倒影或人形剪影。即使檔名含主管、Amy 或過肩，本次仍只交付空景。
+只輸出一張與圖 1 相同 16:9 橫幅的高解析度完整圖片，不製作拼貼或對照圖，不加字幕、標誌或浮水印。
+
+【本鏡畫面】
+50mm 平視中景的空景版本，視線越過前景桌面看向左中景主管高背椅。公告板佔左上大半畫面，椅背在其前方；桌面向右延伸，右側厚疊文件位於白色檯燈前，檯燈燈罩位於右上中部並朝左下照射，右後方窗口在畫框右緣截斷。下緣報告與文具依底圖裁切，保持椅背、公告板、牆角、窗台、燈桿及文件堆的同一幾何關係與大小。
+```
