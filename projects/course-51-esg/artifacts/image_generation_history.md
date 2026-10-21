@@ -10170,3 +10170,1717 @@ Edit this existing image with only two localized corrections. Preserve the exact
 ```text
 局部編輯這張圖片。只修改 George 雙眼的虹膜與瞳孔位置，將目前朝畫面左上方的視線改為水平看向畫面左側、鏡外與他眼睛同高度的 Amy。雙眼協調地朝觀眾所見的左側看，虹膜與瞳孔在眼裂中的垂直位置自然居中，不上翻、不往上看，也不看鏡頭。維持原本眼皮形狀、眉毛、眼鏡、頭部角度、下巴高度、微笑與微張的嘴。不要加入 Amy。除必要的虹膜與瞳孔位置調整外，所有其他內容保持原樣：同一人物五官與身份、頭髮、鬍鬚、服裝、姿勢、人物大小與位置、畫面裁切、背景建築與玻璃反射、光影、色彩、景深及16:9比例均不變。不新增文字或物件。
 ```
+
+
+## 2026-10-21 shot_3.9.2 GPT v1（夜間抓頭，待評鑑）
+- 輸出：assets/images/shot_3.9.2_gpt_v1.png（1672×941 RGB PNG）；內建image_gen／OpenAI，確切模型與費用未知，生成一次，未改採用。
+- 有序參考圖：1. references/scenes/staff_office/cameras/cam_amy_ms_45deg_empty_gpt_v3.png；2. references/scenes/staff_office/cameras/cam_amy_ms_45deg_block_blender.png；3. clp/char_amy.jpeg。
+- 來源：C:/Users/servi/.codex/generated_images/01a15a6c-30e2-76e1-87ac-3f617a6eb6a8/exec-07335045-45f6-4fec-be22-0a2b28e62623.png
+- 驗證：完整解碼／來源複本SHA256一致。單人夜景、雙手接觸頭髮、煩躁望向螢幕成立；Amy頭部降低、軀幹前傾與原白模坐姿不同，表情較焦慮。未重試。
+完整 prompt：
+```text
+參考圖說明：
+圖1 cam_amy_ms_45deg_empty_gpt_v3.png：夜間場景外觀參考，提供材質、色彩、光影與氣氛。
+圖2 cam_amy_ms_45deg_block_blender.png：構圖底圖，提供取景、透視、家具配置、人物位置、比例與遮擋。
+圖3 char_amy.jpeg：Amy 人物參考，對應圖2的紅色定位人物。
+
+生圖指引：
+以圖2為編輯底圖，保留取景、透視、桌椅配置、人物佔位、頭部大小、頭頂留白及畫面裁切。不推近、不拉遠，不為呈現手勢而放大人物或移動家具。
+
+將紅色定位人物替換為 Amy。五官、棕色微捲短髮、綠色眼睛、灰色西裝與米白色襯衫採用圖3，不採用設定圖的展示姿態、多視圖排版或背景。以自然人體比例替換簡化白模，不保留方塊外形、長方形脖子或紅色服裝。
+
+將場景材質、色彩與光影更新為圖1的夜間外觀，保留圖2的空間配置。維持窗外深藍夜色、稀疏城市燈光與低照度暖色室內光。不要沿用圖2的白天亮度，不新增檯燈或其他道具。
+
+畫面描述：
+這是一張32mm、45度微側、略微俯視的工位中景。Amy 坐在圖2原有的黑色網背辦公椅上，位於畫面中央偏右。左側前景的大螢幕背面、桌上鍵盤、右下立書、椅子扶手與後方隔板的位置及遮擋沿用圖2。
+
+Amy 正因寫不出管理辦法而感到疲憊、煩躁。她眉頭緊蹙，眼皮略顯沉重，嘴巴微張，呈現壓抑不住抱怨的瞬間。視線朝向左前方電腦螢幕，不看觀眾，也不露出笑容。
+
+她雙肘彎曲、雙手抬至頭部兩側，手指自然張開並輕觸兩側髮根，停在即將煩躁抓亂頭髮的起始位置。手指結構自然，雙手不遮住眼睛與主要表情，不拉扯出誇張髮束。肩膀略微繃緊，軀幹仍保持坐在原位，尚未趴向桌面。除雙臂、手勢與指定表情外，其餘人物位置、比例與坐姿沿用圖2。
+
+電腦顯示面朝向 Amy、背面朝向觀眾，不能把文件文字畫在螢幕背面。畫外可見不到的顯示面發出微弱冷白光，自然照亮 Amy 靠近螢幕的一側臉頰與手指；其餘夜間光影沿用圖1，不將整間辦公室照亮。
+
+畫面只有 Amy 一位人物，其他工位與通道全部無人。中景深保留桌面與辦公室空間關係，背景較暗但仍可辨識。整體呈現深夜獨自加班、卡關又無奈的職場喜劇感。
+
+這是一張動作起始畫面，只呈現雙手剛接觸頭髮的瞬間，不同時呈現抓頭與趴桌，不加入動作殘影、汗滴圖示或多重姿勢。
+
+輸出一張16:9彩色分鏡圖，單一連貫畫面，不加入字幕、對話框、文字、圖示或浮水印。
+```
+
+
+
+## 2026-10-21 cafe 全景 GPT v3：層板杯罐／紙杯／茶几杯耳
+- 輸入（唯一底圖）：references/scenes/cafe/cameras/cam_room_wide_overview_empty_gpt_v2.png
+- 輸出：references/scenes/cafe/cameras/cam_room_wide_overview_empty_gpt_v3.png
+- 工具：內建 image_gen／OpenAI，單次編輯1張；模型與費用未知。
+- 觀察：層板杯罐輪廓較規整，前茶几杯僅見右側單耳；微波爐和咖啡機間仍為兩柱狀白色物，紙杯重疊杯緣不明顯，未完整符合堆疊紙杯要求。後桌盆栽右側出現疑似多餘杯耳／淺色輪廓。保留v2，不重試，不改採用，待使用者評鑑。
+- 驗證：PNG1672×941 RGB完整解碼、複本SHA256一致。
+### 完整實際 prompt
+```text
+Edit the attached existing image with THREE localized corrections only. Preserve the exact wide camera, framing, architecture, furniture positions, plants, warm lighting and overall colors.
+1. Rebuild the malformed coffee mugs and storage bottles/jars on BOTH wall shelves above the coffee machine. Keep the shelves and plants exactly in place. Each lower-shelf mug must be an individual clean ivory ceramic cylinder with a circular rim in correct perspective, flat base on the shelf, and exactly ONE normal C-shaped handle attached to that mug. No extra handles, fused vessels, warped silhouettes or melting forms. Upper-shelf bottles and canisters must be separate upright rotationally symmetric vessels with straight central axes, clean elliptical rims/lids, sensible necks, solid bases resting on the shelf, and visible small gaps between objects. Retain the same approximate object count, sizes, off-white palette and arrangement, without adding decorative objects.
+2. On the COUNTERTOP in the gap BETWEEN the microwave on the left and coffee machine on the right, replace the existing tall misshapen containers with one neat vertical nested STACK OF WHITE DISPOSABLE PAPER CUPS. Show clearly repeated rolled circular rim bands along the top of the stack, tapered paper cup profile, open top cup, no handles, no lids, no straws, no text or logos. Stack rests upright on the countertop and fits within that existing gap. Keep microwave, coffee machine, and the three ceramic mugs to the RIGHT of the machine unchanged.
+3. The coffee cup on the foreground central ROUND COFFEE TABLE has a malformed duplicate handle. Correct this cup to have EXACTLY ONE small C-shaped handle on its right side, with a smooth uninterrupted wall on its left side. Remove any second ear, extra loop or handle-like protrusion. Preserve the cup's existing position, size, color and coffee, with a clean elliptical rim and normal ceramic shape. If any other small-table coffee cup is visible, it too must have only one handle. Do not alter the small plant on the rear side table.
+Keep the refrigerator's existing handles ONLY on its LEFT window-facing edge; do not add handles on its right edge. Zero people. Output one complete edited image with original aspect ratio, no collage or labels.
+```
+
+
+
+## 2026-10-21 shot_3.9.3 GPT v1（閉眼沉思，待評鑑）
+- 輸出：assets/images/shot_3.9.3_gpt_v1.png（1672×941 RGB PNG）；內建image_gen／OpenAI，模型與費用未知，生成一次，未改採用。
+- 有序輸入：1. references/scenes/staff_office/cameras/cam_amy_cu_emotion_empty_gpt_v3.png；2. references/scenes/staff_office/cameras/cam_amy_cu_emotion_block_blender.png；3. clp/char_amy.jpeg。
+- 來源：C:/Users/servi/.codex/generated_images/01a15a6c-30e2-76e1-87ac-3f617a6eb6a8/exec-53644e81-9b60-479a-aee7-6c7e7bc8c53c.png
+- 驗證：完整解碼／來源複本SHA256一致；閉眼閉口、輕微蹙眉、單人夜景成立，未出現George。相較白模面部佔比縮小、露出較多肩胸與衣領，頭頂留白略少，未完全符合緊裁切。未重試。
+完整 prompt：
+```text
+參考圖說明：
+圖1 cam_amy_cu_emotion_empty_gpt_v3.png：夜間場景外觀參考，提供辦公室材質、色彩、光影與氣氛。
+圖2 cam_amy_cu_emotion_block_blender.png：構圖底圖，提供取景、透視、頭部位置、大小、頭頂留白及下緣裁切。
+圖3 char_amy.jpeg：Amy 人物參考，對應圖2的定位人物。
+
+生圖指引：
+以圖2為編輯底圖，保留取景、透視、人物佔位、頭部大小、頭頂留白、背景配置與遮擋關係。維持臉部特寫，不推近、不拉遠，不為展示服裝而補出胸部或雙手。
+
+將定位人物替換為 Amy。五官、棕色微捲短髮、淡雀斑與可見的灰色西裝、米白色襯衫採用圖3，不採用設定圖的展示姿態、多視圖排版或背景。以自然人體比例替換簡化白模，不保留方塊外形、長方形脖子或紅色服裝。肩膀與衣領只呈現原構圖下緣可見的少量部分。
+
+將場景材質、色彩與光影更新為圖1的夜間外觀，保留圖2的窗框、百葉、隔板、螢幕、書櫃及椅背位置。不要沿用圖2的白天亮度，不新增檯燈、人物或道具。
+
+畫面描述：
+這是一張85mm、坐姿眼高平視的 Amy 臉部特寫。Amy 坐在原有辦公椅上，頭部居中，大小、朝向與裁切沿用圖2。頭頂保持原有留白，下緣僅露出少量衣領與肩部，手臂和雙手都在畫外。
+
+Amy 已放下前一鏡抓頭的雙手，輕輕閉上雙眼，呈現深呼吸、讓自己沉靜下來的瞬間。眼皮自然闔上，不用力擠眼；眉心仍有一點疲憊與緊繃，但已開始放鬆。嘴唇輕輕閉合，嘴角自然，不露齒、不微笑、不說話。下顎放鬆，頭部保持端正，不低垂睡著，也不向後仰。
+
+她的神情帶著專注的內省，像正在心裡重新聽見一段重要提醒。這一刻尚未睜眼、尚未露出頓悟笑容，為後續眉頭舒展與靈感浮現保留表演空間。髮型保留 Amy 原有棕色短髮輪廓，可有前一鏡碰觸頭髮後的輕微鬆亂，不誇張蓬炸。
+
+夜間光影依圖1，以柔和暖色室內光勾勒臉頰與髮絲，搭配畫外螢幕微弱的冷色補光。面部有清楚而柔和的明暗層次，背景維持低照度深藍夜景，不突然變成白天，也不使用強烈光暈或發光特效。
+
+淺景深聚焦 Amy 的面部與閉合眼瞼，身後百葉窗、螢幕與書櫃自然柔化，仍保留原有位置及空間關係。整體安靜、克制，呈現煩躁之後重新整理思緒的情緒轉折。
+
+畫面只有 Amy 一位人物。George 僅存在於後續畫外音中，不出現他的身影、倒影、回憶畫面或半透明人像；其他工位無人。
+
+輸出一張16:9彩色分鏡圖，單一連貫畫面，不加入字幕、文字、對話框、思考泡泡、燈泡圖示或浮水印。
+```
+
+
+
+## 2026-10-21 shot_3.9.4 GPT v1（待評鑑）
+- 工具：內建 image_gen；供應商：OpenAI；模型與費用：工具未提供。
+- 輸出：assets/images/shot_3.9.4_gpt_v1.png；1672×941 RGB。
+- 參考圖（依輸入順序）：
+  1. D:/kj-openMontage/projects/course-51-esg/references/scenes/staff_office/cameras/cam_amy_mcu_15deg_empty_gpt_v3.png
+  2. D:/kj-openMontage/projects/course-51-esg/references/scenes/staff_office/cameras/cam_amy_mcu_15deg_block_blender.png
+  3. D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg
+  4. D:/kj-openMontage/projects/course-51-esg/clp/prop_smartphone.png
+- 驗證：PNG 完整解碼、來源與複本 SHA256 一致。單人夜景、左手持手機／機背朝鏡、低頭觀看成立；頭頂留白減少、頭部下俯側傾及肩胸裁切偏離白模，右食指落在手機邊緣，無法確認觸及螢幕。未重試，未改採用。
+
+完整 prompt：
+```text
+參考圖說明：
+圖1 cam_amy_mcu_15deg_empty_gpt_v3.png：夜間辦公室場景外觀參考，提供材質、色彩與光影。
+圖2 cam_amy_mcu_15deg_block_blender.png：構圖底圖，提供取景、透視、人物位置、頭部大小、頭頂留白與裁切。
+圖3 char_amy.jpeg：Amy 人物參考，對應圖2的紅色定位人物。
+圖4 prop_smartphone.png：手機外觀參考，只採用深灰色機身與背面三鏡頭，不採用來電介面或多視圖排版。
+
+生圖指引：
+以圖2為編輯底圖，保留相機角度、透視、人物佔位、頭部尺度、頭頂留白與背景配置。維持肩胸以上的中特寫，不放大頭部，不拉遠補出桌面、腰部或下半身。
+
+將定位人物替換為圖3的 Amy，保留棕色微捲短髮、淡雀斑、灰色西裝與米白色襯衫。使用自然人體比例，不保留白模的方塊身體、長方形脖子或紅色服裝，不採用人物設定圖的展示姿勢。
+
+僅為持手機與觀看螢幕調整前臂、雙手、視線及少量頭部俯角；肩膀、軀幹與座位沿用圖2。手機置於胸前、畫面下方偏右，不遮住臉部。手肘可在畫外，不為呈現完整手臂而改變構圖。
+
+場景材質、色彩與光影採用圖1的夜間外觀。保留圖2的百葉窗、薄荷綠隔板、書櫃、背景螢幕、椅背與左下前景螢幕的位置及遮擋關係，不沿用白模的白天亮度。
+
+手機採用圖4的外觀，畫面只出現一支手機。手機直立，頂端朝上、底端朝下，螢幕面向 Amy，背面與三鏡頭朝向攝影機。不要為了展示短影音而將螢幕翻向觀眾，不出現「主管來電」介面。
+
+畫面描述：
+這是一張從 Amy 工位前方偏側15度、坐姿眼高平視的65mm中特寫。Amy 獨自坐在既有網布辦公椅上，頭部完整入鏡，肩胸以上可見，人物大小與頭頂留白沿用圖2。她剛從前一鏡閉眼沉思中睜開雙眼，左手已將手機拿到胸前，右手食指輕觸螢幕下半部，處於準備向上滑動瀏覽的瞬間。手機及握持處位於畫面下緣以上，手腕與前臂依原構圖自然裁切。她的視線落在手機螢幕上，頭部輕微下俯但不低垂，眉心的緊繃已放鬆，眉毛略微抬起，眼神帶著重新探索的好奇；嘴唇微微分開，像正在輕聲自問「大家到底愛看什麼」，尚未露出明顯笑容或興奮表情。手機正在播放探險短影音，但本鏡從機背方向拍攝，不要求看見螢幕內容；僅以微弱暖色螢幕光映亮她的下頰與雙眼，亮度自然，不使用誇張發光特效。室內柔和暖光與窗外深藍夜色延續圖1，臉部清楚可辨，背景百葉窗、隔板與書櫃自然虛化。畫面只有 Amy 一人，其他工位與走廊無人，整體安靜、專注，呈現思緒開始轉向新方向的瞬間。
+
+輸出一張16:9彩色分鏡圖，單一連貫畫面，不加入字幕、對話框、思考泡泡、燈泡圖示、手機畫面浮窗或浮水印。
+```
+
+
+
+## 2026-10-21 shot_5.2.1 GPT v1（待評鑑）
+- 圖片：`assets/images/shot_5.2.1_gpt_v1.png`
+- 工具：內建 image_gen；供應商：OpenAI；模型／費用：工具未提供，未知；生成 1 次。
+- 使用者授權新版雙人中景，重新取景，不使用原三人 blocks。未改 scene_plan 或正式採用設定。
+- 驗證：1672×941 RGB PNG，完整解碼及來源 SHA256 相符。
+- 觀察：Sandy 左側站立、Harrison 右側坐姿，三隻手共同交接單台平板，背面朝鏡頭；兩人頭頂完整。Sandy 微笑較明顯，Harrison 視線較接近左側，未明確低頭看平板；手持角度仍待使用者評鑑。
+- 有序參考圖：
+1. `D:/kj-openMontage/projects/course-51-esg/references/scenes/investment_office/cameras/cam_threeshot_wide_level_empty_gpt.png`
+2. `D:/kj-openMontage/projects/course-51-esg/clp/char_sandy.jpeg`
+3. `D:/kj-openMontage/projects/course-51-esg/clp/char_harrison.jpeg`
+4. `D:/kj-openMontage/projects/course-51-esg/clp/prop_ipad_landscape.png`
+
+```text
+參考圖說明：
+圖 1 cam_threeshot_wide_level_empty_gpt.png：會議室環境、材質與風格參考；不沿用其全景構圖。
+圖 2 char_sandy.jpeg：分析師一號 Sandy 的外觀與服裝參考。
+圖 3 char_harrison.jpeg：Mr. Harrison 的外觀與服裝參考。
+圖 4 prop_ipad_landscape.png：平板電腦外觀參考。
+
+生圖指引：
+在圖 1 的同一間會議室內重新取景，製作 Sandy 將平板遞給 Harrison 的雙人中景。人物外觀與服裝分別依照圖 2、圖 3，平板外觀依照圖 4。參考圖僅提供指定素材，不帶入人物展示姿態或多視角排版。
+
+畫面描述：
+眼高、略帶側面的雙人中景，Sandy 位於畫面左側，站在 Harrison 座位旁；Harrison 位於畫面右側，坐在原有棕色皮椅上。Sandy 腰部以上與 Harrison 坐姿上半身入鏡，兩人頭頂完整保留。木質會議桌邊緣出現在畫面下方，雙方手部與平板清楚可見，不被桌面或椅背遮擋。
+
+畫面定格在平板交接的瞬間：Sandy 身體略朝 Harrison 傾近，雙手托住一台橫向平板的兩側，將平板送至他面前；Harrison 向前伸出一隻手，手指剛接住平板靠近自己的下緣，Sandy 尚未鬆手。兩人的手各自接觸不同位置，不重疊糾纏。平板位於兩人之間、桌面上方，大小符合真實手持比例。
+
+平板螢幕朝向 Harrison，略微向上傾斜，讓他能自然低頭閱讀；鏡頭主要看見平板背面與薄側邊，不為了展示螢幕而將它轉向觀眾。
+
+Sandy 神情自信而恭敬，嘴唇微張，目光看向 Harrison，正在說明新提案。Harrison 神情沉穩專注，視線落在正在接過的平板上，尚未露出批准的笑容。
+
+背景延續原會議室的木質、玻璃與棕色皮椅。晴朗日光從落地窗照入，形成明亮柔和的暖色光線，窗外金融大樓清晰可辨。背景略柔化，視覺焦點集中在兩人的表情與交接平板的手部。畫面僅出現 Sandy 與 Harrison，其他與會者位於取景範圍外。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、對話框或額外疊字。
+```
+
+
+
+## 2026-10-21 shot_3.8.13 GPT 再次生成失敗（未出圖）
+- 依使用者指定最新 prompt 與三張參考圖提交 1 次，未重試。
+- 工具／供應商：內建 image_gen／OpenAI；模型版本與費用未知。
+- 錯誤：HTTP 400 moderation_blocked，moderation_stage=output，categories=[other]；request ID 7b0bdb14-b7fe-4cb7-8155-fb6dfb0303f1。未取得圖片，未改正式採用。
+- 有序參考圖：
+1. `D:/kj-openMontage/projects/course-51-esg/references/scenes/street/cameras/cam_george_mcu_45deg_empty_gpt.png`
+2. `D:/kj-openMontage/projects/course-51-esg/references/scenes/street/cameras/cam_george_mcu_45deg_block_blender.png`
+3. `D:/kj-openMontage/projects/course-51-esg/clp/char_george.png`
+### 完整 prompt
+```text
+參考圖說明：
+圖 1 cam_george_mcu_45deg_empty_gpt.png：街道場景外觀參考圖。
+圖 2 cam_george_mcu_45deg_block_blender.png：構圖底圖。
+圖 3 char_george.png：George 人物參考圖，對應圖 2 的藍色衣身定位人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物位置與比例、頭頂留白、軀幹朝向及畫面裁切。不拉近鏡頭、不放大頭部、不為容納手勢重新安排人物位置。
+
+將藍色定位人物替換為圖 3 的 George。五官、灰白髮型、棕色眼鏡、短鬍鬚、米色襯衫、棕色背心與領帶採用圖 3，不採用人物參考圖的展示姿態或分格構圖，不保留 blocks 的簡化五官與方塊外觀。
+
+將場景材質、風格與溫暖日光更新為圖 1 的外觀，空間配置與遮擋關係沿用圖 2。保留玻璃門、石材立柱與沿街花台的原有位置。
+
+畫面描述：
+這是一張眼高平視、斜側約 45 度取景的 George 單人中特寫。頭部、肩膀與胸前區域依圖 2 入鏡，下半身位於畫外。畫面只有 George 一人，Amy 位於畫左鏡外。
+
+George 正準備向 Amy 說明 ESG 能提升同事的競爭力與工作價值。他眉梢微微舒展，眼神明亮而專注，嘴角帶著有信心的溫和微笑，嘴唇自然微張，呈現真誠、鼓勵與有說服力的神情。
+
+頭部略朝畫左，下巴保持自然水平。雙眼水平看向畫左鏡外 Amy 的臉；虹膜與瞳孔在眼裂中的垂直位置自然居中，不向上翻、不看天空、不看鏡頭。
+
+雙肘彎曲，前臂抬至下胸前，雙手自然分開，掌心朝上，手指放鬆微彎，停在即將向上托舉的起始位置。手勢開闊而克制，雙手不交扣、不握拳、不指人，不遮住臉部。允許為此調整手臂與手掌，肩膀、軀幹位置及人物尺度仍沿用圖 2。
+
+焦點落在 George 的眼睛、表情與胸前手勢；背景玻璃門、石柱和綠植柔和失焦，保持圖 1 的溫暖日光與人物參考的精緻 3D 動畫質感。
+
+這是一張動作起始畫面，只呈現雙手準備向上托舉的單一瞬間，不加入動作殘影、上升箭頭或概念圖示。除上述表情、視線與手臂姿態調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、字卡、對話框或浮水印。
+```
+
+
+## 2026-10-21 shot_5.2.2 GPT v1（待評鑑）
+- 圖片：`assets/images/shot_5.2.2_gpt_v1.png`
+- 工具：內建 image_gen／OpenAI；模型與費用未知；成功生成 1 次，之前六圖請求於參數檢查被拒、未出圖。
+- 使用者同意人物原圖並排為一張，只調整 prompt 圖號。人物合圖由兩張 5504×3072 原圖無縮放並排，11008×3072。
+- 目視：Sandy 指向攤開報告、Harrison 右前景、日照及投影圖表呈現；Sandy 明顯放大、頭頂留白減少，Harrison 頭肩範圍增加，偏離 blocks。平板背面朝鏡頭。待使用者評鑑，未改採用設定。
+- 有序參考圖：
+1. `D:/kj-openMontage/projects/course-51-esg/references/scenes/investment_office/cameras/cam_sandy_ots_harrison_empty_gpt.png`
+2. `D:/kj-openMontage/projects/course-51-esg/references/scenes/investment_office/cameras/cam_sandy_ots_harrison_block_blender.png`
+3. `D:/kj-openMontage/.tmp/shot_5.2.2_character_refs.png`
+4. `D:/kj-openMontage/projects/course-51-esg/clp/prop_proposal_document.png`
+5. `D:/kj-openMontage/projects/course-51-esg/clp/prop_ipad_landscape.png`
+
+```text
+參考圖說明：
+圖 1 cam_sandy_ots_harrison_empty_gpt.png：會議室場景外觀參考圖。
+圖 2 cam_sandy_ots_harrison_block_blender.png：構圖底圖。
+圖 3 shot_5.2.2_character_refs.png：左半為 Sandy（char_sandy.jpeg），對應圖 2 左側紅色人物；右半為 Harrison（char_harrison.jpeg），對應圖 2 右前景人物。兩張原人物參考圖並排。
+圖 4 prop_proposal_document.png：報告書裝訂、材質與外觀參考圖。
+圖 5 prop_ipad_landscape.png：橫向平板外觀參考圖。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、桌椅配置、人物佔位、比例與遮擋關係。Sandy 保持在畫面左側中景，Harrison 的後腦與椅背位於右前景；不為了露出 Harrison 的臉或雙手而改變機位。
+
+人物外觀與服裝採用圖 3 的左半 Sandy、右半 Harrison，不採用其展示姿態。只替換圖 2 可見的人物部位，不補出被椅背或桌面遮住的身體。
+
+場景材質與風格採用圖 1，光線依本鏡改為明亮暖和的日間。自然日光由畫外落地窗方向照入，使 Sandy 的臉部、木質桌面與皮椅清晰可辨，不新增畫內窗戶或改動空間格局。
+
+報告書外觀採用圖 4，呈現打開的白色內頁與深藍書脊；平板外觀採用圖 5，每種道具各一件。參考圖的多視角展示不作為多件實物。
+
+畫面描述：
+這是一張 42mm、坐姿眼高平視的過肩中景，越過右前景 Harrison 的後腦與椅背拍向 Sandy。Sandy 頭部完整入鏡，下半身被會議桌遮擋，人物大小與頭頂留白沿用圖 2。焦點落在 Sandy，前景 Harrison 略微柔化。
+
+Sandy 站姿挺直，神情自信、專業而有說服力，眉眼舒展，嘴唇微張，視線朝向右前景的 Harrison。將 blocks 原本抬起指向投影幕的手臂放下，改為向桌面伸出，食指指向靠近她一側、攤開的永續報告內頁。報告位於她自然伸手可及的位置，內頁可見整齊的數據表與圖表。另一隻手自然低放，不拿簡報遙控器。
+
+這一瞬間只呈現「指出報告中的證據」，不同時指向平板。平板已交給 Harrison，位於右前景桌面、螢幕朝向他；允許受椅背遮擋，不為了完整展示而移動人物或椅背。Harrison 的頭部略朝報告方向轉動，維持專注聆聽的姿態。
+
+後方投影幕保留原有位置、大小與透視，內容改為簡潔的減碳及工安績效圖表，作為說明背景，不加入核准投資的標語。室內維持明亮、溫暖而專業的氣氛，畫面只有 Sandy 與 Harrison。
+
+除上述手勢、道具、投影內容與日照調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、對話框或額外疊字。
+```
+
+
+
+## 2026-10-21 shot_3.9.5 GPT v1（待評鑑）
+- 工具：內建 image_gen；供應商：OpenAI；模型與費用：工具未提供。
+- 輸出：assets/images/shot_3.9.5_gpt_v1.png；1672×941 RGB。
+- 參考圖（依輸入順序）：
+  1. D:/kj-openMontage/projects/course-51-esg/references/scenes/staff_office/cameras/cam_amy_ms_15deg_empty_gpt_v3.png
+  2. D:/kj-openMontage/projects/course-51-esg/references/scenes/staff_office/cameras/cam_amy_ms_15deg_block_blender.png
+  3. D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg
+- 驗證：PNG完整解碼、來源與複本SHA256一致。單人夜景、坐姿胸前雙拳、開心振奮成立；頭部側傾、視線偏畫面左上而非直視鏡頭，頭頂留白減少、肩位與軀幹比例偏離白模。未重試、未改採用。
+
+完整 prompt：
+```text
+參考圖說明：
+圖1 cam_amy_ms_15deg_empty_gpt_v3.png：夜間辦公室場景外觀參考，提供材質、色彩與光影。
+圖2 cam_amy_ms_15deg_block_blender.png：構圖底圖，提供取景、透視、人物位置、比例、頭頂留白與裁切。
+圖3 char_amy.jpeg：Amy 人物參考，對應圖2的紅色定位人物。
+
+生圖指引：
+以圖2為編輯底圖，保留相機角度、透視、人物佔位、頭部大小、頭頂留白、背景配置及前景遮擋。維持15度微側的單人中景，不推近、不拉遠，不補出畫外下半身。
+
+將紅色定位人物替換為圖3的 Amy，保留棕色微捲短髮、淡雀斑、灰色西裝與米白色襯衫。採用自然人體比例，不保留白模的方塊身體、長方形脖子或紅色服裝，不採用人物設定圖的展示姿勢。
+
+調整雙臂與雙手，使兩手在胸前握拳，拳頭自然分開，不相碰、不遮擋臉部，雙拳位於畫面內且不被左前景螢幕遮住。容許握拳動作所需的自然肩部變化，軀幹保持原座位位置。此刻仍坐在既有網布辦公椅上，尚未站起。
+
+將場景的材質、色彩與光影更新為圖1的夜間外觀。保留圖2的百葉窗、隔板、書櫃、盆栽、螢幕與椅背配置，不沿用白模的白天亮度，不新增檯燈或其他道具。
+
+畫面描述：
+這是一張從 Amy 工位前方偏側15度拍攝的50mm單人中景，相機維持圖2的高度與透視。Amy 坐在原有辦公椅上，上半身與胸前雙拳清楚可見，下半身在畫外，左前景保留原有螢幕遮擋。她已結束上一鏡的手機瀏覽，手機位於畫外，不出現在手中；此刻上身挺直，雙肘彎曲，兩手剛在胸前握成拳頭，捕捉靈感轉化為決心、即將起身宣告的瞬間。她抬頭看向鏡頭，雙眼明亮而專注，眉毛自然揚起，眉心完全舒展，嘴角上揚、嘴唇微張，像剛開始說出「大家愛看故事！」；表情帶著找到答案的喜悅與篤定，不是憤怒、挑釁或戰鬥姿態。棕色短髮延續前鏡的略微鬆亂，服裝保持一致。柔和暖色室內光與微弱螢幕補光照亮面部，窗外保持深藍夜色，情緒的振奮透過眼神與姿態表現，不突然提高整間辦公室亮度。中等景深讓 Amy 的面部與雙拳清楚，背景略柔化但仍可辨識原有空間。畫面只有 Amy 一人，其他工位與走廊無人。
+
+輸出一張16:9彩色分鏡圖，單一連貫畫面，不加入字幕、「ESG 尋寶獵人」字卡、對話框、燈泡圖示、發光特效或浮水印。
+```
+
+
+
+## 2026-10-21 shot_5.2.2 GPT v2（連戲重設，待評鑑）
+- 圖片：`assets/images/shot_5.2.2_gpt_v2.png`
+- 工具：內建 image_gen／OpenAI；模型與費用：未知；生成1次。
+- 按使用者確認新版prompt逐字生成，延續shot_5.2.1雙人中景。保留v1，未改正式採用或scene_plan。
+- 驗證：1672×941 RGB PNG，完整解碼與來源SHA256相符。
+- 目視：Sandy仍在Harrison旁並指向報告，Harrison低頭、平板背面朝鏡頭，背景大致延續。Sandy指示手與prompt指定靠近Harrison側不同；Harrison持平板位置移至畫右、另一手新增指報告動作；報告偏大、人物姿態略重繪，待評鑑。
+- 有序參考圖：
+1. `D:/kj-openMontage/projects/course-51-esg/assets/images/shot_5.2.1_gpt_v1.png`
+2. `D:/kj-openMontage/projects/course-51-esg/clp/prop_proposal_document.png`
+
+```text
+參考圖說明：
+圖 1 shot_5.2.1_gpt_v1.png：連戲與編輯底圖，提供機位、人物外觀、站位、場景與光線。
+圖 2 prop_proposal_document.png：報告書外觀、裝訂與材質參考。
+
+生圖指引：
+以圖 1 為編輯底圖，延續同一鏡位、景別、透視與人物大小。保留 Sandy 在畫面左側、站在 Harrison 座位旁的位置；Harrison 保持畫面右側坐姿。保留兩人的五官、髮型、服裝、頭頂留白，以及會議桌、皮椅、落地窗、窗外大樓與日照方向。
+
+這是平板交接完成後的下一個瞬間。只調整雙方手臂、手部、頭部俯角、視線與表情，並在桌面加入一本攤開的報告書。不要將 Sandy 移回投影幕旁，不改成過肩鏡頭。
+
+報告書外觀依照圖 2，保留深藍書脊、白色紙張與淡藍綠設計元素；此刻呈現攤開的內頁，可見整齊的數據表與圖表，不要求封面朝向鏡頭。只生成一本報告，不帶入參考圖的多視角排版。
+
+畫面描述：
+眼高、略帶側面的雙人中景，構圖沿用圖 1。Sandy 站在左側，Harrison 坐在右側，兩人頭頂完整入鏡。木質桌面位於畫面下方，保留足夠空間呈現報告與指向內頁的手指。
+
+Harrison 已接過原有的橫向平板，以靠近 Sandy 的那隻手穩妥握住平板側邊及下緣，平板稍微降低至桌面上方，螢幕仍朝向他，鏡頭主要看見機背與薄側邊。平板不遮住報告或 Sandy 的指示手勢。他另一隻手仍自然放在桌上，頭部略微低下，視線落在 Sandy 指出的報告位置，神情沉穩專注，尚未露出批准的笑容。
+
+Sandy 已放開平板，仍站在 Harrison 身旁，身體輕微向桌面前傾。一本攤開的永續報告放在兩人之間、靠近 Harrison 的桌面上，頁面朝向 Harrison，位於 Sandy 自然伸手可及的位置。
+
+Sandy 用靠近 Harrison 的那隻手伸出食指，指尖輕觸報告內頁的一處數據圖表；另一隻手自然放在自己身側。她的頭部略朝 Harrison 轉動，目光看向他，眉眼舒展、神情自信而專業，嘴唇微張，正在解釋驗證數據。笑意克制，重點是清楚、有把握地說明證據。
+
+畫面只呈現「Sandy 指出報告數據、Harrison 專注查看」的一個瞬間，不同時指向平板，不重演遞交動作。只有 Sandy 與 Harrison 兩人、一台平板及一本攤開的報告。
+
+保留圖 1 明亮柔和的日間暖陽、木質與玻璃材質，以及略微柔化的背景。除上述表演與道具調整外，其餘沿用圖 1。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、對話框或額外疊字。
+```
+
+
+
+## 2026-10-21 shot_3.9.5a GPT v1（待評鑑）
+- 工具：內建 image_gen；供應商：OpenAI；確切模型與費用：工具未提供。
+- 輸出：assets/images/shot_3.9.5a_gpt_v1.png；1672×941 RGB。
+- 參考圖（依輸入順序）：
+  1. D:/kj-openMontage/projects/course-51-esg/references/scenes/staff_office/cameras/cam_amy_ms_15deg_empty_gpt_v3.png
+  2. D:/kj-openMontage/projects/course-51-esg/references/scenes/staff_office/cameras/cam_amy_ms_15deg_block_blender.png
+  3. D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg
+- 驗證：PNG完整解碼、來源與複本SHA256一致。坐姿、右食指抵下巴、左手托肘、抬頭上望成立；下緣多露少量桌面、人物比例與肩位偏離白模。 未重試、未改採用。
+
+完整 prompt：
+```text
+參考圖說明：
+圖1 cam_amy_ms_15deg_empty_gpt_v3.png：夜間辦公室外觀參考，提供材質、色彩與光影。
+圖2 cam_amy_ms_15deg_block_blender.png：坐姿構圖底圖，提供相機方向、透視、人物位置、比例與裁切。
+圖3 char_amy.jpeg：Amy 人物外觀與服裝參考，對應圖2的紅色定位人物。
+
+生圖指引：
+以圖2為編輯底圖，保留取景、透視、人物佔位、頭部大小、頭頂留白及前景遮擋。將紅色定位人物替換為圖3的 Amy，使用自然人體比例，保留棕色微捲短髮、淡雀斑、灰色西裝與米白色襯衫，不保留白模的方塊身體或紅色服裝。
+
+依思考姿態調整雙臂、雙手、頭部與視線，其餘沿用坐姿構圖。Amy 的右手食指輕抵下巴側下緣，其餘手指自然微彎，不遮住嘴唇；左前臂橫放於胸腹前，左手掌從下方托住右手肘，形成自然的托肘思考姿勢。雙手各司其位，不交纏、不合十，不增加手臂。
+
+場景材質與光影採用圖1的夜間外觀，保留圖2的窗戶、百葉、隔板、書櫃、盆栽、螢幕及椅背配置，不新增道具。
+
+畫面描述：
+這是一張從 Amy 工位前方偏側15度拍攝的50mm單人中景。Amy 坐在既有網布辦公椅上，上半身挺直而放鬆，右手食指抵著下巴，左手托住右手肘，雙手接觸關係清楚可辨。她的頭微微抬起，下巴略揚，雙眼輕微看向鏡頭上方的遠處，不直視觀眾，也不誇張翻白眼。眉毛略抬、眉心放鬆，嘴唇輕輕微張，呈現正在推敲新點子、逐漸找到方向的專注神情，尚未露出大笑或握拳慶祝。手機已放到畫外，雙手不持道具。暖色室內光柔和照亮面部，窗外保持深藍夜色，背景稍微柔化但保留空間辨識度。只有 Amy 一人，其他工位與走廊無人。
+
+輸出一張16:9彩色分鏡圖，單一連貫畫面，不加入字幕、對話框、思考泡泡、燈泡圖示或浮水印。
+```
+
+
+## 2026-10-21 shot_3.9.5b GPT v1（待評鑑）
+- 工具：內建 image_gen；供應商：OpenAI；確切模型與費用：工具未提供。
+- 輸出：assets/images/shot_3.9.5b_gpt_v1.png；1672×941 RGB。
+- 參考圖（依輸入順序）：
+  1. D:/kj-openMontage/projects/course-51-esg/references/scenes/staff_office/cameras/cam_amy_ms_15deg_empty_gpt_v3.png
+  2. D:/kj-openMontage/projects/course-51-esg/references/scenes/staff_office/cameras/cam_amy_ms_15deg_block_blender.png
+  3. D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg
+- 驗證：PNG完整解碼、來源與複本SHA256一致。站姿、胸前雙拳分開且不遮臉成立；頭頂留白偏少，視線略偏上、頭部側傾，背景取景未明顯上移。 未重試、未改採用。
+
+完整 prompt：
+```text
+參考圖說明：
+圖1 cam_amy_ms_15deg_empty_gpt_v3.png：夜間辦公室外觀參考，提供場景材質、色彩與光影。
+圖2 cam_amy_ms_15deg_block_blender.png：工位空間與15度微側拍攝方向參考；人物為坐姿定位，本張須改為站姿，不沿用坐姿頭部高度及裁切。
+圖3 char_amy.jpeg：Amy 人物外觀與服裝參考。
+
+生圖指引：
+沿用圖2的工位空間與拍攝方向，將紅色定位人物替換為圖3的 Amy。保留棕色微捲短髮、淡雀斑、灰色西裝與米白色襯衫，使用自然人體比例，不保留白模的方塊外形。
+
+將 Amy 改為從原座位起身後的站姿，站在原工位桌後、辦公椅前方。雙手空手握拳，抬至胸前，拳頭自然分開，彼此不相碰，不遮住臉部。雙肘彎曲、肩膀自然下沉，拳頭位於下巴以下，呈現振奮與決心。
+
+依站姿向上重新取景，必要時適度放寬畫面，保持50mm中景的自然透視，讓頭髮頂端、完整臉部及雙拳都清楚入鏡，頭頂保留適量留白。不要把人物壓縮回坐姿高度，也不要藉由縮短軀幹讓站姿塞入原坐姿裁切。保留椅子在身後較低處的合理位置，不新增第二張椅子。
+
+場景外觀採用圖1，保留既有家具與窗戶的空間關係，背景隨重新取景自然改變可見範圍，不把家具搬動到新位置。
+
+畫面描述：
+這是一張從 Amy 工位前方偏側15度拍攝的單人站姿中景。Amy 已從椅子站起，上身挺直、胸口自然打開，雙拳在胸前分開，兩隻拳頭都不受前景螢幕遮擋。她抬頭望向鏡頭，雙眼明亮而堅定，眉心舒展，嘴角上揚、嘴唇微張，像正要說出「對！」，呈現終於想通方向的喜悅與自信。姿態有精神但不聳肩、不後仰、不擺出搏擊架勢。手機不在手中。深藍窗外夜景與柔和暖色室內光延續前鏡，臉部和雙拳清楚，其他工位與走廊無人。情緒的提升由表情與站姿表現，不加入誇張光效。
+
+輸出一張16:9彩色分鏡圖，單一連貫畫面，不加入字幕、「ESG 尋寶獵人」字卡、對話框或浮水印。
+```
+
+
+
+## 2026-10-21 shot_3.9.6 GPT v1（待評鑑）
+- 工具：內建 image_gen；供應商：OpenAI；確切模型與費用：工具未提供。
+- 參考圖／編輯底圖：assets/images/shot_3.9.1_gpt_v1.png。
+- 輸出：assets/images/shot_3.9.6_gpt_v1.png；1672×941 RGB。
+- 驗證：PNG完整解碼、來源與複本SHA256一致。新標題目視為《Amy 的 ESG 大尋寶：全體員工升級計畫》，單行、正文空白、結尾游標成立；游標較長，原介面尺規數字不規則仍在。未重試、未改採用。
+
+完整 prompt：
+```text
+請局部編輯這張夜間辦公室電腦螢幕特寫，只修改文件中的標題文字與文字游標位置。
+
+保留原圖的相機角度、透視、取景、螢幕大小與位置、黑色邊框、底座、桌面、薄荷綠隔板、百葉窗及窗外夜景。保持原有文書軟體介面、工具列、白色文件頁面與夜間光影，不拉近、不拉遠、不改變螢幕造型。
+
+將文件上方的舊標題「《ESG 推動管理辦法與獎懲細則草案》」完整移除，替換為以下繁體中文新標題，文字必須完全一致：
+
+《Amy 的 ESG 大尋寶：全體員工升級計畫》
+
+新標題沿用原本黑色粗體標題風格與置中位置，適度縮小字級，使整段標題完整呈現在同一行，左右保留頁面邊距，不裁切、不擠壓字形。保留英文 Amy、ESG 的大小寫、中文全形冒號與前後書名號，不加入驚嘆號或其他文字。
+
+將原本位於下一行左側的文字游標移除，改在新標題最後一個「》」的右側顯示一條細直文字游標，呈現剛完成輸入的瞬間。文件正文維持空白，不新增段落、清單、圖片或裝飾。
+
+畫面聚焦於清楚可讀的新企劃名稱，以相同辦公室與文書介面呈現 Amy 思路的轉變。保持螢幕自然發光與室內暖光，不增加光暈、閃光或熱血特效。
+
+畫面不出現人物、手部、人物倒影或額外鍵盤特寫。不將刪除與打字的多個階段拼貼在同一張圖，不保留舊標題殘字。
+
+輸出一張16:9彩色分鏡圖，不加入螢幕以外的字幕、疊字、對話框或浮水印。
+```
+
+
+
+## 2026-10-21 shot_5.2.3 GPT v1（待評鑑）
+- 圖片：`assets/images/shot_5.2.3_gpt_v1.png`
+- 工具：內建 image_gen／OpenAI；模型與費用未知；依確認prompt逐字生成1次。
+- 驗證：1672×941 RGB PNG，完整解碼及來源SHA256相符。
+- 目視：平板右、攤開報告左，無真人或手部，螢幕群像與綠樹清楚，平板四角完整；報告左側裁切且內頁重繪，樹上群像較像員工坐在枝葉間，不完全是員工組成樹形。螢幕圖為本次生成插畫，非既有Vlog截圖。未改正式採用。
+- 有序參考圖：
+1. `D:/kj-openMontage/projects/course-51-esg/references/scenes/investment_office/cameras/cam_table_insert_iso_empty_gpt.png`
+2. `D:/kj-openMontage/projects/course-51-esg/references/scenes/investment_office/cameras/cam_table_insert_iso_empty_blender.png`
+3. `D:/kj-openMontage/projects/course-51-esg/clp/prop_ipad_landscape.png`
+4. `D:/kj-openMontage/projects/course-51-esg/assets/images/shot_5.2.2_gpt_v2.png`
+
+```text
+參考圖說明：
+圖 1 cam_table_insert_iso_empty_gpt.png：會議桌材質與場景外觀參考。
+圖 2 cam_table_insert_iso_empty_blender.png：桌面取景與透視底圖。
+圖 3 prop_ipad_landscape.png：平板外觀參考，不採用其投資儀表板內容。
+圖 4 shot_5.2.2_gpt_v2.png：上一鏡連戲參考，提供攤開報告的外觀、內頁與日間光線，不帶入人物或雙人構圖。
+
+生圖指引：
+以圖 2 為編輯底圖，保留高角度斜俯視的桌面透視、木紋方向、桌緣與背景皮椅的可見範圍。桌面材質採用圖 1，光線延續圖 4 明亮柔和的日間暖陽。
+
+在桌面加入一台橫向平板及一本攤開的報告。平板外觀採用圖 3；報告沿用圖 4 的深藍封皮、白色內頁與藍綠色數據圖表。只有一台平板、一本報告，不加入人物、手部或其他道具。
+
+畫面描述：
+這是一張 60mm、高角度斜俯視的桌面特寫插鏡。橫向平板平放在木質桌面中央偏右，螢幕朝上，四角與薄邊框完整可見。攤開的報告位於平板左側，兩件物品靠近但不重疊，閱讀方向一致，像是 Harrison 剛將平板放在正在閱讀的報告旁。
+
+平板為主要視覺焦點，螢幕有足夠面積辨識影片內容。報告作為次要資訊，可見圖表與整齊版面，不要求閱讀小字。兩件物品自然貼合桌面透視，接觸陰影清楚，不懸浮。
+
+平板螢幕正在全螢幕顯示 Amy 的 ESG Vlog 結尾動畫：一群笑容明亮、穿著辦公室服裝、工作服與實驗室白袍的員工，以簡潔、溫暖的彩色動畫插畫呈現；員工群像沿著樹幹與向外伸展的枝條排列，共同組成一棵枝葉茂密的綠色大樹。畫面定格於大樹形態已完整形成、仍能辨認員工笑臉與團隊群像的瞬間，傳達全體員工共同投入永續的意義。
+
+大樹與員工只出現在平板螢幕內，不延伸到真實桌面，不變成立體模型、全息投影或浮空圖示。螢幕內容遵循平板表面的透視，不生成正對鏡頭的獨立海報。不要顯示投資儀表板、播放按鈕或剪輯軟體介面。
+
+暖陽在木質桌面留下柔和光澤，螢幕保持清楚，不被窗戶反光遮住。淺景深聚焦於平板螢幕，報告仍可辨識，遠處桌面與皮椅自然柔化。維持安靜、溫暖而專業的會議室氛圍。
+
+輸出一張 16:9 彩色分鏡圖，單一連貫畫面，不加入字幕、對話框或額外疊字。
+```
+
+
+
+## 2026-10-21 shot_3.9.7 GPT v1（待評鑑）
+- 工具：內建 image_gen；供應商：OpenAI；確切模型與費用：工具未提供。
+- 輸出：assets/images/shot_3.9.7_gpt_v1.png；1672×941 RGB。
+- 參考圖（依輸入順序）：
+  1. D:/kj-openMontage/projects/course-51-esg/references/scenes/staff_office/cameras/cam_amy_ms_15deg_empty_gpt_v3.png
+  2. D:/kj-openMontage/projects/course-51-esg/references/scenes/staff_office/cameras/cam_amy_mcu_selfie_block_blender.png
+  3. D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg
+- 驗證：PNG完整解碼、來源與複本SHA256一致。夜間單人自拍、右臂前伸、左手整理瀏海、手機不入鏡成立；頭部側傾、肩胸裁切偏離白模，伸出前臂佔前景較大。未重試、未改採用。
+
+完整 prompt：
+```text
+參考圖說明：
+圖1 cam_amy_ms_15deg_empty_gpt_v3.png：同一辦公室的夜景外觀參考，只提供材質、色彩、夜間亮度與光影，不採用其機位和裁切。
+圖2 cam_amy_mcu_selfie_block_blender.png：自拍構圖底圖，提供微俯視角度、透視、人物佔位、頭部尺度、頭頂留白及背景配置。
+圖3 char_amy.jpeg：Amy 人物外觀與服裝參考，對應圖2的紅色定位人物。
+
+生圖指引：
+以圖2為編輯底圖，保留自拍微俯視角度、取景、透視、人物比例、頭頂留白、可見身體範圍及背景遮擋。不要改成旁觀者拍攝 Amy 拿手機的第三人稱視角，不拉遠補出全身。
+
+將紅色定位人物替換為圖3的 Amy，保留棕色微捲短髮、淡雀斑、灰色西裝與米白色襯衫。使用自然人體比例，不保留白模的方塊身體、長方形脖子或紅色服裝，不採用人物設定圖的展示姿態。
+
+調整 Amy 的右臂，使其自然向鏡頭方向伸出，呈現手持手機自拍的姿態。右前臂可在畫面左下緣局部出現，持手機的手與手機本體位於鏡頭所在位置之外，不必完整入鏡，不為展示手機而改變視角。
+
+Amy 的左手抬至額側，以指尖輕觸瀏海，呈現剛開始整理髮絲的瞬間。手指自然分開，不遮擋雙眼、鼻子或嘴巴，不拉扯頭髮。除了指定的手臂動作，其餘身體位置沿用圖2。
+
+以圖1的夜間材質與光影更新圖2的辦公室，保留圖2的窗戶、百葉、隔板、書櫃、盆栽、螢幕、桌角與椅背位置。窗外改為深藍夜色與零星建築燈光，移除白天日照及陽光條紋，不新增檯燈或其他道具。
+
+畫面描述：
+這是一張28mm手機前鏡頭視角的橫向自拍中特寫，鏡頭略高於 Amy 的雙眼，向下輕微俯拍。Amy 坐在原有網布辦公椅上，頭部完整入鏡，肩胸以上可見，保持圖2的頭頂留白。她右臂向鏡頭方向伸出持機，左手指尖輕觸額側瀏海，正準備將髮絲整理妥當。她的視線看向靠近鏡頭的自拍螢幕，雙眼明亮、眉心舒展，嘴角帶著克制而自信的俏皮微笑，嘴唇輕輕微張，像準備低聲說出「好戲……要上場囉！」。此刻尚未伸指按下錄影鍵，為後續放下整理瀏海的手、說話與按鍵動作保留起點。面部以柔和暖色室內光照亮，搭配微弱手機螢幕補光，背景維持安靜的深夜辦公室。景深讓 Amy 的眼睛、臉部與整理瀏海的手清楚可辨，背景略柔化。畫面只有 Amy 一人，其他工位與走廊無人。
+
+輸出一張16:9彩色分鏡圖，單一連貫畫面，不加入手機邊框、相機操作介面、錄影紅點、字幕、對話框或浮水印。
+```
+
+
+
+## 2026-10-21 shot_5.2.4 GPT v1（待評鑑）
+- 圖片：`assets/images/shot_5.2.4_gpt_v1.png`
+- 工具：內建 image_gen／OpenAI；模型與費用未知；依確認prompt逐字生成1次。
+- 驗證：1672×941 RGB PNG，完整解碼與來源SHA256相符。
+- 目視：Harrison單人特寫、低頭下視、閉嘴、頭頂完整、雙手及道具畫外、日間暖光呈現；眉心仍明顯緊繃，未充分柔化，頭臉比例及肩膀可見範圍偏離blocks，背景右側新增樓體。待評鑑，未改正式採用。
+- 有序參考圖：
+1. `D:/kj-openMontage/projects/course-51-esg/references/scenes/investment_office/cameras/cam_harrison_cu_emotion_empty_gpt.png`
+2. `D:/kj-openMontage/projects/course-51-esg/references/scenes/investment_office/cameras/cam_harrison_cu_emotion_block_blender.png`
+3. `D:/kj-openMontage/projects/course-51-esg/clp/char_harrison.jpeg`
+
+```text
+參考圖說明：
+圖 1 cam_harrison_cu_emotion_empty_gpt.png：場景外觀參考圖。
+圖 2 cam_harrison_cu_emotion_block_blender.png：構圖底圖。
+圖 3 char_harrison.jpeg：Harrison 人物外觀與服裝參考，對應圖 2 的藍色人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、人物佔位、頭部大小、頭頂留白、肩膀裁切與椅背遮擋關係。不要拉遠成中景，不放大臉部，也不補出畫外的手、平板或報告。
+
+將定位人物替換為圖 3 的 Harrison，保留銀灰色後梳髮型、濃眉、長鼻、方長下巴與深藍細條紋西裝。人物參考只提供外觀與服裝，不沿用其緊繃怒視的表情或展示姿態。
+
+場景材質採用圖 1，保留棕色真皮高背椅、窗框與窗外大樓的位置。依本鏡劇情將陰冷光線改為晴朗明亮的日間暖光，延續前兩鏡的自然日照；窗外建築明亮清晰，背景自然虛化，不改動窗框與建築結構。
+
+畫面描述：
+這是一張 85mm、平視固定機位的 Harrison 單人臉部特寫。完整頭部、頸部及肩膀上緣入鏡，胸口以下自然裁切，人物比例與留白沿用圖 2。棕色皮椅位於頭部與肩膀後方，窗外金融大樓形成柔和背景。
+
+Harrison 剛看完平板上的影片，仍安靜坐在原位。下巴稍微內收，頭部輕微低俯，雙眼看向畫面下方、桌上平板所在的位置，呈現沉默思考後、尚未完全抬頭的瞬間。不要低頭到遮住眼睛，雙眼與細微表情仍須清楚可辨。
+
+眉心原本的緊繃稍微鬆開，眼神由嚴厲轉為沉穩、若有所思；嘴唇輕合，嘴角僅有幾乎察覺不到的柔化，尚未形成明顯笑容。不露齒、不挑眉、不做誇張讚許表情，保留即將說出「Risk is not attractive.」之前的懸念。
+
+Sandy 仍站在 Harrison 身旁，但完全位於本鏡取景範圍外，不加入她的臉、肩膀或倒影。畫面只有 Harrison 一人；雙手、平板、報告與桌面均不入鏡。
+
+自然暖光柔和照亮臉部，保留額頭、眼周與嘴角的細節。淺景深聚焦雙眼與面部表情，皮椅及窗景自然柔化，不使用誇張光暈。
+
+除上述頭部俯角、視線、表情與日照調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、對話框或額外疊字。
+```
+
+
+
+## 2026-10-21 shot_5.2.5 GPT v1（待評鑑）
+- 圖片：`assets/images/shot_5.2.5_gpt_v1.png`
+- 工具：內建 image_gen／OpenAI；模型與費用未知；依確認prompt逐字生成1次。
+- 驗證：1672×941 RGB PNG，完整解碼與來源SHA256相符。
+- 目視：右手指報告、左手低放、單人完整頭頂及桌面道具呈現；視線朝畫左上，眉心仍緊，笑意較明顯並略露齒，報告下緣裁切。平板螢幕內容偏向觀眾而非Harrison閱讀方向，與prompt有偏差。人物及背景重繪，待評鑑，未改正式採用。
+- 有序參考圖：
+1. `D:/kj-openMontage/projects/course-51-esg/references/scenes/investment_office/cameras/cam_harrison_mcu_45deg_empty_gpt.png`
+2. `D:/kj-openMontage/projects/course-51-esg/references/scenes/investment_office/cameras/cam_harrison_mcu_45deg_block_blender.png`
+3. `D:/kj-openMontage/projects/course-51-esg/clp/char_harrison.jpeg`
+4. `D:/kj-openMontage/projects/course-51-esg/assets/images/shot_5.2.3_gpt_v1.png`
+
+```text
+參考圖說明：
+圖 1 cam_harrison_mcu_45deg_empty_gpt.png：會議室場景外觀參考。
+圖 2 cam_harrison_mcu_45deg_block_blender.png：Harrison 座位、人物與背景空間關係參考；本鏡需調整取景及手勢。
+圖 3 char_harrison.jpeg：Harrison 人物外觀與服裝參考。
+圖 4 shot_5.2.3_gpt_v1.png：桌上平板、攤開報告及平板螢幕內容的連戲參考，不採用其俯視機位。
+
+生圖指引：
+以圖 2 的座位與拍攝方向為基礎，略放寬取景並向下調整，使 Harrison 的完整頭部、胸腹、前臂及面前的桌面入鏡。保留人物坐在棕色皮椅上的位置，以及窗框、窗外大樓與座椅的空間關係。不強制沿用圖 2 的原裁切，不將桌面或道具懸浮到胸前。
+
+人物外觀與服裝採用圖 3，保留銀灰後梳髮型、濃眉、長鼻、方長下巴及深藍細條紋西裝。不要沿用人物參考圖的怒視表情，也不要保留 blocks 的雙臂交叉姿勢。
+
+場景材質採用圖 1，將陰冷窗景改為延續前鏡的晴朗日間暖光。棕色皮椅、玻璃與木質桌面保持自然質感，窗外建築明亮、柔和虛化。
+
+平板與攤開報告的外觀採用圖 4。保留報告的深藍封皮、白色內頁與藍綠圖表；平板維持橫向平放、螢幕朝上，顯示員工與綠色大樹畫面。依本鏡機位呈現自然透視，不為了展示螢幕而將平板立起或轉向觀眾。
+
+畫面描述：
+這是一張坐姿眼高、固定機位的 Harrison 單人中近景。Harrison 坐於畫面中央的皮椅上，頭頂完整保留，胸腹與前臂清楚入鏡。面前木質桌面佔畫面下方，提供完整的手勢與報告閱讀空間。
+
+Harrison 已從前鏡的沉思中抬起頭，身體稍微向前，保持沉穩而有權威的坐姿。他的右前臂向桌面伸出，右手食指輕觸攤開報告上的一處數據圖表；其餘手指自然彎曲，手腕與手臂連接清楚。左手放鬆地停在桌面，不握平板、不指向其他物件。
+
+報告位於 Harrison 右手自然可及之處，平板並排放在報告旁，兩件物品不重疊。報告頁面與平板螢幕均朝向 Harrison 的閱讀方向。只呈現一本報告與一台平板，平板中的人物不出現在真實會議室。
+
+Harrison 的頭部略轉向畫外、仍站在他身旁的 Sandy，視線看向她的臉，略微高於自己的坐姿眼線，不看鏡頭、不仰望天花板。眉心明顯放鬆，眼神專注而帶著認可，嘴角有克制、極淡的讚許笑意，嘴唇微張，正開始說明數據證明了公司的合規。保留他一貫的沉著，不露齒大笑、不誇張挑眉。
+
+定格在「右手指出報告數據」這一個瞬間，不同時指向平板，也不提前演出最後強調結論的手勢。Sandy 完全位於取景範圍外，不加入她的肩膀、手部或倒影。
+
+自然暖光照亮臉部與桌面，焦點落在 Harrison 的表情及指向報告的手勢。窗外大樓與皮椅背景柔和虛化，報告和平板仍可辨識，整體維持專業、沉穩、帶著由衷認可的氣氛。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、對話框或額外疊字。
+```
+
+
+
+## 2026-10-21 cafe overview GPT v4（指定 loc_cafe_left_far 美術參考）
+- 狀態：已生成，待使用者評鑑，未改採用。
+- 工具：內建 image_gen／OpenAI；模型版本、預估與實際費用未知；單次生成1張。
+- 圖1：references/scenes/cafe/cameras/cam_room_wide_overview_empty_blender_v2.png（唯一構圖底圖）
+- 圖2：clp/loc_cafe_left_far.png（美術參考）
+- 輸出：references/scenes/cafe/cameras/cam_room_wide_overview_empty_gpt_v4.png
+- 驗證：PNG 1672×941 RGB，完整解碼及原生工具圖複本SHA256一致。
+- 觀察：空景、四張完整椅＋右下裁切椅、兩桌與三垃圾桶保留；暖日光與布料材質成立。家具相對尺寸／位置略移，窗外建築與植葉重繪、地板紋理偏強，冰箱疑保留多餘右側把手，非精確幾何複製。未重試。
+
+### 完整實際提示詞
+```text
+Use case: style-transfer.
+請編輯圖1，將本機位 Blender 空景轉成與圖2同一套美術的高質感3D場景背景。
+圖1 cam_room_wide_overview_empty_blender_v2.png 是唯一編輯底圖，唯一決定相機位置、觀看方向、透視、構圖、畫面裁切及物件配置。
+圖2 loc_cafe_left_far.png 是同一場景的共用美術參考，只提供材質、色彩、光影與氣氛。不要採用圖2的拍攝角度、消失點、畫面排列或可見範圍，不要重新生成圖2。
+匹配圖2的米灰細織布沙發、珊瑚橘布抱枕、淺木地板與層板、奶白霧面櫃體、拉絲金屬冰箱、陶瓷杯罐、自然綠葉；暖日光配合冷藍都市窗景與柔暖天花燈。不額外加強飽和度、暖色或泛光。依圖1朝向維持合理窗邊入光方向，不直接複製圖2光斑位置。
+【保留本機位】
+維持圖1的16:9畫幅、廣角俯視角度、消失點、主要結構與遮擋。保留窗框分格、立柱、門、天花燈與空調、地面邊界、家具設備及植物的位置、數量、尺度與主要輪廓。不旋轉相機、不鏡像、不拉遠拉近。不要為展示完整物件補出被裁切部分。
+【材質與細節提升】
+沿用圖1構造與物件種類，只提升微紋理、粗糙度、接縫、細微倒角高光、接觸陰影與自然玻璃反射。布料紋理細緻且尺度合理，抱枕有柔軟皺褶；木紋淡雅，陶瓷與金屬質感區分。植物保留位置與主要枝幹，在原體積內細化薄葉、透光與自然葉片，不新增植物。保持乾燥霧面地板，不增加鏡面反光、髒污或強景深模糊。
+【本鏡畫面】
+本鏡為室內高位廣角全景：左側大面落地窗與冷藍都市建築，中景四張單人椅圍繞兩張圓桌；前桌杯子與書冊、後桌盆栽均保留。後牆茶水台含左側冰箱、水槽、微波爐、咖啡機、上下櫃與兩層木架、杯罐和垂葉植物，右方三個並排垃圾桶與畫框邊緣的木門。左下吧台和兩個凳子局部入鏡；右下另有被畫框裁切的椅子與橘抱枕，嚴格保留這些裁切關係。冰箱把手維持圖1靠窗左側的位置，杯子各自完整直立。所有物件依圖1位置，不套圖2家具位置。
+【空景與輸出】
+零人物，不得出現人體、肩膀、手臂、人影或人物倒影。只輸出一張16:9高解析度完整圖片，不拼貼、不加字幕、標誌或水印。
+```
+
+
+
+
+## 2026-10-21 cafe overview 人物重繪 GPT v1（待評鑑）
+- 輸出：`references/scenes/cafe/cameras/cam_room_wide_overview_gpt_v1.png`
+- 工具：內建 image_gen／OpenAI；模型版本、預估與實際費用未知；單次生成。
+- 有序輸入：
+1. `D:/kj-openMontage/projects/course-51-esg/clp/loc_cafe_left_far.png`
+2. `D:/kj-openMontage/projects/course-51-esg/references/scenes/cafe/cameras/cam_room_wide_overview_block_blender_v2.png`
+3. `D:/kj-openMontage/projects/course-51-esg/clp/char_george.png`
+4. `D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg`
+- 觀察：George／Amy外觀與入座成立，但構圖偏向場景參考圖，未準確保留blocks；人物、桌椅畫面位置偏移，Amy雙手改交疊。未重試、未採用。
+- 驗證：PNG完整解碼與輸出複本SHA256核對；尺寸1672×941 RGB。
+
+完整實際 prompt：
+```text
+參考圖說明：
+圖 1 loc_cafe_left_far.png：場景外觀參考圖。
+圖 2 cam_room_wide_overview_block_blender_v2.png：唯一構圖與空間定位底圖。
+圖 3 char_george.png：George 人物參考圖，對應圖 2 的藍色人物。銀灰頭髮、棕框眼鏡、短灰鬍鬚、米色襯衫、棕色背心與領帶、深棕褲及皮鞋。
+圖 4 char_amy.jpeg：Amy 人物參考圖，對應圖 2 的紅色人物。棕色短波浪髮、綠眼睛、灰色西裝與長褲、白襯衫、深色高跟鞋。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、家具與物件配置、人物佔位、身體朝向、比例、顯示範圍與遮擋關係。不要重新生成圖 1 的構圖。
+將兩個定位人物替換為對應角色，直接坐入圖 2 的既有扶手椅，不另加椅子；人物外觀與服裝採用圖 3、4，不採用其站立展示姿態、拼圖構圖或背景。藍紅只是定位標記，不是最終服裝顏色。保留頭部與軀幹的位置及相對尺寸，不放大人物、不改為人物近景。
+將場景的材質、風格與光影更新為圖 1 的外觀：細緻米灰布料扶手椅、珊瑚橘抱枕、淺木地板與桌面、白色陶瓷、霧面櫃體與金屬設備，窗外冷藍城市與室內暖光、柔和日照。光影依圖 2 的窗位合理落下。人物為與參考一致的精緻3D動畫角色，與室內光影自然融合、具有正確接觸陰影。
+保持圖 2 門窗分格、天花燈帶、茶水台、冰箱、微波爐、咖啡機、層架、三個垃圾桶、所有椅子和兩張圓桌及植物的數量、位置、尺度和輪廓；在既有體積內細化材質、葉片與設備細節，不新增陳設，不將參考圖家具位置移植過來。保留前桌杯子、筆和紙本。保留近景資訊，不增加強烈散景。
+
+畫面描述：
+這是一張室內高位俯視廣角全景，左側大面積落地窗、後右側茶水台、右邊門牆與垃圾桶同框。George 位於畫面中央偏左的前排扶手椅，從其後側看見側後頭部及身體，面向右側；Amy 位於其右後方、靠茶水台前的扶手椅，身體朝向鏡頭偏George方向。兩人依定位模型維持自然坐姿，手臂與雙腿的位置沿用圖 2，不增加手勢或道具；不為了露出臉而旋轉George。前方圓桌遮擋部分Amy腿部；後排兩張空扶手椅與小圓桌維持原位。左下桌沿與高腳椅、右下局部扶手椅依底圖裁切。全圖只出現George與Amy兩位人物。
+
+輸出一張16:9高解析度完整彩色圖片，不拼貼、不加文字、字幕、標誌或水印。
+```
+
+
+
+## 2026-10-21 cafe overview GPT v5（Cafe_2 指定美術參考）
+- 狀態：待評鑑，未改採用；內建 image_gen／OpenAI，單次1張，模型版本及費用未知。
+- 圖1（唯一底圖）：D:/kj-openMontage/projects/course-51-esg/references/scenes/cafe/cameras/cam_room_wide_overview_empty_blender_v2.png
+- 圖2（僅美術，不帶人物）：D:/Dropbox/_AI動畫製作_ESG/B0_MJ圖/cafe/Cafe_2.png
+- 輸出：references/scenes/cafe/cameras/cam_room_wide_overview_empty_gpt_v5.png
+- 驗證：PNG 1672×941 RGB，完整解碼／工具原圖複本SHA256一致。
+- 觀察：零人物、四張完整椅＋右下裁切椅、兩桌、三垃圾桶保留；布料及木材質改善。構圖／家具投影略移、天花燈排列改變、窗外與植物細節重繪、冰箱多出右側把手；未完全遵守幾何保留，未重試。
+
+### 完整實際提示詞
+```text
+Use case: style-transfer.
+請編輯圖1，將這張Blender空景提升為圖2所呈現的精緻3D動畫電影環境質感，參考圖2的材質、色彩、光影與氣氛。
+圖1 cam_room_wide_overview_empty_blender_v2.png 是唯一的取景、透視、物件配置與遮擋依據。
+圖2 Cafe_2.png 僅供美術表現參考，不移植其構圖、家具排列、植物配置或人物。圖2的兩位女性絕不可出現在輸出中。
+色彩與光影採用圖2的低飽和灰米色布料、珊瑚橘抱枕、奶油色桌面、柔和自然日光、略帶青藍的窗外光與克制溫暖的室內中間調。不要加成強烈金黃夕陽，不增加飽和度或泛光。保留圖1既有入光朝向，投影依本機位合理形成。
+【保留本機位】
+嚴格維持圖1的16:9畫幅、觀看方向、消失點、主要結構與遮擋。保留門窗分格、立柱、門把、地面邊界、家具、設備及植物的位置、數量、尺度與主要輪廓。
+不旋轉相機、不鏡像、不拉遠或拉近，不移植參考圖中本鏡畫外的物件，不為展示完整物件補出被裁切部分。
+【材質與細節提升】
+沿用圖1構造與物件種類，改善微紋理、粗糙度、接縫、細微倒角高光、接觸陰影與反射。沙發布面呈現圖2精細而低對比的織紋，抱枕柔軟有自然接縫；淺木地板保留細緻木紋而不加花紋；奶白霧面櫥櫃、拉絲金屬冰箱、陶瓷杯罐各自有可信質感，不新增配件或重新設計家具。
+植物保留位置與主要枝幹，在原有體積內細化薄葉及透光，不新增植物。避免球塊狀植物、平塗玻璃與塑膠質感。保持乾燥霧面表面，不加髒污或強鏡面反光。
+作為後續加入人物的背景母圖，所有近中景資訊保持可用，不複製圖2的人像淺景深與背景虛化。
+【本鏡畫面】
+室內左前方高位廣角全景，左側大面落地窗，中間四張完整單人椅及兩張圓桌；另有右下角被裁切的第五張椅子與抱枕。前桌杯子與書冊、後桌小盆栽保持原位置。左下吧台與兩張凳子局部入鏡。後牆茶水台含冰箱、水槽、微波爐、咖啡機、上下櫃與兩層木層板、杯罐及垂葉；右側三個垃圾桶和門。保持圖1所有家具投影位置、大小與裁切，保持冰箱靠窗左側的上下兩把手，不新增右側手把。窗外建築維持圖1的主要輪廓與分格，提升材質即可。
+【空景與輸出】
+零人物，不得出現主角、路人、人體、肩膀、手臂、人物倒影或人形剪影。
+只輸出一張16:9高解析度完整圖片，不製作拼貼，不加字幕、標誌或水印。
+```
+
+
+
+
+## 2026-10-21 shot_5.2.5 GPT v2（閱讀方向修正，待評鑑）
+- 圖片：`assets/images/shot_5.2.5_gpt_v2.png`
+- 工具：內建 image_gen／OpenAI；模型與費用未知；單圖編輯1次。
+- 參考圖：`assets/images/shot_5.2.5_gpt_v1.png`（唯一底圖）。
+- 驗證：1672×941 RGB PNG，完整解碼與來源SHA256相符。
+- 目視：平板樹冠及人物倒向觀眾，企劃書照片／圖表方向亦改為Harrison閱讀方向。人物、手勢及主要背景大致保留；企劃書兩頁內容被重新編排／左右交換，非逐頁原樣旋轉，螢幕細節有重繪。保留v1，未改採用。
+
+```text
+以參考圖 shot_5.2.5_gpt_v1.png 為唯一編輯底圖，只修正平板螢幕內容與攤開企劃書內頁的閱讀方向。
+
+Harrison 坐在桌子後方，攝影機位於桌子前方。現在平板與企劃書的內容都是朝攝影機正向，這是錯誤的。請將這兩處內容在各自表面平面內旋轉180度，使內容的頂端靠近攝影機、底端靠近Harrison。從目前鏡頭看，螢幕中的樹與人物、企劃書中的文字及圖表都應呈現倒向觀眾；Harrison 從自己的座位看則是正向可讀。
+
+1. 平板：只將玻璃螢幕內的整幅員工與大樹畫面旋轉180度，維持原螢幕透視、邊界及亮度。員工頭部與樹冠朝向畫面下方靠近攝影機的一側，樹根朝向Harrison。不要鏡像，不改平板機身、外框、充電孔、大小、位置或角度。
+2. 企劃書：保持書本原有位置、攤開狀態、書脊、封皮、頁面曲面及陰影，只將左右頁各自的印刷內容在其紙面內旋轉180度。兩頁所有文字、照片與圖表的頂端朝攝影機，讓Harrison能正向閱讀。右手食指仍觸碰原來相同的紙面位置，圖表仍在手指附近，不移動手指或書本。不鏡像，不左右交換紙張，不新增頁面。
+
+除這兩處內容方向外，完整保留Harrison的臉、眼神、嘴部、髮型、服裝、姿態、雙手與手指，保留皮椅、桌面、窗框、大樓背景、光線、景別與裁切。不要重新構圖，不添加任何人物或物件，不加入字幕或額外疊字。輸出一張與原圖相同比例的彩色圖片。
+```
+
+
+
+## 2026-10-21 shot_5.2.6 GPT v1（待評鑑）
+- 圖片：`assets/images/shot_5.2.6_gpt_v1.png`
+- 工具：內建 image_gen／OpenAI；模型與費用未知；依確認prompt逐字生成1次。
+- 驗證：1672×941 RGB PNG，完整解碼與來源SHA256相符。
+- 目視：單手綠色APPROVED實體章懸停、紅色ON HOLD紙面印記、暖陽呈現，紙面尚無綠章；紅印完整露出且部分壓住公司名稱，印章底面與紅印的落點對齊未能確認，未宣稱可精準覆蓋。封面主文字與原構圖大致保留。待評鑑，未改正式採用。
+- 有序參考圖：
+1. `D:/kj-openMontage/projects/course-51-esg/assets/images/shot_1.1.11_gpt_v1.png`
+2. `D:/kj-openMontage/projects/course-51-esg/clp/prop_stamp_approved.png`
+3. `D:/kj-openMontage/projects/course-51-esg/clp/prop_stamp_onhold.png`
+
+```text
+參考圖說明：
+圖 1 shot_1.1.11_gpt_v1.png：編輯底圖，提供桌面構圖、企劃書位置、Harrison 的手與袖口，以及印章懸停的姿態。
+圖 2 prop_stamp_approved.png：綠色 APPROVED 印章外觀參考。
+圖 3 prop_stamp_onhold.png：僅採用紅色 ON HOLD 印記樣式，不帶入紅色實體印章。
+
+生圖指引：
+以圖 1 為編輯底圖，保留原有斜俯視機位、桌面透視、木紋方向、企劃書大小、位置、封面設計與裁切，以及 Harrison 右手伸入畫面的方向。
+
+將手中紅色 ON HOLD 實體印章替換為圖 2 的綠色 APPROVED 印章，保留自然握持關係。印章採用綠色圓潤握柄、銀色金屬長方形底座、黑色橡膠底面，正面綠底標籤清楚寫著白色「APPROVED」。只生成一枚印章，不帶入參考圖的多視角排列或獨立展示印記。
+
+在企劃書封面加入圖 3 的紅色長方框「ON HOLD」舊印記，作為即將被核准章覆蓋的目標。本張圖片尚未完成蓋章，紙面上不可提前出現綠色 APPROVED 印記。
+
+場景由第一幕的偏暗光線改為第五幕明亮、柔和的日間暖陽，保持相同木質桌面與企劃書材質，不改成其他房間。
+
+畫面描述：
+這是一張斜俯視的桌面蓋章特寫。合上的大成公司增資計畫書位於畫面中央偏下，沿用圖 1 的白色封面、深藍書脊、公司名稱、中文書名與淡藍綠圖形。封面閱讀方向沿用第一幕參考圖，不鏡像、不重排文字。
+
+封面上方、公司名稱上方的留白處，已有一個清楚可辨的紅色「ON HOLD」印記，呈現略帶紙張紋理的印泥質感。印記直接附著於紙面，不是浮空字卡或貼紙。
+
+Harrison 的右手從畫面上緣伸入，穿著原有深藍細條紋西裝，露出一小段白襯衫袖口。手指自然握緊綠色 APPROVED 印章握柄，印章底面與企劃書封面平行，停在紅色 ON HOLD 印記正上方、尚未接觸紙面的瞬間。
+
+保持印章與紙面之間可辨識的空隙及柔和投影，紅色印記至少有部分從印章下方露出，讓觀眾看懂接下來將覆蓋的位置。不為了同時展示完整印記而將印章偏移到其他位置。
+
+這一瞬間只呈現「準備果斷蓋下核准章」，不加入動態殘影、撞擊線、飛濺印泥或已完成的綠色紙面印記。手掌、手指與印章接觸自然，不增加手指，不讓印章懸浮於手掌之外。
+
+焦點落在綠色印章、握持的手與封面上的紅色印記，桌面背景柔和退開。陽光在木紋與金屬底座上形成克制的暖色光澤，維持正式商務場合的質感。
+
+畫面只有一隻手、一枚綠色實體印章與一本合上的企劃書，不加入 Harrison 的臉、其他人物、平板或紅色實體印章。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、對話框或額外疊字；封面原有文字、印章標籤與紅色 ON HOLD 印記保留。
+```
+
+
+
+## 2026-10-21 shot_5.2.7 GPT v1（待評鑑）
+- 圖片：`assets/images/shot_5.2.7_gpt_v1.png`
+- 工具：內建 image_gen／OpenAI；模型與費用未知；依確認prompt逐字生成1次。
+- 驗證：1672×941 RGB PNG，完整解碼與來源SHA256相符。
+- 目視：左側合上企劃書與右側平板完整入鏡，APPROVED拼字清楚、未遮主要書名，無手或實體印章、無額外片尾字卡。閱讀方向一致，員工大樹呈現；封面文字排版及螢幕細節有重繪，紅印殘痕不可見。待評鑑，未改正式採用。
+- 有序參考圖：
+1. `D:/kj-openMontage/projects/course-51-esg/references/scenes/investment_office/cameras/cam_table_insert_iso_empty_gpt.png`
+2. `D:/kj-openMontage/projects/course-51-esg/references/scenes/investment_office/cameras/cam_table_insert_iso_empty_blender.png`
+3. `D:/kj-openMontage/projects/course-51-esg/assets/images/shot_5.2.6_gpt_v1.png`
+4. `D:/kj-openMontage/projects/course-51-esg/clp/prop_stamp_approved.png`
+5. `D:/kj-openMontage/projects/course-51-esg/assets/images/shot_5.2.3_gpt_v1.png`
+
+```text
+參考圖說明：
+圖 1 cam_table_insert_iso_empty_gpt.png：桌面材質、場景外觀與光影參考。
+圖 2 cam_table_insert_iso_empty_blender.png：桌面取景與透視底圖。
+圖 3 shot_5.2.6_gpt_v1.png：合上企劃書的封面、裝訂及舊印記位置參考；不帶入手或實體印章。
+圖 4 prop_stamp_approved.png：僅採用綠色 APPROVED 紙面印記樣式，不帶入實體印章。
+圖 5 shot_5.2.3_gpt_v1.png：平板外觀與員工大樹螢幕畫面參考，不帶入攤開的報告。
+
+生圖指引：
+以圖 2 為編輯底圖，保留斜俯視的桌面透視、木紋方向、桌緣與背景皮椅的可見範圍。桌面材質採用圖 1，光線延續前鏡晴朗、溫暖的日間陽光，不改成夕陽或夜景。
+
+桌面只放一本合上的增資計畫書與一台橫向平板。企劃書外觀採用圖 3；綠色核准印記採用圖 4；平板與螢幕內容採用圖 5。各參考圖僅提供指定素材，不帶入其他物件。
+
+畫面描述：
+這是一張 60mm、高角度斜俯視的桌面特寫插鏡。合上的大成公司增資計畫書位於畫面左側，橫向平板平放在畫面右側，兩件物品並排、靠近但不重疊，共同位於畫面中央。企劃書封面與平板四角完整入鏡，周圍保留少量木質桌面空間。
+
+企劃書維持白色封面、深藍書脊、深藍公司名稱與「增資計畫書」書名，以及淡藍綠上升圖形。封面原本紅色 ON HOLD 所在的位置，現在已被一個醒目的翡翠綠長方框「APPROVED」核准印記覆蓋。綠色字母完整、清楚、拼寫正確，作為畫面的第一視覺焦點。
+
+綠色印記自然附著於紙面，帶有細微印泥顆粒與紙張紋理，不是浮空字幕、發光字或立體牌。原紅色印記僅允許在邊緣留下極少量殘痕，不再形成另一個完整可讀的 ON HOLD，也不與 APPROVED 疊成難以辨識的混色文字。核准印記不要遮住主要書名。
+
+平板螢幕停留在圖 5 的員工與茂密綠色大樹結尾畫面，保持人物群像、綠葉及樹幹的視覺內容，不重新設計成其他影片。畫面完全位於螢幕邊界內，遵循玻璃表面的透視，不顯示播放按鈕、進度列、通知或軟體介面。
+
+企劃書封面與平板內容的閱讀方向一致，延續圖 5 桌面插鏡的觀看方向；這是道具特寫機位，不套用從 Harrison 對面拍攝人物時的倒向觀眾畫面。文字與螢幕內容不鏡像，兩件物品自然平貼桌面，有柔和接觸陰影。
+
+溫暖日光在木紋、白色紙面與平板金屬邊緣留下柔和光澤，不產生遮住核准文字或螢幕的強烈反光。焦點落在 APPROVED 印記與平板畫面，遠處桌面及皮椅略微柔化，整體明亮、安定，呈現事情圓滿落定的餘韻。
+
+畫面不出現人物、手、實體印章、電話或其他新增道具。Harrison 的台詞屬於畫外音，不以文字或人物呈現在圖片中。
+
+輸出一張 16:9 彩色分鏡圖，維持完整亮度，不做淡出、不加黑色漸層，不加入 THE END、字幕、片尾標語或額外疊字；保留企劃書原有文字與綠色 APPROVED 印記。
+```
+
+
+
+## 2026-10-21 shot_3.8.13 GPT v1（待評鑑）
+- 圖片：`assets/images/shot_3.8.13_gpt_v1.png`，1672×941 RGB PNG。
+- 依使用者確認的 prompt 原文生成 1 次；內建 image_gen／OpenAI，模型版本與費用未知。
+- 完整解碼及來源 SHA256 比對通過。目視：單人、雙掌向上與微笑呈現；視線偏左上，人物位置／比例及肩膀輪廓偏離 blocks，背景有重繪。待使用者評鑑，未改正式採用。
+- 有序參考圖：
+1. `D:/kj-openMontage/projects/course-51-esg/references/scenes/street/cameras/cam_george_mcu_45deg_empty_gpt.png`
+2. `D:/kj-openMontage/projects/course-51-esg/references/scenes/street/cameras/cam_george_mcu_45deg_block_blender.png`
+3. `D:/kj-openMontage/projects/course-51-esg/clp/char_george.png`
+
+### 完整 prompt
+```text
+參考圖說明：
+圖 1 cam_george_mcu_45deg_empty_gpt.png：街道場景外觀參考圖。
+圖 2 cam_george_mcu_45deg_block_blender.png：構圖底圖。
+圖 3 char_george.png：George 人物參考圖，對應圖 2 的藍色定位人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留取景、透視、背景物件配置、人物位置與比例、頭頂留白、肩膀位置及畫面裁切。不拉近鏡頭，不放大人物。
+
+將藍色定位人物替換為圖 3 的 George。人物五官、髮型、眼鏡、鬍鬚與服裝依圖 3，保留精緻 3D 動畫質感，不採用人物參考圖的展示姿態或多格構圖。只呈現本鏡取景內的身體部位。
+
+將場景材質、風格與光影更新為圖 1 的外觀，空間配置與遮擋關係沿用圖 2。保留玻璃門、石材立柱與沿街花台的位置，以及溫暖自然日光。
+
+畫面描述：
+眼高平視、斜側約 45 度的 George 單人中特寫。頭部、肩膀與胸前區域入鏡，人物尺度與頭頂留白依圖 2，下半身位於畫外。畫面只有 George 一人，Amy 位於畫左鏡外。
+
+George 正向 Amy 說明 ESG 能提升同事的競爭力，讓工作更有價值。他眉頭舒展，眼神明亮而專注，嘴角帶著自信、溫和的微笑，嘴唇自然微張，呈現真誠鼓勵對方的神情。
+
+頭部略朝畫左，下巴自然水平，雙眼看向畫左鏡外、與自己眼睛高度相近的 Amy。視線保持水平，不看天空，也不看鏡頭。
+
+雙肘彎曲，雙手在胸前偏下的位置自然分開，掌心朝上，手指放鬆微彎，呈現即將向上托舉的起始姿態。手掌空著，手勢自然開闊，不遮住臉部。允許為此調整手臂與手掌，其餘肩膀、軀幹位置及人物尺度沿用圖 2；不為了展示手肘而改變取景。
+
+焦點落在 George 的眼睛與表情，背景玻璃門、石柱及綠植柔和失焦。只呈現這個同時成立的瞬間，不加入動作殘影、上升箭頭或概念圖示。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、字卡、對話框或浮水印。
+```
+
+
+
+### 2026-10-21 cafe table action 空景重繪（待評鑑）
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_twoshot_table_action_empty_gpt.png
+- 工具：內建 image_gen／OpenAI；模型版本與費用未知；一次生成。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_twoshot_table_action_empty_blender.png；2. clp/loc_cafe_left_far.png
+- 格式／尺寸：PNG (1672, 941)；完整解碼及來源複本SHA256通過。
+- 觀察：四椅兩桌與零人物保留；布料與暖光貼近參考。椅子輪廓及窗外建築細節變動、日照較強；前杯疑似出現雙杯耳，未完全符合單耳要求。未重試、未改採用。
+- 完整實際提示詞：
+
+請編輯圖1，將本機位Blender空景轉成與圖2同一套精緻3D動畫電影美術的場景背景。
+圖1 cam_twoshot_table_action_empty_blender.png 唯一決定相機位置、觀看方向、透視、構圖、畫面裁切及物件配置。
+圖2 loc_cafe_left_far.png 是美術參考，只提供材質、色彩、光影與氣氛。不要採用圖2的拍攝角度、消失點、畫面排列或可見範圍，不要重新生成圖2。
+匹配圖2的米灰色細織布沙發、珊瑚橘柔軟布抱枕、象牙白圓桌與陶瓷花盆、淺色木地板及木桌柱、自然綠植、冷藍玻璃城市背景，日光溫暖柔和而不過度橙黃。依圖1朝向與投影維持合理光源方向，不把圖2光斑直接貼上。
+【保留本機位】
+維持圖1的16:9畫幅、觀看方向、消失點、主要結構與遮擋。保留可見窗分格、立柱、家具及植物的位置、數量、尺度和主要輪廓。不旋轉相機、不鏡像、不拉遠或拉近。不移植圖2畫外的茶水台、冰箱、廚櫃、門、垃圾桶或天花板。不要為展示完整物件而補出被畫框裁切部分。
+【材質與細節提升】
+沿用圖1構造和物件種類，改善細織布紋理、柔軟抱枕皺褶、接縫、細微倒角高光、接觸陰影與玻璃反射。保持霧面、乾燥、潔淨質感與合理紋理尺度。植物保留既有種類、盆器位置、主要枝幹與體積，只細化葉片透光和葉緣。窗外建築保持原有主要輪廓與位置，改善玻璃材質與細節。保持近中景清楚，作為後續加入人物的背景，不額外強化散景。
+【本鏡畫面】
+從稍高位置朝向落地窗拍攝四張米灰單人沙發，每張一個珊瑚橘靠枕。前方左右兩椅較大、後方左右兩椅較小，兩組座椅各配一張象牙白圓茶几，必須保持這個前後透視與椅子朝向。前茶几居中偏下、底座在下緣裁切，桌面保留左側一只咖啡杯（僅一個杯耳）、右側一本閉合淺色筆記本及其上方一支黑筆；後茶几保留小盆栽和疊放書冊。左邊低矮綠植與細長多枝高植栽、右邊低矮綠植均依圖1位置及裁切。前景沙發扶手、坐墊及桌邊界不得移位，不加椅子或桌子。
+【空景輸出】
+零人物，無人體、肩膀、手臂、人物倒影或人形剪影。只輸出一張16:9高解析度完整圖片，不拼貼、不加字幕、標誌或水印。
+
+
+### 2026-10-21 cafe batch restyle: cam_amy_cu_emotion_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_amy_cu_emotion_empty_blender.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_amy_cu_emotion_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：空景與緊裁切保留；窗外建築細格與亮度改變，暖光偏強，冰箱輪廓略移；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：緊裁切窗景與冰箱，冰箱在右半並被上方及下方畫框裁切，左邊是窗框和藍色建築；下緣只有少量珊瑚靠枕、沙發局部及綠葉。維持狹窄取景，不加入完整座椅、茶几或地板。
+
+
+### 2026-10-21 cafe batch restyle: cam_amy_gesture_ms_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_amy_gesture_ms_empty_blender_v1.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_amy_gesture_ms_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：零人物、前後兩椅及左桌右冰箱關係保留；布紋較強、日照較亮，椅輪廓與窗外細格略變；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：主沙發在中央偏右前景，左後另一椅，左下小圓桌有盆栽與兩本書，右邊冰箱和局部茶水櫃，背景落地窗。保持前椅底部裁切、後椅遮擋及桌邊裁切，不擴展視野。
+
+
+### 2026-10-21 cafe batch restyle: cam_amy_mcu_45deg_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_amy_mcu_45deg_empty_blender.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_amy_mcu_45deg_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：零人物、近景裁切及兩椅局部保留；抱枕變軟、日光加強、窗外新增遠處建築細節；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：中近景底部被裁切的前椅珊瑚抱枕與左後椅，中央綠葉、左側大片米色柱牆，中間窗格，右上冰箱兩門局部與靠窗把手，最右檯面一角。不得補出完整沙發、桌面或地板；維持原裁切。
+
+
+### 2026-10-21 cafe batch restyle: cam_amy_ms_15deg_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_amy_ms_15deg_empty_blender.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_amy_ms_15deg_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：零人物與兩椅近景保留；靠枕比例和布紋略變、窗景細節及日照較強，白圓筒被細化為紙巾捲；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：中央偏右前椅珊瑚靠枕與左後椅形成前後遮擋，底部裁切坐墊；左半米色柱和落地窗，右上冰箱及右側局部上下櫃，檯上只有原有白色圓筒，椅後少量綠葉。不得補完整椅腳、茶几或增加桌上道具。
+
+
+### 2026-10-21 cafe batch restyle: cam_amy_ots_george_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_amy_ots_george_empty_blender.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_amy_ots_george_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：空景與茶水台配置保留，紙杯兩柱清楚；暖燈及斜向日光加強，沙發輪廓與設備比例略變；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：向茶水台拍攝的空景中景，前方中央沙發與珊瑚抱枕、左下另一抱枕裁切。背景上櫃、左冰箱、檯上白圓筒和水龍頭、中央偏右微波爐、兩柱紙杯堆及最右裁切咖啡機。上右層板盆栽及杯依底圖數量位置，保留器具完整形狀。無人物肩膀，不補出咖啡機右側畫外部分。
+
+
+### 2026-10-21 cafe batch restyle: cam_amy_ots_george_mcu_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_amy_ots_george_mcu_empty_blender.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_amy_ots_george_mcu_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：空景緊裁切、微波爐與單柱紙杯保留；白筒新增紙巾架細節、檯面光影更強，抱枕布紋偏密；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：茶水台緊近景，上櫃在頂部裁切、微波爐中央偏右、水龍頭偏左，左白色圓筒，右緣僅一柱紙杯，極左只有冰箱窄邊；底部只露前椅靠枕和椅背。保留此緊裁切，不能增加咖啡機、第二柱紙杯或完整沙發。
+
+### 2026-10-21 shot_3.2.5 GPT v1（待評鑑）
+- 輸出：assets/images/shot_3.2.5_gpt_v1.png
+- 工具／供應商：內建 image_gen／OpenAI；模型與費用未知；1 次生成。
+- 有序參考圖：
+  1. references/scenes/cafe/cameras/cam_amy_mcu_45deg_empty_gpt.png
+  2. references/scenes/cafe/cameras/cam_amy_mcu_45deg_block_blender.png
+  3. clp/char_amy.jpeg
+- 驗證：1672×941 RGB PNG，完整解碼及來源副本 SHA256 通過。
+- 觀察：雙手抓髮、皺眉張嘴與單人構圖呈現；視線偏左上，人物縮小且雙肘入鏡，肩膀位置及背景遮擋偏離 blocks。未重試、未改正式採用。
+- 完整 prompt：
+```text
+參考圖說明：
+圖 1 cam_amy_mcu_45deg_empty_gpt.png：cafe 場景外觀參考圖。
+圖 2 cam_amy_mcu_45deg_block_blender.png：構圖底圖。
+圖 3 char_amy.jpeg：Amy（char_amy）人物參考圖，對應圖 2 的紅色人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、比例、顯示範圍與遮擋關係。
+
+將紅色定位人物替換為 Amy，人物外觀與服裝採用圖 3，不採用其展示姿態、微笑或構圖。保留圖 2 的頭部大小、肩膀位置與頭頂留白；雙手依下述抱頭動作調整，不為容納手臂而縮小人物或拉遠鏡頭。
+
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置，不採用 blocks 的方塊材質與簡化人物外觀。
+
+畫面描述：
+這是一張坐姿近眼高、65mm 固定鏡位的 Amy 單人頭肩近景。Amy 位於畫面中央，頭部、雙肩與部分上胸入鏡，下半身及桌面在畫外。背景保留同機位的落地玻璃、窗外高樓、右側冰箱、局部茶水台與座椅靠墊，使用淺景深突出人物。
+
+Amy 剛聽完繁雜的 ESG 盤點項目，呈現倒抽一口涼氣、焦慮得頭皮發麻的瞬間。雙手抬至頭部兩側，手指張開並微彎，抓住兩側髮絲，掌心靠近頭側；手掌不遮住眼睛與臉部，前臂由畫面下緣進入，手肘可留在畫外。眉心緊皺、內側眉頭抬起，雙眼略睜大，嘴唇張開吸氣，嘴角不帶笑，表情是難以負荷又無可奈何。
+
+Amy 的視線投向畫面左側、與她坐姿高度相近的畫外 George，不仰望上方。George 完全不入鏡，畫面只呈現 Amy 一人，不加入其他人物。除上述手臂、手部與表情調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、對話框或額外文字。
+```
+
+
+
+
+### 2026-10-21 cafe batch restyle: cam_coffee_handoff_insert_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_coffee_handoff_insert_empty_blender.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_coffee_handoff_insert_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：單杯單耳與裁切保留、零人物；沙發布紋較粗、日光陰影強於底圖，桌緣及杯比例略變；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：近距離斜俯拍茶几咖啡杯，杯在中央偏下只有一個朝鏡頭杯耳，圓桌下右出畫，右側黑筆和筆記本僅部分入鏡。左上沙發坐墊與扶手局部，後方只有另一茶几木柱及白底座。保留緊裁切，不補人物、不加第二個杯耳、不補窗景或完整沙發。
+
+### 2026-10-21 shot_3.2.5 GPT v2（待評鑑）
+- 輸出：assets/images/shot_3.2.5_gpt_v2.png
+- 工具：內建 image_gen／OpenAI；模型與費用未知；1次 I2I。
+- 有序參考圖：1. assets/images/shot_3.2.5_gpt_v1.png；2. references/scenes/cafe/cameras/cam_amy_mcu_45deg_block_blender.png
+- 驗證：1672×941 RGB PNG，完整解碼與來源副本 SHA256 通過。
+- 觀察：已拉近，雙肘畫外，雙手抓髮與焦慮保留；視線仍偏左上，未達水平看左要求；頭頂略裁切、較原 blocks 更緊。未重試、未改正式採用。
+- 完整 prompt：
+```text
+請編輯圖 1（shot_3.2.5_gpt_v1.png），圖 2（cam_amy_mcu_45deg_block_blender.png）只提供目標頭肩近景的取景尺度與頭頂留白，不採用圖 2 的人物造型、材質或手勢。
+僅做以下兩項修改：
+1. 將 Amy 的視線從左上方降到畫面左側同高度的畫外 George。雙眼虹膜和瞳孔向左平移、垂直位置回到眼裂中央，視線水平向左，不抬眼、不看左上方。頭部維持自然平視，必要時略收下巴以消除仰望感；George 不入鏡。保留皺眉、內眉抬起、焦慮無奈與張嘴倒抽氣的表情。
+2. 拉近成圖 2 的頭肩近景：Amy 的頭與臉明顯放大，頭頂保留少量空間，下緣裁到肩膀及少量上胸，雙肘完全留在畫面下方之外。雙手仍在頭的兩側抓髮抱頭，手指和手掌完整可見、不遮臉，前臂從畫面下緣進入，不為容納雙肘而縮小人物。不要裁掉頭頂。
+保留圖 1 的 Amy 身分、五官、髮色、灰色西裝與白襯衫、雙手抱頭抓髮的動作、焦慮表情，以及咖啡館的色彩、材質與日光；背景只隨拉近取景合理裁切，不重新設計家具或增加物件。畫面只有 Amy 一人。
+輸出一張 16:9 彩色圖片，不加字幕、文字或水印。
+```
+
+
+
+
+### 2026-10-21 cafe batch restyle: cam_george_cu_emotion_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_george_cu_emotion_empty_blender.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_george_cu_emotion_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：柱窗與枝幹緊裁切成立、無新增家具人物；牆面亮度提升、窗外細格與葉形改變；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：純窗戶及立柱緊裁切：中央偏右一大片米色立柱，左半冷藍近樓立面，右緣細長金棕植物枝幹與少量葉片，底緣綠葉局部。沒有沙發、桌子或地板入鏡，絕對不要新增。保留柱寬、窗框位置、枝幹數與裁切。
+
+
+### 2026-10-21 cafe batch restyle: cam_george_gesture_ms_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_george_gesture_ms_empty_blender.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_george_gesture_ms_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：兩椅及植物主配置、零人物保留；遠處新增建築細節、抱枕輪廓與光照改變；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：窗邊兩張前後排列單人沙發，前椅居左中、後椅居右中，珊瑚色靠枕；前椅底部被裁切，最右小圓桌與盆栽只露一角。中央後方三枝細長植物，上方葉片裁切；米色柱及藍色窗景按圖1保持。不加入茶水台或更多椅子。
+
+
+### 2026-10-21 cafe batch restyle: cam_george_mcu_45deg_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_george_mcu_45deg_empty_blender.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_george_mcu_45deg_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：近景裁切與零人物保留；植物葉形較自然但分布變化、柱面光影增強，窗外細格不同；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：窗景緊中近景：米色柱在中央偏左，右半三枝細長植栽與裁切葉片，左下低矮植物；底邊僅露前椅珊瑚靠枕頂部，右下後椅局部。保持這些裁切，不補坐墊、地板、桌子或人物。
+
+
+### 2026-10-21 cafe batch restyle: cam_george_ms_15deg_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_george_ms_15deg_empty_blender.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_george_ms_15deg_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：前後椅與植栽位置大致保留、零人物；抱枕高度形狀略變、窗外細節與日照增加；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：窗邊兩椅中景：前椅在左中且底部裁切、後椅在右邊裁切，各有珊瑚靠枕。中央偏右有三枝高植物與底盆一部分，中央米色柱，左側藍樓窗景。保留椅背高度和左右比例，不增加完整茶几、人物或茶水台。
+
+
+### 2026-10-21 cafe batch restyle: cam_george_ots_amy_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_george_ots_amy_empty_blender.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_george_ots_amy_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：空景、吧台兩凳與前椅保留；白杯杯耳轉可見、黑色扁物變書冊外觀、窗外樓群細節與抱枕輪廓變化；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：窗邊吧台方向：底部中央前椅珊瑚抱枕及椅背，右下大盆綠植、最右下少量另一抱枕；左中木吧台，檯上原有一白杯和一扁平黑物，下面兩張圓坐墊高腳凳。窗外樓群維持配置，無人物肩膀，不補畫外家具。
+
+### 2026-10-21 shot_3.2.6 GPT v1（待評鑑）
+- 輸出：assets/images/shot_3.2.6_gpt_v1.png
+- 工具／供應商：內建 image_gen／OpenAI；模型與費用未知；1次 W2I。
+- 有序參考圖：1. references/scenes/cafe/cameras/cam_george_cu_emotion_empty_gpt.png；2. references/scenes/cafe/cameras/cam_george_cu_emotion_block_blender.png；3. clp/char_george.png
+- 驗證：1672×941 RGB PNG，完整解碼與來源副本 SHA256 通過。
+- 觀察：單人、閉嘴微笑、眼鏡與雙手畫外呈現；視線略偏右上，人物較blocks縮小、肩胸露出較多，頭頂留白及背景遮擋偏離blocks。未重試、未改採用。
+- 完整 prompt：
+```text
+參考圖說明：
+圖 1 cam_george_cu_emotion_empty_gpt.png：cafe 場景外觀參考圖。
+圖 2 cam_george_cu_emotion_block_blender.png：構圖底圖。
+圖 3 char_george.png：George（char_george）人物參考圖，對應圖 2 的藍色人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、比例、顯示範圍與遮擋關係。
+
+將藍色定位人物替換為 George，只呈現圖 2 中可見的部位，不補出畫外身體。人物外觀與服裝採用圖 3，不採用其展示姿態、嚴肅表情或構圖。保留他的銀灰頭髮、深棕方框眼鏡與白色短鬍鬚。維持圖 2 的頭部尺度、頭頂留白與肩膀裁切，不縮小人物或拉遠鏡頭。
+
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置，不採用 blocks 的方塊材質與簡化人物外觀。
+
+畫面描述：
+這是一張坐姿近眼高、100mm 固定鏡位的 George 單人臉部特寫。George 位於畫面中央，頭部與臉佔據主要畫面，頭頂完整保留，只在畫面底部露出頸部、衣領與少量肩膀，肩膀下緣裁切；胸口、雙臂及雙手都在畫外。背景為同機位的落地玻璃、窗外高樓、米色立柱及局部盆栽，以淺景深突出臉部與眼神。
+
+George 聽完 Amy 對人力不足的擔憂，呈現準備輕輕點頭回應的起始瞬間。頭部自然端正，下巴放鬆，嘴唇輕合、嘴角微微上揚，眉心舒展，眼神溫暖而篤定，流露「我理解妳的擔心」的同理與安撫，不露齒大笑。
+
+George 看向畫面右側、坐姿眼睛高度相近的畫外 Amy；雙眼自然朝右平視，不往右上方看，也不直視鏡頭。眼鏡鏡片保持通透，清楚看見眼神。Amy 完全不入鏡，畫面只有 George 一人，不加入背景顧客或咖啡師。除上述表情與視線調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、對話框或額外文字。
+```
+
+
+
+
+### 2026-10-21 cafe batch restyle: cam_george_ots_amy_mcu_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_george_ots_amy_mcu_empty_blender.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_george_ots_amy_mcu_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：吧台、單杯與底緣座椅裁切保留，零人物；窗外玻璃細節增加，木紋及日照更強；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：窗邊吧台緊近景：藍色樓群充滿背景，木吧台從左延至中央偏右，上面只一只白杯，底邊只露兩凳坐墊局部和前椅珊瑚靠枕頂部。不得補出整椅、桌腿全貌或新增書冊，保持窗框與吧台高度。
+
+
+### 2026-10-21 cafe batch restyle: cam_hands_insert_iso_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_hands_insert_iso_empty_blender.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_hands_insert_iso_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：四椅局部與兩桌、單杯黑筆保留、零人物；地板日照加強、織紋密度偏高、窗外細節增加；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：低位斜俯拍四椅坐墊及扶手局部，上方椅背被裁切；後方中央小圓桌有盆栽和兩本書。前茶几在底部只露上緣及一只部分裁切咖啡杯、黑筆、筆記本一角。保留四椅兩桌關係與緊裁切，不補椅背、窗景或人體手臂。
+
+
+### 2026-10-21 cafe batch restyle: cam_notebook_writing_insert_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_notebook_writing_insert_empty_blender_v1.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_notebook_writing_insert_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：俯拍閉合筆記本與黑筆、上緣杯裁切保留，零人物；桌面／地板紋理和斜向日照明顯增強；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：高位斜俯拍近距離圓桌，閉合淺色筆記本在右下中央，黑筆在其右上，桌圓弧及底座保持原透視；咖啡杯僅在最上緣露底部裁切。右邊沙發局部、周圍淺木地板。不得打開筆記本、加文字、加手、補整杯或改俯拍角度。
+
+
+## 2026-10-21 shot_3.1.4 GPT v1（待評鑑）
+- 圖片：assets/images/shot_3.1.4_gpt_v1.png
+- 工具：內建 image_gen／OpenAI；1 次生成，模型與費用未知。
+- 觀察：微張嘴微笑、單人與雙手畫外呈現；視線略偏右上，人物較 blocks 縮小、肩胸露出較多，背景細節重繪。未改正式採用。
+- 有序參考圖：
+1. D:/kj-openMontage/projects/course-51-esg/references/scenes/cafe/cameras/cam_george_mcu_45deg_empty_gpt.png
+2. D:/kj-openMontage/projects/course-51-esg/references/scenes/cafe/cameras/cam_george_mcu_45deg_block_blender.png
+3. D:/kj-openMontage/projects/course-51-esg/clp/char_george.png
+
+完整 prompt（使用者原文）：
+```text
+參考圖說明：
+圖 1 cam_george_mcu_45deg_empty_gpt.png：新潮咖啡館 cafe 場景外觀參考圖。
+圖 2 cam_george_mcu_45deg_block_blender.png：構圖底圖。
+圖 3 char_george.png：George 人物參考圖，對應圖 2 的藍色人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、人物佔位、整體大小、頭頂留白、肩膀位置及畫面下緣裁切。保持原有頭肩近景，不拉遠展示手臂或桌面，不放大頭部。
+
+將藍色定位人物替換為 George，五官、髮型、眼鏡、鬍鬚與服裝採用圖 3，不採用其展示姿態或參考圖排版。只呈現圖 2 中可見的身體範圍。
+
+場景材質、色彩與光影依圖 1，保留落地玻璃、窗外高樓、竹節盆栽與原可見椅背的配置。維持日間柔和自然光，淺景深聚焦 George 的眼神與表情，背景適度柔化。
+
+畫面描述：
+這是一張 65mm、坐姿近眼高的 George 單人頭肩近景。頭部與肩膀依圖 2 的位置及比例呈現，身體下部與雙手保持在畫外。畫面只出現 George，Amy 位於畫外右側。
+
+George 面帶溫和、從容的微笑，雙頰自然微抬，嘴唇輕微張開，呈現輕笑一聲、準備開始說明的瞬間。他的頭部略朝畫外右側 Amy，雙眼看向與自己坐姿眼高相近的對話者，不看鏡頭、不向上望。表情親切而沉穩，帶著有把握引導對方理解的神情。
+
+此刻雙手仍低放在畫外，尚未抬手比出五指，保留後續講到五個步驟時抬手的動作空間。除上述表情與視線調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、對白文字、角色標籤、浮水印或分格。
+```
+
+
+
+### 2026-10-21 cafe batch restyle: cam_pantry_ambience_front_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_pantry_ambience_front_empty_blender_refined_v1.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_pantry_ambience_front_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：設備排列、兩柱紙杯與空景保留；檯面陰影與燈光更強，藤蔓延長，水槽／杯器細節略變；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：正面茶水台設備近景：左水槽與龍頭、白筒，中央微波爐，右咖啡機與滴水盤，兩者之間兩柱紙杯堆，右邊另有白杯裁切。上櫃與木層板依圖1數量；層板五只杯各僅一耳、左小盆栽、右垂藤保持位置。頂部罐子只露部分，底櫃裁切。沒有冰箱、沙發、窗戶入鏡，不得添加。設備比例、杯數與層板高度依圖1。
+
+
+### 2026-10-21 cafe batch restyle: cam_room_wide_overview_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_room_wide_overview_empty_blender.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_room_wide_overview_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：主要家具數量及廣角空景保留；家具輪廓／尺度略移、窗外細節與日照增強，紙杯堆疊細節不清。；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：房間全景，必須依圖1更高更廣的相機，切勿照搬圖2視角。左側落地窗與三盆落地植物、中央四椅兩圓桌，前左吧台及兩凳局部、右下額外沙發一角。後右茶水台、靠窗冰箱、上下櫃與兩層板、三只分類桶與最右門框；天花四段線燈及通風口保持圖1位置，不套用圖2天花燈。保留地面大留白、所有家具尺寸位置、四椅朝向；前桌單耳杯、筆記本黑筆，後桌盆栽書冊。
+
+
+### 2026-10-21 cafe batch restyle: cam_table_insert_top_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_table_insert_top_empty_blender.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_table_insert_top_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：俯拍構圖、單耳杯、黑筆與閉合無字筆記本保留；桌面及地板日光陰影增強，沙發布紋較粗。；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：垂直俯拍圓桌，圓形桌面幾乎填滿畫面且上下裁切。左側只有一個單杯耳咖啡杯、杯耳朝下；右上斜放一支黑筆，右下閉合無字筆記本。沙發只在左上、右緣局部入鏡，周圍淺木地板；維持各物件角度、尺寸、位置與裁切，不加杯碟、文字、手或其他物件。
+
+### 2026-10-21 shot_3.3.2 GPT v1（待評鑑）
+- 工具／供應商：內建 image_gen／OpenAI；模型與費用未知；本鏡1次。
+- 輸出：assets/images/shot_3.3.2_gpt_v1.png
+- 有序參考圖：1. references/scenes/cafe/cameras/cam_george_ots_amy_empty_gpt.png；2. references/scenes/cafe/cameras/cam_george_ots_amy_block_blender.png；3. clp/char_george.png；4. clp/char_amy.jpeg
+- 結果：雙手掌心相對呈現；George 偏左且人物尺度、頭部傾斜與 Amy 前景遮擋偏離 blocks。
+- 驗證：1672×941 RGB PNG，完整解碼與來源副本 SHA256 通過；未重試、未改採用。
+- 完整 prompt：
+```text
+參考圖說明：
+圖 1 cam_george_ots_amy_empty_gpt.png：cafe 場景外觀參考圖。
+圖 2 cam_george_ots_amy_block_blender.png：構圖底圖。
+圖 3 char_george.png：George（char_george）人物參考圖，對應圖 2 的藍色人物。
+圖 4 char_amy.jpeg：Amy（char_amy）人物參考圖，對應圖 2 的紅色人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、比例、顯示範圍與遮擋關係。
+
+將藍色定位人物替換為 George，紅色定位人物替換為 Amy。人物外觀與服裝分別採用圖 3、圖 4，不採用人物參考圖的展示姿態或構圖。只呈現圖 2 中可見的身體範圍，不補出被遮擋或畫外的部位。
+
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置，不採用 blocks 的方塊材質與簡化人物外觀。
+
+畫面描述：
+這是一張 60mm 固定鏡位、坐姿略帶俯角的過肩對談畫面，從 Amy 身後拍攝 George。Amy 的後腦、頸部與肩背佔據右側前景，頭頂及身體依圖 2 裁切；George 坐在對面、居中偏左，上身與原本可見的手部入鏡，部分身體被 Amy 遮擋。保留兩人原有大小差、座位距離與遮擋，不將 Amy 縮成畫面邊緣的一小片肩膀。
+
+George 神情誠懇而務實，眉眼專注、嘴唇微張，視線朝畫面右側的 Amy，維持坐姿同高度的對視。呈現收攏聚焦手勢的起始瞬間：雙手在身前低處稍微抬起，掌心相對、手指自然放鬆，兩掌仍有間距，準備向內收攏；手部只在原構圖允許的範圍內呈現，被前景遮擋的部分保持遮擋，不刻意伸到 Amy 前方。
+
+Amy 保持面向 George 的聆聽姿態，只呈現原本可見的後腦與肩背，不轉頭向鏡頭展示正臉。焦點落在 George，前景 Amy 柔和失焦。背景保留落地玻璃、窗外高樓、窗邊吧檯與高腳椅，畫面僅有這兩人。除上述 George 手部與表情調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、對話框或額外文字。
+```
+
+### 2026-10-21 shot_3.3.3 GPT v1（待評鑑）
+- 工具／供應商：內建 image_gen／OpenAI；模型與費用未知；本鏡1次。
+- 輸出：assets/images/shot_3.3.3_gpt_v1.png
+- 有序參考圖：1. references/scenes/cafe/cameras/cam_amy_cu_emotion_empty_gpt.png；2. references/scenes/cafe/cameras/cam_amy_cu_emotion_block_blender.png；3. clp/char_amy.jpeg
+- 結果：好奇微張嘴呈現；視線偏左上，人物較 blocks 縮小，胸肩露出過多。
+- 驗證：1672×941 RGB PNG，完整解碼與來源副本 SHA256 通過；未重試、未改採用。
+- 完整 prompt：
+```text
+參考圖說明：
+圖 1 cam_amy_cu_emotion_empty_gpt.png：cafe 場景外觀參考圖。
+圖 2 cam_amy_cu_emotion_block_blender.png：構圖底圖。
+圖 3 char_amy.jpeg：Amy（char_amy）人物參考圖，對應圖 2 的紅色人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、比例、顯示範圍與遮擋關係。
+
+將紅色定位人物替換為 Amy，人物外觀與服裝採用圖 3，不採用其展示姿態或構圖。保持圖 2 的臉部特寫尺度、頭頂留白與肩膀裁切，不縮小人物，不補出胸口、雙臂或雙手。
+
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置，不採用 blocks 的方塊材質與簡化人物外觀。
+
+畫面描述：
+這是一張坐姿眼高、100mm 固定鏡位的 Amy 單人臉部特寫。Amy 位於畫面中央，頭部與臉佔據主要畫面，完整保留頭頂，下緣只露出頸部、衣領及少量肩膀，雙手完全在畫外。
+
+Amy 聽到可以優先處理關鍵議題，眼睛一亮，呈現剛開始微微前傾、準備追問的瞬間。前傾幅度輕微，不使頭頂越出畫框；眉毛自然略抬，眉心放鬆，雙眼專注而明亮，嘴唇微微張開，表情是好奇、期待與積極求知，不延續上一場抱頭崩潰的神情，也不誇張大笑。
+
+Amy 看向畫面左側、與她坐姿眼睛高度相近的畫外 George，視線水平朝左，不往左上方看、不直視鏡頭。George 完全不入鏡，畫面只有 Amy 一人。背景保留落地玻璃、窗外高樓、冰箱及茶水台邊緣，淺景深聚焦 Amy 的眼神。除上述輕微前傾、表情與視線調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、對話框或額外文字。
+```
+
+### 2026-10-21 shot_3.3.4 GPT 生成失敗
+- 工具／供應商：內建 image_gen／OpenAI；模型與費用未知；本鏡1次。
+- 輸出：無
+- 有序參考圖：1. references/scenes/cafe/cameras/cam_george_mcu_45deg_empty_gpt.png；2. references/scenes/cafe/cameras/cam_george_mcu_45deg_block_blender.png；3. clp/char_george.png
+- 結果：生成失敗：http 400 moderation_blocked，moderation_stage=output，categories=[other]；request ID 4468022c-a444-4986-bf41-b0dec5b6458c。無輸出，未重試。
+- 完整 prompt：
+```text
+參考圖說明：
+圖 1 cam_george_mcu_45deg_empty_gpt.png：cafe 場景外觀參考圖。
+圖 2 cam_george_mcu_45deg_block_blender.png：構圖底圖。
+圖 3 char_george.png：George（char_george）人物參考圖，對應圖 2 的藍色人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、比例、顯示範圍與遮擋關係。
+
+將藍色定位人物替換為 George，人物外觀與服裝採用圖 3，不採用其展示姿態、嚴肅表情或構圖。保留銀灰頭髮、深棕方框眼鏡與白色短鬍鬚。維持圖 2 的頭部尺度、肩膀位置及頭頂留白，只呈現原本可見的身體部位。
+
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置，不採用 blocks 的方塊材質與簡化人物外觀。
+
+畫面描述：
+這是一張坐姿眼高、65mm 固定鏡位的 George 單人頭肩近景。George 位於畫面中央略偏左，頭頂完整入鏡，下緣呈現雙肩及部分上胸；雙手留在畫外，不增加手勢，也不拉遠鏡頭。
+
+George 準備向 Amy 解釋專業的篩選方法，姿態從容端正，嘴角帶著克制的微笑，嘴唇輕合，眉心放鬆，眼神清晰而自信，呈現沉穩、可信賴的導師神情。視線朝畫面右側、與他坐姿眼睛高度相近的畫外 Amy，自然平視，不看右上方、不直視鏡頭。眼鏡鏡片通透，眼神清楚可見。
+
+Amy 完全在畫外，畫面只呈現 George 一人。背景保留落地玻璃、窗外高樓、立柱與竹節盆栽，淺景深聚焦 George。除上述表情與視線調整外，其餘沿用圖 2，不為字卡重新安排人物位置或增加留白。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、對話框或文字；「重大性分析 (Materiality Analysis)」字卡由後製疊加，不生成在圖片內。
+```
+
+### 2026-10-21 shot_3.3.10 GPT v1（待評鑑）
+- 工具／供應商：內建 image_gen／OpenAI；模型與費用未知；本鏡1次。
+- 輸出：assets/images/shot_3.3.10_gpt_v1.png
+- 有序參考圖：1. references/scenes/cafe/cameras/cam_amy_ots_george_empty_gpt.png；2. references/scenes/cafe/cameras/cam_amy_ots_george_block_blender.png；3. clp/char_amy.jpeg；4. clp/char_george.png
+- 結果：拍手前雙掌分開與開心表情呈現；Amy 視線偏左上、人物與雙手露出範圍增加，George 遮擋偏離 blocks。
+- 驗證：1672×941 RGB PNG，完整解碼與來源副本 SHA256 通過；未重試、未改採用。
+- 完整 prompt：
+```text
+參考圖說明：
+圖 1 cam_amy_ots_george_empty_gpt.png：cafe 場景外觀參考圖。
+圖 2 cam_amy_ots_george_block_blender.png：構圖底圖。
+圖 3 char_amy.jpeg：Amy（char_amy）人物參考圖，對應圖 2 的紅色人物。
+圖 4 char_george.png：George（char_george）人物參考圖，對應圖 2 的藍色人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、比例、顯示範圍與遮擋關係。
+
+將紅色定位人物替換為 Amy，藍色定位人物替換為 George。人物外觀與服裝分別採用圖 3、圖 4，不採用人物參考圖的展示姿態或構圖。只呈現圖 2 中可見的身體範圍，不補出被遮擋或畫外的部位。
+
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置，不採用 blocks 的方塊材質與簡化人物外觀。
+
+畫面描述：
+這是一張坐姿平視、60mm 固定鏡位的過肩對談畫面，從 George 身後拍攝 Amy。George 的後腦、頸部與肩背佔據左側前景，頭頂與身體依圖 2 裁切；Amy 坐在對面、居中偏右，上身入鏡，部分身體被 George 遮擋。保留兩人的原有尺度、座位距離與遮擋，不縮小或移開 George 來讓 Amy 全身露出。
+
+Amy 聽懂重大性分析後豁然開朗，雙眼明亮、眉毛略抬，嘴角上揚、嘴唇微張，神情開心而充滿幹勁。視線朝畫面左側、坐姿同高度的 George，不仰望上方。呈現第一次拍手之前的準備瞬間：雙手已抬至胸前、掌心相對，兩掌尚未接觸，手指自然伸展，準備合掌拍一下；頭部保持自然，為後續點頭動作保留起始姿態。
+
+允許 Amy 的前臂與手部為拍手準備姿態調整，其餘頭部位置與軀幹佔位沿用圖 2。雙手被 George 肩背遮住的部分保持遮擋，不將手移到 George 前方，也不橫移人物或擴張取景來露出雙手。
+
+George 維持面向 Amy 的聆聽姿態，只呈現原本可見的後腦與肩背，不轉頭展示正臉。焦點落在 Amy，前景 George 柔和失焦。背景保留茶水台吊櫃、開放層架、微波爐及咖啡機，畫面只有 Amy 與 George 兩人。除上述 Amy 手部、表情與視線調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、對話框、矩陣圖表或額外文字。
+```
+
+
+
+### 2026-10-21 cafe batch restyle: cam_twoshot_wide_high_bird_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_twoshot_wide_high_bird_empty_blender.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_twoshot_wide_high_bird_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：高斜俯角、四椅兩桌三落地盆栽與桌面物件保留；日照、窗外城市與布料細節增強，椅子輪廓和尺度略有偏差。；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：高處斜俯拍四張單人沙發、兩張圓桌的空景。前兩椅及大圓桌，桌上單耳咖啡杯在左、黑筆在右上、閉合無字筆記本在右下；後兩椅中間小圓桌上小盆栽與兩本書。窗邊三個落地花盆，左一矮一高，右一矮，葉片依圖1裁切。嚴格維持俯角、家具間距與尺度、圖1的窗格與地板留白，勿變成水平視角，不加人物。
+
+
+### 2026-10-21 cafe batch restyle: cam_twoshot_wide_level_empty_gpt.png（待評鑑）
+- 工具：內建image_gen／OpenAI；模型版本／費用未知；本機位一次。
+- 有序輸入：1. references/scenes/cafe/cameras/cam_twoshot_wide_level_empty_blender.png；2. clp/loc_cafe_left_far.png
+- 輸出：D:\kj-openMontage\projects\course-51-esg\references\scenes\cafe\cameras\cam_twoshot_wide_level_empty_gpt.png；PNG (1672, 941)；解碼／來源複本SHA256通過。
+- 觀察：四椅兩桌及三盆落地植物、桌面單耳杯黑筆閉合本保留；冰箱局部形狀與門把位置略變，家具輪廓略變，日照及遠景樓群增強。；未重試／未改採用。
+- 完整prompt：
+請編輯圖1，轉成圖2 loc_cafe_left_far.png 同一套精緻3D動畫電影美術的空景背景。圖1是唯一相機、透視、取景、裁切、物件位置與遮擋依據；圖2只提供美術，不移植它的構圖或畫外物件，不重新生成圖2。
+匹配米灰細織布沙發、珊瑚橘柔軟布抱枕、象牙白霧面桌與陶瓷、淺木、自然綠植、冷藍玻璃城市、柔暖日光，不逐張加強飽和度／泛光。維持圖1光源方向，反射隨視角合理變化。
+嚴格保持圖1窗格、立柱、家具設備、植物的位置、數量、尺度、主要輪廓及裁切。不可旋轉、鏡像、拉近拉遠或補出裁切物件。近景沒有地板、天花板或全椅時不得自行補全。只細化已有物件的微紋理、接縫、倒角、接觸陰影、反射及原體積內葉片。保留乾淨霧面表面，不加雜物，不重設計家具。玻璃外建築保留位置與輪廓。不額外強化散景。
+如果有冰箱，只保留靠窗側既有上下各一支把手，不加另一側把手。杯子各只有一個杯耳，器皿規整無扭曲。
+零人物：無人物、手臂、肩膀、人形倒影。只輸出一張16:9高解析度完整圖片，無拼圖、字幕、商標、水印。
+本鏡畫面：水平雙人廣角空景，前方兩張完整單人沙發與前圓桌，杯子在左、黑筆和閉合無字筆記本在右；後方另兩張椅及小桌盆栽兩本書。四個珊瑚橘抱枕，窗邊左矮植栽、左高植栽及右矮植栽共三盆；最右邊冰箱只露局部。保持圖1四椅朝向、位置、家具尺度、窗格與地板留白，不補出冰箱全貌，不改成參考圖視角、不加入人物。
+
+### 2026-10-21 shot_3.3.4 GPT v1（待評鑑）
+- 使用者確認新版 prompt 後生成；工具：內建 image_gen／OpenAI，模型與費用未知，本輪1次。
+- 輸出：assets/images/shot_3.3.4_gpt_v1.png
+- 有序參考圖：1. references/scenes/cafe/cameras/cam_george_mcu_45deg_empty_gpt.png；2. references/scenes/cafe/cameras/cam_george_mcu_45deg_block_blender.png；3. clp/char_george.png
+- 驗證：1672×941 RGB PNG，完整解碼與來源副本 SHA256 通過。
+- 觀察：閉嘴微笑、向右視線與雙手畫外呈現；人物較blocks縮小且偏左，胸肩露出更多，頭部朝向與背景遮擋有變化。待評鑑，未追加生成或改採用。
+- 完整 prompt：
+```text
+參考圖說明：
+圖 1 cam_george_mcu_45deg_empty_gpt.png：cafe 場景外觀參考圖。
+圖 2 cam_george_mcu_45deg_block_blender.png：構圖底圖。
+圖 3 char_george.png：George（char_george）人物參考圖，對應圖 2 的藍色人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、比例、顯示範圍與遮擋關係。
+
+將藍色定位人物替換為 George，人物外觀與服裝採用圖 3，不採用其展示姿態、嚴肅表情或構圖。保留銀灰頭髮、深棕方框眼鏡、白色短鬍鬚、棕色背心、米色襯衫與深棕領帶。
+
+維持圖 2 的頭部尺度、肩膀位置與頭頂留白。只呈現原本可見的部位，不縮小人物、不拉遠鏡頭，也不補出畫外身體。
+
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置，不採用 blocks 的方塊材質與簡化人物外觀。
+
+畫面描述：
+這是一張坐姿眼高、65mm 固定鏡位的 George 單人頭肩近景。George 位於畫面中央略偏左，頭頂完整入鏡，臉部與頭部佔據主要畫面，下緣只呈現雙肩及部分上胸。雙手完全留在畫外，不增加手勢。
+
+George 正準備向 Amy 介紹篩選關鍵 ESG 議題的專業方法。身體自然端正，頭部保持平穩，下巴放鬆；嘴唇輕合、嘴角微微上揚，眉心舒展，呈現從容、自信而親切的導師神情，不露齒大笑。
+
+George 看向畫面右側、與他坐姿眼睛高度相近的畫外 Amy。雙眼自然水平朝右，虹膜位於眼裂垂直中央附近，不往右上方看，不抬下巴，也不直視鏡頭。眼鏡鏡片通透，能清楚看見雙眼。
+
+背景保留同機位的落地玻璃、窗外高樓、立柱與竹節盆栽，使用自然日光與淺景深突出 George。畫面只有 George 一人，Amy 完全在畫外，不加入其他人物。除上述表情與視線調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、對話框或額外文字。「重大性分析 (Materiality Analysis)」字卡由後製疊加，不生成在圖片內，也不為字卡移動人物或改變取景。
+```
+
+
+
+
+## 2026-10-21 shot_3.4.2 GPT v1（待評鑑）
+- 圖片：`assets/images/shot_3.4.2_gpt_v1.png`
+- 工具：內建 image_gen；供應商：OpenAI；模型／費用：未知；本鏡呼叫 1 次。
+- 驗證：1672x941 RGB PNG，完整解碼及來源 SHA256 一致。
+- 看圖：攤掌與微張嘴呈現；George 左移、頭身比例及 Amy 前景遮擋偏離 blocks，視線略偏上。
+- 未重試，未改正式採用。
+
+參考圖順序：
+1. D:/kj-openMontage/projects/course-51-esg/references/scenes/cafe/cameras/cam_george_ots_amy_empty_gpt.png
+2. D:/kj-openMontage/projects/course-51-esg/references/scenes/cafe/cameras/cam_george_ots_amy_block_blender.png
+3. D:/kj-openMontage/projects/course-51-esg/clp/char_george.png
+4. D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg
+
+完整 prompt：
+```text
+參考圖說明：
+圖 1 cam_george_ots_amy_empty_gpt.png：場景外觀參考圖。
+圖 2 cam_george_ots_amy_block_blender.png：構圖底圖。
+圖 3 char_george.png：George 人物參考圖，對應圖 2 的藍色人物。
+圖 4 char_amy.jpeg：Amy 人物參考圖，對應圖 2 的紅色人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、顯示範圍與遮擋關係。
+
+將定位人物替換為對應角色，只呈現圖 2 中可見的部位，不補出畫外身體。George 外觀與服裝採用圖 3，Amy 外觀與服裝採用圖 4，不採用人物參考圖的展示姿態或構圖。
+
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。人物坐入原有座椅，不另加座椅。
+
+畫面描述：
+這是一張從 Amy 身後過肩拍攝 George 的畫面。George 位於中景中央偏左，頭部、上身及原有可見手部入鏡；Amy 的後腦、肩背佔據右前景，維持圖 2 的大小、裁切及對 George 的遮擋。George 看向面前的 Amy，視線維持對坐交談的高度，眉眼溫和而專注，嘴巴微張，呈現正在清楚解說的神情；右手在原有可見範圍內輕輕攤開、掌心斜向上，作為逐項說明的起始姿態，另一手自然放鬆。Amy 面向 George 安靜聆聽。焦點落在 George，前景 Amy 略微柔焦。畫面只有這兩位人物。除上述指定調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、數字或資訊圖表。
+```
+
+
+## 2026-10-21 shot_3.4.3 GPT v1（待評鑑）
+- 圖片：`assets/images/shot_3.4.3_gpt_v1.png`
+- 工具：內建 image_gen；供應商：OpenAI；模型／費用：未知；本鏡呼叫 1 次。
+- 驗證：1672x941 RGB PNG，完整解碼及來源 SHA256 一致。
+- 看圖：食指相觸與微張嘴呈現；視線偏右上，頭部縮小、上身露出增加，偏離 blocks。
+- 未重試，未改正式採用。
+
+參考圖順序：
+1. D:/kj-openMontage/projects/course-51-esg/references/scenes/cafe/cameras/cam_george_mcu_45deg_empty_gpt.png
+2. D:/kj-openMontage/projects/course-51-esg/references/scenes/cafe/cameras/cam_george_mcu_45deg_block_blender.png
+3. D:/kj-openMontage/projects/course-51-esg/clp/char_george.png
+
+完整 prompt：
+```text
+參考圖說明：
+圖 1 cam_george_mcu_45deg_empty_gpt.png：場景外觀參考圖。
+圖 2 cam_george_mcu_45deg_block_blender.png：構圖底圖。
+圖 3 char_george.png：George 人物參考圖，對應圖 2 的藍色人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、頭部比例、肩膀位置與遮擋關係。
+
+將定位人物替換為 George，外觀與服裝採用圖 3，不採用其展示姿態或構圖。除本鏡指定抬手動作外，身體可見範圍沿用圖 2，不拉遠鏡頭或縮小人物以容納手勢。
+
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。
+
+畫面描述：
+這是一張坐姿近眼高的 George 單人頭肩近景，保留圖 2 的頭頂留白、頭部大小與肩膀裁切。George 眼神朝畫面右側、畫外與他對坐的 Amy，視線保持接近水平，表情從容、有條理，嘴巴微張，正在開始列舉減碳對策。雙手抬到下巴下方、畫面下緣的可見區域，左手食指伸出，其餘手指自然彎曲，右手食指輕觸左手食指，呈現開始數第一項對策的單一瞬間；手勢不遮住嘴巴或臉，雙肘留在畫外。臉部與數手指的動作清楚可辨，背景略微柔焦。畫面只有 George，Amy 完全在畫外。除上述指定調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、項目文字或圖示。
+```
+
+
+## 2026-10-21 shot_3.4.5 GPT v1（待評鑑）
+- 圖片：`assets/images/shot_3.4.5_gpt_v1.png`
+- 工具：內建 image_gen；供應商：OpenAI；模型／費用：未知；本鏡呼叫 1 次。
+- 驗證：1672x941 RGB PNG，完整解碼及來源 SHA256 一致。
+- 看圖：低頭下視、閉嘴微笑及雙手畫外呈現；肩胸露出增加，人物比例與背景遮擋偏離 blocks。
+- 未重試，未改正式採用。
+
+參考圖順序：
+1. D:/kj-openMontage/projects/course-51-esg/references/scenes/cafe/cameras/cam_amy_mcu_45deg_empty_gpt.png
+2. D:/kj-openMontage/projects/course-51-esg/references/scenes/cafe/cameras/cam_amy_mcu_45deg_block_blender.png
+3. D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg
+
+完整 prompt：
+```text
+參考圖說明：
+圖 1 cam_amy_mcu_45deg_empty_gpt.png：場景外觀參考圖。
+圖 2 cam_amy_mcu_45deg_block_blender.png：構圖底圖。
+圖 3 char_amy.jpeg：Amy 人物參考圖，對應圖 2 的紅色人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、顯示範圍與遮擋關係。
+
+將定位人物替換為 Amy，只呈現圖 2 中可見的頭部、肩膀與上胸，不補出畫外身體。人物外觀與服裝採用圖 3，不採用其展示姿態或構圖。
+
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。
+
+畫面描述：
+這是一張坐姿近眼高的 Amy 單人頭肩近景，保留圖 2 的人物大小、頭頂留白及肩胸裁切。Amy 下巴微收、頭部稍微低下，雙眼看向畫面下方、畫外桌面上的筆記；眉心舒展，肩膀自然放鬆，嘴唇輕合、嘴角微微上揚，呈現看見具體計畫後開始安心的神情，作為接續輕嘆一口氣並開口說話的起始瞬間。筆記本、桌面及雙手全部留在畫外，不為了展示筆記而拉遠鏡頭。焦點落在 Amy 的表情，背景略微柔焦。畫面只有 Amy，George 完全在畫外。除上述指定調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕。
+```
+
+
+## 2026-10-21 shot_3.1.1 GPT v1（待評鑑）
+- 圖片：assets/images/shot_3.1.1_gpt_v1.png
+- 工具：內建 image_gen／OpenAI；1 次生成，模型與費用未知。
+- 觀察：Amy 雙手奉杯、George 雙手低放未接杯，桌面無重複咖啡杯；人物位置、比例、腿腳與圓几遮擋偏離 blocks，Amy 視線略偏左上，杯子疑似多出另一側杯柄。背景依 GPT 場景重繪。未改正式採用。
+- 有序參考圖：
+1. D:/kj-openMontage/projects/course-51-esg/references/scenes/cafe/cameras/cam_twoshot_wide_level_empty_gpt.png
+2. D:/kj-openMontage/projects/course-51-esg/references/scenes/cafe/cameras/cam_twoshot_wide_level_block_blender.png
+3. D:/kj-openMontage/projects/course-51-esg/clp/char_george.png
+4. D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg
+5. D:/kj-openMontage/projects/course-51-esg/clp/prop_coffee_set.png
+
+完整 prompt（使用者原文）：
+```text
+參考圖說明：
+圖 1 cam_twoshot_wide_level_empty_gpt.png：新潮咖啡館 cafe 的場景外觀參考圖。
+圖 2 cam_twoshot_wide_level_block_blender.png：構圖底圖。
+圖 3 char_george.png：George 人物參考圖，對應圖 2 左側藍色人物。
+圖 4 char_amy.jpeg：Amy 人物參考圖，對應圖 2 右側紅色人物。
+圖 5 prop_coffee_set.png：白色陶瓷咖啡杯與杯碟的外觀參考；不使用同圖中的糖罐。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、家具配置、人物佔位、整體大小、可見範圍與遮擋關係。保持頭頂留白、兩人之間的距離及圓几在前景的位置，不推近鏡頭或放大人物。
+
+將左側藍色定位人物替換為 George，右側紅色定位人物替換為 Amy。人物外觀、五官、髮型與服裝分別採用圖 3、圖 4，不採用其展示姿態或參考圖排版。兩人自然坐入原有扶手椅，身體與坐墊接觸，只呈現圖 2 中可見的部位。
+
+場景材質、色彩與光影依圖 1，保留米白色扶手椅、橘色靠枕、淺色圓几、盆栽、落地玻璃及窗外高樓。維持日間柔和自然光與清晰背景，不改變圖 2 的空間配置。
+
+Amy 奉上的咖啡杯碟採用圖 5 的外觀，只取一組白色杯碟，不複製多視角展示或糖罐。以這組杯碟取代圖 2 原本放在前方圓几上的咖啡杯；原杯位置留空，不另外增加咖啡杯。筆記本與筆保持原位。
+
+畫面描述：
+這是一張 26mm、坐姿平視的雙人全景。George 坐在畫面左側扶手椅，Amy 坐在右側扶手椅，兩人身體略朝向彼此，前方為低矮圓几。頭部、軀幹與原本可見的腿腳保留在畫面內，維持圓几遮擋下半身的關係。畫面只有 George 與 Amy 兩人。
+
+Amy 臉上帶著熱情、略帶討好與期待的微笑，頭部轉向 George，視線落在他的臉上。她雙手托住同一只杯碟的兩側，盛著咖啡的杯子直立放在碟上；雙臂朝 George 方向伸出，杯碟停在兩人之間、圓几上方，呈現正在奉上咖啡的瞬間。為完成端杯動作，允許肩膀、手臂及上身輕微向前調整，臀部仍坐在原椅墊上，腿腳位置沿用圖 2。
+
+George 面向 Amy，眼神溫和，嘴角帶著會心的淺笑。他的雙手仍自然低放在身前，尚未接觸杯碟，咖啡杯尚未送到嘴邊。呈現他準備接受 Amy 好意的起始狀態。
+
+除上述表情、視線、端杯姿態及咖啡杯位置調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、對白文字、角色標籤、浮水印或分格。
+```
+
+
+## 2026-10-21 shot_3.5.1 GPT v1
+- 路徑：assets/images/shot_3.5.1_gpt_v1.png
+- 工具：內建 image_gen／OpenAI；確切模型與費用未知；單次生成，待評鑑，未改採用。
+- 有序參考圖：1. references/scenes/cafe/cameras/cam_twoshot_ms_level_empty_gpt.png；2. references/scenes/cafe/cameras/cam_twoshot_ms_level_block_blender.png；3. clp/char_george.png；4. clp/char_amy.jpeg
+- 驗證：1672×941 RGB PNG，完整解碼與來源副本 SHA256 通過。
+- 觀察：兩人互看、George 微笑及扶手附近手勢成立；人物尺度、坐姿與背景配置偏移，Amy 額外交腿。
+- 完整 prompt：
+```text
+參考圖說明：
+圖 1 cam_twoshot_ms_level_empty_gpt.png：咖啡館同機位場景外觀參考圖。
+圖 2 cam_twoshot_ms_level_block_blender.png：構圖底圖。
+圖 3 char_george.png：George 人物參考圖，對應圖 2 左側的藍色人物。
+圖 4 char_amy.jpeg：Amy 人物參考圖，對應圖 2 右側的紅色人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、物件配置、人物佔位、身體比例、顯示範圍與遮擋關係。維持人物頭頂留白、兩人間距及畫面下緣裁切，不放大人物頭部。
+
+將藍色定位人物替換為 George，紅色定位人物替換為 Amy，直接坐入各自既有扶手椅，不額外增加座椅。只呈現圖 2 中可見的身體部位，不補出畫外身體。人物外觀與服裝採用圖 3、圖 4，不採用其展示姿態或多視圖構圖，不保留定位人物的藍紅色衣服與方塊外觀。
+
+將場景的材質、風格與日間自然光更新為圖 1 的外觀，不改變圖 2 的空間配置。
+
+畫面描述：
+這是一張坐姿平視、40mm 雙人中景的畫面。George 坐在左側，Amy 坐在右側，兩人的上半身、手部與部分腿部依圖 2 入鏡；前方主圓几只在畫面下緣局部可見，兩人之間保留後方小圓几及盆栽。George 頭部略朝 Amy，眼神溫和，嘴角帶著會心的微笑，呈現準備提醒她計畫必須落實的瞬間；雙手仍自然停在扶手附近，尚未抬手指向牆面。Amy 看向 George，神情專注，保持聆聽的坐姿。人物臉部清楚，中等景深保留咖啡館與窗外高樓的辨識度。畫面只有 George 與 Amy 兩人，不加入背景顧客或咖啡師。除上述表情與視線調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、字卡或浮水印。
+```
+
+## 2026-10-21 shot_3.5.2 GPT v1
+- 路徑：assets/images/shot_3.5.2_gpt_v1.png
+- 工具：內建 image_gen／OpenAI；確切模型與費用未知；單次生成，待評鑑，未改採用。
+- 有序參考圖：1. references/scenes/cafe/cameras/cam_george_cu_emotion_empty_gpt.png；2. references/scenes/cafe/cameras/cam_george_cu_emotion_block_blender.png；3. clp/char_george.png
+- 驗證：1672×941 RGB PNG，完整解碼與來源副本 SHA256 通過。
+- 觀察：George 單人閉嘴認真特寫成立；頭頂留白減少、胸肩露出增加，視線略上偏，眉眼略顯擔憂。
+- 完整 prompt：
+```text
+參考圖說明：
+圖 1 cam_george_cu_emotion_empty_gpt.png：咖啡館同機位場景外觀參考圖。
+圖 2 cam_george_cu_emotion_block_blender.png：構圖底圖。
+圖 3 char_george.png：George 人物參考圖，對應圖 2 的藍色人物。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、人物佔位、頭部比例、顯示範圍與遮擋關係。維持頭頂留白及肩部裁切，不放大頭部、不拉遠鏡頭，也不增加胸口的可見範圍。
+
+將定位人物替換為 George，只呈現圖 2 中可見的頭部、頸部及肩部，不補出畫外身體。人物外觀與服裝採用圖 3，保留銀灰髮型、深棕方框眼鏡與白色短鬍鬚，不採用其展示姿態或多視圖構圖，不保留定位人物的棕色塊狀頭髮與藍色衣服。
+
+將場景的材質、風格與日間自然光更新為圖 1 的外觀，不改變圖 2 的空間配置。
+
+畫面描述：
+這是一張坐姿近眼高、100mm 的 George 單人臉部特寫。頭部佔據畫面主要範圍，肩膀僅在下緣局部入鏡，Amy 與 George 的雙手都在畫外。George 已收起上一鏡的笑意，嘴唇自然輕合，眉眼專注而篤定，呈現即將鄭重說出「貫徹執行」的瞬間；視線朝向鏡外 Amy 所在方向，保持圖 2 的頭部基本朝向，不大幅轉頭。表情認真有力量，但不憤怒、不誇張瞪眼。焦點落在眼睛與面部，背景窗框、窗外高樓及植物呈柔和淺景深。畫面只出現 George 一人，不加入 Amy、其他人物或前景肩膀。除上述表情與視線調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、字卡或浮水印。
+```
+
+## 2026-10-21 shot_3.6.2 GPT v1
+
+- 圖片：`assets/images/shot_3.6.2_gpt_v1.png`
+- 工具：內建 image_gen；供應商 OpenAI；確切模型及費用未知；單次生成，待評鑑，未改採用。
+- 驗證：PNG 完整解碼通過，1672×941 RGB。Amy低頭書寫與George微笑注視成立；George也向前傾、手勢改為交握，桌面露出增加，未精準保留blocks姿態與裁切。
+- 有序參考圖：
+1. `references/scenes/cafe/cameras/cam_twoshot_ms_level_empty_gpt.png`
+2. `references/scenes/cafe/cameras/cam_twoshot_ms_level_block_blender.png`
+3. `clp/char_george.png`
+4. `clp/char_amy.jpeg`
+5. `clp/prop_coffee_set.png`
+
+完整 prompt：
+```text
+參考圖說明：
+圖 1 cam_twoshot_ms_level_empty_gpt.png：咖啡館場景外觀參考圖。
+圖 2 cam_twoshot_ms_level_block_blender.png：構圖底圖。
+圖 3 char_george.png：George 人物參考圖，對應圖 2 左側的藍色人物。
+圖 4 char_amy.jpeg：Amy 人物參考圖，對應圖 2 右側的紅色人物。
+圖 5 prop_coffee_set.png：桌面咖啡杯碟外觀參考圖。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、家具配置、人物佔位、比例、顯示範圍與遮擋關係。
+
+將左側藍色定位人物替換為圖 3 的 George，右側紅色定位人物替換為圖 4 的 Amy。人物外觀與服裝採用各自參考圖，不採用其展示姿態或構圖，不保留定位人物的紅藍色服裝及方塊外觀。只呈現本鏡取景內可見的身體部位，不補出畫外身體。
+
+將場景的材質、風格與光影更新為圖 1 的外觀，不改變圖 2 的空間配置。桌面咖啡杯碟的外觀採用圖 5，只替換本鏡可見的咖啡杯碟，不加入該圖中的收納罐或其他展示物件。
+
+畫面描述：
+這是一張 40mm、坐姿平視的雙人中景。George 坐在畫面左側，Amy 坐在畫面右側；人物大小與裁切沿用圖 2，前方主圓几僅在畫面下緣局部入鏡。背景保留落地玻璃、窗外高樓及後方小圓几上的盆栽。
+
+Amy 正在前方主圓几靠自己一側的攤開筆記本上做筆記：上身略微前傾，一手持筆、筆尖接觸紙面，另一手扶住筆記本，低頭看著正在書寫的位置，嘴角帶著得意而自信的微笑。筆記本與手部依原取景自然裁切，不為完整展示書寫動作而拉遠鏡頭或抬高桌面。
+
+George 保持坐姿，頭部略朝向 Amy，以溫暖、欣慰的微笑看著她。畫面只有 George 與 Amy 兩人，不加入背景顧客或咖啡師。
+
+日間自然光，溫暖柔和，中等景深。除 Amy 書寫所需的上身、手臂、手部姿態、筆記本，以及兩人的表情與視線調整外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、標題或 ESG 步驟疊字。
+```
+
+
+
+
+## 2026-10-21 shot_3.1.3 GPT v1（待評鑑）
+- 圖片：assets/images/shot_3.1.3_gpt_v1.png
+- 工具：內建 image_gen／OpenAI；1 次生成，模型與費用未知。
+- 觀察：George 右手握杯柄、杯底懸於杯碟上方，Amy 雙手低放及雙人微笑呈現；人物位置／比例與軀幹朝向偏離 blocks，Amy 視線偏左上，背景依 GPT 空景重繪。未改正式採用。
+- 有序參考圖：
+1. D:/kj-openMontage/projects/course-51-esg/references/scenes/cafe/cameras/cam_twoshot_ms_level_empty_gpt.png
+2. D:/kj-openMontage/projects/course-51-esg/references/scenes/cafe/cameras/cam_twoshot_ms_level_block_blender.png
+3. D:/kj-openMontage/projects/course-51-esg/clp/char_george.png
+4. D:/kj-openMontage/projects/course-51-esg/clp/char_amy.jpeg
+5. D:/kj-openMontage/projects/course-51-esg/clp/prop_coffee_set.png
+
+完整 prompt（使用者原文）：
+```text
+參考圖說明：
+圖 1 cam_twoshot_ms_level_empty_gpt.png：新潮咖啡館 cafe 場景外觀參考圖。
+圖 2 cam_twoshot_ms_level_block_blender.png：構圖底圖。
+圖 3 char_george.png：George 人物參考圖，對應圖 2 左側藍色人物。
+圖 4 char_amy.jpeg：Amy 人物參考圖，對應圖 2 右側紅色人物。
+圖 5 prop_coffee_set.png：白色陶瓷咖啡杯與杯碟外觀參考；不使用同圖中的糖罐。
+
+生圖指引：
+以圖 2 為編輯底圖，保留其取景、透視、家具配置、人物佔位、整體大小、可見範圍與遮擋關係。保持 George 在左、Amy 在右及兩人之間的距離；前方圓几只保留原本在畫面下緣可見的範圍，不拉遠鏡頭展示整張桌子。
+
+將定位人物替換為對應角色，George 外觀與服裝採用圖 3，Amy 採用圖 4，不採用人物參考圖的展示姿態或排版。兩人自然坐入原有扶手椅，保持與椅墊的接觸。
+
+場景材質、色彩與光影依圖 1，保留落地玻璃、窗外高樓、扶手椅、後方小圓几及盆栽配置。日間柔和自然光，中等景深，兩位主角清楚可辨。
+
+咖啡杯與杯碟外觀採用圖 5。以一組杯碟取代底圖原本的桌面咖啡杯，不保留重複杯子，不增加糖罐。筆與其他原有物件保持原位。
+
+畫面描述：
+這是一張 40mm、坐姿平視的雙人中景。George 坐在左側，Amy 坐在右側，兩人上身、原可見手部及腿部局部依圖 2 呈現，圓几在下緣局部入鏡。畫面只有兩人。
+
+George 帶著溫和、略帶調侃的笑意，眼睛看向 Amy。他右手握住白色咖啡杯的杯柄，杯子已離開嘴邊，停在自己這側圓几上的杯碟正上方，杯底尚未接觸杯碟，呈現準備將杯子放回去的瞬間。杯碟位於底圖原咖啡杯附近，維持實際手掌可握持的尺寸；畫面下緣以外的部分保持裁切。左手自然低放，身體只為放杯稍微前傾。
+
+Amy 看著 George 的臉，帶著期待、準備回應的微笑，雙手自然低放，維持原有坐姿。此刻尚未開始連續點頭或做出請客的額外手勢。
+
+除上述表情、視線、George 放杯所需的局部姿態及杯碟狀態外，其餘沿用圖 2。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、對白文字、角色標籤、浮水印或分格。
+```
+
+
+
+## 2026-10-21 shot_3.1.1b GPT v1（待評鑑）
+- 圖片：assets/images/shot_3.1.1b_gpt_v1.png
+- 工具：內建 image_gen／OpenAI；1 次編輯生成，模型與費用未知。
+- 參考圖：D:/kj-openMontage/projects/course-51-esg/assets/images/shot_3.1.1_gpt_v1.png
+- 觀察：George 雙手前伸承接杯碟，Amy 仍輕托，交接動作呈現；主背景與坐姿大致保留，George 頭身略有變動，杯碟與後方小圓几視覺重疊。未改正式採用或 scene_plan。
+
+完整 prompt：
+```text
+以提供的 shot_3.1.1_gpt_v1.png 為編輯底圖，生成同一場景的下一個交接瞬間 shot_3.1.1b。
+
+保留原圖的鏡位、取景、人物大小與座位位置、服裝、臉部辨識特徵、背景、光線、家具、筆記本與筆的位置及畫面裁切。
+
+只調整交接咖啡所需的手臂與手部姿態：左側 George 將雙手從膝前抬起，向右側 Amy 伸出，雙手分別承托同一只白色杯碟靠近自己這側的左右邊緣與底部，已實際接觸並承接杯碟的重量。右側 Amy 雙手仍輕托杯碟靠近自己這側的兩邊，正把咖啡交到 George 雙手中。四隻手接觸同一只杯碟，位置清楚分開，不重疊融合；George 不握咖啡杯杯身或杯柄。
+
+杯子直立放在杯碟中央，只有一杯咖啡與一只杯碟；杯子是單一杯柄的白色陶瓷咖啡杯。杯碟位於兩人之間、前景圓几上方。George 上身可因接杯輕微前傾，兩人臀部與腿腳維持原圖坐姿。兩人保留溫和微笑，視線朝彼此，呈現 George 雙手接過 Amy 端來咖啡的自然交接瞬間。
+
+輸出一張 16:9 彩色分鏡圖，不加入字幕、文字、浮水印或分格。
+```
+
+
+## 2026-10-21 shot_1.3.1 — GPT v4（閃亮秀場服裝，待評鑑）
+
+- 工具／供應商：內建 image_gen／OpenAI，I2I 1次；確切模型及費用未知。
+- 有序參考圖：1. D:/kj-openMontage/projects/course-51-esg/assets/images/shot_1.3.1_gpt_v3.png（唯一編輯底圖）。
+- 輸出：assets/images/shot_1.3.1_gpt_v4.png。
+- 目視：金色亮片外套與長褲、黑緞領口／領結、黑亮面鞋成立；全身、商品、表情與舞台構圖保留。未改採用版本。
+- 完整實際 prompt：
+```text
+以輸入圖1（shot_1.3.1_gpt_v3.png，唯一編輯底圖）為基礎，只修改中央主管的服裝與鞋子，將辦公室藍襯衫、棕領帶與棕長褲改成華麗、閃亮亮的秀場表演服裝：剪裁合身的金色亮片西裝外套，黑色緞面戧駁領，白襯衫與黑色蝴蝶領結，搭配金色亮片長褲與黑色亮面皮鞋。金色亮片密集細緻，在既有舞台燈光下呈現明亮閃耀的反射與少量精緻星芒，明確像秀場主持人或表演明星的華麗造型。保留原有3D動畫電影畫風。嚴格保留主管的臉、髮型、表情、身材比例、站位、雙手托扶商品的姿勢；保留原本的單一白罐綠蓋商品、標籤文字、大小與位置。保留原圖完整全身構圖，頭頂、完整雙腿、兩隻鞋與下方地板全部入鏡，人物比例與相機距離不變。背景舞台、ESG文字、裝飾、燈光、展示台與畫面邊界均維持原圖。只有服裝與鞋子改變，不新增人物、頭飾、手持物、字幕或浮水印。輸出同原圖比例的單張橫幅圖片。
+```

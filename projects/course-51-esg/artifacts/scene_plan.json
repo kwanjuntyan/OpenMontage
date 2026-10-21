@@ -6893,13 +6893,13 @@
       ]
     },
     {
-      "id": "shot_3.1.1",
+      "id": "shot_3.1.1a",
       "type": "character_scene",
       "script_section_id": "shot_3.1.1",
       "start_seconds": 759.87,
-      "end_seconds": 768.01,
+      "end_seconds": 764.05,
       "narrative_role": "establish_context",
-      "description": "Subject: Amy（紅衣 blocks）熱情地雙手端上親手泡的咖啡杯（prop_coffee_cup）請 George 品嚐，臉上帶著討好與期待的神情；George（藍衣 blocks）接過咖啡輕啜一口，看穿她心思般溫和呵呵笑著要她直說疑難雜症。Scene: loc_coffee_shop 新潮風格咖啡館，日間溫暖陽光斜射，木質桌面、後方植栽牆面、左側窗邊座位與右側咖啡吧台。Framing: cam_twoshot_wide_level（28mm）雙人平視全景，George 坐左側、Amy 坐右側對坐於咖啡桌旁，桌椅與背景依同機位 blocks。Camera: 28mm，坐姿平視、固定鏡頭，正常速度，深景深全場清晰；無額外疊字。",
+      "description": "Subject: Amy（紅衣 blocks）熱情地雙手端上親手泡的白色陶瓷咖啡杯碟（prop_coffee_set）請 George 品嚐，臉上帶著討好與期待的微笑；George（藍衣 blocks）面向 Amy 露出溫和會心的淺笑，雙手自然低放準備接過咖啡。Scene: 新潮咖啡館 cafe，日間自然光；落地玻璃與窗外高樓，後方第二組扶手椅、小圓几及盆栽，右緣為冰箱。Framing: cam_twoshot_wide_level（26mm，雙人全景；George 左座、Amy 右座，兩人坐於扶手椅，前方圓几及原可見腿腳入鏡）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。畫面僅呈現本機位的 Amy／George，不加入背景顧客或咖啡師。Camera: 26mm，坐姿平視、固定鏡頭，正常速度，深景深全場清晰；無額外疊字。",
       "shot_language": {
         "shot_size": "wide",
         "camera_movement": "static",
@@ -6910,8 +6910,8 @@
       "transition_in": "cut",
       "transition_out": "cut",
       "hero_moment": true,
-      "shot_intent": "以雙人全景建立第三幕咖啡館二訪開場，透過奉上咖啡的幽默互動引出新的請益主題",
-      "information_role": "交代 Amy 為了規劃公司 ESG 推動策略，再次向顧問 George 求教",
+      "shot_intent": "作為 shot_3.1.1 拆鏡第 1 鏡，以雙人全景建立第三幕咖啡館二訪開場，呈現 Amy 熱情雙手奉上咖啡請 George 品嚐的瞬間。",
+      "information_role": "交代 Amy 為了規劃公司 ESG 推動策略，再次向顧問 George 奉茶求教。",
       "character_actions": [
         {
           "character_id": "char_amy",
@@ -6920,17 +6920,16 @@
             "serve_fresh_coffee_warmly",
             "smile_expectantly_at_george"
           ],
-          "dialogue": "顧問，這是我專門幫您泡的咖啡，請您嚐嚐！ ",
-          "target": "char_george"
+          "dialogue": "顧問，這是我專門幫您泡的咖啡，請您嚐嚐！",
+          "target": "char_george",
+          "notes": "依使用者指示將原 shot_3.1.1 拆為 shot_3.1.1a 與 shot_3.1.1b；本鏡為第 1 鏡（0.00–4.18s），Amy 雙手奉上咖啡。"
         },
         {
           "character_id": "char_george",
-          "emotion": "amused_knowing",
+          "emotion": "warm_smiling",
           "action_sequence": [
-            "accept_coffee_and_sip",
-            "chuckle_and_invite_question"
+            "look_at_amy_with_knowing_smile"
           ],
-          "dialogue": "呵呵，你又有什麼疑難雜症了？就直說吧！",
           "target": "char_amy"
         }
       ],
@@ -6952,10 +6951,10 @@
           "clp_id": "char_george"
         },
         {
-          "type": "clp",
-          "description": "新潮風格咖啡館",
+          "type": "location_ref",
+          "description": "使用者指定的新潮咖啡館 cafe；場景依本機位空景圖，取景與人物配置依 camera_ref。",
           "source": "provided",
-          "clp_id": "loc_coffee_shop"
+          "path": "references/scenes/cafe/cameras/cam_twoshot_wide_level_empty_gpt.png"
         },
         {
           "type": "clp",
@@ -6966,15 +6965,100 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_twoshot_wide_level（28mm）雙人平視全景，George 在左、Amy 在右對坐。桌椅與背景依同機位 blocks。",
+          "description": "cam_twoshot_wide_level（26mm，雙人全景；George 左座、Amy 右座，兩人坐於扶手椅，前方圓几及原可見腿腳入鏡）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。",
           "source": "provided",
-          "path": "references/scenes/coffee_shop/cameras/cam_twoshot_wide_level_block_blender.png"
+          "path": "references/scenes/cafe/cameras/cam_twoshot_wide_level_block_blender.png"
         },
         {
           "type": "dialogue_audio",
-          "description": "預錄對白音檔 assets/audio/shot_3.1.1.mp3（8.14 秒），與 script.json 的 shot_3.1.1.text 對齊。",
+          "description": "預錄對白音檔 assets/audio/shot_3.1.1a.mp3（4.18 秒），對應拆鏡 3.1.1a Amy 台詞。",
           "source": "provided",
-          "path": "assets/audio/shot_3.1.1.mp3"
+          "path": "assets/audio/shot_3.1.1a.mp3"
+        }
+      ]
+    },
+    {
+      "id": "shot_3.1.1b",
+      "type": "character_scene",
+      "script_section_id": "shot_3.1.1",
+      "start_seconds": 764.05,
+      "end_seconds": 768.01,
+      "narrative_role": "establish_context",
+      "description": "Subject: George（藍衣 blocks）雙手前伸承接 Amy（紅衣 blocks）遞來的白色陶瓷咖啡杯碟（prop_coffee_set），看穿她心思般溫和呵呵笑著要她直說疑難雜症；Amy 雙手仍輕托杯碟，微笑與 George 對視。Scene: 新潮咖啡館 cafe，日間自然光；延續 shot_3.1.1a 同機位雙人全景。Framing: cam_twoshot_wide_level（26mm，雙人全景；George 左座、Amy 右座，四隻手於兩人之間圓几上方完成咖啡杯碟交接）。Camera: 26mm，坐姿平視、固定鏡頭，正常速度，深景深全場清晰；無額外疊字。",
+      "shot_language": {
+        "shot_size": "wide",
+        "camera_movement": "static",
+        "lighting_key": "natural",
+        "depth_of_field": "deep",
+        "color_temperature": "warm"
+      },
+      "transition_in": "cut",
+      "transition_out": "cut",
+      "hero_moment": true,
+      "shot_intent": "作為 shot_3.1.1 拆鏡第 2 鏡，接續呈現 George 雙手接過咖啡並幽默點破 Amy 來意的互動瞬間。",
+      "information_role": "藉由 George 接過咖啡並爽快邀請發問，帶出第三幕 ESG 五步驟的主線對談。",
+      "character_actions": [
+        {
+          "character_id": "char_george",
+          "emotion": "amused_knowing",
+          "action_sequence": [
+            "reach_out_both_hands_to_receive_coffee_saucer",
+            "chuckle_and_invite_question"
+          ],
+          "dialogue": "呵呵，你又有什麼疑難雜症了？就直說吧！",
+          "target": "char_amy",
+          "notes": "依使用者指示將原 shot_3.1.1 拆為 shot_3.1.1a 與 shot_3.1.1b；本鏡為第 2 鏡（4.18–8.14s），George 雙手承接咖啡杯碟並開口。"
+        },
+        {
+          "character_id": "char_amy",
+          "emotion": "eager_flattering",
+          "action_sequence": [
+            "hand_over_coffee_saucer_to_george"
+          ],
+          "target": "char_george"
+        }
+      ],
+      "render_stages": [
+        "I2I",
+        "I2V"
+      ],
+      "required_assets": [
+        {
+          "type": "clp",
+          "description": "Amy",
+          "source": "provided",
+          "clp_id": "char_amy"
+        },
+        {
+          "type": "clp",
+          "description": "George",
+          "source": "provided",
+          "clp_id": "char_george"
+        },
+        {
+          "type": "location_ref",
+          "description": "使用者指定的新潮咖啡館 cafe；場景依本機位空景圖，取景與人物配置依 camera_ref。",
+          "source": "provided",
+          "path": "references/scenes/cafe/cameras/cam_twoshot_wide_level_empty_gpt.png"
+        },
+        {
+          "type": "clp",
+          "description": "Amy 交接給 George 的白色陶瓷咖啡杯碟",
+          "source": "provided",
+          "clp_id": "prop_coffee_set"
+        },
+        {
+          "type": "camera_ref",
+          "role": "first_frame_ref",
+          "description": "cam_twoshot_wide_level（26mm，雙人全景；延續 shot_3.1.1a 構圖進行交接）。",
+          "source": "provided",
+          "path": "references/scenes/cafe/cameras/cam_twoshot_wide_level_block_blender.png"
+        },
+        {
+          "type": "dialogue_audio",
+          "description": "預錄對白音檔 assets/audio/shot_3.1.1b.mp3（3.96 秒），對應拆鏡 3.1.1b George 台詞。",
+          "source": "provided",
+          "path": "assets/audio/shot_3.1.1b.mp3"
         }
       ]
     },
@@ -6985,7 +7069,7 @@
       "start_seconds": 768.01,
       "end_seconds": 775.03,
       "narrative_role": "introduce_subject",
-      "description": "Subject: Amy（紅衣 blocks）雙手合十放在胸前，面露被看穿的不好意思苦笑，誠懇向對面的 George（藍衣 blocks）請教公司若要推動 ESG 該如何進行。Scene: loc_coffee_shop，日間暖陽，Amy 身後為原木吧台與義式咖啡機，前景左側為 George 肩頸輪廓。Framing: cam_amy_ots_george（60mm）過 George 左肩拍 Amy 中景，Amy 居畫面右側主體，桌椅與背景依同機位 blocks。Camera: 60mm，坐姿平視、固定鏡頭，淺景深聚焦 Amy 請益表情；無額外疊字。",
+      "description": "Subject: Amy（紅衣 blocks）雙手合十放在胸前，面露被看穿的不好意思苦笑，誠懇向對面的 George（藍衣 blocks）請教公司若要推動 ESG 該如何進行。Scene: 新潮咖啡館 cafe，日間自然光；茶水台吊櫃、開放層架、微波爐及咖啡機。Framing: cam_amy_ots_george（60mm，過 George 肩拍 Amy；George 頭肩佔左前景，Amy 居中偏右，上身與原可見手部入鏡）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。畫面僅呈現本機位的 Amy／George，不加入背景顧客或咖啡師。Camera: 60mm，坐姿平視、固定鏡頭，淺景深聚焦 Amy 請益表情；無額外疊字。",
       "shot_language": {
         "shot_size": "over_shoulder",
         "camera_movement": "static",
@@ -7036,17 +7120,17 @@
           "clp_id": "char_george"
         },
         {
-          "type": "clp",
-          "description": "新潮風格咖啡館",
+          "type": "location_ref",
+          "description": "使用者指定的新潮咖啡館 cafe；場景依本機位空景圖，取景與人物配置依 camera_ref。",
           "source": "provided",
-          "clp_id": "loc_coffee_shop"
+          "path": "references/scenes/cafe/cameras/cam_amy_ots_george_empty_blender.png"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_ots_george（60mm）越過 George 左肩拍 Amy 中景。桌椅與背景依同機位 blocks。",
+          "description": "cam_amy_ots_george（60mm，過 George 肩拍 Amy；George 頭肩佔左前景，Amy 居中偏右，上身與原可見手部入鏡）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。",
           "source": "provided",
-          "path": "references/scenes/coffee_shop/cameras/cam_amy_ots_george_block_blender.png"
+          "path": "references/scenes/cafe/cameras/cam_amy_ots_george_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -7063,7 +7147,7 @@
       "start_seconds": 775.03,
       "end_seconds": 782.91,
       "narrative_role": "emotional_beat",
-      "description": "Subject: George（藍衣 blocks）將手中的咖啡杯（prop_coffee_cup）放回杯碟，帶著幽默調侃笑意說光靠一杯咖啡可能不夠；Amy（紅衣 blocks）聞言立刻連忙點頭，豪氣表示下次請吃飯、拜託顧問傳授秘訣。Scene: loc_coffee_shop，日間暖陽，背牆植物掛畫與垂藤、桌面兩杯咖啡與糖罐清晰。Framing: cam_twoshot_ms_level（40mm）雙人平視中景，George 在左、Amy 在右對坐互動，桌椅與背景依同機位 blocks。Camera: 40mm，坐姿平視、固定鏡頭，中等景深；無額外疊字。",
+      "description": "Subject: George（藍衣 blocks）將手中的咖啡杯（prop_coffee_cup）放回杯碟，帶著幽默調侃笑意說光靠一杯咖啡可能不夠；Amy（紅衣 blocks）聞言立刻連忙點頭，豪氣表示下次請吃飯、拜託顧問傳授秘訣。Scene: 新潮咖啡館 cafe，日間自然光；落地玻璃、窗外高樓及後方小圓几盆栽。Framing: cam_twoshot_ms_level（40mm，雙人中景；George 在左、Amy 在右，前方主圓几僅下緣局部入鏡）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。畫面僅呈現本機位的 Amy／George，不加入背景顧客或咖啡師。Camera: 40mm，坐姿平視、固定鏡頭，中等景深；無額外疊字。",
       "shot_language": {
         "shot_size": "medium",
         "camera_movement": "static",
@@ -7116,10 +7200,10 @@
           "clp_id": "char_amy"
         },
         {
-          "type": "clp",
-          "description": "新潮風格咖啡館",
+          "type": "location_ref",
+          "description": "使用者指定的新潮咖啡館 cafe；場景依本機位空景圖，取景與人物配置依 camera_ref。",
           "source": "provided",
-          "clp_id": "loc_coffee_shop"
+          "path": "references/scenes/cafe/cameras/cam_twoshot_ms_level_empty_blender.png"
         },
         {
           "type": "clp",
@@ -7130,9 +7214,9 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_twoshot_ms_level（40mm）雙人平視中景，George 在左、Amy 在右。桌椅與背景依同機位 blocks。",
+          "description": "cam_twoshot_ms_level（40mm，雙人中景；George 在左、Amy 在右，前方主圓几僅下緣局部入鏡）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。",
           "source": "provided",
-          "path": "references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_block_blender.png"
+          "path": "references/scenes/cafe/cameras/cam_twoshot_ms_level_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -7149,7 +7233,7 @@
       "start_seconds": 782.91,
       "end_seconds": 792.41,
       "narrative_role": "deliver_payload",
-      "description": "Subject: George（藍衣 blocks）微笑頷首，語調平穩權威地伸手比出數字五，將企業推動 ESG 比喻為健身教練輔導選手減重的五個步驟。Scene: loc_coffee_shop，日間暖陽，George 身後為木框大窗與墨綠柱、植物掛畫，右前景保留 Amy（紅衣 blocks）局部肩頸。Framing: cam_george_mcu_45deg（65mm）George 單人 45 度中特寫，George 居畫面中央偏左，桌椅與背景依同機位 blocks。Camera: 65mm，坐姿近眼高、固定鏡頭，淺景深聚焦 George 沉穩手勢與表情；無額外疊字。",
+      "description": "Subject: George（藍衣 blocks）微笑頷首，語調平穩權威地伸手比出數字五，將企業推動 ESG 比喻為健身教練輔導選手減重的五個步驟。Scene: 新潮咖啡館 cafe，日間自然光；落地玻璃、窗外高樓及竹節盆栽。Framing: cam_george_mcu_45deg（65mm，George 單人頭肩近景，Amy 完全在畫外；手勢需要呈現時抬至畫面內，不擴張原取景）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。畫面僅呈現本機位的 Amy／George，不加入背景顧客或咖啡師。Camera: 65mm，坐姿近眼高、固定鏡頭，淺景深聚焦 George 沉穩手勢與表情；無額外疊字。",
       "shot_language": {
         "shot_size": "medium_close",
         "camera_movement": "static",
@@ -7186,23 +7270,17 @@
           "clp_id": "char_george"
         },
         {
-          "type": "clp",
-          "description": "右下角前景局部 Amy",
+          "type": "location_ref",
+          "description": "使用者指定的新潮咖啡館 cafe；場景依本機位空景圖，取景與人物配置依 camera_ref。",
           "source": "provided",
-          "clp_id": "char_amy"
-        },
-        {
-          "type": "clp",
-          "description": "新潮風格咖啡館",
-          "source": "provided",
-          "clp_id": "loc_coffee_shop"
+          "path": "references/scenes/cafe/cameras/cam_george_mcu_45deg_empty_blender.png"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_george_mcu_45deg（65mm）George 45 度中特寫，窗景與綠柱背景。桌椅與背景依同機位 blocks。",
+          "description": "cam_george_mcu_45deg（65mm，George 單人頭肩近景，Amy 完全在畫外；手勢需要呈現時抬至畫面內，不擴張原取景）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。",
           "source": "provided",
-          "path": "references/scenes/coffee_shop/cameras/cam_george_mcu_45deg_block_blender.png"
+          "path": "references/scenes/cafe/cameras/cam_george_mcu_45deg_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -7219,7 +7297,7 @@
       "start_seconds": 792.41,
       "end_seconds": 795.44,
       "narrative_role": "deliver_payload",
-      "description": "Subject: 企業 ESG 行動地圖五步驟簡報圖解動畫，畫面依序亮起五個橫向串聯的步驟方塊：〔1. 健康盤點〕、〔2. 設定目標〕、〔3. 制定對策〕、〔4. 貫徹執行〕、〔5. 稽核改善〕。Scene: 溫暖現代資訊圖表簡報介面（呼應 loc_coffee_shop 暖木與清新綠白配色），背景乾淨柔和。Framing: 16:9 正面全幅資訊圖表構圖（無室內人物 blocks 遮擋），五個步驟節點由左至右等距排列並以箭頭連結成完整行動地圖。Camera: 50mm 等效平面正視、固定鏡頭，正常速度，深景深全圖清晰；畫面疊字「ESG 行動地圖五步驟：1.健康盤點 → 2.設定目標 → 3.制定對策 → 4.貫徹執行 → 5.稽核改善」。",
+      "description": "Subject: 企業 ESG 行動地圖五步驟簡報圖解動畫，畫面依序亮起五個橫向串聯的步驟方塊：〔1. 健康盤點〕、〔2. 設定目標〕、〔3. 制定對策〕、〔4. 貫徹執行〕、〔5. 稽核改善〕。Scene: 溫暖現代資訊圖表簡報介面（呼應 cafe 的暖白與植栽綠配色），背景乾淨柔和。Framing: 16:9 正面全幅資訊圖表構圖（無室內人物 blocks 遮擋），五個步驟節點由左至右等距排列並以箭頭連結成完整行動地圖。Camera: 50mm 等效平面正視、固定鏡頭，正常速度，深景深全圖清晰；畫面疊字「ESG 行動地圖五步驟：1.健康盤點 → 2.設定目標 → 3.制定對策 → 4.貫徹執行 → 5.稽核改善」。",
       "shot_language": {
         "shot_size": "wide",
         "camera_movement": "static",
@@ -7471,7 +7549,7 @@
       "start_seconds": 832.31,
       "end_seconds": 843.51,
       "narrative_role": "build_tension",
-      "description": "Subject: Amy（紅衣 blocks）聽完落落長的盤點清單後倒抽一口涼氣，雙手抱頭抓髮、面露難色地向對面 George（藍衣 blocks）哀號光聽就頭皮發麻，公司根本沒有足夠人力全部改善。Scene: loc_coffee_shop，日間暖陽，背景為木質服務牆、磨豆機與咖啡機，左下角保留 George 局部前景。Framing: cam_amy_mcu_45deg（65mm）Amy 單人 45 度中特寫，Amy 居畫面中央偏右，桌椅與背景依同機位 blocks。Camera: 65mm，坐姿近眼高、固定鏡頭，淺景深突顯 Amy 崩潰焦慮表情；無額外疊字。",
+      "description": "Subject: Amy（紅衣 blocks）聽完落落長的盤點清單後倒抽一口涼氣，雙手抱頭抓髮、面露難色地向對面 George（藍衣 blocks）哀號光聽就頭皮發麻，公司根本沒有足夠人力全部改善。Scene: 新潮咖啡館 cafe，日間自然光；落地玻璃、窗外高樓、冰箱及局部茶水台。Framing: cam_amy_mcu_45deg（65mm，Amy 單人頭肩近景，George 完全在畫外；雙手抱頭時抬至頭側，不擴張原取景）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。畫面僅呈現本機位的 Amy／George，不加入背景顧客或咖啡師。Camera: 65mm，坐姿近眼高、固定鏡頭，淺景深突顯 Amy 崩潰焦慮表情；無額外疊字。",
       "shot_language": {
         "shot_size": "medium_close",
         "camera_movement": "static",
@@ -7508,23 +7586,17 @@
           "clp_id": "char_amy"
         },
         {
-          "type": "clp",
-          "description": "左下角局部前景 George",
+          "type": "location_ref",
+          "description": "使用者指定的新潮咖啡館 cafe；場景依本機位空景圖，取景與人物配置依 camera_ref。",
           "source": "provided",
-          "clp_id": "char_george"
-        },
-        {
-          "type": "clp",
-          "description": "新潮風格咖啡館",
-          "source": "provided",
-          "clp_id": "loc_coffee_shop"
+          "path": "references/scenes/cafe/cameras/cam_amy_mcu_45deg_empty_blender.png"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_mcu_45deg（65mm）Amy 45 度中特寫，咖啡機與木牆背景。桌椅與背景依同機位 blocks。",
+          "description": "cam_amy_mcu_45deg（65mm，Amy 單人頭肩近景，George 完全在畫外；雙手抱頭時抬至頭側，不擴張原取景）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。",
           "source": "provided",
-          "path": "references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_block_blender.png"
+          "path": "references/scenes/cafe/cameras/cam_amy_mcu_45deg_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -7541,7 +7613,7 @@
       "start_seconds": 843.51,
       "end_seconds": 845.67,
       "narrative_role": "transition",
-      "description": "Subject: George（藍衣 blocks）溫和地微笑點點頭，眼神篤定地安撫 Amy 說她的擔心完全合理。Scene: loc_coffee_shop，日間暖陽，背景為墨綠柱、木框大窗與植物掛畫。Framing: cam_george_cu_emotion（100mm）George 臉部特寫，一人頭肩居中，桌椅與背景依同機位 blocks。Camera: 100mm，坐姿近眼高、固定鏡頭，淺景深聚焦 George 沉穩安撫的神情；無額外疊字。",
+      "description": "Subject: George（藍衣 blocks）溫和地微笑點點頭，眼神篤定地安撫 Amy 說她的擔心完全合理。Scene: 新潮咖啡館 cafe，日間自然光；落地玻璃、窗外高樓及盆栽局部。Framing: cam_george_cu_emotion（100mm，George 單人臉部特寫，肩膀下緣裁切，Amy 與雙手在畫外）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。畫面僅呈現本機位的 Amy／George，不加入背景顧客或咖啡師。Camera: 100mm，坐姿近眼高、固定鏡頭，淺景深聚焦 George 沉穩安撫的神情；無額外疊字。",
       "shot_language": {
         "shot_size": "close_up",
         "camera_movement": "static",
@@ -7578,17 +7650,17 @@
           "clp_id": "char_george"
         },
         {
-          "type": "clp",
-          "description": "新潮風格咖啡館",
+          "type": "location_ref",
+          "description": "使用者指定的新潮咖啡館 cafe；場景依本機位空景圖，取景與人物配置依 camera_ref。",
           "source": "provided",
-          "clp_id": "loc_coffee_shop"
+          "path": "references/scenes/cafe/cameras/cam_george_cu_emotion_empty_blender.png"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_george_cu_emotion（100mm）George 臉部特寫，綠柱與窗景背景。桌椅與背景依同機位 blocks。",
+          "description": "cam_george_cu_emotion（100mm，George 單人臉部特寫，肩膀下緣裁切，Amy 與雙手在畫外）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。",
           "source": "provided",
-          "path": "references/scenes/coffee_shop/cameras/cam_george_cu_emotion_block_blender.png"
+          "path": "references/scenes/cafe/cameras/cam_george_cu_emotion_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -7655,7 +7727,7 @@
       "start_seconds": 851.68,
       "end_seconds": 858.63,
       "narrative_role": "deliver_payload",
-      "description": "Subject: George（藍衣 blocks）凝視對面的 Amy（紅衣 blocks），雙手做出收攏聚焦的手勢，誠懇強調不要想一次做完所有事，而要優先處理對公司最重要、最迫切的議題。Scene: loc_coffee_shop，日間暖陽，George 背靠木框大窗與墨綠柱，桌面上擺放白色陶瓷咖啡杯碟（prop_coffee_cup）。Framing: cam_george_ots_amy（60mm）越過右前景 Amy 肩頭拍左中景 George，桌椅與背景依同機位 blocks。Camera: 60mm，坐姿微俯平視、固定鏡頭，淺景深聚焦 George；無額外疊字。",
+      "description": "Subject: George（藍衣 blocks）凝視對面的 Amy（紅衣 blocks），雙手做出收攏聚焦的手勢，誠懇強調不要想一次做完所有事，而要優先處理對公司最重要、最迫切的議題。Scene: 新潮咖啡館 cafe，日間自然光；落地玻璃、窗外高樓、窗邊吧檯及高腳椅。Framing: cam_george_ots_amy（60mm，過 Amy 肩拍 George；Amy 頭肩佔右前景，George 居中偏左，上身與原可見手部入鏡）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。畫面僅呈現本機位的 Amy／George，不加入背景顧客或咖啡師。Camera: 60mm，坐姿微俯平視、固定鏡頭，淺景深聚焦 George；無額外疊字。",
       "shot_language": {
         "shot_size": "over_shoulder",
         "camera_movement": "static",
@@ -7706,10 +7778,10 @@
           "clp_id": "char_amy"
         },
         {
-          "type": "clp",
-          "description": "新潮風格咖啡館",
+          "type": "location_ref",
+          "description": "使用者指定的新潮咖啡館 cafe；場景依本機位空景圖，取景與人物配置依 camera_ref。",
           "source": "provided",
-          "clp_id": "loc_coffee_shop"
+          "path": "references/scenes/cafe/cameras/cam_george_ots_amy_empty_blender.png"
         },
         {
           "type": "clp",
@@ -7720,9 +7792,9 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_george_ots_amy（60mm）越過 Amy 右肩拍 George 中景。桌椅與背景依同機位 blocks。",
+          "description": "cam_george_ots_amy（60mm，過 Amy 肩拍 George；Amy 頭肩佔右前景，George 居中偏左，上身與原可見手部入鏡）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。",
           "source": "provided",
-          "path": "references/scenes/coffee_shop/cameras/cam_george_ots_amy_block_blender.png"
+          "path": "references/scenes/cafe/cameras/cam_george_ots_amy_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -7739,7 +7811,7 @@
       "start_seconds": 858.63,
       "end_seconds": 861.29,
       "narrative_role": "introduce_subject",
-      "description": "Subject: Amy（紅衣 blocks）眼睛一亮，好奇地微微前傾探身，追問該怎麼找出最重要、最迫切的議題。Scene: loc_coffee_shop，日間暖陽，背景為柔焦的原木服務吧台與咖啡機。Framing: cam_amy_cu_emotion（100mm）Amy 單人臉部特寫，一人頭肩入鏡，桌椅與背景依同機位 blocks。Camera: 100mm，坐姿眼高、固定鏡頭，淺景深聚焦 Amy 求知若渴的眼神；無額外疊字。",
+      "description": "Subject: Amy（紅衣 blocks）眼睛一亮，好奇地微微前傾探身，追問該怎麼找出最重要、最迫切的議題。Scene: 新潮咖啡館 cafe，日間自然光；落地玻璃、窗外高樓、冰箱及茶水台邊緣。Framing: cam_amy_cu_emotion（100mm，Amy 單人臉部特寫，肩膀下緣裁切，George 與雙手在畫外）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。畫面僅呈現本機位的 Amy／George，不加入背景顧客或咖啡師。Camera: 100mm，坐姿眼高、固定鏡頭，淺景深聚焦 Amy 求知若渴的眼神；無額外疊字。",
       "shot_language": {
         "shot_size": "close_up",
         "camera_movement": "static",
@@ -7776,17 +7848,17 @@
           "clp_id": "char_amy"
         },
         {
-          "type": "clp",
-          "description": "新潮風格咖啡館",
+          "type": "location_ref",
+          "description": "使用者指定的新潮咖啡館 cafe；場景依本機位空景圖，取景與人物配置依 camera_ref。",
           "source": "provided",
-          "clp_id": "loc_coffee_shop"
+          "path": "references/scenes/cafe/cameras/cam_amy_cu_emotion_empty_blender.png"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_cu_emotion（100mm）Amy 臉部特寫，咖啡機與木牆背景。桌椅與背景依同機位 blocks。",
+          "description": "cam_amy_cu_emotion（100mm，Amy 單人臉部特寫，肩膀下緣裁切，George 與雙手在畫外）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。",
           "source": "provided",
-          "path": "references/scenes/coffee_shop/cameras/cam_amy_cu_emotion_block_blender.png"
+          "path": "references/scenes/cafe/cameras/cam_amy_cu_emotion_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -7803,7 +7875,7 @@
       "start_seconds": 861.29,
       "end_seconds": 870.94,
       "narrative_role": "deliver_payload",
-      "description": "Subject: George（藍衣 blocks）從容微笑，以清晰沉穩的語調引出 ESG 領域的專業篩選方法——「重大性分析 (Materiality Analysis)」。Scene: loc_coffee_shop，日間暖陽，背景為木框大窗與墨綠柱、植物掛畫，右前景保留 Amy（紅衣 blocks）局部肩部。Framing: cam_george_mcu_45deg（65mm）George 45 度中特寫，胸肩以上居中偏左，桌椅與背景依同機位 blocks。Camera: 65mm，坐姿眼高、固定鏡頭，淺景深聚焦 George 專業權威神情；畫面疊字「重大性分析 (Materiality Analysis)」。",
+      "description": "Subject: George（藍衣 blocks）從容微笑，以清晰沉穩的語調引出 ESG 領域的專業篩選方法——「重大性分析 (Materiality Analysis)」。Scene: 新潮咖啡館 cafe，日間自然光；落地玻璃、窗外高樓及竹節盆栽。Framing: cam_george_mcu_45deg（65mm，George 單人頭肩近景，Amy 完全在畫外；手勢需要呈現時抬至畫面內，不擴張原取景）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。畫面僅呈現本機位的 Amy／George，不加入背景顧客或咖啡師。Camera: 65mm，坐姿眼高、固定鏡頭，淺景深聚焦 George 專業權威神情；畫面疊字「重大性分析 (Materiality Analysis)」。",
       "shot_language": {
         "shot_size": "medium_close",
         "camera_movement": "static",
@@ -7839,23 +7911,17 @@
           "clp_id": "char_george"
         },
         {
-          "type": "clp",
-          "description": "右下角前景局部 Amy",
+          "type": "location_ref",
+          "description": "使用者指定的新潮咖啡館 cafe；場景依本機位空景圖，取景與人物配置依 camera_ref。",
           "source": "provided",
-          "clp_id": "char_amy"
-        },
-        {
-          "type": "clp",
-          "description": "新潮風格咖啡館",
-          "source": "provided",
-          "clp_id": "loc_coffee_shop"
+          "path": "references/scenes/cafe/cameras/cam_george_mcu_45deg_empty_blender.png"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_george_mcu_45deg（65mm）George 45 度中特寫。桌椅與背景依同機位 blocks。",
+          "description": "cam_george_mcu_45deg（65mm，George 單人頭肩近景，Amy 完全在畫外；手勢需要呈現時抬至畫面內，不擴張原取景）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。",
           "source": "provided",
-          "path": "references/scenes/coffee_shop/cameras/cam_george_mcu_45deg_block_blender.png"
+          "path": "references/scenes/cafe/cameras/cam_george_mcu_45deg_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -8123,7 +8189,7 @@
       "start_seconds": 936.22,
       "end_seconds": 944.36,
       "narrative_role": "emotional_beat",
-      "description": "Subject: Amy（紅衣 blocks）聽完豁然開朗，開心地用力拍手並猛點頭，總結「不是什麼都要做，而是優先改善右上角的重大性議題」，隨即充滿幹勁地追問鎖定目標後的下一步；左前景為 George（藍衣 blocks）肩背。Scene: loc_coffee_shop，日間暖陽，Amy 背後為原木服務吧台與咖啡機。Framing: cam_amy_ots_george（60mm）越過 George 左肩拍 Amy 中景，桌椅與背景依同機位 blocks。Camera: 60mm，坐姿平視、固定鏡頭，淺景深聚焦 Amy 頓悟後神采奕奕的反應；無額外疊字。",
+      "description": "Subject: Amy（紅衣 blocks）聽完豁然開朗，開心地用力拍手並猛點頭，總結「不是什麼都要做，而是優先改善右上角的重大性議題」，隨即充滿幹勁地追問鎖定目標後的下一步。Scene: 新潮咖啡館 cafe，日間自然光；茶水台吊櫃、開放層架、微波爐及咖啡機。Framing: cam_amy_ots_george（60mm，過 George 肩拍 Amy；George 頭肩佔左前景，Amy 居中偏右，上身與原可見手部入鏡）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。畫面僅呈現本機位的 Amy／George，不加入背景顧客或咖啡師。Camera: 60mm，坐姿平視、固定鏡頭，淺景深聚焦 Amy 頓悟後神采奕奕的反應；無額外疊字。",
       "shot_language": {
         "shot_size": "over_shoulder",
         "camera_movement": "static",
@@ -8175,17 +8241,17 @@
           "clp_id": "char_george"
         },
         {
-          "type": "clp",
-          "description": "新潮風格咖啡館",
+          "type": "location_ref",
+          "description": "使用者指定的新潮咖啡館 cafe；場景依本機位空景圖，取景與人物配置依 camera_ref。",
           "source": "provided",
-          "clp_id": "loc_coffee_shop"
+          "path": "references/scenes/cafe/cameras/cam_amy_ots_george_empty_blender.png"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_ots_george（60mm）越過 George 左肩拍 Amy 中景。桌椅與背景依同機位 blocks。",
+          "description": "cam_amy_ots_george（60mm，過 George 肩拍 Amy；George 頭肩佔左前景，Amy 居中偏右，上身與原可見手部入鏡）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。",
           "source": "provided",
-          "path": "references/scenes/coffee_shop/cameras/cam_amy_ots_george_block_blender.png"
+          "path": "references/scenes/cafe/cameras/cam_amy_ots_george_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -8252,7 +8318,7 @@
       "start_seconds": 947.92,
       "end_seconds": 958.11,
       "narrative_role": "deliver_payload",
-      "description": "Subject: George（藍衣 blocks）以具體實務口吻向 Amy（紅衣 blocks）解說：針對步驟二訂出的每個目標逐一設計對策，並舉出「四年內減碳 20%」作為示範目標。Scene: loc_coffee_shop，日間暖陽，George 身後為木框大窗與墨綠柱，桌面咖啡杯碟（prop_coffee_cup）清晰可見。Framing: cam_george_ots_amy（60mm）越過右前景 Amy 肩頭拍 George 中景，桌椅與背景依同機位 blocks。Camera: 60mm，坐姿微俯平視、固定鏡頭，淺景深聚焦 George；畫面疊字「示範目標：四年內減碳 20%」。",
+      "description": "Subject: George（藍衣 blocks）以具體實務口吻向 Amy（紅衣 blocks）解說：針對步驟二訂出的每個目標逐一設計對策，並舉出「四年內減碳 20%」作為示範目標。Scene: 新潮咖啡館 cafe，日間自然光；落地玻璃、窗外高樓、窗邊吧檯及高腳椅。Framing: cam_george_ots_amy（60mm，過 Amy 肩拍 George；Amy 頭肩佔右前景，George 居中偏左，上身與原可見手部入鏡）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。畫面僅呈現本機位的 Amy／George，不加入背景顧客或咖啡師。Camera: 60mm，坐姿微俯平視、固定鏡頭，淺景深聚焦 George；畫面疊字「示範目標：四年內減碳 20%」。",
       "shot_language": {
         "shot_size": "over_shoulder",
         "camera_movement": "static",
@@ -8303,10 +8369,10 @@
           "clp_id": "char_amy"
         },
         {
-          "type": "clp",
-          "description": "新潮風格咖啡館",
+          "type": "location_ref",
+          "description": "使用者指定的新潮咖啡館 cafe；場景依本機位空景圖，取景與人物配置依 camera_ref。",
           "source": "provided",
-          "clp_id": "loc_coffee_shop"
+          "path": "references/scenes/cafe/cameras/cam_george_ots_amy_empty_blender.png"
         },
         {
           "type": "clp",
@@ -8317,9 +8383,9 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_george_ots_amy（60mm）越過 Amy 右肩拍 George 中景。桌椅與背景依同機位 blocks。",
+          "description": "cam_george_ots_amy（60mm，過 Amy 肩拍 George；Amy 頭肩佔右前景，George 居中偏左，上身與原可見手部入鏡）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。",
           "source": "provided",
-          "path": "references/scenes/coffee_shop/cameras/cam_george_ots_amy_block_blender.png"
+          "path": "references/scenes/cafe/cameras/cam_george_ots_amy_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -8336,7 +8402,7 @@
       "start_seconds": 958.11,
       "end_seconds": 968.59,
       "narrative_role": "deliver_payload",
-      "description": "Subject: George（藍衣 blocks）扳著手指頭，有條不紊地列舉符合公司條件的四項減碳對策：「導入綠電、更換節能設備、優化物流路線、採用綠色原料」。Scene: loc_coffee_shop，日間暖陽，背景為木框大窗、墨綠柱與植物掛畫，右前景保留 Amy（紅衣 blocks）局部肩頸。Framing: cam_george_mcu_45deg（65mm）George 45 度中特寫，桌椅與背景依同機位 blocks。Camera: 65mm，坐姿近眼高、固定鏡頭，淺景深聚焦 George 數手指的清晰手勢；無額外疊字。",
+      "description": "Subject: George（藍衣 blocks）扳著手指頭，有條不紊地列舉符合公司條件的四項減碳對策：「導入綠電、更換節能設備、優化物流路線、採用綠色原料」。Scene: 新潮咖啡館 cafe，日間自然光；落地玻璃、窗外高樓及竹節盆栽。Framing: cam_george_mcu_45deg（65mm，George 單人頭肩近景，Amy 完全在畫外；手勢需要呈現時抬至畫面內，不擴張原取景）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。畫面僅呈現本機位的 Amy／George，不加入背景顧客或咖啡師。Camera: 65mm，坐姿近眼高、固定鏡頭，淺景深聚焦 George 數手指的清晰手勢；無額外疊字。",
       "shot_language": {
         "shot_size": "medium_close",
         "camera_movement": "static",
@@ -8372,23 +8438,17 @@
           "clp_id": "char_george"
         },
         {
-          "type": "clp",
-          "description": "右下角前景局部 Amy",
+          "type": "location_ref",
+          "description": "使用者指定的新潮咖啡館 cafe；場景依本機位空景圖，取景與人物配置依 camera_ref。",
           "source": "provided",
-          "clp_id": "char_amy"
-        },
-        {
-          "type": "clp",
-          "description": "新潮風格咖啡館",
-          "source": "provided",
-          "clp_id": "loc_coffee_shop"
+          "path": "references/scenes/cafe/cameras/cam_george_mcu_45deg_empty_blender.png"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_george_mcu_45deg（65mm）George 45 度中特寫。桌椅與背景依同機位 blocks。",
+          "description": "cam_george_mcu_45deg（65mm，George 單人頭肩近景，Amy 完全在畫外；手勢需要呈現時抬至畫面內，不擴張原取景）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。",
           "source": "provided",
-          "path": "references/scenes/coffee_shop/cameras/cam_george_mcu_45deg_block_blender.png"
+          "path": "references/scenes/cafe/cameras/cam_george_mcu_45deg_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -8455,7 +8515,7 @@
       "start_seconds": 985.47,
       "end_seconds": 989.32,
       "narrative_role": "emotional_beat",
-      "description": "Subject: Amy（紅衣 blocks）看著筆記長吁一口氣，緊繃的肩膀放鬆下來，露出踏實欣慰的笑容說有了這份專案計畫感覺踏實多了。Scene: loc_coffee_shop，日間暖陽，背景為木質吧台、磨豆機與咖啡機，左下角保留 George（藍衣 blocks）局部前景。Framing: cam_amy_mcu_45deg（65mm）Amy 45 度中特寫，桌椅與背景依同機位 blocks。Camera: 65mm，坐姿近眼高、固定鏡頭，淺景深聚焦 Amy 如釋重負的表情；無額外疊字。",
+      "description": "Subject: Amy（紅衣 blocks）看著筆記長吁一口氣，緊繃的肩膀放鬆下來，露出踏實欣慰的笑容說有了這份專案計畫感覺踏實多了。Scene: 新潮咖啡館 cafe，日間自然光；落地玻璃、窗外高樓、冰箱及局部茶水台。Framing: cam_amy_mcu_45deg（65mm，Amy 單人頭肩近景，George 完全在畫外；筆記本及雙手在畫外，保留低頭看筆記後放鬆微笑的表演）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。畫面僅呈現本機位的 Amy／George，不加入背景顧客或咖啡師。Camera: 65mm，坐姿近眼高、固定鏡頭，淺景深聚焦 Amy 如釋重負的表情；無額外疊字。",
       "shot_language": {
         "shot_size": "medium_close",
         "camera_movement": "static",
@@ -8492,23 +8552,17 @@
           "clp_id": "char_amy"
         },
         {
-          "type": "clp",
-          "description": "左下角局部前景 George",
+          "type": "location_ref",
+          "description": "使用者指定的新潮咖啡館 cafe；場景依本機位空景圖，取景與人物配置依 camera_ref。",
           "source": "provided",
-          "clp_id": "char_george"
-        },
-        {
-          "type": "clp",
-          "description": "新潮風格咖啡館",
-          "source": "provided",
-          "clp_id": "loc_coffee_shop"
+          "path": "references/scenes/cafe/cameras/cam_amy_mcu_45deg_empty_blender.png"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_mcu_45deg（65mm）Amy 45 度中特寫。桌椅與背景依同機位 blocks。",
+          "description": "cam_amy_mcu_45deg（65mm，Amy 單人頭肩近景，George 完全在畫外；筆記本及雙手在畫外，保留低頭看筆記後放鬆微笑的表演）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。",
           "source": "provided",
-          "path": "references/scenes/coffee_shop/cameras/cam_amy_mcu_45deg_block_blender.png"
+          "path": "references/scenes/cafe/cameras/cam_amy_mcu_45deg_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -8525,7 +8579,7 @@
       "start_seconds": 989.32,
       "end_seconds": 994.04,
       "narrative_role": "transition",
-      "description": "Subject: George（藍衣 blocks）會心一笑，溫和提醒 Amy（紅衣 blocks）計畫不能只是掛在牆上好看，自然引出第四步。Scene: loc_coffee_shop，日間暖陽，背牆植物掛畫與垂藤、桌面咖啡杯碟與糖罐清晰。Framing: cam_twoshot_ms_level（40mm）雙人平視中景，George 在左、Amy 在右對坐，桌椅與背景依同機位 blocks。Camera: 40mm，坐姿平視、固定鏡頭，中等景深；無額外疊字。",
+      "description": "Subject: George（藍衣 blocks）會心一笑，溫和提醒 Amy（紅衣 blocks）計畫不能只是掛在牆上好看，自然引出第四步。Scene: 新潮咖啡館 cafe，日間自然光；落地玻璃、窗外高樓及後方小圓几盆栽。Framing: cam_twoshot_ms_level（40mm，雙人中景；George 在左、Amy 在右，前方主圓几僅下緣局部入鏡）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。畫面僅呈現本機位的 Amy／George，不加入背景顧客或咖啡師。Camera: 40mm，坐姿平視、固定鏡頭，中等景深；無額外疊字。",
       "shot_language": {
         "shot_size": "medium",
         "camera_movement": "static",
@@ -8576,17 +8630,17 @@
           "clp_id": "char_amy"
         },
         {
-          "type": "clp",
-          "description": "新潮風格咖啡館",
+          "type": "location_ref",
+          "description": "使用者指定的新潮咖啡館 cafe；場景依本機位空景圖，取景與人物配置依 camera_ref。",
           "source": "provided",
-          "clp_id": "loc_coffee_shop"
+          "path": "references/scenes/cafe/cameras/cam_twoshot_ms_level_empty_blender.png"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_twoshot_ms_level（40mm）雙人平視中景，George 在左、Amy 在右。桌椅與背景依同機位 blocks。",
+          "description": "cam_twoshot_ms_level（40mm，雙人中景；George 在左、Amy 在右，前方主圓几僅下緣局部入鏡）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。",
           "source": "provided",
-          "path": "references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_block_blender.png"
+          "path": "references/scenes/cafe/cameras/cam_twoshot_ms_level_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -8603,7 +8657,7 @@
       "start_seconds": 994.04,
       "end_seconds": 998.72,
       "narrative_role": "deliver_payload",
-      "description": "Subject: George（藍衣 blocks）神情轉為篤定認真，語氣有力地強調第四步「貫徹執行」最實在、也最富挑戰。Scene: loc_coffee_shop，日間暖陽，背景為墨綠柱、局部木框大窗與植物掛畫。Framing: cam_george_cu_emotion（100mm）George 臉部特寫，一人頭肩居中，桌椅與背景依同機位 blocks。Camera: 100mm，坐姿近眼高、固定鏡頭，淺景深突顯 George 堅定眼神；畫面疊字「4. 貫徹執行 — 最實在，也最挑戰！」。",
+      "description": "Subject: George（藍衣 blocks）神情轉為篤定認真，語氣有力地強調第四步「貫徹執行」最實在、也最富挑戰。Scene: 新潮咖啡館 cafe，日間自然光；落地玻璃、窗外高樓及盆栽局部。Framing: cam_george_cu_emotion（100mm，George 單人臉部特寫，肩膀下緣裁切，Amy 與雙手在畫外）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。畫面僅呈現本機位的 Amy／George，不加入背景顧客或咖啡師。Camera: 100mm，坐姿近眼高、固定鏡頭，淺景深突顯 George 堅定眼神；畫面疊字「4. 貫徹執行 — 最實在，也最挑戰！」。",
       "shot_language": {
         "shot_size": "close_up",
         "camera_movement": "static",
@@ -8639,17 +8693,17 @@
           "clp_id": "char_george"
         },
         {
-          "type": "clp",
-          "description": "新潮風格咖啡館",
+          "type": "location_ref",
+          "description": "使用者指定的新潮咖啡館 cafe；場景依本機位空景圖，取景與人物配置依 camera_ref。",
           "source": "provided",
-          "clp_id": "loc_coffee_shop"
+          "path": "references/scenes/cafe/cameras/cam_george_cu_emotion_empty_blender.png"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_george_cu_emotion（100mm）George 臉部特寫。桌椅與背景依同機位 blocks。",
+          "description": "cam_george_cu_emotion（100mm，George 單人臉部特寫，肩膀下緣裁切，Amy 與雙手在畫外）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。",
           "source": "provided",
-          "path": "references/scenes/coffee_shop/cameras/cam_george_cu_emotion_block_blender.png"
+          "path": "references/scenes/cafe/cameras/cam_george_cu_emotion_block_blender.png"
         },
         {
           "type": "dialogue_audio",
@@ -8767,7 +8821,7 @@
       "start_seconds": 1035.26,
       "end_seconds": 1047.01,
       "narrative_role": "resolution",
-      "description": "Subject: Amy（紅衣 blocks）在桌面筆記本上振筆疾書，得意地微笑抬頭、雙眼發亮，自信滿滿地一口氣背出「健康盤點、設定目標、制定對策、貫徹執行、稽核改善」五個步驟，向對面微笑頷首的 George（藍衣 blocks）致謝。Scene: loc_coffee_shop，日間暖陽，背牆植物掛畫與垂藤、桌面咖啡杯碟（prop_coffee_cup）與筆記本。Framing: cam_twoshot_ms_level（40mm）雙人平視中景，George 在左微笑肯定、Amy 在右振筆疾書後抬頭道謝，桌椅與背景依同機位 blocks。Camera: 40mm，坐姿平視、固定鏡頭，中等景深；畫面疊字「ESG 行動地圖：1.健康盤點 2.設定目標 3.制定對策 4.貫徹執行 5.稽核改善」。",
+      "description": "Subject: Amy（紅衣 blocks）在前方圓几靠 Amy 側的筆記本上振筆疾書，得意地微笑抬頭、雙眼發亮，自信滿滿地一口氣背出「健康盤點、設定目標、制定對策、貫徹執行、稽核改善」五個步驟，向對面微笑頷首的 George（藍衣 blocks）致謝。Scene: 新潮咖啡館 cafe，日間自然光；落地玻璃、窗外高樓及後方小圓几盆栽。Framing: cam_twoshot_ms_level（40mm，雙人中景；George 在左、Amy 在右，前方主圓几僅下緣局部入鏡）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。畫面僅呈現本機位的 Amy／George，不加入背景顧客或咖啡師。Camera: 40mm，坐姿平視、固定鏡頭，中等景深；畫面疊字「ESG 行動地圖：1.健康盤點 2.設定目標 3.制定對策 4.貫徹執行 5.稽核改善」。",
       "shot_language": {
         "shot_size": "medium",
         "camera_movement": "static",
@@ -8819,10 +8873,10 @@
           "clp_id": "char_george"
         },
         {
-          "type": "clp",
-          "description": "新潮風格咖啡館",
+          "type": "location_ref",
+          "description": "使用者指定的新潮咖啡館 cafe；場景依本機位空景圖，取景與人物配置依 camera_ref。",
           "source": "provided",
-          "clp_id": "loc_coffee_shop"
+          "path": "references/scenes/cafe/cameras/cam_twoshot_ms_level_empty_blender.png"
         },
         {
           "type": "clp",
@@ -8833,9 +8887,9 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_twoshot_ms_level（40mm）雙人平視中景，George 在左、Amy 在右。桌椅與背景依同機位 blocks。",
+          "description": "cam_twoshot_ms_level（40mm，雙人中景；George 在左、Amy 在右，前方主圓几僅下緣局部入鏡）。取景、佔位與遮擋以 cafe 同機位 blocks 為準。",
           "source": "provided",
-          "path": "references/scenes/coffee_shop/cameras/cam_twoshot_ms_level_block_blender.png"
+          "path": "references/scenes/cafe/cameras/cam_twoshot_ms_level_block_blender.png"
         },
         {
           "type": "dialogue_audio",
