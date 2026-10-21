@@ -1,0 +1,80 @@
+{
+  "version": "1.0",
+  "project_id": "study-01-argon-motion",
+  "pipeline_type": "animated-explainer",
+  "stage": "script",
+  "status": "completed",
+  "timestamp": "2026-10-20T14:12:48.250278+00:00",
+  "checkpoint_policy": "guided",
+  "human_approval_required": true,
+  "human_approved": true,
+  "artifacts": {
+    "script": {
+      "version": "1.0",
+      "title": "Argon \u2014 30-second motion study",
+      "total_duration_seconds": 30,
+      "sections": [
+        {
+          "id": "intro",
+          "text": "GEMINI 4 / ARGON / is here / DESTROYS",
+          "start_seconds": 0,
+          "end_seconds": 4.3,
+          "speaker_directions": "On-screen reference text only; no spoken narration.",
+          "source_ref": "https://www.youtube.com/watch?v=bphM_cjfV_o"
+        },
+        {
+          "id": "battle",
+          "text": "Seedance 2.5 / Higgsfield / Opus 5.5",
+          "start_seconds": 4.3,
+          "end_seconds": 9,
+          "speaker_directions": "On-screen reference text only; no spoken narration.",
+          "source_ref": "https://www.youtube.com/watch?v=bphM_cjfV_o"
+        },
+        {
+          "id": "connection",
+          "text": "a special local MCP",
+          "start_seconds": 9,
+          "end_seconds": 13,
+          "speaker_directions": "On-screen reference text only; no spoken narration.",
+          "source_ref": "https://www.youtube.com/watch?v=bphM_cjfV_o"
+        },
+        {
+          "id": "movies",
+          "text": "makes AI MOVIES / $0/mo",
+          "start_seconds": 13,
+          "end_seconds": 16.2,
+          "speaker_directions": "On-screen reference text only; no spoken narration.",
+          "source_ref": "https://www.youtube.com/watch?v=bphM_cjfV_o"
+        },
+        {
+          "id": "cost",
+          "text": "DESTROYED / $1,000s/month / forced to pay THOUSANDS",
+          "start_seconds": 16.2,
+          "end_seconds": 21,
+          "speaker_directions": "On-screen reference text only; no spoken narration.",
+          "source_ref": "https://www.youtube.com/watch?v=bphM_cjfV_o"
+        },
+        {
+          "id": "showcase",
+          "text": "Gemini 4 Argon / local MCP / $0 / month",
+          "start_seconds": 21,
+          "end_seconds": 28,
+          "speaker_directions": "On-screen reference text only; no spoken narration.",
+          "source_ref": "https://www.youtube.com/watch?v=bphM_cjfV_o"
+        },
+        {
+          "id": "fantasy",
+          "text": "",
+          "start_seconds": 28,
+          "end_seconds": 30,
+          "speaker_directions": "On-screen reference text only; no spoken narration.",
+          "source_ref": "https://www.youtube.com/watch?v=bphM_cjfV_o"
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "approval_evidence": "User requested the reference text/style in HyperFrames, then approved the expanded 30-second 1080p scope and displayed timeline: \u540c\u610f\u64f4\u5927\u7bc4\u570d. Includes silent output, source imagery/footage, editable source, and MP4. Approval is for production scope, not a claim of final visual acceptance.",
+    "reference": "https://www.youtube.com/watch?v=bphM_cjfV_o"
+  }
+}

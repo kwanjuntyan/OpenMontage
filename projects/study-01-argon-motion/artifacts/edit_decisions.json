@@ -1,0 +1,62 @@
+{
+  "version": "1.0",
+  "render_runtime": "hyperframes",
+  "cuts": [
+    {
+      "id": "intro",
+      "source": "argon-composition",
+      "in_seconds": 0,
+      "out_seconds": 4.3,
+      "layer": "primary",
+      "reason": "Expanding ring; letters converge and sharpen; red title impact."
+    },
+    {
+      "id": "battle",
+      "source": "argon-composition",
+      "in_seconds": 4.3,
+      "out_seconds": 9,
+      "layer": "primary",
+      "reason": "Three cards enter; light beams target cards; polygon fragments scatter."
+    },
+    {
+      "id": "connection",
+      "source": "argon-composition",
+      "in_seconds": 9,
+      "out_seconds": 13,
+      "layer": "primary",
+      "reason": "Logo rises; connector draws; light points travel into the MCP card."
+    },
+    {
+      "id": "movies",
+      "source": "argon-composition",
+      "in_seconds": 13,
+      "out_seconds": 16.2,
+      "layer": "primary",
+      "reason": "Reference stills move through a horizontal filmstrip; mint price overshoots."
+    },
+    {
+      "id": "cost",
+      "source": "argon-composition",
+      "in_seconds": 16.2,
+      "out_seconds": 21,
+      "layer": "primary",
+      "reason": "Red stamps land; money count rises; fixed banknote trajectories."
+    },
+    {
+      "id": "showcase",
+      "source": "argon-composition",
+      "in_seconds": 21,
+      "out_seconds": 28,
+      "layer": "primary",
+      "reason": "Reference preview panel scales into view; badges arrive in sequence."
+    },
+    {
+      "id": "fantasy",
+      "source": "argon-composition",
+      "in_seconds": 28,
+      "out_seconds": 30,
+      "layer": "primary",
+      "reason": "Original reference footage fills frame for the final two seconds."
+    }
+  ]
+}

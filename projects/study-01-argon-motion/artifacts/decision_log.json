@@ -1,0 +1,31 @@
+{
+  "version": "1.0",
+  "project_id": "study-01-argon-motion",
+  "decisions": [
+    {
+      "decision_id": "d-001",
+      "stage": "proposal",
+      "category": "render_runtime_selection",
+      "subject": "Composition runtime",
+      "options_considered": [
+        {
+          "option_id": "hyperframes",
+          "label": "HyperFrames",
+          "score": 1,
+          "reason": "Explicit user choice; HTML/GSAP implements the requested effects."
+        },
+        {
+          "option_id": "remotion",
+          "label": "Remotion",
+          "score": 0,
+          "reason": "Not selected.",
+          "rejected_because": "User explicitly requested HyperFrames."
+        }
+      ],
+      "selected": "hyperframes",
+      "reason": "User requested the reference text/style in HyperFrames, then approved the expanded 30-second 1080p scope and displayed timeline: 同意擴大範圍. Includes silent output, source imagery/footage, editable source, and MP4. Approval is for production scope, not a claim of final visual acceptance.",
+      "user_visible": true,
+      "user_approved": true
+    }
+  ]
+}

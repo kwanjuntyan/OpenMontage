@@ -1,0 +1,75 @@
+{
+  "version": "1.0",
+  "scenes": [
+    {
+      "id": "intro",
+      "type": "animation",
+      "description": "Expanding ring; letters converge and sharpen; red title impact.",
+      "start_seconds": 0,
+      "end_seconds": 4.3,
+      "script_section_id": "intro",
+      "overlay_notes": "GEMINI 4 / ARGON / is here / DESTROYS",
+      "framing": "1920x1080; central focal group; bottom caption rail"
+    },
+    {
+      "id": "battle",
+      "type": "animation",
+      "description": "Three cards enter; light beams target cards; polygon fragments scatter.",
+      "start_seconds": 4.3,
+      "end_seconds": 9,
+      "script_section_id": "battle",
+      "overlay_notes": "Seedance 2.5 / Higgsfield / Opus 5.5",
+      "framing": "1920x1080; central focal group; bottom caption rail"
+    },
+    {
+      "id": "connection",
+      "type": "animation",
+      "description": "Logo rises; connector draws; light points travel into the MCP card.",
+      "start_seconds": 9,
+      "end_seconds": 13,
+      "script_section_id": "connection",
+      "overlay_notes": "a special local MCP",
+      "framing": "1920x1080; central focal group; bottom caption rail"
+    },
+    {
+      "id": "movies",
+      "type": "animation",
+      "description": "Reference stills move through a horizontal filmstrip; mint price overshoots.",
+      "start_seconds": 13,
+      "end_seconds": 16.2,
+      "script_section_id": "movies",
+      "overlay_notes": "makes AI MOVIES / $0/mo",
+      "framing": "1920x1080; central focal group; bottom caption rail"
+    },
+    {
+      "id": "cost",
+      "type": "animation",
+      "description": "Red stamps land; money count rises; fixed banknote trajectories.",
+      "start_seconds": 16.2,
+      "end_seconds": 21,
+      "script_section_id": "cost",
+      "overlay_notes": "DESTROYED / $1,000s/month / forced to pay THOUSANDS",
+      "framing": "1920x1080; central focal group; bottom caption rail"
+    },
+    {
+      "id": "showcase",
+      "type": "animation",
+      "description": "Reference preview panel scales into view; badges arrive in sequence.",
+      "start_seconds": 21,
+      "end_seconds": 28,
+      "script_section_id": "showcase",
+      "overlay_notes": "Gemini 4 Argon / local MCP / $0 / month",
+      "framing": "1920x1080; central focal group; bottom caption rail"
+    },
+    {
+      "id": "fantasy",
+      "type": "broll",
+      "description": "Original reference footage fills frame for the final two seconds.",
+      "start_seconds": 28,
+      "end_seconds": 30,
+      "script_section_id": "fantasy",
+      "overlay_notes": "",
+      "framing": "1920x1080; central focal group; bottom caption rail"
+    }
+  ]
+}

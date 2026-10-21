@@ -1,0 +1,27 @@
+{
+  "version": "1.0",
+  "outputs": [
+    {
+      "path": "renders/argon-motion-v1.mp4",
+      "format": "mp4",
+      "codec": "h264",
+      "resolution": "1920x1080",
+      "fps": 30,
+      "duration_seconds": 30,
+      "file_size_bytes": 15666026
+    }
+  ],
+  "render_time_seconds": 69.5,
+  "render_grammar": "animation-first",
+  "verification_notes": [
+    "HyperFrames 0.8.174; 900 frames; local hardware browser capture; 2 workers.",
+    "Lint: 0 errors, 7 organizational suggestions to split into sub-compositions.",
+    "Runtime validate: 0 errors; 0 contrast failures.",
+    "Inspect: 0 errors; intentional off-canvas ambient glow warnings.",
+    "12 pre-render snapshot times reviewed; 10 frames from final MP4 reviewed.",
+    "Full MP4 decoded by ffmpeg with no errors. ffprobe confirms 30 seconds, 1080p, 30 fps.",
+    "Silent version as approved. Reference imagery and final movie excerpt are reused."
+  ],
+  "decision_log_ref": "artifacts/decision_log.json",
+  "final_review_ref": "artifacts/final_review.json"
+}

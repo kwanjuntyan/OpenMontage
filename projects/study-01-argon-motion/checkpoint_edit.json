@@ -1,0 +1,79 @@
+{
+  "version": "1.0",
+  "project_id": "study-01-argon-motion",
+  "pipeline_type": "animated-explainer",
+  "stage": "edit",
+  "status": "completed",
+  "timestamp": "2026-10-20T14:12:48.436851+00:00",
+  "checkpoint_policy": "guided",
+  "human_approval_required": false,
+  "human_approved": false,
+  "artifacts": {
+    "edit_decisions": {
+      "version": "1.0",
+      "render_runtime": "hyperframes",
+      "cuts": [
+        {
+          "id": "intro",
+          "source": "argon-composition",
+          "in_seconds": 0,
+          "out_seconds": 4.3,
+          "layer": "primary",
+          "reason": "Expanding ring; letters converge and sharpen; red title impact."
+        },
+        {
+          "id": "battle",
+          "source": "argon-composition",
+          "in_seconds": 4.3,
+          "out_seconds": 9,
+          "layer": "primary",
+          "reason": "Three cards enter; light beams target cards; polygon fragments scatter."
+        },
+        {
+          "id": "connection",
+          "source": "argon-composition",
+          "in_seconds": 9,
+          "out_seconds": 13,
+          "layer": "primary",
+          "reason": "Logo rises; connector draws; light points travel into the MCP card."
+        },
+        {
+          "id": "movies",
+          "source": "argon-composition",
+          "in_seconds": 13,
+          "out_seconds": 16.2,
+          "layer": "primary",
+          "reason": "Reference stills move through a horizontal filmstrip; mint price overshoots."
+        },
+        {
+          "id": "cost",
+          "source": "argon-composition",
+          "in_seconds": 16.2,
+          "out_seconds": 21,
+          "layer": "primary",
+          "reason": "Red stamps land; money count rises; fixed banknote trajectories."
+        },
+        {
+          "id": "showcase",
+          "source": "argon-composition",
+          "in_seconds": 21,
+          "out_seconds": 28,
+          "layer": "primary",
+          "reason": "Reference preview panel scales into view; badges arrive in sequence."
+        },
+        {
+          "id": "fantasy",
+          "source": "argon-composition",
+          "in_seconds": 28,
+          "out_seconds": 30,
+          "layer": "primary",
+          "reason": "Original reference footage fills frame for the final two seconds."
+        }
+      ]
+    }
+  },
+  "metadata": {
+    "approval_evidence": "User requested the reference text/style in HyperFrames, then approved the expanded 30-second 1080p scope and displayed timeline: \u540c\u610f\u64f4\u5927\u7bc4\u570d. Includes silent output, source imagery/footage, editable source, and MP4. Approval is for production scope, not a claim of final visual acceptance.",
+    "reference": "https://www.youtube.com/watch?v=bphM_cjfV_o"
+  }
+}

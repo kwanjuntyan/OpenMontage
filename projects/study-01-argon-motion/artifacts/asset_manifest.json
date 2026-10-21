@@ -1,0 +1,86 @@
+{
+  "version": "1.0",
+  "assets": [
+    {
+      "id": "movie-dog",
+      "type": "image",
+      "path": "hyperframes/assets/movie-dog.jpg",
+      "source_tool": "ffmpeg",
+      "scene_id": "movies",
+      "cost_usd": 0,
+      "original_url": "https://www.youtube.com/watch?v=bphM_cjfV_o",
+      "generation_summary": "Existing reference material; not AI-generated in this run."
+    },
+    {
+      "id": "movie-friends",
+      "type": "image",
+      "path": "hyperframes/assets/movie-friends.jpg",
+      "source_tool": "ffmpeg",
+      "scene_id": "movies",
+      "cost_usd": 0,
+      "original_url": "https://www.youtube.com/watch?v=bphM_cjfV_o",
+      "generation_summary": "Existing reference material; not AI-generated in this run."
+    },
+    {
+      "id": "movie-hug",
+      "type": "image",
+      "path": "hyperframes/assets/movie-hug.jpg",
+      "source_tool": "ffmpeg",
+      "scene_id": "movies",
+      "cost_usd": 0,
+      "original_url": "https://www.youtube.com/watch?v=bphM_cjfV_o",
+      "generation_summary": "Existing reference material; not AI-generated in this run."
+    },
+    {
+      "id": "movie-preview",
+      "type": "image",
+      "path": "hyperframes/assets/movie-preview.jpg",
+      "source_tool": "ffmpeg",
+      "scene_id": "showcase",
+      "cost_usd": 0,
+      "original_url": "https://www.youtube.com/watch?v=bphM_cjfV_o",
+      "generation_summary": "Existing reference material; not AI-generated in this run."
+    },
+    {
+      "id": "fantasy",
+      "type": "video",
+      "path": "hyperframes/assets/fantasy.mp4",
+      "source_tool": "ffmpeg",
+      "scene_id": "fantasy",
+      "cost_usd": 0,
+      "original_url": "https://www.youtube.com/watch?v=bphM_cjfV_o",
+      "generation_summary": "Existing reference material; not AI-generated in this run."
+    },
+    {
+      "id": "inter-400",
+      "type": "font",
+      "path": "hyperframes/assets/inter-400.ttf",
+      "source_tool": "download",
+      "scene_id": "intro",
+      "cost_usd": 0,
+      "original_url": "https://fonts.google.com/specimen/Inter",
+      "generation_summary": "Locally bundled Inter font."
+    },
+    {
+      "id": "inter-700",
+      "type": "font",
+      "path": "hyperframes/assets/inter-700.ttf",
+      "source_tool": "download",
+      "scene_id": "intro",
+      "cost_usd": 0,
+      "original_url": "https://fonts.google.com/specimen/Inter",
+      "generation_summary": "Locally bundled Inter font."
+    },
+    {
+      "id": "argon-composition",
+      "type": "animation",
+      "path": "hyperframes/index.html",
+      "source_tool": "hyperframes",
+      "scene_id": "intro",
+      "cost_usd": 0,
+      "duration_seconds": 30,
+      "resolution": "1920x1080",
+      "generation_summary": "Bespoke HTML/CSS/GSAP; local dependencies; no audio."
+    }
+  ]
+}

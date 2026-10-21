@@ -1,0 +1,63 @@
+{
+  "version": "1.0",
+  "title": "Argon — 30-second motion study",
+  "total_duration_seconds": 30,
+  "sections": [
+    {
+      "id": "intro",
+      "text": "GEMINI 4 / ARGON / is here / DESTROYS",
+      "start_seconds": 0,
+      "end_seconds": 4.3,
+      "speaker_directions": "On-screen reference text only; no spoken narration.",
+      "source_ref": "https://www.youtube.com/watch?v=bphM_cjfV_o"
+    },
+    {
+      "id": "battle",
+      "text": "Seedance 2.5 / Higgsfield / Opus 5.5",
+      "start_seconds": 4.3,
+      "end_seconds": 9,
+      "speaker_directions": "On-screen reference text only; no spoken narration.",
+      "source_ref": "https://www.youtube.com/watch?v=bphM_cjfV_o"
+    },
+    {
+      "id": "connection",
+      "text": "a special local MCP",
+      "start_seconds": 9,
+      "end_seconds": 13,
+      "speaker_directions": "On-screen reference text only; no spoken narration.",
+      "source_ref": "https://www.youtube.com/watch?v=bphM_cjfV_o"
+    },
+    {
+      "id": "movies",
+      "text": "makes AI MOVIES / $0/mo",
+      "start_seconds": 13,
+      "end_seconds": 16.2,
+      "speaker_directions": "On-screen reference text only; no spoken narration.",
+      "source_ref": "https://www.youtube.com/watch?v=bphM_cjfV_o"
+    },
+    {
+      "id": "cost",
+      "text": "DESTROYED / $1,000s/month / forced to pay THOUSANDS",
+      "start_seconds": 16.2,
+      "end_seconds": 21,
+      "speaker_directions": "On-screen reference text only; no spoken narration.",
+      "source_ref": "https://www.youtube.com/watch?v=bphM_cjfV_o"
+    },
+    {
+      "id": "showcase",
+      "text": "Gemini 4 Argon / local MCP / $0 / month",
+      "start_seconds": 21,
+      "end_seconds": 28,
+      "speaker_directions": "On-screen reference text only; no spoken narration.",
+      "source_ref": "https://www.youtube.com/watch?v=bphM_cjfV_o"
+    },
+    {
+      "id": "fantasy",
+      "text": "",
+      "start_seconds": 28,
+      "end_seconds": 30,
+      "speaker_directions": "On-screen reference text only; no spoken narration.",
+      "source_ref": "https://www.youtube.com/watch?v=bphM_cjfV_o"
+    }
+  ]
+}

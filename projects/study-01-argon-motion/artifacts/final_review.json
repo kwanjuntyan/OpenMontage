@@ -1,0 +1,56 @@
+{
+  "version": "1.0",
+  "output_path": "renders/argon-motion-v1.mp4",
+  "status": "pass",
+  "checks": {
+    "technical_probe": {
+      "valid_container": true,
+      "duration_seconds": 30,
+      "resolution": "1920x1080",
+      "fps": 30,
+      "has_audio": false,
+      "codec": "h264",
+      "file_size_bytes": 15666026,
+      "issues": []
+    },
+    "visual_spotcheck": {
+      "frames_sampled": 10,
+      "frame_paths": [
+        "renders/contact-sheet.jpg"
+      ],
+      "black_frames_detected": false,
+      "broken_overlays": false,
+      "missing_assets": false,
+      "unreadable_text": false,
+      "issues": []
+    },
+    "audio_spotcheck": {
+      "narration_present": false,
+      "music_present": false,
+      "unexpected_silence": false,
+      "issues": []
+    },
+    "promise_preservation": {
+      "delivery_promise_honored": true,
+      "render_runtime_used": "hyperframes",
+      "runtime_swap_detected": false,
+      "silent_downgrade_detected": false,
+      "runtime_swap_check": "Matches explicit user selection and decision d-001.",
+      "issues": []
+    },
+    "subtitle_check": {
+      "subtitles_expected": true,
+      "subtitles_present": true,
+      "timing_drift_detected": false,
+      "issues": []
+    }
+  },
+  "issues_found": [],
+  "recommended_action": "present_to_user",
+  "metadata": {
+    "verification_scope": "Local render, full decoding, metadata and sampled visual inspection; not provider testing.",
+    "limitations": "Inter approximates the reference font; preview UI is retained in source imagery; no audio.",
+    "paid_generation_usd": 0,
+    "user_final_visual_acceptance": "pending"
+  }
+}
