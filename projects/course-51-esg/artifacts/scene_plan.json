@@ -9439,7 +9439,7 @@
       "start_seconds": 1086.03,
       "end_seconds": 1088.6,
       "narrative_role": "establish_context",
-      "description": "Subject: Amy（char_amy）帶著略微氣喘卻熱情洋溢的笑容，快步走到公園木製長椅旁向正在看書的 George（char_george）揮手打招呼。Scene: 城市陽光公園步道與綠樹草坪，溫暖晨間日光穿過樹葉灑落斑駁光影，木長椅置於綠意盎然的步道旁。Framing: 戶外雙人全景（35mm），George 坐於畫面左側長椅、Amy 從右側步道快步走近揮手，無室內 3D 白模。Camera: 35mm，眼高平視、輕微推進（dolly_in），自然深景深；無額外疊字。",
+      "description": "Subject: Amy（char_amy）帶著略微氣喘卻熱情洋溢的笑容，在公司外的商辦街道人行道上快步追上 George（char_george）並揮手打招呼；George 微笑轉頭看向 Amy。Scene: 現代玻璃帷幕與米白石材商辦大樓前的寬敞石板人行道，右側大樓一樓設有落地玻璃門窗與透明雨棚，沿街有行道樹、花台植栽與遠處路人，溫暖日光灑落街道。Framing: cam_twoshot_wide_low_angle（35mm）雙人低角度全景，Amy 在左、George 在右，兩人於右前方人行道並肩朝鏡頭方向行走。Camera: 35mm，低角度微仰視、輕微推進（dolly_in），自然深景深；無額外疊字。",
       "shot_language": {
         "shot_size": "wide",
         "camera_movement": "dolly_in",
@@ -9451,14 +9451,14 @@
       "transition_in": "cut",
       "transition_out": "cut",
       "hero_moment": true,
-      "shot_intent": "以陽光公園的開闊綠意切換辦公室壓迫感，建立 Amy 主動攔路請益 George 的輕快開場",
-      "information_role": "交代第三幕下半場轉入戶外公園對談，Amy 再次向導師 George 求助",
+      "shot_intent": "以陽光商辦街道的開闊感切換辦公室壓迫感，建立 Amy 在通勤路上主動攔路請益 George 的輕快開場",
+      "information_role": "交代第三幕下半場轉入戶外街頭邊走邊聊，Amy 再次向導師 George 求助",
       "character_actions": [
         {
           "character_id": "char_amy",
           "emotion": "friendly_breathless",
           "action_sequence": [
-            "walk_briskly_to_park_bench",
+            "walk_briskly_alongside_george_on_street",
             "wave_and_greet_george"
           ],
           "dialogue": "Hi, George！真高興碰到你！",
@@ -9468,34 +9468,34 @@
           "character_id": "char_george",
           "emotion": "pleasant_surprised",
           "action_sequence": [
-            "look_up_from_book_on_bench"
+            "walk_and_turn_head_toward_amy"
           ],
           "target": "char_amy"
         }
       ],
       "render_stages": [
-        "R2I",
+        "W2I",
         "I2V"
       ],
       "required_assets": [
         {
           "type": "clp",
-          "description": "Amy；快步走向公園涼椅熱情打招呼",
+          "description": "Amy；在街頭人行道快步追上 George 熱情打招呼",
           "source": "provided",
           "clp_id": "char_amy"
         },
         {
           "type": "clp",
-          "description": "George；坐在公園木長椅上看書",
+          "description": "George；在人行道並肩行走、轉頭微笑回應",
           "source": "provided",
           "clp_id": "char_george"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_twoshot_wide_low_angle：01 雙人低角度全景（35mm），對位 street 場景同機位 blocks。",
+          "description": "cam_twoshot_wide_low_angle：01 雙人低角度全景（35mm），對位 street 場景同機位 empty_gpt（W2I 配對同目錄 blocks）。",
           "source": "provided",
-          "path": "references/scenes/street/cameras/cam_twoshot_wide_low_angle_block_blender.png"
+          "path": "references/scenes/street/cameras/cam_twoshot_wide_low_angle_empty_gpt.png"
         },
         {
           "type": "dialogue_audio",
@@ -9512,7 +9512,7 @@
       "start_seconds": 1088.6,
       "end_seconds": 1091.85,
       "narrative_role": "introduce_subject",
-      "description": "Subject: George（char_george）優雅地放下手中的實體書本，嘴角帶著看穿一切的幽默笑意，抬頭半開玩笑打趣 Amy 是剛好碰到還是專門在這等他。Scene: 陽光公園長椅區，背後為柔和虛化的翠綠樹冠與陽光光斑。Framing: George 單人中近景（50mm），坐姿胸部以上居中偏左，手中書本置於腿上，視線朝向畫右的 Amy。Camera: 50mm，眼高微仰平視、固定鏡頭，淺景深突顯 George 睿智神情；無額外疊字。",
+      "description": "Subject: George（char_george）邊走邊轉頭看向畫左的 Amy，嘴角帶著看穿一切的幽默笑意，半開玩笑打趣 Amy 是剛好碰到還是專門在這條路上等他。Scene: 商辦大樓外人行道，背後為米白石材立柱、落地玻璃門與延伸的花台植栽、行道樹。Framing: cam_george_mcu_45deg（75mm）George 單人 45 度中特寫，胸肩以上位於畫面中央偏右，視線朝向畫左的 Amy。Camera: 75mm，眼高平視、固定跟拍，淺景深突顯 George 睿智神情；無額外疊字。",
       "shot_language": {
         "shot_size": "medium_close",
         "camera_movement": "static",
@@ -9531,7 +9531,7 @@
           "character_id": "char_george",
           "emotion": "witty_amused",
           "action_sequence": [
-            "lower_book_onto_lap",
+            "walk_and_turn_toward_amy",
             "smile_teasingly_at_amy"
           ],
           "dialogue": "你是剛好碰到我？還是專門在這等我啊？",
@@ -9539,22 +9539,22 @@
         }
       ],
       "render_stages": [
-        "R2I",
+        "W2I",
         "I2V"
       ],
       "required_assets": [
         {
           "type": "clp",
-          "description": "George；放下手中書本幽默打趣",
+          "description": "George；邊走邊轉頭幽默打趣",
           "source": "provided",
           "clp_id": "char_george"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_george_mcu_45deg：06 George 45 度中特寫（75mm），對位 street 場景同機位 blocks。",
+          "description": "cam_george_mcu_45deg：06 George 45 度中特寫（75mm），對位 street 場景同機位 empty_gpt（W2I 配對同目錄 blocks）。",
           "source": "provided",
-          "path": "references/scenes/street/cameras/cam_george_mcu_45deg_block_blender.png"
+          "path": "references/scenes/street/cameras/cam_george_mcu_45deg_empty_gpt.png"
         },
         {
           "type": "dialogue_audio",
@@ -9571,7 +9571,7 @@
       "start_seconds": 1091.85,
       "end_seconds": 1096.88,
       "narrative_role": "emotional_beat",
-      "description": "Subject: Amy（char_amy）俏皮地吐了吐舌頭，不好意思地笑著在 George（char_george）身旁的木長椅空位坐下，坦承知道他走這條路搭捷運才特地等他。Scene: 陽光公園木長椅與林蔭步道，溫暖自然光灑在兩人肩頭。Framing: 公園長椅雙人中景（50mm），George 在左、Amy 在右側坐下，兩人腰部以上同框。Camera: 50mm，坐姿眼高平視、固定鏡頭，中景深；無額外疊字。",
+      "description": "Subject: Amy（char_amy）與 George（char_george）並肩走在人行道上，Amy 俏皮地吐了吐舌頭，不好意思地笑著微抬左手，坦承知道他走這條路搭捷運才特地等他；George 在右側微笑傾聽。Scene: 現代玻璃帷幕與石材商辦大樓前的石板人行道，行道樹與遠處路人構成自然街景，溫暖日光灑在兩人肩頭。Framing: cam_twoshot_ms_level（50mm）雙人平視中景，Amy 在左、George 在右並肩向鏡頭方向行走，大腿以上同框。Camera: 50mm，眼高平視、穩定跟拍，中景深；無額外疊字。",
       "shot_language": {
         "shot_size": "medium",
         "camera_movement": "static",
@@ -9583,7 +9583,7 @@
       "transition_in": "cut",
       "transition_out": "cut",
       "hero_moment": false,
-      "shot_intent": "以 Amy 吐舌頭坐下的率真小動作，建立輕鬆討喜的請益互動",
+      "shot_intent": "以 Amy 吐舌頭坦承攔路的率真小動作，建立輕鬆討喜的邊走邊聊互動",
       "information_role": "呈現 Amy 為解決宣導難題積極尋求外援的態度",
       "character_actions": [
         {
@@ -9591,7 +9591,7 @@
           "emotion": "sheepish_cheerful",
           "action_sequence": [
             "stick_out_tongue_playfully",
-            "sit_down_on_bench_beside_george"
+            "walk_side_by_side_with_george"
           ],
           "dialogue": "唉幽，被料到了，我知道您會走這條路搭捷運，所以在這兒等您的！",
           "target": "char_george"
@@ -9600,34 +9600,34 @@
           "character_id": "char_george",
           "emotion": "warm_amused",
           "action_sequence": [
-            "watch_amy_sit_with_gentle_smile"
+            "walk_and_listen_with_gentle_smile"
           ],
           "target": "char_amy"
         }
       ],
       "render_stages": [
-        "R2I",
+        "W2I",
         "I2V"
       ],
       "required_assets": [
         {
           "type": "clp",
-          "description": "Amy；吐舌頭不好意思地在長椅坐下",
+          "description": "Amy；並肩行走、吐舌頭不好意思地笑著坦承等他",
           "source": "provided",
           "clp_id": "char_amy"
         },
         {
           "type": "clp",
-          "description": "George；坐於長椅左側微笑看著 Amy",
+          "description": "George；在右側並肩行走微笑看著 Amy",
           "source": "provided",
           "clp_id": "char_george"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_twoshot_ms_level：02 雙人平視中景（50mm），對位 street 場景同機位 blocks。",
+          "description": "cam_twoshot_ms_level：02 雙人平視中景（50mm），對位 street 場景同機位 empty_gpt（W2I 配對同目錄 blocks）。",
           "source": "provided",
-          "path": "references/scenes/street/cameras/cam_twoshot_ms_level_block_blender.png"
+          "path": "references/scenes/street/cameras/cam_twoshot_ms_level_empty_gpt.png"
         },
         {
           "type": "dialogue_audio",
@@ -9644,7 +9644,7 @@
       "start_seconds": 1096.88,
       "end_seconds": 1099.83,
       "narrative_role": "introduce_subject",
-      "description": "Subject: George（char_george）微笑點頭並闔上手中書本，身體微側轉向 Amy，眼神溫和而專注地詢問這次又碰到什麼瓶頸。Scene: 陽光公園木長椅，背後綠意與步道光影柔和。Framing: George 單人中近景（50mm），胸部以上入鏡，雙手輕放合起的書本上。Camera: 50mm，坐姿平視、固定鏡頭，淺景深聚焦 George 溫暖傾聽神態；無額外疊字。",
+      "description": "Subject: George（char_george）邊走邊微笑點頭，臉部轉向畫左的 Amy，眼神溫和而專注地詢問這次又碰到什麼瓶頸。Scene: 商辦大樓外人行道，背後為落地玻璃門與花台植栽、行道樹柔和光影。Framing: cam_george_mcu_45deg（75mm）George 單人 45 度中特寫，胸部以上入鏡居中央偏右。Camera: 75mm，眼高平視、固定跟拍，淺景深聚焦 George 溫暖傾聽神態；無額外疊字。",
       "shot_language": {
         "shot_size": "medium_close",
         "camera_movement": "static",
@@ -9656,14 +9656,14 @@
       "transition_in": "cut",
       "transition_out": "cut",
       "hero_moment": false,
-      "shot_intent": "以導師闔書傾聽的儀式感，引出推動 ESG 最核心的「內部宣導與組織阻力」議題",
+      "shot_intent": "以導師溫和傾聽的神態，引出推動 ESG 最核心的「內部宣導與組織阻力」議題",
       "information_role": "開啟關於如何說服同仁參與 ESG 的核心討論",
       "character_actions": [
         {
           "character_id": "char_george",
           "emotion": "gentle_supportive",
           "action_sequence": [
-            "close_book_gently",
+            "walk_calmly_beside_amy",
             "nod_and_ask_about_bottleneck"
           ],
           "dialogue": "說吧，這次又碰到什麼瓶頸了？",
@@ -9671,22 +9671,22 @@
         }
       ],
       "render_stages": [
-        "R2I",
+        "W2I",
         "I2V"
       ],
       "required_assets": [
         {
           "type": "clp",
-          "description": "George；闔上書本溫和傾聽",
+          "description": "George；邊走邊溫和點頭傾聽",
           "source": "provided",
           "clp_id": "char_george"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_george_mcu_45deg：06 George 45 度中特寫（75mm），對位 street 場景同機位 blocks。",
+          "description": "cam_george_mcu_45deg：06 George 45 度中特寫（75mm），對位 street 場景同機位 empty_gpt（W2I 配對同目錄 blocks）。",
           "source": "provided",
-          "path": "references/scenes/street/cameras/cam_george_mcu_45deg_block_blender.png"
+          "path": "references/scenes/street/cameras/cam_george_mcu_45deg_empty_gpt.png"
         },
         {
           "type": "dialogue_audio",
@@ -9703,7 +9703,7 @@
       "start_seconds": 1099.83,
       "end_seconds": 1105.75,
       "narrative_role": "build_tension",
-      "description": "Subject: Amy（char_amy）重重嘆了一大口氣，無奈地垮下雙肩向 George 倒苦水，說明寫完推廣步驟後竟被主管指派負責全公司宣導。Scene: 陽光公園長椅，背景為公園綠植與柔和晨光。Framing: Amy 單人中景（50mm），腰部以上居中偏右，清楚呈現嘆氣與垮肩的肢體語言。Camera: 50mm，坐姿平視、固定鏡頭，中景深；無額外疊字。",
+      "description": "Subject: Amy（char_amy）邊走邊重重嘆了一大口氣，無奈地垮下雙肩、微抬左前臂向畫右的 George 倒苦水，說明寫完推廣步驟後竟被主管指派負責全公司宣導。Scene: 商辦街道人行道，背景為對街玻璃帷幕大樓與右後方遠處路人。Framing: cam_amy_mcu_45deg（75mm）Amy 單人 45 度中特寫，胸部以上居中偏左，清楚呈現嘆氣與垮肩的肢體語言。Camera: 75mm，眼高平視、固定跟拍，淺景深；無額外疊字。",
       "shot_language": {
         "shot_size": "medium",
         "camera_movement": "static",
@@ -9730,7 +9730,7 @@
         }
       ],
       "render_stages": [
-        "R2I",
+        "W2I",
         "I2V"
       ],
       "required_assets": [
@@ -9743,9 +9743,9 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_mcu_45deg：07 Amy 45 度中特寫（75mm），對位 street 場景同機位 blocks。",
+          "description": "cam_amy_mcu_45deg：07 Amy 45 度中特寫（75mm），對位 street 場景同機位 empty_gpt（W2I 配對同目錄 blocks）。",
           "source": "provided",
-          "path": "references/scenes/street/cameras/cam_amy_mcu_45deg_block_blender.png"
+          "path": "references/scenes/street/cameras/cam_amy_mcu_45deg_empty_gpt.png"
         },
         {
           "type": "dialogue_audio",
@@ -9762,7 +9762,7 @@
       "start_seconds": 1105.75,
       "end_seconds": 1108.35,
       "narrative_role": "emotional_beat",
-      "description": "Subject: George（char_george）聽完非但沒有同情，反而開朗地笑著輕拍雙手恭喜 Amy，直言這是很好的職涯發展機會。Scene: 陽光公園長椅，背景綠葉在陽光下閃動。Framing: George 單人中近景（50mm），胸上構圖，雙手在胸前輕拍祝賀。Camera: 50mm，坐姿平視、固定鏡頭，淺景深；無額外疊字。",
+      "description": "Subject: George（char_george）聽完非但沒有同情，反而開朗地笑著看向畫左的 Amy 輕拍雙手恭喜她，直言這是很好的職涯發展機會。Scene: 商辦大樓外人行道，背後為落地玻璃門與花台綠植。Framing: cam_george_mcu_45deg（75mm）George 單人 45 度中特寫，胸上構圖居中央偏右。Camera: 75mm，眼高平視、固定跟拍，淺景深；無額外疊字。",
       "shot_language": {
         "shot_size": "medium_close",
         "camera_movement": "static",
@@ -9789,7 +9789,7 @@
         }
       ],
       "render_stages": [
-        "R2I",
+        "W2I",
         "I2V"
       ],
       "required_assets": [
@@ -9802,9 +9802,9 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_george_mcu_45deg：06 George 45 度中特寫（75mm），對位 street 場景同機位 blocks。",
+          "description": "cam_george_mcu_45deg：06 George 45 度中特寫（75mm），對位 street 場景同機位 empty_gpt（W2I 配對同目錄 blocks）。",
           "source": "provided",
-          "path": "references/scenes/street/cameras/cam_george_mcu_45deg_block_blender.png"
+          "path": "references/scenes/street/cameras/cam_george_mcu_45deg_empty_gpt.png"
         },
         {
           "type": "dialogue_audio",
@@ -9821,7 +9821,7 @@
       "start_seconds": 1108.35,
       "end_seconds": 1119.56,
       "narrative_role": "build_tension",
-      "description": "Subject: Amy（char_amy）崩潰地雙手抱頭抓狂，連珠炮般向 George 訴苦自己只會寫報告、不會說服同事改變習慣，擔心大家都忙、沒人想理這種「增加工作量」的苦差事。Scene: 陽光公園長椅，左前景保留 George（char_george）局部肩頸輪廓。Framing: 過 George 肩拍 Amy 的過肩中景（50mm），Amy 居畫面右側主體，完整捕捉抱頭與揮手焦慮動作。Camera: 50mm，坐姿平視、固定鏡頭，淺景深聚焦 Amy 崩潰表情；無額外疊字。",
+      "description": "Subject: Amy（char_amy）崩潰地抱頭抓狂、焦慮揮手，連珠炮般向 George 訴苦自己只會寫報告、不會說服同事改變習慣，擔心大家都忙、沒人想理這種「增加工作量」的苦差事。Scene: 商辦街道石板人行道與玻璃帷幕大樓，右前景保留 George（char_george）後腦與肩頸輪廓。Framing: cam_amy_ots_george（65mm）越過右前景 George 肩拍左中景 Amy 的過肩鏡，完整捕捉 Amy 焦慮動作與表情。Camera: 65mm，眼高平視、固定跟拍，淺景深聚焦 Amy；無額外疊字。",
       "shot_language": {
         "shot_size": "over_shoulder",
         "camera_movement": "static",
@@ -9856,7 +9856,7 @@
         }
       ],
       "render_stages": [
-        "R2I",
+        "W2I",
         "I2V"
       ],
       "required_assets": [
@@ -9868,16 +9868,16 @@
         },
         {
           "type": "clp",
-          "description": "左前景過肩傾聽的 George",
+          "description": "右前景過肩傾聽的 George",
           "source": "provided",
           "clp_id": "char_george"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_ots_george：05 越過 George 肩拍 Amy 過肩鏡（65mm），對位 street 場景同機位 blocks。",
+          "description": "cam_amy_ots_george：05 越過 George 肩拍 Amy 過肩鏡（65mm），對位 street 場景同機位 empty_gpt（W2I 配對同目錄 blocks）。",
           "source": "provided",
-          "path": "references/scenes/street/cameras/cam_amy_ots_george_block_blender.png"
+          "path": "references/scenes/street/cameras/cam_amy_ots_george_empty_gpt.png"
         },
         {
           "type": "dialogue_audio",
@@ -9894,7 +9894,7 @@
       "start_seconds": 1119.56,
       "end_seconds": 1126.33,
       "narrative_role": "emotional_beat",
-      "description": "Subject: George（char_george）平靜地看著 Amy，眼中帶著洞悉一切的睿智笑意，調侃她懂得泡咖啡又懂得在路上攔人，一定能想出辦法。Scene: 陽光公園長椅，右前景為 Amy（char_amy）局部肩髮輪廓。Framing: 過 Amy 肩拍 George 的過肩中近景（50mm），George 位於畫面左側主體。Camera: 50mm，坐姿平視、固定鏡頭，淺景深聚焦 George 溫和篤定的笑容；無額外疊字。",
+      "description": "Subject: George（char_george）平靜地看著 Amy，眼中帶著洞悉一切的睿智笑意，調侃她懂得泡咖啡又懂得在路上攔人，一定能想出辦法。Scene: 商辦大樓米白石材立柱與落地玻璃窗前人行道，左前景為 Amy（char_amy）後腦與肩部輪廓。Framing: cam_george_ots_amy（65mm）越過左前景 Amy 肩拍右中景 George 的過肩鏡，George 位於畫面右側主體。Camera: 65mm，眼高平視、固定跟拍，淺景深聚焦 George 溫和篤定的笑容；無額外疊字。",
       "shot_language": {
         "shot_size": "over_shoulder",
         "camera_movement": "static",
@@ -9921,7 +9921,7 @@
         }
       ],
       "render_stages": [
-        "R2I",
+        "W2I",
         "I2V"
       ],
       "required_assets": [
@@ -9933,16 +9933,16 @@
         },
         {
           "type": "clp",
-          "description": "右前景過肩的 Amy",
+          "description": "左前景過肩的 Amy",
           "source": "provided",
           "clp_id": "char_amy"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_george_ots_amy：04 越過 Amy 肩拍 George 過肩鏡（65mm），對位 street 場景同機位 blocks。",
+          "description": "cam_george_ots_amy：04 越過 Amy 肩拍 George 過肩鏡（65mm），對位 street 場景同機位 empty_gpt（W2I 配對同目錄 blocks）。",
           "source": "provided",
-          "path": "references/scenes/street/cameras/cam_george_ots_amy_block_blender.png"
+          "path": "references/scenes/street/cameras/cam_george_ots_amy_empty_gpt.png"
         },
         {
           "type": "dialogue_audio",
@@ -9959,7 +9959,7 @@
       "start_seconds": 1126.33,
       "end_seconds": 1130.43,
       "narrative_role": "emotional_beat",
-      "description": "Subject: Amy（char_amy）眼眶微泛淚光，雙手在胸前合十拜託，撒嬌又急切地懇求 George 別再損她、趕快傳授錦囊妙計。Scene: 陽光公園長椅，背景綠植柔焦。Framing: Amy 單人中近景（85mm），胸上特寫，雙手合十置於下巴前方但不遮臉。Camera: 85mm，坐姿平視、固定鏡頭，淺景深凸顯祈求眼神；無額外疊字。",
+      "description": "Subject: Amy（char_amy）眼眶微泛淚光，雙手在胸前合十拜託，撒嬌又急切地看向畫右的 George 懇求別再損她、趕快傳授錦囊妙計。Scene: 商辦街道人行道，背景為對街玻璃帷幕大樓與遠處路人柔焦。Framing: cam_amy_mcu_45deg（75mm）Amy 單人 45 度中特寫，胸上居中偏左，雙手合十置於胸前不遮臉。Camera: 75mm，眼高平視、固定跟拍，淺景深凸顯祈求眼神；無額外疊字。",
       "shot_language": {
         "shot_size": "medium_close",
         "camera_movement": "static",
@@ -9986,7 +9986,7 @@
         }
       ],
       "render_stages": [
-        "R2I",
+        "W2I",
         "I2V"
       ],
       "required_assets": [
@@ -9999,9 +9999,9 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_mcu_45deg：07 Amy 45 度中特寫（75mm），對位 street 場景同機位 blocks。",
+          "description": "cam_amy_mcu_45deg：07 Amy 45 度中特寫（75mm），對位 street 場景同機位 empty_gpt（W2I 配對同目錄 blocks）。",
           "source": "provided",
-          "path": "references/scenes/street/cameras/cam_amy_mcu_45deg_block_blender.png"
+          "path": "references/scenes/street/cameras/cam_amy_mcu_45deg_empty_gpt.png"
         },
         {
           "type": "dialogue_audio",
@@ -10018,7 +10018,7 @@
       "start_seconds": 1130.43,
       "end_seconds": 1137.56,
       "narrative_role": "deliver_payload",
-      "description": "Subject: George（char_george）先輕笑一聲，隨後神情收斂轉為沉穩認真，緩緩豎起一根食指，字字清晰地點出：在公司推動任何變革時，最關鍵的永遠是「人」。Scene: 陽光公園長椅，溫暖陽光勾勒 George 側臉輪廓，背景樹影柔和虛化。Framing: George 單人近景（85mm），胸肩以上居中，右手食指於胸前明確點出重點。Camera: 85mm，平視緩慢推進（dolly_in），淺景深；畫面疊字「變革關鍵：人」。",
+      "description": "Subject: George（char_george）先輕笑一聲，隨後神情收斂轉為沉穩認真，緩緩豎起一根食指，字字清晰地點出：在公司推動任何變革時，最關鍵的永遠是「人」。Scene: 商辦大樓外人行道，溫暖陽光勾勒 George 側臉輪廓，背景米白石材立柱與玻璃門框柔和虛化。Framing: cam_george_cu_emotion（85mm）George 單人情緒特寫，頭肩居中、面向畫左的 Amy，右手食指於胸前明確點出重點。Camera: 85mm，平視緩慢推進（dolly_in），淺景深；畫面疊字「變革關鍵：人」。",
       "shot_language": {
         "shot_size": "close_up",
         "camera_movement": "dolly_in",
@@ -10046,7 +10046,7 @@
         }
       ],
       "render_stages": [
-        "R2I",
+        "W2I",
         "I2V"
       ],
       "required_assets": [
@@ -10059,9 +10059,9 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_george_cu_emotion：08 George 情緒特寫（85mm），對位 street 場景同機位 blocks。",
+          "description": "cam_george_cu_emotion：08 George 情緒特寫（85mm），對位 street 場景同機位 empty_gpt（W2I 配對同目錄 blocks）。",
           "source": "provided",
-          "path": "references/scenes/street/cameras/cam_george_cu_emotion_block_blender.png"
+          "path": "references/scenes/street/cameras/cam_george_cu_emotion_empty_gpt.png"
         },
         {
           "type": "dialogue_audio",
@@ -10078,7 +10078,7 @@
       "start_seconds": 1137.56,
       "end_seconds": 1138.57,
       "narrative_role": "emotional_beat",
-      "description": "Subject: Amy（char_amy）聞言微微一怔，抬起頭疑惑地歪了歪頭，輕聲反問「人？」。Scene: 陽光公園長椅，柔和日光與綠意背景。Framing: Amy 單人臉部特寫（85mm），頭肩居中，呈現從焦慮轉為好奇思索的微表情。Camera: 85mm，平視固定鏡頭，淺景深聚焦雙眼；無額外疊字。",
+      "description": "Subject: Amy（char_amy）聞言微微一怔，抬起頭疑惑地歪了歪頭，看向畫右的 George 輕聲反問「人？」。Scene: 商辦街道人行道，背景玻璃帷幕大樓、行道樹與遠處路人柔和虛化。Framing: cam_amy_cu_emotion（85mm）Amy 單人情緒特寫，頭肩居中，呈現從焦慮轉為好奇思索的微表情。Camera: 85mm，平視固定跟拍，淺景深聚焦雙眼；無額外疊字。",
       "shot_language": {
         "shot_size": "close_up",
         "camera_movement": "static",
@@ -10104,7 +10104,7 @@
         }
       ],
       "render_stages": [
-        "R2I",
+        "W2I",
         "I2V"
       ],
       "required_assets": [
@@ -10117,9 +10117,9 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_cu_emotion：09 Amy 情緒特寫（85mm），對位 street 場景同機位 blocks。",
+          "description": "cam_amy_cu_emotion：09 Amy 情緒特寫（85mm），對位 street 場景同機位 empty_gpt（W2I 配對同目錄 blocks）。",
           "source": "provided",
-          "path": "references/scenes/street/cameras/cam_amy_cu_emotion_block_blender.png"
+          "path": "references/scenes/street/cameras/cam_amy_cu_emotion_empty_gpt.png"
         },
         {
           "type": "dialogue_audio",
@@ -10136,7 +10136,7 @@
       "start_seconds": 1138.57,
       "end_seconds": 1146.99,
       "narrative_role": "deliver_payload",
-      "description": "Subject: George（char_george）肯首微笑，雙手十指交扣於胸前比喻「緊緊相連」，循循善誘地向 Amy（char_amy）說明冰冷的報告打動不了人，必須讓同事感受到 ESG 與自身利益緊密相連。Scene: 陽光公園木長椅，陽光穿過樹葉灑落溫暖金光。Framing: 雙人中景（50mm），George 在左比出雙手交扣手勢、Amy 在右專注聆聽。Camera: 50mm，坐姿平視、固定鏡頭，中景深；無額外疊字。",
+      "description": "Subject: George（char_george）與 Amy（char_amy）並肩在人行道行走，George 肯首微笑，雙手十指交扣於胸前比喻「緊緊相連」，循循善誘地向 Amy 說明冰冷的報告打動不了人，必須讓同事感受到 ESG 與自身利益緊密相連。Scene: 現代玻璃帷幕與石材商辦大樓前的石板人行道，行道樹與遠處路人構成自然街景，溫暖陽光灑落。Framing: cam_twoshot_ms_level（50mm）雙人平視中景，Amy 在左專注聆聽、George 在右比出雙手交扣手勢，兩人並肩向鏡頭方向行走。Camera: 50mm，眼高平視、穩定跟拍，中景深；無額外疊字。",
       "shot_language": {
         "shot_size": "medium",
         "camera_movement": "static",
@@ -10171,28 +10171,28 @@
         }
       ],
       "render_stages": [
-        "R2I",
+        "W2I",
         "I2V"
       ],
       "required_assets": [
         {
           "type": "clp",
-          "description": "George；雙手交扣說明利益相連",
+          "description": "George；並肩行走、雙手交扣說明利益相連",
           "source": "provided",
           "clp_id": "char_george"
         },
         {
           "type": "clp",
-          "description": "Amy；坐於長椅右側專注傾聽",
+          "description": "Amy；在左側並肩行走專注傾聽",
           "source": "provided",
           "clp_id": "char_amy"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_twoshot_ms_level：02 雙人平視中景（50mm），對位 street 場景同機位 blocks。",
+          "description": "cam_twoshot_ms_level：02 雙人平視中景（50mm），對位 street 場景同機位 empty_gpt（W2I 配對同目錄 blocks）。",
           "source": "provided",
-          "path": "references/scenes/street/cameras/cam_twoshot_ms_level_block_blender.png"
+          "path": "references/scenes/street/cameras/cam_twoshot_ms_level_empty_gpt.png"
         },
         {
           "type": "dialogue_audio",
@@ -10209,7 +10209,7 @@
       "start_seconds": 1146.99,
       "end_seconds": 1154.69,
       "narrative_role": "deliver_payload",
-      "description": "Subject: George（char_george）眼神煥發光采，雙手向上做出托舉提升的手勢，進一步強調要讓同事相信 ESG 不是來找麻煩，而是提升競爭力、讓工作更有價值的好機會。Scene: 陽光公園長椅，背後綠意盎然。Framing: George 單人中近景（50mm），胸部以上入鏡，手勢維持在胸前開闊位置。Camera: 50mm，坐姿平視、固定鏡頭，淺景深；無額外疊字。",
+      "description": "Subject: George（char_george）眼神煥發光采，看向畫左的 Amy 並雙手向上做出托舉提升的手勢，進一步強調要讓同事相信 ESG 不是來找麻煩，而是提升競爭力、讓工作更有價值的好機會。Scene: 商辦大樓外人行道，背後為落地玻璃門與花台綠植。Framing: cam_george_mcu_45deg（75mm）George 單人 45 度中特寫，胸部以上入鏡居中央偏右，手勢維持在胸前開闊位置。Camera: 75mm，眼高平視、固定跟拍，淺景深；無額外疊字。",
       "shot_language": {
         "shot_size": "medium_close",
         "camera_movement": "static",
@@ -10236,7 +10236,7 @@
         }
       ],
       "render_stages": [
-        "R2I",
+        "W2I",
         "I2V"
       ],
       "required_assets": [
@@ -10249,9 +10249,9 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_george_mcu_45deg：06 George 45 度中特寫（75mm），對位 street 場景同機位 blocks。",
+          "description": "cam_george_mcu_45deg：06 George 45 度中特寫（75mm），對位 street 場景同機位 empty_gpt（W2I 配對同目錄 blocks）。",
           "source": "provided",
-          "path": "references/scenes/street/cameras/cam_george_mcu_45deg_block_blender.png"
+          "path": "references/scenes/street/cameras/cam_george_mcu_45deg_empty_gpt.png"
         },
         {
           "type": "dialogue_audio",
@@ -10268,7 +10268,7 @@
       "start_seconds": 1154.69,
       "end_seconds": 1160.77,
       "narrative_role": "emotional_beat",
-      "description": "Subject: Amy（char_amy）雙眼猛然睜大，原本緊鎖的眉頭舒展開來，露出若有所思又充滿好奇的神情，覆誦著「提升個人競爭力？讓工作變得更有價值？」。Scene: 陽光公園長椅，溫暖日光映照臉龐。Framing: Amy 單人中近景（50mm），肩胸以上居中，眼神發亮。Camera: 50mm，坐姿平視、固定鏡頭，淺景深；無額外疊字。",
+      "description": "Subject: Amy（char_amy）雙眼猛然睜大，原本緊鎖的眉頭舒展開來，看向畫右的 George 露出若有所思又充滿好奇的神情，覆誦著「提升個人競爭力？讓工作變得更有價值？」。Scene: 商辦街道人行道，溫暖日光映照臉龐，背景為對街玻璃帷幕大樓與遠處路人。Framing: cam_amy_mcu_45deg（75mm）Amy 單人 45 度中特寫，肩胸以上居中偏左，眼神發亮。Camera: 75mm，眼高平視、固定跟拍，淺景深；無額外疊字。",
       "shot_language": {
         "shot_size": "medium_close",
         "camera_movement": "static",
@@ -10295,7 +10295,7 @@
         }
       ],
       "render_stages": [
-        "R2I",
+        "W2I",
         "I2V"
       ],
       "required_assets": [
@@ -10308,9 +10308,9 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_mcu_45deg：07 Amy 45 度中特寫（75mm），對位 street 場景同機位 blocks。",
+          "description": "cam_amy_mcu_45deg：07 Amy 45 度中特寫（75mm），對位 street 場景同機位 empty_gpt（W2I 配對同目錄 blocks）。",
           "source": "provided",
-          "path": "references/scenes/street/cameras/cam_amy_mcu_45deg_block_blender.png"
+          "path": "references/scenes/street/cameras/cam_amy_mcu_45deg_empty_gpt.png"
         },
         {
           "type": "dialogue_audio",
@@ -10398,7 +10398,7 @@
       "start_seconds": 1178.16,
       "end_seconds": 1181.94,
       "narrative_role": "emotional_beat",
-      "description": "Subject: 畫面回到陽光公園長椅，Amy（char_amy）頻頻點頭，右手輕托下巴若有所思地向 George（char_george）確認自己的領悟：要想辦法讓大家瞭解這個道理。Scene: 陽光公園木長椅與翠綠樹蔭，陽光溫暖。Framing: Amy 單人中近景（50mm），胸上構圖，視線朝向畫左 George。Camera: 50mm，坐姿平視、固定鏡頭，淺景深；無額外疊字。",
+      "description": "Subject: 畫面回到商辦街道人行道，Amy（char_amy）邊走邊頻頻點頭，右手輕托下巴若有所思地向畫右的 George（char_george）確認自己的領悟：要想辦法讓大家瞭解這個道理。Scene: 現代玻璃帷幕商辦大樓前人行道與行道樹，陽光溫暖。Framing: cam_amy_mcu_45deg（75mm）Amy 單人 45 度中特寫，胸上構圖居中央偏左，視線朝向畫右的 George。Camera: 75mm，眼高平視、固定跟拍，淺景深；無額外疊字。",
       "shot_language": {
         "shot_size": "medium_close",
         "camera_movement": "static",
@@ -10425,7 +10425,7 @@
         }
       ],
       "render_stages": [
-        "R2I",
+        "W2I",
         "I2V"
       ],
       "required_assets": [
@@ -10438,9 +10438,9 @@
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_amy_mcu_45deg：07 Amy 45 度中特寫（75mm），對位 street 場景同機位 blocks。",
+          "description": "cam_amy_mcu_45deg：07 Amy 45 度中特寫（75mm），對位 street 場景同機位 empty_gpt（W2I 配對同目錄 blocks）。",
           "source": "provided",
-          "path": "references/scenes/street/cameras/cam_amy_mcu_45deg_block_blender.png"
+          "path": "references/scenes/street/cameras/cam_amy_mcu_45deg_empty_gpt.png"
         },
         {
           "type": "dialogue_audio",
@@ -10457,7 +10457,7 @@
       "start_seconds": 1181.94,
       "end_seconds": 1196.48,
       "narrative_role": "resolution",
-      "description": "Subject: George（char_george）微笑著從公園長椅起身，溫暖地伸手拍了拍 Amy（char_amy）的肩膀給予信任與鼓勵，叮囑她與其說大道理，不如找出大家身邊已經在做的「小勝利」；Amy 抬頭看著 George，眼中燃起自信火花。Scene: 陽光公園長椅與林蔭步道，金暖陽光灑落全身。Framing: 公園雙人中全景（35mm），George 站立於左輕拍右側坐姿 Amy 的肩膀，構圖開闊充滿希望感。Camera: 35mm，平視固定鏡頭，中景深；無額外疊字。",
+      "description": "Subject: George（char_george）與 Amy（char_amy）並肩沿商辦大樓前人行道邁步行走，George 溫暖微笑看著 Amy 並伸手拍了拍她的肩膀給予信任與鼓勵，叮囑她與其說大道理，不如找出大家身邊已經在做的「小勝利」；Amy 轉頭看著 George，眼中燃起自信火花。Scene: 商辦大樓米白石材立柱與深色落地玻璃門前寬敞石板人行道，金暖陽光灑落全身。Framing: cam_twoshot_mws_profile（40mm）雙人側面中廣景，Amy 在左前景、George 在右後側並肩向右前方邁步，構圖開闊充滿希望感。Camera: 40mm，平視固定鏡頭，中景深；無額外疊字。",
       "shot_language": {
         "shot_size": "medium_wide",
         "camera_movement": "static",
@@ -10477,7 +10477,7 @@
           "emotion": "warm_encouraging_trusting",
           "action_sequence": [
             "advise_finding_small_wins_instead_of_preaching",
-            "stand_up_and_pat_amy_shoulder_warmly"
+            "walk_and_pat_amy_shoulder_warmly"
           ],
           "dialogue": "沒錯，但要記住，與其說大道理，不如找出大家身邊已經在做的「小勝利」，更能激發他們的熱情！至於接下來該怎麼進行，這就看你的創意啦！你這麼聰明，我相信你一定能找到方法的！",
           "target": "char_amy"
@@ -10486,34 +10486,34 @@
           "character_id": "char_amy",
           "emotion": "inspired_grateful",
           "action_sequence": [
-            "look_up_at_george_with_renewed_confidence"
+            "walk_and_look_at_george_with_renewed_confidence"
           ],
           "target": "char_george"
         }
       ],
       "render_stages": [
-        "R2I",
+        "W2I",
         "I2V"
       ],
       "required_assets": [
         {
           "type": "clp",
-          "description": "George；微笑起身拍拍 Amy 肩膀給予鼓勵",
+          "description": "George；並肩行走、微笑拍拍 Amy 肩膀給予鼓勵",
           "source": "provided",
           "clp_id": "char_george"
         },
         {
           "type": "clp",
-          "description": "Amy；坐於長椅抬頭接受鼓勵、眼神發亮",
+          "description": "Amy；在左前景並肩行走、轉頭接受鼓勵眼神發亮",
           "source": "provided",
           "clp_id": "char_amy"
         },
         {
           "type": "camera_ref",
           "role": "first_frame_ref",
-          "description": "cam_twoshot_mws_profile：03 雙人側面中廣景（40mm），對位 street 場景同機位 blocks。",
+          "description": "cam_twoshot_mws_profile：03 雙人側面中廣景（40mm），對位 street 場景同機位 empty_gpt（W2I 配對同目錄 blocks）。",
           "source": "provided",
-          "path": "references/scenes/street/cameras/cam_twoshot_mws_profile_block_blender.png"
+          "path": "references/scenes/street/cameras/cam_twoshot_mws_profile_empty_gpt.png"
         },
         {
           "type": "dialogue_audio",
