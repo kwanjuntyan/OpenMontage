@@ -67,6 +67,7 @@
 - **`client-01-foxconn-core-values`**：自 `archive/complex-v1` 還原 5 項 `artifacts/*.json`（含 `script.json` 20 段劇本與 `clp_manifest.json` 16 件 CLP 資產，尚未進入 `scene_plan` 分鏡階段）。
 
 ## 踩過的坑（核心結論）
+- **2026-10-21 Dropbox 生圖紀錄衝突已合併**：三份複本各補回一段（cafe 雙人中景空景、Amy 書寫中景空景、shot_3.1.2 GPT v1），保留原文與完整提示詞；逐段確認正式檔涵蓋全部複本內容。複本備份於 `.tmp/dropbox-conflicts-20261021/`。處理時須同時比對二、三級標題，不能只按檔案日期或大小選版；本次未改素材採用或生成圖片。
 - **rd_office 共用美術重繪**：參考全景可能把近景捲簾改成窗外景、把廣角簡模儀器換成參考造型；須逐鏡看圖列偏差，不能因指令有寫保留就判定幾何通過。工具回傳路徑的正則字面點只轉義一次，雙重轉義會解析失敗；修正解析即可，不需重生。
 - **專案素材寫入**：projects 是指向 Dropbox 的 Junction；沙箱內可讀卻可能寫入 PermissionError，須針對使用者已指定的輸出與紀錄申請提升權限，無須重生圖片。
 - **factory 側架與輸出**：v7 只改後牆，右牆重複箱列未更新，須看過肩底圖才能發現；v8 在3D內統一物料，只有標哥中景／側架過肩涵蓋改動。後牆物料轉側牆需朝室內旋轉−90°，避免背面朝鏡；Blender 5.2 逐件改hide_render會使all_objects即時迭代失效，先list快照再隱藏人物。存檔縮圖路徑曾警告，已另以重開模型與實際渲染確認成果可用。
@@ -93,7 +94,6 @@
   - Windows 登錄檔易將 `.js` 誤設為 `text/plain` 致 Backlot 黑畫面，已在 `backlot/server.py` 強制設定 MIME。
   - FFmpeg 單圖 Ken Burns 禁止在 `zoompan` 前加 `-loop 1`，須先升 4K（3840×2160）超採樣再縮回 1080p/30fps 消除抖動。
   - **HyperFrames 渲染與素材裁切**：`projects/` 位於 Dropbox 同步區時，`npx hyperframes render --output` 直接指向 Dropbox 路徑易因同步鎖定暫存目錄觸發 `EBUSY` rename 失敗，應先輸出至 `.tmp/<shot_id>.mp4` 再複製回 `assets/videos/`；HTML 圖卡引用 `clp/` 三視圖（人物／道具 turnaround sheet）時，須先裁切或以 CSS `object-fit`/`object-position` 鎖定正面單一視圖，勿整張縮小塞入圖框；每支圖卡結尾禁止淡出至黑畫面以維持剪輯連貫。0.8.174 lint不追蹤外部JS的時間軸註冊：在入口HTML實際建立 `window.__timelines[id]`，外部JS再加入動畫即可（Argon製作確認）。ESG 試片確認：音訊須有唯一 `id` 才會被渲染器識別；SVG 節點縮放用 GSAP `transformOrigin: "50% 50%"`，避免把畫布絕對座標當 CSS 原點而偏移。寓意踩坑：加少量節點與勾勾無法表達「巨大網路＋全員義務」；須畫出快速分岔成網與要求傳遍所有企業，勿將「必須符合」畫成「已合格」。
-
 ## 下一步候選（使用者決定順序）
 1. 在 Scene Player（`http://127.0.0.1:4750/ui/player.html?project=course-51-esg`）檢視 `course-51-esg` 全部 31 支 HyperFrames 動態資訊圖卡。
 2. 評估是否推進 `course-51-esg` 其餘實景／人物分鏡生圖與生影片。
